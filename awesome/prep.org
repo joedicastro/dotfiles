@@ -1,0 +1,74 @@
+* Awesome
+
+** Licenses & greetings
+
+*** Sonido pomodoro
+    complete.oga
+
+    Pertenece al sound theme de freedesktop.org y fue originalmente grabado para el proyecto OLPC
+    Copyright: Dr. Richard Boulanger et al
+    URL: http://www.archive.org/details/Berklee44v11
+    License: CC-BY Attribution 3.0 Unported
+
+*** Pomodoro widget
+    https://github.com/nikolavp/awesome-pomodoro
+    Copyright 2010-2011 François de Metz, Nikolay Sturm(nistude), Nikola Petrov(nikolavp)
+    DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+
+*** Revelation
+    https://github.com/bioe007/awesome-revelation
+    (c) 2008 Espen Wiborg, Julien Danjou, Perry Hargrave, Nikola Petrov
+    GNU GPLv2 License
+
+*** Calendar
+    https://github.com/Mic92/awesome-dotfiles/blob/master/cal.lua
+    (c) 2009-2011 Bernd Zeimetz, Marc Dequènes, Jörg Thalheim
+    Public domain or ISC License
+
+*** Eminent
+    http://git.glacicle.org/eminent   
+    Lucas de Vries <lucas@glacicle.org>
+    Licensed under the WTFPL version 2
+
+*** Menubar
+    http://awesome.naquadah.org/wiki/Menubar
+    Alexander Yakushev <yakushev.alex@gmail.com>
+
+** Configuration files
+   
+*** /usr/share/applications/awesome.desktop
+
+        [Desktop Entry]
+        Version=1.0
+        Type=Application
+        Name=Awesome
+        Comment=The awesome launcher!
+        TryExec=awesome
+        Exec=awesome
+
+*** /usr/share/gnome-session/sessions/awesome.session
+
+        [GNOME Session]
+        Name=Awesome session
+        RequiredComponents=gnome-settings-daemon;
+        RequiredProviders=windowmanager;
+        DefaultProvider-windowmanager=awesome
+        DesktopName=GNOME
+
+*** /usr/share/xsessions/awesome-unity-session.desktop
+
+        [Desktop Entry]
+        Name=Awesome GNOME
+        Comment=Dynamic window manager
+        TryExec=/usr/bin/gnome-session
+        Exec=gnome-session --session=awesome
+        Type=XSession
+
+*** /usr/share/xsessions/awesome.desktop
+
+        [Desktop Entry] 
+        Encoding=UTF-8
+        Name=awesome
+        Comment=Highly configurable framework window manager
+        TryExec=awesome
+        Exec=awesome
