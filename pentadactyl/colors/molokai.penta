@@ -1,0 +1,96 @@
+" Pentadactyl color file
+"
+" Mantainer: Jairo Suarez <slayerjairo@gmail.com>
+" Last Modified: 2011-11-10 19:53:34
+" Note: Based on the molokai colorscheme for vim
+"       adapted from monokai theme for textmate
+" Version: 0.1
+" Name: Molokai
+
+hi clear
+" Section: Javascript - General{{{1
+hi -a Boolean   color: #AE81FF;
+hi -a Function  color: #A6E22E;
+hi -a Null      color: #AE81FF; font-weight: bold;
+hi -a Number    color: #AE81FF;
+hi -a Object    color: #66D9EF;
+hi -a String    color: #E6DB74;
+hi -a Comment   color: #75715E;
+hi -a Key       font-weight:bold;
+hi -a Indicator color: #66D9EF;
+hi -a Keyword   color: #F92672;
+hi -a URL       color: #AE81FF;
+hi -a URLExtra  color: #BCBCBC;
+hi -a Title     color: #F92672;
+hi -a Tag       color: #66D9EF;
+hi -a Disabled  color: #960050;
+hi -a FontCode  font-family: "Consolas", "Monaco"; font-size:9pt;
+" Normal{{{2
+hi -a Normal background: #272822 !important;
+hi -a Normal color: #F8F8F2 !important;
+hi -a Normal font-size: 9pt;
+" ErrorMsg{{{2
+hi -a ErrorMsg background: #232526 !important;
+hi -a ErrorMsg color: #F92672 !important;
+" InfoMsg{{{2
+hi -a InfoMsg background: #232526 !important;
+hi -a InfoMsg color: #E6DB74 !important;
+" LineNr{{{2
+hi -a LineNr background: #232526 !important;
+hi -a InfoMsg color: #960050 !important;
+" NonText{{{2
+hi -a NonText background: #232526 !important;
+hi -a NonText color:#BCBCBC !important;
+" Question{{{2
+hi -a Question background: #232526 !important;
+hi -a Question color:#66D9EF !important;
+" StatusQuestion{{{2
+hi -a StatusQuestion color:#F92672 !important;
+" WarningMsg{{{2
+hi -a WarningMsg background:#FD971F !important;
+hi -a WarningMsg color:#F8F8F2 !important;
+" StatusWarningMsg{{{2
+hi -a StatusWarningMsg: color:#FD971F !important;
+" Bell {{{2
+hi -a border:0 none; background: #272822
+" Completition{{{2
+hi -a CompTitle color: #232526; background: #BCBCBC; font-weight: bold;
+hi -a CompTitleSep background: -moz-linear-gradient(60dg, #455354, #F92672);
+hi -a CompItem:nth-child(2n+1) background:#232526;
+hi -a CompItem[selected] background:#3E3D32;
+hi -a CompItem background:#272822;
+hi -a Comp border-top: 0px;
+" Section: Status Line{{{1
+" StatusModeMsg{{{2
+hi -a StatusModeMsg background: #455354 !important;
+hi -a StatusModeMsg color: #E6DB74;
+" ModeMsg{{{2
+hi -a ModeMsg background: #455354 !important;
+hi -a ModeMsg color: #E6DB74;
+" MoreMsg{{{2
+hi -a MoreMsg background: #455354 !important;
+hi -a MoreMsg color: #E6DB74;
+" Normal{{{2
+hi -a StatusLineNormal background: #232526 !important;
+hi -a StatusLineNormal color: #F8F8F2 !important;
+" Secure{{{2
+hi -a StatusLineSecure background: #232526 !important;
+hi -a StatusLineSecure color: #66D9EF !important;
+" Broken{{{2
+hi -a StatusLineBroken background: #232526 !important;
+hi -a StatusLineBroken color: #F92672 !important;
+" Extended{{{2
+hi -a StatusLineExtended background: #232526 !important;
+hi -a StatusLineExtended color: #A6E22E !important;
+" Section: Hint{{{1
+hi -a Hint font-family: Sans; font-size: 12px; font-weight: bold;
+hi -a Hint border: 0 none;
+hi -a Hint padding:2px;
+hi -a Hint::after content: attr(number);
+hi -a Hint color: #A6E22E !important;
+hi -a Hint background-color: rgba(35, 37, 38, .8) !important;
+hi -a HintActive background-color: #66D9EF !important; color: #F8F8F2 !important;
+hi -a HintElem background-color: inherit !important;
+hi -a HintElem -moz-box-shadow: 0px 0px 2px 2px rgba(102, 217, 239, .5);
+hi -a HintImage opacity: .5;
+" -*- vim -*- vim:set ft=vim et sw=2 sts=2:

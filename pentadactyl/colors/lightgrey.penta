@@ -1,0 +1,83 @@
+" = :: =========================================================== :: =
+"      Name: lightgrey.penta
+"  Filesize: 5258 Bytes on 83 Lines
+"   Purpose: colorscheme for pentadactyl
+"    Author: sartoo (UID: 1000) <http://sartoo.de/> on kali
+"   Created: 09.02.2011 19:18 CET (+0100)
+"  Modified: 10.02.2011 18:07 CET (+0100)
+" = :: =========================================================== :: =
+
+hi clear
+hi Normal                                       font-size:12px; font-family: sans-serif; font-weight: normal;
+hi -l Normal Cmd
+    hi -a Cmd                                   color: #000;
+hi -l Cmd CmdLine
+    hi -a CmdLine                               background-color:#e0e0ed;
+    hi -a 'StatusLine CmdLine'                  background-color:inherit;
+hi -l Cmd CmdOutput
+hi -l CmdLine CompDesc
+    hi -a CompDesc                              color:#3e3e3e; background-color: #f5f5f5; font-size: 10px; font-family:monospace;
+hi -l Cmd CompGroup
+    hi -a CompGroup                             color:#3e3e3e; background-color: #f5f5f5; font-weight:bold;
+hi -a CompIcon                                  width: 18px; min-width: 16px; display: inline-block; margin-right: .5ex;border-right:1px solid #000;
+hi -l CmdLine CompItem
+    hi -a CompItem                              background-color: #f7f7f7;
+    hi -a CompItem[selected]                    background-color: #bfbfbc;
+    hi -a CompItem:nth-child(2n+1)              background-color: #fff;
+    hi -a CompItem[selected]:nth-child(2n+1)    background-color: #bfbfbc !important;
+hi CompLess::after                              content: " ^ ";
+hi CompMore::after                              content: " ^ ";
+hi -l CmdLine CompMsg
+hi CompResult                       background:inherit;color:inherit;width:40%;overflow:hidden;
+hi -l CmdLine CompTitle
+    hi -a CompTitle                 width:45%;overflow:hidden;font-style:italic;font-weight:bold;
+hi -l CompTitle CompTitle>*
+hi CompTitleSep                     border-bottom:1px solid #000;
+hi -a Filter                        background-color:#a2b2c7; font-weight:bold;
+hi -a 'CompItem[selected] Filter'   background-color:#c7a3a2; color:#82102A; font-weight:bold;
+
+hi ModeMsg                          background-color:#c7a3a2 !important; color:#000 !important; font:bold 10px monospace; padding:0 7px !important;
+hi -l ModeMsg CmdModeMsg
+hi -l ModeMsg StatusModeMsg
+hi ErrorMsg                         background-color:#af2334 !important; color:#fff !important; font:bold 12px monospace; padding:0 7px !important;
+hi -l ErrorMsg CmdErrorMsg
+hi -l ErrorMsg StatusErrorMsg
+hi InfoMsg                          background-color:#9be6af !important; color:#000 !important; font:bold 12px monospace; padding:0 7px !important;
+hi -l InfoMsg CmdInfoMsg
+hi -l InfoMsg StatusInfoMsg
+hi MoreMsg                          background-color:#9be6af !important; color:#000 !important; font:bold 10px monospace !important; padding:0 7px !important;
+hi -l MoreMsg CmdMoreMsgk
+hi -l MoreMsg StatusMoreMsg
+hi WarningMsg                       background-color:inherit !important; color:#af2334 !important; font:bold 10px monospace !important; padding:0 7px !important;
+hi -l WarningMsg CmdWarningMsg
+hi -l WarningMsg StatusWarningMsg
+
+"StatusLine settings
+hi -l Normal StatusLine
+    hi -a Statusline                color:#000;background-color:inherit;
+hi -l StatusLine StatusLineNormal
+    hi -a StatusLineNormal          color:#000; background-color: #e2e2de;
+hi -l StatusLine StatusLineBroken
+    hi -a StatusLineBroken          color:#ac0000;font-weight:bold;
+hi -l StatusLine StatusLineSecure
+    hi -a StatusLineSecure          color:#000;background-color:#d1e0f0 !important;
+hi -l StatusLine StatusLineExtended
+    hi -a StatusLineExtended        color: #000000; background-color: #afffaf; font-weight:bold;
+
+hi -a CmdPrompt                     color:#000 !important; background-color:#c7a3a2 !important; font:bold 12px monospace; padding:0 6px 0 2px !important; margin-right:0.5em !important;
+hi -a Preview                       color:#000; opacity:0.5;
+hi -a Title                         color:#000;font:bold 12px/220% sans-serif;
+hi -a URL                           color:#3f4189;background:inherit;
+hi -a URL:hover                     color:#893f44;background:inherit;text-decoration:underline;
+hi -a URLExtra                      color:#3f4189;background:inherit;opacity:0.7;
+hi -a Tag                           color:#40893f;background:inherit;font-weight:bold;
+hi -a Question                      color:inherit;background:inherit;font-weight:bold;
+hi -a Bell                          color:inherit;background-color:#af2334 !important;opacity:0.6;
+hi -a Indicator                     color:#893f44;background:inherit;width:2em;text-align:center;
+
+hi -a Hint                          color:#000 !important;background:#e5ed90 !important;font-size:inherit !important;border:1px outset #e5ed90;padding: 1px !important;
+hi -l Hint HintImage
+hi -a HintElem                      color:#000 !important;background:#afc4e0 !important;font-weight:bold !important;font-size:inherit;
+hi -a HintActive                    color:#000 !important;background:#e0afb0 !important;font-weight:bold !important;font-size:inherit;
+
+" vim: ft=vim
