@@ -916,17 +916,22 @@ globalkeys = awful.util.table.join(
 
     awful.key({ modkey }, "F5",
         function ()
-            awful.util.spawn("emacs")
+            awful.util.spawn(terminal .. " -e tmux -u -2")
         end),
 
     awful.key({ modkey }, "F6",
         function ()
-            awful.util.spawn(terminal .. " -e tmux -u -2")
+            awful.util.spawn(terminal .. " -e ncmpcpp")
         end),
 
     awful.key({ modkey }, "F7",
         function ()
-            awful.util.spawn(terminal .. " -e ncmpcpp")
+            awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
+            awful.util.spawn("screenkey")
+            awful.util.spawn("ffmpeg -f x11grab -s " .. scr_res ..
+                            " -r 8 -i :0.0 -b:v 500k -pix_fmt rgb24 -y" ..
+                            " -loop 0 -s 640x400 " .. home_dir ..
+                            "/animated.gif")
         end),
 
     awful.key({ modkey }, "F8",
@@ -950,6 +955,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F10",
         function ()
             awful.util.spawn("killall ffmpeg")
+            awful.util.spawn("killall screenkey")
             awful.util.spawn("convert ephemeral:" .. home_dir ..
                              "/animated.gif -fuzz 7% -layers Optimize " ..
                              home_dir .. "/screencast.gif")
@@ -1100,6 +1106,9 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
+    -- { rule = { class = "Screenkey" },
+    --   properties = { floating = true, border_width = 0, height=120, width= 920 },
+    --   callback = awful.placement.centered},
     { rule = { class = "Screenkey" },
       properties = { floating = true, border_width = 0 } },
     { rule = { class = "Gvim" },
