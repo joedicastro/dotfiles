@@ -1,0 +1,640 @@
+# newsbeuter 2.4 configuration file
+# by joe di castro <joe@joedicastro.com>
+
+always-display-description              true
+always-download                         ""
+article-sort-order                      "date-asc"
+articlelist-format                      "%4i %f %D %6L  %?T?|%-17T|  &?%t"
+articlelist-title-format                "%N %V - Articulos en el feed '%T' (%u no leidos, %t total) - %U"
+auto-reload                             yes
+bookmark-cmd                            "~/.newsbeuter/send2ril.py"
+bookmark-interactive                    false
+browser                                 "firefox" # default: lynx
+cache-file                              ""
+cleanup-on-quit                         yes
+confirm-exit                            no
+cookie-cache                            ""
+datetime-format                         "%d %b"
+delete-read-articles-on-quit            no
+dialogs-title-format                    "%N %V - Diálogos"
+display-article-progress                yes
+download-full-page                      yes
+download-path                           "~/"
+download-retries                        1
+download-timeout                        30
+error-log                               "~/.newsbeuter/error.log"
+external-url-viewer                     ""
+feed-sort-order                         "none-desc"
+feedlist-format                         "%4i %n %11u %t"
+feedlist-title-format                   "%N %V - Tus feeds (%u no leidos, %t total)%?T? - etiqueta `%T'&?"
+filebrowser-title-format                "%N %V - %?O?Abrir arcivo&Salvar archivo? - %f"
+googlereader-flag-share                 ""
+googlereader-flag-star                  ""
+googlereader-login                      ""
+googlereader-min-items                  20
+googlereader-password                   ""
+googlereader-passwordfile               ""
+googlereader-show-special-feeds         true
+goto-first-unread                       true
+goto-next-feed                          yes
+help-title-format                       "%N %V - Ayuda"
+history-limit                           80
+http-auth-method                        any
+html-renderer                           "internal"
+ignore-mode                             "display"
+itemview-title-format                   "%N %V - Articulo '%T'"
+keep-articles-days                      30
+mark-as-read-on-hover                   false
+max-download-speed                      0
+max-downloads                           1
+max-items                               80
+notify-always                           yes
+notify-beep                             no
+notify-format                           "%d articulos nuevos, (%n articulos no leidos, %f feeds no leidos)"
+notify-program                          "~/.newsbeuter/notify.py"
+notify-screen                           yes
+notify-xterm                            no
+opml-url                                ""
+pager                                   "internal"
+player                                   ""
+podcast-auto-enqueue                    no
+prepopulate-query-feeds                 no
+proxy                                   ""
+proxy-auth                              ""
+proxy-auth-method                       "any"
+proxy-type                              "http"
+refresh-on-startup                      no
+reload-only-visible-feeds               no
+reload-threads                          8
+reload-time                             60
+save-path                               "~/.newsbeuter/saved"
+search-highlight-colors                 "black" "yellow" "bold"
+searchresult-title-format               "%N %V - Resultados de busqueda (%u unread, %t total)"
+selectfilter-title-format               "%N %V - Seleccionar filtro"
+selecttag-title-format                  "%N %V - Seleccionar etiqueta"
+show-keymap-hint                        yes
+show-read-articles                      no
+show-read-feeds                         no
+suppress-first-reload                   no
+text-width                              0
+urls-source                             "local"
+urlview-title-format                    "%N %V - URLs"
+use-proxy                               no
+user-agent                              "newsbeuter"
+
+# Key Bindings  {{{
+bind-key \# goto-url feedlist
+bind-key $ purge-deleted feedlist
+bind-key , macro-prefix feedlist
+bind-key / open-search feedlist
+bind-key : cmdline feedlist
+bind-key ? help feedlist
+bind-key A mark-feed-read feedlist
+bind-key C mark-all-feeds-read feedlist
+bind-key D delete-article feedlist
+bind-key DOWN down feedlist
+bind-key E edit-urls feedlist
+bind-key END end feedlist
+bind-key ENTER open feedlist
+bind-key F set-filter feedlist
+bind-key G rev-sort feedlist
+bind-key HOME home feedlist
+bind-key J next feedlist
+bind-key K prev feedlist
+bind-key N toggle-article-read feedlist
+bind-key O open-in-browser-and-mark-read feedlist
+bind-key PAGEDOWN pagedown feedlist
+bind-key PAGEUP pageup feedlist
+bind-key Q hard-quit feedlist
+bind-key R reload-all feedlist
+bind-key UP up feedlist
+bind-key ^B bookmark feedlist
+bind-key ^E edit-flags feedlist
+bind-key ^F clear-filter feedlist
+bind-key ^G prev-dialog feedlist
+bind-key ^K random-unread feedlist
+bind-key ^L redraw feedlist
+bind-key ^N next-unread-feed feedlist
+bind-key ^P prev-unread-feed feedlist
+bind-key ^R reload-urls feedlist
+bind-key ^T clear-tag feedlist
+bind-key ^U toggle-source-view feedlist
+bind-key ^V next-dialog feedlist
+bind-key ^X close-dialog feedlist
+bind-key e enqueue feedlist
+bind-key f select-filter feedlist
+bind-key g sort feedlist
+bind-key j next-feed feedlist
+bind-key k prev-feed feedlist
+bind-key l toggle-show-read-feeds feedlist
+bind-key n next-unread feedlist
+bind-key o open-in-browser feedlist
+bind-key p prev-unread feedlist
+bind-key q quit feedlist
+bind-key r reload feedlist
+bind-key s save feedlist
+bind-key t set-tag feedlist
+bind-key u show-urls feedlist
+bind-key v view-dialogs feedlist
+bind-key | pipe-to feedlist
+bind-key \# goto-url filebrowser
+bind-key $ purge-deleted filebrowser
+bind-key , macro-prefix filebrowser
+bind-key / open-search filebrowser
+bind-key : cmdline filebrowser
+bind-key ? help filebrowser
+bind-key A mark-feed-read filebrowser
+bind-key C mark-all-feeds-read filebrowser
+bind-key D delete-article filebrowser
+bind-key DOWN down filebrowser
+bind-key E edit-urls filebrowser
+bind-key END end filebrowser
+bind-key ENTER open filebrowser
+bind-key F set-filter filebrowser
+bind-key G rev-sort filebrowser
+bind-key HOME home filebrowser
+bind-key J next filebrowser
+bind-key K prev filebrowser
+bind-key N toggle-article-read filebrowser
+bind-key O open-in-browser-and-mark-read filebrowser
+bind-key PAGEDOWN pagedown filebrowser
+bind-key PAGEUP pageup filebrowser
+bind-key Q hard-quit filebrowser
+bind-key R reload-all filebrowser
+bind-key UP up filebrowser
+bind-key ^B bookmark filebrowser
+bind-key ^E edit-flags filebrowser
+bind-key ^F clear-filter filebrowser
+bind-key ^G prev-dialog filebrowser
+bind-key ^K random-unread filebrowser
+bind-key ^L redraw filebrowser
+bind-key ^N next-unread-feed filebrowser
+bind-key ^P prev-unread-feed filebrowser
+bind-key ^R reload-urls filebrowser
+bind-key ^T clear-tag filebrowser
+bind-key ^U toggle-source-view filebrowser
+bind-key ^V next-dialog filebrowser
+bind-key ^X close-dialog filebrowser
+bind-key e enqueue filebrowser
+bind-key f select-filter filebrowser
+bind-key g sort filebrowser
+bind-key j next-feed filebrowser
+bind-key k prev-feed filebrowser
+bind-key l toggle-show-read-feeds filebrowser
+bind-key n next-unread filebrowser
+bind-key o open-in-browser filebrowser
+bind-key p prev-unread filebrowser
+bind-key q quit filebrowser
+bind-key r reload filebrowser
+bind-key s save filebrowser
+bind-key t set-tag filebrowser
+bind-key u show-urls filebrowser
+bind-key v view-dialogs filebrowser
+bind-key | pipe-to filebrowser
+bind-key \# goto-url help
+bind-key $ purge-deleted help
+bind-key , macro-prefix help
+bind-key / open-search help
+bind-key : cmdline help
+bind-key ? help help
+bind-key A mark-feed-read help
+bind-key C mark-all-feeds-read help
+bind-key D delete-article help
+bind-key DOWN down help
+bind-key E edit-urls help
+bind-key END end help
+bind-key ENTER open help
+bind-key F set-filter help
+bind-key G rev-sort help
+bind-key HOME home help
+bind-key J next help
+bind-key K prev help
+bind-key N toggle-article-read help
+bind-key O open-in-browser-and-mark-read help
+bind-key PAGEDOWN pagedown help
+bind-key PAGEUP pageup help
+bind-key Q hard-quit help
+bind-key R reload-all help
+bind-key UP up help
+bind-key ^B bookmark help
+bind-key ^E edit-flags help
+bind-key ^F clear-filter help
+bind-key ^G prev-dialog help
+bind-key ^K random-unread help
+bind-key ^L redraw help
+bind-key ^N next-unread-feed help
+bind-key ^P prev-unread-feed help
+bind-key ^R reload-urls help
+bind-key ^T clear-tag help
+bind-key ^U toggle-source-view help
+bind-key ^V next-dialog help
+bind-key ^X close-dialog help
+bind-key e enqueue help
+bind-key f select-filter help
+bind-key g sort help
+bind-key j next-feed help
+bind-key k prev-feed help
+bind-key l toggle-show-read-feeds help
+bind-key n next-unread help
+bind-key o open-in-browser help
+bind-key p prev-unread help
+bind-key q quit help
+bind-key r reload help
+bind-key s save help
+bind-key t set-tag help
+bind-key u show-urls help
+bind-key v view-dialogs help
+bind-key | pipe-to help
+bind-key \# goto-url articlelist
+bind-key $ purge-deleted articlelist
+bind-key , macro-prefix articlelist
+bind-key / open-search articlelist
+bind-key : cmdline articlelist
+bind-key ? help articlelist
+bind-key A mark-feed-read articlelist
+bind-key C mark-all-feeds-read articlelist
+bind-key D delete-article articlelist
+bind-key DOWN down articlelist
+bind-key E edit-urls articlelist
+bind-key END end articlelist
+bind-key ENTER open articlelist
+bind-key F set-filter articlelist
+bind-key G rev-sort articlelist
+bind-key HOME home articlelist
+bind-key J next articlelist
+bind-key K prev articlelist
+bind-key N toggle-article-read articlelist
+bind-key O open-in-browser-and-mark-read articlelist
+bind-key PAGEDOWN pagedown articlelist
+bind-key PAGEUP pageup articlelist
+bind-key Q hard-quit articlelist
+bind-key R reload-all articlelist
+bind-key UP up articlelist
+bind-key ^B bookmark articlelist
+bind-key ^E edit-flags articlelist
+bind-key ^F clear-filter articlelist
+bind-key ^G prev-dialog articlelist
+bind-key ^K random-unread articlelist
+bind-key ^L redraw articlelist
+bind-key ^N next-unread-feed articlelist
+bind-key ^P prev-unread-feed articlelist
+bind-key ^R reload-urls articlelist
+bind-key ^T clear-tag articlelist
+bind-key ^U toggle-source-view articlelist
+bind-key ^V next-dialog articlelist
+bind-key ^X close-dialog articlelist
+bind-key e enqueue articlelist
+bind-key f select-filter articlelist
+bind-key g sort articlelist
+bind-key j next-feed articlelist
+bind-key k prev-feed articlelist
+bind-key l toggle-show-read-feeds articlelist
+bind-key n next-unread articlelist
+bind-key o open-in-browser articlelist
+bind-key p prev-unread articlelist
+bind-key q quit articlelist
+bind-key r reload articlelist
+bind-key s save articlelist
+bind-key t set-tag articlelist
+bind-key u show-urls articlelist
+bind-key v view-dialogs articlelist
+bind-key | pipe-to articlelist
+bind-key \# goto-url article
+bind-key $ purge-deleted article
+bind-key , macro-prefix article
+bind-key / open-search article
+bind-key : cmdline article
+bind-key ? help article
+bind-key A mark-feed-read article
+bind-key C mark-all-feeds-read article
+bind-key D delete-article article
+bind-key DOWN down article
+bind-key E edit-urls article
+bind-key END end article
+bind-key ENTER open article
+bind-key F set-filter article
+bind-key G rev-sort article
+bind-key HOME home article
+bind-key J next article
+bind-key K prev article
+bind-key N toggle-article-read article
+bind-key O open-in-browser-and-mark-read article
+bind-key PAGEDOWN pagedown article
+bind-key PAGEUP pageup article
+bind-key Q hard-quit article
+bind-key R reload-all article
+bind-key UP up article
+bind-key ^B bookmark article
+bind-key ^E edit-flags article
+bind-key ^F clear-filter article
+bind-key ^G prev-dialog article
+bind-key ^K random-unread article
+bind-key ^L redraw article
+bind-key ^N next-unread-feed article
+bind-key ^P prev-unread-feed article
+bind-key ^R reload-urls article
+bind-key ^T clear-tag article
+bind-key ^U toggle-source-view article
+bind-key ^V next-dialog article
+bind-key ^X close-dialog article
+bind-key e enqueue article
+bind-key f select-filter article
+bind-key g sort article
+bind-key j next-feed article
+bind-key k prev-feed article
+bind-key l toggle-show-read-feeds article
+bind-key n next-unread article
+bind-key o open-in-browser article
+bind-key p prev-unread article
+bind-key q quit article
+bind-key r reload article
+bind-key s save article
+bind-key t set-tag article
+bind-key u show-urls article
+bind-key v view-dialogs article
+bind-key | pipe-to article
+bind-key \# goto-url tagselection
+bind-key $ purge-deleted tagselection
+bind-key , macro-prefix tagselection
+bind-key / open-search tagselection
+bind-key : cmdline tagselection
+bind-key ? help tagselection
+bind-key A mark-feed-read tagselection
+bind-key C mark-all-feeds-read tagselection
+bind-key D delete-article tagselection
+bind-key DOWN down tagselection
+bind-key E edit-urls tagselection
+bind-key END end tagselection
+bind-key ENTER open tagselection
+bind-key F set-filter tagselection
+bind-key G rev-sort tagselection
+bind-key HOME home tagselection
+bind-key J next tagselection
+bind-key K prev tagselection
+bind-key N toggle-article-read tagselection
+bind-key O open-in-browser-and-mark-read tagselection
+bind-key PAGEDOWN pagedown tagselection
+bind-key PAGEUP pageup tagselection
+bind-key Q hard-quit tagselection
+bind-key R reload-all tagselection
+bind-key UP up tagselection
+bind-key ^B bookmark tagselection
+bind-key ^E edit-flags tagselection
+bind-key ^F clear-filter tagselection
+bind-key ^G prev-dialog tagselection
+bind-key ^K random-unread tagselection
+bind-key ^L redraw tagselection
+bind-key ^N next-unread-feed tagselection
+bind-key ^P prev-unread-feed tagselection
+bind-key ^R reload-urls tagselection
+bind-key ^T clear-tag tagselection
+bind-key ^U toggle-source-view tagselection
+bind-key ^V next-dialog tagselection
+bind-key ^X close-dialog tagselection
+bind-key e enqueue tagselection
+bind-key f select-filter tagselection
+bind-key g sort tagselection
+bind-key j next-feed tagselection
+bind-key k prev-feed tagselection
+bind-key l toggle-show-read-feeds tagselection
+bind-key n next-unread tagselection
+bind-key o open-in-browser tagselection
+bind-key p prev-unread tagselection
+bind-key q quit tagselection
+bind-key r reload tagselection
+bind-key s save tagselection
+bind-key t set-tag tagselection
+bind-key u show-urls tagselection
+bind-key v view-dialogs tagselection
+bind-key | pipe-to tagselection
+bind-key \# goto-url filterselection
+bind-key $ purge-deleted filterselection
+bind-key , macro-prefix filterselection
+bind-key / open-search filterselection
+bind-key : cmdline filterselection
+bind-key ? help filterselection
+bind-key A mark-feed-read filterselection
+bind-key C mark-all-feeds-read filterselection
+bind-key D delete-article filterselection
+bind-key DOWN down filterselection
+bind-key E edit-urls filterselection
+bind-key END end filterselection
+bind-key ENTER open filterselection
+bind-key F set-filter filterselection
+bind-key G rev-sort filterselection
+bind-key HOME home filterselection
+bind-key J next filterselection
+bind-key K prev filterselection
+bind-key N toggle-article-read filterselection
+bind-key O open-in-browser-and-mark-read filterselection
+bind-key PAGEDOWN pagedown filterselection
+bind-key PAGEUP pageup filterselection
+bind-key Q hard-quit filterselection
+bind-key R reload-all filterselection
+bind-key UP up filterselection
+bind-key ^B bookmark filterselection
+bind-key ^E edit-flags filterselection
+bind-key ^F clear-filter filterselection
+bind-key ^G prev-dialog filterselection
+bind-key ^K random-unread filterselection
+bind-key ^L redraw filterselection
+bind-key ^N next-unread-feed filterselection
+bind-key ^P prev-unread-feed filterselection
+bind-key ^R reload-urls filterselection
+bind-key ^T clear-tag filterselection
+bind-key ^U toggle-source-view filterselection
+bind-key ^V next-dialog filterselection
+bind-key ^X close-dialog filterselection
+bind-key e enqueue filterselection
+bind-key f select-filter filterselection
+bind-key g sort filterselection
+bind-key j next-feed filterselection
+bind-key k prev-feed filterselection
+bind-key l toggle-show-read-feeds filterselection
+bind-key n next-unread filterselection
+bind-key o open-in-browser filterselection
+bind-key p prev-unread filterselection
+bind-key q quit filterselection
+bind-key r reload filterselection
+bind-key s save filterselection
+bind-key t set-tag filterselection
+bind-key u show-urls filterselection
+bind-key v view-dialogs filterselection
+bind-key | pipe-to filterselection
+bind-key \# goto-url urlview
+bind-key $ purge-deleted urlview
+bind-key , macro-prefix urlview
+bind-key / open-search urlview
+bind-key : cmdline urlview
+bind-key ? help urlview
+bind-key A mark-feed-read urlview
+bind-key C mark-all-feeds-read urlview
+bind-key D delete-article urlview
+bind-key DOWN down urlview
+bind-key E edit-urls urlview
+bind-key END end urlview
+bind-key ENTER open urlview
+bind-key F set-filter urlview
+bind-key G rev-sort urlview
+bind-key HOME home urlview
+bind-key J next urlview
+bind-key K prev urlview
+bind-key N toggle-article-read urlview
+bind-key O open-in-browser-and-mark-read urlview
+bind-key PAGEDOWN pagedown urlview
+bind-key PAGEUP pageup urlview
+bind-key Q hard-quit urlview
+bind-key R reload-all urlview
+bind-key UP up urlview
+bind-key ^B bookmark urlview
+bind-key ^E edit-flags urlview
+bind-key ^F clear-filter urlview
+bind-key ^G prev-dialog urlview
+bind-key ^K random-unread urlview
+bind-key ^L redraw urlview
+bind-key ^N next-unread-feed urlview
+bind-key ^P prev-unread-feed urlview
+bind-key ^R reload-urls urlview
+bind-key ^T clear-tag urlview
+bind-key ^U toggle-source-view urlview
+bind-key ^V next-dialog urlview
+bind-key ^X close-dialog urlview
+bind-key e enqueue urlview
+bind-key f select-filter urlview
+bind-key g sort urlview
+bind-key j next-feed urlview
+bind-key k prev-feed urlview
+bind-key l toggle-show-read-feeds urlview
+bind-key n next-unread urlview
+bind-key o open-in-browser urlview
+bind-key p prev-unread urlview
+bind-key q quit urlview
+bind-key r reload urlview
+bind-key s save urlview
+bind-key t set-tag urlview
+bind-key u show-urls urlview
+bind-key v view-dialogs urlview
+bind-key | pipe-to urlview
+bind-key \# goto-url podbeuter
+bind-key $ purge-deleted podbeuter
+bind-key , macro-prefix podbeuter
+bind-key / open-search podbeuter
+bind-key : cmdline podbeuter
+bind-key ? help podbeuter
+bind-key A mark-feed-read podbeuter
+bind-key C mark-all-feeds-read podbeuter
+bind-key D delete-article podbeuter
+bind-key DOWN down podbeuter
+bind-key E edit-urls podbeuter
+bind-key END end podbeuter
+bind-key ENTER open podbeuter
+bind-key F set-filter podbeuter
+bind-key G rev-sort podbeuter
+bind-key HOME home podbeuter
+bind-key J next podbeuter
+bind-key K prev podbeuter
+bind-key N toggle-article-read podbeuter
+bind-key O open-in-browser-and-mark-read podbeuter
+bind-key PAGEDOWN pagedown podbeuter
+bind-key PAGEUP pageup podbeuter
+bind-key Q hard-quit podbeuter
+bind-key R reload-all podbeuter
+bind-key UP up podbeuter
+bind-key ^B bookmark podbeuter
+bind-key ^E edit-flags podbeuter
+bind-key ^F clear-filter podbeuter
+bind-key ^G prev-dialog podbeuter
+bind-key ^K random-unread podbeuter
+bind-key ^L redraw podbeuter
+bind-key ^N next-unread-feed podbeuter
+bind-key ^P prev-unread-feed podbeuter
+bind-key ^R reload-urls podbeuter
+bind-key ^T clear-tag podbeuter
+bind-key ^U toggle-source-view podbeuter
+bind-key ^V next-dialog podbeuter
+bind-key ^X close-dialog podbeuter
+bind-key e enqueue podbeuter
+bind-key f select-filter podbeuter
+bind-key g sort podbeuter
+bind-key j next-feed podbeuter
+bind-key k prev-feed podbeuter
+bind-key l toggle-show-read-feeds podbeuter
+bind-key n next-unread podbeuter
+bind-key o open-in-browser podbeuter
+bind-key p prev-unread podbeuter
+bind-key q quit podbeuter
+bind-key r reload podbeuter
+bind-key s save podbeuter
+bind-key t set-tag podbeuter
+bind-key u show-urls podbeuter
+bind-key v view-dialogs podbeuter
+bind-key | pipe-to podbeuter
+bind-key \# goto-url dialogs
+bind-key $ purge-deleted dialogs
+bind-key , macro-prefix dialogs
+bind-key / open-search dialogs
+bind-key : cmdline dialogs
+bind-key ? help dialogs
+bind-key A mark-feed-read dialogs
+bind-key C mark-all-feeds-read dialogs
+bind-key D delete-article dialogs
+bind-key DOWN down dialogs
+bind-key E edit-urls dialogs
+bind-key END end dialogs
+bind-key ENTER open dialogs
+bind-key F set-filter dialogs
+bind-key G rev-sort dialogs
+bind-key HOME home dialogs
+bind-key J next dialogs
+bind-key K prev dialogs
+bind-key N toggle-article-read dialogs
+bind-key O open-in-browser-and-mark-read dialogs
+bind-key PAGEDOWN pagedown dialogs
+bind-key PAGEUP pageup dialogs
+bind-key Q hard-quit dialogs
+bind-key R reload-all dialogs
+bind-key UP up dialogs
+bind-key ^B bookmark dialogs
+bind-key ^E edit-flags dialogs
+bind-key ^F clear-filter dialogs
+bind-key ^G prev-dialog dialogs
+bind-key ^K random-unread dialogs
+bind-key ^L redraw dialogs
+bind-key ^N next-unread-feed dialogs
+bind-key ^P prev-unread-feed dialogs
+bind-key ^R reload-urls dialogs
+bind-key ^T clear-tag dialogs
+bind-key ^U toggle-source-view dialogs
+bind-key ^V next-dialog dialogs
+bind-key ^X close-dialog dialogs
+bind-key e enqueue dialogs
+bind-key f select-filter dialogs
+bind-key g sort dialogs
+bind-key j next-feed dialogs
+bind-key k prev-feed dialogs
+bind-key l toggle-show-read-feeds dialogs
+bind-key n next-unread dialogs
+bind-key o open-in-browser dialogs
+bind-key p prev-unread dialogs
+bind-key q quit dialogs
+bind-key r reload dialogs
+bind-key s save dialogs
+bind-key t set-tag dialogs
+bind-key u show-urls dialogs
+bind-key v view-dialogs dialogs
+bind-key | pipe-to dialogs
+# }}}
+
+# Color {{{
+# solarized color scheme for newsbeuter <http://www.newsbeuter.org/>
+# more on solarized: http://ethanschoonover.com/solarized
+
+color listnormal color244 color234
+color listfocus color166 color235
+color info color136 color235
+color background color244 color234
+color article color244 color234
+
+# }}}
+
+# vim:foldmethod=marker
