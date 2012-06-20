@@ -538,7 +538,7 @@ cal.register(mytextclock, "<span color='green'><b>%s</b></span>")
 
 -- Sound Volume {{{
 soundvol = widget({ type = "textbox" })
-vicious.register(soundvol, vicious.widgets.volume, "♫$1%", 2, "PCM")
+vicious.register(soundvol, vicious.widgets.volume, "$2 $1%", 2, "PCM")
 soundvol:buttons(
     awful.util.table.join(
         awful.button({}, 1,
@@ -861,7 +861,7 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ }, "XF86AudioMute",
         function ()
-            awful.util.spawn("amixer sset Master toggle")
+            awful.util.spawn("amixer sset PCM toggle")
         end),
 
     -- My external keyboard only have volume control keys
