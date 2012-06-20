@@ -2,7 +2,7 @@
 # -*- coding: utf8 -*-
 
 """
-    send2ril.py: Send a new url to Read it Later
+    send2ril.py: Send a new url to Pocket (formerly Read it Later)
 """
 
 #==============================================================================

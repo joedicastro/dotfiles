@@ -1,4 +1,4 @@
--- itaca, awesome3 theme, by joedicastro 
+-- itaca, awesome3 theme, by joedicastro
 
 --{{{ Main
 require("awful.util")

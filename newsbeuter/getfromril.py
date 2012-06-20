@@ -2,7 +2,8 @@
 # -*- coding: utf8 -*-
 
 """
-    get.py: Get the urls stored in Read it Later & save them in a Org-mode file
+    getfromril.py: Get the urls stored in Pocket (formerly Read it Later) &
+    save them in a Org-mode file
 """
 
 #==============================================================================
@@ -24,8 +25,8 @@
 
 __author__ = "joe di castro <joe@joedicastro.com>"
 __license__ = "GNU General Public License version 3"
-__date__ = "18/06/2012"
-__version__ = "0.1"
+__date__ = "20/06/2012"
+__version__ = "0.2"
 
 try:
     import sys
@@ -63,6 +64,10 @@ if __name__ == "__main__":
 ###############################################################################
 #                                  Changelog                                  #
 ###############################################################################
+#
+# 0.2:
+#
+# * Renamed (from get.py to getfromril.py)
 #
 # 0.1:
 #
