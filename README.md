@@ -57,6 +57,10 @@ Configuración de [Newsbeuter](http://newsbeuter.org/)
 
 Configuración de [Pentadactyl](http://5digits.org/pentadactyl/)
 
+### `/turses`
+
+Configuración de [Turses](https://github.com/alejandrogomez/turses)
+
 ### `/urxvt`
 
 Configuración de [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.html)
