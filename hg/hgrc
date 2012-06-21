@@ -1,0 +1,21 @@
+[ui]
+username = joe di castro <joe@joedicastro.com>
+verbose = True
+
+[extensions]
+hgext.bookmarks =
+hggit = 
+hgext.graphlog =
+hgext.color=
+hgext.hgview=
+
+[hooks]
+post-push = $HOME/dotfiles/hg/bb_gh.py
+
+[hgview]
+# your hgview configs statements like: 
+dotradius=6
+#interface="raw" # or curses or raw
+# type hg qv-config to list available options
+
+

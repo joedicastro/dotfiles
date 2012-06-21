@@ -31,6 +31,13 @@ Configuración de [Awesome](http://awesome.naquadah.org/)
 
 Configuración de [git](http://git-scm.com/)
 
+### `/hg`
+
+Configuración de [Mercurial](http://mercurial.selenic.com/)
+
++ `/hg/bb_gh.py` hook para Mercurial en Python para hacer `push` simultáneamente
+  a el mismo repositorio en GitHub y en Bitbucket
+
 ### `/newsbeuter`
 
 Configuración de [Newsbeuter](http://newsbeuter.org/)
