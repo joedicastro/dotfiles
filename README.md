@@ -34,7 +34,6 @@ Configuración de [Newsbeuter](http://newsbeuter.org/)
 + `/newsbeuter/readitlater` API Python para Pocket (Formerly Read it Later)
 
 + `/newsbeuter/getfromril.py` script Python que emplea la API de Pocket para
-   con una configuración de pruebas corriendo en la misma
    hacer una copia de seguridad de las urls guardadas en Pocket
 
 + `/newsbeuter/notify.py` script Python que genera las notificaciones emergentes
