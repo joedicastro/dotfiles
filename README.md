@@ -46,4 +46,8 @@ Configuración de [Newsbeuter](http://newsbeuter.org/)
 
 Configuración de [Pentadactyl](http://5digits.org/pentadactyl/)
 
+### `/urxvt`
+
+Configuración de [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.html)
+
 
