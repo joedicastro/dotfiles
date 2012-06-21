@@ -27,6 +27,10 @@ Configuración de [Awesome](http://awesome.naquadah.org/)
   ficheros python que pueden ser encontrados en este repositorio,
   <https://github.com/joedicastro/python-recipes>
 
+### `/git`
+
+Configuración de [git](http://git-scm.com/)
+
 ### `/newsbeuter`
 
 Configuración de [Newsbeuter](http://newsbeuter.org/)
