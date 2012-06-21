@@ -1,0 +1,13 @@
+#!/bin/sh
+
+setxkbmap es
+xrdb -merge ~/.Xresources
+xmodmap .xmodmap.rc
+~/.bin/xcape
+udiskie &
+autocutsel -fork &
+autocutsel -selection PRIMARY -fork &
+xcompmgr -I1 -O1 -Ff &
+urxvtd -q -o -f &
+~/.bin/i8kfans.py &
+exec awesome

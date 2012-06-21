@@ -50,4 +50,10 @@ Configuración de [Pentadactyl](http://5digits.org/pentadactyl/)
 
 Configuración de [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.html)
 
+### `/xsession`
 
+Configuración de la sesión __X__
+
++ `/xsession/xinitrc` es un shell script que configura la sesión X
+
++ `/xsession/xmodmap.rc` es la configuración del mapeado del teclado
