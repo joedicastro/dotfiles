@@ -18,9 +18,9 @@
 -- Win  +  F2                       Firefox
 -- Win  +  F3                       Thunderbird
 -- Win  +  F4                       Gvim
--- Win  +  F5                       emacs
--- Win  +  F6                       tmux
--- Win  +  F7                       ncmpcpp
+-- Win  +  F5                       tmux
+-- Win  +  F6                       ncmpcpp
+-- Win  +  F7                       Start gif screencast recording LR + screenkey
 -- Win  +  F8                       Start gif screencast recording LowRes
 -- Win  +  F9                       Start gif screencast recording HighRes
 -- Win  +  F10                      Stop gif screencast recording
