@@ -51,6 +51,7 @@
 -- Win  +  f                        Set client fullscreen
 -- Win  +  c                        Kill focused client
 -- Win  +  t                        Toggle "always visible" (on top)
+-- Win  +  i                        Show/hide client border
 -- Win  +  Shift    +  t            Show/hide client titlebar
 -- Win  +  Shift    +  r            Redraw focused client
 --
@@ -1034,7 +1035,14 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Shift" }, "t", function (c)
        if   c.titlebar then awful.titlebar.remove(c)
        else awful.titlebar.add(c, { modkey = modkey }) end
+    end),
+
+    -- Show/hide border
+    awful.key({ modkey }, "i", function (c)
+       if   c.border_width == 0 then c.border_width = beautiful.border_width
+       else c.border_width = 0 end
     end)
+
 )
 
 -- Compute the maximum number of digit we need, limited to 9
