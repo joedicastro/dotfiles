@@ -5,6 +5,9 @@ messages = true
 favorites = false
 mentions = true
 
+[colors]
+focus = light blue
+
 [twitter]
 update_frequency = 300
 
