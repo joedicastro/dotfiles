@@ -9,6 +9,7 @@ articlelist-title-format                "%N %V - Articulos en el feed '%T' (%u n
 auto-reload                             yes
 bookmark-cmd                            "~/.newsbeuter/send2ril.py"
 bookmark-interactive                    false
+bookmark-autopilot                      yes
 browser                                 "firefox" # default: lynx
 cache-file                              ""
 cleanup-on-quit                         yes
