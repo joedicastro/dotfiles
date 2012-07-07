@@ -1,4 +1,5 @@
-URxvt.font:             xft:Dejavu Sans Mono for Powerline:size=11
+!URxvt.font:             xft:Dejavu Sans Mono for Powerline:size=11
+URxvt.font:             xft:Ubuntu Mono for Powerline:size=13
 URxvt.iconFile:         /usr/share/icons/Humanity/apps/24/terminal.svg
 URxvt.letterSpace: -1
 
