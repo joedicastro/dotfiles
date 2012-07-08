@@ -1,48 +1,48 @@
-!URxvt.font:             xft:Dejavu Sans Mono for Powerline:size=11
-URxvt.font:             xft:Ubuntu Mono for Powerline:size=13
-URxvt.iconFile:         /usr/share/icons/Humanity/apps/24/terminal.svg
-URxvt.letterSpace: -1
+URxvt.font:                 xft:Dejavu Sans Mono for Powerline:size=11
+URxvt.iconFile:             /usr/share/icons/Humanity/apps/24/terminal.svg
+URxvt.letterSpace:          -2
 
-URxvt.background: #121212
-URxvt.foreground: #FFFFFF
+URxvt.background:           #121212
+URxvt.foreground:           #FFFFFF
 ! black
-URxvt.color0  : #2E3436
-URxvt.color8  : #555753
+URxvt.color0  :             #2E3436
+URxvt.color8  :             #555753
 ! red
-URxvt.color1  : #CC0000
-URxvt.color9  : #EF2929
+URxvt.color1  :             #CC0000
+URxvt.color9  :             #EF2929
 ! green
-URxvt.color2  : #4E9A06
-URxvt.color10 : #8AE234
+URxvt.color2  :             #4E9A06
+URxvt.color10 :             #8AE234
 ! yellow
-URxvt.color3  : #C4A000
-URxvt.color11 : #FCE94F
+URxvt.color3  :             #C4A000
+URxvt.color11 :             #FCE94F
 ! blue
-URxvt.color4  : #3465A4
-URxvt.color12 : #729FCF
+URxvt.color4  :             #3465A4
+URxvt.color12 :             #729FCF
 ! magenta
-URxvt.color5  : #75507B
-URxvt.color13 : #AD7FA8
+URxvt.color5  :             #75507B
+URxvt.color13 :             #AD7FA8
 ! cyan
-URxvt.color6  : #06989A
-URxvt.color14 : #34E2E2
+URxvt.color6  :             #06989A
+URxvt.color14 :             #34E2E2
 ! white
-URxvt.color7  : #D3D7CF
-URxvt.color15 : #EEEEEC
+URxvt.color7  :             #D3D7CF
+URxvt.color15 :             #EEEEEC
 
-URxvt*saveLines:  32767
+URxvt*saveLines:            32767
 
-!URxvt.perl-ext-common: default,matcher
-!URxvt.urlLauncher: firefox
-!URxvt.matcher.button: 1
+URxvt.perl-ext-common:      default,matcher
+URxvt.urlLauncher:          firefox
+URxvt.matcher.button:       1
 
-Xft*dpi:                96
-Xft*antialias:          true
-Xft*hinting:            full
+Xft*dpi:                    96
+Xft*antialias:              true
+Xft*hinting:                full
 
-URxvt.scrollBar:        false
-urxvt*scrollTtyKeypress:true
-urxvt*scrollTtyOutput:false
-urxvt*scrollWithBuffer:false
-urxvt*scrollstyle:                    plain
-urxvt*secondaryScroll:           true
+URxvt.scrollBar:            false
+urxvt*scrollTtyKeypress:    true
+urxvt*scrollTtyOutput:      false
+urxvt*scrollWithBuffer:     false
+urxvt*scrollstyle:          plain
+urxvt*secondaryScroll:      true
+
