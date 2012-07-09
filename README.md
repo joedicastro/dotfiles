@@ -57,6 +57,10 @@ Configuración de [Newsbeuter](http://newsbeuter.org/)
 
 Configuración de [Pentadactyl](http://5digits.org/pentadactyl/)
 
+### `/tmux`
+
+Configuración de [tmux](http://tmux.sourceforge.net/)
+
 ### `/turses`
 
 Configuración de [Turses](https://github.com/alejandrogomez/turses)
