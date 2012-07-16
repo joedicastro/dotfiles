@@ -1,0 +1,11 @@
+# settings
+set adjust-open "width"
+set font        "Dejavu Sans Mono 10"
+
+set recolor-darkcolor       "#EEEEEE"
+set recolor-lightcolor      "#121212"
+
+map <F1> set "pages-per-row 1"
+map <F2> set "pages-per-row 2"
+map <F3> adjust_window best-fit
+map <F4> adjust_window width

@@ -76,3 +76,7 @@ Configuración de la sesión __X__
 + `/xsession/xinitrc` es un shell script que configura la sesión X
 
 + `/xsession/xmodmap.rc` es la configuración del mapeado del teclado
+
+### `/zathura`
+
+Configuración de [zathura](http://pwmt.org/projects/zathura/)
