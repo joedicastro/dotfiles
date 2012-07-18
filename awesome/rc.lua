@@ -221,6 +221,7 @@ naughty.config.presets.critical.opacity = 0.8
 -- {{{ Variable definitions
 -- Directories
 home_dir = os.getenv("HOME")
+user = os.getenv("USER")
 cfg_dir = awful.util.getdir("config")
 theme_dir = cfg_dir .. "/themes"
 icons_dir = theme_dir .. "/itaca/icons"
@@ -823,8 +824,9 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ modkey }, "s",
         function ()
-            awful.util.spawn("gksudo pm-suspend -m " ..
-                             "'Se va a suspender el equipo, ¿estás seguro?'")
+            awful.util.spawn("gksudo \"sh -c 'pm-suspend; sudo -u " .. user ..
+                             " slimlock'\" -m 'Se va a suspender el equipo, " ..
+                             "¿estás seguro?'")
         end),
 
     awful.key({ modkey }, "z",
