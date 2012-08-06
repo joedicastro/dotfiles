@@ -55,6 +55,9 @@ highlight WarningMsg color: #F8F8F2 !important; background: #FD971F !important;
 map -count -modes=n j -builtin <count>3j
 map -count -modes=n k -builtin <count>3k
 
+map -builtin -modes=n s :open duckduckgo-ssl !g 
+map -builtin -modes=n S :tabopen duckduckgo-ssl !g 
+
 set hlfind
 set maxitems=20
 set showtabline=never
