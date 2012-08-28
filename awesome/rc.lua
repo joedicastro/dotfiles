@@ -159,7 +159,7 @@ require("beautiful")
 -- Notification library
 require("naughty")
 -- Vicious library
-require("vicious")
+vicious = require("vicious")
 -- Eminent library
 require("eminent")
 -- Revelation
