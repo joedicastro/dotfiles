@@ -7,50 +7,7 @@ command! -description='Validar XHTML' valid :open javascript:void(location='http
 
 command! pocket -description "Bookmarklet: Save to Pocket" open javascript:(function(){ISRIL_H='83dd';PKT_D='getpocket.com';ISRIL_SCRIPT=document.createElement('SCRIPT');ISRIL_SCRIPT.type='text/javascript';ISRIL_SCRIPT.src='http://'+PKT_D+'/b/r.js';document.getElementsByTagName('head')[0].appendChild(ISRIL_SCRIPT)})();
 
-highlight Boolean color: #AE81FF;
-highlight border:0 background: #272822;
-highlight Comment color: #75715E;
-highlight -link=FontFixed,Normal Comp margin: 0; border-top: 0px;
-highlight CompItem background: #272822;
-highlight CompItem:nth-child(2n+1) background: #232526;
-highlight CompItem[selected] background: #3E3D32;
-highlight CompTitle color: #232526; background: #BCBCBC; font-weight: bold;
-highlight CompTitleSep height: 1px; background: -moz-linear-gradient(60dg, #455354, #F92672);
-highlight Disabled color: #960050;
-highlight ErrorMsg color: #F92672 !important; background: #232526 !important; font-weight: bold !important;
-highlight FontCode font-size: 9pt; font-family: "Consolas", "Monaco";
-highlight Function color: #A6E22E;
-highlight Hint font: bold 10px "Droid Sans Mono", monospace !important; margin: -.2ex; padding: 2px; outline: 1px solid rgba(0, 0, 0, .5); background: rgba(255, 248, 231, .8); color: #A6E22E !important; font-family: Sans; font-size: 12px; font-weight: bold; border: 0 none; background-color: rgba(35, 37, 38, .8) !important;
-highlight HintActive background-color: #66D9EF !important; color: #F8F8F2 !important;
-highlight Hint::after content: attr(number);
-highlight HintElem background-color: inherit !important; color: black !important; -moz-box-shadow: 0px 0px 2px 2px rgba(102, 217, 239, .5);
-highlight HintImage opacity: .5;
-highlight Indicator color: #66D9EF; width: 1.5em; text-align: center;
-highlight InfoMsg color: #960050 !important; background: #232526 !important;
-highlight Key font-weight: bold;
-highlight Keyword color: #F92672;
-highlight LineNr color: orange  !important; background: #232526 !important;
-highlight ModeMsg color: #E6DB74; background: #455354 !important;
-highlight MoreMsg color: #E6DB74; background: #455354 !important;
-highlight NonText color: #BCBCBC !important; background: #232526 !important;
-highlight Normal color: #F8F8F2 !important; background: #272822 !important; font-weight: normal !important; font-size: 9pt;
-highlight Null color: #AE81FF; font-weight: bold;
-highlight Number color: #AE81FF;
-highlight Object color: #66D9EF;
-highlight Question color: #66D9EF !important; background: #232526 !important; font-weight: bold !important;
-highlight StatusLineBroken color: #F92672 !important; background: #232526 !important;
-highlight StatusLineExtended color: #A6E22E !important; background: #232526 !important;
-highlight StatusLineNormal color: #F8F8F2 !important; background: #232526 !important;
-highlight StatusLineSecure color: #66D9EF !important; background: #232526 !important;
-highlight StatusModeMsg color: #E6DB74; background: #455354 !important; padding-right: 1em;
-highlight StatusQuestion color: #F92672 !important; background: transparent !important;
-highlight StatusWarningMsg: color: #FD971F !important;
-highlight String color: #E6DB74; white-space: pre;
-highlight Tag color: #66D9EF;
-highlight Title color: #F92672; font-weight: bold;
-highlight URL text-decoration: none; color: #AE81FF; background: inherit;
-highlight URLExtra color: #BCBCBC;
-highlight WarningMsg color: #F8F8F2 !important; background: #FD971F !important;
+colorscheme molokai
 
 map -count -modes=n j -builtin <count>3j
 map -count -modes=n k -builtin <count>3k
