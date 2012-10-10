@@ -7,7 +7,6 @@ xmodmap .xmodmap.rc
 udiskie &
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
-unclutter -idle 1 -jitter 2 -root -grab &
 xcompmgr -I1 -O1 -Ff &
 urxvtd -q -o -f &
 ~/.bin/i8kfans.py &
