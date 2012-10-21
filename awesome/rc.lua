@@ -451,7 +451,7 @@ fswidget:buttons(
     awful.util.table.join(
         awful.button({}, 1,
             function ()
-                awful.util.spawn( terminal .. " -e ncdu")
+                awful.util.spawn( terminal .. " -e ncdu -r")
             end)
     )
 )
