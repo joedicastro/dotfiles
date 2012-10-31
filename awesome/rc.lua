@@ -188,6 +188,8 @@ end
 -- start the urxvt server
 -- run_once("urxvtd -q -o -f")
 -- Now these two programs are launched from .xinitrc
+run_once('xcalib -c')
+run_once('xcalib -co 96 -a')
 
 -- set the local settings
 os.setlocale('es_ES.UTF-8')
@@ -819,19 +821,19 @@ globalkeys = awful.util.table.join(
     -- Shutdown & Suspend & Reboot
     awful.key({ modkey }, "o",
         function ()
-            awful.util.spawn("gksudo halt -m " ..
+            awful.util.spawn("gksudo systemctl poweroff -m " ..
                              "'Se va a apagar el equipo, ¿estás seguro?'")
         end),
     awful.key({ modkey }, "s",
         function ()
-            awful.util.spawn("gksudo \"sh -c 'pm-suspend; sudo -u " .. user ..
-                             " slimlock'\" -m 'Se va a suspender el equipo, " ..
-                             "¿estás seguro?'")
+            awful.util.spawn("gksudo \"sh -c 'systemctl suspend; sudo -u " .. 
+                             user .. " slimlock'\" -m 'Se va a suspender el " .. 
+                             "equipo, ¿estás seguro?'")
         end),
 
     awful.key({ modkey }, "z",
         function ()
-            awful.util.spawn("gksudo reboot -m " ..
+            awful.util.spawn("gksudo systemctl reboot -m " ..
                              "'Se va a reiniciar el equipo, ¿estás seguro?'")
         end),
 
