@@ -91,7 +91,7 @@ class alias(Command):
 
 	context = 'browser'
 	resolve_macros = False
-	
+
 	def execute(self):
 		if not self.arg(1) or not self.arg(2):
 			self.fm.notify('Syntax: alias <newcommand> <oldcommand>', bad=True)
@@ -519,7 +519,7 @@ class mark(Command):
 		input = self.rest(1)
 		searchflags = re.UNICODE
 		if input.lower() == input: # "smartcase"
-			searchflags |= re.IGNORECASE 
+			searchflags |= re.IGNORECASE
 		pattern = re.compile(input, searchflags)
 		for fileobj in cwd.files:
 			if pattern.search(fileobj.basename):
@@ -856,7 +856,7 @@ class relink(Command):
 class help_(Command):
 	"""
 	:help
-	
+
 	Display ranger's manual page.
 	"""
 	name = 'help'
@@ -1025,6 +1025,8 @@ class empty(Command):
 
     def execute(self):
         self.fm.run("rm -rf ~/.local/share/Trash/files/{*,.[^.]*}")
+        self.fm.run("rm -rf ~/.local/share/Trash/info/{*,.[^.]*}")
+        self.fm.run("rm -rf ~/.local/share/Trash/expunged/{*,.[^.]*}")
 
 
 class compress(Command):
