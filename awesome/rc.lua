@@ -375,16 +375,16 @@ cpuwidget:buttons(
 -- }}}
 
 -- {{{ Uptime & System Load widgets
-uptimewidget = widget({ type = "textbox" })
+-- uptimewidget = widget({ type = "textbox" })
 -- loadwidget = widget({ type = "textbox" })
-vicious.register(uptimewidget, vicious.widgets.uptime, "$2h $3m", 61)
+-- vicious.register(uptimewidget, vicious.widgets.uptime, "$2h $3m", 61)
 -- vicious.register(loadwidget, vicious.widgets.uptime, "$4 $5 $6", 61)
 -- }}}
 
 -- {{{ Filesystem widget
 fswidget = widget({ type = "textbox" })
 vicious.register(fswidget, vicious.widgets.fs,
-    "/ ${/ avail_p}% /home ${/home avail_p}%", 61)
+    "/ ${/ avail_p}% ~ ${/home avail_p}%", 61)
 fswidget:buttons(
     awful.util.table.join(
         awful.button({}, 1,
@@ -461,7 +461,7 @@ netwidget:buttons(
 -- }}}
 
 -- {{{ Textclock widget
-mytextclock = awful.widget.textclock({ align = "right" }, " %a %d %b %H:%M ", 10)
+mytextclock = awful.widget.textclock({ align = "right" }, " %d %b %H:%M ", 10)
 cal.register(mytextclock, "<span color='green'><b>%s</b></span>")
 -- }}}
 
@@ -484,7 +484,6 @@ space.width = 18
 
 separator = widget({ type = "imagebox" })
 separator.image = image(beautiful.widget_sep)
-
 -- }}}
 
 -- {{{ Create a systray
@@ -579,21 +578,21 @@ for s = 1, screen.count() do
                         end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "20" })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "16" })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
             mylauncher,
             mytaglist[s],
             mylayoutbox[s], space,
-            mypromptbox[s],
+            mypromptbox[s], space,
             layout = awful.widget.layout.horizontal.leftright
         },
         s == 1 and mysystray or nil, space,
         mytextclock, space,
         soundvol, space,
         -- osinfo, space,
-        uptimewidget, space,
+        -- uptimewidget, space,
         -- loadwidget, space,
         batwidget,
         fswidget, space,
@@ -603,7 +602,7 @@ for s = 1, screen.count() do
         gputemp, space, cputemp, space,
         fanspeed, space,
         mpdwidget, space,
-        pomodoro.widget, pomodoro.icon_widget, space,
+        pomodoro.widget, space,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }

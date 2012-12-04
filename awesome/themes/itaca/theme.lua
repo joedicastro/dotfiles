@@ -46,8 +46,8 @@ end
 --}}}
 
 -- {{{ Miscellaneous
-theme.font          = "Ubuntu Bold 10"
-theme.taglist_font  = "Ubuntu Bold 10"
+theme.font          = "Ubuntu Bold 9"
+theme.taglist_font  = "Ubuntu Bold 9"
 theme.tasklist_font = "Ubuntu Bold 8"
 
 theme.bg_normal     = "#000000"

@@ -16,9 +16,9 @@ pomodoro = {}
 pomodoro.pause_duration = 5 * 60
 pomodoro.work_duration = 25 * 60
 
-local pomodoro_image_path = beautiful.pomodoro_icon or 
+local pomodoro_image_path = beautiful.pomodoro_icon or
                             awful.util.getdir("config") .."/pomodoro/pomodoro.png"
-local pomodoro_sound_path = beautiful.pomodoro_sound or 
+local pomodoro_sound_path = beautiful.pomodoro_sound or
                             awful.util.getdir("config") .."/pomodoro/complete.oga"
 
 
@@ -40,7 +40,8 @@ function pomodoro:settime(t)
   else
     t = os.date("%M:%S", t)
   end
-  self.widget.text = pomodoro.pre_text .. "<b>" .. t .. "</b>"
+  self.widget.text = pomodoro.pre_text .. "<span color='#729fcf'><b>" .. t .. 
+                     "</b></span>"
 end
 
 function pomodoro:notify(title, text, duration, working)
@@ -57,7 +58,7 @@ function pomodoro:notify(title, text, duration, working)
   }
 
   -- Use notify-send instead of naughty in Ubuntu
-  -- awful.util.spawn_with_shell(string.format("notify-send '%s' '%s' -i %s", 
+  -- awful.util.spawn_with_shell(string.format("notify-send '%s' '%s' -i %s",
   --                                           title, text, pomodoro_image_path))
   awful.util.spawn_with_shell(string.format("play %s -t alsa", pomodoro_sound_path))
   pomodoro.left = duration
@@ -91,14 +92,14 @@ pomodoro.icon_widget:buttons(get_buttons())
 
 pomodoro_tooltip = awful.tooltip({
     objects = { pomodoro.widget, pomodoro.icon_widget},
-    timer_function = 
+    timer_function =
         function()
             if pomodoro.timer.started then
                 if pomodoro.working then
-                    return 'El trabajo termina en ' .. 
+                    return 'El trabajo termina en ' ..
                             os.date("%M:%S", pomodoro.left)
                 else
-                    return 'El descanso finaliza en ' .. 
+                    return 'El descanso finaliza en ' ..
                             os.date("%M:%S", pomodoro.left)
                 end
             else
