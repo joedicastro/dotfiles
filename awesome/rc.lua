@@ -630,7 +630,7 @@ for s = 1, screen.count() do
         -- osinfo, space,
         uptimewidget, space,
         -- loadwidget, space,
-        batwidget, 
+        batwidget,
         fswidget, space,
         netwidget, space,
         memwidget, space,
@@ -786,8 +786,8 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ modkey }, "s",
         function ()
-            awful.util.spawn("gksudo \"sh -c 'systemctl suspend; sudo -u " .. 
-                             user .. " slimlock'\" -m 'Se va a suspender el " .. 
+            awful.util.spawn("gksudo \"sh -c 'systemctl suspend; sudo -u " ..
+                             user .. " slimlock'\" -m 'Se va a suspender el " ..
                              "equipo, ¿estás seguro?'")
         end),
 
