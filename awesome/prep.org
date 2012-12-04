@@ -26,16 +26,12 @@
     Public domain or ISC License
 
 *** Eminent
-    http://git.glacicle.org/eminent   
+    http://git.glacicle.org/eminent
     Lucas de Vries <lucas@glacicle.org>
     Licensed under the WTFPL version 2
 
-*** Menubar
-    http://awesome.naquadah.org/wiki/Menubar
-    Alexander Yakushev <yakushev.alex@gmail.com>
-
 ** Configuration files
-   
+
 *** /usr/share/applications/awesome.desktop
 
         [Desktop Entry]
@@ -66,7 +62,7 @@
 
 *** /usr/share/xsessions/awesome.desktop
 
-        [Desktop Entry] 
+        [Desktop Entry]
         Encoding=UTF-8
         Name=awesome
         Comment=Highly configurable framework window manager

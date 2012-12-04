@@ -97,18 +97,18 @@ theme.awesome_icon = themedir .. "/awesome16.png"
 -- }}}
 
 -- {{{ Layout icons
-theme.layout_tile       = themedir .. "/layouts/tile-red.png"
-theme.layout_tileleft   = themedir .. "/layouts/tileleft-blue.png"
-theme.layout_tilebottom = themedir .. "/layouts/tilebottom-red.png"
-theme.layout_tiletop    = themedir .. "/layouts/tiletop-blue.png"
-theme.layout_fairv      = themedir .. "/layouts/fairv-red.png"
-theme.layout_fairh      = themedir .. "/layouts/fairh-blue.png"
-theme.layout_spiral     = themedir .. "/layouts/spiral-red.png"
-theme.layout_dwindle    = themedir .. "/layouts/dwindle-blue.png"
-theme.layout_max        = themedir .. "/layouts/max-green.png"
-theme.layout_fullscreen = themedir .. "/layouts/fullscreen-greyish.png"
-theme.layout_magnifier  = themedir .. "/layouts/magnifier-green.png"
-theme.layout_floating   = themedir .. "/layouts/floating-greyish.png"
+theme.layout_tile       = themedir .. "/layouts/tile.png"
+theme.layout_tileleft   = themedir .. "/layouts/tileleft.png"
+theme.layout_tilebottom = themedir .. "/layouts/tilebottom.png"
+theme.layout_tiletop    = themedir .. "/layouts/tiletop.png"
+theme.layout_fairv      = themedir .. "/layouts/fairv.png"
+theme.layout_fairh      = themedir .. "/layouts/fairh.png"
+theme.layout_spiral     = themedir .. "/layouts/spiral.png"
+theme.layout_dwindle    = themedir .. "/layouts/dwindle.png"
+theme.layout_max        = themedir .. "/layouts/max.png"
+theme.layout_fullscreen = themedir .. "/layouts/fullscreen.png"
+theme.layout_magnifier  = themedir .. "/layouts/magnifier.png"
+theme.layout_floating   = themedir .. "/layouts/floating.png"
 -- }}}
 
 return theme
