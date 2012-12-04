@@ -160,8 +160,6 @@ vicious = require("vicious")
 require("eminent")
 -- Revelation
 require("revelation")
--- Calendar
-require("cal")
 -- }}}
 
 -- {{{ Run only one instance per program
@@ -436,8 +434,8 @@ vicious.register(fanspeed, fan_speed, "$1", 1)
 -- }}}
 
 -- {{{ Kernel info
-osinfo = widget({ type = "textbox"})
-vicious.register(osinfo, vicious.widgets.os, "$2")
+-- osinfo = widget({ type = "textbox"})
+-- vicious.register(osinfo, vicious.widgets.os, "$2")
 -- }}}
 
 -- {{{ Network usage widget
@@ -462,7 +460,6 @@ netwidget:buttons(
 
 -- {{{ Textclock widget
 mytextclock = awful.widget.textclock({ align = "right" }, " %d %b %H:%M ", 10)
-cal.register(mytextclock, "<span color='green'><b>%s</b></span>")
 -- }}}
 
 -- Sound Volume {{{

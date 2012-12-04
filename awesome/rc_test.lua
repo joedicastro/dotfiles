@@ -18,9 +18,9 @@
 -- Win  +  F2                       Firefox
 -- Win  +  F3                       Thunderbird
 -- Win  +  F4                       Gvim
--- Win  +  F5                       emacs
--- Win  +  F6                       tmux
--- Win  +  F7                       ncmpcpp
+-- Win  +  F5                       tmux
+-- Win  +  F6                       ncmpcpp
+-- Win  +  F7                       Start gif screencast recording LR + screenkey
 -- Win  +  F8                       Start gif screencast recording LowRes
 -- Win  +  F9                       Start gif screencast recording HighRes
 -- Win  +  F10                      Stop gif screencast recording
@@ -51,7 +51,7 @@
 -- Win  +  f                        Set client fullscreen
 -- Win  +  c                        Kill focused client
 -- Win  +  t                        Toggle "always visible" (on top)
--- Win  +  Shift    +  t            Show/hide client titlebar
+-- Win  +  i                        Show/hide client border
 -- Win  +  Shift    +  r            Redraw focused client
 --
 ------------------------------------------------------------------------ Layouts
@@ -76,7 +76,6 @@
 --
 -- Win  +  b                        Hide/Show status bar (Wibox)
 -- Win  +  e                        Revelation
--- Win  +  p                        Menubar (app launcher)
 -- Win  +  y                        Lock Screen
 -- Print Screen                     Take a screenshot
 --
@@ -133,8 +132,6 @@
 --
 ------------------------------------------------------------------------ Widgets
 --
--- Button 1 on mpd icon              Toggle mpd reproduction
--- Button 3 on mpd icon              Launch ncmpcpp
 -- Button 1 on mpd status            Play next song
 -- Button 3 on mpd status            Play previous song
 -- Button 1 on memory usage          Launch `memory_usage.py`
@@ -158,15 +155,11 @@ require("beautiful")
 -- Notification library
 require("naughty")
 -- Vicious library
-require("vicious")
+vicious = require("vicious")
 -- Eminent library
 require("eminent")
 -- Revelation
 require("revelation")
--- Calendar
-require("cal")
--- Menubar
-require("menubar")
 -- }}}
 
 -- {{{ Run only one instance per program
@@ -187,6 +180,8 @@ end
 -- start the urxvt server
 -- run_once("urxvtd -q -o -f")
 -- Now these two programs are launched from .xinitrc
+run_once('xcalib -c')
+run_once('xcalib -co 96 -a')
 
 -- set the local settings
 os.setlocale('es_ES.UTF-8')
@@ -220,9 +215,9 @@ naughty.config.presets.critical.opacity = 0.8
 -- {{{ Variable definitions
 -- Directories
 home_dir = os.getenv("HOME")
+user = os.getenv("USER")
 cfg_dir = awful.util.getdir("config")
 theme_dir = cfg_dir .. "/themes"
-icons_dir = theme_dir .. "/itaca/icons"
 
 -- Themes define colours, icons, and wallpapers
 beautiful.init(theme_dir .. "/itaca/theme.lua")
@@ -252,17 +247,17 @@ modkey = "Mod4"
 layouts =
 {
     awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
+    -- awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,
+    -- awful.layout.suit.tile.top,
     awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.floating
+    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.max,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.magnifier,
+    -- awful.layout.suit.floating
 }
 -- }}}
 
@@ -273,8 +268,9 @@ for s = 1, screen.count() do
     -- each screen has its own tag table.
     -- tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
     -- numerals in Greek, cool!
-    tags[s] = awful.tag({ "α", "β", "γ", "δ", "ε", "ς", "ζ", "η", "θ"}, s,
-                        layouts[1])
+    -- tags[s] = awful.tag({ "α", "β", "γ", "δ", "ε", "ς", "ζ", "η", "θ"}, s,
+    --                     layouts[1])
+    tags[s] = awful.tag({ "α", "β", "γ", "δ"}, s, layouts[1])
 end
 -- }}}
 
@@ -311,70 +307,23 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 -- }}}
 
--- Menubar {{{
-menubar.cache_entries = true
-menubar.app_folders = { "/usr/share/applications/",
-                        "/usr/share/applications/kde4/"}
-
-menubar.show_categories = false  -- Change to false if you want only programs to appear in the menu
--- menubar.set_icon_theme("thethememe name")
-
-local menubar_change = {
-     AudioVideo = "Multimedia",
-     Development = "Desarrollo",
-     Education = "Educacion",
-     Game = "Juegos",
-     Graphics = "Graficos",
-     Office = "Oficina",
-     Network = "Red",
-     Settings = "Configuracion",
-     System = "Sistema",
-     Utility = "Accesorios",
-}
-for i,j in ipairs(menubar.menu_gen.all_categories) do
-   menubar.menu_gen.all_categories[i].name =
-       menubar_change[j.app_type] or j.name
-end
-
-menubar.g = {
-   height = 40,
-   y = 20
-}
--- }}}
-
 -- {{{ Wibox
 
 -- {{{ Wibox Widgets
 -- Widgets to show on Wibox
 
 -- {{{ MPD widget
-mpdicon = widget({ type = "imagebox" })
 mpdwidget = widget({ type = 'textbox' })
 vicious.register(mpdwidget, vicious.widgets.mpd,
     function (widget, args)
         if args["{state}"] == "Stop" then
-            mpdicon.image = image(icons_dir .. "/stop.png")
             return ""
         elseif args["{state}"] == "Pause" then
-            mpdicon.image = image(icons_dir .. "/pause.png")
-            return args["{Artist}"]..' - '.. args["{Title}"]
+            return '(' .. args["{Artist}"]..' - '.. args["{Title}"] .. ')'
         else
-            mpdicon.image = image(icons_dir .. "/play.png")
             return args["{Artist}"]..' - '.. args["{Title}"]
         end
     end, 1)
-mpdicon:buttons(
-    awful.util.table.join(
-        awful.button({}, 1,
-            function ()
-                awful.util.spawn("mpc toggle", false)
-            end),
-        awful.button({}, 3,
-            function ()
-                awful.util.spawn( terminal .. " -e ncmpcpp")
-            end)
-   )
-)
 mpdwidget:buttons(
     awful.util.table.join(
         awful.button({}, 3,
@@ -391,8 +340,6 @@ mpdwidget:buttons(
 -- }}}
 
 -- {{{ Mem widget
-memicon = widget({ type = "imagebox" })
-memicon.image = image(icons_dir .. "/memory.png")
 memwidget = widget({ type = "textbox" })
 vicious.cache(vicious.widgets.mem)
 vicious.register(memwidget, vicious.widgets.mem, "$1% $2MB", 10)
@@ -408,8 +355,6 @@ memwidget:buttons(
 -- }}}
 
 -- {{{ Cpu widget
-cpuicon = widget({ type = "imagebox" })
-cpuicon.image = image(icons_dir .. "/cpu.png")
 cpuwidget = widget({ type = "textbox" })
 cpuwidget.width, cpuwidget.align = 80, "center"
 vicious.cache(vicious.widgets.cpu)
@@ -429,35 +374,27 @@ cpuwidget:buttons(
 -- }}}
 
 -- {{{ Uptime & System Load widgets
-upticon = widget({ type = "imagebox" })
-upticon.image = image(icons_dir .. "/uptime.png")
--- loadicon = widget({ type = "imagebox" })
--- loadicon.image = image(icons_dir .. "/load.png")
-uptimewidget = widget({ type = "textbox" })
+-- uptimewidget = widget({ type = "textbox" })
 -- loadwidget = widget({ type = "textbox" })
-vicious.register(uptimewidget, vicious.widgets.uptime, "$2h $3m", 61)
+-- vicious.register(uptimewidget, vicious.widgets.uptime, "$2h $3m", 61)
 -- vicious.register(loadwidget, vicious.widgets.uptime, "$4 $5 $6", 61)
 -- }}}
 
 -- {{{ Filesystem widget
-fsicon = widget({ type = "imagebox" })
-fsicon.image = image(icons_dir .. "/disk.png")
 fswidget = widget({ type = "textbox" })
 vicious.register(fswidget, vicious.widgets.fs,
-    "/ ${/ avail_p}% /home ${/home avail_p}%", 61)
+    "/ ${/ avail_p}% ~ ${/home avail_p}%", 61)
 fswidget:buttons(
     awful.util.table.join(
         awful.button({}, 1,
             function ()
-                awful.util.spawn( terminal .. " -e ncdu")
+                awful.util.spawn( terminal .. " -e ncdu -r")
             end)
     )
 )
 -- }}}
 
 -- {{{ CPU & GPU Temperatures
-tempicon = widget({ type = "imagebox"})
-tempicon.image = image(icons_dir .. "/temp.png")
 cputemp = widget({ type = "textbox" })
 vicious.register(cputemp, vicious.widgets.thermal, " $1ºC", 5, "thermal_zone0")
 
@@ -473,23 +410,20 @@ vicious.register(gputemp, gpu_temp, "$1ºC", 5)
 -- }}}
 
 -- {{{ Battery widget
-baticon = widget({ type = "imagebox" })
 batwidget = widget({ type = "textbox" })
 vicious.register(batwidget, vicious.widgets.bat,
     function(widget, args)
-        if args[2] == 100 then
-            baticon.image = nil
-            return ""
-        else
-            baticon.image = image(icons_dir .. "/battery.png")
-            return args[1]..args[2].."% "..args[3]
+        if args[3] ~= 'N/A' then
+            if args[2] == 100 then
+                return ""
+            else
+                return "   " .. args[1]..args[2].."% "..args[3]
+            end
         end
     end, 30, "BAT0")
 -- }}}
 
 -- {{{ Fan velocity widget
-fanicon = widget({ type = "imagebox" })
-fanicon.image = image(icons_dir .. "/fan.png")
 fanspeed = widget({ type = "textbox" })
    function fan_speed()
         local filedescriptor = io.popen('cat /proc/i8k | cut -c20-22')
@@ -501,16 +435,12 @@ vicious.register(fanspeed, fan_speed, "$1", 1)
 -- }}}
 
 -- {{{ Kernel info
--- osicon = widget({ type = "imagebox" })
--- osicon.image = image(icons_dir .. "/pacman.png")
 osinfo = widget({ type = "textbox"})
 vicious.register(osinfo, vicious.widgets.os, "$2")
 -- }}}
 
 -- {{{ Network usage widget
 netwidget = widget({ type = "textbox" })
-neticon= widget({ type = "imagebox" })
-neticon.image = image(icons_dir .. "/net.png")
 vicious.cache(vicious.widgets.net)
 vicious.register(netwidget, vicious.widgets.net,
                 '<span color="#CC9393">${eth0 down_kb}</span>' ..
@@ -530,15 +460,12 @@ netwidget:buttons(
 -- }}}
 
 -- {{{ Textclock widget
-dateicon = widget({ type = "imagebox" })
-dateicon.image = image(icons_dir .. "/clock.png")
-mytextclock = awful.widget.textclock({ align = "right" }, " %a %d %b %H:%M ", 10)
-cal.register(mytextclock, "<span color='green'><b>%s</b></span>")
+mytextclock = awful.widget.textclock({ align = "right" }, " %d %b %H:%M ", 10)
 -- }}}
 
 -- Sound Volume {{{
 soundvol = widget({ type = "textbox" })
-vicious.register(soundvol, vicious.widgets.volume, "♫$1%", 2, "PCM")
+vicious.register(soundvol, vicious.widgets.volume, "$2 $1%", 2, "PCM")
 soundvol:buttons(
     awful.util.table.join(
         awful.button({}, 1,
@@ -555,7 +482,6 @@ space.width = 18
 
 separator = widget({ type = "imagebox" })
 separator.image = image(beautiful.widget_sep)
-
 -- }}}
 
 -- {{{ Create a systray
@@ -650,31 +576,31 @@ for s = 1, screen.count() do
                         end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "20" })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "16" })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
             mylauncher,
             mytaglist[s],
             mylayoutbox[s], space,
-            mypromptbox[s],
+            mypromptbox[s], space,
             layout = awful.widget.layout.horizontal.leftright
         },
         s == 1 and mysystray or nil, space,
         mytextclock, space,
         soundvol, space,
-        osinfo, space,
-        uptimewidget, space,
+        -- osinfo, space,
+        -- uptimewidget, space,
         -- loadwidget, space,
-        batwidget, space,
+        batwidget,
         fswidget, space,
         netwidget, space,
         memwidget, space,
         cpuwidget, space,
         gputemp, space, cputemp, space,
         fanspeed, space,
-        mpdwidget, mpdicon, space,
-        pomodoro.widget, pomodoro.icon_widget, space,
+        mpdwidget, space,
+        pomodoro.widget, space,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -746,12 +672,6 @@ globalkeys = awful.util.table.join(
     -- Revelation
     awful.key({ modkey }, "e", revelation),
 
-    -- Menubar
-    awful.key({ modkey }, "p",
-        function()
-            menubar.show()
-        end),
-
     -- dmenu
     awful.key({ modkey }, "-",
         function()
@@ -817,18 +737,19 @@ globalkeys = awful.util.table.join(
     -- Shutdown & Suspend & Reboot
     awful.key({ modkey }, "o",
         function ()
-            awful.util.spawn("gksudo halt -m " ..
+            awful.util.spawn("gksudo systemctl poweroff -m " ..
                              "'Se va a apagar el equipo, ¿estás seguro?'")
         end),
     awful.key({ modkey }, "s",
         function ()
-            awful.util.spawn("gksudo pm-suspend -m " ..
-                             "'Se va a suspender el equipo, ¿estás seguro?'")
+            awful.util.spawn("gksudo \"sh -c 'systemctl suspend; sudo -u " ..
+                             user .. " slimlock'\" -m 'Se va a suspender el " ..
+                             "equipo, ¿estás seguro?'")
         end),
 
     awful.key({ modkey }, "z",
         function ()
-            awful.util.spawn("gksudo reboot -m " ..
+            awful.util.spawn("gksudo systemctl reboot -m " ..
                              "'Se va a reiniciar el equipo, ¿estás seguro?'")
         end),
 
@@ -861,7 +782,7 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ }, "XF86AudioMute",
         function ()
-            awful.util.spawn("amixer sset Master toggle")
+            awful.util.spawn("amixer sset PCM toggle")
         end),
 
     -- My external keyboard only have volume control keys
@@ -916,17 +837,22 @@ globalkeys = awful.util.table.join(
 
     awful.key({ modkey }, "F5",
         function ()
-            awful.util.spawn("emacs")
+            awful.util.spawn(terminal .. " -e tmux -u -2")
         end),
 
     awful.key({ modkey }, "F6",
         function ()
-            awful.util.spawn(terminal .. " -e tmux -u -2")
+            awful.util.spawn(terminal .. " -e ncmpcpp")
         end),
 
     awful.key({ modkey }, "F7",
         function ()
-            awful.util.spawn(terminal .. " -e ncmpcpp")
+            awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
+            awful.util.spawn("screenkey")
+            awful.util.spawn("ffmpeg -f x11grab -s " .. scr_res ..
+                            " -r 8 -i :0.0 -b:v 500k -pix_fmt rgb24 -y" ..
+                            " -loop 0 -s 640x400 " .. home_dir ..
+                            "/animated.gif")
         end),
 
     awful.key({ modkey }, "F8",
@@ -950,6 +876,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F10",
         function ()
             awful.util.spawn("killall ffmpeg")
+            awful.util.spawn("killall screenkey")
             awful.util.spawn("convert ephemeral:" .. home_dir ..
                              "/animated.gif -fuzz 7% -layers Optimize " ..
                              home_dir .. "/screencast.gif")
@@ -1024,11 +951,12 @@ clientkeys = awful.util.table.join(
             end
         end),
 
-    -- Show/hide client titlebar
-    awful.key({ modkey, "Shift" }, "t", function (c)
-       if   c.titlebar then awful.titlebar.remove(c)
-       else awful.titlebar.add(c, { modkey = modkey }) end
+    -- Show/hide border
+    awful.key({ modkey }, "i", function (c)
+       if   c.border_width == 0 then c.border_width = beautiful.border_width
+       else c.border_width = 0 end
     end)
+
 )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -1100,6 +1028,9 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
+    -- { rule = { class = "Screenkey" },
+    --   properties = { floating = true, border_width = 0, height=120, width= 920 },
+    --   callback = awful.placement.centered},
     { rule = { class = "Screenkey" },
       properties = { floating = true, border_width = 0 } },
     { rule = { class = "Gvim" },
