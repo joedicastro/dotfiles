@@ -76,7 +76,6 @@
 --
 -- Win  +  b                        Hide/Show status bar (Wibox)
 -- Win  +  e                        Revelation
--- Win  +  p                        Menubar (app launcher)
 -- Win  +  y                        Lock Screen
 -- Print Screen                     Take a screenshot
 --
@@ -163,8 +162,6 @@ require("eminent")
 require("revelation")
 -- Calendar
 require("cal")
--- Menubar
-require("menubar")
 -- }}}
 
 -- {{{ Run only one instance per program
@@ -309,37 +306,6 @@ mymainmenu = awful.menu({
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
--- }}}
-
--- Menubar {{{
-menubar.cache_entries = true
-menubar.app_folders = { "/usr/share/applications/",
-                        "/usr/share/applications/kde4/"}
-
-menubar.show_categories = false  -- Change to false if you want only programs to appear in the menu
--- menubar.set_icon_theme("thethememe name")
-
-local menubar_change = {
-     AudioVideo = "Multimedia",
-     Development = "Desarrollo",
-     Education = "Educacion",
-     Game = "Juegos",
-     Graphics = "Graficos",
-     Office = "Oficina",
-     Network = "Red",
-     Settings = "Configuracion",
-     System = "Sistema",
-     Utility = "Accesorios",
-}
-for i,j in ipairs(menubar.menu_gen.all_categories) do
-   menubar.menu_gen.all_categories[i].name =
-       menubar_change[j.app_type] or j.name
-end
-
-menubar.g = {
-   height = 40,
-   y = 20
-}
 -- }}}
 
 -- {{{ Wibox
@@ -708,12 +674,6 @@ globalkeys = awful.util.table.join(
 
     -- Revelation
     awful.key({ modkey }, "e", revelation),
-
-    -- Menubar
-    awful.key({ modkey }, "p",
-        function()
-            menubar.show()
-        end),
 
     -- dmenu
     awful.key({ modkey }, "-",
