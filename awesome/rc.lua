@@ -52,7 +52,6 @@
 -- Win  +  c                        Kill focused client
 -- Win  +  t                        Toggle "always visible" (on top)
 -- Win  +  i                        Show/hide client border
--- Win  +  Shift    +  t            Show/hide client titlebar
 -- Win  +  Shift    +  r            Redraw focused client
 --
 ------------------------------------------------------------------------ Layouts
@@ -994,12 +993,6 @@ clientkeys = awful.util.table.join(
                 c:tags({screen[mouse.screen]:tags()[curidx + 1]})
             end
         end),
-
-    -- Show/hide client titlebar
-    awful.key({ modkey, "Shift" }, "t", function (c)
-       if   c.titlebar then awful.titlebar.remove(c)
-       else awful.titlebar.add(c, { modkey = modkey }) end
-    end),
 
     -- Show/hide border
     awful.key({ modkey }, "i", function (c)
