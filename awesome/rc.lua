@@ -453,7 +453,7 @@ vicious.register(batwidget, vicious.widgets.bat,
             if args[2] == 100 then
                 return ""
             else
-                return args[1]..args[2].."% "..args[3]
+                return "   " .. args[1]..args[2].."% "..args[3]
             end
         end
     end, 30, "BAT0")
@@ -627,10 +627,10 @@ for s = 1, screen.count() do
         s == 1 and mysystray or nil, space,
         mytextclock, space,
         soundvol, space,
-        osinfo, space,
+        -- osinfo, space,
         uptimewidget, space,
         -- loadwidget, space,
-        batwidget, space,
+        batwidget, 
         fswidget, space,
         netwidget, space,
         memwidget, space,
