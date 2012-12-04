@@ -134,8 +134,6 @@
 --
 ------------------------------------------------------------------------ Widgets
 --
--- Button 1 on mpd icon              Toggle mpd reproduction
--- Button 3 on mpd icon              Launch ncmpcpp
 -- Button 1 on mpd status            Play next song
 -- Button 3 on mpd status            Play previous song
 -- Button 1 on memory usage          Launch `memory_usage.py`
@@ -226,7 +224,6 @@ home_dir = os.getenv("HOME")
 user = os.getenv("USER")
 cfg_dir = awful.util.getdir("config")
 theme_dir = cfg_dir .. "/themes"
-icons_dir = theme_dir .. "/itaca/icons"
 
 -- Themes define colours, icons, and wallpapers
 beautiful.init(theme_dir .. "/itaca/theme.lua")
@@ -352,33 +349,17 @@ menubar.g = {
 -- Widgets to show on Wibox
 
 -- {{{ MPD widget
-mpdicon = widget({ type = "imagebox" })
 mpdwidget = widget({ type = 'textbox' })
 vicious.register(mpdwidget, vicious.widgets.mpd,
     function (widget, args)
         if args["{state}"] == "Stop" then
-            mpdicon.image = image(icons_dir .. "/stop.png")
             return ""
         elseif args["{state}"] == "Pause" then
-            mpdicon.image = image(icons_dir .. "/pause.png")
-            return args["{Artist}"]..' - '.. args["{Title}"]
+            return '(' .. args["{Artist}"]..' - '.. args["{Title}"] .. ')'
         else
-            mpdicon.image = image(icons_dir .. "/play.png")
             return args["{Artist}"]..' - '.. args["{Title}"]
         end
     end, 1)
-mpdicon:buttons(
-    awful.util.table.join(
-        awful.button({}, 1,
-            function ()
-                awful.util.spawn("mpc toggle", false)
-            end),
-        awful.button({}, 3,
-            function ()
-                awful.util.spawn( terminal .. " -e ncmpcpp")
-            end)
-   )
-)
 mpdwidget:buttons(
     awful.util.table.join(
         awful.button({}, 3,
@@ -395,8 +376,6 @@ mpdwidget:buttons(
 -- }}}
 
 -- {{{ Mem widget
-memicon = widget({ type = "imagebox" })
-memicon.image = image(icons_dir .. "/memory.png")
 memwidget = widget({ type = "textbox" })
 vicious.cache(vicious.widgets.mem)
 vicious.register(memwidget, vicious.widgets.mem, "$1% $2MB", 10)
@@ -412,8 +391,6 @@ memwidget:buttons(
 -- }}}
 
 -- {{{ Cpu widget
-cpuicon = widget({ type = "imagebox" })
-cpuicon.image = image(icons_dir .. "/cpu.png")
 cpuwidget = widget({ type = "textbox" })
 cpuwidget.width, cpuwidget.align = 80, "center"
 vicious.cache(vicious.widgets.cpu)
@@ -433,10 +410,6 @@ cpuwidget:buttons(
 -- }}}
 
 -- {{{ Uptime & System Load widgets
-upticon = widget({ type = "imagebox" })
-upticon.image = image(icons_dir .. "/uptime.png")
--- loadicon = widget({ type = "imagebox" })
--- loadicon.image = image(icons_dir .. "/load.png")
 uptimewidget = widget({ type = "textbox" })
 -- loadwidget = widget({ type = "textbox" })
 vicious.register(uptimewidget, vicious.widgets.uptime, "$2h $3m", 61)
@@ -444,8 +417,6 @@ vicious.register(uptimewidget, vicious.widgets.uptime, "$2h $3m", 61)
 -- }}}
 
 -- {{{ Filesystem widget
-fsicon = widget({ type = "imagebox" })
-fsicon.image = image(icons_dir .. "/disk.png")
 fswidget = widget({ type = "textbox" })
 vicious.register(fswidget, vicious.widgets.fs,
     "/ ${/ avail_p}% /home ${/home avail_p}%", 61)
@@ -460,8 +431,6 @@ fswidget:buttons(
 -- }}}
 
 -- {{{ CPU & GPU Temperatures
-tempicon = widget({ type = "imagebox"})
-tempicon.image = image(icons_dir .. "/temp.png")
 cputemp = widget({ type = "textbox" })
 vicious.register(cputemp, vicious.widgets.thermal, " $1ºC", 5, "thermal_zone0")
 
@@ -477,23 +446,20 @@ vicious.register(gputemp, gpu_temp, "$1ºC", 5)
 -- }}}
 
 -- {{{ Battery widget
-baticon = widget({ type = "imagebox" })
 batwidget = widget({ type = "textbox" })
 vicious.register(batwidget, vicious.widgets.bat,
     function(widget, args)
-        if args[2] == 100 then
-            baticon.image = nil
-            return ""
-        else
-            baticon.image = image(icons_dir .. "/battery.png")
-            return args[1]..args[2].."% "..args[3]
+        if args[3] ~= 'N/A' then
+            if args[2] == 100 then
+                return ""
+            else
+                return args[1]..args[2].."% "..args[3]
+            end
         end
     end, 30, "BAT0")
 -- }}}
 
 -- {{{ Fan velocity widget
-fanicon = widget({ type = "imagebox" })
-fanicon.image = image(icons_dir .. "/fan.png")
 fanspeed = widget({ type = "textbox" })
    function fan_speed()
         local filedescriptor = io.popen('cat /proc/i8k | cut -c20-22')
@@ -505,16 +471,12 @@ vicious.register(fanspeed, fan_speed, "$1", 1)
 -- }}}
 
 -- {{{ Kernel info
--- osicon = widget({ type = "imagebox" })
--- osicon.image = image(icons_dir .. "/pacman.png")
 osinfo = widget({ type = "textbox"})
 vicious.register(osinfo, vicious.widgets.os, "$2")
 -- }}}
 
 -- {{{ Network usage widget
 netwidget = widget({ type = "textbox" })
-neticon= widget({ type = "imagebox" })
-neticon.image = image(icons_dir .. "/net.png")
 vicious.cache(vicious.widgets.net)
 vicious.register(netwidget, vicious.widgets.net,
                 '<span color="#CC9393">${eth0 down_kb}</span>' ..
@@ -534,8 +496,6 @@ netwidget:buttons(
 -- }}}
 
 -- {{{ Textclock widget
-dateicon = widget({ type = "imagebox" })
-dateicon.image = image(icons_dir .. "/clock.png")
 mytextclock = awful.widget.textclock({ align = "right" }, " %a %d %b %H:%M ", 10)
 cal.register(mytextclock, "<span color='green'><b>%s</b></span>")
 -- }}}
@@ -677,7 +637,7 @@ for s = 1, screen.count() do
         cpuwidget, space,
         gputemp, space, cputemp, space,
         fanspeed, space,
-        mpdwidget, mpdicon, space,
+        mpdwidget, space,
         pomodoro.widget, pomodoro.icon_widget, space,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
