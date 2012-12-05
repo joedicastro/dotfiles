@@ -1,19 +1,116 @@
 [timelines]
 home = true
 own_tweets = false
-messages = true
+messages = false
 favorites = false
 mentions = true
 
-[colors]
-focus = light blue
-
 [twitter]
-update_frequency = 300
+update_frequency = 60
+
+[bindings]
+up = k
+down = j
+left = h
+right = l
+scroll_to_top = g
+scroll_to_bottom = G
+activate_first_buffer = a
+activate_last_buffer = e
+shift_buffer_beggining = ctrl a
+shift_buffer_end = ctrl e
+shift_buffer_left = <
+shift_buffer_right = >
+expand_visible_left = p
+expand_visible_right = n
+shrink_visible_left = P
+shrink_visible_right = N
+delete_buffer = d
+clear = c
+mark_all_as_read = A
+tweet = t
+delete_tweet = X
+reply = r
+retweet = R
+retweet_and_edit = E
+send_dm = D
+update = u
+update_all = S
+tweet_hashtag = H
+fav = b
+delete_fav = ctrl b
+follow_selected = f
+follow_user = F
+unfollow_selected = U
+unfollow_user = ctrl u
+user_info = i
+home = .
+own_tweets = _
+favorites = B
+mentions = m
+dms = M
+search = /
+search_user = @
+user_timeline = +
+thread = T
+hashtags = L
+help = ?
+reload_config = C
+quit = q
+openurl = o
+open_status_url = O
+redraw = ctrl l
+
+[colors]
+active_tab = white
+active_tab_bg = dark blue
+visible_tab = yellow
+visible_tab_bg = dark blue
+inactive_tab = dark blue
+inactive_tab_bg =
+header = light green
+header_bg =
+body = white
+body_bg =
+focus = light red
+focus_bg =
+line = black
+line_bg =
+unread = dark red
+unread_bg =
+read = dark blue
+read_bg =
+favorited = yellow
+favorited_bg =
+highlight = dark red
+highlight_bg =
+highlight_nick = light red
+highlight_nick_bg =
+attag = light blue
+attag_bg =
+hashtag = light red
+hashtag_bg =
+url = white
+url_bg = dark blue
+error = white
+error_bg = dark red
+info = white
+info_bg = dark blue
+editor = white
+editor_bg = dark blue
 
 [styles]
+status_divider_char = ─
+dm_template =  {sender_screen_name} => {recipient_screen_name} - {time}
+tab_template = {unread} {timeline_name}
 editor_horizontal_align = center
 editor_vertical_align = middle
+box_around_status = false
+status_bar = True
+status_divider = True
+header_template =  {username}{retweeted}{retweeter} - {time}{reply} {retweet_count}
+url_format = shortened
+statuses_in_user_info = 3
 
 [debug]
 logging_level = 3

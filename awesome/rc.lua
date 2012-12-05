@@ -223,8 +223,8 @@ theme_dir = cfg_dir .. "/themes"
 beautiful.init(theme_dir .. "/itaca/theme.lua")
 
 -- Initialize pomodoro
-local pomodoro = require("pomodoro")
-pomodoro.init()
+-- local pomodoro = require("pomodoro")
+-- pomodoro.init()
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
@@ -614,7 +614,7 @@ for s = 1, screen.count() do
         gputemp, space, cputemp, space,
         -- fanspeed, space,
         mpdwidget, space,
-        pomodoro.widget, space,
+        -- pomodoro.widget, space,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
