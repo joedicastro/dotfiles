@@ -268,9 +268,8 @@ for s = 1, screen.count() do
     -- each screen has its own tag table.
     -- tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
     -- numerals in Greek, cool!
-    -- tags[s] = awful.tag({ "α", "β", "γ", "δ", "ε", "ς", "ζ", "η", "θ"}, s,
-    --                     layouts[1])
-    tags[s] = awful.tag({ "α", "β", "γ", "δ"}, s, layouts[1])
+    tags[s] = awful.tag({ "α", "β", "γ", "δ", "ε", "ς", "ζ", "η", "θ"}, s,
+                        layouts[1])
 end
 -- }}}
 
@@ -319,7 +318,8 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
         if args["{state}"] == "Stop" then
             return ""
         elseif args["{state}"] == "Pause" then
-            return '(' .. args["{Artist}"]..' - '.. args["{Title}"] .. ')'
+            return '<span color="#404040">' .. args["{Artist}"]..' - '..
+                    args["{Title}"] .. '</span>'
         else
             return args["{Artist}"]..' - '.. args["{Title}"]
         end
@@ -367,7 +367,8 @@ cpuwidget:buttons(
             end),
         awful.button({}, 3,
             function ()
-                awful.util.spawn_with_shell("export NMON=cmLkndt4u;" .. terminal .. " -e nmon")
+                awful.util.spawn_with_shell("export NMON=cmLkndt4u;" ..
+                terminal .. " -e nmon")
             end)
    )
 )
@@ -394,9 +395,21 @@ fswidget:buttons(
 )
 -- }}}
 
--- {{{ CPU & GPU Temperatures
+-- {{{ CPU & GPU Temperatures + Fan speeds as colors
 cputemp = widget({ type = "textbox" })
-vicious.register(cputemp, vicious.widgets.thermal, " $1ºC", 5, "thermal_zone0")
+vicious.register(cputemp, vicious.widgets.thermal,
+    function(widget, args)
+        local filedescriptor = io.popen('cat /proc/i8k | cut -c20')
+        local value = filedescriptor:read()
+        filedescriptor:close()
+        if value == '0' then
+            return args[1]
+        elseif value == '1' then
+            return "<span color='#2e7300'> ".. args[1] .. "ºC</span>"
+        elseif value == '2' then
+            return "<span color='#990f00'> ".. args[1] .. "ºC</span>"
+        end
+    end, 5, "thermal_zone0")
 
 gputemp = widget({ type = "textbox" })
    function gpu_temp()
@@ -406,7 +419,19 @@ gputemp = widget({ type = "textbox" })
         filedescriptor:close()
         return {value}
     end
-vicious.register(gputemp, gpu_temp, "$1ºC", 5)
+vicious.register(gputemp, gpu_temp,
+    function(widget, args)
+        local filedescriptor = io.popen('cat /proc/i8k | cut -c22')
+        local value = filedescriptor:read()
+        filedescriptor:close()
+        if value == '0' then
+            return args[1]
+        elseif value == '1' then
+            return "<span color='#2e7300'> ".. args[1] .. "ºC</span>"
+        elseif value == '2' then
+            return "<span color='#990f00'> ".. args[1] .. "ºC</span>"
+        end
+    end, 5)
 -- }}}
 
 -- {{{ Battery widget
@@ -423,20 +448,9 @@ vicious.register(batwidget, vicious.widgets.bat,
     end, 30, "BAT0")
 -- }}}
 
--- {{{ Fan velocity widget
-fanspeed = widget({ type = "textbox" })
-   function fan_speed()
-        local filedescriptor = io.popen('cat /proc/i8k | cut -c20-22')
-        local value = filedescriptor:read()
-        filedescriptor:close()
-        return {value}
-    end
-vicious.register(fanspeed, fan_speed, "$1", 1)
--- }}}
-
 -- {{{ Kernel info
-osinfo = widget({ type = "textbox"})
-vicious.register(osinfo, vicious.widgets.os, "$2")
+-- osinfo = widget({ type = "textbox"})
+-- vicious.register(osinfo, vicious.widgets.os, "$2")
 -- }}}
 
 -- {{{ Network usage widget
@@ -598,7 +612,7 @@ for s = 1, screen.count() do
         memwidget, space,
         cpuwidget, space,
         gputemp, space, cputemp, space,
-        fanspeed, space,
+        -- fanspeed, space,
         mpdwidget, space,
         pomodoro.widget, space,
         mytasklist[s],
