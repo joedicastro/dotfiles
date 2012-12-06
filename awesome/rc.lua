@@ -114,8 +114,6 @@
 --
 -- Button 1 on tag name             View tag
 -- Button 4,5 on tag name           Switch to previous/next tag
--- Button 4,5 on root window        Switch to previous/next tag
--- Button 1,3,4,5 on layout symbol  Switch to previous/next layout
 --
 ------------------------------------------------------------ Layout modification
 --
@@ -127,7 +125,7 @@
 --
 ---------------------------------------------------------------- Awesome Control
 --
--- Button 3                         Toggle awesome menu
+-- Button 3 on root window          Toggle awesome menu
 --
 -- }}}
 -- }}}
@@ -206,10 +204,6 @@ theme_dir = cfg_dir .. "/themes"
 
 -- Themes define colours, icons, and wallpapers
 beautiful.init(theme_dir .. "/itaca/theme.lua")
-
--- Initialize pomodoro
--- local pomodoro = require("pomodoro")
--- pomodoro.init()
 
 -- This is used later as the default terminal and editor to run.
 terminal = "urxvtc"
@@ -324,13 +318,6 @@ vicious.cache(vicious.widgets.cpu)
 vicious.register(cpuwidget, vicious.widgets.cpu, "$2% $3%", 3)
 -- }}}
 
--- {{{ Uptime & System Load widgets
--- uptimewidget = widget({ type = "textbox" })
--- loadwidget = widget({ type = "textbox" })
--- vicious.register(uptimewidget, vicious.widgets.uptime, "$2h $3m", 61)
--- vicious.register(loadwidget, vicious.widgets.uptime, "$4 $5 $6", 61)
--- }}}
-
 -- {{{ Filesystem widget
 fswidget = widget({ type = "textbox" })
 vicious.register(fswidget, vicious.widgets.fs,
@@ -390,11 +377,6 @@ vicious.register(batwidget, vicious.widgets.bat,
     end, 30, "BAT0")
 -- }}}
 
--- {{{ Kernel info
--- osinfo = widget({ type = "textbox"})
--- vicious.register(osinfo, vicious.widgets.os, "$2")
--- }}}
-
 -- {{{ Network usage widget
 netwidget = widget({ type = "textbox" })
 vicious.cache(vicious.widgets.net)
@@ -441,40 +423,6 @@ mytaglist.buttons = awful.util.table.join(
                     awful.button({ }, 5, awful.tag.viewprev)
                     )
 mytasklist = {}
-mytasklist.buttons = awful.util.table.join(
-                         awful.button({ }, 1,
-                            function (c)
-                              if c == client.focus then
-                                  c.minimized = true
-                              else
-                                  if not c:isvisible() then
-                                      awful.tag.viewonly(c:tags()[1])
-                                  end
-                                  -- This will also un-minimize
-                                  -- the client, if needed
-                                  client.focus = c
-                                  c:raise()
-                              end
-                            end),
-                         awful.button({ }, 3,
-                            function ()
-                              if instance then
-                                  instance:hide()
-                                  instance = nil
-                              else
-                                  instance = awful.menu.clients({ width=250 })
-                              end
-                            end),
-                         awful.button({ }, 4,
-                            function ()
-                              awful.client.focus.byidx(1)
-                              if client.focus then client.focus:raise() end
-                            end),
-                         awful.button({ }, 5,
-                            function ()
-                              awful.client.focus.byidx(-1)
-                              if client.focus then client.focus:raise() end
-                            end))
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
@@ -483,23 +431,6 @@ for s = 1, screen.count() do
     -- Create an imagebox widget which will contains an icon indicating which
     -- layout we're using. We need one layoutbox per screen.
     mylayoutbox[s] = awful.widget.layoutbox(s)
-    mylayoutbox[s]:buttons(awful.util.table.join(
-                           awful.button({ }, 1,
-                                        function ()
-                                           awful.layout.inc(layouts, 1)
-                                        end),
-                           awful.button({ }, 3,
-                                        function ()
-                                           awful.layout.inc(layouts, -1)
-                                        end),
-                           awful.button({ }, 4,
-                                        function ()
-                                           awful.layout.inc(layouts, 1)
-                                        end),
-                           awful.button({ }, 5,
-                                        function ()
-                                           awful.layout.inc(layouts, -1)
-                                        end)))
     -- Create a taglist widget
     mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all,
                                         mytaglist.buttons)
@@ -508,8 +439,7 @@ for s = 1, screen.count() do
     mytasklist[s] = awful.widget.tasklist(
                         function(c)
                           return awful.widget.tasklist.label.focused(c, s)
-                          -- return awful.widget.tasklist.label.currenttags(c, s)
-                        end, mytasklist.buttons)
+                        end)
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s, height = "16" })
@@ -525,18 +455,13 @@ for s = 1, screen.count() do
         s == 1 and mysystray or nil, space,
         mytextclock, space,
         soundvol, space,
-        -- osinfo, space,
-        -- uptimewidget, space,
-        -- loadwidget, space,
         batwidget,
         fswidget, space,
         netwidget, space,
         memwidget, space,
         cpuwidget, space,
         gputemp, space, cputemp, space,
-        -- fanspeed, space,
         mpdwidget, space,
-        -- pomodoro.widget, space,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -546,9 +471,7 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 3, function () mymainmenu:toggle() end)
 ))
 -- }}}
 
