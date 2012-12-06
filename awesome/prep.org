@@ -2,24 +2,6 @@
 
 ** Licenses & greetings
 
-*** Sonido pomodoro
-    complete.oga
-
-    Pertenece al sound theme de freedesktop.org y fue originalmente grabado para el proyecto OLPC
-    Copyright: Dr. Richard Boulanger et al
-    URL: http://www.archive.org/details/Berklee44v11
-    License: CC-BY Attribution 3.0 Unported
-
-*** Pomodoro widget
-    https://github.com/nikolavp/awesome-pomodoro
-    Copyright 2010-2011 François de Metz, Nikolay Sturm(nistude), Nikola Petrov(nikolavp)
-    DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-
-*** Revelation
-    https://github.com/bioe007/awesome-revelation
-    (c) 2008 Espen Wiborg, Julien Danjou, Perry Hargrave, Nikola Petrov
-    GNU GPLv2 License
-
 *** Eminent
     http://git.glacicle.org/eminent
     Lucas de Vries <lucas@glacicle.org>

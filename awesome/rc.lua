@@ -75,7 +75,6 @@
 ------------------------------------------------------------------ Miscellaneous
 --
 -- Win  +  b                        Hide/Show status bar (Wibox)
--- Win  +  e                        Revelation
 -- Win  +  y                        Lock Screen
 -- Print Screen                     Take a screenshot
 --
@@ -158,8 +157,6 @@ require("naughty")
 vicious = require("vicious")
 -- Eminent library
 require("eminent")
--- Revelation
-require("revelation")
 -- }}}
 
 -- {{{ Run only one instance per program
@@ -302,8 +299,8 @@ mymainmenu = awful.menu({
     }
 })
 
-mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
-                                     menu = mymainmenu })
+-- mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
+--                                      menu = mymainmenu })
 -- }}}
 
 -- {{{ Wibox
@@ -474,7 +471,7 @@ netwidget:buttons(
 -- }}}
 
 -- {{{ Textclock widget
-mytextclock = awful.widget.textclock({ align = "right" }, " %d %b %H:%M ", 10)
+mytextclock = awful.widget.textclock({ align = "right" }, " %a %d %b %H:%M ", 10)
 -- }}}
 
 -- Sound Volume {{{
@@ -594,9 +591,9 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
-            mylauncher,
-            mytaglist[s],
-            mylayoutbox[s], space,
+            -- mylauncher,
+            mylayoutbox[s],
+            mytaglist[s], space,
             mypromptbox[s], space,
             layout = awful.widget.layout.horizontal.leftright
         },
@@ -682,9 +679,6 @@ globalkeys = awful.util.table.join(
         function ()
             mywibox[mouse.screen].visible = not mywibox[mouse.screen].visible
         end),
-
-    -- Revelation
-    awful.key({ modkey }, "e", revelation),
 
     -- dmenu
     awful.key({ modkey }, "-",
