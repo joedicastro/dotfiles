@@ -14,12 +14,6 @@
 ------------------------------------------------------------ Launch Applications
 --
 -- Win  +  Enter                    Terminal
--- Win  +  F1                       Ranger (File manager)
--- Win  +  F2                       Firefox
--- Win  +  F3                       Thunderbird
--- Win  +  F4                       Gvim
--- Win  +  F5                       tmux
--- Win  +  F6                       ncmpcpp
 -- Win  +  F7                       Start gif screencast recording LR + screenkey
 -- Win  +  F8                       Start gif screencast recording LowRes
 -- Win  +  F9                       Start gif screencast recording HighRes
@@ -524,8 +518,9 @@ globalkeys = awful.util.table.join(
     -- dmenu
     awful.key({ modkey }, "-",
         function()
-            awful.util.spawn_with_shell("dmenu_run -b -i -fn " ..
-                     "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' -p 'Run:'")
+            awful.util.spawn_with_shell(
+                "export LANGUAGE=en_US.UTF8;dmenu_run -b -i -fn " ..
+                 "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' -p 'run:'")
         end),
 
     -- Standard program
@@ -662,38 +657,7 @@ globalkeys = awful.util.table.join(
           awful.util.getdir("cache") .. "/history_eval")
       end),
 
-    -- Launch or raise apps
-    awful.key({ modkey }, "F1",
-        function ()
-            awful.util.spawn_with_shell("export EDITOR=vim;" .. terminal ..
-                                        " -e ranger")
-        end),
-
-    awful.key({ modkey }, "F2",
-        function ()
-            awful.util.spawn("firefox")
-        end),
-
-    awful.key({ modkey }, "F3",
-        function ()
-            awful.util.spawn("thunderbird")
-        end),
-
-    awful.key({ modkey }, "F4",
-        function ()
-            awful.util.spawn_with_shell("export LANGUAGE=en_US.UTF8;gvim")
-        end),
-
-    awful.key({ modkey }, "F5",
-        function ()
-            awful.util.spawn(terminal .. " -e tmux -u -2")
-        end),
-
-    awful.key({ modkey }, "F6",
-        function ()
-            awful.util.spawn(terminal .. " -e ncmpcpp")
-        end),
-
+    -- Record screencasts
     awful.key({ modkey }, "F7",
         function ()
             awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
@@ -811,6 +775,7 @@ clientkeys = awful.util.table.join(
 )
 -- }}}
 
+-- {{{ Tags bindings
 -- Compute the maximum number of digit we need, limited to 9
 keynumber = 0
 for s = 1, screen.count() do
@@ -849,6 +814,7 @@ for i = 1, keynumber do
                       end
                   end))
 end
+-- }}}
 
 clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
