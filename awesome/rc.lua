@@ -129,18 +129,6 @@
 --
 -- Button 3                         Toggle awesome menu
 --
------------------------------------------------------------------------- Widgets
---
--- Button 1 on mpd status            Play next song
--- Button 3 on mpd status            Play previous song
--- Button 1 on memory usage          Launch `memory_usage.py`
--- Button 1 on cpu usage             Launch htop
--- Button 3 on cpu usage             Launch nmon
--- Button 1 on filesystem usage      Launch ncdu
--- Button 1 on network usage         Launch wicd curses
--- Button 3 on network usage         Launch ethstatus
--- Button 1 on sound volume          Launch alsamixer
---
 -- }}}
 -- }}}
 
@@ -321,34 +309,12 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
             return args["{Artist}"]..' - '.. args["{Title}"]
         end
     end, 1)
-mpdwidget:buttons(
-    awful.util.table.join(
-        awful.button({}, 3,
-            function ()
-                awful.util.spawn("mpc prev", false)
-            end),
-        awful.button({}, 1,
-            function ()
-                awful.util.spawn("mpc next", false)
-            end)
-    )
-)
-
 -- }}}
 
 -- {{{ Mem widget
 memwidget = widget({ type = "textbox" })
 vicious.cache(vicious.widgets.mem)
 vicious.register(memwidget, vicious.widgets.mem, "$1% $2MB", 10)
-memwidget:buttons(
-    awful.util.table.join(
-        awful.button({}, 1,
-            function ()
-                awful.util.spawn( terminal .. " -hold -e " .. home_dir ..
-                "/.bin/memory_usage.py")
-            end)
-    )
-)
 -- }}}
 
 -- {{{ Cpu widget
@@ -356,19 +322,6 @@ cpuwidget = widget({ type = "textbox" })
 cpuwidget.width, cpuwidget.align = 80, "center"
 vicious.cache(vicious.widgets.cpu)
 vicious.register(cpuwidget, vicious.widgets.cpu, "$2% $3%", 3)
-cpuwidget:buttons(
-    awful.util.table.join(
-        awful.button({}, 1,
-            function ()
-                awful.util.spawn( terminal .. " -e htop")
-            end),
-        awful.button({}, 3,
-            function ()
-                awful.util.spawn_with_shell("export NMON=cmLkndt4u;" ..
-                terminal .. " -e nmon")
-            end)
-   )
-)
 -- }}}
 
 -- {{{ Uptime & System Load widgets
@@ -382,14 +335,6 @@ cpuwidget:buttons(
 fswidget = widget({ type = "textbox" })
 vicious.register(fswidget, vicious.widgets.fs,
     "/ ${/ avail_p}% ~ ${/home avail_p}%", 61)
-fswidget:buttons(
-    awful.util.table.join(
-        awful.button({}, 1,
-            function ()
-                awful.util.spawn( terminal .. " -e ncdu -r")
-            end)
-    )
-)
 -- }}}
 
 -- {{{ CPU & GPU Temperatures + Fan speeds as colors
@@ -456,18 +401,6 @@ vicious.cache(vicious.widgets.net)
 vicious.register(netwidget, vicious.widgets.net,
                 '<span color="#CC9393">${eth0 down_kb}</span>' ..
                 ' <span color="#7F9F7F">${eth0 up_kb}</span>', 2)
-netwidget:buttons(
-    awful.util.table.join(
-        awful.button({}, 1,
-            function ()
-                awful.util.spawn( terminal .. " -e wicd-curses")
-            end),
-        awful.button({}, 3,
-            function ()
-                awful.util.spawn( terminal .. " -e ethstatus -s 768")
-            end)
-    )
-)
 -- }}}
 
 -- {{{ Textclock widget
@@ -477,14 +410,6 @@ mytextclock = awful.widget.textclock({ align = "right" }, " %a %d %b %H:%M ", 10
 -- Sound Volume {{{
 soundvol = widget({ type = "textbox" })
 vicious.register(soundvol, vicious.widgets.volume, "$2 $1%", 2, "PCM")
-soundvol:buttons(
-    awful.util.table.join(
-        awful.button({}, 1,
-            function ()
-                awful.util.spawn( terminal .. " -e alsamixer")
-            end)
-        )
-    )
 -- }}}
 
 -- {{{ Space & Separator
