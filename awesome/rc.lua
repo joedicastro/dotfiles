@@ -280,9 +280,6 @@ mymainmenu = awful.menu({
         { "abrir terminal", terminal }
     }
 })
-
--- mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
---                                      menu = mymainmenu })
 -- }}}
 
 -- {{{ Wibox
@@ -467,6 +464,7 @@ root.buttons(awful.util.table.join(
 -- }}}
 
 -- {{{ Key bindings
+-- {{{ Global Key bindings
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -484,6 +482,10 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ modkey,           }, "w",
         function ()
+            awful.menu.menu_keys.down = {"j"}
+            awful.menu.menu_keys.up = {"k"}
+            awful.menu.menu_keys.exec = {"l"}
+            awful.menu.menu_keys.back = {"h"}
             mymainmenu:show({keygrabber=true})
         end),
 
@@ -743,7 +745,9 @@ globalkeys = awful.util.table.join(
         end)
 
 )
+-- }}}
 
+-- {{{ Per client Key bindings
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",
         function (c)
@@ -805,6 +809,7 @@ clientkeys = awful.util.table.join(
     end)
 
 )
+-- }}}
 
 -- Compute the maximum number of digit we need, limited to 9
 keynumber = 0
