@@ -414,14 +414,6 @@ mywibox = {}
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
-mytaglist.buttons = awful.util.table.join(
-                    awful.button({ }, 1, awful.tag.viewonly),
-                    awful.button({ modkey }, 1, awful.client.movetotag),
-                    awful.button({ }, 3, awful.tag.viewtoggle),
-                    awful.button({ modkey }, 3, awful.client.toggletag),
-                    awful.button({ }, 4, awful.tag.viewnext),
-                    awful.button({ }, 5, awful.tag.viewprev)
-                    )
 mytasklist = {}
 
 for s = 1, screen.count() do
@@ -432,8 +424,7 @@ for s = 1, screen.count() do
     -- layout we're using. We need one layoutbox per screen.
     mylayoutbox[s] = awful.widget.layoutbox(s)
     -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all,
-                                        mytaglist.buttons)
+    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all)
 
     -- Create a tasklist widget
     mytasklist[s] = awful.widget.tasklist(
