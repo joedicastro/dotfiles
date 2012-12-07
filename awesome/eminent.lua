@@ -7,7 +7,7 @@
 ----------------------------------------------------------------
 -- To use this module add:
 --   require("eminent")
--- to the top of your rc.lua. 
+-- to the top of your rc.lua.
 --
 -- That's it. Through magical monkey-patching, all you need to
 -- do to start dynamic tagging is loading it.

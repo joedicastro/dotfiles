@@ -6,7 +6,7 @@ favorites = false
 mentions = true
 
 [twitter]
-update_frequency = 60
+update_frequency = 300
 
 [bindings]
 up = k

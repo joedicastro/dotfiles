@@ -78,13 +78,6 @@
 -- Win  +  Shift    +  q            Quit Awesome
 -- Win  +  w                        Show Awesome menu
 --
---
------------------------------------------------------------------ System Control
---
--- Win  +  o                        Shutdown system
--- Win  +  s                        Suspend system
--- Win  +  z                        Reboot system
---
 ---------------------------------------------------------------- Multimedia keys
 --
 -- Play media key              Play mpd song in playlist
@@ -104,22 +97,11 @@
 -- {{{ Mouse Bindings
 -- =============================================================  MOUSE BINDINGS
 
---------------------------------------------------------------------- Navigation
---
--- Button 1 on tag name             View tag
--- Button 4,5 on tag name           Switch to previous/next tag
---
 ------------------------------------------------------------ Layout modification
 --
--- Win + Button 1 on tag name       Tag current client with this tag only
--- Win + Button 3 on tag name       Toggle this tag for client
--- Button 3 on tag name             Add this tag to current view
 -- Win + Button 1 on client         Move window
 -- Win + Button 3 on client         Resize window
 --
----------------------------------------------------------------- Awesome Control
---
--- Button 3 on root window          Toggle awesome menu
 --
 -- }}}
 -- }}}
@@ -137,6 +119,8 @@ require("naughty")
 vicious = require("vicious")
 -- Eminent library
 require("eminent")
+-- Scratchpad
+local scratch = require("scratch")
 -- }}}
 
 -- {{{ Run only one instance per program
@@ -221,14 +205,14 @@ layouts =
 {
     awful.layout.suit.tile,
     -- awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
+    -- awful.layout.suit.fair,
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
     -- awful.layout.suit.max,
-    -- awful.layout.suit.max.fullscreen,
+    awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.magnifier,
     -- awful.layout.suit.floating
 }
@@ -403,7 +387,6 @@ mysystray = widget({ type = "systray" })
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
-mylayoutbox = {}
 mytaglist = {}
 mytasklist = {}
 
@@ -411,9 +394,6 @@ for s = 1, screen.count() do
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt({
                         layout = awful.widget.layout.horizontal.leftright })
-    -- Create an imagebox widget which will contains an icon indicating which
-    -- layout we're using. We need one layoutbox per screen.
-    mylayoutbox[s] = awful.widget.layoutbox(s)
     -- Create a taglist widget
     mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all)
 
@@ -428,8 +408,6 @@ for s = 1, screen.count() do
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
-            -- mylauncher,
-            mylayoutbox[s],
             mytaglist[s], space,
             mypromptbox[s], space,
             layout = awful.widget.layout.horizontal.leftright
@@ -449,12 +427,6 @@ for s = 1, screen.count() do
     }
 end
 -- }}}
--- }}}
-
--- {{{ Mouse bindings
-root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end)
-))
 -- }}}
 
 -- {{{ Key bindings
@@ -514,6 +486,12 @@ globalkeys = awful.util.table.join(
         function ()
             mywibox[mouse.screen].visible = not mywibox[mouse.screen].visible
         end),
+
+    -- Toggle Scratchpad visibility
+    awful.key({ modkey }, "e",
+              function ()
+                  scratch.pad.toggle(mouse.screen)
+              end),
 
     -- dmenu
     awful.key({ modkey }, "-",
@@ -577,26 +555,6 @@ globalkeys = awful.util.table.join(
         function ()
             awful.util.spawn("slimlock")
         end),
-
-    -- Shutdown & Suspend & Reboot
-    awful.key({ modkey }, "o",
-        function ()
-            awful.util.spawn("gksudo systemctl poweroff -m " ..
-                             "'Se va a apagar el equipo, ¿estás seguro?'")
-        end),
-    awful.key({ modkey }, "s",
-        function ()
-            awful.util.spawn("gksudo \"sh -c 'systemctl suspend; sudo -u " ..
-                             user .. " slimlock'\" -m 'Se va a suspender el " ..
-                             "equipo, ¿estás seguro?'")
-        end),
-
-    awful.key({ modkey }, "z",
-        function ()
-            awful.util.spawn("gksudo systemctl reboot -m " ..
-                             "'Se va a reiniciar el equipo, ¿estás seguro?'")
-        end),
-
 
    -- Multimedia keys
     awful.key({ }, "XF86AudioPlay",
@@ -764,6 +722,11 @@ clientkeys = awful.util.table.join(
             else
                 c:tags({screen[mouse.screen]:tags()[curidx + 1]})
             end
+        end),
+
+    awful.key({ modkey }, "d",
+        function (c)
+            scratch.pad.set(c, 0.50, 1, false)
         end),
 
     -- Show/hide border
