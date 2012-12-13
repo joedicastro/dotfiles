@@ -1,6 +1,6 @@
 #!/bin/sh
 
-setxkbmap es
+setxkbmap -layout us,es -variant altgr-intl, -option grp:menu_toggle -option grp_led:caps
 xrdb -merge ~/.Xresources
 xmodmap .xmodmap.rc
 ~/.bin/xcape
