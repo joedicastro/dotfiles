@@ -1,8 +1,7 @@
 #!/bin/sh
 
-setxkbmap -layout us,es -variant altgr-intl, -option grp:menu_toggle -option grp_led:caps
+setxkbmap -layout us,es -variant altgr-intl, -option grp:menu_toggle -option grp_led:caps -option ctrl:nocaps
 xrdb -merge ~/.Xresources
-xmodmap .xmodmap.rc
 ~/.bin/xcape
 udiskie &
 autocutsel -fork &
