@@ -1,27 +1,46 @@
 "1.0rc1
 
+" Load the plugins
 loadplugins '\.(js|penta)$'
 group user
 
-command! -description='Validar XHTML' valid :open javascript:void(location='http://validator.w3.org/check?uri='+escape(location))
+" Command to validate XHTML
+command! -description='Validate XHTML' valid :open javascript:void(location='http://validator.w3.org/check?uri='+escape(location))
 
+" Command to save the current page to Pocket (former Read It Later)
 command! pocket -description "Bookmarklet: Save to Pocket" open javascript:(function(){ISRIL_H='83dd';PKT_D='getpocket.com';ISRIL_SCRIPT=document.createElement('SCRIPT');ISRIL_SCRIPT.type='text/javascript';ISRIL_SCRIPT.src='http://'+PKT_D+'/b/r.js';document.getElementsByTagName('head')[0].appendChild(ISRIL_SCRIPT)})();
 
+" Colorscheme
 colorscheme molokai
 
+" Faster navigation
 map -count -modes=n j -builtin <count>3j
 map -count -modes=n k -builtin <count>3k
 
+" Use duckduckgo to search by default
 map -builtin -modes=n s :open duckduckgo !g 
 map -builtin -modes=n S :tabopen duckduckgo !g 
 
+" I never use marks, but always use quickmarks
+nmap -builtin "'" go
+nmap -builtin '"' gn
+
+" Shift is hard.
+nmap -builtin ; :
+
+" Highlight all search matches, not just the first
 set hlfind
+
+" Configure the command line and the look
 set maxitems=20
 set showtabline=never
 set showstatuslinks=command
 set guioptions=Cs
 
+" Set the external editor
 set editor='/usr/bin/gvim -f +<line> <file>'
 
+" Set the default motor search
 set defsearch=duckduckgo
+
 " vim: set ft=pentadactyl:
