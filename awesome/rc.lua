@@ -14,22 +14,25 @@
 ------------------------------------------------------------ Launch Applications
 --
 -- Win  +  Enter                    Terminal
--- Win  +  F7                       Start gif screencast recording LR + screenkey
--- Win  +  F8                       Start gif screencast recording LowRes
--- Win  +  F9                       Start gif screencast recording HighRes
--- Win  +  F10                      Stop gif screencast recording
--- Win  +  F11                      Start mkv screencast recording
--- Win  +  F12                      Stop mkv screencast recording
+-- Win  +  F1                       Start gif screencast recording LowRes
+-- Win  +  F2                       Start gif screencast recording HighRes
+-- Win  +  F3                       Start gif screencast recording FullRes
+-- Win  +  F4                       Stop gif screencast recording
+-- Win  +  F7                       Start mkv screencast recording
+-- Win  +  F8                       Stop mkv screencast recording
 --
 ------------------------------------------------------------------ Shell prompts
 --
 -- Win  +  r                        Launch a command line prompt into status bar
 -- Win  +  x                        Launch a Lua prompt into status bar
+-- Win  +  /                        Launch dmenu
 --
 --------------------------------------------------------------------- Navigation
 --
 -- Win  +  j/k                      Focus on next/previous client
 -- Win  +  u                        Focus first urgent client
+-- Alt  +  h                        Previous tag
+-- Alt  +  l                        Next tag
 -- Win  +  Left                     Previous tag
 -- Win  +  Right                    Next tag
 -- Win  +  1-9                      Show tag 1-9
@@ -78,6 +81,11 @@
 -- Win  +  Shift    +  q            Quit Awesome
 -- Win  +  w                        Show Awesome menu
 --
+--------------------------------------------------------------------- Scratchpad
+--
+-- Win + p                          Toggle pad
+-- Win + s                          Set pad
+--
 ---------------------------------------------------------------- Multimedia keys
 --
 -- Play media key              Play mpd song in playlist
@@ -87,11 +95,6 @@
 -- Raise volume media key      Raise Volume 2dB
 -- Lower volume media key      Lower Volume 2dB
 -- Mute media key              Mute volume
---
--- Special controls for an external keyboard with only volume control keys
--- Win  +  Raise volume        Next song in mpd playlist
--- Win  +  Lower volume        Previous song in mpd playlist
--- Win  +  Mute                Toggle mpd reproduction
 --
 -- }}}
 -- {{{ Mouse Bindings
@@ -121,6 +124,31 @@ vicious = require("vicious")
 require("eminent")
 -- Scratchpad
 local scratch = require("scratch")
+-- }}}
+
+-- {{{ Error handling
+-- Check if awesome encountered an error during startup and fell back to
+-- another config (This code will only ever execute for the fallback config)
+if awesome.startup_errors then
+    naughty.notify({ preset = naughty.config.presets.critical,
+                     title = "Oops, there were errors during startup!",
+                     text = awesome.startup_errors })
+end
+
+-- Handle runtime errors after startup
+do
+    local in_error = false
+    awesome.add_signal("debug::error", function (err)
+        -- Make sure we don't go into an endless error loop
+        if in_error then return end
+        in_error = true
+
+        naughty.notify({ preset = naughty.config.presets.critical,
+                         title = "Oops, an error happened!",
+                         text = err })
+        in_error = false
+    end)
+end
 -- }}}
 
 -- {{{ Run only one instance per program
@@ -372,9 +400,6 @@ vicious.register(soundvol, vicious.widgets.volume, "$2 $1%", 2, "PCM")
 -- {{{ Space & Separator
 space = widget({ type = "textbox" })
 space.width = 18
-
-separator = widget({ type = "imagebox" })
-separator.image = image(beautiful.widget_sep)
 -- }}}
 
 -- {{{ Create a systray
@@ -432,7 +457,9 @@ end
 -- {{{ Key bindings
 -- {{{ Global Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
+    awful.key({ "Mod1",           }, "h",  awful.tag.viewprev       ),
+    awful.key({ "Mod1",           }, "l",  awful.tag.viewnext       ),
+    awful.key({ modkey,           }, "Left",  awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
@@ -488,13 +515,13 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Toggle Scratchpad visibility
-    awful.key({ modkey }, "e",
+    awful.key({ modkey }, "p",
               function ()
                   scratch.pad.toggle(mouse.screen)
               end),
 
     -- dmenu
-    awful.key({ modkey }, "-",
+    awful.key({ modkey }, "/",
         function()
             awful.util.spawn_with_shell(
                 "export LANGUAGE=en_US.UTF8;dmenu_run -b -i -fn " ..
@@ -587,20 +614,6 @@ globalkeys = awful.util.table.join(
             awful.util.spawn("amixer sset PCM toggle")
         end),
 
-    -- My external keyboard only have volume control keys
-    awful.key({ modkey }, "XF86AudioRaiseVolume",
-        function ()
-            awful.util.spawn("mpc next")
-        end),
-    awful.key({ modkey }, "XF86AudioLowerVolume",
-        function ()
-            awful.util.spawn("mpc prev")
-        end),
-    awful.key({ modkey }, "XF86AudioMute",
-        function ()
-            awful.util.spawn("mpc toggle")
-        end),
-
     -- Prompt
     awful.key({ modkey }, "r",
         function ()
@@ -616,17 +629,7 @@ globalkeys = awful.util.table.join(
       end),
 
     -- Record screencasts
-    awful.key({ modkey }, "F7",
-        function ()
-            awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
-            awful.util.spawn("screenkey")
-            awful.util.spawn("ffmpeg -f x11grab -s " .. scr_res ..
-                            " -r 8 -i :0.0 -b:v 500k -pix_fmt rgb24 -y" ..
-                            " -loop 0 -s 640x400 " .. home_dir ..
-                            "/animated.gif")
-        end),
-
-    awful.key({ modkey }, "F8",
+    awful.key({ modkey }, "F1",
         function ()
             awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
             awful.util.spawn("ffmpeg -f x11grab -s " .. scr_res ..
@@ -635,7 +638,7 @@ globalkeys = awful.util.table.join(
                             "/animated.gif")
         end),
 
-    awful.key({ modkey }, "F9",
+    awful.key({ modkey }, "F2",
         function ()
             awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
             awful.util.spawn("ffmpeg -f x11grab -s " .. scr_res ..
@@ -644,24 +647,33 @@ globalkeys = awful.util.table.join(
                             "/animated.gif")
         end),
 
-    awful.key({ modkey }, "F10",
+    awful.key({ modkey }, "F3",
+        function ()
+            awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
+            awful.util.spawn("ffmpeg -f x11grab -s " .. scr_res ..
+                            " -r 2 -i :0.0 -b:v 500k -pix_fmt rgb24 -y" ..
+                            " -loop 0 -s " .. scr_res .. " " .. home_dir ..
+                            "/animated.gif")
+        end),
+
+
+    awful.key({ modkey }, "F4",
         function ()
             awful.util.spawn("killall ffmpeg")
-            awful.util.spawn("killall screenkey")
             awful.util.spawn("convert ephemeral:" .. home_dir ..
                              "/animated.gif -fuzz 7% -layers Optimize " ..
                              home_dir .. "/screencast.gif")
         end),
 
-    awful.key({ modkey }, "F11",
+    awful.key({ modkey }, "F7",
         function ()
             awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.mkv")
             awful.util.spawn("ffmpeg -f x11grab -s " .. scr_res ..
                             " -r 25 -i :0.0 -sameq " .. home_dir ..
                             "/screencast.mkv")
-        end),
+            end),
 
-    awful.key({ modkey }, "F12",
+    awful.key({ modkey }, "F8",
         function ()
             awful.util.spawn("killall ffmpeg")
         end)
@@ -724,7 +736,7 @@ clientkeys = awful.util.table.join(
             end
         end),
 
-    awful.key({ modkey }, "d",
+    awful.key({ modkey }, "s",
         function (c)
             scratch.pad.set(c, 0.50, 1, false)
         end),
@@ -809,11 +821,6 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
-    -- { rule = { class = "Screenkey" },
-    --   properties = { floating = true, border_width = 0, height=120, width= 920 },
-    --   callback = awful.placement.centered},
-    { rule = { class = "Screenkey" },
-      properties = { floating = true, border_width = 0 } },
     { rule = { class = "Gvim" },
       properties = { size_hints_honor = false } },
     { rule = { class = "URxvt" },
@@ -829,22 +836,7 @@ awful.rules.rules = {
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
 client.add_signal("manage", function (c, startup)
-    -- Add a titlebarv
-    -- awful.titlebar.add(c, { modkey = modkey })
-
-    -- Enable sloppy focus
-    c:add_signal("mouse::enter", function(c)
-        if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-            and awful.client.focus.filter(c) then
-            client.focus = c
-        end
-    end)
-
     if not startup then
-        -- Set the windows at the slave,
-        -- i.e. put it at the end of others instead of setting it master.
-        -- awful.client.setslave(c)
-
         -- Put windows in a smart way, only if they does not set an initial
         -- position.
         if not c.size_hints.user_position and
@@ -858,24 +850,13 @@ end)
 client.add_signal("focus",
     function(c)
         c.border_color = beautiful.border_focus
-        -- c.opacity = 1
     end
 )
 client.add_signal("unfocus",
     function(c)
         c.border_color = beautiful.border_normal
-        -- c.opacity = 0.9
     end
 )
--- }}}
-
--- {{{ Disable startup-notification globally
--- if you are annoyed by the stopwatch/busy mouse cursor after starting
--- programs with 'awful.util.spawn'.
-local oldspawn = awful.util.spawn
-awful.util.spawn = function (s)
-  oldspawn(s, false)
-end
 -- }}}
 
 -- {{{ Folding for Vim
