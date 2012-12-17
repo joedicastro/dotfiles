@@ -1,6 +1,7 @@
 # newsbeuter 2.4 configuration file
 # by joe di castro <joe@joedicastro.com>
 
+# Configuration {{{
 always-display-description              true
 always-download                         ""
 article-sort-order                      "date-asc"
@@ -67,7 +68,7 @@ proxy-type                              "http"
 refresh-on-startup                      no
 reload-only-visible-feeds               no
 reload-threads                          8
-reload-time                             60
+reload-time                             180
 save-path                               "~/.newsbeuter/saved"
 search-highlight-colors                 "black" "yellow" "bold"
 searchresult-title-format               "%N %V - Resultados de busqueda (%u unread, %t total)"
@@ -82,6 +83,7 @@ urls-source                             "local"
 urlview-title-format                    "%N %V - URLs"
 use-proxy                               no
 user-agent                              "newsbeuter"
+# }}}
 
 # Key Bindings  {{{
 bind-key \# goto-url feedlist
