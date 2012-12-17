@@ -335,7 +335,7 @@ vicious.register(cputemp, vicious.widgets.thermal,
         local value = filedescriptor:read()
         filedescriptor:close()
         if value == '0' then
-            return args[1]
+            return args[1] .. "ºC"
         elseif value == '1' then
             return "<span color='#2e7300'> ".. args[1] .. "ºC</span>"
         elseif value == '2' then
@@ -357,7 +357,7 @@ vicious.register(gputemp, gpu_temp,
         local value = filedescriptor:read()
         filedescriptor:close()
         if value == '0' then
-            return args[1]
+            return args[1] .. "ºC"
         elseif value == '1' then
             return "<span color='#2e7300'> ".. args[1] .. "ºC</span>"
         elseif value == '2' then
