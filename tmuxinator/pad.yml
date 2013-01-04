@@ -1,0 +1,9 @@
+# ~/.tmuxinator/scratch.yml
+# you can make as many tabs as you wish...
+
+project_name: pad
+project_root: ~/
+tabs:
+  - turses: turses
+  - newsbeuter: newsbeuter
+  - mutt: mutt

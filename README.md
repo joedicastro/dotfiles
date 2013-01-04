@@ -65,6 +65,10 @@ Configuración de [ranger](http://ranger.nongnu.org/)
 
 Configuración de [tmux](http://tmux.sourceforge.net/)
 
+### `/tmuxinator`
+
+Configuración de [Tmuxinator](https://github.com/aziz/tmuxinator)
+
 ### `/turses`
 
 Configuración de [Turses](https://github.com/alejandrogomez/turses)
