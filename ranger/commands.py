@@ -77,10 +77,10 @@
 # ===================================================================
 
 import os
+
 from ranger.api.commands import *
 from ranger.ext.get_executables import get_executables
 from ranger.core.runner import ALLOWED_FLAGS
-from ranger.core.loader import CommandLoader
 
 class alias(Command):
 	"""
@@ -389,13 +389,7 @@ class set_(Command):
 	def execute(self):
 		name = self.arg(1)
 		name, value, _ = self.parse_setting_line()
-		if name and value:
-			from re import compile as regexp
-			try:
-				value = eval(value)
-			except:
-				pass
-			self.fm.settings[name] = value
+		self.fm.set_option_from_string(name, value)
 
 	def tab(self):
 		name, value, name_done = self.parse_setting_line()
@@ -412,6 +406,29 @@ class set_(Command):
 				return self.firstpart + 'True'
 			if 'false'.startswith(value.lower()):
 				return self.firstpart + 'False'
+
+
+class setlocal(set_):
+	"""
+	:setlocal path=<python string> <option name>=<python expression>
+
+	Gives an option a new value.
+	"""
+	PATH_RE=re.compile(r'^\s*path="?(.*?)"?\s*$')
+	def execute(self):
+		match = self.PATH_RE.match(self.arg(1))
+		if match:
+			path = os.path.normpath(os.path.expanduser(match.group(1)))
+			self.shift()
+		elif self.fm.thisdir:
+			path = self.fm.thisdir.path
+		else:
+			path = None
+
+		if path:
+			name = self.arg(1)
+			name, value, _ = self.parse_setting_line()
+			self.fm.set_option_from_string(name, value, localpath=path)
 
 
 class quit(Command):
@@ -483,26 +500,29 @@ class delete(Command):
 	allow_abbrev = False
 
 	def execute(self):
-		lastword = self.arg(-1)
-
-		if lastword.startswith('y'):
-			# user confirmed deletion!
-			return self.fm.delete()
-		elif self.line.startswith(DELETE_WARNING):
-			# user did not confirm deletion
+		if self.rest(1):
+			self.fm.notify("Error: delete takes no arguments! It deletes "
+					"the selected file(s).", bad=True)
 			return
 
 		cwd = self.fm.thisdir
 		cf = self.fm.thisfile
 
-		if cwd.marked_items or (cf.is_directory and not cf.is_link \
-				and len(os.listdir(cf.path)) > 0):
-			# better ask for a confirmation, when attempting to
-			# delete multiple files or a non-empty directory.
-			return self.fm.open_console(DELETE_WARNING)
+		confirm = self.fm.settings.confirm_on_delete
+		many_files = (cwd.marked_items or (cf.is_directory and not cf.is_link \
+				and len(os.listdir(cf.path)) > 0))
 
-		# no need for a confirmation, just delete
-		self.fm.delete()
+		if confirm != 'never' and (confirm != 'multiple' or many_files):
+			self.fm.ui.console.ask("Confirm deletion of: %s (y/N)" %
+				', '.join(f.basename for f in self.fm.thistab.get_selection()),
+				self._question_callback, ('n', 'N', 'y', 'Y'))
+		else:
+			# no need for a confirmation, just delete
+			self.fm.delete()
+
+	def _question_callback(self, answer):
+		if answer == 'y' or answer == 'Y':
+			self.fm.delete()
 
 
 class mark(Command):
@@ -523,6 +543,31 @@ class mark(Command):
 		pattern = re.compile(input, searchflags)
 		for fileobj in cwd.files:
 			if pattern.search(fileobj.basename):
+				cwd.mark_item(fileobj, val=self.do_mark)
+		self.fm.ui.status.need_redraw = True
+		self.fm.ui.need_redraw = True
+
+
+class mark_tag(Command):
+	"""
+	:mark_tag [<tags>]
+
+	Mark all tags that are tagged with either of the given tags.
+	When leaving out the tag argument, all tagged files are marked.
+	"""
+	do_mark = True
+
+	def execute(self):
+		cwd = self.fm.thisdir
+		tags = self.rest(1).replace(" ","")
+		if not self.fm.tags:
+			return
+		for fileobj in cwd.files:
+			try:
+				tag = self.fm.tags.tags[fileobj.realpath]
+			except KeyError:
+				continue
+			if not tags or tag in tags:
 				cwd.mark_item(fileobj, val=self.do_mark)
 		self.fm.ui.status.need_redraw = True
 		self.fm.ui.need_redraw = True
@@ -591,6 +636,16 @@ class unmark(mark):
 	:unmark <regexp>
 
 	Unmark all files matching a regular expression.
+	"""
+	do_mark = False
+
+
+class unmark_tag(mark_tag):
+	"""
+	:unmark_tag [<tags>]
+
+	Unmark all tags that are tagged with either of the given tags.
+	When leaving out the tag argument, all tagged files are unmarked.
 	"""
 	do_mark = False
 
