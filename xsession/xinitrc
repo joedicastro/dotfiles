@@ -1,12 +1,13 @@
 #!/bin/sh
 
-setxkbmap -layout us,es -variant altgr-intl, -option grp:menu_toggle -option grp_led:caps -option ctrl:nocaps
+setxkbmap -layout us,es -variant altgr-intl, -option grp:menu_toggle -option grp_led:scroll -option ctrl:nocaps
 xrdb -merge ~/.Xresources
+mpd ~/.mpd/mpd.conf
 ~/.bin/xcape
 udiskie &
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
+unclutter &
 xcompmgr -I1 -O1 -Ff &
 urxvtd -q -o -f &
-~/.bin/i8kfans.py &
 exec awesome
