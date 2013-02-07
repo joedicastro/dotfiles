@@ -31,9 +31,13 @@ URxvt.color15 :             #EEEEEC
 
 URxvt*saveLines:            32767
 
-URxvt.perl-ext-common:      default,matcher
+URxvt.perl-ext-common:      default,matcher,url-select,keyboard-select
 URxvt.urlLauncher:          firefox
 URxvt.matcher.button:       1
+
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.M-Escape:      perl:keyboard-select:activate
+tRxvt.keysym.M-s:           perl:keyboard-select:search
 
 Xft*dpi:                    96
 Xft*antialias:              true
@@ -46,3 +50,9 @@ urxvt*scrollWithBuffer:     false
 urxvt*scrollstyle:          plain
 urxvt*secondaryScroll:      true
 
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
