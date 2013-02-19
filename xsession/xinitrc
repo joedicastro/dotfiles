@@ -8,6 +8,6 @@ udiskie &
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
 unclutter &
-xcompmgr -I1 -O1 -Ff &
+compton -b --config ~/.compton.conf 
 urxvtd -q -o -f &
 exec awesome
