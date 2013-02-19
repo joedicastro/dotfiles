@@ -120,6 +120,7 @@ require("beautiful")
 require("naughty")
 -- Vicious library
 vicious = require("vicious")
+vicious.contrib = require("vicious.contrib")
 -- Eminent library
 require("eminent")
 -- Scratchpad
@@ -170,7 +171,7 @@ end
 -- run_once("urxvtd -q -o -f")
 -- Now these two programs are launched from .xinitrc
 run_once('xcalib -c')
-run_once('xcalib -co 96 -a')
+run_once('xcalib -co 92 -a')
 
 -- set the local settings
 os.setlocale('es_ES.UTF-8')
@@ -316,9 +317,9 @@ vicious.register(memwidget, vicious.widgets.mem, "$1% $2MB", 10)
 
 -- {{{ Cpu widget
 cpuwidget = widget({ type = "textbox" })
-cpuwidget.width, cpuwidget.align = 80, "center"
+cpuwidget.width, cpuwidget.align = 150, "center"
 vicious.cache(vicious.widgets.cpu)
-vicious.register(cpuwidget, vicious.widgets.cpu, "$2% $3%", 3)
+vicious.register(cpuwidget, vicious.widgets.cpu, "$1%   $2  $3  $4  $5  $6  $7  $8", 3)
 -- }}}
 
 -- {{{ Filesystem widget
@@ -327,65 +328,19 @@ vicious.register(fswidget, vicious.widgets.fs,
     "/ ${/ avail_p}% ~ ${/home avail_p}%", 61)
 -- }}}
 
--- {{{ CPU & GPU Temperatures + Fan speeds as colors
+-- {{{ CPU Temperature & Fans velocity
 cputemp = widget({ type = "textbox" })
-vicious.register(cputemp, vicious.widgets.thermal,
-    function(widget, args)
-        local filedescriptor = io.popen('cat /proc/i8k | cut -c20')
-        local value = filedescriptor:read()
-        filedescriptor:close()
-        if value == '0' then
-            return args[1] .. "ºC"
-        elseif value == '1' then
-            return "<span color='#2e7300'> ".. args[1] .. "ºC</span>"
-        elseif value == '2' then
-            return "<span color='#990f00'> ".. args[1] .. "ºC</span>"
-        end
-    end, 5, "thermal_zone0")
-
-gputemp = widget({ type = "textbox" })
-   function gpu_temp()
-        local cmd = 'nvidia-smi -q -d TEMPERATURE | grep Gpu | cut -c35-36'
-        local filedescriptor = io.popen(cmd)
-        local value = filedescriptor:read()
-        filedescriptor:close()
-        return {value}
-    end
-vicious.register(gputemp, gpu_temp,
-    function(widget, args)
-        local filedescriptor = io.popen('cat /proc/i8k | cut -c22')
-        local value = filedescriptor:read()
-        filedescriptor:close()
-        if value == '0' then
-            return args[1] .. "ºC"
-        elseif value == '1' then
-            return "<span color='#2e7300'> ".. args[1] .. "ºC</span>"
-        elseif value == '2' then
-            return "<span color='#990f00'> ".. args[1] .. "ºC</span>"
-        end
-    end, 5)
--- }}}
-
--- {{{ Battery widget
-batwidget = widget({ type = "textbox" })
-vicious.register(batwidget, vicious.widgets.bat,
-    function(widget, args)
-        if args[3] ~= 'N/A' then
-            if args[2] == 100 then
-                return ""
-            else
-                return "   " .. args[1]..args[2].."% "..args[3]
-            end
-        end
-    end, 30, "BAT0")
+vicious.register(cputemp, vicious.contrib.sensors, " $1 ºC" , 5, "Physical id 0")
+fan180mm = widget({ type = "textbox" })
+vicious.register(fan180mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan4")
 -- }}}
 
 -- {{{ Network usage widget
 netwidget = widget({ type = "textbox" })
 vicious.cache(vicious.widgets.net)
 vicious.register(netwidget, vicious.widgets.net,
-                '<span color="#CC9393">${eth0 down_kb}</span>' ..
-                ' <span color="#7F9F7F">${eth0 up_kb}</span>', 2)
+                '<span color="#CC9393">${enp0s25 down_kb}</span>' ..
+                ' <span color="#7F9F7F">${enp0s25 up_kb}</span>', 2)
 -- }}}
 
 -- {{{ Textclock widget
@@ -393,8 +348,10 @@ mytextclock = awful.widget.textclock({ align = "right" }, " %a %d %b %H:%M ", 10
 -- }}}
 
 -- Sound Volume {{{
+mute = widget({ type = "textbox" })
+vicious.register(mute, vicious.widgets.volume, "$2", 2, "Master")
 soundvol = widget({ type = "textbox" })
-vicious.register(soundvol, vicious.widgets.volume, "$2 $1%", 2, "PCM")
+vicious.register(soundvol, vicious.widgets.volume, "$1%", 2, "PCM")
 -- }}}
 
 -- {{{ Space & Separator
@@ -439,13 +396,12 @@ for s = 1, screen.count() do
         },
         s == 1 and mysystray or nil, space,
         mytextclock, space,
-        soundvol, space,
-        batwidget,
+        soundvol, mute, space,
         fswidget, space,
         netwidget, space,
         memwidget, space,
-        cpuwidget, space,
-        gputemp, space, cputemp, space,
+        cpuwidget, space, fan180mm, space,
+        cputemp, space,
         mpdwidget, space,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
@@ -611,7 +567,7 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ }, "XF86AudioMute",
         function ()
-            awful.util.spawn("amixer sset PCM toggle")
+            awful.util.spawn("amixer sset Master toggle")
         end),
 
     -- Prompt
