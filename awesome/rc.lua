@@ -116,8 +116,6 @@ require("awful.autofocus")
 require("awful.rules")
 -- Theme handling library
 require("beautiful")
--- Notification library
-require("naughty")
 -- Vicious library
 vicious = require("vicious")
 vicious.contrib = require("vicious.contrib")
@@ -131,9 +129,13 @@ local scratch = require("scratch")
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
 if awesome.startup_errors then
-    naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Oops, there were errors during startup!",
-                     text = awesome.startup_errors })
+    awful.util.spawn_with_shell("notify-send -u 'critical' " ..
+                                "'Oops, there were errors during startup!'" ..
+                                awesome.startup_errors
+                               )
+    -- naughty.notify({ preset = naughty.config.presets.critical,
+    --                  title = "Oops, there were errors during startup!",
+    --                  text = awesome.startup_errors })
 end
 
 -- Handle runtime errors after startup
@@ -144,9 +146,14 @@ do
         if in_error then return end
         in_error = true
 
-        naughty.notify({ preset = naughty.config.presets.critical,
-                         title = "Oops, an error happened!",
-                         text = err })
+        awful.util.spawn_with_shell("notify-send -u 'critical' " ..
+                                    "'Oops, an error happened!'" ..
+                                    err
+                                    )
+ 
+        -- naughty.notify({ preset = naughty.config.presets.critical,
+        --                  title = "Oops, an error happened!",
+        --                  text = err })
         in_error = false
     end)
 end
@@ -175,31 +182,6 @@ run_once('xcalib -co 92 -a')
 
 -- set the local settings
 os.setlocale('es_ES.UTF-8')
--- }}}
-
--- Naughty notifications config {{{
-
-naughty.config.default_preset.timeout          = 15
--- naughty.config.default_preset.screen           = 1
--- naughty.config.default_preset.position         = "top_right"
-naughty.config.default_preset.margin           = 20
--- naughty.config.default_preset.height           = 80
--- naughty.config.default_preset.width            = 400
-naughty.config.default_preset.gap              = 20
--- naughty.config.default_preset.ontop            = true
--- naughty.config.default_preset.font             = beautiful.font or "Verdana 8"
--- naughty.config.default_preset.icon             = nil
-naughty.config.default_preset.icon_size        = 28
-naughty.config.default_preset.fg               = '#ffffff'
-naughty.config.default_preset.bg               = '#112240' -- '#000000'
-naughty.config.presets.normal.border_color     = '#000000' -- '#8AE234'
-naughty.config.default_preset.border_width     = 0
--- naughty.config.default_preset.hover_timeout    = nil
-
-naughty.config.presets.normal.opacity = 0.8
-naughty.config.presets.low.opacity = 0.8
-naughty.config.presets.critical.opacity = 0.8
-
 -- }}}
 
 -- {{{ Variable definitions
@@ -330,9 +312,11 @@ vicious.register(fswidget, vicious.widgets.fs,
 
 -- {{{ CPU Temperature & Fans velocity
 cputemp = widget({ type = "textbox" })
-vicious.register(cputemp, vicious.contrib.sensors, " $1 ºC" , 5, "Physical id 0")
+vicious.register(cputemp, vicious.contrib.sensors, " $1 ºC" , 2, "Physical id 0")
 fan180mm = widget({ type = "textbox" })
-vicious.register(fan180mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan4")
+vicious.register(fan180mm, vicious.contrib.sensors, " $1 RPM" , 2, "fan4")
+fan120mm = widget({ type = "textbox" })
+vicious.register(fan120mm, vicious.contrib.sensors, " $1 RPM" , 2, "fan2")
 -- }}}
 
 -- {{{ Network usage widget
@@ -400,7 +384,7 @@ for s = 1, screen.count() do
         fswidget, space,
         netwidget, space,
         memwidget, space,
-        cpuwidget, space, fan180mm, space,
+        cpuwidget, space, fan120mm, space, fan180mm, space,
         cputemp, space,
         mpdwidget, space,
         mytasklist[s],
