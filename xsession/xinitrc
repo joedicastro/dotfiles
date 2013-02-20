@@ -1,14 +1,36 @@
 #!/bin/sh
 
+# configurar el teclado en español e ingles (teclado ANSI US) y mapear la tecla
+# CapsLock como un Ctrl adicional
 setxkbmap -layout us,es -variant altgr-intl, -option grp:menu_toggle -option grp_led:scroll -option ctrl:nocaps
+
+# cargar la configuracion para urxvt
 xrdb -merge ~/.Xresources
-mpd ~/.mpd/mpd.conf
+
+# iniciar systemd para el usuario
+systemd --user &
+
+# iniciar xcape para que la tecla Ctrl se comporte como Esc cuando es pulsada sola
 ~/.bin/xcape
+
+# iniciar udiskie para el automontado de dispositivos usb
 udiskie &
+
+# iniciar autocutsel para gestionar un unico portapapeles
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
+
+# iniciar el gestor de notificaciones dunst
 dunst &
+
+# ocultar el cursor del raton cuando no se usa
 unclutter &
+
+# iniciar un gestor de transparencias
 compton -b --config ~/.compton.conf 
+
+# iniciar urxvt como demonio
 urxvtd -q -o -f &
+
+# iniciar el gestor de ventanas tiling awesome
 exec awesome

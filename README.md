@@ -31,6 +31,10 @@ Configuración de [Awesome](http://awesome.naquadah.org/)
 
 Configuración de [Compton](https://github.com/chjj/compton)
 
+### `/dunst`
+
+Configuración de [dunst](https://github.com/knopwob/dunst)
+
 ### `/git`
 
 Configuración de [git](http://git-scm.com/)
