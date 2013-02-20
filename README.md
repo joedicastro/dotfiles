@@ -35,9 +35,18 @@ Configuración de [Compton](https://github.com/chjj/compton)
 
 Configuración de [dunst](https://github.com/knopwob/dunst)
 
+### `/fontconfig`
+
+Configuración de [fontconfig](http://www.freedesktop.org/wiki/Software/fontconfig)
+
 ### `/git`
 
 Configuración de [git](http://git-scm.com/)
+
+### `/gtk`
+
+Configuración del tema __Gtk__ a emplear y corregir un fallo en la ventana de
+Gvim
 
 ### `/hg`
 
@@ -45,6 +54,14 @@ Configuración de [Mercurial](http://mercurial.selenic.com/)
 
 + `/hg/bb_gh.py` hook para Mercurial en Python para hacer `push` simultáneamente
   a el mismo repositorio en GitHub y en Bitbucket
+
+### `/mpd`
+
+Configuración de [mpd](http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki)
+
+### `/ncmpcpp`
+
+Configuración de [ncmpcpp](http://ncmpcpp.rybczak.net/)
 
 ### `/newsbeuter`
 
