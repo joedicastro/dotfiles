@@ -7,6 +7,7 @@ mpd ~/.mpd/mpd.conf
 udiskie &
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
+dunst &
 unclutter &
 compton -b --config ~/.compton.conf 
 urxvtd -q -o -f &
