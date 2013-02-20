@@ -1,0 +1,14 @@
+# -- THEME AUTO-WRITTEN DO NOT EDIT
+include "/usr/share/themes/Adwaita-X/gtk-2.0/gtkrc"
+
+style "user-font" {
+	font_name = "Ubuntu 11"
+}
+
+widget_class "*" style "user-font"
+
+gtk-font-name="Ubuntu 11"
+
+include "/home/joedicastro/.gtkrc.mine"
+
+# -- THEME AUTO-WRITTEN DO NOT EDIT
