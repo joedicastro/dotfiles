@@ -150,7 +150,7 @@ do
                                     "'Oops, an error happened!'" ..
                                     err
                                     )
- 
+
         -- naughty.notify({ preset = naughty.config.presets.critical,
         --                  title = "Oops, an error happened!",
         --                  text = err })
@@ -520,7 +520,7 @@ globalkeys = awful.util.table.join(
     -- Lock screen
     awful.key({ modkey }, "y",
         function ()
-            awful.util.spawn("slimlock")
+            awful.util.spawn("python2 " .. cfg_dir .."/slimlock.py")
         end),
 
    -- Multimedia keys
