@@ -1,5 +1,5 @@
 URxvt.font:                 xft:Dejavu Sans Mono for Powerline:size=11
-URxvt.iconFile:             /usr/share/icons/Humanity/apps/24/terminal.svg
+URxvt.iconFile:             /usr/share/icons/elementary/apps/24/terminal.svg
 URxvt.letterSpace:          -2
 
 URxvt.background:           #121212
