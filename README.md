@@ -102,6 +102,10 @@ Configuración de [Turses](https://github.com/alejandrogomez/turses)
 
 Configuración de [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.html)
 
+#### `/vim`
+
+Configuración de [Vim](http://www.vim.org)
+
 ### `/xsession`
 
 Configuración de la sesión __X__

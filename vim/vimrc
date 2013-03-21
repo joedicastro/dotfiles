@@ -1,0 +1,651 @@
+" .vimrc
+" Author: joe di castro <joe@joedicastro.com>
+" Source: http://bitbucket.org/joedicastro/vim/
+"
+" Este fichero esta sujeto a cambios frecuentes. Conviene seguir los commits
+" en el control de versiones.
+
+" Establecer lenguaje {{{ ====================================================
+
+" language en_US.UTF-8           " Soluciona problemas con algunos plugins
+
+" }}}
+
+" VUNDLE {{{ ===============================================================
+
+set nocompatible               " No a la compatibilidad completa con vi.
+
+" Llama a Vundle
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required!
+Bundle 'gmarik/vundle'
+
+" BUNDLES (Plugins gestionados a través de Vundle) {{{
+
+" Esquemas de color {{{
+
+" Temas Oscuros
+" Versión de molokai mejorada para terminal, casi identica a la de GUI
+Bundle 'joedicastro/vim-molokai256'
+
+Bundle 'tomasr/molokai'
+Bundle 'sjl/badwolf'
+Bundle 'nielsmadan/harlequin'
+
+" Temas claros
+Bundle 'vim-scripts/summerfruit256.vim'
+Bundle 'noahfrederick/Hemisu'
+
+" }}}
+
+" DCVS {{{
+"
+" Para gestionar Git
+Bundle 'tpope/vim-fugitive'
+" Para señalar los cambios del fichero con respecto al repo Git
+Bundle 'airblade/vim-gitgutter'
+
+" }}}
+
+" Markdown {{{
+
+" Sintaxis de Markdown
+Bundle 'joedicastro/vim-markdown'
+" Previsualizacion de Markdown en el navegador, con soporte de Markdown Extra
+Bundle 'joedicastro/vim-markdown-extra-preview'
+
+" }}}
+
+" Utilidades de Linux {{{
+
+" Alternativa a grep rápida y potente
+Bundle 'mileszs/ack.vim'
+" Algunos atajos para comandos Unix desde Vim
+Bundle 'tpope/vim-eunuch'
+" Permite realizar un diff entre directorios
+Bundle 'vim-scripts/DirDiff.vim'
+
+" }}}
+
+" Python {{{
+
+" Bundle 'Python-mode-klen'
+" Bundle 'AutoComplPop'
+" Gran plugin para programar en Python
+Bundle 'klen/python-mode'
+" Autocompletado muy mejorado
+" TODO: solucionar conflicto con rope
+Bundle 'davidhalter/jedi-vim'
+" Manejar virtualenvs
+Bundle 'jmcantrell/vim-virtualenv'
+
+" }}}
+
+" Snippets de código {{{
+
+" Gestor de snippets avanzado y potente
+Bundle 'SirVer/ultisnips'
+
+" }}}
+
+" Navegadores de ficheros {{{
+
+Bundle 'kien/ctrlp.vim'
+Bundle 'scrooloose/nerdtree'
+
+" }}}
+
+" Sintaxis {{{
+
+Bundle 'vim-scripts/JSON.vim'
+Bundle 'vim-scripts/po.vim--gray'
+Bundle 'joedicastro/vim-pentadactyl'
+Bundle 'vim-scripts/crontab.vim'
+
+" }}}
+
+" Org-mode {{{
+
+Bundle 'powentan/vim-orgmode'
+Bundle 'vim-scripts/calendar.vim--Matsumoto'
+Bundle 'vim-scripts/utl.vim'
+Bundle 'chrisbra/NrrwRgn'
+
+" }}}
+
+" Edición de texto {{{
+
+" Autocompletado de (, [, {, ', ", ...
+Bundle 'kana/vim-smartinput'
+" Cambio de fechas rápido e inteligente
+Bundle 'tpope/vim-speeddating'
+" genial plugin para insertar/cambiar/eliminar pares de caracteres en torno a un
+" objeto
+Bundle 'tpope/vim-surround'
+" permite repetir ciertas operaciones con la tecla 'dot'
+Bundle 'tpope/vim-repeat'
+" conmutar entre lineas de comentario
+Bundle 'tpope/vim-commentary'
+" gestión de los registros de vim
+Bundle 'vim-scripts/YankRing.vim'
+" inserción inteligente de digrafos
+Bundle 'Rykka/easydigraph.vim'
+" para navegar por el arbol de niveles de deshacer de vim
+Bundle 'sjl/gundo.vim'
+" para insertar bloques de lorem ipsum
+Bundle 'vim-scripts/loremipsum'
+
+" }}}
+
+" HTML/CSS {{{
+
+" Permite seleccionar colores mediante una paleta y previsualizarlos en los
+" ficheros css/html
+Bundle 'Rykka/colorv.vim'
+
+" }}}
+
+" TODOs & FIXMEs {{{
+
+" Gestión los TODOs y los FIXMEs
+Bundle 'LStinson/TagmaTasks'
+
+" }}}
+
+" GUI {{{
+
+" Barra de estado mas elegante y efectiva
+Bundle 'Lokaltog/vim-powerline'
+" crea buffer temporal desechable
+Bundle 'vim-scripts/scratch'
+" permite des/hacer un zoom a ventana completa de uno de las ventanas
+Bundle 'vim-scripts/ZoomWin'
+
+" }}}
+
+" Tmux {{{
+
+" Permite interactuar con Tmux desde vim
+Bundle 'benmills/vimux'
+" Sintaxis del fichero de configuración de tmux
+Bundle 'vimez/vim-tmux'
+
+" }}}
+
+" Ctags {{{
+
+" Muestra las ctags en una barra lateral
+Bundle 'majutsushi/tagbar'
+
+" }}}
+
+" FIN BUNDLES }}}
+
+filetype plugin indent on      " Sangrado y plugins por tipo de archivo.
+
+" FIN VUNDLE }}}
+
+" CONFIGURACIÓN DE VIM {{{ ===================================================
+
+" Opciones básicas {{{ -------------------------------------------------------
+
+scriptencoding utf-8
+set encoding=utf-8              " Establece la codificación a UTF-8.
+set ls=2                        " Linea de estado siempre visible.
+set go-=T                       " Elimina la barra de herramientas.
+set go-=m                       " Elimina el menú.
+set go+=rRlLbh                  " Activa todas las barras de desplazamiento.
+set go-=rRlLbh                  " Desactiva todas las barras de desplazamiento.
+set visualbell                  " Activa la alarma visual.
+set cursorline                  " Resalta la linea bajo el cursor.
+set fillchars+=vert:│           " Mejora aspecto de la división de ventanas.
+set ttyfast                     " Mejora el redibujado de la pantalla.
+set title                       " Añade el nombre del fichero al terminal.
+set showcmd                     " Muestra comandos incompletos.
+set hidden                      " Oculta los bufferes cerrados.
+set ruler                       " Establece una regla permanente.
+set lazyredraw                  " Redibuja solo cuando es necesario.
+set autoread                    " Actualiza cambios realizados fuera de vim.
+
+" }}}
+
+" Búsqueda {{{ ---------------------------------------------------------------
+
+set incsearch                   " Búsqueda incremental.
+set showmatch                   " Muestra la pareja de paréntesis.
+set hlsearch                    " Resultados de búsquela resaltados.
+set smartcase                   " Distinción mayúsculas/minúsculas inteligente.
+set ignorecase                  " No distingue entre mayúsculas y minúsculas.
+
+" desactivar el resaltado de la ultima búsqueda
+map <Leader>h :nohlsearch<CR>
+
+" }}}
+
+" Historia y niveles de deshacer persistentes {{{ ----------------------------
+
+set history=1000
+set undofile
+set undoreload=1000
+
+" }}}
+
+" Copias de seguridad {{{ ----------------------------------------------------
+
+" Make Vim able to edit crontab files again.
+" set backupskip=/tmp/*,/tmp/crontab.*
+
+set backup
+set noswapfile
+set backupdir=~/.vim/tmp/backup//
+set undodir=~/.vim/tmp/undo//
+set directory=~/.vim/tmp/swap//
+
+" }}}
+
+" Wildmenu {{{ ---------------------------------------------------------------
+
+set wildmenu                    " Autocompletado de la linea de comandos.
+set wildmode=list:longest       " Muestra una lista de todas las opciones.
+
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg,*.psd  " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.bak,*.?~,*.??~,*.???~,*.~      " Backup files
+set wildignore+=*.pdf,*.epub,*.mobi,*.prc,*.opf,*.lrf,*.djvu  " ebooks
+set wildignore+=*.mp3                            " audio files
+set wildignore+=*.ttf,*.otf                      " fonts
+set wildignore+=*.cache/*,*.lyrics/*
+
+set wildignore+=*.luac                           " Lua byte code
+set wildignore+=*.jar                            " java archives
+
+set wildignore+=migrations                       " Django migrations
+set wildignore+=*.pyc                            " Python byte code
+set wildignore+=*.stats                          " Pylint stats
+
+" }}}
+
+" Tabulado, espaciado y wrapping {{{ -----------------------------------------
+
+set expandtab                  " Emplea espacios en vez de tabulados.
+set tabstop=4                  " Un Tabulado son cuatro espacios.
+set shiftwidth=4               " Numero de espacios para autoindentado.
+set softtabstop=4              " Un Tabulado de cuatro espacios.
+set autoindent                 " Establece el autoindentado.
+
+" set wrap
+set textwidth=80
+" set formatoptions=qrn1
+set colorcolumn=+1
+
+" }}}
+
+" Hagamos las cosas bien, fuera teclas de desplazamiento {{{ -----------------
+
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+
+" }}}
+
+" Esquema de color {{{ -------------------------------------------------------
+
+syntax on                      " Habilita el resaltado de sintaxis.
+set background=dark            " Establece el fondo oscuro.
+set t_Co=256                   " Habilita 256 colores en modo consola.
+if has('gui_running')          " Habilita el tema molokai para gvim y vim.
+    colorscheme molokai
+else
+    colorscheme molokai256
+endif
+
+" }}}
+
+" Fuente monoespaciada para gui {{{ ------------------------------------------
+
+set guifont=Dejavu\ Sans\ Mono\ for\ Powerline\ 11      " La fuente de texto para gvim.
+
+" }}}
+
+" Reescalar las divisiones cuando se cambia el tamaño de la ventana {{{ ------
+
+au VimResized * exe "normal! \<c-w>="
+
+" }}}
+
+" Mapeo de la tecla <leader> {{{ ---------------------------------------------
+
+let mapleader=','
+let maplocalleader= '\\'
+
+" }}}
+
+" Nuevas ventanas {{{ -------------------------------------------------
+
+nnoremap <leader>v <C-w>v
+nnoremap <leader>s <C-w>s
+
+" }}}
+
+" Cambio rápido entre ventanas {{{ -------------------------------------------
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" }}}
+
+" Conmutar números de linea {{{ ----------------------------------------------
+
+nnoremap <Leader>l :call ToggleRelativeAbsoluteNumber()<CR>
+function! ToggleRelativeAbsoluteNumber()
+  if &number
+    set relativenumber
+  elseif &relativenumber
+    set nonumber & norelativenumber
+  else
+    set number
+  endif
+endfunction
+
+" }}}
+
+" Plegado {{{ ----------------------------------------------------------------
+
+set foldmethod=marker
+
+" Espacio para conmutar el plegado.
+nnoremap <Space> za
+vnoremap <Space> za
+
+" }}}
+
+" Copiar/Pegar {{{
+
+" copiar/pegar desde el portapapeles
+map <Leader>y "*y
+map <Leader>p "*p
+
+" conmutar el paste mode
+map <Leader>P :set invpaste<CR>
+
+" }}}
+
+" Edición rápida de varios archivos {{{ ----------------------------------------------
+
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>es :vsplit ~/.vim/UltiSnips/all.snippets<cr>
+
+" }}}
+
+" Autocargar configuración cuando se cambia $MYVIMRC {{{
+
+" autocmd BufWritePost vimrc source %
+
+" }}}
+
+" Revisión de ortografía {{{ ---------------------------------------------------
+
+" Revisar ortografía en español
+nmap <Leader>sps :setlocal spell spelllang=es<cr>
+" Revisar ortografía en inglés
+nmap <Leader>spe :setlocal spell spelllang=en<cr>
+" Desactivar revisión ortográfica
+nmap <Leader>spo :setlocal nospell <cr>
+" Ir a la siguiente palabra mal escrita
+nmap <Leader>sn  ]s
+" }}}
+
+" Guardar como root {{{
+
+cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
+
+" }}}
+
+" Guardado rápido {{{
+
+nmap <silent> <Leader>w :update<CR>
+
+" }}}
+
+" Eliminar espacios al final del línea {{{
+
+nmap <Leader>rt :%s/\s\+$//<cr>
+
+" }}}
+
+" Emplear Ranger como navegador de ficheros {{{
+
+fun! RangerChooser()
+    exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
+    if filereadable('/tmp/chosenfile')
+        exec 'edit ' . system('cat /tmp/chosenfile')
+        call system('rm /tmp/chosenfile')
+    endif
+    redraw!
+endfun
+map ,ra :call RangerChooser()<CR>
+" }}}
+
+" FIN CONFIGURACIÓN VIM }}}
+
+" CONFIGURACIÓN DE PLUGINS {{{ ===============================================
+
+" Gundo {{{ ------------------------------------------------------------------
+
+nnoremap <Leader>u :GundoToggle<CR>
+
+let g:gundo_preview_bottom = 1
+
+" }}}
+
+" Tagbar {{{ ----------------------------------------------------------------
+
+map <F4> :TagbarToggle<CR>
+
+let g:tagbar_autoclose = 1
+let g:tagbar_left = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_sort = 0
+let g:tagbar_compact = 1
+let g:tagbar_autoshowtag = 1
+
+" }}}
+
+" The NERD Tree {{{ ----------------------------------------------------------
+
+nnoremap <Leader>N :NERDTreeToggle<CR>
+nnoremap <Leader>n :e .<CR>
+
+let NERDTreeHighlightCursorline=1
+let NERDTreeIgnore=['\.pyc$']
+let NERDTreeShowLineNumbers=0
+let NERDTreeWinPos='right'
+let NERDTreeQuitOnOpen=1
+let NERDTreeShowBookmarks=1
+let NERDTreeBookmarksFile= $HOME.'/.vim/tmp/NERDTreeBookmarks'
+
+" }}}
+
+" Commentary {{{ -------------------------------------------------------------
+
+nmap <leader>c <Plug>CommentaryLine
+xmap <leader>c <Plug>Commentary
+
+" }}}
+
+" Ctrl-P {{{ -----------------------------------------------------------------
+
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>m :CtrlPMRU<CR>
+nnoremap <leader>t :CtrlPBufTag<CR>
+nnoremap <leader>T :CtrlPTag<CR>
+
+let g:ctrlp_map = '<leader>o'
+let g:ctrlp_working_path_mode = 1
+let g:ctrlp_match_window_reversed = 1
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp_cache'
+let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'changes']
+
+" }}}
+
+" Powerline {{{ --------------------------------------------------------------
+
+let g:Powerline_symbols = 'fancy'
+let g:Powerline_cache_file = $HOME.'/.vim/tmp/Powerline.cache'
+
+" call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
+
+" }}}
+
+" PythonMode {{{ -------------------------------------------------------------
+
+let g:pymode_breakpoint_key = '<Leader>B'
+
+" let g:pymode_rope_guess_project = 0
+let g:pymode_lint_ignore = ''
+let g:pymode_rope = 0
+
+let g:pymode_rope_guess_project = 0
+" }}}
+
+" Po.vim {{{ -----------------------------------------------------------------
+
+let g:po_translator = "joe di castro <joe@joedicastro.com>"
+
+" }}}
+
+" UltiSnips {{{
+
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" }}}
+
+" Vim-markdown-extra-preview {{{
+
+" let g:VMEPhtmlreader= '/usr/bin/chromium-browser'
+
+" }}}
+
+" vim-orgmode {{{
+
+let g:org_agenda_files = ['~/org/index.org']
+
+" }}}
+
+" vimux {{{
+
+let g:VimuxUseNearestPane = 1
+
+" ejecutar el buffer actual con el interprete de python
+map <Leader>xr :call VimuxRunCommand("clear;python2 " . bufname("%"))<CR>
+
+map <Leader>xc :call VimuxRunCommand("
+map <Leader>xl :call VimuxRunLastCommand()<CR>
+
+" }}}
+
+" AutoComplPop {{{
+
+" let g:acp_behaviorPythonOmniLength = -1
+
+" }}}
+" YankRing {{{
+
+map <Leader>y :YRShow<CR>
+
+let g:yankring_max_history = 1000
+let g:yankring_history_dir = $HOME.'/.vim/tmp/yankring'
+let g:yankring_history_file = 'yankring_history'
+
+" }}}
+
+" Fugitive {{{
+
+" TODO
+
+" }}}
+
+" Virtualenv {{{
+
+" TODO
+
+" }}}
+
+" Jedi-vim {{{
+
+" let g:jedi#auto_initialization = 0
+
+" let g:jedi#auto_vim_configuration = 0
+" let g:jedi#autocompletion_command = "<C-Space>"
+
+" }}}
+
+" FIN CONFIGURACION PLUGINS }}}
+
+" TIPOS DE ARCHIVO  {{{ ======================================================
+
+" JSON {{{ -------------------------------------------------------------------
+
+" autocmd BufNewFile,BufRead *.json set ft=javascript
+autocmd BufNewFile,BufRead *.json set ft=json
+
+augroup json_autocmd
+  autocmd!
+  autocmd FileType json set autoindent
+  autocmd FileType json set formatoptions=tcq2l
+  autocmd FileType json set textwidth=78 shiftwidth=2
+  autocmd FileType json set softtabstop=2 tabstop=8
+  autocmd FileType json set expandtab
+  autocmd FileType json set foldmethod=syntax
+augroup END
+
+" }}}
+
+" ORG MODE {{{ ---------------------------------------------------------------
+
+autocmd BufNewFile,BufRead *.org set ft=org
+
+" }}}
+
+" MARKDOWN {{{
+
+" markdown filetype file
+au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown
+
+" Después de N segundos (definidos por `updatetime`) sin actividad en el buffer,
+" se salva el archivo. Útil para previsualizar los artículos de Pelican.
+augroup ft_markdown
+    au!
+    au CursorHold,CursorHoldI *.{md,mdown,mkd,mkdn,markdown,mdwn} w
+augroup END
+
+let g:updatetime=5
+" }}}
+
+" LUA {{{
+
+au BufRead,BufNewFile rc.lua setlocal foldmethod=marker
+
+" }}}
+
+" FIN TIPOS DE ARCHIVO }}}
+
+
+" vim:foldmethod=marker
