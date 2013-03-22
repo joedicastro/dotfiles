@@ -438,7 +438,7 @@ fun! RangerChooser()
     endif
     redraw!
 endfun
-map ,ra :call RangerChooser()<CR>
+map <Leader>ra :call RangerChooser()<CR>
 " }}}
 
 " FIN CONFIGURACIÓN VIM }}}
