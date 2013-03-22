@@ -447,6 +447,24 @@ endfun
 map <Leader>ra :call RangerChooser()<CR>
 " }}}
 
+" Mostrar/Ocultar la ventana Quickfix {{{
+
+function! s:QuickfixToggle()
+    for i in range(1, winnr('$'))
+        let bnum = winbufnr(i)
+        if getbufvar(bnum, '&buftype') == 'quickfix'
+            cclose
+            return
+        endif
+    endfor
+    copen
+endfunction
+command! ToggleQuickfix call <SID>QuickfixToggle()
+
+nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
+
+" }}}
+
 " FIN CONFIGURACIÓN VIM }}}
 
 " CONFIGURACIÓN DE PLUGINS {{{ ===============================================
