@@ -243,6 +243,7 @@ set noswapfile
 set backupdir=~/.vim/tmp/backup//
 set undodir=~/.vim/tmp/undo//
 set directory=~/.vim/tmp/swap//
+set viminfo+=n~/.vim/tmp/viminfo
 
 " }}}
 
