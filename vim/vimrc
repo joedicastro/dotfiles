@@ -333,6 +333,12 @@ let maplocalleader= '\\'
 
 " }}}
 
+" Mapeo de la tecla menu (:) {{{
+
+nnoremap ; :
+
+" }}}
+
 " Nuevas ventanas {{{ -------------------------------------------------
 
 nnoremap <leader>v <C-w>v
