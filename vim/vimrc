@@ -567,6 +567,7 @@ map <Leader>xl :call VimuxRunLastCommand()<CR>
 " let g:acp_behaviorPythonOmniLength = -1
 
 " }}}
+
 " YankRing {{{
 
 map <Leader>y :YRShow<CR>
@@ -595,6 +596,13 @@ let g:yankring_history_file = 'yankring_history'
 
 " let g:jedi#auto_vim_configuration = 0
 " let g:jedi#autocompletion_command = "<C-Space>"
+
+" }}}
+
+" ColorV {{{
+
+let g:colorv_cache_file=$HOME.'/.vim/tmp/vim_colorv_cache'
+let g:colorv_cache_fav=$HOME.'/.vim/tmp/vim_colorv_cache_fav'
 
 " }}}
 
