@@ -235,15 +235,23 @@ set undoreload=1000
 
 " Copias de seguridad {{{ ----------------------------------------------------
 
-" Make Vim able to edit crontab files again.
-" set backupskip=/tmp/*,/tmp/crontab.*
-
 set backup
 set noswapfile
 set backupdir=~/.vim/tmp/backup//
 set undodir=~/.vim/tmp/undo//
 set directory=~/.vim/tmp/swap//
 set viminfo+=n~/.vim/tmp/viminfo
+
+" Crear estos directorios si no existen previamente
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
 
 " }}}
 
