@@ -607,6 +607,9 @@ map <Leader>y :YRShow<CR>
 
 let g:yankring_max_history = 1000
 let g:yankring_history_dir = $HOME.'/.vim/tmp/yankring'
+if !isdirectory(expand(yankring_history_dir))
+    call mkdir(expand(yankring_history_dir), "p")
+endif
 let g:yankring_history_file = 'yankring_history'
 
 " }}}
