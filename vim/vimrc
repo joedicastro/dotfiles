@@ -363,6 +363,12 @@ nnoremap <C-l> <C-w>l
 
 " }}}
 
+" Cierre rápido de ventana {{{
+
+nnoremap <leader>W <C-w>c
+
+" }}}
+
 " Conmutar números de linea {{{ ----------------------------------------------
 
 nnoremap <Leader>l :call ToggleRelativeAbsoluteNumber()<CR>
