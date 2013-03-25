@@ -25,18 +25,19 @@
 
 __author__ = "joe di castro <joe@joedicastro.com>"
 __license__ = "GNU General Public License version 3"
-__date__ = "20/06/2012"
-__version__ = "0.2"
+__date__ = "25/02/2013"
+__version__ = "0.3"
 
 try:
     import sys
     import os
     import readitlater
     import ril_config as config
+    from subprocess import call
 except ImportError:
     # Checks the installation of the necessary python modules
     print((os.linesep * 2).join(["An error found importing one module:",
-    str(sys.exc_info()[1]), "You need to install it", "Stopping..."]))
+          str(sys.exc_info()[1]), "You need to install it", "Stopping..."]))
     sys.exit(-2)
 import os
 
@@ -48,13 +49,17 @@ def main():
 
     items = api.get(state="unread")
     lista = items["list"]
+    if len(lista) > 100:
+        call(['notify-send', '{0}'.
+             format('You have over 100 unread articles, wise up!')])
     with open("ril_urls.org", "w") as output:
         output.write("* Read It Later URLs" + os.linesep)
         for i, k in lista.items():
             output.write("** {0}{1}".format(k['title'].encode("utf8"),
-                        os.linesep))
+                                            os.linesep))
             output.write("   [[{0}][Enlace]]{1}{1}".format(k['url'].
-                        encode("utf8"), os.linesep))
+                                                           encode("utf8"),
+                                                           os.linesep))
 
 
 if __name__ == "__main__":
@@ -64,6 +69,10 @@ if __name__ == "__main__":
 ###############################################################################
 #                                  Changelog                                  #
 ###############################################################################
+#
+# 0.3:
+#
+# * Added a popup reminder for hoarders
 #
 # 0.2:
 #
