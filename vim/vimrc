@@ -517,7 +517,7 @@ let g:gundo_preview_bottom = 1
 
 " Tagbar {{{ ----------------------------------------------------------------
 
-map <F4> :TagbarToggle<CR>
+map <Leader>tb :TagbarToggle<CR>
 
 let g:tagbar_autoclose = 1
 let g:tagbar_left = 1
