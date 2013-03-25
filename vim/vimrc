@@ -74,11 +74,12 @@ Bundle 'vim-scripts/DirDiff.vim'
 
 " Bundle 'Python-mode-klen'
 " Bundle 'AutoComplPop'
+Bundle 'Shougo/neocomplcache'
 " Gran plugin para programar en Python
 Bundle 'klen/python-mode'
 " Autocompletado muy mejorado
 " TODO: solucionar conflicto con rope
-Bundle 'davidhalter/jedi-vim'
+" Bundle 'davidhalter/jedi-vim'
 " Manejar virtualenvs
 Bundle 'jmcantrell/vim-virtualenv'
 
@@ -557,7 +558,7 @@ let g:pymode_breakpoint_key = '<Leader>B'
 
 " let g:pymode_rope_guess_project = 0
 let g:pymode_lint_ignore = ''
-let g:pymode_rope = 0
+let g:pymode_rope = 1
 
 let g:pymode_rope_guess_project = 0
 " }}}
@@ -645,6 +646,16 @@ let g:yankring_history_file = 'yankring_history'
 
 let g:colorv_cache_file=$HOME.'/.vim/tmp/vim_colorv_cache'
 let g:colorv_cache_fav=$HOME.'/.vim/tmp/vim_colorv_cache_fav'
+
+" }}}
+
+" Neocomplcache {{{
+
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_min_syntax_length = 2
+let g:neocomplcache_min_keyword_length = 3
+let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_max_list = 30
 
 " }}}
 
