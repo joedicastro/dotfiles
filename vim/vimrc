@@ -86,7 +86,7 @@ Bundle 'vim-scripts/DirDiff.vim'
 " Python {{{
 
 " Bundle 'Python-mode-klen'
-" Bundle 'AutoComplPop'
+" Autocompletado
 Bundle 'Shougo/neocomplcache'
 " Gran plugin para programar en Python
 Bundle 'klen/python-mode'
@@ -622,12 +622,6 @@ map <Leader>xr :call VimuxRunCommand("clear;python2 " . bufname("%"))<CR>
 map <Leader>xc :call VimuxRunCommand("
 map <Leader>xl :call VimuxRunLastCommand()<CR>
 map <Leader>xi :call VimuxInterruptRunner()<CR>
-
-" }}}
-
-" AutoComplPop {{{
-
-" let g:acp_behaviorPythonOmniLength = -1
 
 " }}}
 
