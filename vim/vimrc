@@ -553,9 +553,11 @@ xmap <leader>c <Plug>Commentary
 " Ctrl-P {{{ -----------------------------------------------------------------
 
 nnoremap <leader>b :CtrlPBuffer<CR>
-nnoremap <leader>m :CtrlPMRU<CR>
+nnoremap <leader>m :CtrlPMRUFiles<CR>
+nnoremap <leader>z :CtrlPMixed<CR>
 nnoremap <leader>t :CtrlPBufTag<CR>
 nnoremap <leader>T :CtrlPTag<CR>
+nnoremap <leader>f :CtrlPLine<CR>
 
 let g:ctrlp_map = '<leader>o'
 let g:ctrlp_working_path_mode = 1
