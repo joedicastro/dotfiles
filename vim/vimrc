@@ -297,7 +297,6 @@ set wildignore+=*.bak,*.?~,*.??~,*.???~,*.~      " Backup files
 set wildignore+=*.pdf,*.epub,*.mobi,*.prc,*.opf,*.lrf,*.djvu  " ebooks
 set wildignore+=*.mp3                            " audio files
 set wildignore+=*.ttf,*.otf                      " fonts
-set wildignore+=*.cache/*,*.lyrics/*
 
 set wildignore+=*.luac                           " Lua byte code
 set wildignore+=*.jar                            " java archives
@@ -645,7 +644,18 @@ let g:yankring_history_file = 'yankring_history'
 
 " Fugitive {{{
 
-" TODO
+map <Leader>gs :Gstatus<CR>
+map <Leader>gw :Gwrite<CR>
+map <Leader>go :Gread<CR>
+map <Leader>gr :Gremove<CR>
+map <Leader>gm :Gmove<Space>
+map <Leader>gc :Gcommit<CR>
+map <Leader>gd :Gdiff<CR>
+map <Leader>gb :Gblame<CR>
+map <Leader>gg :Ggrep<Space>
+map <Leader>gB :Gbrowse<CR>
+map <Leader>gp :Git push<CR>
+map <Leader>gi :Git <Space>
 
 " }}}
 
