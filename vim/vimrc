@@ -656,6 +656,7 @@ map <Leader>gg :Ggrep<Space>
 map <Leader>gB :Gbrowse<CR>
 map <Leader>gp :Git push<CR>
 map <Leader>gi :Git <Space>
+map <Leader>gt :!tig<CR>redraw!
 
 " }}}
 
