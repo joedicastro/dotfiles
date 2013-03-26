@@ -52,6 +52,9 @@ Bundle 'nielsmadan/harlequin'
 Bundle 'vim-scripts/summerfruit256.vim'
 Bundle 'noahfrederick/Hemisu'
 
+" Crear temas para terminal a partir de temas para GUI
+Bundle 'godlygeek/csapprox'
+
 " }}}
 
 " DCVS {{{
