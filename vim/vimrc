@@ -503,6 +503,12 @@ nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
 
 " CONFIGURACIÓN DE PLUGINS {{{ ===============================================
 
+" Ack {{{
+
+map <Leader>a :Ack<Space>
+
+" }}}
+
 " ColorV {{{
 
 let g:colorv_cache_file=$HOME.'/.vim/tmp/vim_colorv_cache'
@@ -549,7 +555,7 @@ map <Leader>gg :Ggrep<Space>
 map <Leader>gB :Gbrowse<CR>
 map <Leader>gp :Git push<CR>
 map <Leader>gi :Git <Space>
-map <Leader>gt :!tig<CR>redraw!
+map <Leader>gt :!tig<CR>:redraw!<CR>
 
 " }}}
 
