@@ -434,7 +434,7 @@ nnoremap <leader>es :vsplit ~/.vim/UltiSnips/all.snippets<cr>
 
 " Autocargar configuración cuando se cambia $MYVIMRC {{{
 
-" autocmd BufWritePost vimrc source %
+autocmd BufWritePost vimrc source %
 
 " }}}
 
