@@ -580,9 +580,12 @@ let g:gundo_preview_bottom = 1
 
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_min_syntax_length = 2
-let g:neocomplcache_min_keyword_length = 3
+let g:neocomplcache_min_keyword_length = 2
 let g:neocomplcache_enable_auto_select = 1
 let g:neocomplcache_max_list = 30
+let g:neocomplcache_enable_fuzzy_completion = 1
+let g:neocomplcache_fuzzy_completion_start_length = 2
+let g:neocomplcache_temporary_dir = $HOME.'/.vim/tmp/neocomplcache'
 
 " }}}
 
