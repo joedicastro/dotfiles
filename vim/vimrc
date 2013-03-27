@@ -284,8 +284,8 @@ endif
 
 " Wildmenu {{{ ---------------------------------------------------------------
 
-set wildmenu                    " Autocompletado de la linea de comandos.
-set wildmode=list:longest       " Muestra una lista de todas las opciones.
+set wildmenu                        " Autocompletado de la linea de comandos.
+set wildmode=list:longest,full      " Muestra una lista de todas las opciones.
 
 set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
