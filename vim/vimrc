@@ -503,39 +503,10 @@ nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
 
 " CONFIGURACIÓN DE PLUGINS {{{ ===============================================
 
-" Gundo {{{ ------------------------------------------------------------------
+" ColorV {{{
 
-nnoremap <Leader>u :GundoToggle<CR>
-
-let g:gundo_preview_bottom = 1
-
-" }}}
-
-" Tagbar {{{ ----------------------------------------------------------------
-
-map <Leader>tb :TagbarToggle<CR>
-
-let g:tagbar_autoclose = 1
-let g:tagbar_left = 1
-let g:tagbar_autofocus = 1
-let g:tagbar_sort = 0
-let g:tagbar_compact = 1
-let g:tagbar_autoshowtag = 1
-
-" }}}
-
-" The NERD Tree {{{ ----------------------------------------------------------
-
-nnoremap <Leader>N :NERDTreeToggle<CR>
-nnoremap <Leader>n :e .<CR>
-
-let NERDTreeHighlightCursorline=1
-let NERDTreeIgnore=['\.pyc$']
-let NERDTreeShowLineNumbers=0
-let NERDTreeWinPos='right'
-let NERDTreeQuitOnOpen=1
-let NERDTreeShowBookmarks=1
-let NERDTreeBookmarksFile= $HOME.'/.vim/tmp/NERDTreeBookmarks'
+let g:colorv_cache_file=$HOME.'/.vim/tmp/vim_colorv_cache'
+let g:colorv_cache_fav=$HOME.'/.vim/tmp/vim_colorv_cache_fav'
 
 " }}}
 
@@ -564,6 +535,57 @@ let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'changes']
 
 " }}}
 
+" Fugitive {{{
+
+map <Leader>gs :Gstatus<CR>
+map <Leader>gw :Gwrite<CR>
+map <Leader>go :Gread<CR>
+map <Leader>gr :Gremove<CR>
+map <Leader>gm :Gmove<Space>
+map <Leader>gc :Gcommit<CR>
+map <Leader>gd :Gdiff<CR>
+map <Leader>gb :Gblame<CR>
+map <Leader>gg :Ggrep<Space>
+map <Leader>gB :Gbrowse<CR>
+map <Leader>gp :Git push<CR>
+map <Leader>gi :Git <Space>
+map <Leader>gt :!tig<CR>redraw!
+
+" }}}
+
+" Gundo {{{ ------------------------------------------------------------------
+
+nnoremap <Leader>u :GundoToggle<CR>
+
+let g:gundo_preview_bottom = 1
+
+" }}}
+
+" Jedi-vim {{{
+
+" let g:jedi#auto_initialization = 0
+
+" let g:jedi#auto_vim_configuration = 0
+" let g:jedi#autocompletion_command = "<C-Space>"
+
+" }}}
+
+" Neocomplcache {{{
+
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_min_syntax_length = 2
+let g:neocomplcache_min_keyword_length = 3
+let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_max_list = 30
+
+" }}}
+
+" Po.vim {{{ -----------------------------------------------------------------
+
+let g:po_translator = "joe di castro <joe@joedicastro.com>"
+
+" }}}
+
 " Powerline {{{ --------------------------------------------------------------
 
 let g:Powerline_symbols = 'fancy'
@@ -584,9 +606,31 @@ let g:pymode_rope = 1
 let g:pymode_rope_guess_project = 0
 " }}}
 
-" Po.vim {{{ -----------------------------------------------------------------
+" Tagbar {{{ ----------------------------------------------------------------
 
-let g:po_translator = "joe di castro <joe@joedicastro.com>"
+map <Leader>tb :TagbarToggle<CR>
+
+let g:tagbar_autoclose = 1
+let g:tagbar_left = 1
+let g:tagbar_autofocus = 1
+let g:tagbar_sort = 0
+let g:tagbar_compact = 1
+let g:tagbar_autoshowtag = 1
+
+" }}}
+
+" The NERD Tree {{{ ----------------------------------------------------------
+
+nnoremap <Leader>N :NERDTreeToggle<CR>
+nnoremap <Leader>n :e .<CR>
+
+let NERDTreeHighlightCursorline=1
+let NERDTreeIgnore=['\.pyc$']
+let NERDTreeShowLineNumbers=0
+let NERDTreeWinPos='right'
+let NERDTreeQuitOnOpen=1
+let NERDTreeShowBookmarks=1
+let NERDTreeBookmarksFile= $HOME.'/.vim/tmp/NERDTreeBookmarks'
 
 " }}}
 
@@ -623,6 +667,12 @@ map <Leader>xi :call VimuxInterruptRunner()<CR>
 
 " }}}
 
+" Virtualenv {{{
+
+" TODO
+
+" }}}
+
 " YankRing {{{
 
 map <Leader>y :YRShow<CR>
@@ -633,56 +683,6 @@ if !isdirectory(expand(yankring_history_dir))
     call mkdir(expand(yankring_history_dir), "p")
 endif
 let g:yankring_history_file = 'yankring_history'
-
-" }}}
-
-" Fugitive {{{
-
-map <Leader>gs :Gstatus<CR>
-map <Leader>gw :Gwrite<CR>
-map <Leader>go :Gread<CR>
-map <Leader>gr :Gremove<CR>
-map <Leader>gm :Gmove<Space>
-map <Leader>gc :Gcommit<CR>
-map <Leader>gd :Gdiff<CR>
-map <Leader>gb :Gblame<CR>
-map <Leader>gg :Ggrep<Space>
-map <Leader>gB :Gbrowse<CR>
-map <Leader>gp :Git push<CR>
-map <Leader>gi :Git <Space>
-map <Leader>gt :!tig<CR>redraw!
-
-" }}}
-
-" Virtualenv {{{
-
-" TODO
-
-" }}}
-
-" Jedi-vim {{{
-
-" let g:jedi#auto_initialization = 0
-
-" let g:jedi#auto_vim_configuration = 0
-" let g:jedi#autocompletion_command = "<C-Space>"
-
-" }}}
-
-" ColorV {{{
-
-let g:colorv_cache_file=$HOME.'/.vim/tmp/vim_colorv_cache'
-let g:colorv_cache_fav=$HOME.'/.vim/tmp/vim_colorv_cache_fav'
-
-" }}}
-
-" Neocomplcache {{{
-
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_min_syntax_length = 2
-let g:neocomplcache_min_keyword_length = 3
-let g:neocomplcache_enable_auto_select = 1
-let g:neocomplcache_max_list = 30
 
 " }}}
 
@@ -707,9 +707,9 @@ augroup END
 
 " }}}
 
-" ORG MODE {{{ ---------------------------------------------------------------
+" LUA {{{
 
-autocmd BufNewFile,BufRead *.org set ft=org
+au BufRead,BufNewFile rc.lua setlocal foldmethod=marker
 
 " }}}
 
@@ -728,9 +728,9 @@ augroup END
 let g:updatetime=5
 " }}}
 
-" LUA {{{
+" ORG MODE {{{ ---------------------------------------------------------------
 
-au BufRead,BufNewFile rc.lua setlocal foldmethod=marker
+autocmd BufNewFile,BufRead *.org set ft=org
 
 " }}}
 
