@@ -95,7 +95,7 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'klen/python-mode'
 " Autocompletado muy mejorado
 " TODO: solucionar conflicto con rope
-" Bundle 'davidhalter/jedi-vim'
+Bundle 'davidhalter/jedi-vim'
 " Manejar virtualenvs
 Bundle 'jmcantrell/vim-virtualenv'
 
@@ -571,8 +571,8 @@ let g:gundo_preview_bottom = 1
 
 " let g:jedi#auto_initialization = 0
 
-" let g:jedi#auto_vim_configuration = 0
-" let g:jedi#autocompletion_command = "<C-Space>"
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#autocompletion_command = "<C-Space>"
 
 " }}}
 
@@ -608,11 +608,17 @@ let g:Powerline_cache_file = $HOME.'/.vim/tmp/Powerline.cache'
 
 let g:pymode_breakpoint_key = '<Leader>B'
 
-" let g:pymode_rope_guess_project = 0
+let g:pymode_lint_checker = 'pylint,pep8,mccabe'
 let g:pymode_lint_ignore = ''
-let g:pymode_rope = 1
 
+let g:pymode_rope = 1
 let g:pymode_rope_guess_project = 0
+let g:pymode_rope_vim_completion = 0
+let g:pymode_rope_always_show_complete_menu = 1
+
+map <Leader>d :RopeGotoDefinition<CR>
+map <Leader>fo :RopeFindOccurrences<CR>
+
 " }}}
 
 " Tagbar {{{ ----------------------------------------------------------------
