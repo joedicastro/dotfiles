@@ -368,7 +368,7 @@ let maplocalleader= '\\'
 " Nuevas ventanas {{{ -------------------------------------------------
 
 nnoremap <leader>v <C-w>v
-nnoremap <leader>s <C-w>s
+nnoremap <leader>h <C-w>s
 
 " }}}
 
@@ -439,11 +439,11 @@ autocmd BufWritePost vimrc source %
 " Revisión de ortografía {{{ ---------------------------------------------------
 
 " Revisar ortografía en español
-nmap <Leader>sps :setlocal spell spelllang=es<cr>
+nmap <Leader>ss :setlocal spell spelllang=es<cr>
 " Revisar ortografía en inglés
-nmap <Leader>spe :setlocal spell spelllang=en<cr>
+nmap <Leader>se :setlocal spell spelllang=en<cr>
 " Desactivar revisión ortográfica
-nmap <Leader>spo :setlocal nospell <cr>
+nmap <Leader>so :setlocal nospell <cr>
 " Ir a la siguiente palabra mal escrita
 nmap <Leader>sn  ]s
 " }}}
@@ -615,6 +615,12 @@ map <Leader>fo :RopeFindOccurrences<CR>
 
 " }}}
 
+" TagmaTasks {{{
+
+let g:TagmaTasksPrefix = ''
+map <Leader>k :TagmaTaskToggle<CR>
+
+" }}}
 " Tagbar {{{ ----------------------------------------------------------------
 
 map <Leader>t :TagbarToggle<CR>
