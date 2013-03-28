@@ -383,7 +383,7 @@ nnoremap <C-l> <C-w>l
 
 " Cierre rápido de ventana {{{
 
-nnoremap <leader>W <C-w>c
+nnoremap <leader>m <C-w>c
 
 " }}}
 
@@ -621,6 +621,7 @@ let g:TagmaTasksPrefix = ''
 map <Leader>k :TagmaTaskToggle<CR>
 
 " }}}
+
 " Tagbar {{{ ----------------------------------------------------------------
 
 map <Leader>t :TagbarToggle<CR>
