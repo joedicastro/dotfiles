@@ -94,7 +94,6 @@ Bundle 'Shougo/neocomplcache'
 " Gran plugin para programar en Python
 Bundle 'klen/python-mode'
 " Autocompletado muy mejorado
-" TODO: solucionar conflicto con rope
 Bundle 'davidhalter/jedi-vim'
 " Manejar virtualenvs
 Bundle 'jmcantrell/vim-virtualenv'
@@ -525,19 +524,15 @@ xmap <leader>c <Plug>Commentary
 
 " Ctrl-P {{{ -----------------------------------------------------------------
 
-nnoremap <leader>b :CtrlPBuffer<CR>
-nnoremap <leader>m :CtrlPMRUFiles<CR>
-nnoremap <leader>z :CtrlPMixed<CR>
-nnoremap <leader>t :CtrlPBufTag<CR>
-nnoremap <leader>T :CtrlPTag<CR>
+nnoremap <leader>b :CtrlPBufTag<CR>
 nnoremap <leader>f :CtrlPLine<CR>
 
 let g:ctrlp_map = '<leader>o'
-let g:ctrlp_working_path_mode = 1
-let g:ctrlp_match_window_reversed = 1
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp_cache'
-let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'changes']
+let g:ctrlp_extensions = ['mixed']
 
 " }}}
 
@@ -623,7 +618,7 @@ map <Leader>fo :RopeFindOccurrences<CR>
 
 " Tagbar {{{ ----------------------------------------------------------------
 
-map <Leader>tb :TagbarToggle<CR>
+map <Leader>t :TagbarToggle<CR>
 
 let g:tagbar_autoclose = 1
 let g:tagbar_left = 1
@@ -646,14 +641,6 @@ let NERDTreeWinPos='right'
 let NERDTreeQuitOnOpen=1
 let NERDTreeShowBookmarks=1
 let NERDTreeBookmarksFile= $HOME.'/.vim/tmp/NERDTreeBookmarks'
-
-" }}}
-
-" UltiSnips {{{
-
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " }}}
 
