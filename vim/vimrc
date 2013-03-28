@@ -88,7 +88,6 @@ Bundle 'vim-scripts/DirDiff.vim'
 
 " Python {{{
 
-" Bundle 'Python-mode-klen'
 " Autocompletado
 Bundle 'Shougo/neocomplcache'
 " Gran plugin para programar en Python
@@ -631,8 +630,7 @@ let g:tagbar_autoshowtag = 1
 
 " The NERD Tree {{{ ----------------------------------------------------------
 
-nnoremap <Leader>N :NERDTreeToggle<CR>
-nnoremap <Leader>n :e .<CR>
+nnoremap <Leader>O :e .<CR>
 
 let NERDTreeHighlightCursorline=1
 let NERDTreeIgnore=['\.pyc$']
