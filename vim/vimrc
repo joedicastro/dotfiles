@@ -177,7 +177,7 @@ Bundle 'Lokaltog/vim-powerline'
 " crea buffer temporal desechable
 Bundle 'vim-scripts/scratch'
 " permite des/hacer un zoom a ventana completa de uno de las ventanas
-Bundle 'vim-scripts/ZoomWin'
+Bundle 'vim-scripts/zoomwintab.vim'
 
 " }}}
 
@@ -696,6 +696,12 @@ if !isdirectory(expand(yankring_history_dir))
     call mkdir(expand(yankring_history_dir), "p")
 endif
 let g:yankring_history_file = 'yankring_history'
+
+" }}}
+
+" zoomwintab {{{
+
+map <Leader>z :ZoomWinTabToggle<CR>
 
 " }}}
 
