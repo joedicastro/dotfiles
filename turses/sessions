@@ -1,0 +1,4 @@
+[defaults]
+visible = home
+buffers = mentions, messages, own_tweets
+
