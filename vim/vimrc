@@ -615,6 +615,12 @@ map <Leader>fo :RopeFindOccurrences<CR>
 
 " }}}
 
+" scratch {{{
+
+map <Leader>b :ScratchOpen<CR>
+
+" }}}
+
 " TagmaTasks {{{
 
 let g:TagmaTasksPrefix = ''
