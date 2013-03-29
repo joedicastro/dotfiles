@@ -175,7 +175,7 @@ Bundle 'LStinson/TagmaTasks'
 " Barra de estado mas elegante y efectiva
 Bundle 'Lokaltog/vim-powerline'
 " crea buffer temporal desechable
-Bundle 'vim-scripts/scratch'
+Bundle 'vim-scripts/scratch-utility'
 " permite des/hacer un zoom a ventana completa de uno de las ventanas
 Bundle 'vim-scripts/zoomwintab.vim'
 
@@ -617,7 +617,7 @@ map <Leader>fo :RopeFindOccurrences<CR>
 
 " scratch {{{
 
-map <Leader>b :ScratchOpen<CR>
+map <Leader>b :Scratch<CR>
 
 " }}}
 
