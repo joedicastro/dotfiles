@@ -109,7 +109,6 @@ Bundle 'SirVer/ultisnips'
 " Navegadores de ficheros {{{
 
 Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/nerdtree'
 
 " }}}
 
@@ -638,20 +637,6 @@ let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
 let g:tagbar_compact = 1
 let g:tagbar_autoshowtag = 1
-
-" }}}
-
-" The NERD Tree {{{ ----------------------------------------------------------
-
-nnoremap <Leader>O :e .<CR>
-
-let NERDTreeHighlightCursorline=1
-let NERDTreeIgnore=['\.pyc$']
-let NERDTreeShowLineNumbers=0
-let NERDTreeWinPos='right'
-let NERDTreeQuitOnOpen=1
-let NERDTreeShowBookmarks=1
-let NERDTreeBookmarksFile= $HOME.'/.vim/tmp/NERDTreeBookmarks'
 
 " }}}
 
