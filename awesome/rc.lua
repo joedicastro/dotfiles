@@ -288,7 +288,7 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
         else
             return args["{Artist}"]..' - '.. args["{Title}"]
         end
-    end, 1)
+    end, 2)
 -- }}}
 
 -- {{{ Mem widget
@@ -312,11 +312,11 @@ vicious.register(fswidget, vicious.widgets.fs,
 
 -- {{{ CPU Temperature & Fans velocity
 cputemp = widget({ type = "textbox" })
-vicious.register(cputemp, vicious.contrib.sensors, " $1 ºC" , 2, "Physical id 0")
+vicious.register(cputemp, vicious.contrib.sensors, " $1 ºC" , 3, "Physical id 0")
 fan180mm = widget({ type = "textbox" })
-vicious.register(fan180mm, vicious.contrib.sensors, " $1 RPM" , 2, "fan4")
+vicious.register(fan180mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan4")
 fan120mm = widget({ type = "textbox" })
-vicious.register(fan120mm, vicious.contrib.sensors, " $1 RPM" , 2, "fan2")
+vicious.register(fan120mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan2")
 -- }}}
 
 -- {{{ Network usage widget
@@ -328,7 +328,7 @@ vicious.register(netwidget, vicious.widgets.net,
 -- }}}
 
 -- {{{ Textclock widget
-mytextclock = awful.widget.textclock({ align = "right" }, " %a %d %b %H:%M ", 10)
+mytextclock = awful.widget.textclock({ align = "right" }, " %a %d %b %H:%M ", 15)
 -- }}}
 
 -- Sound Volume {{{
@@ -342,7 +342,7 @@ vicious.register(soundvol, vicious.widgets.volume, "$1%", 2, "PCM")
 
 weather = widget({ type = "textbox" })
 vicious.register(weather, vicious.widgets.weather, "${tempc} ºC ${humid}% " ..
-                 "${windkmh} km/h ${wind} ${sky} ${weather}", 10, "LECO")
+                 "${windkmh} km/h ${weather}", 15, "LECO")
 -- }}}
 
 -- {{{ Space & Separator
