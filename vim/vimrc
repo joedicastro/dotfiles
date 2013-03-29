@@ -1,6 +1,6 @@
 " .vimrc
 " Author: joe di castro <joe@joedicastro.com>
-" Source: http://github.com/joedicastro/dotfiles/vim
+" Source: http://github.com/joedicastro/dotfiles/tree/master/vim
 "
 " Este fichero esta sujeto a cambios frecuentes. Conviene seguir los commits
 " en el control de versiones.
@@ -123,9 +123,13 @@ Bundle 'vim-scripts/crontab.vim'
 
 " Org-mode {{{
 
+" Cuasi eqivalente al Org-mode de Emacs
 Bundle 'powentan/vim-orgmode'
+" Abrir un calendario en una ventana
 Bundle 'vim-scripts/calendar.vim--Matsumoto'
+" Abrir una url en el navegador u otro tipo de ficheros con una app externa
 Bundle 'vim-scripts/utl.vim'
+" Editar una region de texto en una venta separada
 Bundle 'chrisbra/NrrwRgn'
 
 " }}}
@@ -285,20 +289,10 @@ set wildmenu                        " Autocompletado de la linea de comandos.
 set wildmode=list:longest,full      " Muestra una lista de todas las opciones.
 
 set wildignore+=.hg,.git,.svn                    " Version control
-set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg,*.psd  " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
-set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.bak,*.?~,*.??~,*.???~,*.~      " Backup files
-set wildignore+=*.pdf,*.epub,*.mobi,*.prc,*.opf,*.lrf,*.djvu  " ebooks
-set wildignore+=*.mp3                            " audio files
-set wildignore+=*.ttf,*.otf                      " fonts
-
 set wildignore+=*.luac                           " Lua byte code
 set wildignore+=*.jar                            " java archives
-
-set wildignore+=migrations                       " Django migrations
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.stats                          " Pylint stats
 
@@ -569,6 +563,14 @@ let g:jedi#autocompletion_command = "<C-Space>"
 
 " }}}
 
+" NrrwRgn {{{
+
+" xmap <Leader>nr <Plug>NrrwrgnDo
+" let g:nrrw_rgn_vert = 1
+" let g:nrrw_rgn_wdth = 81
+
+" }}}
+
 " Neocomplcache {{{
 
 let g:neocomplcache_enable_at_startup = 1
@@ -637,6 +639,23 @@ let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
 let g:tagbar_compact = 1
 let g:tagbar_autoshowtag = 1
+
+" }}}
+
+" Utl {{{
+
+map <Leader>j :Utl <CR><Bar>:redraw!<CR>
+" map <Leader>jc :Utl ol cf<CR>
+
+let g:utl_cfg_hdl_scm_http_system = "silent !firefox %u &"
+let g:utl_cfg_hdl_mt_application_pdf = 'silent :!zathura %p &'
+let g:utl_cfg_hdl_mt_image_jpeg = 'silent :!sxiv %p &'
+let g:utl_cfg_hdl_mt_image_gif = 'silent :!sxiv %p &'
+let g:utl_cfg_hdl_mt_image_png = 'silent :!sxiv %p &'
+
+" ~/descargas/vim-for-php-programmers.pdf
+" http://joedicastro.com
+" ~/descargas/sells/DSC00019.JPG
 
 " }}}
 
