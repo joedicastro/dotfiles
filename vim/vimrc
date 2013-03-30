@@ -50,10 +50,10 @@ Bundle 'nielsmadan/harlequin'
 
 " Temas claros
 Bundle 'vim-scripts/summerfruit256.vim'
-Bundle 'noahfrederick/Hemisu'
+Bundle 'endel/vim-github-colorscheme'
 
 " Crear temas para terminal a partir de temas para GUI
-Bundle 'godlygeek/csapprox'
+" Bundle 'godlygeek/csapprox'
 
 " }}}
 
