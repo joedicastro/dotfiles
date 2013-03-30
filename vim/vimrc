@@ -584,6 +584,12 @@ let g:neocomplcache_temporary_dir = $HOME.'/.vim/tmp/neocomplcache'
 
 " }}}
 
+" org-mode {{{
+
+
+
+" }}}
+
 " Po.vim {{{ -----------------------------------------------------------------
 
 let g:po_translator = "joe di castro <joe@joedicastro.com>"
@@ -645,17 +651,12 @@ let g:tagbar_autoshowtag = 1
 " Utl {{{
 
 map <Leader>j :Utl <CR><Bar>:redraw!<CR>
-" map <Leader>jc :Utl ol cf<CR>
 
 let g:utl_cfg_hdl_scm_http_system = "silent !firefox %u &"
 let g:utl_cfg_hdl_mt_application_pdf = 'silent :!zathura %p &'
 let g:utl_cfg_hdl_mt_image_jpeg = 'silent :!sxiv %p &'
 let g:utl_cfg_hdl_mt_image_gif = 'silent :!sxiv %p &'
 let g:utl_cfg_hdl_mt_image_png = 'silent :!sxiv %p &'
-
-" ~/descargas/vim-for-php-programmers.pdf
-" http://joedicastro.com
-" ~/descargas/sells/DSC00019.JPG
 
 " }}}
 
