@@ -118,6 +118,7 @@ Bundle 'vim-scripts/JSON.vim'
 Bundle 'vim-scripts/po.vim--gray'
 Bundle 'joedicastro/vim-pentadactyl'
 Bundle 'vim-scripts/crontab.vim'
+Bundle 'scrooloose/syntastic'
 
 " }}}
 
@@ -165,7 +166,8 @@ Bundle 'terryma/vim-expand-region'
 " Permite seleccionar colores mediante una paleta y previsualizarlos en los
 " ficheros css/html
 Bundle 'Rykka/colorv.vim'
-
+Bundle 'othree/html5.vim'
+Bundle 'joedicastro/vim-sparkup'
 " }}}
 
 " TODOs & FIXMEs {{{
