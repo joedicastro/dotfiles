@@ -155,6 +155,8 @@ Bundle 'Rykka/easydigraph.vim'
 Bundle 'sjl/gundo.vim'
 " para insertar bloques de lorem ipsum
 Bundle 'vim-scripts/loremipsum'
+" para expandir/contraer selecciones visuales con una sola tecla
+Bundle 'terryma/vim-expand-region'
 
 " }}}
 
@@ -425,7 +427,7 @@ nnoremap <leader>es :vsplit ~/.vim/UltiSnips/all.snippets<cr>
 
 " Autocargar configuración cuando se cambia $MYVIMRC {{{
 
-autocmd BufWritePost vimrc source %
+autocmd! BufWritePost vimrc source %
 
 " }}}
 
