@@ -503,6 +503,44 @@ nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
 
 " }}}
 
+" Estadisticas de texto {{{
+
+" obtener el numero de lineas, palabras, caracteres y bytes (totales y de la
+" posicion actual)
+map <Leader>st g<C-G>
+
+" obtener las frecuencia en las que aparece cada palabra para un texto dado
+function! WordFrequency() range
+  let all = split(join(getline(a:firstline, a:lastline)), '\A\+')
+  let frequencies = {}
+  for word in all
+    let frequencies[word] = get(frequencies, word, 0) + 1
+  endfor
+  new
+  setlocal buftype=nofile bufhidden=hide noswapfile tabstop=20
+  for [key,value] in items(frequencies)
+    call append('$', key."\t".value)
+  endfor
+  sort i
+endfunction
+command! -range=% WordFrequency <line1>,<line2>call WordFrequency()
+map <Leader>sw :WordFrequency<CR>
+
+" }}}
+
+" Numero de linas de codigo {{{
+
+" obtener el numero de lineas de codigo
+function LinesOfCode()
+    let @a= system('cloc --quiet '.bufname("%"))
+    new
+    setlocal buftype=nofile bufhidden=hide noswapfile 
+    put a
+endfunction
+map <Leader>sc :call LinesOfCode()<CR>
+
+" }}}
+
 " FIN CONFIGURACIÓN VIM }}}
 
 " CONFIGURACIÓN DE PLUGINS {{{ ===============================================
