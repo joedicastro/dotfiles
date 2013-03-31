@@ -360,7 +360,7 @@ au VimResized * exe "normal! \<c-w>="
 " Mapeo de la tecla <leader> {{{ ---------------------------------------------
 
 let mapleader=','
-let maplocalleader= '\\'
+let maplocalleader= '\'
 
 " }}}
 
