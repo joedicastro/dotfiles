@@ -160,6 +160,8 @@ Bundle 'vim-scripts/loremipsum'
 Bundle 'terryma/vim-expand-region'
 " para conocer toda la informacion sobre un caracter, incluido Unicode
 Bundle 'tpope/vim-characterize'
+" transponer lines y bloques de texto (intercambiar columnas y lineas)
+Bundle 'salsifis/vim-transpose'
 
 " }}}
 
