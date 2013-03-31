@@ -401,6 +401,13 @@ endfunction
 
 " }}}
 
+" Mostrar caracteres no imprimibles {{{
+
+nmap <leader>sh :set list!<CR>
+set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
+
+" }}}
+
 " Plegado {{{ ----------------------------------------------------------------
 
 set foldmethod=marker
