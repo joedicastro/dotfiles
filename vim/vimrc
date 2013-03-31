@@ -158,6 +158,8 @@ Bundle 'sjl/gundo.vim'
 Bundle 'vim-scripts/loremipsum'
 " para expandir/contraer selecciones visuales con una sola tecla
 Bundle 'terryma/vim-expand-region'
+" para conocer toda la informacion sobre un caracter, incluido Unicode
+Bundle 'tpope/vim-characterize'
 
 " }}}
 
