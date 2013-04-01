@@ -98,6 +98,8 @@ Bundle 'davidhalter/jedi-vim'
 Bundle 'jmcantrell/vim-virtualenv'
 " Visualizar lineas de identado
 Bundle 'Yggdroot/indentLine'
+" Visualizar informes de coverage.py
+Bundle 'alfredodeza/coveragepy.vim'
 
 " }}}
 
