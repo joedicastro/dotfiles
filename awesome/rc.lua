@@ -17,7 +17,9 @@
 -- Win  +  F1                       Start gif screencast recording LowRes
 -- Win  +  F2                       Start gif screencast recording HighRes
 -- Win  +  F3                       Start gif screencast recording FullRes
--- Win  +  F4                       Stop gif screencast recording
+-- Win  +  F4                       Start gif screencast the left half of screen
+-- Win  +  F5                       Start gif screencast the upper left quadrant
+-- Win  +  F6                       Stop gif screencast recording
 -- Win  +  F7                       Start mkv screencast recording
 -- Win  +  F8                       Stop mkv screencast recording
 --
@@ -604,8 +606,23 @@ globalkeys = awful.util.table.join(
                             "/animated.gif")
         end),
 
-
     awful.key({ modkey }, "F4",
+        function ()
+            awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
+            awful.util.spawn("ffmpeg -f x11grab -s 957x1180" .. 
+                            " -r 2 -i :0.0+2,19 -b:v 500k -pix_fmt rgb24 -y" ..
+                            " -loop 0 " .. home_dir ..  "/animated.gif")
+        end),
+
+    awful.key({ modkey }, "F5",
+        function ()
+            awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
+            awful.util.spawn("ffmpeg -f x11grab -s 957x588" .. 
+                            " -r 2 -i :0.0+2,19 -b:v 500k -pix_fmt rgb24 -y" ..
+                            " -loop 0 " .. home_dir ..  "/animated.gif")
+        end),
+
+    awful.key({ modkey }, "F6",
         function ()
             awful.util.spawn("killall ffmpeg")
             awful.util.spawn("convert ephemeral:" .. home_dir ..
