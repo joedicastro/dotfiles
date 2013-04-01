@@ -96,6 +96,8 @@ Bundle 'klen/python-mode'
 Bundle 'davidhalter/jedi-vim'
 " Manejar virtualenvs
 Bundle 'jmcantrell/vim-virtualenv'
+" Visualizar lineas de identado
+Bundle 'Yggdroot/indentLine'
 
 " }}}
 
@@ -533,7 +535,7 @@ map <Leader>sw :WordFrequency<CR>
 " Numero de linas de codigo {{{
 
 " obtener el numero de lineas de codigo
-function LinesOfCode()
+function! LinesOfCode()
     let @a= system('cloc --quiet '.bufname("%"))
     new
     setlocal buftype=nofile bufhidden=hide noswapfile 
@@ -617,6 +619,14 @@ map <Leader>gt :!tig<CR>:redraw!<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 
 let g:gundo_preview_bottom = 1
+
+" }}}
+
+" indentLine {{{
+
+map <Leader>sl :IndentLinesToggle<CR>
+let g:indentLine_char = '¦'
+let g:indentLine_color_term = 239
 
 " }}}
 
