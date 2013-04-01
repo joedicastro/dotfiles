@@ -106,6 +106,13 @@ Configuración de [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.htm
 
 Configuración de [Vim](http://www.vim.org)
 
++ `/vim/vimrc` es el archivo de configuración de Vim
++ `/vim/README.md` es un resumen de las opciones disponibles en mi configuracion
++ `/vim/spell/` son los archivos necesarios para la correccion ortografica
++ `/vim/UltiSnips/` son mis snippets personalizados para [UltiSnips][ulsns]
+
+  [ulsns]: https://github.com/SirVer/ultisnips
+
 ### `/xsession`
 
 Configuración de la sesión __X__
