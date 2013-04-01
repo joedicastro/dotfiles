@@ -12,7 +12,7 @@ de todo lo que tengo disponible.
 
 
 
-## Esquemas de color 
+## Esquemas de color
 
 ### Temas oscuros
 
@@ -23,7 +23,7 @@ consola
 
 ![molokai256][mlk256]
 
-  [mlk256]: pictures/molokai256.png "vim-molokai256"
+  [mlk256]: http://joedicastro.com/static/pictures/molokai256.png "vim-molokai256"
 
 
 
