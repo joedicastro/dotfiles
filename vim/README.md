@@ -6,17 +6,17 @@ de todo lo que tengo disponible.
 
 ## Indice
 
- - [Esquemas de color](#Header ID)
-     - [Temas oscuros](#dark)
-        -   [vim-molokai256](#mlk256)
+ - [Esquemas de color](#esquemas-de-color)
+     - [Temas oscuros](#temas-oscuros)
+        -   [vim-molokai256](#vim-molokai256)
 
 
 
-## Esquemas de color {#colorschemes}
+## Esquemas de color 
 
-### Temas oscuros {#dark/}
+### Temas oscuros
 
-##### vim-molokai256 {#mlk256}
+##### vim-molokai256
 
 Este es el tema por defecto para consola, es el tema molokai adaptado para
 consola
@@ -26,8 +26,6 @@ consola
   [mlk256]: pictures/molokai256.png "vim-molokai256"
 
 
-<p style="text-align:center;"><img src="pictures/molokai256.png" width="860"
-height="588" alt="vim-molokai256" /></p>
 
 
 
