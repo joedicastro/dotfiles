@@ -10,6 +10,8 @@ aquel que decida clonar esta configuración.
 Debido a la naturaleza altamente "mutante" de mi configuración, este documento
 estará sujeto del mismo modo a un numero elevado de modificaciones en el futuro.
 
+A todo esto habría que sumarle todo lo que Vim aporta de serie, que no es poco.
+
 > La tecla `<Leader>` la tengo mapeada a `,` y la tecla `<LocalLeader>` la tengo
 mapeada a `\`
 
@@ -27,6 +29,9 @@ mapeada a `\`
  - [Gestion de plugins](#gestion-de-plugins)
      - [Vundle](#vundle)
  - [Operaciones con ventanas](#operaciones-con-ventanas)
+     - [scratch-utility](#scratch-utility)
+     - [zoomwintab](#zoomwintab)
+     - [vim-powerline](#vim-powerline)
  - [Edicion de texto](#edicion-de-texto)
      - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
      - [Conmutar la visualizacion de numeros de linea](#conmutar-la-visualizacion-de-numeros-de-linea)
@@ -40,11 +45,56 @@ mapeada a `\`
      - [Eliminar espacios al final de la linea](#eliminar-espacios-al-final-de-la-linea)
      - [Insertar fecha/hora actual](#insertar-fechahora-actual)
      - [Estadisticas de texto](#estadisticas-de-texto)
+     - [vim-smartinput](#vim-smartinput)
+     - [vim-speeddating](#vim-speeddating)
+     - [vim-surround](#vim-surround)
+     - [vim-repeat](#vim-repeat)
+     - [vim-commentary](#vim-commentary)
+     - [YankRing](#yankring)
+     - [easydigraph](#easydigraph)
+     - [Gundo](#gundo)
+     - [vim-expand-region](#vim-expand-region)
+     - [LoremIpsum](#loremipsum)
+     - [vim-characterize](#vim-characterize)
+     - [vim-transpose](#vim-transpose)
+     - [vim-signature](#vim-signature)
  - [Exploracion de ficheros](#exploracion-de-ficheros)
      - [Ranger](#ranger)
+     - [CtrlP](#ctrlp)
  - [Edicion de codigo](#edicion-de-codigo)
      - [Contar lineas de codigo](#contar-lineas-de-codigo)
-     
+     - [neocomplcache](#neocomplcache)
+     - [jedi-vim](#jedi-vim)
+     - [python-mode](#python-mode)
+     - [indentLine](#indentline)
+     - [vim-virtualenv](#vim-virtualenv)
+     - [coveragepy](#coveragepy)
+     - [tagbar](#tagbar)
+     - [vimux](#vimux)
+     - [TagmaTasks](#tagmatasks)
+     - [UltiSnips](#ultisnips)
+     - [Syntastic](#syntastic)
+ - [DVCS:Git](#dvcsgit)
+     - [Fugitive](#fugitive)
+     - [vim-gitgutter](#vim-gitgutter)
+     - [tig](#tig)
+ - [Desarrollo Web](#desarrollo-web)
+     - [HTML5](#html5)
+     - [Sparkup](#sparkup)
+     - [ColorV](#colorv)
+ - [Markdown](#markdown)
+     - [vim-markdown-extra-preview](#vim-markdown-extra-preview)
+ - [Utilidades de Linux](#utilidades-de-linux)
+     - [Ack](#ack)
+     - [vim-eunuch](#vim-eunuch)
+     - [DirDiff](#dirdiff)
+ - [Internalizacion](#internalizacion)
+     - [Traduccion de ficheros .po](#traduccion-de-ficheros-.po)
+ - [Organizacion de tareas](#organizacion-de-tareas)
+     - [vim-orgmode](#vim-orgmode)
+     - [calendar](#calendar)
+     - [utl](#utl)
+     - [NrrwRgn](#nrrwrgn)
 
 
 ## Esquemas de color
@@ -129,25 +179,38 @@ Funciona a través de comandos y de forma interactiva.
 - `<Leader>v` crea una nueva ventana vertical
 - `<Leader>h` crea una nueva ventana horizontal
 - `Ctrl + h` desplazamiento a la siguiente ventana a la izquierda
-- `Ctrl + j` desplazamiento a la ventana inferior 
-- `Ctrl + k` desplazamiento a la ventana superior 
+- `Ctrl + j` desplazamiento a la ventana inferior
+- `Ctrl + k` desplazamiento a la ventana superior
 - `Ctrl + l` desplazamiento a la siguiente ventana a la derecha
 - `<Leader>m` cierra la ventana actual
 - `<Leader>q` cierra la ventana QuickFix
+
+### scratch-utility
+
+TODO
+
+### zoomwintab
+
+TODO
+
+### vim-powerline
+
+TODO
+
 
 ## Edicion de texto
 
 ### Desactivar el resaltado de la ultima busqueda
 
-![nohlsearch][nhs] 
+![nohlsearch][nhs]
 
   [nhs]: http://joedicastro.com/static/pictures/nohlsearch.gif  "nohlsearch"
-  
+
 __Atajo__ `<Leader>sq`
 
 ### Conmutar la visualizacion de numeros de linea
 
-![Conmutar numeros de linea][cnl] 
+![Conmutar numeros de linea][cnl]
 
   [cnl]: http://joedicastro.com/static/pictures/linenumbers.gif "Conmutar numeros de linea"
 
@@ -155,22 +218,22 @@ __Atajo__ `<Leader>sq`
   mostrarlos absolutos.
 
   __Atajo__ `<Leader>l`
-  
+
 ### Mostrar caracteres no imprimibles
 
-![hiddenchars][hdc] 
+![hiddenchars][hdc]
 
   [hdc]: http://joedicastro.com/static/pictures/hiddenchars.gif "mostrar caracteres no imprimibles"
-  
+
 __Atajo__ `<Leader>sh`
 
 
 ### Abrir/cerrar pliegues
 
-![unfold][ufl] 
+![unfold][ufl]
 
   [ufl]: http://joedicastro.com/static/pictures/unfold.gif "abrir/cerrar pliegues"
-  
+
 __Atajo__ `Space`
 
 ### Copiar/pegar
@@ -179,9 +242,9 @@ __Atajos__
 
 - `<Leader>y` copiar al portapapeles
 - `<Leader>p` pegar desde el portapapeles
-- `<Leader>P` conmutar el paste mode 
+- `<Leader>P` conmutar el paste mode
 
-### Edicion rapida de varios archivos 
+### Edicion rapida de varios archivos
 
 __Atajos__
 
@@ -202,7 +265,7 @@ __Atajos__
 
 Permite guardar un archivo que solo tiene permisos para `root` sin necesidad de
 ejecutar vim desde ese usuario o utilizando `$ sudo` y perder de ese modo las
-ventajas de nuestra configuración. 
+ventajas de nuestra configuración.
 
 __Comando__ `:w!!`
 
@@ -225,11 +288,11 @@ __Atajo__ `<Leader>rt`
 
 ### Insertar fecha/hora actual
 
-__Atajos__ 
+__Atajos__
 
 - `<Leader>is` inserta un timestamp (e.g. *mar abr  2 19:47:02 CEST 2013*)
-- `<Leader>ih` inserta la hora actual   
-- `<Leader>id` inserta el día actual    
+- `<Leader>ih` inserta la hora actual
+- `<Leader>id` inserta el día actual
 - `<Leader>if` inserta el día y la hora actuales
 
 ### Estadisticas de texto
@@ -239,7 +302,7 @@ __Atajos__
 Obtener el numero de lineas, palabras, caracteres y bytes (totales y de la
 posición actual)
 
-__Atajo__ `<Leader>st` 
+__Atajo__ `<Leader>st`
 
 ![frecuencia de palabras](
 http://joedicastro.com/static/pictures/word_frecuency.gif "frecuencia de
@@ -250,6 +313,57 @@ una nueva ventana con las estadísticas.
 
 __Atajo__ `<Leader>sw`
 
+### vim-smartinput
+
+TODO
+
+### vim-speeddating
+
+TODO
+
+### vim-surround
+
+TODO
+
+### vim-repeat
+
+TODO
+
+### vim-commentary
+
+TODO
+
+### YankRing
+
+TODO
+
+### easydigraph
+
+TODO
+
+### Gundo
+
+TODO
+
+### vim-expand-region
+
+TODO
+
+### LoremIpsum
+
+TODO
+
+### vim-characterize
+
+TODO
+
+### vim-transpose
+
+TODO
+
+### vim-signature
+
+TODO
 
 ## Exploracion de ficheros
 
@@ -263,6 +377,10 @@ por el sistema de ficheros y elegir el fichero que queremos editar.
 
 __Atajo__ `<Leader>ra`
 
+### CtrlP
+
+TODO
+
 ## Edicion de codigo
 
 ### Contar lineas de codigo
@@ -273,6 +391,135 @@ Ejecuta el programa externo `$ cloc` sobre el fichero y abre una nueva ventana
 con el resultado.
 
 __Atajo__ `<Leader>sc`
+
+### neocomplcache
+
+TODO
+
+### jedi-vim
+
+TODO
+
+### python-mode
+
+TODO    
+
+### indentLine
+
+TODO
+
+### vim-virtualenv
+
+TODO
+
+### coveragepy
+
+TODO
+
+### tagbar
+
+TODO
+
+### vimux
+
+TODO
+
+### TagmaTasks
+
+TODO
+
+### UltiSnips
+
+TODO
+
+### Syntastic
+
+TODO
+
+
+## DVCS: Git
+
+### Fugitive
+
+TODO
+
+### vim-gitgutter
+
+TODO
+
+### tig
+
+TODO
+
+## Desarrollo Web
+
+### HTML5
+
+TODO
+
+### Sparkup
+
+TODO
+
+### ColorV
+
+TODO
+
+
+## Markdown
+
+### vim-markdown-extra-preview
+
+TODO
+
+## Utilidades de Linux/Unix
+
+### Ack
+
+TODO
+
+### vim-eunuch
+
+TODO
+
+### DirDiff
+
+TODO
+
+## Internalizacion
+
+### Traduccion de ficheros .po
+
+TODO
+
+## Organizacion de tareas
+
+### vim-orgmode
+
+TODO    
+
+### calendar
+
+TODO 
+
+### utl 
+
+TODO
+
+### NrrwRgn
+
+TODO
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -288,17 +535,3 @@ __Atajo__ `<Leader>sc`
 
 
 # ...Work in progress!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
