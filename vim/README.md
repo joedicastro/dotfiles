@@ -4,7 +4,8 @@ El propósito de este documento es recopilar todas las opciones disponibles en m
 configuración para poner un poco de orden en la misma y servirme de recordatorio
 de todo lo que tengo disponible. Evidentemente no pretendo replicar la ayuda de
 vim ni de los plugins, solo destacar aquellas opciones que puedo necesitar en un
-determinado momento.
+determinado momento. Del mismo modo puede servir de manual de instrucciones para
+aquel que decida clonar esta configuración.
 
 Debido a la naturaleza altamente "mutante" de mi configuración, este documento
 estará sujeto del mismo modo a un numero elevado de modificaciones en el futuro.
@@ -29,10 +30,10 @@ mapeada a `\`
      - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
      - [Conmutar la visualizacion de numeros de linea](#conmutar-la-visualizacion-de-numeros-de-linea)
      - [Mostrar caracteres no imprimibles](#mostrar-caracteres-no-imprimibles)
-     - [Abrir/cerrar pliegues](#abrir/cerrar-pliegues)
-      
-     
-
+     - [Abrir/cerrar pliegues](#abrircerrar-pliegues)
+     - [Copiar/pegar](#copiarpegar)
+     - [Edicion rapida de varios archivos](#edicion-rapida-de-varios-archivos)
+     - [Revision de ortografia](#revision-de-ortografia)
 
 
 ## Esquemas de color
@@ -158,6 +159,30 @@ __Atajo__ `<Leader>sh`
   
 __Atajo__ `Space`
 
+### Copiar/pegar
+
+__Atajos__
+
+- `<Leader>y` copiar al portapapeles
+- `<Leader>p` pegar desde el portapapeles
+- `<Leader>P` conmutar el paste mode 
+
+### Edicion rapida de varios archivos 
+
+__Atajos__
+
+- `<Leader>ev` edita el archivo `~/.vimrc` en una nueva ventana vertical
+- `<Leader>es` edita el archivo de snippets globales
+  (`~/.vim/UltiSnips/all.snippets`) en una nueva ventana vertical
+
+### Revision de ortografia
+
+__Atajos__
+
+- `<Leader>ss` activa la corrección ortográfica en español
+- `<Leader>se` activa la corrección ortográfica en ingles
+- `<Leader>so` desactiva la corrección ortográfica
+- `<Leader>sn` se desplaza a la siguiente palabra mal escrita
 
 # ...Work in progress!
 
