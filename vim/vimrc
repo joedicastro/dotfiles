@@ -260,9 +260,6 @@ set hlsearch                    " Resultados de búsquela resaltados.
 set smartcase                   " Distinción mayúsculas/minúsculas inteligente.
 set ignorecase                  " No distingue entre mayúsculas y minúsculas.
 
-" desactivar el resaltado de la ultima búsqueda
-map <Leader>h :nohlsearch<CR>
-
 " }}}
 
 " Historia y niveles de deshacer persistentes {{{ ----------------------------
@@ -557,6 +554,12 @@ map <Leader>ih :read !date "+\%H:\%M:\%S"<CR>
 map <Leader>if :read !date "+\%d-\%m-\%Y \%H:\%M:\%S"<CR>
 " inserta el dia
 map <Leader>id :read !date "+\%d-\%m-\%Y"<CR>
+
+" }}}
+
+" desactivar el resaltado de la ultima búsqueda {{{
+
+map <Leader>sq :nohlsearch<CR>
 
 " }}}
 
