@@ -28,6 +28,9 @@ mapeada a `\`
  - [Edicion de texto](#edicion-de-texto)
      - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
      - [Conmutar la visualizacion de numeros de linea](#conmutar-la-visualizacion-de-numeros-de-linea)
+     - [Mostrar caracteres no imprimibles](#mostrar-caracteres-no-imprimibles)
+     - [Abrir/cerrar pliegues](#abrir/cerrar-pliegues)
+      
      
 
 
@@ -119,7 +122,7 @@ Funciona a través de comandos y de forma interactiva.
 
 ## Edicion de texto
 
-### Desactivar el resaltado de la última busqueda
+### Desactivar el resaltado de la ultima busqueda
 
 ![nohlsearch][nhs] 
 
@@ -133,12 +136,27 @@ __Atajo__ `<Leader>sq`
 
   [cnl]: http://joedicastro.com/static/pictures/linenumbers.gif "Conmutar numeros de linea"
 
-  Conmuta entre no mostrar los números de línea, mostrarlos relativos y no
-  mostrarlos. 
+  Conmuta entre no mostrar los números de línea, mostrarlos relativos y
+  mostrarlos absolutos.
 
   __Atajo__ `<Leader>l`
   
+### Mostrar caracteres no imprimibles
 
+![hiddenchars][hdc] 
+
+  [hdc]: http://joedicastro.com/static/pictures/hiddenchars.gif "mostrar caracteres no imprimibles"
+  
+__Atajo__ `<Leader>sh`
+
+
+### Abrir/cerrar pliegues
+
+![unfold][ufl] 
+
+  [ufl]: http://joedicastro.com/static/pictures/unfold.gif "abrir/cerrar pliegues"
+  
+__Atajo__ `Space`
 
 
 # ...Work in progress!
