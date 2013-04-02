@@ -471,7 +471,7 @@ nmap <silent> <Leader>w :update<CR>
 
 " }}}
 
-" Eliminar espacios al final del línea {{{
+" Eliminar espacios al final de la línea {{{
 
 nmap <Leader>rt :%s/\s\+$//<cr>
 
@@ -514,7 +514,7 @@ nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
 " posicion actual)
 map <Leader>st g<C-G>
 
-" obtener las frecuencia en las que aparece cada palabra para un texto dado
+" obtener la frecuencia con la que aparece cada palabra para un texto dado
 function! WordFrequency() range
   let all = split(join(getline(a:firstline, a:lastline)), '\A\+')
   let frequencies = {}
@@ -533,7 +533,7 @@ map <Leader>sw :WordFrequency<CR>
 
 " }}}
 
-" Numero de linas de codigo {{{
+" Numero de lineas de codigo {{{
 
 " obtener el numero de lineas de codigo
 function! LinesOfCode()
