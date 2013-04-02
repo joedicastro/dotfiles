@@ -24,7 +24,8 @@ mapeada a `\`
         - [github](#github)
         - [summerfruit256](#summerfruit256)
  - [Vundle](#vundle)
- - [Edición de texto](#edicion-de-texto)
+ - [Operaciones con ventanas](#operaciones-con-ventanas)
+ - [Edicion de texto](#edicion-de-texto)
      - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
 
 
@@ -102,9 +103,21 @@ Funciona a través de comandos y de forma interactiva.
   repositorio de vimscripts
 
 
-## Edición de texto
+## Operaciones con ventanas
 
-### Desactivar el resaltado de la última búsqueda
+### Atajos
+
+- `<Leader>v`, crea una nueva ventana vertical
+- `<Leader>h`, crea una nueva ventana horizontal
+- `Ctrl + h`, desplazamiento a la siguiente ventana a la izquierda
+- `Ctrl + j`, desplazamiento a la ventana inferior 
+- `Ctrl + k`, desplazamiento a la ventana superior 
+- `Ctrl + l`, desplazamiento a la siguiente ventana a la derecha
+- `<Leader>m`, cierra la ventana actual
+
+## Edicion de texto
+
+### Desactivar el resaltado de la última busqueda
 
 ![nohlsearch][nhs] 
 
