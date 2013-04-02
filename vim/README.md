@@ -34,6 +34,14 @@ mapeada a `\`
      - [Copiar/pegar](#copiarpegar)
      - [Edicion rapida de varios archivos](#edicion-rapida-de-varios-archivos)
      - [Revision de ortografia](#revision-de-ortografia)
+     - [Guardar como root](#guardar-como-root)
+     - [Guardado rapido](#guardado-rapido)
+     - [Eliminar espacios al final de la linea](#eliminar-espacios-al-final-de-la-linea)
+ - [Exploracion de ficheros](#exploracion-de-ficheros)
+     - [Ranger](#ranger)
+
+
+     
 
 
 ## Esquemas de color
@@ -183,6 +191,56 @@ __Atajos__
 - `<Leader>se` activa la corrección ortográfica en ingles
 - `<Leader>so` desactiva la corrección ortográfica
 - `<Leader>sn` se desplaza a la siguiente palabra mal escrita
+
+### Guardar como root
+
+Permite guardar un archivo que solo tiene permisos para `root` sin necesidad de
+ejecutar vim desde ese usuario o utilizando `$ sudo` y perder de ese modo las
+ventajas de nuestra configuración. 
+
+__Comando__ `:w!!`
+
+### Guardado rapido
+
+Para guardar rápidamente un archivo sin tener que ejecutar el comando `:w`
+
+__Atajo__ `<Leader>w`
+
+### Eliminar espacios al final de la linea
+
+![remove_trail](http://joedicastro.com/static/pictures/remove_trail_spaces.gif "eliminar espacios finales")
+
+
+Elimina esos espacios que se quedan a veces al final de la linea y que suelen
+ser casi siempre innecesarios y sin cometido alguno (excepto quizas en Markdown)
+
+__Atajo__ `<Leader>rt`
+
+
+## Exploracion de ficheros
+
+### Ranger
+
+![ranger](http://joedicastro.com/static/pictures/ranger_vim.gif "ranger")
+
+A través de esto atajo llamo al programa externo
+[Ranger](http://joedicastro.com/productividad-linux-ranger.html) para navegar
+por el sistema de ficheros y elegir el fichero que queremos editar.
+
+__Atajo__ `<Leader>ra`
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # ...Work in progress!
 
