@@ -166,6 +166,8 @@ Bundle 'terryma/vim-expand-region'
 Bundle 'tpope/vim-characterize'
 " transponer lines y bloques de texto (intercambiar columnas y lineas)
 Bundle 'salsifis/vim-transpose'
+" gestion de marcadores
+Bundle 'kshenoy/vim-signature'
 
 " }}}
 
