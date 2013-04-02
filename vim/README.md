@@ -27,6 +27,8 @@ mapeada a `\`
  - [Operaciones con ventanas](#operaciones-con-ventanas)
  - [Edicion de texto](#edicion-de-texto)
      - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
+     - [Conmutar la visualizacion de numeros de linea](#conmutar-la-visualizacion-de-numeros-de-linea)
+     
 
 
 
@@ -125,7 +127,17 @@ Funciona a través de comandos y de forma interactiva.
   
 __Atajo__ `<Leader>sq`
 
+### Conmutar la visualizacion de numeros de linea
 
+![Conmutar numeros de linea][cnl] 
+
+  [cnl]: http://joedicastro.com/static/pictures/linenumbers.gif "Conmutar numeros de linea"
+
+  Conmuta entre no mostrar los números de línea, mostrarlos relativos y no
+  mostrarlos. 
+
+  __Atajo__ `<Leader>l`
+  
 
 
 
