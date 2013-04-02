@@ -9,17 +9,23 @@ determinado momento.
 Debido a la naturaleza altamente "mutante" de mi configuración, este documento
 estará sujeto del mismo modo a un numero elevado de modificaciones en el futuro.
 
+> La tecla `<Leader>` la tengo mapeada a `,` y la tecla `<LocalLeader>` la tengo
+mapeada a `\`
+
+
 ## Indice
 
  - [Esquemas de color](#esquemas-de-color)
      - [Temas oscuros](#temas-oscuros)
         - [vim-molokai256](#vim-molokai256)
-            - [molokai](#molokai)
-            - [badwolf](#badwolf)
-    - [Temas claros](#temas-claros)
+        - [molokai](#molokai)
+        - [badwolf](#badwolf)
+     - [Temas claros](#temas-claros)
         - [github](#github)
         - [summerfruit256](#summerfruit256)
  - [Vundle](#vundle)
+ - [Edición de texto](#edicion-de-texto)
+     - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
 
 
 
@@ -96,6 +102,15 @@ Funciona a través de comandos y de forma interactiva.
   repositorio de vimscripts
 
 
+## Edición de texto
+
+### Desactivar el resaltado de la última búsqueda
+
+![nohlsearch][nhs] 
+
+  [nhs]: http://joedicastro.com/static/pictures/nohlsearch.gif  "nohlsearch"
+  
+__Atajo__ `<Leader>sq`
 
 
 
