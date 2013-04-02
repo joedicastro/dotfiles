@@ -24,7 +24,8 @@ mapeada a `\`
      - [Temas claros](#temas-claros)
         - [github](#github)
         - [summerfruit256](#summerfruit256)
- - [Vundle](#vundle)
+ - [Gestion de plugins](#gestion-de-plugins)
+     - [Vundle](#vundle)
  - [Operaciones con ventanas](#operaciones-con-ventanas)
  - [Edicion de texto](#edicion-de-texto)
      - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
@@ -37,10 +38,12 @@ mapeada a `\`
      - [Guardar como root](#guardar-como-root)
      - [Guardado rapido](#guardado-rapido)
      - [Eliminar espacios al final de la linea](#eliminar-espacios-al-final-de-la-linea)
+     - [Insertar fecha/hora actual](#insertar-fechahora-actual)
+     - [Estadisticas de texto](#estadisticas-de-texto)
  - [Exploracion de ficheros](#exploracion-de-ficheros)
      - [Ranger](#ranger)
-
-
+ - [Edicion de codigo](#edicion-de-codigo)
+     - [Contar lineas de codigo](#contar-lineas-de-codigo)
      
 
 
@@ -91,7 +94,9 @@ su imagen como referencia.
   [summ]: http://joedicastro.com/static/pictures/summerfruit256.png "summerfruit256"
 
 
-## Vundle
+## Gestion de Plugins
+
+### Vundle
 
 Un plugin para gobernarlos a todos! Me permite administrar el resto de los
 plugins, el mismo incluido. A su vez lo tengo configurado para que se instale a
@@ -121,13 +126,14 @@ Funciona a través de comandos y de forma interactiva.
 
 ### Atajos
 
-- `<Leader>v`, crea una nueva ventana vertical
-- `<Leader>h`, crea una nueva ventana horizontal
-- `Ctrl + h`, desplazamiento a la siguiente ventana a la izquierda
-- `Ctrl + j`, desplazamiento a la ventana inferior 
-- `Ctrl + k`, desplazamiento a la ventana superior 
-- `Ctrl + l`, desplazamiento a la siguiente ventana a la derecha
-- `<Leader>m`, cierra la ventana actual
+- `<Leader>v` crea una nueva ventana vertical
+- `<Leader>h` crea una nueva ventana horizontal
+- `Ctrl + h` desplazamiento a la siguiente ventana a la izquierda
+- `Ctrl + j` desplazamiento a la ventana inferior 
+- `Ctrl + k` desplazamiento a la ventana superior 
+- `Ctrl + l` desplazamiento a la siguiente ventana a la derecha
+- `<Leader>m` cierra la ventana actual
+- `<Leader>q` cierra la ventana QuickFix
 
 ## Edicion de texto
 
@@ -217,6 +223,34 @@ ser casi siempre innecesarios y sin cometido alguno (excepto quizas en Markdown)
 __Atajo__ `<Leader>rt`
 
 
+### Insertar fecha/hora actual
+
+__Atajos__ 
+
+- `<Leader>is` inserta un timestamp (e.g. *mar abr  2 19:47:02 CEST 2013*)
+- `<Leader>ih` inserta la hora actual   
+- `<Leader>id` inserta el día actual    
+- `<Leader>if` inserta el día y la hora actuales
+
+### Estadisticas de texto
+
+![text stats]( http://joedicastro.com/static/pictures/textstats.gif "estadisticas de texto")
+
+Obtener el numero de lineas, palabras, caracteres y bytes (totales y de la
+posición actual)
+
+__Atajo__ `<Leader>st` 
+
+![frecuencia de palabras](
+http://joedicastro.com/static/pictures/word_frecuency.gif "frecuencia de
+palabras")
+
+Obtener la frecuencia con la que aparece cada palabra para un texto dado, abre
+una nueva ventana con las estadísticas.
+
+__Atajo__ `<Leader>sw`
+
+
 ## Exploracion de ficheros
 
 ### Ranger
@@ -228,6 +262,17 @@ A través de esto atajo llamo al programa externo
 por el sistema de ficheros y elegir el fichero que queremos editar.
 
 __Atajo__ `<Leader>ra`
+
+## Edicion de codigo
+
+### Contar lineas de codigo
+
+![cloc](http://joedicastro.com/static/pictures/cloc.gif "cloc")
+
+Ejecuta el programa externo `$ cloc` sobre el fichero y abre una nueva ventana
+con el resultado.
+
+__Atajo__ `<Leader>sc`
 
 
 
