@@ -617,7 +617,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F5",
         function ()
             awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
-            awful.util.spawn("ffmpeg -f x11grab -s 957x588" .. 
+            awful.util.spawn("ffmpeg -f x11grab -s 860x588" .. 
                             " -r 2 -i :0.0+2,19 -b:v 500k -pix_fmt rgb24 -y" ..
                             " -loop 0 " .. home_dir ..  "/animated.gif")
         end),
