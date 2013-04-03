@@ -187,7 +187,13 @@ Funciona a través de comandos y de forma interactiva.
 
 ### scratch-utility
 
-TODO
+![Scratch](http://joedicastro.com/static/pictures/scratch.gif "Scratch")
+
+Nos crea un nuevo buffer temporal en el que no se guardara nada de lo que
+editemos en ella, el contenido es descartado en cuanto cerramos la aplicación.
+La ventana aparecera siempre encima de la ventana actual
+
+__Atajo__ `F8` o `:Scratch` Mostrar/Ocultar la ventana Scratch
 
 ### zoomwintab
 
