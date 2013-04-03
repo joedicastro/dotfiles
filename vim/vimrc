@@ -705,12 +705,6 @@ map <Leader>fo :RopeFindOccurrences<CR>
 
 " }}}
 
-" scratch {{{
-
-map <Leader>b :Scratch<CR>
-
-" }}}
-
 " TagmaTasks {{{
 
 let g:TagmaTasksPrefix = ''
