@@ -210,8 +210,16 @@ __Atajo__ `<Leader>z` o `:ZoomWinTabToggle`
 
 ### vim-powerline
 
-TODO
+![Powerline](http://joedicastro.com/static/pictures/powerline.gif "Powerline")
 
+Es una linea de estado mejorada, mas agradable visualmente y preconfigurada para
+mostrar bastante información útil sobre cada buffer (modo, tipo de fichero,
+codificación, nombre, información de Git, ...).
+
+__Ayuda__ `:h Powerline.txt`
+
+__Comandos__ `:PowerlineClearCache` útil para cuando introducimos cambios en la
+configuración de la misma y no se ven reflejados por culpa del cache.
 
 ## Edicion de texto
 
