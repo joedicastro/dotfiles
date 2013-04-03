@@ -185,6 +185,7 @@ Funciona a través de comandos y de forma interactiva.
 - `<Leader>m` cierra la ventana actual
 - `<Leader>q` cierra la ventana QuickFix
 
+
 ### scratch-utility
 
 ![Scratch](http://joedicastro.com/static/pictures/scratch.gif "Scratch")
@@ -195,9 +196,17 @@ La ventana aparecera siempre encima de la ventana actual
 
 __Atajo__ `F8` o `:Scratch` Mostrar/Ocultar la ventana Scratch
 
+
 ### zoomwintab
 
-TODO
+![zoom](http://joedicastro.com/static/pictures/zoomwintab.gif "zoom")
+
+Hace zoom sobre una ventana, ocultando el resto. 
+
+__Ayuda__ `:h zoomwintab.vim`
+
+__Atajo__ `<Leader>z` o `:ZoomWinTabToggle`
+
 
 ### vim-powerline
 
