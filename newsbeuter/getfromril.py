@@ -49,9 +49,10 @@ def main():
 
     items = api.get(state="unread")
     lista = items["list"]
-    if len(lista) > 100:
+    total = len(lista)
+    if total > 100:
         call(['notify-send', '{0}'.
-             format('You have over 100 unread articles, wise up!')])
+             format('You have {0} unread articles, wise up!'.format(total))])
     with open("ril_urls.org", "w") as output:
         output.write("* Read It Later URLs" + os.linesep)
         for i, k in lista.items():
