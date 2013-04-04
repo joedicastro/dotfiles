@@ -546,19 +546,6 @@ map <Leader>sc :call LinesOfCode()<CR>
 
 " }}}
 
-" Insertar fecha/hora actual {{{
-
-" inserta una timestamp
-map <Leader>is :read !date<CR>
-" inserta la hora
-map <Leader>ih :read !date "+\%H:\%M:\%S"<CR>
-" inserta el dia y la hora
-map <Leader>if :read !date "+\%d-\%m-\%Y \%H:\%M:\%S"<CR>
-" inserta el dia
-map <Leader>id :read !date "+\%d-\%m-\%Y"<CR>
-
-" }}}
-
 " desactivar el resaltado de la ultima búsqueda {{{
 
 map <Leader>sq :nohlsearch<CR>
