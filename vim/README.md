@@ -366,9 +366,24 @@ __Comandos__
 
 ### vim-surround
 
+![surround](http://joedicastro.com/static/pictures/surround.gif "surround")
+
+Nos sirve para "envolver" un objeto de texto de vim con un par de caracteres o
+etiquetas similares (parentesis, comillas, etiquetas HTML, ...). Tambien nos
+permite cambiar o eliminar los ya existentes.
+
 __Ayuda__ `:h surround.txt`
 
-TODO
+__Atajos__
+
+- `ys{motion or text-object}{char}` crear "envolvente" (*'your surround'*)
+- `cs{orig_char}{dest_char}` cambiar "envolvente" (*'change surround'*)
+- `ds{char}` eliminar "envolvente"  (*'delete surround'*)
+- `S{char}`
+
+> Si elegimos el primer miembro de un par, e.g '(', entonces nos crea el
+> envolvente con un espacio entre el envolvente y la seleccion. Si elegimos el
+> ultimo miembro, e.g. ')', entonces nos lo crea sin los espacios.
 
 ### vim-repeat
 
