@@ -574,6 +574,13 @@ let g:colorv_cache_fav=$HOME.'/.vim/tmp/vim_colorv_cache_fav'
 nmap <leader>c <Plug>CommentaryLine
 xmap <leader>c <Plug>Commentary
 
+augroup plugin_commentary
+    au!
+    au FileType python setlocal commentstring=#%s
+    au FileType htmldjango setlocal commentstring={#\ %s\ #}
+    au FileType puppet setlocal commentstring=#\ %s
+augroup END
+
 " }}}
 
 " Ctrl-P {{{ -----------------------------------------------------------------
