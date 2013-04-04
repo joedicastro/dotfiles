@@ -178,10 +178,10 @@ Funciona a través de comandos y de forma interactiva.
 
 - `<Leader>v` crea una nueva ventana vertical
 - `<Leader>h` crea una nueva ventana horizontal
-- `Ctrl + h` desplazamiento a la siguiente ventana a la izquierda
-- `Ctrl + j` desplazamiento a la ventana inferior
-- `Ctrl + k` desplazamiento a la ventana superior
-- `Ctrl + l` desplazamiento a la siguiente ventana a la derecha
+- `<C-H>` desplazamiento a la siguiente ventana a la izquierda
+- `<C-J>` desplazamiento a la ventana inferior
+- `<C-K>` desplazamiento a la ventana superior
+- `<C-L>` desplazamiento a la siguiente ventana a la derecha
 - `<Leader>m` cierra la ventana actual
 - `<Leader>q` cierra la ventana QuickFix
 
@@ -194,7 +194,7 @@ Nos crea un nuevo buffer temporal en el que no se guardara nada de lo que
 editemos en ella, el contenido es descartado en cuanto cerramos la aplicación.
 La ventana aparecera siempre encima de la ventana actual
 
-__Atajo__ `F8` o `:Scratch` Mostrar/Ocultar la ventana Scratch
+__Atajo__ `<F8>` o `:Scratch` Mostrar/Ocultar la ventana Scratch
 
 
 ### zoomwintab
@@ -257,7 +257,7 @@ __Atajo__ `<Leader>sh`
 
   [ufl]: http://joedicastro.com/static/pictures/unfold.gif "abrir/cerrar pliegues"
 
-__Atajo__ `Space`
+__Atajo__ `<Space>`
 
 ### Copiar/pegar
 
@@ -338,11 +338,41 @@ __Atajo__ `<Leader>sw`
 
 ### vim-smartinput
 
-TODO
+![smartinput](http://joedicastro.com/static/pictures/smartinput.gif "smartinput")
+
+Provee de autocompletado inteligente para pares de caracteres muy empleados en
+programación como son __(), {}, [], "", '', ``__
+
+El funcionamiento es muy sencillo, si escribimos el primero de este par de
+caracteres, aparece automaticamente el segundo y el cursor se mueve al interior
+de los mismos. Entonces escribimos lo que queremos y cuando acabemos solo
+tenemos que introducir el segundo caracter. Sin en cambio solo quisieramos el
+primero, bastaria con pulsar la tecla __Delete__
+
+__Ayuda__ `:h smartinput.txt`
 
 ### vim-speeddating
 
-TODO
+![speeddating](http://joedicastro.com/static/pictures/speeddating.gif "speeddating")
+
+Sirve para incrementar/decrementar de forma inteligente valores de fechas y
+horas.  
+
+__Ayuda__ `:speeddating.txt` 
+
+__Atajos__
+
+- `<C-A>` Incrementa el valor bajo el cursor una unidad
+- `<C-X>` Decrementa el valor bajo el cursor una unidad
+- `d<C-A>` Cambia la fecha/hora bajo el cursor a la hora actual en UTC
+- `d<C-X>` Cambia la fecha/hora bajo el cursor a la hora actual en local
+
+__Comandos__
+
+- `:SpeedDatingFormat` Lista los formatos definidos
+- `:SpeedDatingFormat!` Ayuda para los formatos soportados
+- `:SpeedDatingFormat {format}` Define un formato nuevo
+- `:SpeedDatingFormat! {format}` Eliminar un formato existente
 
 ### vim-surround
 
