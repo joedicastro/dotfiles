@@ -43,7 +43,6 @@ mapeada a `\`
      - [Guardar como root](#guardar-como-root)
      - [Guardado rapido](#guardado-rapido)
      - [Eliminar espacios al final de la linea](#eliminar-espacios-al-final-de-la-linea)
-     - [Insertar fecha/hora actual](#insertar-fechahora-actual)
      - [Estadisticas de texto](#estadisticas-de-texto)
      - [vim-smartinput](#vim-smartinput)
      - [vim-speeddating](#vim-speeddating)
@@ -309,15 +308,6 @@ ser casi siempre innecesarios y sin cometido alguno (excepto quizas en Markdown)
 __Atajo__ `<Leader>rt`
 
 
-### Insertar fecha/hora actual
-
-__Atajos__
-
-- `<Leader>is` inserta un timestamp (e.g. *mar abr  2 19:47:02 CEST 2013*)
-- `<Leader>ih` inserta la hora actual
-- `<Leader>id` inserta el día actual
-- `<Leader>if` inserta el día y la hora actuales
-
 ### Estadisticas de texto
 
 ![text stats]( http://joedicastro.com/static/pictures/textstats.gif "estadisticas de texto")
@@ -376,6 +366,8 @@ __Comandos__
 
 ### vim-surround
 
+__Ayuda__ `:h surround.txt`
+
 TODO
 
 ### vim-repeat
@@ -384,7 +376,15 @@ TODO
 
 ### vim-commentary
 
-TODO
+![commentary](http://joedicastro.com/static/pictures/commentary.gif "commentary")
+
+Herramienta extremadamente sencilla para comentar/descomentar fragmentos de
+texto/código. Simplemente tenemos que pulsar un atajo seguido de un movimiento
+para comentar/descomentar o pulsar el atajo después de una selección visual. 
+
+__Ayuda__ `:h commentary.txt`
+
+__Atajo__ `<Leader>c` o `gc`
 
 ### YankRing
 
