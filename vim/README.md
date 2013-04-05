@@ -621,7 +621,20 @@ TODO
 
 ### calendar
 
-TODO 
+![vim-calendar](http://joedicastro.com/static/pictures/vim-calendar.gif "vim-calendar")
+
+Presenta un calendario por el que nos podemos desplazaz interactivamente. No lo
+uso directamente, es un complemento para org-mode.
+
+__Atajos__
+
+- `<Leader>cal` muestra el calendario
+- `<Leader>caL` muestra el calendario en horizontal
+
+__Comandos__
+
+- `:Calendar {year} {month}` muestra el calendario
+- `:CalendarH` muestra el calendario en horizontal
 
 ### utl 
 
