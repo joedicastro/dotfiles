@@ -455,7 +455,17 @@ __Comandos__
 
 ### Gundo
 
-TODO
+![gundo](http://joedicastro.com/static/pictures/gundo.gif "gundo")
+
+Sirve para hacer mas amigable la utilización del árbol de deshacer de Vim. De
+esta manera podemos ver el árbol de los cambios realizados, previsualizar los
+cambios que vamos a realizar y saber a donde vamos a retornar antes de deshacer
+un cambio.
+
+__Ayuda__ `:h gundo.txt`
+
+__Atajos__ `<Leader>u` abre el interfaz de ventanas de Gundo
+
 
 ### vim-expand-region
 
