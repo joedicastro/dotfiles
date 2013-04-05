@@ -472,7 +472,18 @@ __Atajos__
 
 ### LoremIpsum
 
-TODO
+![loremipsum](http://joedicastro.com/static/pictures/loremipsum.gif "loremipsum")
+
+Sirve para generar texto aleatorio para rellenar borradores y pruebas de diseño,
+muy usado en diseño web. Genera el famoso texto [Lorem Ipsum][lorem]
+
+  [lorem]: http://es.wikipedia.org/wiki/Lorem_ipsum
+
+__Ayuda__ `:h loremipsum.txt`
+
+__Comandos__
+
+- `:LoremIpsum {num palabras}` inserta el texto Lorem Ipsum de forma aleatoria
 
 ### vim-characterize
 
