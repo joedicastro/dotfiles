@@ -436,7 +436,22 @@ __Comandos__
 
 ### easydigraph
 
-TODO
+![easydigraph](http://joedicastro.com/static/pictures/easydigraph.gif "easydigraph")
+
+Herramienta para insertar un dígrafo de forma bastante sencilla, sobre todo
+cuando se trata de insertar varios simultáneamente.
+
+__Ayuda__ `:h easydigraph.txt@en` 
+
+__Atajos__ 
+
+- `<Leader>bb {motion}` convierte en dígrafo la selección efectuada con el
+  movimiento. 
+
+__Comandos__ 
+
+- `:digraphs` muestra una tabla con todos los dígrafos disponibles y los
+  caracteres necesarios para generarlos
 
 ### Gundo
 
