@@ -459,7 +459,16 @@ TODO
 
 ### vim-expand-region
 
-TODO
+![expand-region](http://joedicastro.com/static/pictures/expand-region.gif "expand-region")
+
+Nos sirve para incrementar/decrementar una seleccion visual de forma inteligente.
+
+__Ayuda__ `:h vim-expand-region.txt`
+
+__Atajos__
+
+- `-` decrementa la seleccion visual
+- `+` incrementa la seleccion visual
 
 ### LoremIpsum
 
