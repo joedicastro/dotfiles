@@ -342,9 +342,9 @@ vicious.register(soundvol, vicious.widgets.volume, "$1%", 2, "PCM")
 
 -- Weather {{{
 
-weather = widget({ type = "textbox" })
-vicious.register(weather, vicious.widgets.weather, "${tempc} ºC ${humid}% " ..
-                 "${windkmh} km/h ${weather}", 15, "LECO")
+-- weather = widget({ type = "textbox" })
+-- vicious.register(weather, vicious.widgets.weather, "${tempc} ºC ${humid}% " ..
+--                  "${windkmh} km/h ${weather}", 15, "LECO")
 -- }}}
 
 -- {{{ Space & Separator
@@ -395,7 +395,7 @@ for s = 1, screen.count() do
         memwidget, space,
         cpuwidget, space, fan120mm, space, fan180mm, space,
         cputemp, space,
-        weather, space,
+        -- weather, space,
         mpdwidget, space,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
