@@ -387,7 +387,16 @@ __Atajos__
 
 ### vim-repeat
 
-TODO
+Este es un plugin muy sencillo creado por Tim Pope para dar soporte al operando
+de Vim repetición `.` en la mayoría de sus plugins. En este caso da soporte a
+*vim-speeddating*, *vim-surroud* y *vim-commentary*
+
+__Ayuda__ `:h repeat.txt`
+
+__Atajos__
+
+- `.` repite la ultima operación una vez
+
 
 ### vim-commentary
 
@@ -403,7 +412,27 @@ __Atajo__ `<Leader>c` o `gc`
 
 ### YankRing
 
-TODO
+![YankRing](http://joedicastro.com/static/pictures/yankring.gif "YankRing")
+
+Es un plugin que pretende trasladar a Vim la opción de Emacs llamada "kill
+ring". Este plugin consiste en una lista de los bloques de texto que han sido
+previamente copiados/cortados/pegados en los registros/portapapeles.
+
+__Ayuda__ `:h yankring.txt`
+
+__Atajos__
+
+Este plugin es muy completo, pero actualmente solo estoy empleando una opción de
+las múltiples que soporta:
+
+- `<Leader>i` conmuta la venta de YankRing que muestra las entradas disponibles
+
+__Comandos__ 
+
+- `:YRShow` muestra/oculta la ventana de YankRing 
+- `:YRSearch {termino de busqueda/regex}` busca (se pueden emplear regex) en la lista
+- `:YRToggle` activa/desactiva el plugin
+- `:YRClear` limpia la lista
 
 ### easydigraph
 
