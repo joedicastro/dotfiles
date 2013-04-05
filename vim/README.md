@@ -485,9 +485,19 @@ __Comandos__
 
 - `:LoremIpsum {num palabras}` inserta el texto Lorem Ipsum de forma aleatoria
 
+
 ### vim-characterize
 
-TODO
+![characterize](http://joedicastro.com/static/pictures/characterize.gif "characterize")
+
+Muestra información ampliada sobre un carácter. Muestra el valor Unicode en
+decimal, hexadecimal, octal, el nombre Unicode, la HTML entity, el codigo Emoji
+y cualquier dígrafo disponible.
+
+__Ayuda__ `:h characterize.txt`
+
+__Atajo__ `ga` muestra la información sobre el carácter.
+
 
 ### vim-transpose
 
