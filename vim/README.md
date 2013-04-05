@@ -511,7 +511,22 @@ __Atajo__ `ga` muestra la información sobre el carácter.
 
 ### vim-transpose
 
-TODO
+![transpose](http://joedicastro.com/static/pictures/transpose.gif "transpose")
+
+Sirve para transponer filas y columnas, que puede ser muy útil para editar
+cierto tipo de ficheros (e.g. *csv*). Funciona con selecciones visuales.
+
+__Ayuda__ `:h transpose.txt`
+
+__Comandos__
+
+- `:Transpose` hace la transposición por defecto
+- `:TransposeCSV {separador} {delimitador}` hace la transposición teniendo en cuenta la separación por
+  punto y coma o el separador que le especifiquemos y el delimitador
+- `:TransposeTab` hace la transposición teniendo en cuenta los tabulados
+- `:TransposeWords` hace la transposición por palabras e inserta una
+  interrogación donde falte una
+- `:TransposeInteractive` para transposiciones complejas
 
 ### vim-signature
 
