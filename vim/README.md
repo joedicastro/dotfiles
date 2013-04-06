@@ -739,7 +739,7 @@ TODO
 
 ![vim-calendar](http://joedicastro.com/static/pictures/vim-calendar.gif "vim-calendar")
 
-Presenta un calendario por el que nos podemos desplazaz interactivamente. No lo
+Presenta un calendario por el que nos podemos desplazar interactivamente. No lo
 uso directamente, es un complemento para org-mode.
 
 __Atajos__
@@ -754,7 +754,15 @@ __Comandos__
 
 ### utl 
 
-TODO
+![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
+
+Es un plugin que nos permite abrir URLs y enlaces a otro tipo de ficheros desde
+vim.
+
+__Ayuda__ `:h utl_usr.txt`
+
+__Atajo__ `<Leader>j` si usamos el atajo sobre un enlace se abrirá el destino
+correspondiente en la aplicación que tengamos configurada
 
 ### NrrwRgn
 
