@@ -528,9 +528,43 @@ __Comandos__
   interrogación donde falte una
 - `:TransposeInteractive` para transposiciones complejas
 
+
 ### vim-signature
 
-TODO
+![signature](http://joedicastro.com/static/pictures/signature.gif "signature")
+
+Un plugin que sirve para conmutar, mostrar y navegar por los marcadores. Los
+marcadores se muestran en la columna lateral de signos de Vim, a la izquierda de
+los números de línea. 
+
+__Ayuda__  `:h signature.txt`
+
+__Atajos__
+
+- Marcadores alfabéticos
+
+  - `m[a-zA-Z]` conmuta la marca y la muestra/oculta
+  -  `m,`       activa el siguiente marcador disponible 
+  -  `m<Space>` borra todos los marcadores 
+  -  `]\``      salta al marcador siguiente 
+  -  `[\``      salta al marcador previo 
+  -  `]'`       salta al comienzo de la siguiente línea que tenga un marcador
+  -  `['`       salta al comienzo de la anterior línea que tenga un marcador
+
+- Marcadores simbólicos
+
+  -  `m[0-9]`       activa el marcador simbólico correspondiente !@#$%^&*()
+  -  `m<S-[0-9]>`   eliminar todos los marcadores iguales 
+  -  `]-`           salta a la siguiente línea que tenga el mismo marcador
+  -  `[-`           salta a la anterior línea que tenga el mismo marcador
+  -  `m<BS>`        elimina todos los marcadores simbólicos
+
+__Comandos__
+
+- `:SignatureToggle` muestra/oculta los marcadores (seguirán activos aunque no
+  se muestren)
+- `:SignatureRefreshDisplay` refresca los marcadores en caso de ser necesario
+
 
 ## Exploracion de ficheros
 
@@ -609,7 +643,7 @@ TODO
 ![tagmatasks](http://joedicastro.com/static/pictures/tagmatasks.gif "TagmaTasks")
 
 Visualiza las tareas pendientes para el buffer actual (o para una lista de
-ficheros) y muestra marcas en la barra lateral izquierda de signos para cada una
+ficheros) y muestra marcas en la columna lateral izquierda de signos para cada una
 de las tareas. Estas tareas se definen por medio de palabras clave en el buffer,
 como __TODO__, __FIXME__, __NOTE__, __XXX__ y __COMBAK__, aunque se pueden
 definir más.
