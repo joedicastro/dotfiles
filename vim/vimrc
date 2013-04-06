@@ -625,7 +625,7 @@ let g:gundo_preview_bottom = 1
 
 " indentLine {{{
 
-map <Leader>sl :IndentLinesToggle<CR>
+map <silent> <Leader>sl :IndentLinesToggle<CR>
 let g:indentLine_char = '¦'
 let g:indentLine_color_term = 239
 
