@@ -686,7 +686,14 @@ TODO
 
 ### tig
 
-TODO
+![tig](http://joedicastro.com/static/pictures/tig.gif "tig")
+
+Con este atajo abrimos la aplicación externa [tig][tig] que es un interfaz
+ncurses para git.
+
+  [tig]: https://github.com/jonas/tig
+
+__Atajo__ `<Leader>gt` abre la aplicación tig
 
 ## Desarrollo Web
 
