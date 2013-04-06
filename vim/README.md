@@ -593,7 +593,30 @@ TODO
 
 ### TagmaTasks
 
-TODO
+![tagmatasks](http://joedicastro.com/static/pictures/tagmatasks.gif "TagmaTasks")
+
+Visualiza las tareas pendientes para el buffer actual (o para una lista de
+ficheros) y muestra marcas en la barra lateral izquierda de signos para cada una
+de las tareas. Estas tareas se definen por medio de palabras clave en el buffer,
+como __TODO__, __FIXME__, __NOTE__, __XXX__ y __COMBAK__, aunque se pueden
+definir más.
+
+__Ayuda__ `:h TagmaTasks.txt`
+
+__Atajos__
+
+- `<Leader>k` muestra/oculta la ventana de tareas
+- `[t` salta a la tarea anterior 
+- `]t` salta a la tarea siguiente 
+- `[T` salta a la primera tarea
+- `]T` salta a la última tarea
+
+__Comandos__
+
+- `:TagmaTasks {glob}` Genera la lista de tareas para el buffer actual o para
+  una lista de ficheros definidos mediante *glob*
+- `:TagmaTaskToggle` muestra/oculta la ventana de tareas y ejecuta
+  automáticamente `:TagmaTasks` para el buffer actual
 
 ### UltiSnips
 
