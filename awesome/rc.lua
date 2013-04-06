@@ -317,8 +317,8 @@ cputemp = widget({ type = "textbox" })
 vicious.register(cputemp, vicious.contrib.sensors, " $1 ºC" , 3, "Physical id 0")
 fan180mm = widget({ type = "textbox" })
 vicious.register(fan180mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan4")
-fan120mm = widget({ type = "textbox" })
-vicious.register(fan120mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan2")
+-- fan120mm = widget({ type = "textbox" })
+-- vicious.register(fan120mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan2")
 -- }}}
 
 -- {{{ Network usage widget
@@ -393,7 +393,7 @@ for s = 1, screen.count() do
         fswidget, space,
         netwidget, space,
         memwidget, space,
-        cpuwidget, space, fan120mm, space, fan180mm, space,
+        cpuwidget, space, fan180mm, space,
         cputemp, space,
         -- weather, space,
         mpdwidget, space,
