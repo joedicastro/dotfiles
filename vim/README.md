@@ -546,8 +546,8 @@ __Atajos__
   - `m[a-zA-Z]` conmuta la marca y la muestra/oculta
   -  `m,`       activa el siguiente marcador disponible 
   -  `m<Space>` borra todos los marcadores 
-  -  `]\``      salta al marcador siguiente 
-  -  `[\``      salta al marcador previo 
+  -  `]``      salta al marcador siguiente 
+  -  `[``      salta al marcador previo 
   -  `]'`       salta al comienzo de la siguiente línea que tenga un marcador
   -  `['`       salta al comienzo de la anterior línea que tenga un marcador
 
@@ -757,7 +757,7 @@ __Comandos__
 ![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
 
 Es un plugin que nos permite abrir URLs y enlaces a otro tipo de ficheros desde
-vim.
+vim. Lo utilizo principalmente desde org-mode
 
 __Ayuda__ `:h utl_usr.txt`
 
@@ -766,10 +766,17 @@ correspondiente en la aplicación que tengamos configurada
 
 ### NrrwRgn
 
-TODO
+![NarrowRegion](http://joedicastro.com/static/pictures/narrowregion.gif "NarrowRegion")
 
+Este plugin trata de imitar una funcionalidad de Emacs, en la que se puede
+editar una región del buffer actual en una ventana separada sin afectar al resto
+del archivo. Lo uso principalmente con org-mode.
 
+__Ayuda__ `:h NarrowRegion.txt`
 
+__Atajos__
+
+- `<Leader>nr` sobre una selección visual crea una nueva *"Narrow Region"*
 
 
 
