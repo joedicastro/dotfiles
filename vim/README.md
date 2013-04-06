@@ -682,7 +682,15 @@ TODO
 
 ### vim-gitgutter
 
-TODO
+![gitgutter](http://joedicastro.com/static/pictures/gitgutter.gif "gitgutter")
+
+Muestra los cambios que se producen en el buffer con respecto al repositorio git
+en el que se encuentra. Hace un git diff y muestra el estado de cada linea que
+se ha cambiado/eliminado/añadido en la columna de signos de Vim a la izquierda
+de los números de línea.
+
+__Ayuda__ `:h gitgutter.txt`
+
 
 ### tig
 
@@ -694,6 +702,7 @@ ncurses para git.
   [tig]: https://github.com/jonas/tig
 
 __Atajo__ `<Leader>gt` abre la aplicación tig
+
 
 ## Desarrollo Web
 
