@@ -573,7 +573,20 @@ TODO
 
 ### indentLine
 
-TODO
+![indentLine](http://joedicastro.com/static/pictures/indentline.gif "indentLine")
+
+Sirve para mostrar lineas verticales en el código indentado (sangrado) con
+espacios para marcar los niveles de indentado.
+
+__Ayuda__ `:h indentLine.txt`
+
+__Atajo__ `<Leader>sl` oculta/muestra las lineas guía
+
+__Comandos__ 
+
+- `:IndentLinesToggle` oculta/muestra las lineas guía
+- `:IndentLinesReset {ancho}` redibuja las lineas guía, si se especifica el ancho (en
+  espacios) se utilizara ese como espaciado entre niveles
 
 ### vim-virtualenv
 
