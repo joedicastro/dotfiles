@@ -702,7 +702,7 @@ map <Leader>fo :RopeFindOccurrences<CR>
 " TagmaTasks {{{
 
 let g:TagmaTasksPrefix = ''
-map <Leader>k :TagmaTaskToggle<CR>
+map <silent> <Leader>k <Plug>TagmaTaskToggle<CR>
 
 " }}}
 
