@@ -109,10 +109,14 @@ terminal.
 
   [mlk256]: http://joedicastro.com/static/pictures/molokai256.png "vim-molokai256"
 
+*Repositorio:* <https://github.com/tomasr/molokai>
+
 #### molokai
 
 El tema por defecto para GVim, es practicamente identico a vim-molokai256, sirva
 su imagen como referencia.
+
+*Repositorio:* <https://github.com/joedicastro/vim-molokai256>
 
 #### badwolf
 
@@ -120,12 +124,15 @@ su imagen como referencia.
 
   [bdwf]: http://joedicastro.com/static/pictures/badwolf.png "badwolf"
 
+*Repositorio:* <https://github.com/sjl/badwolf>
+
 #### harlequin
 
 ![harlequin][hqn]
 
   [hqn]: http://joedicastro.com/static/pictures/harlequin.png "harlequin"
 
+*Repositorio:* <https://github.com/nielsmadan/harlequin>
 
 ### Temas claros
 
@@ -135,6 +142,7 @@ su imagen como referencia.
 
   [gh]: http://joedicastro.com/static/pictures/github.png "github"
 
+*Repositorio:* <https://github.com/joedicastro/vim-github256>
 
 #### summerfruit256
 
@@ -142,6 +150,7 @@ su imagen como referencia.
 
   [summ]: http://joedicastro.com/static/pictures/summerfruit256.png "summerfruit256"
 
+*Repositorio:* <https://github.com/vim-scripts/summerfruit256.vim>
 
 ## Gestion de Plugins
 
@@ -168,6 +177,7 @@ __Comandos__
 - `:Bundles`, muestra la lista de todos los plugins disponibles en el
   repositorio de vimscripts
 
+*Repositorio:* <https://github.com/gmarik/vundle>
 
 ## Operaciones con ventanas
 
@@ -193,6 +203,7 @@ La ventana aparecera siempre encima de la ventana actual
 
 __Atajo__ `<F8>` o `:Scratch` Mostrar/Ocultar la ventana Scratch
 
+*Repositorio:* <https://github.com/vim-scripts/scratch-utility>
 
 ### zoomwintab
 
@@ -204,6 +215,7 @@ __Ayuda__ `:h zoomwintab.vim` <vimhelp:zoomwintab.vim>
 
 __Atajo__ `<Leader>z` o `:ZoomWinTabToggle`
 
+*Repositorio:* <https://github.com/vim-scripts/zoomwintab.vim>
 
 ### vim-powerline
 
@@ -217,6 +229,8 @@ __Ayuda__ `:h Powerline.txt` <vimhelp:Powerline.txt>
 
 __Comandos__ `:PowerlineClearCache` útil para cuando introducimos cambios en la
 configuración de la misma y no se ven reflejados por culpa del cache.
+
+*Repositorio:* <https://github.com/Lokaltog/powerline>
 
 ## Edicion de texto
 
@@ -339,6 +353,8 @@ primero, bastaria con pulsar la tecla __Delete__
 
 __Ayuda__ `:h smartinput.txt` <vimhelp:smartinput.txt>
 
+*Repositorio:* <https://github.com/kana/vim-smartinput>
+
 ### vim-speeddating
 
 ![speeddating](http://joedicastro.com/static/pictures/speeddating.gif "speeddating")
@@ -362,6 +378,8 @@ __Comandos__
 - `:SpeedDatingFormat {format}` Define un formato nuevo
 - `:SpeedDatingFormat! {format}` Eliminar un formato existente
 
+*Repositorio:* <https://github.com/tpope/vim-speeddating>
+
 ### vim-surround
 
 ![surround](http://joedicastro.com/static/pictures/surround.gif "surround")
@@ -383,6 +401,8 @@ __Atajos__
 > envolvente con un espacio entre el envolvente y la seleccion. Si elegimos el
 > ultimo miembro, e.g. ')', entonces nos lo crea sin los espacios.
 
+*Repositorio:* <https://github.com/tpope/vim-surround>
+
 ### vim-repeat
 
 Este es un plugin muy sencillo creado por Tim Pope para dar soporte al operando
@@ -395,6 +415,7 @@ __Atajos__
 
 - `.` repite la ultima operación una vez
 
+*Repositorio:* <https://github.com/tpope/vim-repeat>
 
 ### vim-commentary
 
@@ -407,6 +428,8 @@ para comentar/descomentar o pulsar el atajo después de una selección visual.
 __Ayuda__ `:h commentary.txt` <vimhelp:commentary.txt>
 
 __Atajo__ `<Leader>c` o `gc`
+
+*Repositorio:* <https://github.com/tpope/vim-commentary>
 
 ### YankRing
 
@@ -432,6 +455,8 @@ __Comandos__
 - `:YRToggle` activa/desactiva el plugin
 - `:YRClear` limpia la lista
 
+*Repositorio:* <https://github.com/vim-scripts/YankRing.vim>
+
 ### easydigraph
 
 ![easydigraph](http://joedicastro.com/static/pictures/easydigraph.gif "easydigraph")
@@ -451,6 +476,8 @@ __Comandos__
 - `:digraphs` muestra una tabla con todos los dígrafos disponibles y los
   caracteres necesarios para generarlos
 
+*Repositorio:* <https://github.com/Rykka/easydigraph.vim>
+
 ### Gundo
 
 ![gundo](http://joedicastro.com/static/pictures/gundo.gif "gundo")
@@ -464,6 +491,7 @@ __Ayuda__ `:h gundo.txt` <vimhelp:gundo.txt>
 
 __Atajos__ `<Leader>u` abre el interfaz de ventanas de Gundo
 
+*Repositorio:* <https://github.com/sjl/gundo.vim>
 
 ### vim-expand-region
 
@@ -477,6 +505,8 @@ __Atajos__
 
 - `-` decrementa la seleccion visual
 - `+` incrementa la seleccion visual
+
+*Repositorio:* <https://github.com/terryma/vim-expand-region>
 
 ### LoremIpsum
 
@@ -493,6 +523,7 @@ __Comandos__
 
 - `:LoremIpsum {num palabras}` inserta el texto Lorem Ipsum de forma aleatoria
 
+*Repositorio:* <https://github.com/vim-scripts/loremipsum>
 
 ### vim-characterize
 
@@ -506,6 +537,8 @@ __Ayuda__ `:h characterize.txt` <vimhelp:characterize.txt>
 
 __Atajo__ `ga` muestra la información sobre el carácter.
 
+
+*Repositorio:* <https://github.com/tpope/vim-characterize>
 
 ### vim-transpose
 
@@ -526,6 +559,7 @@ __Comandos__
   interrogación donde falte una
 - `:TransposeInteractive` para transposiciones complejas
 
+*Repositorio:* <https://github.com/salsifis/vim-transpose>
 
 ### vim-signature
 
@@ -563,6 +597,7 @@ __Comandos__
   se muestren)
 - `:SignatureRefreshDisplay` refresca los marcadores en caso de ser necesario
 
+*Repositorio:* <https://github.com/kshenoy/vim-signature>
 
 ## Exploracion de ficheros
 
@@ -580,6 +615,8 @@ __Atajo__ `<Leader>ra`
 
 TODO: Añadir descripción a CtrlP
 
+*Repositorio:* <https://github.com/kien/ctrlp.vim>
+
 ## Edicion de codigo
 
 ### Contar lineas de codigo
@@ -595,13 +632,19 @@ __Atajo__ `<Leader>sc`
 
 TODO: Añadir descripción a Neocomplcache 
 
+*Repositorio:* <https://github.com/Shougo/neocomplcache>
+
 ### jedi-vim
 
 TODO: Añadir descripción a Jedi
 
+*Repositorio:* <https://github.com/davidhalter/jedi-vim>
+
 ### python-mode
 
 TODO: Añadir descripción a python-mode    
+
+*Repositorio:* <https://github.com/klen/python-mode>
 
 ### indentLine
 
@@ -620,21 +663,31 @@ __Comandos__
 - `:IndentLinesReset {ancho}` redibuja las lineas guía, si se especifica el ancho (en
   espacios) se utilizara ese como espaciado entre niveles
 
+*Repositorio:* <https://github.com/Yggdroot/indentLine>
+
 ### vim-virtualenv
 
 TODO: Añadir descripción a Virtualenv
+
+*Repositorio:* <https://github.com/jmcantrell/vim-virtualenv>
 
 ### coveragepy
 
 TODO: Añadir descripción a coveragepy
 
+*Repositorio:* <https://github.com/alfredodeza/coveragepy.vim>
+
 ### tagbar
 
 TODO: Añadir descripción a Tagbar
 
+*Repositorio:* <https://github.com/majutsushi/tagbar>
+
 ### vimux
 
 TODO: Añadir descripción a vimux 
+
+*Repositorio:* <https://github.com/benmills/vimux>
 
 ### TagmaTasks
 
@@ -663,20 +716,27 @@ __Comandos__
 - `:TagmaTaskToggle` muestra/oculta la ventana de tareas y ejecuta
   automáticamente `:TagmaTasks` para el buffer actual
 
+*Repositorio:* <https://github.com/LStinson/TagmaTasks>
+
 ### UltiSnips
 
 TODO: Añadir descripción a UltiSnips 
+
+*Repositorio:* <https://github.com/SirVer/ultisnips>
 
 ### Syntastic
 
 TODO: Añadir descripción a Syntastic
 
+*Repositorio:* <https://github.com/scrooloose/syntastic>
 
 ## DVCS: Git
 
 ### Fugitive
 
 TODO: Añadir descripción a Fugitive
+
+*Repositorio:* <https://github.com/tpope/vim-fugitive>
 
 ### vim-gitgutter
 
@@ -689,6 +749,7 @@ de los números de línea.
 
 __Ayuda__ `:h gitgutter.txt` <vimhelp:gitgutter.txt>
 
+*Repositorio:* <https://github.com/airblade/vim-gitgutter>
 
 ### tig
 
@@ -704,6 +765,7 @@ ncurses para git.
 
 __Atajo__ `<Leader>gt` abre la aplicación tig
 
+*Repositorio:* <https://github.com/jonas/tig>
 
 ## Desarrollo Web
 
@@ -711,20 +773,27 @@ __Atajo__ `<Leader>gt` abre la aplicación tig
 
 TODO: Añadir descripción a HTML5
 
+*Repositorio:* <https://github.com/othree/html5.vim>
+
 ### Sparkup
 
 TODO: Añadir descripción a Sparkup
+
+*Repositorio:* <http://github.com/joedicastro/vim-sparkup>
 
 ### ColorV
 
 TODO: Añadir descripción a ColorV
 
+*Repositorio:* <https://github.com/Rykka/colorv.vim>
 
 ## Markdown
 
 ### vim-markdown-extra-preview
 
 TODO: Añadir descripción a vim-markdown-extra-preview   
+
+*Repositorio:* <http://github.com/joedicastro/vim-markdown-extra-preview>
 
 ## Utilidades de Linux/Unix
 
@@ -761,6 +830,7 @@ __Atajos en la ventana QuickFix__
 - `gv` abre el fichero en una nueva ventana vertical pero no salta a ella
 - `q` cierra la ventana QuickFix
 
+*Repositorio:* <https://github.com/mileszs/ack.vim>
 
 ### vim-eunuch 
 
@@ -784,6 +854,7 @@ __Comandos__
 - `:SudoWrite {mode}` guarda el archivo empleando sudo (con permisos de root)
 - `:W` guarda todas las ventanas abiertas (ventanas, no buffers)
 
+*Repositorio:* <https://github.com/tpope/vim-eunuch>
 
 ### DirDiff
 
@@ -797,6 +868,7 @@ __Comandos__
   los dos directorios
 - `:DirDiffQuit` sale del modo DirDiff
 
+*Repositorio:* <http://github.com/joedicastro/DirDiff.vim>
 
 ## Internalizacion
 
@@ -804,11 +876,15 @@ __Comandos__
 
 TODO: Añadir descripción a .po
 
+*Repositorio:* <https://github.com/vim-scripts/po.vim--gray>
+
 ## Organizacion de tareas
 
 ### vim-orgmode
 
 TODO: Añadir descripción a vim-orgmode     
+
+*Repositorio:* <https://github.com/powentan/vim-orgmode>
 
 ### calendar
 
@@ -827,6 +903,8 @@ __Comandos__
 - `:Calendar {year} {month}` muestra el calendario
 - `:CalendarH` muestra el calendario en horizontal
 
+*Repositorio:* <https://github.com/vim-scripts/calendar.vim--Matsumoto>
+
 ### utl 
 
 ![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
@@ -838,6 +916,8 @@ __Ayuda__ `:h utl_usr.txt` <vimhelp:utl_usr.txt>
 
 __Atajo__ `<Leader>j` si usamos el atajo sobre un enlace se abrirá el destino
 correspondiente en la aplicación que tengamos configurada
+
+*Repositorio:* <https://github.com/vim-scripts/utl.vim>
 
 ### NrrwRgn
 
@@ -853,7 +933,7 @@ __Atajos__
 
 - `<Leader>nr` sobre una selección visual crea una nueva *"Narrow Region"*
 
-
+*Repositorio:* <https://github.com/chrisbra/NrrwRgn>
 
 
 
@@ -874,6 +954,5 @@ __Atajos__
 # ...Work in progress!
 
 TODO: Acabar con todos los TODOs  
-TODO: Añadir las urls de los repositorios de todos los plugins  
 FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.  
 FIXME: Realizar una revisión de calidad  
