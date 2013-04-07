@@ -732,6 +732,10 @@ let g:utl_cfg_hdl_mt_image_png = 'silent :!sxiv %p &'
 
 " Vim-markdown-extra-preview {{{
 
+map <LocalLeader>mp :Me<CR>
+map <LocalLeader>mr :Mer<CR>
+
+" let g:VMEPextensions = ['extra', 'codehilite']
 " let g:VMEPhtmlreader= '/usr/bin/chromium-browser'
 
 " }}}
