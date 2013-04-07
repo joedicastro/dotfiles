@@ -699,6 +699,9 @@ __Ayuda__ `:h gitgutter.txt`
 Con este atajo abrimos la aplicación externa [tig][tig] que es un interfaz
 ncurses para git.
 
+> Evidentemente esto solo funciona cuando te encuentras dentro de un repositorio
+> git.
+
   [tig]: https://github.com/jonas/tig
 
 __Atajo__ `<Leader>gt` abre la aplicación tig
@@ -729,7 +732,37 @@ TODO
 
 ### Ack
 
-TODO
+![ack](http://joedicastro.com/static/pictures/ack.gif "ack")
+
+Ejecuta el programa [Ack][ack] y mesta los resultados en la ventana QuickFix,
+desde la que podemos abrir directamente en el buffer los distintos resultados.
+Ack es una herramienta similar a grep pero enfocada a buscas en código fuente,
+por lo que esta orientada principalmente a programadores.
+
+  [ack]: http://betterthangrep.com/
+
+__Ayuda__ `:h ack.txt`
+
+__Atajos__ `<Leader>a` lanza el comando para que solo tengamos que introducir el
+patrón de búsqueda y las opciones que queramos.
+
+__Comandos__
+
+- `:AckFile` similar a `:Ack` pero busca ficheros por su nombre
+- `:AckHelp` similar a `:Ack` pero busca dentro de la ayuda de Vim
+
+__Atajos en la ventana QuickFix__ 
+
+- `o` abre el fichero
+- `go` abre el fichero pero el foco permanece en la ventana QuickFix
+- `t` abre el fichero en una nueva pestaña
+- `T` abre el fichero en una nueva pestaña pero no salta a ella
+- `h` abre el fichero en una nueva ventana horizontal
+- `H` abre el fichero en una nueva ventana horizontal pero no salta a ella
+- `v` abre el fichero en una nueva ventana vertical
+- `gv` abre el fichero en una nueva ventana vertical pero no salta a ella
+- `q` cierra la ventana QuickFix
+
 
 ### vim-eunuch
 
