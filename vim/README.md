@@ -810,7 +810,28 @@ TODO: Añadir descripción a ColorV
 
 ### vim-markdown-extra-preview
 
-TODO: Añadir descripción a vim-markdown-extra-preview   
+![mep]( http://joedicastro.com/static/pictures/mep.gif "mep")
+
+Es una utilidad que nos permite previsualizar el renderizado de un fichero
+Markdown en el navegador, soporta además la extensión `extra` de Markdown.  El
+fichero es renderizado con Python-Markdown, crea un fichero temporal html y lo
+abre en una pestaña en el navegador. Usado en conjunto con algún plugin que
+refresque la pestaña del navegador al cambiar el fichero html, conseguimos
+previsualizar los cambios sin abandonar vim.
+
+__Ayuda__ `:h vmep.txt` <vimhelp:vmep.txt>
+
+__Atajos__
+
+- `<LocalLeader>mp` previsualiza el buffer en una nueva pestaña
+- `<LocalLeader>mr` refresca la pestaña ya abierta
+
+__Comados__
+
+- `:Me` para previsualizar el buffer actual
+
+- `:Mer` refresca la pestaña ya abierta anteriormente para el buffer actual
+
 
 *Repositorio:* <http://github.com/joedicastro/vim-markdown-extra-preview>
 
