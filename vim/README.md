@@ -893,7 +893,31 @@ __Comandos__
 
 ### Traduccion de ficheros .po
 
-TODO: Añadir descripción a .po
+![po](http://joedicastro.com/static/pictures/po.gif "po")
+
+Es una utilidad para añadir sintaxis y algunos atajos para los ficheros `.po` de
+traducción de cadenas (GNU gettext)
+
+__Ayuda__ `:h po.txt` <vimhelp:po.txt>
+
+__Atajos__
+
+- `<LocalLeader>u` se desplaza a la siguiente cadena sin traducir
+- `<LocalLeader>U` se desplaza a la anterior cadena sin traducir
+- `<LocalLeader>c` copia la cadena `msgid` a `msgstr`
+- `<LocalLeader>C` crea un comentario para esa entrada
+- `<LocalLeader>d` elimina la cadena `msgstr` (solo en Insert mode)
+- `<LocalLeader>f` se desplaza a la siguiente cadena "fuzzy" 
+- `<LocalLeader>F` se desplaza a la anterior cadena "fuzzy" 
+- `<LocalLeader>z` etiqueta la entrada "fuzzy" 
+- `<LocalLeader>Z` elimina la etiqueta de la entrada "fuzzy"
+- `<LocalLeader>s` muestra estadísticas `msgfmt` del fichero
+- `<LocalLeader>e` navega a través de los errores `msgfmt` del fichero
+- `<LocalLeader>t` introduce la información del traductor en la cabecera
+- `<LocalLeader>T` introduce la información del equipo de traducción en la cabecera
+- `<LocalLeader>W` formatea todo el fichero
+- `gf` abre en otra ventana el fichero que está debajo del cursor
+
 
 *Repositorio:* <https://github.com/vim-scripts/po.vim--gray>
 
