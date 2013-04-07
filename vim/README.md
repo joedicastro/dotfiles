@@ -580,7 +580,7 @@ __Atajo__ `<Leader>ra`
 
 ### CtrlP
 
-TODO
+TODO: Añadir descripción a CtrlP
 
 ## Edicion de codigo
 
@@ -595,15 +595,15 @@ __Atajo__ `<Leader>sc`
 
 ### neocomplcache
 
-TODO
+TODO: Añadir descripción a Neocomplcache 
 
 ### jedi-vim
 
-TODO
+TODO: Añadir descripción a Jedi
 
 ### python-mode
 
-TODO    
+TODO: Añadir descripción a python-mode    
 
 ### indentLine
 
@@ -624,19 +624,19 @@ __Comandos__
 
 ### vim-virtualenv
 
-TODO
+TODO: Añadir descripción a Virtualenv
 
 ### coveragepy
 
-TODO
+TODO: Añadir descripción a coveragepy
 
 ### tagbar
 
-TODO
+TODO: Añadir descripción a Tagbar
 
 ### vimux
 
-TODO
+TODO: Añadir descripción a vimux 
 
 ### TagmaTasks
 
@@ -667,18 +667,18 @@ __Comandos__
 
 ### UltiSnips
 
-TODO
+TODO: Añadir descripción a UltiSnips 
 
 ### Syntastic
 
-TODO
+TODO: Añadir descripción a Syntastic
 
 
 ## DVCS: Git
 
 ### Fugitive
 
-TODO
+TODO: Añadir descripción a Fugitive
 
 ### vim-gitgutter
 
@@ -711,22 +711,22 @@ __Atajo__ `<Leader>gt` abre la aplicación tig
 
 ### HTML5
 
-TODO
+TODO: Añadir descripción a HTML5
 
 ### Sparkup
 
-TODO
+TODO: Añadir descripción a Sparkup
 
 ### ColorV
 
-TODO
+TODO: Añadir descripción a ColorV
 
 
 ## Markdown
 
 ### vim-markdown-extra-preview
 
-TODO
+TODO: Añadir descripción a vim-markdown-extra-preview   
 
 ## Utilidades de Linux/Unix
 
@@ -766,23 +766,23 @@ __Atajos en la ventana QuickFix__
 
 ### vim-eunuch
 
-TODO
+TODO: Añadir descripción a vim-eunuch 
 
 ### DirDiff
 
-TODO
+TODO: Añadir descripción a DirDiff 
 
 ## Internalizacion
 
 ### Traduccion de ficheros .po
 
-TODO
+TODO: Añadir descripción a .po
 
 ## Organizacion de tareas
 
 ### vim-orgmode
 
-TODO    
+TODO: Añadir descripción a vim-orgmode     
 
 ### calendar
 
@@ -845,7 +845,9 @@ __Atajos__
 
 
 
-
-
-
 # ...Work in progress!
+
+TODO: Acabar con todos los TODOs
+FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.
+FIXME: Añadir las urls de los repositorios de todos los plugins
+FIXME: Realizar una revisión de calidad
