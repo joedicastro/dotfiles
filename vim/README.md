@@ -24,7 +24,7 @@ mapeada a `\`
         - [molokai](#molokai)
         - [badwolf](#badwolf)
      - [Temas claros](#temas-claros)
-        - [github](#github)
+        - [github256](#github256)
         - [summerfruit256](#summerfruit256)
  - [Gestion de plugins](#gestion-de-plugins)
      - [Vundle](#vundle)
@@ -136,7 +136,7 @@ su imagen como referencia.
 
 ### Temas claros
 
-#### github
+#### github256
 
 ![github][gh]
 
@@ -679,7 +679,26 @@ TODO: Añadir descripción a coveragepy
 
 ### tagbar
 
-TODO: Añadir descripción a Tagbar
+![tagbar](http://joedicastro.com/static/pictures/tagbar.gif "tagbar")
+
+Muestra una barra lateral con las etiquetas generadas por `ctags` para un
+fichero de código fuente ordenadas por su "alcance" (scope). Desde esta barra
+podemos navegar directamente a una etiqueta determinada en el fichero.
+
+__Ayuda__ `:h tagbar.txt` <vimhelp:tagbar.txt>
+
+__Atajo__ `<Leader>t` muestra/oculta la barra lateral
+
+__Atajos en la barra lateral__ 
+
+- `<Enter>` salta a la etiqueta en el fichero y cierra la barra
+- `p` salta a la etiqueta en el fichero sin cerrar la barra y sin perder el foco
+- `o` contrae/expande un pliege (scope)
+- `s` ordena las etiquetas por nombre o por su orden de aparición en el fichero 
+- `<Space>` Visualiza la linea en la que es definida la etiqueta en la linea de
+  comandos
+- `q` cierra la barra lateral
+- `<F1>` muestra la ayuda para los atajos
 
 *Repositorio:* <https://github.com/majutsushi/tagbar>
 
