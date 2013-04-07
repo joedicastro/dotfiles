@@ -154,11 +154,9 @@ instala automáticamente el resto de plugins)
 
 Funciona a través de comandos y de forma interactiva.
 
-### Ayuda
+__Ayuda__ `:h vundle.txt`, `:BundleDocs` <vimhelp:vundle.txt>
 
-`:h vundle.txt`, `:BundleDocs`
-
-### Comandos
+__Comandos__
 
 - `:BundleList`, muestra una ventana con la lista de todos los plugins
   instalados
@@ -202,7 +200,7 @@ __Atajo__ `<F8>` o `:Scratch` Mostrar/Ocultar la ventana Scratch
 
 Hace zoom sobre una ventana, ocultando el resto. 
 
-__Ayuda__ `:h zoomwintab.vim`
+__Ayuda__ `:h zoomwintab.vim` <vimhelp:zoomwintab.vim>
 
 __Atajo__ `<Leader>z` o `:ZoomWinTabToggle`
 
@@ -215,7 +213,7 @@ Es una linea de estado mejorada, mas agradable visualmente y preconfigurada para
 mostrar bastante información útil sobre cada buffer (modo, tipo de fichero,
 codificación, nombre, información de Git, ...).
 
-__Ayuda__ `:h Powerline.txt`
+__Ayuda__ `:h Powerline.txt` <vimhelp:Powerline.txt>
 
 __Comandos__ `:PowerlineClearCache` útil para cuando introducimos cambios en la
 configuración de la misma y no se ven reflejados por culpa del cache.
@@ -339,7 +337,7 @@ de los mismos. Entonces escribimos lo que queremos y cuando acabemos solo
 tenemos que introducir el segundo caracter. Sin en cambio solo quisieramos el
 primero, bastaria con pulsar la tecla __Delete__
 
-__Ayuda__ `:h smartinput.txt`
+__Ayuda__ `:h smartinput.txt` <vimhelp:smartinput.txt>
 
 ### vim-speeddating
 
@@ -348,7 +346,7 @@ __Ayuda__ `:h smartinput.txt`
 Sirve para incrementar/decrementar de forma inteligente valores de fechas y
 horas.  
 
-__Ayuda__ `:speeddating.txt` 
+__Ayuda__ `:speeddating.txt`  <vimhelp:speeddating.txt>
 
 __Atajos__
 
@@ -372,7 +370,7 @@ Nos sirve para "envolver" un objeto de texto de vim con un par de caracteres o
 etiquetas similares (parentesis, comillas, etiquetas HTML, ...). Tambien nos
 permite cambiar o eliminar los ya existentes.
 
-__Ayuda__ `:h surround.txt`
+__Ayuda__ `:h surround.txt` <vimhelp:surround.txt>
 
 __Atajos__
 
@@ -391,7 +389,7 @@ Este es un plugin muy sencillo creado por Tim Pope para dar soporte al operando
 de Vim repetición `.` en la mayoría de sus plugins. En este caso da soporte a
 *vim-speeddating*, *vim-surroud* y *vim-commentary*
 
-__Ayuda__ `:h repeat.txt`
+__Ayuda__ `:h repeat.txt` <vimhelp:repeat.txt>
 
 __Atajos__
 
@@ -406,7 +404,7 @@ Herramienta extremadamente sencilla para comentar/descomentar fragmentos de
 texto/código. Simplemente tenemos que pulsar un atajo seguido de un movimiento
 para comentar/descomentar o pulsar el atajo después de una selección visual. 
 
-__Ayuda__ `:h commentary.txt`
+__Ayuda__ `:h commentary.txt` <vimhelp:commentary.txt>
 
 __Atajo__ `<Leader>c` o `gc`
 
@@ -418,7 +416,7 @@ Es un plugin que pretende trasladar a Vim la opción de Emacs llamada "kill
 ring". Este plugin consiste en una lista de los bloques de texto que han sido
 previamente copiados/cortados/pegados en los registros/portapapeles.
 
-__Ayuda__ `:h yankring.txt`
+__Ayuda__ `:h yankring.txt` <vimhelp:yankring.txt>
 
 __Atajos__
 
@@ -441,7 +439,7 @@ __Comandos__
 Herramienta para insertar un dígrafo de forma bastante sencilla, sobre todo
 cuando se trata de insertar varios simultáneamente.
 
-__Ayuda__ `:h easydigraph.txt@en` 
+__Ayuda__ `:h easydigraph.txt@en` <vimhelp:easydigraph.txt@en>
 
 __Atajos__ 
 
@@ -462,7 +460,7 @@ esta manera podemos ver el árbol de los cambios realizados, previsualizar los
 cambios que vamos a realizar y saber a donde vamos a retornar antes de deshacer
 un cambio.
 
-__Ayuda__ `:h gundo.txt`
+__Ayuda__ `:h gundo.txt` <vimhelp:gundo.txt>
 
 __Atajos__ `<Leader>u` abre el interfaz de ventanas de Gundo
 
@@ -473,7 +471,7 @@ __Atajos__ `<Leader>u` abre el interfaz de ventanas de Gundo
 
 Nos sirve para incrementar/decrementar una seleccion visual de forma inteligente.
 
-__Ayuda__ `:h vim-expand-region.txt`
+__Ayuda__ `:h vim-expand-region.txt` <vimhelp:vim-expand-region.txt>
 
 __Atajos__
 
@@ -489,7 +487,7 @@ muy usado en diseño web. Genera el famoso texto [Lorem Ipsum][lorem]
 
   [lorem]: http://es.wikipedia.org/wiki/Lorem_ipsum
 
-__Ayuda__ `:h loremipsum.txt`
+__Ayuda__ `:h loremipsum.txt` <vimhelp:loremipsum.txt>
 
 __Comandos__
 
@@ -504,7 +502,7 @@ Muestra información ampliada sobre un carácter. Muestra el valor Unicode en
 decimal, hexadecimal, octal, el nombre Unicode, la HTML entity, el codigo Emoji
 y cualquier dígrafo disponible.
 
-__Ayuda__ `:h characterize.txt`
+__Ayuda__ `:h characterize.txt` <vimhelp:characterize.txt>
 
 __Atajo__ `ga` muestra la información sobre el carácter.
 
@@ -516,7 +514,7 @@ __Atajo__ `ga` muestra la información sobre el carácter.
 Sirve para transponer filas y columnas, que puede ser muy útil para editar
 cierto tipo de ficheros (e.g. *csv*). Funciona con selecciones visuales.
 
-__Ayuda__ `:h transpose.txt`
+__Ayuda__ `:h transpose.txt` <vimhelp:transpose.txt>
 
 __Comandos__
 
@@ -537,7 +535,7 @@ Un plugin que sirve para conmutar, mostrar y navegar por los marcadores. Los
 marcadores se muestran en la columna lateral de signos de Vim, a la izquierda de
 los números de línea. 
 
-__Ayuda__  `:h signature.txt`
+__Ayuda__  `:h signature` <vimhelp:signature>
 
 __Atajos__
 
@@ -612,7 +610,7 @@ TODO: Añadir descripción a python-mode
 Sirve para mostrar lineas verticales en el código indentado (sangrado) con
 espacios para marcar los niveles de indentado.
 
-__Ayuda__ `:h indentLine.txt`
+__Ayuda__ `:h indentLine.txt` <vimhelp:indentLine.txt>
 
 __Atajo__ `<Leader>sl` oculta/muestra las lineas guía
 
@@ -648,7 +646,7 @@ de las tareas. Estas tareas se definen por medio de palabras clave en el buffer,
 como __TODO__, __FIXME__, __NOTE__, __XXX__ y __COMBAK__, aunque se pueden
 definir más.
 
-__Ayuda__ `:h TagmaTasks.txt`
+__Ayuda__ `:h TagmaTasks.txt` <vimhelp:TagmaTasks.txt>
 
 __Atajos__
 
@@ -689,7 +687,7 @@ en el que se encuentra. Hace un git diff y muestra el estado de cada linea que
 se ha cambiado/eliminado/añadido en la columna de signos de Vim a la izquierda
 de los números de línea.
 
-__Ayuda__ `:h gitgutter.txt`
+__Ayuda__ `:h gitgutter.txt` <vimhelp:gitgutter.txt>
 
 
 ### tig
@@ -741,7 +739,7 @@ por lo que esta orientada principalmente a programadores.
 
   [ack]: http://betterthangrep.com/
 
-__Ayuda__ `:h ack.txt`
+__Ayuda__ `:h ack.txt` <vimhelp:ack.txt>
 
 __Atajos__ `<Leader>a` lanza el comando para que solo tengamos que introducir el
 patrón de búsqueda y las opciones que queramos.
@@ -764,7 +762,7 @@ __Atajos en la ventana QuickFix__
 - `q` cierra la ventana QuickFix
 
 
-### vim-eunuch <url:https://github.com/tpope/vim-eunuch>
+### vim-eunuch 
 
 Son una serie de comandos que llaman a diversos comandos UNIX que ayudan a
 realizar ciertas tareas de forma mas sencilla.
@@ -849,7 +847,7 @@ Este plugin trata de imitar una funcionalidad de Emacs, en la que se puede
 editar una región del buffer actual en una ventana separada sin afectar al resto
 del archivo. Lo uso principalmente con org-mode.
 
-__Ayuda__ `:h NarrowRegion.txt`
+__Ayuda__ `:h NarrowRegion` <vimhelp:NarrowRegion>
 
 __Atajos__
 
@@ -876,7 +874,6 @@ __Atajos__
 # ...Work in progress!
 
 TODO: Acabar con todos los TODOs  
-TODO: Añadir enlaces directos a la ayuda de Vim con utl
 TODO: Añadir las urls de los repositorios de todos los plugins  
 FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.  
 FIXME: Realizar una revisión de calidad  
