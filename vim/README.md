@@ -766,7 +766,26 @@ __Atajos en la ventana QuickFix__
 
 ### vim-eunuch
 
-TODO: Añadir descripción a vim-eunuch 
+Son una serie de comandos que llaman a diversos comandos UNIX que ayudan a
+realizar ciertas tareas de forma mas sencilla.
+
+> Ademas cuando se crea un nuevo fichero que comience con el shebang (`#!`), se
+> llama automáticamente a `$ chmod +x` la primera vez que se guarde el fichero,
+> por lo que pasa a tener permisos de ejecución.
+
+__Ayuda__ `:h eunuch.txt`
+
+__Comandos__
+
+- `:Unlink` o `:Remove` elimina el buffer y el fichero del disco. __Cuidado!__
+- `:Move {file}` mueve un fichero en el disco y cambia el nombre del buffer
+- `:Rename {file}` renombra el fichero en el disco y en el buffer
+- `:Chmod {mode}` cambia los permisos del archivo
+- `:Find {args}` ejecuta `$ find` con los argumentos dados
+- `:Locate {args}` ejecuta `$ locate` con los argumentos dados
+- `:SudoWrite {mode}` guardo el archivo empleando sudo (con permisos de root)
+- `:W` guarda todas las ventanas abiertas (ventanas, no buffers)
+
 
 ### DirDiff
 
@@ -847,7 +866,7 @@ __Atajos__
 
 # ...Work in progress!
 
-TODO: Acabar con todos los TODOs
-FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.
-FIXME: Añadir las urls de los repositorios de todos los plugins
-FIXME: Realizar una revisión de calidad
+TODO: Acabar con todos los TODOs  
+FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.  
+FIXME: Añadir las urls de los repositorios de todos los plugins  
+FIXME: Realizar una revisión de calidad  
