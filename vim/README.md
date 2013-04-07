@@ -764,7 +764,7 @@ __Atajos en la ventana QuickFix__
 - `q` cierra la ventana QuickFix
 
 
-### vim-eunuch
+### vim-eunuch <url:https://github.com/tpope/vim-eunuch>
 
 Son una serie de comandos que llaman a diversos comandos UNIX que ayudan a
 realizar ciertas tareas de forma mas sencilla.
@@ -773,7 +773,7 @@ realizar ciertas tareas de forma mas sencilla.
 > llama automáticamente a `$ chmod +x` la primera vez que se guarde el fichero,
 > por lo que pasa a tener permisos de ejecución.
 
-__Ayuda__ `:h eunuch.txt`
+__Ayuda__ `:h eunuch.txt` <vimhelp:eunuch.txt>
 
 __Comandos__
 
@@ -783,13 +783,22 @@ __Comandos__
 - `:Chmod {mode}` cambia los permisos del archivo
 - `:Find {args}` ejecuta `$ find` con los argumentos dados
 - `:Locate {args}` ejecuta `$ locate` con los argumentos dados
-- `:SudoWrite {mode}` guardo el archivo empleando sudo (con permisos de root)
+- `:SudoWrite {mode}` guarda el archivo empleando sudo (con permisos de root)
 - `:W` guarda todas las ventanas abiertas (ventanas, no buffers)
 
 
 ### DirDiff
 
-TODO: Añadir descripción a DirDiff 
+![DirDiff](http://joedicastro.com/static/pictures/dirdiff.gif "DirDiff")
+
+Funciona de modo similar a vimdiff pero entre directorios en lugar de archivos.
+
+__Comandos__
+
+- `:DirDiff {A:directorio 1} {B: directorio 2}` muestra las diferencias entre
+  los dos directorios
+- `:DirDiffQuit` sale del modo DirDiff
+
 
 ## Internalizacion
 
@@ -827,7 +836,7 @@ __Comandos__
 Es un plugin que nos permite abrir URLs y enlaces a otro tipo de ficheros desde
 vim. Lo utilizo principalmente desde org-mode
 
-__Ayuda__ `:h utl_usr.txt`
+__Ayuda__ `:h utl_usr.txt` <vimhelp:utl_usr.txt>
 
 __Atajo__ `<Leader>j` si usamos el atajo sobre un enlace se abrirá el destino
 correspondiente en la aplicación que tengamos configurada
@@ -867,6 +876,7 @@ __Atajos__
 # ...Work in progress!
 
 TODO: Acabar con todos los TODOs  
+TODO: Añadir enlaces directos a la ayuda de Vim con utl
+TODO: Añadir las urls de los repositorios de todos los plugins  
 FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.  
-FIXME: Añadir las urls de los repositorios de todos los plugins  
 FIXME: Realizar una revisión de calidad  
