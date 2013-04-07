@@ -558,7 +558,7 @@ map <Leader>sq :nohlsearch<CR>
 
 " Ack {{{
 
-map <Leader>a :Ack<Space>
+map <Leader>a :Ack!<Space>
 
 " }}}
 
