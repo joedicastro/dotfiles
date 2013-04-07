@@ -82,8 +82,7 @@ Bundle 'mileszs/ack.vim'
 " Algunos atajos para comandos Unix desde Vim
 Bundle 'tpope/vim-eunuch'
 " Permite realizar un diff entre directorios
-Bundle 'vim-scripts/DirDiff.vim'
-
+Bundle 'joedicastro/DirDiff.vim'
 " }}}
 
 " Python {{{
