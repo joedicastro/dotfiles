@@ -801,8 +801,69 @@ TODO: Añadir descripción a Sparkup
 *Repositorio:* <http://github.com/joedicastro/vim-sparkup>
 
 ### ColorV
+ 
+![colorv](http://joedicastro.com/static/pictures/colorv.gif "ColorV")
 
-TODO: Añadir descripción a ColorV
+ColorV es el complemento perfecto para editar ficheros CSS a la hora de lidiar
+con colores. No solo nos permite previsualizarlos en el fichero para saber que
+color se corresponde con cada definición, si no que ademas nos provee de
+herramientas para escoger colores (tanto en la consola como en modo gráfico),
+esquemas de color, trabaja con varios espacios de color, etc. Tiene
+prácticamente todo lo que se puede necesitar para la gestión del color, sin
+envidiar a muchas herramientas profesionales.
+
+__Ayuda__ `h: colorv.txt` <vimhelp:colorv.txt>
+
+__Atajos__ 
+
+- Visualizar colores
+
+   - `<Leader>cv` muestra la ventana de ColorV
+   - `<Leader>cw` muestra la ventana de ColorV con el color debajo del cursor
+   - `<Leader>cpp` previsualiza los colores en el buffer actual
+
+- Editar colores
+
+   - `<Leader>ce` edita el color situado bajo de el cursor
+   - `<Leader>cE` edita el color situado bajo de el cursor y cambia todas los
+     colores similares en el mismo buffer (con confirmación previa)
+   - `<Leader>cii` inserta un color empleando la ventana de ColorV. La segunda i
+     puede ser sustituida por una `r` para insertar un color con nomenclatura
+     RGB, una `m` para CMYK, etc... consultar la ayuda para más información
+
+- Elegir colores
+
+   - `<Leader>cn` muestra una ventana lateral con una lista de colores por
+      nombre (colores Web del W3C)
+   - `<Leader>cgh` muestra una ventana lateral con una lista de colores
+      con el mismo tono que el situado bajo el cursor. La `h` puede ser cambiada
+      para mostrar una lista de colores por saturación `s`, análogos `a`, ...
+      consultar la ayuda para una lista completa
+   - `<Leader>cd` muestra un selector de color gráfico (GUI)
+
+- Elegir esquemas
+
+   - `<Leader>css` elegir un esquema de color desde
+     [Kuler](https://kuler.adobe.com) o [ColourLovers](http://www.colourlovers.com/)
+   - `<Leader>csf` muestra los esquemas marcados como favoritos (`f` para marcar
+     como favorito, `F` para desmarcarlo)
+   - `<Leader>csn` crea un nuevo esquema
+ 
+
+__Atajos en la ventana de ColorV__
+
+- `z/Z` cambia el tamaño de la ventana
+- `?` muestra los atajos disponibles ciclicamente
+- `q` cierra la ventana
+
+__Comandos__
+
+- `:ColorvList {tipo} {num} {pasos}` Genera una lista de colores partiendo del
+  que está bajo el cursor del tipo indicado (Hue, Saturation, ...) y con el
+  numero y pasos indicados
+- `:ColorVTurn2 {hex1} {hex2}` muestra una paleta de colores que varían el tono
+  desde el primer color al segundo
+
 
 *Repositorio:* <https://github.com/Rykka/colorv.vim>
 
