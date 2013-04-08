@@ -213,6 +213,12 @@ Bundle 'majutsushi/tagbar'
 
 " }}}
 
+" API Web {{{
+
+Bundle 'mattn/webapi-vim'
+
+" }}}
+
 " FIN BUNDLES }}}
 
 " Instalar los plugins automaticamente {{{
