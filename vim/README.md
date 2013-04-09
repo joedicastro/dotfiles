@@ -15,6 +15,12 @@ A todo esto habría que sumarle todo lo que Vim aporta de serie, que no es poco.
 > La tecla `<Leader>` la tengo mapeada a `,` y la tecla `<LocalLeader>` la tengo
 mapeada a `\`
 
+    Esta configuración está basada en las de muchos otros, tantos que ni los
+    recuerdo a todos y seria bastante injusto recordar a algunos y omitir a otros.
+    Pero gracias a que muchos comparten generosamente su configuración, yo he
+    llegado a la mía y sirva esta documento también de pequeña compensación por lo
+    mucho que otros me han aportado.
+
 
 ## Indice
 
@@ -790,13 +796,30 @@ __Atajo__ `<Leader>gt` abre la aplicación tig
 
 ### HTML5
 
-TODO: Añadir descripción a HTML5
+Proporciona funciones de autocompletado, sintaxis e indentación para HTML5. Para
+ello tiene soporte de SVG, RDFa, microdata y WAI-AIRA.
 
 *Repositorio:* <https://github.com/othree/html5.vim>
 
 ### Sparkup
 
-TODO: Añadir descripción a Sparkup
+![sparkup](http://joedicastro.com/static/pictures/sparkup.gif "sparkup")
+
+Sparkup nos permite escribir archivos HTML más rápido, de manera más concisa y
+de forma menos tediosa. Se basa en Zen Coding, por lo que toda la nomenclatura
+que funciona con Zen Coding es valida para Sparkup.
+
+__Ayuda__ `:h sparkup.txt` <vimhelp:sparkup.txt>
+
+__Atajos__
+
+- `<C-E>` ejecutar sparkup sobre la expresión bajo el cursor
+- `<C-N>` saltar a la siguiente etiqueta/atributo vacío
+
+La mejor forma de comprender como funciona es acceder a los ejemplos en la ayuda
+de Vim, `:h sparkup-examples` <vimhelp:sparkup-examples> y si tienes
+conocimientos de Python consultar el codigo en
+`~/.vim/bundle/vim-sparkup/ftplugin/html/sparkup.py`
 
 *Repositorio:* <http://github.com/joedicastro/vim-sparkup>
 
