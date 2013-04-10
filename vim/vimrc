@@ -757,12 +757,13 @@ let g:org_agenda_files = ['~/org/index.org']
 let g:VimuxUseNearestPane = 1
 
 " ejecutar el buffer actual con el interprete de python
-map <Leader>xr :call VimuxRunCommand("clear;python2 " . bufname("%"))<CR>
+map <Leader>xr :w<CR>:call VimuxRunCommand("clear;python2 " . bufname("%"))<CR>
 
-map <Leader>xc :call VimuxPromptCommand<CR>
-map <Leader>xl :call VimuxRunLastCommand()<CR>
-map <Leader>xs :call VimuxInterruptRunner()<CR>
-map <Leader>xi :call VimuxInspectRunner()<CR>
+map <Leader>xc :VimuxPromptCommand<CR>
+map <Leader>xl :VimuxRunLastCommand<CR>
+map <Leader>xs :VimuxInterruptRunner<CR>
+map <Leader>xi :VimuxInspectRunner<CR>
+map <Leader>xz :VimuxCloseRunner<CR>
 
 " }}}
 
