@@ -710,7 +710,27 @@ __Atajos en la barra lateral__
 
 ### vimux
 
-TODO: Añadir descripción a vimux 
+![vimux](http://joedicastro.com/static/pictures/vimux.gif "vimux")
+
+Sirve para interactuar entre vim y tmux. Básicamente permite enviar comandos a
+un panel de tmux e interactuar con el sin perder el foco en Vim. Tal y como lo
+tengo configurado, si no hay ningún otro panel abierto aparte del de Vim, se
+abrirá uno debajo de este ocupando el 20% del espacio, en otro caso se
+ejecutara en el panel abierto.
+
+__Ayuda__ `:h vimux.txt` <vimhelp:vimux.txt>
+
+__Atajos__
+
+- `<Leader>xr` guarda el buffer actual, limpia el panel y ejecuta el contenido
+  del buffer con `python2`
+- `<Leader>xc` llama a un prompt en la linea de comandos en el que podemos
+  introducir el comando que queremos que se ejecute en el panel de tmux
+- `<Leader>xl` repite el ultimo comando que se he ejecutado con vimux
+- `<Leader>xs` interrumpe la ejecución del comando que hayamos lanzado con vimux
+- `<Leader>xi` salta al panel donde se ha ejecutado el comando de vimux y entra
+  en *copy mode*
+- `<Leader>xz` cierra el panel donde se ha ejecutado el comando de vimux 
 
 *Repositorio:* <https://github.com/benmills/vimux>
 
