@@ -771,7 +771,25 @@ TODO: Añadir descripción a UltiSnips
 
 ### Syntastic
 
-TODO: Añadir descripción a Syntastic
+Comprueba la sintaxis de numerosos lenguajes (python, ruby, lua, haskell, css,
+html, js, json, ...) a través de herramientas externas*.
+
+> *Estas herramientas necesitan estar instaladas para que el plugin funcione
+correctamente.
+
+Muestra los errores de sintaxis en la columna de signos de Vim, a la izquierda
+de los números de línea. También muestra un resumen del numero de errores y la
+localización del primero de ellos en la barra de estado (en este caso la de
+Powerline)
+
+__Ayuda__ `:h syntastic.txt` <vimhelp:syntastic.txt>
+
+__Comandos__
+
+- `:Errors` muestra una ventana con la lista de errores 
+- `:SyntasticToggleMode` conmuta entre el modo activo y pasivo
+- `:SyntasticCheck` ejecuta la comprobación manualmente, útil para cuando
+  empleamos el modo pasivo. 
 
 *Repositorio:* <https://github.com/scrooloose/syntastic>
 
@@ -930,7 +948,7 @@ __Atajos__
 - `<LocalLeader>mp` previsualiza el buffer en una nueva pestaña
 - `<LocalLeader>mr` refresca la pestaña ya abierta
 
-__Comados__
+__Comandos__
 
 - `:Me` para previsualizar el buffer actual
 
