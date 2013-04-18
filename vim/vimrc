@@ -715,8 +715,10 @@ let g:syntastic_style_warning_symbol  = '⚡'
 
 " TagmaTasks {{{
 
-let g:TagmaTasksPrefix = ''
 map <silent> <Leader>k :TagmaTaskToggle<CR>
+
+let g:TagmaTasksPrefix = ''
+let g:TagmaTasksTokens = ['FIXME', 'TODO', 'NOTE', 'XXX', 'COMBAK', 'todo']
 
 " }}}
 
