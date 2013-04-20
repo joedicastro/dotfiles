@@ -724,6 +724,9 @@ __Atajos__
 
 - `<Leader>xr` guarda el buffer actual, limpia el panel y ejecuta el contenido
   del buffer con `python2`
+- `<Leader>xt` igual que el atajo anterior pero ejecuta el contenido precedido
+  por el programa unix `time` para conocer el tiempo total empleado en su
+  ejecucion.
 - `<Leader>xc` llama a un prompt en la linea de comandos en el que podemos
   introducir el comando que queremos que se ejecute en el panel de tmux
 - `<Leader>xl` repite el ultimo comando que se he ejecutado con vimux
