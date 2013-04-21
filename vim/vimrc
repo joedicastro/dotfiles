@@ -770,6 +770,7 @@ let g:VimuxUseNearestPane = 1
 " ejecutar el buffer actual con el interprete de python
 map <Leader>xr :w<CR>:call VimuxRunCommand("clear;python2 " . bufname("%"))<CR>
 map <Leader>xt :w<CR>:call VimuxRunCommand("clear;time python2 " . bufname("%"))<CR>
+map <Leader>xp :w<CR>:call VimuxRunCommand("clear;time pypy " . bufname("%"))<CR>
 
 map <Leader>xc :VimuxPromptCommand<CR>
 map <Leader>xl :VimuxRunLastCommand<CR>

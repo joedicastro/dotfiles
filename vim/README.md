@@ -727,6 +727,8 @@ __Atajos__
 - `<Leader>xt` igual que el atajo anterior pero ejecuta el contenido precedido
   por el programa unix `time` para conocer el tiempo total empleado en su
   ejecucion.
+- `<Leader>xp` igual que al atajo anterior pero empleando `pypy` en lugar de
+  `python2`
 - `<Leader>xc` llama a un prompt en la linea de comandos en el que podemos
   introducir el comando que queremos que se ejecute en el panel de tmux
 - `<Leader>xl` repite el ultimo comando que se he ejecutado con vimux
