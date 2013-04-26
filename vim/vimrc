@@ -548,8 +548,9 @@ function! LinesOfCode()
     put a
 endfunction
 map <Leader>sc :call LinesOfCode()<CR>
+" map <Leader>sc :cgete system('cloc --quiet '. bufname("%"))<Bar>copen<CR>
 
-" }}}
+"}}}
 
 " desactivar el resaltado de la ultima búsqueda {{{
 
@@ -564,6 +565,7 @@ map <Leader>sq :nohlsearch<CR>
 " Ack {{{
 
 map <Leader>a :Ack!<Space>
+map <Leader>ag :cgete system("git ls-files \\| xargs ack ". input("pattern? "))<Bar>copen<CR>
 
 " }}}
 

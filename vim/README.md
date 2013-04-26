@@ -977,8 +977,12 @@ por lo que esta orientada principalmente a programadores.
 
 __Ayuda__ `:h ack.txt` <vimhelp:ack.txt>
 
-__Atajos__ `<Leader>a` lanza el comando para que solo tengamos que introducir el
-patrón de búsqueda y las opciones que queramos.
+__Atajos__ 
+
+- `<Leader>a` lanza el comando para que solo tengamos que introducir el
+patrón de búsqueda y las opciones que queramos
+- `<Leader>ag` lo mismo que el anterior pero solo busca en los ficheros que estan
+  incluidos en el repositorio de git
 
 __Comandos__
 
