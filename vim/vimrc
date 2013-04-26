@@ -565,7 +565,7 @@ map <Leader>sq :nohlsearch<CR>
 " Ack {{{
 
 map <Leader>a :Ack!<Space>
-map <Leader>ag :cgete system("git ls-files \\| xargs ack ". input("pattern? "))<Bar>copen<CR>
+map <Leader>ag :cgete system("git ls-files ".input("dir? " )."\\| xargs ack ".input("pattern? "))<Bar>copen<CR>
 
 " }}}
 
