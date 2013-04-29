@@ -629,7 +629,7 @@ TODO: Añadir descripción a CtrlP
 
 ![cloc](http://joedicastro.com/static/pictures/cloc.gif "cloc")
 
-Ejecuta el programa externo `$ cloc` sobre el fichero y abre una nueva ventana
+Ejecuta el programa externo `$ cloc` sobre el fichero y abre la ventana QuickFix 
 con el resultado.
 
 __Atajo__ `<Leader>sc`

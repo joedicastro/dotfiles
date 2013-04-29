@@ -541,14 +541,14 @@ map <Leader>sw :WordFrequency<CR>
 " Numero de lineas de codigo {{{
 
 " obtener el numero de lineas de codigo
-function! LinesOfCode()
-    let @a= system('cloc --quiet '.bufname("%"))
-    new
-    setlocal buftype=nofile bufhidden=hide noswapfile 
-    put a
-endfunction
-map <Leader>sc :call LinesOfCode()<CR>
-" map <Leader>sc :cgete system('cloc --quiet '. bufname("%"))<Bar>copen<CR>
+" function! LinesOfCode()
+"     let @a= system('cloc --quiet '.bufname("%"))
+"     new
+"     setlocal buftype=nofile bufhidden=hide noswapfile 
+"     put a
+" endfunction
+" map <Leader>sc :call LinesOfCode()<CR>
+ map <silent> <Leader>sc :cgete system('cloc --quiet '. bufname("%"))<Bar>copen<CR>
 
 "}}}
 
