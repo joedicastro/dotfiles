@@ -657,7 +657,7 @@ TODO: Añadir descripción a python-mode
 ![indentLine](http://joedicastro.com/static/pictures/indentline.gif "indentLine")
 
 Sirve para mostrar lineas verticales en el código indentado (sangrado) con
-espacios para marcar los niveles de indentado.
+espacios para marcar los niveles de indentado. Lo tengo desactivado por defecto.
 
 __Ayuda__ `:h indentLine.txt` <vimhelp:indentLine.txt>
 

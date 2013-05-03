@@ -202,7 +202,7 @@ Bundle 'vim-scripts/zoomwintab.vim'
 " Permite interactuar con Tmux desde vim
 Bundle 'benmills/vimux'
 " Sintaxis del fichero de configuración de tmux
-Bundle 'vimez/vim-tmux'
+Bundle 'vimtopia/vim-tmux'
 
 " }}}
 
@@ -633,6 +633,7 @@ let g:gundo_preview_bottom = 1
 " indentLine {{{
 
 map <silent> <Leader>sl :IndentLinesToggle<CR>
+let g:indentLine_enabled = 0
 let g:indentLine_char = '¦'
 let g:indentLine_color_term = 239
 
