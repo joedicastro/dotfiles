@@ -69,7 +69,6 @@ mapeada a `\`
  - [Edicion de codigo](#edicion-de-codigo)
      - [Contar lineas de codigo](#contar-lineas-de-codigo)
      - [neocomplcache](#neocomplcache)
-     - [jedi-vim](#jedi-vim)
      - [python-mode](#python-mode)
      - [indentLine](#indentline)
      - [vim-virtualenv](#vim-virtualenv)
@@ -639,12 +638,6 @@ __Atajo__ `<Leader>sc`
 TODO: Añadir descripción a Neocomplcache 
 
 *Repositorio:* <https://github.com/Shougo/neocomplcache>
-
-### jedi-vim
-
-TODO: Añadir descripción a Jedi
-
-*Repositorio:* <https://github.com/davidhalter/jedi-vim>
 
 ### python-mode
 

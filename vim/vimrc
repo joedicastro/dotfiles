@@ -91,8 +91,6 @@ Bundle 'joedicastro/DirDiff.vim'
 Bundle 'Shougo/neocomplcache'
 " Gran plugin para programar en Python
 Bundle 'klen/python-mode'
-" Autocompletado muy mejorado
-Bundle 'davidhalter/jedi-vim'
 " Manejar virtualenvs
 Bundle 'jmcantrell/vim-virtualenv'
 " Visualizar lineas de identado
@@ -694,7 +692,7 @@ let g:Powerline_cache_file = $HOME.'/.vim/tmp/Powerline.cache'
 
 let g:pymode_breakpoint_key = '<Leader>B'
 
-let g:pymode_lint_checker = 'pylint,pep8,mccabe'
+let g:pymode_lint_checker = 'pyflakes,pep8,mccabe'
 let g:pymode_lint_ignore = ''
 
 let g:pymode_rope = 1
