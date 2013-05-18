@@ -1,7 +1,7 @@
 # ~/.tmuxinator/scratch.yml
 # you can make as many tabs as you wish...
 
-project_name: pad
+project_name: social
 project_root: ~/
 tabs:
   - turses: turses
