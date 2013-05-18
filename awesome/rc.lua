@@ -83,11 +83,6 @@
 -- Win  +  Shift    +  q            Quit Awesome
 -- Win  +  w                        Show Awesome menu
 --
---------------------------------------------------------------------- Scratchpad
---
--- Win + p                          Toggle pad
--- Win + s                          Set pad
---
 ---------------------------------------------------------------- Multimedia keys
 --
 -- Play media key              Play mpd song in playlist
@@ -123,8 +118,6 @@ vicious = require("vicious")
 vicious.contrib = require("vicious.contrib")
 -- Eminent library
 require("eminent")
--- Scratchpad
-local scratch = require("scratch")
 -- }}}
 
 -- {{{ Error handling
@@ -464,12 +457,6 @@ globalkeys = awful.util.table.join(
             mywibox[mouse.screen].visible = not mywibox[mouse.screen].visible
         end),
 
-    -- Toggle Scratchpad visibility
-    awful.key({ modkey }, "p",
-              function ()
-                  scratch.pad.toggle(mouse.screen)
-              end),
-
     -- dmenu
     awful.key({ modkey }, "/",
         function()
@@ -699,11 +686,6 @@ clientkeys = awful.util.table.join(
             else
                 c:tags({screen[mouse.screen]:tags()[curidx + 1]})
             end
-        end),
-
-    awful.key({ modkey }, "s",
-        function (c)
-            scratch.pad.set(c, 0.50, 1, false)
         end),
 
     -- Show/hide border
