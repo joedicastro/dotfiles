@@ -22,7 +22,7 @@ end
 themedir      = themes .. themename
 
 -- {{{ Background.
-theme.wallpaper = themedir .. "/background.png"
+theme.wallpaper = themedir .. "/clean.jpg"
 --}}}
 --}}}
 
