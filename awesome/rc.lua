@@ -1,5 +1,5 @@
 -- {{{ License
--- rc.lua, works with awesome 3.4.1x
+-- rc.lua, works with awesome 3.5.1x
 -- author: joedicastro <joe [at] joedicastro.com>
 -- based on multiple rc.lua files from different awesome users
 --
@@ -108,11 +108,14 @@
 
 -- {{{ Load libraries
 -- Standard awesome library
-require("awful")
+local gears = require("gears")
+local awful = require("awful")
+awful.rules = require("awful.rules")
 require("awful.autofocus")
-require("awful.rules")
+-- Widget and layout library
+local wibox = require("wibox")
 -- Theme handling library
-require("beautiful")
+local beautiful = require("beautiful")
 -- Vicious library
 vicious = require("vicious")
 vicious.contrib = require("vicious.contrib")
@@ -136,7 +139,7 @@ end
 -- Handle runtime errors after startup
 do
     local in_error = false
-    awesome.add_signal("debug::error", function (err)
+    awesome.connect_signal("debug::error", function (err)
         -- Make sure we don't go into an endless error loop
         if in_error then return end
         in_error = true
@@ -205,6 +208,14 @@ scr_res = "1920x1200"
 modkey = "Mod4"
 -- }}}
 
+-- {{{ Wallpaper
+if beautiful.wallpaper then
+    for s = 1, screen.count() do
+        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+    end
+end
+-- }}}
+
 -- {{{ Layouts
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
@@ -231,7 +242,7 @@ for s = 1, screen.count() do
     -- each screen has its own tag table.
     -- tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
     -- numerals in Greek, cool!
-    tags[s] = awful.tag({ "α", "β", "γ", "δ", "ε", "ς", "ζ", "η", "θ"}, s,
+  tags[s] = awful.tag({ "α", "β", "γ", "δ", "ε", "ς", "ζ", "η", "θ"}, s,
                         layouts[1])
 end
 -- }}}
@@ -272,7 +283,7 @@ mymainmenu = awful.menu({
 -- Widgets to show on Wibox
 
 -- {{{ MPD widget
-mpdwidget = widget({ type = 'textbox' })
+mpdwidget = wibox.widget.textbox()
 vicious.register(mpdwidget, vicious.widgets.mpd,
     function (widget, args)
         if args["{state}"] == "Stop" then
@@ -287,35 +298,35 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
 -- }}}
 
 -- {{{ Mem widget
-memwidget = widget({ type = "textbox" })
+memwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.mem)
 vicious.register(memwidget, vicious.widgets.mem, "$1% $2MB", 10)
 -- }}}
 
 -- {{{ Cpu widget
-cpuwidget = widget({ type = "textbox" })
+cpuwidget = wibox.widget.textbox()
 cpuwidget.width, cpuwidget.align = 150, "center"
 vicious.cache(vicious.widgets.cpu)
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1%   $2  $3  $4  $5  $6  $7  $8", 3)
 -- }}}
 
 -- {{{ Filesystem widget
-fswidget = widget({ type = "textbox" })
+fswidget = wibox.widget.textbox()
 vicious.register(fswidget, vicious.widgets.fs,
     "/ ${/ avail_p}% ~ ${/home avail_p}%", 61)
 -- }}}
 
 -- {{{ CPU Temperature & Fans velocity
-cputemp = widget({ type = "textbox" })
+cputemp = wibox.widget.textbox()
 vicious.register(cputemp, vicious.contrib.sensors, " $1 ºC" , 3, "Physical id 0")
-fan180mm = widget({ type = "textbox" })
+fan180mm = wibox.widget.textbox()
 vicious.register(fan180mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan4")
 -- fan120mm = widget({ type = "textbox" })
 -- vicious.register(fan120mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan2")
 -- }}}
 
 -- {{{ Network usage widget
-netwidget = widget({ type = "textbox" })
+netwidget = wibox.widget.textbox()
 vicious.cache(vicious.widgets.net)
 vicious.register(netwidget, vicious.widgets.net,
                 '<span color="#CC9393">${enp0s25 down_kb}</span>' ..
@@ -323,13 +334,13 @@ vicious.register(netwidget, vicious.widgets.net,
 -- }}}
 
 -- {{{ Textclock widget
-mytextclock = awful.widget.textclock({ align = "right" }, " %a %d %b %H:%M ", 15)
+mytextclock = awful.widget.textclock(" %a %d %b %H:%M ", 15)
 -- }}}
 
 -- Sound Volume {{{
-mute = widget({ type = "textbox" })
+mute = wibox.widget.textbox()
 vicious.register(mute, vicious.widgets.volume, "$2", 2, "Master")
-soundvol = widget({ type = "textbox" })
+soundvol = wibox.widget.textbox()
 vicious.register(soundvol, vicious.widgets.volume, "$1%", 2, "PCM")
 -- }}}
 
@@ -341,12 +352,12 @@ vicious.register(soundvol, vicious.widgets.volume, "$1%", 2, "PCM")
 -- }}}
 
 -- {{{ Space & Separator
-space = widget({ type = "textbox" })
-space.width = 18
+space = wibox.widget.textbox()
+space:set_text('     ')
 -- }}}
 
 -- {{{ Create a systray
-mysystray = widget({ type = "systray" })
+mysystray = wibox.widget.systray()
 -- }}}
 
 -- }}}
@@ -360,39 +371,56 @@ mytasklist = {}
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
-    mypromptbox[s] = awful.widget.prompt({
-                        layout = awful.widget.layout.horizontal.leftright })
+    mypromptbox[s] = awful.widget.prompt()
     -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all)
+    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all)
 
     -- Create a tasklist widget
-    mytasklist[s] = awful.widget.tasklist(
-                        function(c)
-                          return awful.widget.tasklist.label.focused(c, s)
-                        end)
+    mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.focused)
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s, height = "16" })
-    -- Add widgets to the wibox - order matters
-    mywibox[s].widgets = {
-        {
-            mytaglist[s], space,
-            mypromptbox[s], space,
-            layout = awful.widget.layout.horizontal.leftright
-        },
-        s == 1 and mysystray or nil, space,
-        mytextclock, space,
-        soundvol, mute, space,
-        fswidget, space,
-        netwidget, space,
-        memwidget, space,
-        cpuwidget, space, fan180mm, space,
-        cputemp, space,
-        -- weather, space,
-        mpdwidget, space,
-        mytasklist[s],
-        layout = awful.widget.layout.horizontal.rightleft
-    }
+    
+    -- Widgets that are aligned to the left
+    local left_layout = wibox.layout.fixed.horizontal()
+    left_layout:add(mytaglist[s])
+    left_layout:add(space)
+    left_layout:add(mypromptbox[s])
+    left_layout:add(space)
+
+    -- Widgets that are aligned to the right
+    local right_layout = wibox.layout.fixed.horizontal()
+    if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(space)
+    right_layout:add(mpdwidget)
+    right_layout:add(space)
+    -- right_layout:add(weather)
+    right_layout:add(space)
+    right_layout:add(cputemp)
+    right_layout:add(space)
+    right_layout:add(fan180mm)
+    right_layout:add(space)
+    right_layout:add(cpuwidget)
+    right_layout:add(space)
+    right_layout:add(memwidget)
+    right_layout:add(space)
+    right_layout:add(netwidget)
+    right_layout:add(space)
+    right_layout:add(fswidget)
+    right_layout:add(space)
+    right_layout:add(mute)
+    right_layout:add(soundvol)
+    right_layout:add(space)
+    right_layout:add(mytextclock)
+
+    -- Now bring it all together (with the tasklist in the middle)
+    local layout = wibox.layout.align.horizontal()
+    layout:set_left(left_layout)
+    layout:set_middle(mytasklist[s])
+    layout:set_right(right_layout)
+
+    mywibox[s]:set_widget(layout)
+    
 end
 -- }}}
 -- }}}
@@ -782,7 +810,7 @@ awful.rules.rules = {
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
-client.add_signal("manage", function (c, startup)
+client.connect_signal("manage", function (c, startup)
     if not startup then
         -- Put windows in a smart way, only if they does not set an initial
         -- position.
@@ -794,16 +822,16 @@ client.add_signal("manage", function (c, startup)
     end
 end)
 
-client.add_signal("focus",
-    function(c)
-        c.border_color = beautiful.border_focus
-    end
-)
-client.add_signal("unfocus",
-    function(c)
-        c.border_color = beautiful.border_normal
-    end
-)
+-- client.connect_signal("focus",
+--     function(c)
+--         c.border_color = beautiful.border_focus
+--     end
+-- )
+-- client.connect_signal("unfocus",
+--     function(c)
+--         c.border_color = beautiful.border_normal
+--     end
+-- )
 -- }}}
 
 -- {{{ Folding for Vim

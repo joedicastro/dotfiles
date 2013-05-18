@@ -7,7 +7,7 @@
 ----------------------------------------------------------------
 -- To use this module add:
 --   require("eminent")
--- to the top of your rc.lua.
+-- to the top of your rc.lua. 
 --
 -- That's it. Through magical monkey-patching, all you need to
 -- do to start dynamic tagging is loading it.
@@ -41,14 +41,14 @@ local orig = {
     viewidx = awful.tag.viewidx,
 
     taglist = awful.widget.taglist.new,
-    label = awful.widget.taglist.label.all,
+    filter = awful.widget.taglist.filter.all,
 }
 
 -- Return tags with stuff on them, mark others hidden
 function gettags(screen)
     local tags = {}
 
-    for k, t in ipairs(capi.screen[screen]:tags()) do
+    for k, t in ipairs(awful.tag.gettags(screen)) do
         if t.selected or #t:clients() > 0 then
             awful.tag.setproperty(t, "hide", false)
             table.insert(tags, t)
@@ -66,43 +66,10 @@ awful.tag.new = function (names, screen, layout)
     return orig.new(names, screen, layout)
 end
 
--- View tag by relative index
-awful.tag.viewidx = function (i, screen)
-    -- Hide tags
-    local s = screen and screen.index or capi.mouse.screen
-    local ctags = capi.screen[s]:tags()
-    local tags = gettags(s)
-    local sel = awful.tag.selected()
-
-    -- Check if we should "create" a new tag
-    local selidx = awful.util.table.hasitem(tags, sel)
-    local tagidx = awful.util.table.hasitem(ctags, sel)
-
-    -- Create a new tag if needed
-    if selidx == #tags and i == 1 and #sel:clients() > 0 then
-        -- Deselect all
-        awful.tag.viewnone(s)
-
-        if #ctags >= tagidx+1 then
-            -- Focus next
-            ctags[tagidx+1].selected = true
-        else
-            -- Create new
-            local tag = capi.tag { name = ""..(tagidx+1) }
-            tag.screen = s
-            tag.selected = true
-            awful.tag.setproperty(tag, "layout", deflayout)
-        end
-    else
-        -- Call original
-        orig.viewidx(i, screen)
-    end
-end
-
--- Taglist label functions
-awful.widget.taglist.label.all = function (t, args)
+-- Taglist filter functions
+awful.widget.taglist.filter.all = function (t, args)
     if t.selected or #t:clients() > 0 then
-        return orig.label(t, args)
+        return orig.filter(t, args)
     end
 end
 
@@ -111,15 +78,14 @@ end
 local function uc(c) gettags(c.screen) end
 local function ut(s, t) gettags(s.index) end
 
-capi.client.add_signal("unmanage", uc)
-capi.client.add_signal("new", function(c)
-    c:add_signal("property::screen", uc)
-    c:add_signal("tagged", uc)
-    c:add_signal("untagged", uc)
+capi.client.connect_signal("unmanage", uc)
+capi.client.connect_signal("new", function(c)
+    c:connect_signal("property::screen", uc)
+    c:connect_signal("tagged", uc)
+    c:connect_signal("untagged", uc)
 end)
 
 for screen=1, capi.screen.count() do
-    awful.tag.attached_add_signal(screen, "property::selected", uc)
-    capi.screen[screen]:add_signal("tag::attach", ut)
-    capi.screen[screen]:add_signal("tag::detach", ut)
+    awful.tag.attached_connect_signal(screen, "property::selected", uc)
+    capi.screen[screen]:connect_signal("tag::history::update", ut)
 end
