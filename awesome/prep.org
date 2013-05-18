@@ -7,41 +7,4 @@
     Lucas de Vries <lucas@glacicle.org>
     Licensed under the WTFPL version 2
 
-** Configuration files
 
-*** /usr/share/applications/awesome.desktop
-
-        [Desktop Entry]
-        Version=1.0
-        Type=Application
-        Name=Awesome
-        Comment=The awesome launcher!
-        TryExec=awesome
-        Exec=awesome
-
-*** /usr/share/gnome-session/sessions/awesome.session
-
-        [GNOME Session]
-        Name=Awesome session
-        RequiredComponents=gnome-settings-daemon;
-        RequiredProviders=windowmanager;
-        DefaultProvider-windowmanager=awesome
-        DesktopName=GNOME
-
-*** /usr/share/xsessions/awesome-unity-session.desktop
-
-        [Desktop Entry]
-        Name=Awesome GNOME
-        Comment=Dynamic window manager
-        TryExec=/usr/bin/gnome-session
-        Exec=gnome-session --session=awesome
-        Type=XSession
-
-*** /usr/share/xsessions/awesome.desktop
-
-        [Desktop Entry]
-        Encoding=UTF-8
-        Name=awesome
-        Comment=Highly configurable framework window manager
-        TryExec=awesome
-        Exec=awesome
