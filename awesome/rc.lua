@@ -50,7 +50,6 @@
 -- Win  +  f                        Set client fullscreen
 -- Win  +  c                        Kill focused client
 -- Win  +  t                        Toggle "always visible" (on top)
--- Win  +  i                        Show/hide client border
 -- Win  +  Shift    +  r            Redraw focused client
 --
 ------------------------------------------------------------------------ Layouts
@@ -68,8 +67,6 @@
 -- Win  +  Shift    +  1-9          Tag current client with 1-9 tag
 -- Win  +  Shift  +  Ctrl  +  1-9   Enable/Disable tag 1-9 for current client
 -- win  +  Shift    +  F1-9         Tag marked clients with 1-9 tag
--- Win  +  ,                        Move client to previous tag
--- Win  +  .                        Move client to next tag
 --
 ------------------------------------------------------------------ Miscellaneous
 --
@@ -695,33 +692,7 @@ clientkeys = awful.util.table.join(
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end),
-    -- Move window to workspace left/right
-    awful.key({ modkey, "Shift"   }, ",",
-        function (c)
-            local curidx = awful.tag.getidx(c:tags()[1])
-            if curidx == 1 then
-                c:tags({screen[mouse.screen]:tags()[9]})
-            else
-                c:tags({screen[mouse.screen]:tags()[curidx - 1]})
-            end
-        end),
-    awful.key({ modkey, "Shift"   }, ".",
-      function (c)
-            local curidx = awful.tag.getidx(c:tags()[1])
-            if curidx == 9 then
-                c:tags({screen[mouse.screen]:tags()[1]})
-            else
-                c:tags({screen[mouse.screen]:tags()[curidx + 1]})
-            end
-        end),
-
-    -- Show/hide border
-    awful.key({ modkey }, "i", function (c)
-       if   c.border_width == 0 then c.border_width = beautiful.border_width
-       else c.border_width = 0 end
-    end)
-
+        end)
 )
 -- }}}
 
