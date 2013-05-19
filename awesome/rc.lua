@@ -238,8 +238,9 @@ tags = {}
 for s = 1, screen.count() do
     -- each screen has its own tag table.
     -- tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+
     -- numerals in Greek, cool!
-  tags[s] = awful.tag({ "α", "β", "γ", "δ", "ε", "ς", "ζ", "η", "θ"}, s,
+    tags[s] = awful.tag({ "α", "β", "γ", "δ", "ε", "ς", "ζ", "η", "θ"}, s,
                         layouts[1])
 end
 -- }}}
@@ -341,13 +342,6 @@ soundvol = wibox.widget.textbox()
 vicious.register(soundvol, vicious.widgets.volume, "$1%", 2, "PCM")
 -- }}}
 
--- Weather {{{
-
--- weather = widget({ type = "textbox" })
--- vicious.register(weather, vicious.widgets.weather, "${tempc} ºC ${humid}% " ..
---                  "${windkmh} km/h ${weather}", 15, "LECO")
--- }}}
-
 -- {{{ Space & Separator
 space = wibox.widget.textbox()
 space:set_text('     ')
@@ -391,7 +385,6 @@ for s = 1, screen.count() do
     right_layout:add(space)
     right_layout:add(mpdwidget)
     right_layout:add(space)
-    -- right_layout:add(weather)
     right_layout:add(space)
     right_layout:add(cputemp)
     right_layout:add(space)
