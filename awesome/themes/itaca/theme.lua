@@ -6,24 +6,12 @@ awful.util = require("awful.util")
 
 theme = {}
 
-home          = os.getenv("HOME")
-config        = awful.util.getdir("config")
-shared        = "/usr/share/awesome"
-if not awful.util.file_readable(shared .. "/icons/awesome16.png") then
-    shared    = "/usr/share/local/awesome"
-end
-sharedicons   = shared .. "/icons"
-sharedthemes  = shared .. "/themes"
-themes        = config .. "/themes"
-themename     = "/itaca"
-if not awful.util.file_readable(themes .. themename .. "/theme.lua") then
-       themes = sharedthemes
-end
-themedir      = themes .. themename
+themedir        = awful.util.getdir("config") .. "/themes/itaca"
+
+--}}}
 
 -- {{{ Background.
 theme.wallpaper = themedir .. "/kiss.jpg"
---}}}
 --}}}
 
 -- {{{ Miscellaneous
@@ -53,43 +41,15 @@ theme.fg_center_widget = "#636363"
 theme.fg_end_widget    = "#ffffff"
 theme.fg_off_widget    = "#22211f"
 
--- There are other variable sets
--- overriding the default one when
--- defined, the sets are:
--- [taglist|tasklist]_[bg|fg]_[focus|urgent]
--- titlebar_[bg|fg]_[normal|focus]
--- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
--- mouse_finder_[color|timeout|animate_timeout|radius|factor]
--- Example:
---theme.taglist_bg_focus = "#ff0000"
-
 theme.taglist_squares_sel         = themedir .. "/tasklist_f.png"
 theme.taglist_squares_unsel       = themedir .. "/tasklist_u.png"
 theme.tasklist_floating_icon      = themedir .. "/floating.png"
 
-theme.titlebar_close_button_normal = sharedthemes .. "/default/titlebar/close.png"
-theme.titlebar_close_button_focus  = sharedthemes .. "/default/titlebar/closer.png"
-
-theme.menu_submenu_icon = sharedthemes .. "/default/submenu.png"
+theme.menu_submenu_icon = themedir .. "/submenu.png"
 theme.menu_height   = 16
 theme.menu_width    = 180
 
 theme.awesome_icon = themedir .. "/awesome16.png"
--- }}}
-
--- {{{ Layout icons
-theme.layout_tile       = themedir .. "/layouts/tile.png"
-theme.layout_tileleft   = themedir .. "/layouts/tileleft.png"
-theme.layout_tilebottom = themedir .. "/layouts/tilebottom.png"
-theme.layout_tiletop    = themedir .. "/layouts/tiletop.png"
-theme.layout_fairv      = themedir .. "/layouts/fairv.png"
-theme.layout_fairh      = themedir .. "/layouts/fairh.png"
-theme.layout_spiral     = themedir .. "/layouts/spiral.png"
-theme.layout_dwindle    = themedir .. "/layouts/dwindle.png"
-theme.layout_max        = themedir .. "/layouts/max.png"
-theme.layout_fullscreen = themedir .. "/layouts/fullscreen.png"
-theme.layout_magnifier  = themedir .. "/layouts/magnifier.png"
-theme.layout_floating   = themedir .. "/layouts/floating.png"
 -- }}}
 
 return theme

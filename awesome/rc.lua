@@ -26,21 +26,15 @@
 ------------------------------------------------------------------ Shell prompts
 --
 -- Win  +  r                        Launch a command line prompt into status bar
--- Win  +  x                        Launch a Lua prompt into status bar
 -- Win  +  /                        Launch dmenu
 --
 --------------------------------------------------------------------- Navigation
 --
 -- Win  +  j/k                      Focus on next/previous client
--- Win  +  u                        Focus first urgent client
 -- Alt  +  h                        Previous tag
 -- Alt  +  l                        Next tag
--- Win  +  Left                     Previous tag
--- Win  +  Right                    Next tag
 -- Win  +  1-9                      Show tag 1-9
 -- Win  +  Control  +  j/k          Focus next/previous Screen
--- Win  +  Escape                   Revert tag history (previous selected tag)
--- Win  +  Tab                      Swap between clients
 --
 ----------------------------------------------------------------- Client Control
 --
@@ -60,13 +54,10 @@
 -- Win  +  Shift    +  l/h          Number of windows for master area +1/-1
 -- Win  +  Control  +  l/h          Number of columns for stack area +1/-1
 -- Win  +  Space                    Next layout
--- Win  +  Shift    +  Space        Previous layout
 -- Win  +  Control  +  Space        Toggle client floating state
--- Win  +  Control  +  Enter        Swap focused client with master
 -- Win  +  Control  +  1-9          Enable/Disable view of tag 1-9
 -- Win  +  Shift    +  1-9          Tag current client with 1-9 tag
 -- Win  +  Shift  +  Ctrl  +  1-9   Enable/Disable tag 1-9 for current client
--- win  +  Shift    +  F1-9         Tag marked clients with 1-9 tag
 --
 ------------------------------------------------------------------ Miscellaneous
 --
@@ -91,6 +82,7 @@
 -- Mute media key              Mute volume
 --
 -- }}}
+
 -- {{{ Mouse Bindings
 -- =============================================================  MOUSE BINDINGS
 
@@ -128,9 +120,6 @@ if awesome.startup_errors then
                                 "'Oops, there were errors during startup!'" ..
                                 awesome.startup_errors
                                )
-    -- naughty.notify({ preset = naughty.config.presets.critical,
-    --                  title = "Oops, there were errors during startup!",
-    --                  text = awesome.startup_errors })
 end
 
 -- Handle runtime errors after startup
@@ -146,9 +135,6 @@ do
                                     err
                                     )
 
-        -- naughty.notify({ preset = naughty.config.presets.critical,
-        --                  title = "Oops, an error happened!",
-        --                  text = err })
         in_error = false
     end)
 end
@@ -167,11 +153,6 @@ end
 -- }}}
 
 -- {{{ Some initializations
--- start the composite manager to provide transparency support
--- run_once("xcompmgr -I1 -O1 -Ff")
--- start the urxvt server
--- run_once("urxvtd -q -o -f")
--- Now these two programs are launched from .xinitrc
 run_once('xcalib -c')
 run_once('xcalib -co 92 -a')
 
@@ -182,7 +163,6 @@ os.setlocale('es_ES.UTF-8')
 -- {{{ Variable definitions
 -- Directories
 home_dir = os.getenv("HOME")
-user = os.getenv("USER")
 cfg_dir = awful.util.getdir("config")
 theme_dir = cfg_dir .. "/themes"
 
@@ -218,17 +198,7 @@ end
 layouts =
 {
     awful.layout.suit.tile,
-    -- awful.layout.suit.tile.left,
-    -- awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.tile.top,
-    -- awful.layout.suit.fair,
-    -- awful.layout.suit.fair.horizontal,
-    -- awful.layout.suit.spiral,
-    -- awful.layout.suit.spiral.dwindle,
-    -- awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
-    -- awful.layout.suit.magnifier,
-    -- awful.layout.suit.floating
 }
 -- }}}
 
@@ -236,9 +206,6 @@ layouts =
 -- define a tag table which hold all screen tags.
 tags = {}
 for s = 1, screen.count() do
-    -- each screen has its own tag table.
-    -- tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
-
     -- numerals in Greek, cool!
     tags[s] = awful.tag({ "α", "β", "γ", "δ", "ε", "ς", "ζ", "η", "θ"}, s,
                         layouts[1])
@@ -310,6 +277,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "$1%   $2  $3  $4  $5  $6  $7  
 
 -- {{{ Filesystem widget
 fswidget = wibox.widget.textbox()
+vicious.cache(vicious.widgets.fs)
 vicious.register(fswidget, vicious.widgets.fs,
     "/ ${/ avail_p}% ~ ${/home avail_p}%", 61)
 -- }}}
@@ -363,6 +331,7 @@ mytasklist = {}
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
+
     -- Create a taglist widget
     mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all)
 
@@ -420,9 +389,6 @@ end
 globalkeys = awful.util.table.join(
     awful.key({ "Mod1",           }, "h",  awful.tag.viewprev       ),
     awful.key({ "Mod1",           }, "l",  awful.tag.viewnext       ),
-    awful.key({ modkey,           }, "Left",  awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -459,14 +425,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "k",
         function ()
             awful.screen.focus_relative(-1)
-        end),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey,           }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
         end),
 
     -- hide / show Wibox
@@ -519,10 +477,6 @@ globalkeys = awful.util.table.join(
         function ()
             awful.layout.inc(layouts,  1)
         end),
-    awful.key({ modkey, "Shift"   }, "space",
-        function ()
-            awful.layout.inc(layouts, -1)
-        end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
@@ -574,14 +528,6 @@ globalkeys = awful.util.table.join(
         function ()
             mypromptbox[mouse.screen]:run()
         end),
-
-    awful.key({ modkey }, "x",
-        function ()
-          awful.prompt.run({ prompt = "Run Lua code: " },
-          mypromptbox[mouse.screen].widget,
-          awful.util.eval, nil,
-          awful.util.getdir("cache") .. "/history_eval")
-      end),
 
     -- Record screencasts
     awful.key({ modkey }, "F1",
@@ -662,10 +608,6 @@ clientkeys = awful.util.table.join(
             c:kill()
         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle),
-    awful.key({ modkey, "Control" }, "Return",
-        function (c)
-            c:swap(awful.client.getmaster())
-        end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen),
     awful.key({ modkey, "Shift"   }, "r",
         function (c)
@@ -758,17 +700,12 @@ awful.rules.rules = {
       properties = { floating = false } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
     { rule = { class = "Gvim" },
       properties = { size_hints_honor = false } },
     { rule = { class = "URxvt" },
       properties = { size_hints_honor = false } },
     { rule = { class = "Xephyr" },
       callback = awful.placement.centered }
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
 }
 -- }}}
 
@@ -785,17 +722,6 @@ client.connect_signal("manage", function (c, startup)
         end
     end
 end)
-
--- client.connect_signal("focus",
---     function(c)
---         c.border_color = beautiful.border_focus
---     end
--- )
--- client.connect_signal("unfocus",
---     function(c)
---         c.border_color = beautiful.border_normal
---     end
--- )
 -- }}}
 
 -- {{{ Folding for Vim
