@@ -192,7 +192,8 @@ Bundle 'Lokaltog/vim-powerline'
 Bundle 'vim-scripts/scratch-utility'
 " permite des/hacer un zoom a ventana completa de uno de las ventanas
 Bundle 'vim-scripts/zoomwintab.vim'
-
+" redimensionar ventanas facilmente
+Bundle 'jimsei/winresizer'
 " }}}
 
 " Tmux {{{
@@ -787,6 +788,12 @@ map <Leader>xz :VimuxCloseRunner<CR>
 " Virtualenv {{{
 
 " TODO
+
+" }}}
+
+" winresizer {{{ 
+
+let s:default_start_key = '<C-E>'
 
 " }}}
 

@@ -38,6 +38,7 @@ mapeada a `\`
      - [scratch-utility](#scratch-utility)
      - [zoomwintab](#zoomwintab)
      - [vim-powerline](#vim-powerline)
+     - [winresizer](#winresizer)  
  - [Edicion de texto](#edicion-de-texto)
      - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
      - [Conmutar la visualizacion de numeros de linea](#conmutar-la-visualizacion-de-numeros-de-linea)
@@ -236,6 +237,26 @@ __Comandos__ `:PowerlineClearCache` útil para cuando introducimos cambios en la
 configuración de la misma y no se ven reflejados por culpa del cache.
 
 *Repositorio:* <https://github.com/Lokaltog/powerline>
+
+### winresizer
+
+![winresizer](http://joedicastro.com/static/pictures/winresizer.gif "winresizer")
+
+Es un plugin que sirve para redimensionar (cambiar de tamaño) muy fácilmente las
+ventanas de vim.
+
+__Atajos__
+
+- `<C-E>` o `:WinResizerStartResize` activa el redimensionamiento de las ventanas
+- `h` mueve el divisor de ventanas hacia la izquierda
+- `l` mueve el divisor de ventanas hacia la derecha
+- `j` mueve el divisor de ventanas hacia abajo
+- `k` mueve el divisor de ventanas hacia arriba
+- `<CR>` finaliza el redimensionado
+- `q` cancela el redimensionado 
+
+*Repositorio:* <https://github.com/jimsei/winresizer>
+
 
 ## Edicion de texto
 
