@@ -54,24 +54,22 @@ XTerm*color15 :             #EEEEEC
 URxvt*saveLines:            32767
 XTerm*saveLines:            32767
 
-URxvt.perl-ext-common:      default,matcher,url-select,keyboard-select
-URxvt.urlLauncher:          firefox
-URxvt.matcher.button:       1
-
+URxvt.colorUL:              #AED210
+URxvt.perl-ext:             default,url-select
 URxvt.keysym.M-u:           perl:url-select:select_next
-URxvt.keysym.M-Escape:      perl:keyboard-select:activate
-tRxvt.keysym.M-s:           perl:keyboard-select:search
+URxvt.url-select.launcher:  /usr/bin/firefox -new-tab
+URxvt.url-select.underline: true
 
 Xft*dpi:                    96
 Xft*antialias:              true
 Xft*hinting:                full
 
 URxvt.scrollBar:            false
-urxvt*scrollTtyKeypress:    true
-urxvt*scrollTtyOutput:      false
-urxvt*scrollWithBuffer:     false
-urxvt*scrollstyle:          plain
-urxvt*secondaryScroll:      true
+URxvt*scrollTtyKeypress:    true
+URxvt*scrollTtyOutput:      false
+URxvt*scrollWithBuffer:     false
+URxvt*scrollstyle:          plain
+URxvt*secondaryScroll:      true
 
 Xft.autohint: 0
 Xft.lcdfilter:  lcddefault
