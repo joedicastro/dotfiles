@@ -315,10 +315,6 @@ space = wibox.widget.textbox()
 space:set_text('     ')
 -- }}}
 
--- {{{ Create a systray
-mysystray = wibox.widget.systray()
--- }}}
-
 -- }}}
 
 -- {{{ Wibox itself
@@ -350,7 +346,6 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(space)
     right_layout:add(mpdwidget)
     right_layout:add(space)
@@ -371,6 +366,7 @@ for s = 1, screen.count() do
     right_layout:add(soundvol)
     right_layout:add(space)
     right_layout:add(mytextclock)
+    if s == 1 then right_layout:add(wibox.widget.systray()) end
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
