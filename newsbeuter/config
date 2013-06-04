@@ -78,6 +78,7 @@ show-keymap-hint                        yes
 show-read-articles                      no
 show-read-feeds                         no
 suppress-first-reload                   no
+swap-title-and-hints                    no
 text-width                              0
 urls-source                             "local"
 urlview-title-format                    "%N %V - URLs"
@@ -634,6 +635,8 @@ bind-key | pipe-to dialogs
 
 color listnormal color244 color234
 color listfocus color166 color235
+color listnormal_unread color244 color234
+color listfocus_unread color166 color235
 color info color136 color235
 color background color244 color234
 color article color244 color234
