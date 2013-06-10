@@ -34,6 +34,7 @@ mapeada a `\`
         - [summerfruit256](#summerfruit256)
  - [Gestion de plugins](#gestion-de-plugins)
      - [Vundle](#vundle)
+     - [Actualizacion de plugins](#actualizacion-de-plugins)
  - [Operaciones con ventanas](#operaciones-con-ventanas)
      - [scratch-utility](#scratch-utility)
      - [zoomwintab](#zoomwintab)
@@ -93,6 +94,7 @@ mapeada a `\`
      - [Ack](#ack)
      - [vim-eunuch](#vim-eunuch)
      - [DirDiff](#dirdiff)
+     - [Editor hexadecimal](#editor-hexadecimal)
  - [Internalizacion](#internalizacion)
      - [Traduccion de ficheros .po](#traduccion-de-ficheros-.po)
  - [Organizacion de tareas](#organizacion-de-tareas)
@@ -184,6 +186,53 @@ __Comandos__
   repositorio de vimscripts
 
 *Repositorio:* <https://github.com/gmarik/vundle>
+
+### Actualizacion de Plugins
+
+Vundle es una muy buena y potente herramienta que nos permite administrar de
+forma muy sencilla nuestros plugins. Pero es una herramienta que conviene
+utilizar con cuidado, sentido común y guardando unas ciertas precauciones, sobre
+todo si usamos vim como herramienta profesional.
+
+Dado que en mi caso y en el de muchos otros, instalamos y actualizamos varios
+plugins directamente desde el repositorio git, esto nos expone a actualizaciones
+inestables de los mismos.
+
+Este es mi modo de actualizar los plugins que puede servir como guia u
+orientación de como hacerlo sin que nuestro flujo de trabajo se vea
+interrumpido.
+
+Lo primero es aclarar que mi configuración de vim está situada en el directorio
+`$HOME/dotfiles/vim` y utilizo enlaces simbólicos para que vim pueda localizar
+la configuración que espera por defecto. En concreto lo tengo establecido de
+esta manera:
+
+- `~/.vim` es un enlace simbólico que apunta a `~/dotfiles/vim`
+- `~/.vimrc` es un enlace simbólico que apunta a `~/dotfiles/vim/vimrc`
+
+De modo que cuando quiero hacer una actualización de los plugins de vim, lo
+único que tengo que hacer es crear una copia de la carpeta de vim en
+`~/dotfiles` para tener un backup en caso de que algún plugin no funcione como
+es debido.
+
+De hecho, hago esto sin salir de Vim y con la ayuda de ranger, en sencillos
+pasos:
+
+ 1. entro en ranger desde vim pulsando `<Leader>rt`
+ 2. voy a la carpeta `vim` en `~/dotfiles` y creo una copia pulsando `yy` y
+ luego `pp` y me crea una copia llamada `vim_`
+ 3. actualizo los plugins de vim con `:BundleUpdate`
+ 4. sigo trabajando con normalidad
+ 5. si veo que algún plugin se ha vuelto inestable durante la actualización y lo
+ necesito para seguir trabajando, simplemente borro la carpeta `~/dotfiles/vim`
+ y renombro la copia en `~/dotfiles/vim_` a `~/dotfiles/vim`. Con salir de vim y
+ volver a entrar tenemos una configuración probada y completamente funcional sin
+ esfuerzo.
+
+Usando este procedimiento o algo similar nos ahorramos muchos disgustos a la
+hora de realizar las actualizaciones. Evidentemente, en caso de que solo falle
+un plugin siempre podemos sustituir únicamente la carpeta de ese plugin dentro
+de `~/dotfiles/vim/bundle` en lugar de toda la configuración de Vim.
 
 ## Operaciones con ventanas
 
@@ -812,6 +861,7 @@ __Comandos__
 
 *Repositorio:* <https://github.com/scrooloose/syntastic>
 
+
 ## DVCS: Git
 
 ### Fugitive
@@ -1054,6 +1104,30 @@ __Comandos__
 - `:DirDiffQuit` sale del modo DirDiff
 
 *Repositorio:* <http://github.com/joedicastro/DirDiff.vim>
+
+### Editor hexadecimal
+
+![hex](http://joedicastro.com/static/pictures/hexman.gif "hex")
+
+Este plugin en realidad utiliza la herramienta `xxd` para visualizar un fichero
+de forma hexadecimal.
+
+Este es un plugin a manejar con cuidado y sabiendo lo que se está haciendo.
+Conviene ademas abrir el fichero en modo binario (`$ vim -b fichero`) y volver
+siempre al modo ASCII (abandonar el modo binario) antes de guardar el fichero.
+
+__Atajos__
+
+- `<Leader>hm` entrar/salir del modo Hexadecimal
+- `<leader>hd` elimina el caracter Hexadecimal bajo el cursor
+- `<leader>hi` inserta un caracter ASCII antes del cursor
+- `<leader>hg` ir al byte que le indiquemos (en hexadecimal)
+- `<leader>hn` o `<Tab>` ir al siguiente byte
+- `<leader>hp` o `<Shift><Tab>` ir al byte anterior
+- `<leader>ht` mueve el cursor del area Hexadecimal al area ASCII y viceversa
+- `?`          muestra la ayuda
+
+*Repositorio:* <https://github.com/vim-scripts/hexman.vim>
 
 ## Internalizacion
 

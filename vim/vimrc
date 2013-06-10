@@ -83,6 +83,8 @@ Bundle 'mileszs/ack.vim'
 Bundle 'tpope/vim-eunuch'
 " Permite realizar un diff entre directorios
 Bundle 'joedicastro/DirDiff.vim'
+" Edición hexadecimal
+Bundle 'vim-scripts/hexman.vim'
 " }}}
 
 " Python {{{
@@ -194,6 +196,7 @@ Bundle 'vim-scripts/scratch-utility'
 Bundle 'vim-scripts/zoomwintab.vim'
 " redimensionar ventanas facilmente
 Bundle 'jimsei/winresizer'
+
 " }}}
 
 " Tmux {{{
@@ -635,15 +638,6 @@ map <silent> <Leader>sl :IndentLinesToggle<CR>
 let g:indentLine_enabled = 0
 let g:indentLine_char = '¦'
 let g:indentLine_color_term = 239
-
-" }}}
-
-" Jedi-vim {{{
-
-" let g:jedi#auto_initialization = 0
-
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#autocompletion_command = "<C-Space>"
 
 " }}}
 
