@@ -687,7 +687,7 @@ let g:Powerline_cache_file = $HOME.'/.vim/tmp/Powerline.cache'
 
 let g:pymode_breakpoint_key = '<Leader>B'
 
-let g:pymode_lint_checker = 'pyflakes,pep8,mccabe'
+let g:pymode_lint_checker = 'pyflakes,pep8,mccabe,pep257'
 let g:pymode_lint_ignore = ''
 
 let g:pymode_rope = 1
