@@ -68,6 +68,7 @@ mapeada a `\`
  - [Exploracion de ficheros](#exploracion-de-ficheros)
      - [Ranger](#ranger)
      - [CtrlP](#ctrlp)
+     - [utl](#utl)
  - [Edicion de codigo](#edicion-de-codigo)
      - [Contar lineas de codigo](#contar-lineas-de-codigo)
      - [neocomplcache](#neocomplcache)
@@ -97,12 +98,6 @@ mapeada a `\`
      - [Editor hexadecimal](#editor-hexadecimal)
  - [Internalizacion](#internalizacion)
      - [Traduccion de ficheros .po](#traduccion-de-ficheros-.po)
- - [Organizacion de tareas](#organizacion-de-tareas)
-     - [vim-orgmode](#vim-orgmode)
-     - [calendar](#calendar)
-     - [utl](#utl)
-     - [NrrwRgn](#nrrwrgn)
-
 
 ## Esquemas de color
 
@@ -692,6 +687,21 @@ TODO: Añadir descripción a CtrlP
 
 *Repositorio:* <https://github.com/kien/ctrlp.vim>
 
+### utl 
+
+![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
+
+Es un plugin que nos permite abrir URLs y enlaces a otro tipo de ficheros desde
+vim. 
+
+__Ayuda__ `:h utl_usr.txt` <vimhelp:utl_usr.txt>
+
+__Atajo__ `<Leader>j` si usamos el atajo sobre un enlace se abrirá el destino
+correspondiente en la aplicación que tengamos configurada
+
+*Repositorio:* <https://github.com/vim-scripts/utl.vim>
+
+
 ## Edicion de codigo
 
 ### Contar lineas de codigo
@@ -1160,78 +1170,6 @@ __Atajos__
 
 
 *Repositorio:* <https://github.com/vim-scripts/po.vim--gray>
-
-## Organizacion de tareas
-
-### vim-orgmode
-
-TODO: Añadir descripción a vim-orgmode     
-
-*Repositorio:* <https://github.com/powentan/vim-orgmode>
-
-### calendar
-
-![vim-calendar](http://joedicastro.com/static/pictures/vim-calendar.gif "vim-calendar")
-
-Presenta un calendario por el que nos podemos desplazar interactivamente. No lo
-uso directamente, es un complemento para org-mode.
-
-__Atajos__
-
-- `<Leader>cal` muestra el calendario
-- `<Leader>caL` muestra el calendario en horizontal
-
-__Comandos__
-
-- `:Calendar {year} {month}` muestra el calendario
-- `:CalendarH` muestra el calendario en horizontal
-
-*Repositorio:* <https://github.com/vim-scripts/calendar.vim--Matsumoto>
-
-### utl 
-
-![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
-
-Es un plugin que nos permite abrir URLs y enlaces a otro tipo de ficheros desde
-vim. Lo utilizo principalmente desde org-mode
-
-__Ayuda__ `:h utl_usr.txt` <vimhelp:utl_usr.txt>
-
-__Atajo__ `<Leader>j` si usamos el atajo sobre un enlace se abrirá el destino
-correspondiente en la aplicación que tengamos configurada
-
-*Repositorio:* <https://github.com/vim-scripts/utl.vim>
-
-### NrrwRgn
-
-![NarrowRegion](http://joedicastro.com/static/pictures/narrowregion.gif "NarrowRegion")
-
-Este plugin trata de imitar una funcionalidad de Emacs, en la que se puede
-editar una región del buffer actual en una ventana separada sin afectar al resto
-del archivo. Lo uso principalmente con org-mode.
-
-__Ayuda__ `:h NarrowRegion` <vimhelp:NarrowRegion>
-
-__Atajos__
-
-- `<Leader>nr` sobre una selección visual crea una nueva *"Narrow Region"*
-
-*Repositorio:* <https://github.com/chrisbra/NrrwRgn>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # ...Work in progress!

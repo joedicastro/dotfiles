@@ -125,16 +125,10 @@ Bundle 'scrooloose/syntastic'
 
 " }}}
 
-" Org-mode {{{
+" Abrir enlaces externos {{{
 
-" Cuasi eqivalente al Org-mode de Emacs
-Bundle 'powentan/vim-orgmode'
-" Abrir un calendario en una ventana
-Bundle 'vim-scripts/calendar.vim--Matsumoto'
 " Abrir una url en el navegador u otro tipo de ficheros con una app externa
 Bundle 'vim-scripts/utl.vim'
-" Editar una region de texto en una venta separada
-Bundle 'chrisbra/NrrwRgn'
 
 " }}}
 
@@ -641,14 +635,6 @@ let g:indentLine_color_term = 239
 
 " }}}
 
-" NrrwRgn {{{
-
-" xmap <Leader>nr <Plug>NrrwrgnDo
-" let g:nrrw_rgn_vert = 1
-" let g:nrrw_rgn_wdth = 81
-
-" }}}
-
 " Neocomplcache {{{
 
 let g:neocomplcache_enable_at_startup = 1
@@ -659,12 +645,6 @@ let g:neocomplcache_max_list = 30
 let g:neocomplcache_enable_fuzzy_completion = 1
 let g:neocomplcache_fuzzy_completion_start_length = 2
 let g:neocomplcache_temporary_dir = $HOME.'/.vim/tmp/neocomplcache'
-
-" }}}
-
-" org-mode {{{
-
-
 
 " }}}
 
@@ -753,12 +733,6 @@ map <LocalLeader>mr :Mer<CR>
 
 " let g:VMEPextensions = ['extra', 'codehilite']
 " let g:VMEPhtmlreader= '/usr/bin/chromium-browser'
-
-" }}}
-
-" vim-orgmode {{{
-
-let g:org_agenda_files = ['~/org/index.org']
 
 " }}}
 
