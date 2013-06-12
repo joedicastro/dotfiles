@@ -35,6 +35,11 @@ Configuración de [Compton](https://github.com/chjj/compton)
 
 Configuración de [dunst](https://github.com/knopwob/dunst)
 
+### `/emacs`
+
+Configuración de [Emacs](http://www.gnu.org/software/emacs/) para usar 
+[Org-mode](http://orgmode.org/) 
+
 ### `/fontconfig`
 
 Configuración de [fontconfig](http://www.freedesktop.org/wiki/Software/fontconfig)

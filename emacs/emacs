@@ -1,0 +1,44 @@
+;;; ELPA repos
+
+(setq package-archives '(("ELPA" . "http://tromey.com/elpa/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+
+;;; evil
+
+(package-initialize)
+(require 'evil)
+(evil-mode 1)
+
+;;; evil for org-mode
+
+(add-to-list 'load-path "~/.emacs.d/evil-org-mode")
+(require 'evil-org)
+
+;;; org-mode
+(require 'org)
+
+;;; theme
+
+(load-theme 'monokai t)
+(set-face-background 'default "nil")
+
+;;; hide menu bar 
+
+(menu-bar-mode -1)
+
+;;; powerline
+
+(require 'powerline)
+(powerline-center-theme)
+
+;;; surround
+
+(require 'surround)
+(global-surround-mode 1)
+
+;;; not welcome-screen
+
+(setq inhibit-startup-message t)
+
