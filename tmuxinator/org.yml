@@ -1,9 +1,8 @@
 # ~/.tmuxinator/scratch.yml
 # you can make as many tabs as you wish...
 
-project_name: social
+project_name: org
 project_root: ~/
 tabs:
-  - turses: turses
-  - newsbeuter: newsbeuter
-  - ncmpcpp: ncmpcpp
+  - mutt: mutt
+  - org: emacs
