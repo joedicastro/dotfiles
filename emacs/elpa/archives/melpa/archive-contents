@@ -178,7 +178,7 @@
       [(20130429 1926)
        nil "useful HTTP client [github]" single])
  (wcheck-mode .
-	      [(20130605 1641)
+	      [(20130613 1808)
 	       nil "General interface for text checkers [github]" single])
  (wc-mode .
 	  [(20120531 1344)
@@ -309,8 +309,8 @@
 	   [(20110401 823)
 	    nil "Persistent Undo History for GNU Emacs [github]" single])
  (undo-tree .
-	    [(20130516 8)
-	     nil "Treat undo history as a tree [git]" single])
+	    [(20130614 1632)
+	     nil "No description available. [git]" single])
  (underwater-theme .
 		   [(20120615 1149)
 		    nil "A gentle, deep blue color theme [github]" single])
@@ -498,7 +498,7 @@
 	 [(19991231 1800)
 	  nil "Quick switch between Emacs buffers. [cvs]" single])
  (svg-mode-line-themes .
-		       [(20130328 1533)
+		       [(20130614 1613)
 			((xmlgen
 			  (0 4)))
 			"SVG-based themes for mode-line [github]" tar])
@@ -644,7 +644,7 @@
 		  (24 1)))
 		"a dark colorful theme for Emacs24. [github]" single])
  (solarized-theme .
-		  [(20130608 1624)
+		  [(20130614 905)
 		   nil "The Solarized color theme, ported to Emacs. [github]" tar])
  (snippet .
 	  [(20130210 1815)
@@ -671,7 +671,7 @@
 	   [(20130312 1839)
 	    nil "Support sequential operation which omitted prefix keys. [github]" single])
  (smartparens .
-	      [(20130612 235)
+	      [(20130613 2227)
 	       ((dash
 		 (1 1 0)))
 	       "Automatic insertion, wrapping and paredit-like navigation with user defined pairs. [github]" tar])
@@ -705,7 +705,7 @@
 	[(20130526 820)
 	 nil "Superior Lisp Interaction Mode for Emacs [github]" tar])
  (slim-mode .
-	    [(20130117 1415)
+	    [(20130612 946)
 	     nil "Major mode for editing Slim files [github]" single])
  (slideview .
 	    [(20130513 1342)
@@ -773,7 +773,7 @@
 		 [(20121007 1837)
 		  nil "Provide fast switching between shell buffers [github]" tar])
  (shell-pop .
-	    [(20130301 726)
+	    [(20130615 114)
 	     nil "helps you to use shell easily on Emacs. Only one key action to work. [github]" single])
  (shell-history .
 		[(20100504 850)
@@ -930,7 +930,7 @@
 	   [(20121207 1930)
 	    nil "Roy major mode [github]" single])
  (robe .
-       [(20130610 248)
+       [(20130613 2025)
 	((inf-ruby
 	  (2 2 4)))
 	"Code navigation, documentation lookup and completion for Ruby [github]" tar])
@@ -973,7 +973,7 @@
 		      [(20130316 2304)
 		       nil "Replace commands whose query is from region [wiki]" single])
  (repl-toggle .
-	      [(20130611 1914)
+	      [(20130614 615)
 	       nil "Switch to/from repl buffer for current major-mode [github]" single])
  (region-bindings-mode .
 		       [(20130430 2107)
@@ -1067,10 +1067,10 @@
 		[(20091217 1955)
 		 nil "major mode for editing protocol buffers. [svn]" single])
  (projmake-mode .
-		[(20130521 932)
+		[(20130614 1235)
 		 nil "Project oriented automatic builder and error highlighter, flymake for projects [github]" tar])
  (projectile .
-	     [(20130612 1356)
+	     [(20130614 1027)
 	      ((s
 		(1 0 0))
 	       (dash
@@ -1241,7 +1241,7 @@
 			(22)))
 		      "Enable some paredit features in non-lisp buffers [github]" single])
  (paredit .
-	  [(20130407 1708)
+	  [(20130613 1947)
 	   nil "minor mode for editing parentheses [git]" single])
  (pangu-spacing .
 		[(20130525 1903)
@@ -1250,7 +1250,7 @@
 	      [(20130420 129)
 	       nil "Minor mode for interacting with Pandoc [github]" tar])
  (pallet .
-	 [(20130430 1244)
+	 [(20130613 920)
 	  ((carton
 	    (0 3 0)))
 	  "A package manager for Emacs, using Carton. [github]" tar])
@@ -1672,7 +1672,7 @@
 		[(20130611 1046)
 		 nil "Emacs Major mode for Markdown-formatted text files [git]" single])
  (mark-tools .
-	     [(20130315 1228)
+	     [(20130614 1125)
 	      nil "Some simple tools to access the mark-ring in Emacs [github]" single])
  (mark-multiple .
 		[(20121118 1654)
@@ -1856,6 +1856,9 @@
  (lcs .
       [(20121201 1455)
        nil "find out the longest common sequence [github]" single])
+ (launch .
+	 [(20130613 1250)
+	  nil "launch files with OS-standard associated applications. [github]" single])
  (latex-pretty-symbols .
 		       [(20111011 1446)
 			nil "Display many latex symbols as their unicode counterparts [hg]" single])
@@ -1871,7 +1874,7 @@
 		     [(20130224 2353)
 		      nil "Simple refactorings, primarily for Perl [github]" single])
  (lacarte .
-	  [(20121228 1947)
+	  [(20130614 1510)
 	   nil "Execute menu items as commands, with completion. [wiki]" single])
  (kwin .
        [(20130207 31)
@@ -2443,7 +2446,7 @@
 		    [(20120821 1835)
 		     nil "Mode for the dot-language used by graphviz (att). [github]" single])
  (graphene .
-	   [(20130422 1848)
+	   [(20130614 1355)
 	    ((auto-complete
 	      (20130330))
 	     (smartparens
@@ -2475,7 +2478,7 @@
 		 [(20110930 1055)
 		  nil "Fetch Google Weather forecasts. [git]" tar])
  (google-translate .
-		   [(20121018 923)
+		   [(20130614 53)
 		    nil "Emacs interface to Google Translate [github]" single])
  (google-this .
 	      [(20130603 1703)
@@ -2535,7 +2538,7 @@
 		 [(20130506 924)
 		  nil "Major mode for editing .gitconfig files [github]" single])
  (git-messenger .
-		[(20130611 2350)
+		[(20130613 2340)
 		 ((popup
 		   (0 5 0)))
 		 "Port of gitmessenger.vim [github]" single])
@@ -2738,7 +2741,7 @@
 		  (0 1)))
 		"A flymake handler for json using jsonlint [github]" single])
  (flymake-jslint .
-		 [(20130107 1311)
+		 [(20130613 1002)
 		  ((flymake-easy
 		    (0 1)))
 		  "A flymake handler for javascript using jslint [github]" single])
@@ -2974,7 +2977,7 @@
 	 [(20130604 1458)
 	  nil "Erlang major mode [github]" tar])
  (ergoemacs-mode .
-		 [(20130611 1654)
+		 [(20130613 1609)
 		  ((org-cua-dwim
 		    (0 5)))
 		  "A minor mode, a keybinding set based on ergonomics. [git]" tar])
@@ -3074,7 +3077,7 @@
 				    (0 3 2)))
 				 "highlight symbols which not appear in the repository [github]" single])
  (emacs-eclim .
-	      [(20130610 2034)
+	      [(20130613 2259)
 	       ((json
 		 (1 2)))
 	       "An interface to the Eclipse IDE. [github]" tar])
@@ -3273,7 +3276,7 @@
 	       [(20130520 1854)
 		nil "Aspell extra dictionary for Drupal [github]" tar])
  (drupal-mode .
-	      [(20130602 2146)
+	      [(20130613 801)
 	       ((php-mode
 		 (1 5 0)))
 	       "Advanced minor mode for Drupal development [github]" tar])
@@ -3798,7 +3801,7 @@
 			  [(20120811 837)
 			   nil "Automatically byte-compile when saved [wiki]" single])
  (auctex-latexmk .
-		 [(20130602 1921)
+		 [(20130614 2226)
 		  ((auctex
 		    (11 86)))
 		  "Add LatexMk support to AUCTeX [github]" single])
@@ -3892,7 +3895,7 @@
       [(20130328 848)
        nil "Alberto's Emacs interface for Mercurial (Hg) [hg]" single])
  (ag .
-     [(20130530 1434)
+     [(20130613 1057)
       nil "A front-end for ag ('the silver searcher'), the C ack replacement. [github]" single])
  (aes .
       [(20130121 413)

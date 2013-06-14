@@ -705,7 +705,7 @@
 	[(20130526 820)
 	 nil "Superior Lisp Interaction Mode for Emacs [github]" tar])
  (slim-mode .
-	    [(20130117 1415)
+	    [(20130612 946)
 	     nil "Major mode for editing Slim files [github]" single])
  (slideview .
 	    [(20130513 1342)
@@ -930,7 +930,7 @@
 	   [(20121207 1930)
 	    nil "Roy major mode [github]" single])
  (robe .
-       [(20130610 248)
+       [(20130613 5)
 	((inf-ruby
 	  (2 2 4)))
 	"Code navigation, documentation lookup and completion for Ruby [github]" tar])
@@ -1250,7 +1250,7 @@
 	      [(20130420 129)
 	       nil "Minor mode for interacting with Pandoc [github]" tar])
  (pallet .
-	 [(20130430 1244)
+	 [(20130612 2134)
 	  ((carton
 	    (0 3 0)))
 	  "A package manager for Emacs, using Carton. [github]" tar])
@@ -2535,7 +2535,7 @@
 		 [(20130506 924)
 		  nil "Major mode for editing .gitconfig files [github]" single])
  (git-messenger .
-		[(20130611 2350)
+		[(20130613 1222)
 		 ((popup
 		   (0 5 0)))
 		 "Port of gitmessenger.vim [github]" single])
@@ -2974,7 +2974,7 @@
 	 [(20130604 1458)
 	  nil "Erlang major mode [github]" tar])
  (ergoemacs-mode .
-		 [(20130611 1654)
+		 [(20130612 1148)
 		  ((org-cua-dwim
 		    (0 5)))
 		  "A minor mode, a keybinding set based on ergonomics. [git]" tar])
