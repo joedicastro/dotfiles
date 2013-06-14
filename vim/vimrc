@@ -90,7 +90,7 @@ Bundle 'vim-scripts/hexman.vim'
 " Python {{{
 
 " Autocompletado
-Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neocomplete.vim'
 " Gran plugin para programar en Python
 Bundle 'klen/python-mode'
 " Manejar virtualenvs
@@ -635,16 +635,23 @@ let g:indentLine_color_term = 239
 
 " }}}
 
-" Neocomplcache {{{
+" Neocomplete {{{
 
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_min_syntax_length = 2
-let g:neocomplcache_min_keyword_length = 2
-let g:neocomplcache_enable_auto_select = 1
-let g:neocomplcache_max_list = 30
-let g:neocomplcache_enable_fuzzy_completion = 1
-let g:neocomplcache_fuzzy_completion_start_length = 2
-let g:neocomplcache_temporary_dir = $HOME.'/.vim/tmp/neocomplcache'
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#max_list = 30
+let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#min_keyword_length = 3
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#data_directory = $HOME.'/.vim/tmp/neocomplete'
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " }}}
 

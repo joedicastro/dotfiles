@@ -71,7 +71,7 @@ mapeada a `\`
      - [utl](#utl)
  - [Edicion de codigo](#edicion-de-codigo)
      - [Contar lineas de codigo](#contar-lineas-de-codigo)
-     - [neocomplcache](#neocomplcache)
+     - [neocomplete](#neocomplete)
      - [python-mode](#python-mode)
      - [indentLine](#indentline)
      - [vim-virtualenv](#vim-virtualenv)
@@ -713,11 +713,11 @@ con el resultado.
 
 __Atajo__ `<Leader>sc`
 
-### neocomplcache
+### neocomplete
 
-TODO: Añadir descripción a Neocomplcache 
+TODO: Añadir descripción a Neocomplete
 
-*Repositorio:* <https://github.com/Shougo/neocomplcache>
+*Repositorio:* <https://github.com/Shougo/neocomplete.vim>
 
 ### python-mode
 
