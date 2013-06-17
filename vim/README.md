@@ -39,7 +39,7 @@ mapeada a `\`
      - [scratch-utility](#scratch-utility)
      - [zoomwintab](#zoomwintab)
      - [vim-powerline](#vim-powerline)
-     - [winresizer](#winresizer)  
+     - [winresizer](#winresizer)
  - [Edicion de texto](#edicion-de-texto)
      - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
      - [Conmutar la visualizacion de numeros de linea](#conmutar-la-visualizacion-de-numeros-de-linea)
@@ -259,7 +259,7 @@ __Atajo__ `<F8>` o `:Scratch` Mostrar/Ocultar la ventana Scratch
 
 ![zoom](http://joedicastro.com/static/pictures/zoomwintab.gif "zoom")
 
-Hace zoom sobre una ventana, ocultando el resto. 
+Hace zoom sobre una ventana, ocultando el resto.
 
 __Ayuda__ `:h zoomwintab.vim` <vimhelp:zoomwintab.vim>
 
@@ -297,7 +297,7 @@ __Atajos__
 - `j` mueve el divisor de ventanas hacia abajo
 - `k` mueve el divisor de ventanas hacia arriba
 - `<CR>` finaliza el redimensionado
-- `q` cancela el redimensionado 
+- `q` cancela el redimensionado
 
 *Repositorio:* <https://github.com/jimsei/winresizer>
 
@@ -430,7 +430,7 @@ __Ayuda__ `:h smartinput.txt` <vimhelp:smartinput.txt>
 ![speeddating](http://joedicastro.com/static/pictures/speeddating.gif "speeddating")
 
 Sirve para incrementar/decrementar de forma inteligente valores de fechas y
-horas.  
+horas.
 
 __Ayuda__ `:speeddating.txt`  <vimhelp:speeddating.txt>
 
@@ -493,7 +493,7 @@ __Atajos__
 
 Herramienta extremadamente sencilla para comentar/descomentar fragmentos de
 texto/código. Simplemente tenemos que pulsar un atajo seguido de un movimiento
-para comentar/descomentar o pulsar el atajo después de una selección visual. 
+para comentar/descomentar o pulsar el atajo después de una selección visual.
 
 __Ayuda__ `:h commentary.txt` <vimhelp:commentary.txt>
 
@@ -518,9 +518,9 @@ las múltiples que soporta:
 
 - `<Leader>i` conmuta la venta de YankRing que muestra las entradas disponibles
 
-__Comandos__ 
+__Comandos__
 
-- `:YRShow` muestra/oculta la ventana de YankRing 
+- `:YRShow` muestra/oculta la ventana de YankRing
 - `:YRSearch {termino de busqueda/regex}` busca (se pueden emplear regex) en la lista
 - `:YRToggle` activa/desactiva el plugin
 - `:YRClear` limpia la lista
@@ -536,12 +536,12 @@ cuando se trata de insertar varios simultáneamente.
 
 __Ayuda__ `:h easydigraph.txt@en` <vimhelp:easydigraph.txt@en>
 
-__Atajos__ 
+__Atajos__
 
 - `<Leader>bb {motion}` convierte en dígrafo la selección efectuada con el
-  movimiento. 
+  movimiento.
 
-__Comandos__ 
+__Comandos__
 
 - `:digraphs` muestra una tabla con todos los dígrafos disponibles y los
   caracteres necesarios para generarlos
@@ -637,7 +637,7 @@ __Comandos__
 
 Un plugin que sirve para conmutar, mostrar y navegar por los marcadores. Los
 marcadores se muestran en la columna lateral de signos de Vim, a la izquierda de
-los números de línea. 
+los números de línea.
 
 __Ayuda__  `:h signature` <vimhelp:signature>
 
@@ -646,17 +646,17 @@ __Atajos__
 - Marcadores alfabéticos
 
   - `m[a-zA-Z]` conmuta la marca y la muestra/oculta
-  -  `m,`       activa el siguiente marcador disponible 
-  -  `m<Space>` borra todos los marcadores 
-  -  `]``      salta al marcador siguiente 
-  -  `[``      salta al marcador previo 
+  -  `m,`       activa el siguiente marcador disponible
+  -  `m<Space>` borra todos los marcadores
+  -  `]\``      salta al marcador siguiente
+  -  `[\``      salta al marcador previo
   -  `]'`       salta al comienzo de la siguiente línea que tenga un marcador
   -  `['`       salta al comienzo de la anterior línea que tenga un marcador
 
 - Marcadores simbólicos
 
   -  `m[0-9]`       activa el marcador simbólico correspondiente !@#$%^&*()
-  -  `m<S-[0-9]>`   eliminar todos los marcadores iguales 
+  -  `m<S-[0-9]>`   eliminar todos los marcadores iguales
   -  `]-`           salta a la siguiente línea que tenga el mismo marcador
   -  `[-`           salta a la anterior línea que tenga el mismo marcador
   -  `m<BS>`        elimina todos los marcadores simbólicos
@@ -687,12 +687,12 @@ TODO: Añadir descripción a CtrlP
 
 *Repositorio:* <https://github.com/kien/ctrlp.vim>
 
-### utl 
+### utl
 
 ![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
 
 Es un plugin que nos permite abrir URLs y enlaces a otro tipo de ficheros desde
-vim. 
+vim.
 
 __Ayuda__ `:h utl_usr.txt` <vimhelp:utl_usr.txt>
 
@@ -708,7 +708,7 @@ correspondiente en la aplicación que tengamos configurada
 
 ![cloc](http://joedicastro.com/static/pictures/cloc.gif "cloc")
 
-Ejecuta el programa externo `$ cloc` sobre el fichero y abre la ventana QuickFix 
+Ejecuta el programa externo `$ cloc` sobre el fichero y abre la ventana QuickFix
 con el resultado.
 
 __Atajo__ `<Leader>sc`
@@ -721,7 +721,7 @@ TODO: Añadir descripción a Neocomplete
 
 ### python-mode
 
-TODO: Añadir descripción a python-mode    
+TODO: Añadir descripción a python-mode
 
 *Repositorio:* <https://github.com/klen/python-mode>
 
@@ -736,7 +736,7 @@ __Ayuda__ `:h indentLine.txt` <vimhelp:indentLine.txt>
 
 __Atajo__ `<Leader>sl` oculta/muestra las lineas guía
 
-__Comandos__ 
+__Comandos__
 
 - `:IndentLinesToggle` oculta/muestra las lineas guía
 - `:IndentLinesReset {ancho}` redibuja las lineas guía, si se especifica el ancho (en
@@ -768,12 +768,12 @@ __Ayuda__ `:h tagbar.txt` <vimhelp:tagbar.txt>
 
 __Atajo__ `<Leader>t` muestra/oculta la barra lateral
 
-__Atajos en la barra lateral__ 
+__Atajos en la barra lateral__
 
 - `<Enter>` salta a la etiqueta en el fichero y cierra la barra
 - `p` salta a la etiqueta en el fichero sin cerrar la barra y sin perder el foco
 - `o` contrae/expande un pliege (scope)
-- `s` ordena las etiquetas por nombre o por su orden de aparición en el fichero 
+- `s` ordena las etiquetas por nombre o por su orden de aparición en el fichero
 - `<Space>` Visualiza la linea en la que es definida la etiqueta en la linea de
   comandos
 - `q` cierra la barra lateral
@@ -808,7 +808,7 @@ __Atajos__
 - `<Leader>xs` interrumpe la ejecución del comando que hayamos lanzado con vimux
 - `<Leader>xi` salta al panel donde se ha ejecutado el comando de vimux y entra
   en *copy mode*
-- `<Leader>xz` cierra el panel donde se ha ejecutado el comando de vimux 
+- `<Leader>xz` cierra el panel donde se ha ejecutado el comando de vimux
 
 *Repositorio:* <https://github.com/benmills/vimux>
 
@@ -827,8 +827,8 @@ __Ayuda__ `:h TagmaTasks.txt` <vimhelp:TagmaTasks.txt>
 __Atajos__
 
 - `<Leader>k` muestra/oculta la ventana de tareas
-- `[t` salta a la tarea anterior 
-- `]t` salta a la tarea siguiente 
+- `[t` salta a la tarea anterior
+- `]t` salta a la tarea siguiente
 - `[T` salta a la primera tarea
 - `]T` salta a la última tarea
 
@@ -843,7 +843,35 @@ __Comandos__
 
 ### UltiSnips
 
-TODO: Añadir descripción a UltiSnips 
+![ulti](http://joedicastro.com/static/pictures/ulti.gif "ulti")
+
+Ultisnips es un plugin para gestionar Snippets, el mas avanzado y potente que
+conozco para Vim.  Los snippets son porciones de código o texto en las que
+cierta parte es declarada como variable y el resto como fija y nos ayudan a no
+tener que teclear una y otra vez las mismas porciones de texto/código.
+Simplemente invocamos el snippet con el identificador y el texto fijo es
+insertado automáticamente, dejando aquellas partes declaradas como variables
+para ser rellenadas de forma interactiva. Se puede apreciar mejor en la imagen
+el funcionamiento de los mismos.
+
+Ultisnips trae por defecto algunos snippets predefinidos para varios lenguajes y
+algunos globales. La mejor característica de Ultisnips es que nos permite
+definir los nuestros propios con un nivel de control y automatismo que ningún
+otro plugin nos ofrece. Es lo suficiente complejo para no entrar aquí en
+detalles, es necesario leerse detenidamente la ayuda para comprenderlo.
+Destacaría de todos modos que nos permite emplear comandos externos (shell,
+vimscript y Python) dentro de los mismos o que podemos usarlos con selecciones
+visuales, así como anidar snippets o usar transformaciones de texto.
+
+__Ayuda__ `:h UltiSnips.txt` <vimhelp:UltiSnips.txt>
+
+__Atajos__
+
+- `<Tab>` precedido por el identificador nos lanza el snippet
+- `<C-J>` nos desplaza al siguiente campo a rellenar
+- `<C-K>` nos desplaza al anterior campo a rellenar
+
+En el directorio `./UltiSnips` guardo mis snippets personalizados.
 
 *Repositorio:* <https://github.com/SirVer/ultisnips>
 
@@ -864,10 +892,10 @@ __Ayuda__ `:h syntastic.txt` <vimhelp:syntastic.txt>
 
 __Comandos__
 
-- `:Errors` muestra una ventana con la lista de errores 
+- `:Errors` muestra una ventana con la lista de errores
 - `:SyntasticToggleMode` conmuta entre el modo activo y pasivo
 - `:SyntasticCheck` ejecuta la comprobación manualmente, útil para cuando
-  empleamos el modo pasivo. 
+  empleamos el modo pasivo.
 
 *Repositorio:* <https://github.com/scrooloose/syntastic>
 
@@ -941,7 +969,7 @@ conocimientos de Python consultar el codigo en
 *Repositorio:* <http://github.com/joedicastro/vim-sparkup>
 
 ### ColorV
- 
+
 ![colorv](http://joedicastro.com/static/pictures/colorv.gif "ColorV")
 
 ColorV es el complemento perfecto para editar ficheros CSS a la hora de lidiar
@@ -954,7 +982,7 @@ envidiar a muchas herramientas profesionales.
 
 __Ayuda__ `h: colorv.txt` <vimhelp:colorv.txt>
 
-__Atajos__ 
+__Atajos__
 
 - Visualizar colores
 
@@ -988,7 +1016,7 @@ __Atajos__
    - `<Leader>csf` muestra los esquemas marcados como favoritos (`f` para marcar
      como favorito, `F` para desmarcarlo)
    - `<Leader>csn` crea un nuevo esquema
- 
+
 
 __Atajos en la ventana de ColorV__
 
@@ -1051,7 +1079,7 @@ por lo que esta orientada principalmente a programadores.
 
 __Ayuda__ `:h ack.txt` <vimhelp:ack.txt>
 
-__Atajos__ 
+__Atajos__
 
 - `<Leader>a` lanza el comando para que solo tengamos que introducir el
 patrón de búsqueda y las opciones que queramos
@@ -1063,7 +1091,7 @@ __Comandos__
 - `:AckFile` similar a `:Ack` pero busca ficheros por su nombre
 - `:AckHelp` similar a `:Ack` pero busca dentro de la ayuda de Vim
 
-__Atajos en la ventana QuickFix__ 
+__Atajos en la ventana QuickFix__
 
 - `o` abre el fichero
 - `go` abre el fichero pero el foco permanece en la ventana QuickFix
@@ -1077,7 +1105,7 @@ __Atajos en la ventana QuickFix__
 
 *Repositorio:* <https://github.com/mileszs/ack.vim>
 
-### vim-eunuch 
+### vim-eunuch
 
 Son una serie de comandos que llaman a diversos comandos UNIX que ayudan a
 realizar ciertas tareas de forma mas sencilla.
@@ -1157,9 +1185,9 @@ __Atajos__
 - `<LocalLeader>c` copia la cadena `msgid` a `msgstr`
 - `<LocalLeader>C` crea un comentario para esa entrada
 - `<LocalLeader>d` elimina la cadena `msgstr` (solo en Insert mode)
-- `<LocalLeader>f` se desplaza a la siguiente cadena "fuzzy" 
-- `<LocalLeader>F` se desplaza a la anterior cadena "fuzzy" 
-- `<LocalLeader>z` etiqueta la entrada "fuzzy" 
+- `<LocalLeader>f` se desplaza a la siguiente cadena "fuzzy"
+- `<LocalLeader>F` se desplaza a la anterior cadena "fuzzy"
+- `<LocalLeader>z` etiqueta la entrada "fuzzy"
 - `<LocalLeader>Z` elimina la etiqueta de la entrada "fuzzy"
 - `<LocalLeader>s` muestra estadísticas `msgfmt` del fichero
 - `<LocalLeader>e` navega a través de los errores `msgfmt` del fichero
@@ -1174,6 +1202,6 @@ __Atajos__
 
 # ...Work in progress!
 
-TODO: Acabar con todos los TODOs  
-FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.  
-FIXME: Realizar una revisión de calidad  
+TODO: Acabar con todos los TODOs
+FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.
+FIXME: Realizar una revisión de calidad
