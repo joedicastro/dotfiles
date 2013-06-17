@@ -648,8 +648,8 @@ __Atajos__
   - `m[a-zA-Z]` conmuta la marca y la muestra/oculta
   -  `m,`       activa el siguiente marcador disponible
   -  `m<Space>` borra todos los marcadores
-  -  `]\``      salta al marcador siguiente
-  -  `[\``      salta al marcador previo
+  -  `]``      salta al marcador siguiente
+  -  `[``      salta al marcador previo
   -  `]'`       salta al comienzo de la siguiente línea que tenga un marcador
   -  `['`       salta al comienzo de la anterior línea que tenga un marcador
 
@@ -715,7 +715,25 @@ __Atajo__ `<Leader>sc`
 
 ### neocomplete
 
-TODO: Añadir descripción a Neocomplete
+![neocomp](http://joedicastro.com/static/pictures/neocomp.gif "neocomp")
+
+Autocompleta palabras clave, métodos, ... con solo escribir las primeras letras.
+Bien usado permite agilizar mucho la escritura de código o texto.
+Neocomplete es un plugin que mejora el autocompletado por defecto de Vim, con
+búsqueda con lógica difusa (fuzzy) al mismo tiempo que se escribe. Esta plagado
+de opciones y es completamente personalizable.
+
+__Ayuda__ `:h neocomplete.txt` <vimhelp:neocomplete.txt>
+
+__Atajos__
+
+- `<CR>`    inserta la palabra seleccionada
+- `<C-N>`   nos desplaza a la palabra inferior en la lista de opciones 
+- `<C-P>`   nos desplaza a la palabra superior en la lista de opciones 
+
+__Comandos__
+
+- `:NeocompleteToggle` activa/desactiva Neocomplete en el buffer actual
 
 *Repositorio:* <https://github.com/Shougo/neocomplete.vim>
 

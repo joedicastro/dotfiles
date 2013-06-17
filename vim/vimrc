@@ -639,12 +639,11 @@ let g:indentLine_color_term = 239
 
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#max_list = 30
 let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#max_list = 30
 let g:neocomplete#min_keyword_length = 3
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#data_directory = $HOME.'/.vim/tmp/neocomplete'
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -704,7 +703,7 @@ map <silent> <Leader>k :TagmaTaskToggle<CR>
 
 let g:TagmaTasksPrefix = ''
 " let g:TagmaTasksTokens = ['FIXME', 'TODO', 'NOTE', 'XXX', 'COMBAK', '@todo']
-let g:TagmaTasksRegexp = '\<FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo\>'
+" let g:TagmaTasksRegexp = '\<FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo\>'
 
 " }}}
 
