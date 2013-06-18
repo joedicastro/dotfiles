@@ -42,8 +42,7 @@
 
 ;;; evil for org-mode
 (require 'evil-leader)
-(add-to-list 'load-path "~/.emacs.d/evil-org-mode")
-(require 'evil-org)
+(load "~/.emacs.d/evil-org.el")
 
 ;;; }}}
 ;;;; ORG-MODE {{{
