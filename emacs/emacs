@@ -1,4 +1,4 @@
-;;;; EMACS CONFIG FILE {{{
+;;;; EMACS CONFIG FILE (for emacs 24) {{{
 
 ;;;; PACKAGES ADMINISTRATION {{{
 
@@ -33,15 +33,6 @@
            (assoc pkg package-archive-contents))
     (package-install pkg)))
 
-;;; remove unwanted packages (deleted from my list)
-(defun package-list-unaccounted-packages ()
-  (interactive)
-  (package-show-package-list
-   (remove-if-not (lambda (x) (and (not (memq x my-packages))
-                            (not (package-built-in-p x))
-                            (package-installed-p x)))
-                  (mapcar 'car package-archive-contents))))
-
 ;;;; }}}
 ;;;; VIM-LIKE MODE (Evil) {{{
 
@@ -68,7 +59,7 @@
 ; detect idle time when clock is running
 (setq org-clock-idle-time 10)
 
-;;;;}}}}
+;;;;}}}
 ;;;; AESTHETICS {{{
 
 ;;; not welcome-screen
