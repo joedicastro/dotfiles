@@ -3,18 +3,29 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "evil-core" "evil-core.el" (20919 32719 881959
-;;;;;;  625000))
-;;; Generated autoloads from evil-core.el
+;;;### (autoloads nil "evil-core" "../../../../.emacs.d/elpa/evil-20130607.1122/evil-core.el"
+;;;;;;  "e2a6a263a16411cc704a0118adc98953")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/evil-20130607.1122/evil-core.el
  (autoload 'evil-mode "evil" "Toggle evil in all buffers" t)
 
 ;;;***
 
-;;;### (autoloads nil nil ("evil-commands.el" "evil-common.el" "evil-digraphs.el"
-;;;;;;  "evil-ex.el" "evil-integration.el" "evil-macros.el" "evil-maps.el"
-;;;;;;  "evil-pkg.el" "evil-repeat.el" "evil-search.el" "evil-states.el"
-;;;;;;  "evil-types.el" "evil-vars.el" "evil.el") (20919 32720 35812
-;;;;;;  806000))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/evil-20130607.1122/evil-commands.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-common.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-core.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-digraphs.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-ex.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-integration.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-macros.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-maps.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-repeat.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-search.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-states.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-types.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil-vars.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-20130607.1122/evil.el") (20928
+;;;;;;  19543 763519 635000))
 
 ;;;***
 

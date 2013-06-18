@@ -4,9 +4,9 @@
 
 
 ;;;### (autoloads (evil-leader/set-key-for-mode evil-leader/set-key
-;;;;;;  evil-leader-mode global-evil-leader-mode) "evil-leader" "evil-leader.el"
-;;;;;;  (20920 43378 486486 414000))
-;;; Generated autoloads from evil-leader.el
+;;;;;;  evil-leader-mode global-evil-leader-mode) "evil-leader" "../../../../.emacs.d/elpa/evil-leader-20130609.1840/evil-leader.el"
+;;;;;;  "7e5190e911888d90e508c76ae5337b61")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/evil-leader-20130609.1840/evil-leader.el
 
 (autoload 'global-evil-leader-mode "evil-leader" "\
 Global minor mode for <leader> support.
@@ -35,8 +35,9 @@ See `evil-leader/set-key'.
 
 ;;;***
 
-;;;### (autoloads nil nil ("evil-leader-pkg.el") (20920 43378 585395
-;;;;;;  629000))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/evil-leader-20130609.1840/evil-leader-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/evil-leader-20130609.1840/evil-leader.el")
+;;;;;;  (20928 19546 27813 93000))
 
 ;;;***
 

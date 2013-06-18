@@ -5,8 +5,9 @@
 
 ;;;### (autoloads (global-surround-mode turn-off-surround-mode turn-on-surround-mode
 ;;;;;;  surround-mode surround-change surround-delete) "surround"
-;;;;;;  "surround.el" (20920 50412 674299 130000))
-;;; Generated autoloads from surround.el
+;;;;;;  "../../../../.emacs.d/elpa/surround-20121022.1257/surround.el"
+;;;;;;  "90a137e16b7d50870dc278467fc5d3aa")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/surround-20121022.1257/surround.el
 
 (autoload 'surround-delete "surround" "\
 Delete the surrounding delimiters represented by CHAR.
@@ -62,8 +63,9 @@ See `surround-mode' for more information on Surround mode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("surround-pkg.el") (20920 50413 177077
-;;;;;;  758000))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/surround-20121022.1257/surround-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/surround-20121022.1257/surround.el")
+;;;;;;  (20928 19549 226834 328000))
 
 ;;;***
 

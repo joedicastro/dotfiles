@@ -3,9 +3,9 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "monokai-theme" "monokai-theme.el" (20920 26925
-;;;;;;  842851 719000))
-;;; Generated autoloads from monokai-theme.el
+;;;### (autoloads nil "monokai-theme" "../../../../.emacs.d/elpa/monokai-theme-20130603.1600/monokai-theme.el"
+;;;;;;  "8ac870825c6e3013772dc40231a6bfb8")
+;;; Generated autoloads from ../../../../.emacs.d/elpa/monokai-theme-20130603.1600/monokai-theme.el
 
 (and load-file-name (boundp 'custom-theme-load-path) (add-to-list 'custom-theme-load-path (file-name-as-directory (file-name-directory load-file-name))))
 
@@ -13,8 +13,9 @@
 
 ;;;***
 
-;;;### (autoloads nil nil ("monokai-theme-pkg.el") (20920 26926 347324
-;;;;;;  708000))
+;;;### (autoloads nil nil ("../../../../.emacs.d/elpa/monokai-theme-20130603.1600/monokai-theme-pkg.el"
+;;;;;;  "../../../../.emacs.d/elpa/monokai-theme-20130603.1600/monokai-theme.el")
+;;;;;;  (20928 19547 121862 945000))
 
 ;;;***
 
