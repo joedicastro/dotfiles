@@ -168,13 +168,14 @@ siguientes:
 - Permite usar plugins desde otras fuentes distintas a git (svn, hg, dir, ...)
 - Permite establecer la revisión exacta que queremos emplear
 - Permite marcar plugins como no actualizables
-- Permite cargar los plugins bajo demanda, para agilizar el arranque de Vim
+- Permite cargar los plugins bajo demanda, no al principio, para agilizar el
+  arranque de Vim
 - Permite añadir multitud de opciones a cada plugin, como por ejemplo que se
   haga el 'build' de forma automática si es necesario al instalar/actualizar
 - Y muchas mas posibilidades, sobre todo si también usamos 'Vimproc' y 'Unite'
   del mismo autor
 
-Funciona a través de comandos y de forma interactiva.
+Funciona a través de comandos y a través de Unite.
 
 __Ayuda__ `:h neobundle.txt`  <vimhelp:neobundle.txt>
 
