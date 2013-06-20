@@ -33,7 +33,7 @@ mapeada a `\`
         - [github256](#github256)
         - [summerfruit256](#summerfruit256)
  - [Gestion de plugins](#gestion-de-plugins)
-     - [Vundle](#vundle)
+     - [NeoBundle](#neobundle)
      - [Actualizacion de plugins](#actualizacion-de-plugins)
  - [Operaciones con ventanas](#operaciones-con-ventanas)
      - [scratch-utility](#scratch-utility)
@@ -57,7 +57,6 @@ mapeada a `\`
      - [vim-surround](#vim-surround)
      - [vim-repeat](#vim-repeat)
      - [vim-commentary](#vim-commentary)
-     - [YankRing](#yankring)
      - [easydigraph](#easydigraph)
      - [Gundo](#gundo)
      - [vim-expand-region](#vim-expand-region)
@@ -65,9 +64,9 @@ mapeada a `\`
      - [vim-characterize](#vim-characterize)
      - [vim-transpose](#vim-transpose)
      - [vim-signature](#vim-signature)
+ - [Unite](#unite)
  - [Exploracion de ficheros](#exploracion-de-ficheros)
      - [Ranger](#ranger)
-     - [CtrlP](#ctrlp)
      - [utl](#utl)
  - [Edicion de codigo](#edicion-de-codigo)
      - [Contar lineas de codigo](#contar-lineas-de-codigo)
@@ -92,12 +91,11 @@ mapeada a `\`
  - [Markdown](#markdown)
      - [vim-markdown-extra-preview](#vim-markdown-extra-preview)
  - [Utilidades de Linux](#utilidades-de-linux)
-     - [Ack](#ack)
      - [vim-eunuch](#vim-eunuch)
      - [DirDiff](#dirdiff)
      - [Editor hexadecimal](#editor-hexadecimal)
  - [Internalizacion](#internalizacion)
-     - [Traduccion de ficheros .po](#traduccion-de-ficheros-.po)
+     - [Traduccion de ficheros .po](#traduccion-de-ficheros-po)
 
 ## Esquemas de color
 
@@ -157,30 +155,37 @@ su imagen como referencia.
 
 ## Gestion de Plugins
 
-### Vundle
+### Neobundle
 
 Un plugin para gobernarlos a todos! Me permite administrar el resto de los
 plugins, el mismo incluido. A su vez lo tengo configurado para que se instale a
 si mismo la primera vez que se ejecute vim con esta configuración (también
-instala automáticamente el resto de plugins)
+instala automáticamente el resto de plugins). 
+
+Las ventajas de este plugin frente a otros similares como Vundle son las
+siguientes:
+
+- Permite usar plugins desde otras fuentes distintas a git (svn, hg, dir, ...)
+- Permite establecer la revisión exacta que queremos emplear
+- Permite marcar plugins como no actualizables
+- Permite cargar los plugins bajo demanda, para agilizar el arranque de Vim
+- Permite añadir multitud de opciones a cada plugin, como por ejemplo que se
+  haga el 'build' de forma automática si es necesario al instalar/actualizar
+- Y muchas mas posibilidades, sobre todo si también usamos 'Vimproc' y 'Unite'
+  del mismo autor
 
 Funciona a través de comandos y de forma interactiva.
 
-__Ayuda__ `:h vundle.txt`, `:BundleDocs` <vimhelp:vundle.txt>
+__Ayuda__ `:h neobundle.txt`  <vimhelp:neobundle.txt>
 
 __Comandos__
 
-- `:BundleList`, muestra una ventana con la lista de todos los plugins
-  instalados
-- `:BundleInstall`, instala aquellos plugins que estén configurados en .vimrc
-- `:BundleClean`, elimina los plugins que ya no estén en .vimrc
-- `:BundleUpdate`, actualiza los plugins actualmente instalados
-- `:BundleSearch [plugin]`, busca un plugin por su nombre en el repositorio de
-  vimscripts
-- `:Bundles`, muestra la lista de todos los plugins disponibles en el
-  repositorio de vimscripts
+- `:NeoBundleList`, muestra una lista de todos los plugins instalados
+- `:NeoBundleInstall`, instala aquellos plugins que estén configurados en .vimrc
+- `:NeoBundleClean`, elimina los plugins que ya no estén en .vimrc
+- `:NeoBundleUpdate`, actualiza los plugins actualmente instalados
 
-*Repositorio:* <https://github.com/gmarik/vundle>
+*Repositorio:* <https://github.com/Shougo/neobundle.vim>
 
 ### Actualizacion de Plugins
 
@@ -501,32 +506,6 @@ __Atajo__ `<Leader>c` o `gc`
 
 *Repositorio:* <https://github.com/tpope/vim-commentary>
 
-### YankRing
-
-![YankRing](http://joedicastro.com/static/pictures/yankring.gif "YankRing")
-
-Es un plugin que pretende trasladar a Vim la opción de Emacs llamada "kill
-ring". Este plugin consiste en una lista de los bloques de texto que han sido
-previamente copiados/cortados/pegados en los registros/portapapeles.
-
-__Ayuda__ `:h yankring.txt` <vimhelp:yankring.txt>
-
-__Atajos__
-
-Este plugin es muy completo, pero actualmente solo estoy empleando una opción de
-las múltiples que soporta:
-
-- `<Leader>i` conmuta la venta de YankRing que muestra las entradas disponibles
-
-__Comandos__
-
-- `:YRShow` muestra/oculta la ventana de YankRing
-- `:YRSearch {termino de busqueda/regex}` busca (se pueden emplear regex) en la lista
-- `:YRToggle` activa/desactiva el plugin
-- `:YRClear` limpia la lista
-
-*Repositorio:* <https://github.com/vim-scripts/YankRing.vim>
-
 ### easydigraph
 
 ![easydigraph](http://joedicastro.com/static/pictures/easydigraph.gif "easydigraph")
@@ -681,12 +660,6 @@ por el sistema de ficheros y elegir el fichero que queremos editar.
 
 __Atajo__ `<Leader>ra`
 
-### CtrlP
-
-TODO: Añadir descripción a CtrlP
-
-*Repositorio:* <https://github.com/kien/ctrlp.vim>
-
 ### utl
 
 ![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
@@ -701,6 +674,18 @@ correspondiente en la aplicación que tengamos configurada
 
 *Repositorio:* <https://github.com/vim-scripts/utl.vim>
 
+## Unite
+
+Unite es una interfaz que unifica varios 'resultados de búsquedas' bajo un mismo
+aspecto y siguiendo el comportamiento por defecto de Vim (modal). Es casi una
+API sobre la que podemos construir nuestras propias soluciones. Sirve tanto para
+abrir un fichero, como para cambiar de buffer, cambiar de esquema de color o
+para hacer una búsqueda con regex (vimgrep, grep, Ack, ag, ...). Sirve hasta
+para consultar los registros, ayuda, comandos... Resumiendo, es una navaja suiza
+que bien empleada nos permite sustituir un montón de plugins distintos por uno
+solo (en este caso: CtrlP, Ack, YankRing).
+
+TODO: Terminar esta sección.
 
 ## Edicion de codigo
 
@@ -1083,45 +1068,6 @@ __Comandos__
 *Repositorio:* <http://github.com/joedicastro/vim-markdown-extra-preview>
 
 ## Utilidades de Linux/Unix
-
-### Ack
-
-![ack](http://joedicastro.com/static/pictures/ack.gif "ack")
-
-Ejecuta el programa [Ack][ack] y mesta los resultados en la ventana QuickFix,
-desde la que podemos abrir directamente en el buffer los distintos resultados.
-Ack es una herramienta similar a grep pero enfocada a buscas en código fuente,
-por lo que esta orientada principalmente a programadores.
-
-  [ack]: http://betterthangrep.com/
-
-__Ayuda__ `:h ack.txt` <vimhelp:ack.txt>
-
-__Atajos__
-
-- `<Leader>a` lanza el comando para que solo tengamos que introducir el
-patrón de búsqueda y las opciones que queramos
-- `<Leader>ag` lo mismo que el anterior pero solo busca en los ficheros que estan
-  incluidos en el repositorio de git
-
-__Comandos__
-
-- `:AckFile` similar a `:Ack` pero busca ficheros por su nombre
-- `:AckHelp` similar a `:Ack` pero busca dentro de la ayuda de Vim
-
-__Atajos en la ventana QuickFix__
-
-- `o` abre el fichero
-- `go` abre el fichero pero el foco permanece en la ventana QuickFix
-- `t` abre el fichero en una nueva pestaña
-- `T` abre el fichero en una nueva pestaña pero no salta a ella
-- `h` abre el fichero en una nueva ventana horizontal
-- `H` abre el fichero en una nueva ventana horizontal pero no salta a ella
-- `v` abre el fichero en una nueva ventana vertical
-- `gv` abre el fichero en una nueva ventana vertical pero no salta a ella
-- `q` cierra la ventana QuickFix
-
-*Repositorio:* <https://github.com/mileszs/ack.vim>
 
 ### vim-eunuch
 

@@ -11,156 +11,173 @@
 
 " }}}
 
-" VUNDLE {{{ ===============================================================
+" NEOBUNDLE {{{ ==============================================================
 
 set nocompatible               " No a la compatibilidad completa con vi.
 
-" Autoinstalacion y configuracion de Vundle {{{
+" Autoinstalacion y configuracion de NeoBundle {{{
 
-" Autoinstalando Vundle
-let iCanHazVundle=1
-let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-if !filereadable(vundle_readme)
-    echo "Installing Vundle.."
+" Autoinstalando NeoBundle
+let iCanHazNeoBundle=1
+let neobundle_readme=expand('~/.vim/bundle/neobundle.vim/README.md')
+if !filereadable(neobundle_readme)
+    echo "Installing NeoBundle.."
     echo ""
     silent !mkdir -p ~/.vim/bundle
-    silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
-    let iCanHazVundle=0
+    silent !git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+    let iCanHazNeoBundle=0
 endif
 
-" Llama a Vundle
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" Llama a NeoBundle
+if has('vim_starting')
+    set rtp+=~/.vim/bundle/neobundle.vim/
+endif
+call neobundle#rc(expand('~/.vim/bundle/'))
 
-" dejemos que Vundle administre a Vundle (necesario!)
-Bundle 'gmarik/vundle'
+" dejemos que NeoBundle administre a NeoBundle (necesario!)
+NeoBundle 'Shougo/neobundle.vim'
 " }}}
 
-" BUNDLES (Plugins gestionados a través de Vundle) {{{
+" BUNDLES (Plugins gestionados a través de NeoBundle) {{{
+
+" Shougo's way {{{
+
+" Vimproc para ejecutar comandos de forma asincrona (NeoBundle, Unite)
+NeoBundle 'Shougo/vimproc', {
+      \ 'build' : {
+      \     'windows' : 'make -f make_mingw32.mak',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
+
+" Unite. La interfaz para casi todo
+NeoBundle 'Shougo/unite.vim'
+
+" Unite plugins
+NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
+NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
+NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}}
+" NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
+
+" }}}
 
 " Esquemas de color {{{
 
 " Temas Oscuros
 " Versión de molokai mejorada para terminal, casi identica a la de GUI
-Bundle 'joedicastro/vim-molokai256'
+NeoBundle 'joedicastro/vim-molokai256'
 
-Bundle 'tomasr/molokai'
-Bundle 'sjl/badwolf'
-Bundle 'nielsmadan/harlequin'
+NeoBundle 'tomasr/molokai'
+NeoBundle 'sjl/badwolf'
+NeoBundle 'nielsmadan/harlequin'
 
 " Temas claros
-Bundle 'vim-scripts/summerfruit256.vim'
-Bundle 'joedicastro/vim-github256'
+NeoBundle 'vim-scripts/summerfruit256.vim'
+NeoBundle 'joedicastro/vim-github256'
 
 " Crear temas para terminal a partir de temas para GUI
-" Bundle 'godlygeek/csapprox'
+" NeoBundle 'godlygeek/csapprox'
 
 " }}}
 
 " DCVS {{{
 "
 " Para gestionar Git
-Bundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-fugitive'
 " Para señalar los cambios del fichero con respecto al repo Git
-Bundle 'airblade/vim-gitgutter'
+NeoBundle 'airblade/vim-gitgutter'
 
 " }}}
 
 " Markdown {{{
 
 " Sintaxis de Markdown
-Bundle 'joedicastro/vim-markdown'
+NeoBundleLazy 'joedicastro/vim-markdown'
 " Previsualizacion de Markdown en el navegador, con soporte de Markdown Extra
-Bundle 'joedicastro/vim-markdown-extra-preview'
+NeoBundleLazy 'joedicastro/vim-markdown-extra-preview'
 
 " }}}
 
 " Utilidades de Linux {{{
 
-" Alternativa a grep rápida y potente
-Bundle 'mileszs/ack.vim'
 " Algunos atajos para comandos Unix desde Vim
-Bundle 'tpope/vim-eunuch'
+NeoBundle 'tpope/vim-eunuch'
 " Permite realizar un diff entre directorios
-Bundle 'joedicastro/DirDiff.vim'
+NeoBundle 'joedicastro/DirDiff.vim'
 " Edición hexadecimal
-Bundle 'vim-scripts/hexman.vim'
+NeoBundle 'vim-scripts/hexman.vim'
 " }}}
 
 " Python {{{
 
 " Autocompletado
-Bundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neocomplete.vim'
 " Gran plugin para programar en Python
-Bundle 'klen/python-mode'
+NeoBundleLazy 'klen/python-mode', {'autoload': {'filetypes': ['python']}}
 " Manejar virtualenvs
-Bundle 'jmcantrell/vim-virtualenv'
+NeoBundleLazy 'jmcantrell/vim-virtualenv', {'autoload': {'filetypes': ['python']}}
 " Visualizar lineas de identado
-Bundle 'Yggdroot/indentLine'
+NeoBundleLazy 'Yggdroot/indentLine', {'autoload': {'filetypes': ['python']}}
 " Visualizar informes de coverage.py
-Bundle 'alfredodeza/coveragepy.vim'
+NeoBundleLazy 'alfredodeza/coveragepy.vim', {'autoload': {'filetypes': ['python']}}
+
 
 " }}}
 
 " Snippets de código {{{
 
 " Gestor de snippets avanzado y potente
-Bundle 'SirVer/ultisnips'
-
-" }}}
-
-" Navegadores de ficheros {{{
-
-Bundle 'kien/ctrlp.vim'
+NeoBundle 'SirVer/ultisnips'
 
 " }}}
 
 " Sintaxis {{{
 
-Bundle 'vim-scripts/JSON.vim'
-Bundle 'vim-scripts/po.vim--gray'
-Bundle 'joedicastro/vim-pentadactyl'
-Bundle 'vim-scripts/crontab.vim'
-Bundle 'scrooloose/syntastic'
+NeoBundleLazy 'vim-scripts/JSON.vim', {'autoload': {'filetypes': ['json']}}
+NeoBundleLazy 'vim-scripts/po.vim--gray', {'autoload': {'filetypes': ['po']}}
+NeoBundleLazy 'joedicastro/vim-pentadactyl', {
+            \ 'autoload': {'filetypes': ['pentadactyl']}}
+NeoBundleLazy 'vim-scripts/crontab.vim', {'autoload': {'filetypes': ['crontab']}}
+NeoBundle 'scrooloose/syntastic'
 
 " }}}
 
 " Abrir enlaces externos {{{
 
 " Abrir una url en el navegador u otro tipo de ficheros con una app externa
-Bundle 'vim-scripts/utl.vim'
+NeoBundle 'vim-scripts/utl.vim'
 
 " }}}
 
 " Edición de texto {{{
 
 " Autocompletado de (, [, {, ', ", ...
-Bundle 'kana/vim-smartinput'
+NeoBundle 'kana/vim-smartinput'
 " Cambio de fechas rápido e inteligente
-Bundle 'tpope/vim-speeddating'
+NeoBundle 'tpope/vim-speeddating'
 " genial plugin para insertar/cambiar/eliminar pares de caracteres en torno a un
 " objeto
-Bundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-surround'
 " permite repetir ciertas operaciones con la tecla 'dot'
-Bundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-repeat'
 " conmutar entre lineas de comentario
-Bundle 'tpope/vim-commentary'
-" gestión de los registros de vim
-Bundle 'vim-scripts/YankRing.vim'
+NeoBundle 'tpope/vim-commentary'
 " inserción inteligente de digrafos
-Bundle 'Rykka/easydigraph.vim'
+NeoBundle 'Rykka/easydigraph.vim'
 " para navegar por el arbol de niveles de deshacer de vim
-Bundle 'sjl/gundo.vim'
+NeoBundle 'sjl/gundo.vim'
 " para insertar bloques de lorem ipsum
-Bundle 'vim-scripts/loremipsum'
+NeoBundle 'vim-scripts/loremipsum'
 " para expandir/contraer selecciones visuales con una sola tecla
-Bundle 'terryma/vim-expand-region'
+NeoBundle 'terryma/vim-expand-region'
 " para conocer toda la informacion sobre un caracter, incluido Unicode
-Bundle 'tpope/vim-characterize'
+NeoBundle 'tpope/vim-characterize'
 " transponer lines y bloques de texto (intercambiar columnas y lineas)
-Bundle 'salsifis/vim-transpose'
+NeoBundle 'salsifis/vim-transpose'
 " gestion de marcadores
-Bundle 'kshenoy/vim-signature'
+NeoBundle 'kshenoy/vim-signature'
 
 " }}}
 
@@ -168,50 +185,53 @@ Bundle 'kshenoy/vim-signature'
 
 " Permite seleccionar colores mediante una paleta y previsualizarlos en los
 " ficheros css/html
-Bundle 'Rykka/colorv.vim'
-Bundle 'othree/html5.vim'
-Bundle 'joedicastro/vim-sparkup'
+NeoBundle 'Rykka/colorv.vim'
+NeoBundleLazy 'othree/html5.vim', {'autoload':
+            \ {'filetypes': ['html', 'xhttml', 'css']}}
+NeoBundleLazy 'joedicastro/vim-sparkup', {'autoload':
+            \ {'filetypes': ['html', 'xhttml', 'css']}}
+
 " }}}
 
 " TODOs & FIXMEs {{{
 
 " Gestión los TODOs y los FIXMEs
-Bundle 'LStinson/TagmaTasks'
+NeoBundle 'LStinson/TagmaTasks'
 
 " }}}
 
 " GUI {{{
 
 " Barra de estado mas elegante y efectiva
-Bundle 'Lokaltog/vim-powerline'
+NeoBundle 'Lokaltog/vim-powerline'
 " crea buffer temporal desechable
-Bundle 'vim-scripts/scratch-utility'
+NeoBundle 'vim-scripts/scratch-utility'
 " permite des/hacer un zoom a ventana completa de uno de las ventanas
-Bundle 'vim-scripts/zoomwintab.vim'
+NeoBundle 'vim-scripts/zoomwintab.vim'
 " redimensionar ventanas facilmente
-Bundle 'jimsei/winresizer'
+NeoBundle 'jimsei/winresizer'
 
 " }}}
 
 " Tmux {{{
 
 " Permite interactuar con Tmux desde vim
-Bundle 'benmills/vimux'
+NeoBundle 'benmills/vimux'
 " Sintaxis del fichero de configuración de tmux
-Bundle 'vimtopia/vim-tmux'
+NeoBundle 'vimtopia/vim-tmux'
 
 " }}}
 
 " Ctags {{{
 
 " Muestra las ctags en una barra lateral
-Bundle 'majutsushi/tagbar'
+NeoBundle 'majutsushi/tagbar'
 
 " }}}
 
 " API Web {{{
 
-Bundle 'mattn/webapi-vim'
+NeoBundle 'mattn/webapi-vim'
 
 " }}}
 
@@ -220,16 +240,16 @@ Bundle 'mattn/webapi-vim'
 " Instalar los plugins automaticamente {{{
 
 " Instalando los plugins por primera vez
-if iCanHazVundle == 0
+if iCanHazNeoBundle == 0
     echo "Installing Bundles, please ignore key map error messages"
     echo ""
-    :BundleInstall
+    :NeoBundleInstall
 endif
 " }}}
 
 filetype plugin indent on      " Sangrado y plugins por tipo de archivo.
 
-" FIN VUNDLE }}}
+" FIN NEOBUNDLE }}}
 
 " CONFIGURACIÓN DE VIM {{{ ===================================================
 
@@ -580,18 +600,12 @@ else
   map <C-k> <C-w>k
   map <C-l> <C-w>l
 endif
+
 " }}}
 
 " FIN CONFIGURACIÓN VIM }}}
 
 " CONFIGURACIÓN DE PLUGINS {{{ ===============================================
-
-" Ack {{{
-
-map <Leader>a :Ack!<Space>
-map <Leader>ag :cgete system("git ls-files ".input("dir? " )."\\| xargs ack ".input("pattern? "))<Bar>copen<CR>
-
-" }}}
 
 " ColorV {{{
 
@@ -611,21 +625,6 @@ augroup plugin_commentary
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType puppet setlocal commentstring=#\ %s
 augroup END
-
-" }}}
-
-" Ctrl-P {{{ -----------------------------------------------------------------
-
-nnoremap <leader>b :CtrlPBufTag<CR>
-nnoremap <leader>f :CtrlPLine<CR>
-
-let g:ctrlp_map = '<leader>o'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_files = 0
-let g:ctrlp_cache_dir = $HOME.'/.vim/tmp/ctrlp_cache'
-let g:ctrlp_extensions = ['mixed']
 
 " }}}
 
@@ -649,7 +648,7 @@ map <Leader>gt :!tig<CR>:redraw!<CR>
 
 " Gundo {{{ ------------------------------------------------------------------
 
-nnoremap <Leader>u :GundoToggle<CR>
+" nnoremap <Leader>u :GundoToggle<CR>
 
 let g:gundo_preview_bottom = 1
 
@@ -749,6 +748,48 @@ let g:tagbar_autoshowtag = 1
 
 " }}}
 
+" Unite {{{
+
+nnoremap <Leader>uu :Unite 
+nnoremap <Leader>i :Unite history/yank <CR>
+nnoremap <Leader>o :Unite -start-insert file<CR>
+nnoremap <Leader>um :Unite file_mru <CR>
+nnoremap <Leader>ur :Unite -start-insert file_rec/async:!<CR>
+nnoremap <Leader>a :Unite grep <CR>
+nnoremap <Leader>b :Unite buffer -quick-match<CR>
+nnoremap <Leader>uh :Unite help -start-insert<CR>
+nnoremap <Leader>f :Unite line -start-insert<CR>
+nnoremap <Leader>co :Unite colorscheme -auto-preview<CR>
+
+map <Leader>ag :cgete system("git ls-files ".input("dir? " )."\\| xargs ack ".input("pattern? "))<Bar>copen<CR>
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+let g:unite_source_history_yank_enable = 1
+" let g:unite_enable_start_insert = 1
+" let g:unite_enable_short_source_names = 1
+" let g:unite_force_overwrite_statusline = 0
+let g:unite_prompt = '» '
+let g:unite_winheight = 11
+let g:unite_split_rule = 'botright'
+let g:unite_data_directory = '~/.vim/tmp/unite'
+let g:unite_source_buffer_time_format = "(%d-%m-%Y %H:%M:%S) "
+let g:unite_source_file_mru_time_format = "(%d-%m-%Y %H:%M:%S) "
+let g:unite_source_directory_mru_time_format = "(%d-%m-%Y %H:%M:%S) "
+
+if executable('ag')
+    let g:unite_source_grep_command='ag'
+    let g:unite_source_grep_default_opts='--nocolor --nogroup -a'
+    let g:unite_source_grep_recursive_opt=''
+elseif executable('ack')
+    let g:unite_source_grep_command='ack'
+    let g:unite_source_grep_default_opts='--no-heading --no-color'
+    let g:unite_source_grep_recursive_opt=''
+endif
+
+" }}}
+
 " Utl {{{
 
 map <Leader>j :Utl <CR><Bar>:redraw!<CR>
@@ -800,19 +841,6 @@ let s:default_start_key = '<C-E>'
 
 " }}}
 
-" YankRing {{{
-
-map <silent> <Leader>i :YRShow<CR>
-
-let g:yankring_max_history = 200
-let g:yankring_history_dir = $HOME.'/.vim/tmp/yankring'
-if !isdirectory(expand(yankring_history_dir))
-    call mkdir(expand(yankring_history_dir), "p")
-endif
-let g:yankring_history_file = 'yankring_history'
-
-" }}}
-
 " zoomwintab {{{
 
 map <Leader>z :ZoomWinTabToggle<CR>
@@ -850,6 +878,8 @@ au BufRead,BufNewFile rc.lua setlocal foldmethod=marker
 
 " markdown filetype file
 au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown
+autocmd FileType markdown NeoBundleSource vim-markdown
+autocmd FileType markdown NeoBundleSource vim-markdown-extra-preview
 
 " Después de N segundos (definidos por `updatetime`) sin actividad en el buffer,
 " se salva el archivo. Útil para previsualizar los artículos de Pelican.
@@ -859,12 +889,6 @@ augroup ft_markdown
 augroup END
 
 let g:updatetime=5
-" }}}
-
-" ORG MODE {{{ ---------------------------------------------------------------
-
-autocmd BufNewFile,BufRead *.org set ft=org
-
 " }}}
 
 " FIN TIPOS DE ARCHIVO }}}
