@@ -59,7 +59,6 @@ mapeada a `\`
      - [vim-commentary](#vim-commentary)
      - [easydigraph](#easydigraph)
      - [Gundo](#gundo)
-     - [vim-expand-region](#vim-expand-region)
      - [LoremIpsum](#loremipsum)
      - [vim-characterize](#vim-characterize)
      - [vim-transpose](#vim-transpose)
@@ -542,21 +541,6 @@ __Ayuda__ `:h gundo.txt` <vimhelp:gundo.txt>
 __Atajos__ `<Leader>u` abre el interfaz de ventanas de Gundo
 
 *Repositorio:* <https://github.com/sjl/gundo.vim>
-
-### vim-expand-region
-
-![expand-region](http://joedicastro.com/static/pictures/expand-region.gif "expand-region")
-
-Nos sirve para incrementar/decrementar una seleccion visual de forma inteligente.
-
-__Ayuda__ `:h vim-expand-region.txt` <vimhelp:vim-expand-region.txt>
-
-__Atajos__
-
-- `-` decrementa la seleccion visual
-- `+` incrementa la seleccion visual
-
-*Repositorio:* <https://github.com/terryma/vim-expand-region>
 
 ### LoremIpsum
 

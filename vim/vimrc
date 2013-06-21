@@ -55,10 +55,12 @@ NeoBundle 'Shougo/vimproc', {
 " Unite. La interfaz para casi todo
 NeoBundle 'Shougo/unite.vim'
 
-" Unite plugins
+" Unite sources
 NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
 NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
 NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}}
+NeoBundle 'Shougo/unite-session'
+NeoBundle 'thinca/vim-unite-history'
 " NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
 
 " }}}
@@ -72,6 +74,7 @@ NeoBundle 'joedicastro/vim-molokai256'
 NeoBundle 'tomasr/molokai'
 NeoBundle 'sjl/badwolf'
 NeoBundle 'nielsmadan/harlequin'
+NeoBundle 'nanotech/jellybeans.vim'
 
 " Temas claros
 NeoBundle 'vim-scripts/summerfruit256.vim'
@@ -170,14 +173,15 @@ NeoBundle 'Rykka/easydigraph.vim'
 NeoBundle 'sjl/gundo.vim'
 " para insertar bloques de lorem ipsum
 NeoBundle 'vim-scripts/loremipsum'
-" para expandir/contraer selecciones visuales con una sola tecla
-NeoBundle 'terryma/vim-expand-region'
 " para conocer toda la informacion sobre un caracter, incluido Unicode
 NeoBundle 'tpope/vim-characterize'
 " transponer lines y bloques de texto (intercambiar columnas y lineas)
 NeoBundle 'salsifis/vim-transpose'
 " gestion de marcadores
 NeoBundle 'kshenoy/vim-signature'
+" text-objects
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kana/vim-textobj-line' " al, il
 
 " }}}
 
@@ -248,6 +252,9 @@ endif
 " }}}
 
 filetype plugin indent on      " Sangrado y plugins por tipo de archivo.
+
+" Comprueba que todos los plugins esten instalados
+NeoBundleCheck
 
 " FIN NEOBUNDLE }}}
 
@@ -320,7 +327,7 @@ endif
 set wildmenu                        " Autocompletado de la linea de comandos.
 set wildmode=list:longest,full      " Muestra una lista de todas las opciones.
 
-set wildignore+=.hg,.git,.svn                    " Version control
+" set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.bak,*.?~,*.??~,*.???~,*.~      " Backup files
 set wildignore+=*.luac                           " Lua byte code
@@ -603,6 +610,12 @@ endif
 
 " }}}
 
+" Salir sin guardar nada {{{
+
+nnoremap <Leader>`` :qa!<cr>
+
+" }}}
+
 " FIN CONFIGURACIÓN VIM }}}
 
 " CONFIGURACIÓN DE PLUGINS {{{ ===============================================
@@ -693,6 +706,7 @@ let g:po_translator = "joe di castro <joe@joedicastro.com>"
 let g:Powerline_symbols = 'fancy'
 let g:Powerline_cache_file = $HOME.'/.vim/tmp/Powerline.cache'
 
+set noshowmode
 " call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
 
 " }}}
@@ -752,16 +766,18 @@ let g:tagbar_autoshowtag = 1
 
 nnoremap <Leader>uu :Unite 
 nnoremap <Leader>i :Unite history/yank <CR>
-nnoremap <Leader>o :Unite -start-insert file<CR>
+nnoremap <Leader>o :Unite -start-insert -silent file<CR>
 nnoremap <Leader>um :Unite file_mru <CR>
 nnoremap <Leader>ur :Unite -start-insert file_rec/async:!<CR>
 nnoremap <Leader>a :Unite grep <CR>
-nnoremap <Leader>b :Unite buffer -quick-match<CR>
+nnoremap <Leader>af :Unite find <CR>
+nnoremap <Leader>b :Unite buffer <CR>
 nnoremap <Leader>uh :Unite help -start-insert<CR>
 nnoremap <Leader>f :Unite line -start-insert<CR>
 nnoremap <Leader>co :Unite colorscheme -auto-preview<CR>
+nnoremap <Leader>ut :Unite -vertical -auto-preview outline<CR>
 
-map <Leader>ag :cgete system("git ls-files ".input("dir? " )."\\| xargs ack ".input("pattern? "))<Bar>copen<CR>
+" map <Leader>ag :cgete system("git ls-files ".input("dir? " )."\\| xargs ack ".input("pattern? "))<Bar>copen<CR>
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
@@ -771,12 +787,14 @@ let g:unite_source_history_yank_enable = 1
 " let g:unite_enable_short_source_names = 1
 " let g:unite_force_overwrite_statusline = 0
 let g:unite_prompt = '» '
-let g:unite_winheight = 11
+" let g:unite_winheight = 11
+let g:unite_update_time = 100
 let g:unite_split_rule = 'botright'
 let g:unite_data_directory = '~/.vim/tmp/unite'
 let g:unite_source_buffer_time_format = "(%d-%m-%Y %H:%M:%S) "
 let g:unite_source_file_mru_time_format = "(%d-%m-%Y %H:%M:%S) "
 let g:unite_source_directory_mru_time_format = "(%d-%m-%Y %H:%M:%S) "
+let g:unite_source_file_mru_filename_format = ':~:.'
 
 if executable('ag')
     let g:unite_source_grep_command='ag'
@@ -787,6 +805,14 @@ elseif executable('ack')
     let g:unite_source_grep_default_opts='--no-heading --no-color'
     let g:unite_source_grep_recursive_opt=''
 endif
+
+" navegacion por la ventana de unite mas comoda
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> <Space> <Plug>(unite_insert_leave)
+endfunction
 
 " }}}
 
