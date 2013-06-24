@@ -1,3 +1,5 @@
+# ATENCION!!! Debido a los grandes cambios introducidos al realizar el cambio a Unite este fichero esta temporalmente obsoleto, mientras no termino la migracion.
+
 # Mi Configuración de Vim
 
 El propósito de este documento es recopilar todas las opciones disponibles en mi
