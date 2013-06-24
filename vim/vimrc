@@ -59,9 +59,20 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
 NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
 NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}}
+NeoBundleLazy 'ujihisa/unite-locate', {'autoload':{'unite_sources':'locate'}}
+NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' :
+            \['history/command', 'history/search']}}
 NeoBundle 'Shougo/unite-session'
-NeoBundle 'thinca/vim-unite-history'
+NeoBundle 'osyo-manga/unite-filetype', { 'autoload' : {'unite_sources' :
+            \'filetype', }}
+NeoBundle 'osyo-manga/vim-powerline-unite-theme'
+NeoBundle 'osyo-manga/unite-quickfix'
+NeoBundle 'osyo-manga/unite-fold'
+NeoBundle 'taka84u9/unite-git'
+NeoBundle 'tacroe/unite-mark'
+
 " NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
+" NeoBundle 'Shougo/vimfiler'
 
 " }}}
 
@@ -74,7 +85,6 @@ NeoBundle 'joedicastro/vim-molokai256'
 NeoBundle 'tomasr/molokai'
 NeoBundle 'sjl/badwolf'
 NeoBundle 'nielsmadan/harlequin'
-NeoBundle 'nanotech/jellybeans.vim'
 
 " Temas claros
 NeoBundle 'vim-scripts/summerfruit256.vim'
@@ -249,12 +259,15 @@ if iCanHazNeoBundle == 0
     echo ""
     :NeoBundleInstall
 endif
+
+" Comprueba que todos los plugins estén instalados, si alguno no lo esta, nos
+" preguntara si queremos instalarlo (util para cuando añadimos uno nuevo al
+" .vimrc)
+NeoBundleCheck
+
 " }}}
 
 filetype plugin indent on      " Sangrado y plugins por tipo de archivo.
-
-" Comprueba que todos los plugins esten instalados
-NeoBundleCheck
 
 " FIN NEOBUNDLE }}}
 
@@ -390,7 +403,7 @@ au VimResized * exe "normal! \<c-w>="
 
 " }}}
 
-" Mapeo de la tecla <leader> {{{ ---------------------------------------------
+" Mapeo de la tecla <Leader> {{{ ---------------------------------------------
 
 let mapleader=','
 let maplocalleader= '\'
@@ -399,8 +412,8 @@ let maplocalleader= '\'
 
 " Nuevas ventanas {{{ -------------------------------------------------
 
-nnoremap <leader>v <C-w>v
-nnoremap <leader>h <C-w>s
+nnoremap <Leader>v <C-w>v
+nnoremap <Leader>h <C-w>s
 
 " }}}
 
@@ -415,7 +428,7 @@ nnoremap <C-l> <C-w>l
 
 " Cierre rápido de ventana {{{
 
-nnoremap <leader>m <C-w>c
+nnoremap <Leader>k <C-w>c
 
 " }}}
 
@@ -436,7 +449,7 @@ endfunction
 
 " Mostrar caracteres no imprimibles {{{
 
-nmap <leader>sh :set list!<CR>
+nmap <Leader>sh :set list!<CR>
 set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
 
 " }}}
@@ -464,8 +477,8 @@ map <Leader>P :set invpaste<CR>
 
 " Edición rápida de varios archivos {{{ ----------------------------------------------
 
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>es :vsplit ~/.vim/UltiSnips/all.snippets<cr>
+nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <Leader>es :vsplit ~/.vim/UltiSnips/all.snippets<cr>
 
 " }}}
 
@@ -564,15 +577,10 @@ map <Leader>sw :WordFrequency<CR>
 " Numero de lineas de codigo {{{
 
 " obtener el numero de lineas de codigo
-" function! LinesOfCode()
-"     let @a= system('cloc --quiet '.bufname("%"))
-"     new
-"     setlocal buftype=nofile bufhidden=hide noswapfile 
-"     put a
-" endfunction
-" map <Leader>sc :call LinesOfCode()<CR>
- map <silent> <Leader>sc :cgete system('cloc --quiet '. bufname("%"))<Bar>copen<CR>
-
+" map <silent> <Leader>sc :cgete system('cloc --quiet '. bufname("%"))<Bar>copen<CR>
+function! LinesOfCode()
+    echo system('cloc --quiet '.bufname("%"))
+endfunction
 "}}}
 
 " desactivar el resaltado de la ultima búsqueda {{{
@@ -629,8 +637,8 @@ let g:colorv_cache_fav=$HOME.'/.vim/tmp/vim_colorv_cache_fav'
 
 " Commentary {{{ -------------------------------------------------------------
 
-nmap <leader>c <Plug>CommentaryLine
-xmap <leader>c <Plug>Commentary
+nmap <Leader>c <Plug>CommentaryLine
+xmap <Leader>c <Plug>Commentary
 
 augroup plugin_commentary
     au!
@@ -638,6 +646,12 @@ augroup plugin_commentary
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType puppet setlocal commentstring=#\ %s
 augroup END
+
+" }}}
+
+" easydigraph {{{
+
+let g:EasyDigraph_nmap = '<Leader>dd'
 
 " }}}
 
@@ -661,7 +675,7 @@ map <Leader>gt :!tig<CR>:redraw!<CR>
 
 " Gundo {{{ ------------------------------------------------------------------
 
-" nnoremap <Leader>u :GundoToggle<CR>
+nnoremap <Leader>u :GundoToggle<CR>
 
 let g:gundo_preview_bottom = 1
 
@@ -706,7 +720,10 @@ let g:po_translator = "joe di castro <joe@joedicastro.com>"
 let g:Powerline_symbols = 'fancy'
 let g:Powerline_cache_file = $HOME.'/.vim/tmp/Powerline.cache'
 
+let g:Powerline_theme="unite_status"
+let g:Powerline_colorscheme="unite_status"
 set noshowmode
+
 " call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
 
 " }}}
@@ -741,7 +758,7 @@ let g:syntastic_style_warning_symbol  = '⚡'
 
 " TagmaTasks {{{
 
-map <silent> <Leader>k :TagmaTaskToggle<CR>
+map <silent> <Leader>kk :TagmaTaskToggle<CR>
 
 let g:TagmaTasksPrefix = ''
 " let g:TagmaTasksTokens = ['FIXME', 'TODO', 'NOTE', 'XXX', 'COMBAK', '@todo']
@@ -764,54 +781,237 @@ let g:tagbar_autoshowtag = 1
 
 " Unite {{{
 
-nnoremap <Leader>uu :Unite 
-nnoremap <Leader>i :Unite history/yank <CR>
-nnoremap <Leader>o :Unite -start-insert -silent file<CR>
-nnoremap <Leader>um :Unite file_mru <CR>
-nnoremap <Leader>ur :Unite -start-insert file_rec/async:!<CR>
-nnoremap <Leader>a :Unite grep <CR>
-nnoremap <Leader>af :Unite find <CR>
-nnoremap <Leader>b :Unite buffer <CR>
-nnoremap <Leader>uh :Unite help -start-insert<CR>
-nnoremap <Leader>f :Unite line -start-insert<CR>
-nnoremap <Leader>co :Unite colorscheme -auto-preview<CR>
-nnoremap <Leader>ut :Unite -vertical -auto-preview outline<CR>
+"unite generico
+nnoremap <LocalLeader>u :Unite -no-split<Space>
+" archivos
+nnoremap <silent><Leader>o :Unite -start-insert file<CR>
+nnoremap <silent><Leader>m :Unite file_mru<CR>
+" buffers 
+nnoremap <silent><Leader>b :Unite buffer<CR>
+" busquedas buffer
+nnoremap <silent><Leader>f :Unite line -no-split -start-insert -auto-preview<CR>
+nnoremap <silent>;w :UniteWithCursorWord -no-split -auto-preview line<CR>
+" yankring
+nnoremap <silent><Leader>i :Unite history/yank <CR>
+" grep
+nnoremap <silent><Leader>a :Unite -no-quit grep<CR>
+" ayuda
+nnoremap <silent> g<C-h> :UniteWithCursorWord help<CR>
 
-" map <Leader>ag :cgete system("git ls-files ".input("dir? " )."\\| xargs ack ".input("pattern? "))<Bar>copen<CR>
+let g:unite_source_menu_menus = {}
+
+" menu menues
+nnoremap <silent>;u :Unite menu -start-insert<CR>
+
+"menu ficheros y directorios
+let g:unite_source_menu_menus.ficheros = {
+      \ 'description' : 'Gestionar ficheros y directorios',
+      \}
+let g:unite_source_menu_menus.ficheros.command_candidates = {
+            \'abrir fichero' : 'Unite -start-insert file',
+            \'abrir fichero reciente' : 'Unite file_mru',
+            \'abrir fichero con busqueda recursiva' : 
+                \'Unite -start-insert file_rec/async',
+            \'abrir fichero nuevo' : 'Unite file/new',
+            \'buscar directorio' : 'Unite directory',
+            \'buscar directorio reciente' : 'Unite directory_mru',
+            \'buscar directorio con busqueda recursiva' : 
+                \'Unite directory_rec/async',
+            \'crear nuevo directorio' : 'Unite directory/new',
+            \'cambiar directorio de trabajo' : 
+                \'Unite -default-action=lcd directory',
+            \'abrir ranger' : 'call RangerChooser()',
+            \}
+nnoremap <silent>;o :Unite -start-insert menu:ficheros<CR>
+
+" menu busqueda de ficheros
+let g:unite_source_menu_menus.busquedas = {
+      \ 'description' : 'Buscar ficheros',
+      \}
+let g:unite_source_menu_menus.busquedas.command_candidates = {
+            \'grep (ag → ack → grep)' : 'Unite -no-quit grep',
+            \'grep (solo ficheros incluidos en el repositorio git)' :
+                \'Unite grep',
+            \'find' : 'Unite find',
+            \'locate' : 'Unite locate',
+            \'vimgrep (muy lento)' : 'Unite vimgrep',
+            \}
+nnoremap <silent>;a :Unite menu:busquedas<CR>
+
+" map <Leader>ag :cgete system("git ls-files ".input("dir? " )."\\| xargs 
+"             \ack ".input("pattern? "))<Bar>copen<CR>
+
+" menu buffers, ventanas y pestañas
+let g:unite_source_menu_menus.navegacion = {
+      \ 'description' : 'Navegar por buffers, pestañas y ventanas de Vim',
+      \}
+let g:unite_source_menu_menus.navegacion.command_candidates = {
+            \'buffers' : 'Unite buffer',
+            \'pestañas' : 'Unite tab',
+            \'ventanas' : 'Unite window',
+            \'location list' : 'Unite location_list',
+            \'quickfix' : 'Unite quickfix',
+            \'Redimensionar ventanas' : 'WinResizerStartResize',
+            \'Scratch' : 'Scratch',
+            \'Zoom' : 'ZoomWinTabToggle',
+            \}
+nnoremap <silent>;b :Unite menu:navegacion<CR>
+
+" menu busquedas dentro del buffer
+let g:unite_source_menu_menus.busqueda_buffer = {
+      \ 'description' : 'Realizar busquedas dentro del buffer activo',
+      \}
+let g:unite_source_menu_menus.busqueda_buffer.command_candidates = {
+            \'buscar linea' : 'Unite -auto-preview -start-insert line',
+            \'buscar encabezados' :
+                \'Unite -no-split -auto-preview -start-insert outline',
+            \'buscar etiquetas (ctags)' : 'TagbarToggle',
+            \'buscar marcas' : 
+                \'Unite -no-split -auto-preview -start-insert mark',
+            \'buscar pliegues' : 
+                \'Unite -no-split -auto-preview -start-insert fold',
+            \'buscar cambios' : 'Unite change',
+            \'buscar saltos' : 'Unite jump',
+            \'buscar undos' : 'Unite undo',
+            \'buscar tareas' : 'TagmaTaskToggle',
+            \}
+nnoremap <silent>;h :Unite -start-insert menu:busqueda_buffer<CR>
+
+" menu yankring, registros e historia
+let g:unite_source_menu_menus.registros = {
+      \ 'description' : 'Yankring, registros e historia de Vim',
+      \}
+let g:unite_source_menu_menus.registros.command_candidates = {
+            \'Yankring' : 'Unite history/yank',
+            \'Comandos' : 'Unite history/command',
+            \'Busquedas' : 'Unite history/search',
+            \'Registros' : 'Unite register',
+            \'Undos' : 'GundoToggle',
+            \}
+nnoremap <silent>;i :Unite -start-insert menu:registros<CR>
+
+" menu neobundle
+let g:unite_source_menu_menus.neobundle = {
+      \ 'description' : 'Gestionar NeoBundle',
+      \}
+let g:unite_source_menu_menus.neobundle.command_candidates = {
+            \'NeoBundle' : 'Unite neobundle',
+            \'NeoBundle Log' : 'Unite neobundle/log',
+            \'NeoBundle Lazy' : 'Unite neobundle/lazy',
+            \'NeoBundle Update' : 'Unite neobundle/update',
+            \'NeoBundle Search' : 'Unite neobundle/search',
+            \'NeoBundle Install' : 'Unite neobundle/install',
+            \'NeoBundle Check' : 'Unite -no-empty output:NeoBundleCheck',
+            \'NeoBundle Docs' : 'Unite output:NeoBundleDocs',
+            \'NeoBundle Clean' : 'Unite output:NeoBundleClean',
+            \'NeoBundle List' : 'Unite output:NeoBundleList',
+            \}
+nnoremap <silent>;n :Unite -start-insert menu:neobundle<CR>
+
+" menu git
+" TODO: terminar menu
+let g:unite_source_menu_menus.git = {
+      \ 'description' : 'Gestionar git',
+      \}
+let g:unite_source_menu_menus.git.command_candidates = {
+            \'tig' : '!tig',
+            \}
+nnoremap <silent>;g :Unite menu:git<CR>
+
+" menu python
+" TODO: terminar menu
+let g:unite_source_menu_menus.python = {
+      \ 'description' : 'Gestionar python',
+      \}
+let g:unite_source_menu_menus.python.command_candidates = {
+            \'Syntastic Check' : 'SyntasticCheck',
+            \'Syntastic Errors' : 'Errors',
+            \ "Contar lineas de codigo" : "Unite output:call\\ LinesOfCode()",
+            \}
+nnoremap <silent>;p :Unite menu:python<CR>
+
+
+" menu sesiones
+let g:unite_source_menu_menus.sesiones = {
+      \ 'description' : 'Gestionar sesiones de Vim',
+      \}
+let g:unite_source_menu_menus.sesiones.command_candidates = {
+            \'cargar sesion' : 'Unite session',
+            \'guardar sesion (default)' : 'UniteSessionSave',
+            \'guardar sesion (personalizada)' :
+                \'exe "UniteSessionSave " input("nombre: ")',
+            \}
+nnoremap <silent>;s :Unite menu:sesiones<CR>
+
+" menu favoritos
+let g:unite_source_menu_menus.favoritos = {
+      \ 'description' : 'Gestionar favoritos de Vim',
+      \}
+let g:unite_source_menu_menus.favoritos.command_candidates = {
+            \'añadir a favoritos' : 'UniteBookmarkAdd',
+            \'abrir favoritos' : 'Unite bookmark:*',
+            \}
+nnoremap <silent>;f :Unite menu:favoritos<CR>
+
+" menu varios
+let g:unite_source_menu_menus.varios = {
+      \ 'description' : 'Varios comandos',
+      \}
+
+let g:unite_source_menu_menus.varios.command_candidates = {
+    \ "Escoger esquema de color" : "Unite colorscheme -auto-preview",
+    \ "Frecuencia de cada palabra en el texto" : "WordFrequency",
+    \ "Muestra los digrafos disponibles" : "digraphs",
+    \ "Selector de color" : "ColorVPicker",
+    \ "Matar procesos" : "Unite -default-action=sigkill -start-insert process",
+    \ "Atajos de teclado" : "Unite mapping -start-insert",
+    \ "Fuentes de Unite" : "Unite source",
+    \ "Establecer el tipo de fichero" : "Unite -start-insert filetype",
+    \ "Ayuda de Vim" : "Unite -start-insert help",
+    \ "Comandos de Vim" : "Unite -start-insert command",
+    \ "Funciones de Vim" : "Unite -start-insert function",
+    \ "Lanzar ejecutable (dmenu like)" : "Unite -start-insert launcher",
+    \ "Runtimepath de Vim" : "Unite -start-insert runtimepath",
+    \ "Salida de comando de Vim" : "Unite output",
+    \}
+
+nnoremap <silent>;v :Unite menu:varios -start-insert<CR>
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 
 let g:unite_source_history_yank_enable = 1
-" let g:unite_enable_start_insert = 1
-" let g:unite_enable_short_source_names = 1
-" let g:unite_force_overwrite_statusline = 0
-let g:unite_prompt = '» '
-" let g:unite_winheight = 11
-let g:unite_update_time = 100
+let g:unite_enable_start_insert = 0
+let g:unite_enable_short_source_mes = 0
+let g:unite_force_overwrite_statusline = 0
+let g:unite_prompt = '>>> '
+let g:unite_marked_icon = '✓'
+let g:unite_winheight = 15
+let g:unite_update_time = 200
 let g:unite_split_rule = 'botright'
 let g:unite_data_directory = '~/.vim/tmp/unite'
 let g:unite_source_buffer_time_format = "(%d-%m-%Y %H:%M:%S) "
 let g:unite_source_file_mru_time_format = "(%d-%m-%Y %H:%M:%S) "
 let g:unite_source_directory_mru_time_format = "(%d-%m-%Y %H:%M:%S) "
-let g:unite_source_file_mru_filename_format = ':~:.'
 
 if executable('ag')
     let g:unite_source_grep_command='ag'
-    let g:unite_source_grep_default_opts='--nocolor --nogroup -a'
+    let g:unite_source_grep_default_opts='--nocolor --nogroup -a -S'
     let g:unite_source_grep_recursive_opt=''
+    let g:unite_source_grep_search_word_highlight = 1
 elseif executable('ack')
     let g:unite_source_grep_command='ack'
-    let g:unite_source_grep_default_opts='--no-heading --no-color'
+    let g:unite_source_grep_default_opts='--no-group --no-color'
     let g:unite_source_grep_recursive_opt=''
+    let g:unite_source_grep_search_word_highlight = 1
 endif
 
 " navegacion por la ventana de unite mas comoda
 autocmd FileType unite call s:unite_settings()
 function! s:unite_settings()
-  nmap <buffer> <ESC> <Plug>(unite_exit)
-  imap <buffer> <ESC> <Plug>(unite_exit)
-  imap <buffer> <Space> <Plug>(unite_insert_leave)
+  nmap <buffer> <Esc><Esc> <Plug>(unite_exit)
+  imap <buffer> <Esc><Esc> <Plug>(unite_exit)
+  imap <buffer> <Esc> <Plug>(unite_insert_leave)
 endfunction
 
 " }}}
@@ -861,7 +1061,7 @@ map <Leader>xz :VimuxCloseRunner<CR>
 
 " }}}
 
-" winresizer {{{ 
+" winresizer {{{
 
 let s:default_start_key = '<C-E>'
 
