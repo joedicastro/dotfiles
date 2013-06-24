@@ -930,6 +930,15 @@ let g:unite_source_menu_menus.python.command_candidates = {
             \}
 nnoremap <silent>;p :Unite menu:python<CR>
 
+" menu markdown
+let g:unite_source_menu_menus.markdown = {
+      \ 'description' : 'Markdown Extra Preview',
+      \}
+let g:unite_source_menu_menus.markdown.command_candidates = {
+            \'Previsualizar' : 'Me',
+            \'Refrescar' : 'Mer',
+            \}
+nnoremap <silent>;k :Unite menu:markdown<CR>
 
 " menu sesiones
 let g:unite_source_menu_menus.sesiones = {
