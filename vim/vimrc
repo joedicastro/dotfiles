@@ -404,10 +404,10 @@ au VimResized * exe "normal! \<c-w>="
 
 " }}}
 
-" Mapeo de la tecla <Leader> {{{ ---------------------------------------------
+" Mapeo de la teclas <Leader> y <LocalLeader> {{{ -----------------------------
 
 let mapleader=','
-let maplocalleader= '\'
+let maplocalleader= ' '
 
 " }}}
 
@@ -459,9 +459,10 @@ set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
 
 set foldmethod=marker
 
-" Espacio para conmutar el plegado.
-nnoremap <Space> za
-vnoremap <Space> za
+" Conmutar el plegado
+
+nnoremap \ za
+vnoremap \ za
 
 " }}}
 
@@ -515,7 +516,7 @@ nmap <silent> <Leader>w :update<CR>
 
 " Eliminar espacios al final de la línea {{{
 
-nmap <Leader>rt :%s/\s\+$//<cr>
+nmap <Leader>n :%s/\s\+$//<cr>
 
 " }}}
 
@@ -529,7 +530,7 @@ fun! RangerChooser()
     endif
     redraw!
 endfun
-map <Leader>ra :call RangerChooser()<CR>
+map <Leader>r :call RangerChooser()<CR>
 " }}}
 
 " Mostrar/Ocultar la ventana Quickfix {{{
@@ -669,7 +670,9 @@ map <Leader>gb :Gblame<CR>
 map <Leader>gg :Ggrep<Space>
 map <Leader>gB :Gbrowse<CR>
 map <Leader>gp :Git push<CR>
+map <Leader>gP :Git pull<CR>
 map <Leader>gi :Git <Space>
+map <Leader>gl :exe "silent Glog <Bar> Unite quickfix"<CR>
 map <Leader>gt :!tig<CR>:redraw!<CR>
 
 " }}}
@@ -782,16 +785,14 @@ let g:tagbar_autoshowtag = 1
 
 " Unite {{{
 
-"unite generico
-nnoremap <LocalLeader>u :Unite -no-split<Space>
 " archivos
 nnoremap <silent><Leader>o :Unite -start-insert file<CR>
 nnoremap <silent><Leader>m :Unite file_mru<CR>
-" buffers 
+" buffers
 nnoremap <silent><Leader>b :Unite buffer<CR>
 " busquedas buffer
 nnoremap <silent><Leader>f :Unite line -no-split -start-insert -auto-preview<CR>
-nnoremap <silent>;w :UniteWithCursorWord -no-split -auto-preview line<CR>
+nnoremap <silent>[menu]w :UniteWithCursorWord -no-split -auto-preview line<CR>
 " yankring
 nnoremap <silent><Leader>i :Unite history/yank <CR>
 " grep
@@ -799,212 +800,307 @@ nnoremap <silent><Leader>a :Unite -no-quit grep<CR>
 " ayuda
 nnoremap <silent> g<C-h> :UniteWithCursorWord help<CR>
 
+" menus {{{
 let g:unite_source_menu_menus = {}
 
-" tecla prefijo para menus (cambiando esta se cambia para todos los menus)
+" tecla prefijo para menus (se usa para todos los menus de Unite) {{{
 nnoremap [menu] <Nop>
-nmap ; [menu]
+nmap <LocalLeader> [menu]
+" }}}
 
 " menu menus
 nnoremap <silent>[menu]u :Unite menu -start-insert<CR>
 
-"menu ficheros y directorios
+" menu ficheros y directorios {{{
 let g:unite_source_menu_menus.ficheros = {
-      \ 'description' : 'Gestionar ficheros y directorios',
-      \}
-let g:unite_source_menu_menus.ficheros.command_candidates = {
-            \'abrir fichero' : 'Unite -start-insert file',
-            \'abrir fichero reciente' : 'Unite file_mru',
-            \'abrir fichero con busqueda recursiva' : 
-                \'Unite -start-insert file_rec/async',
-            \'abrir fichero nuevo' : 'Unite file/new',
-            \'buscar directorio' : 'Unite directory',
-            \'buscar directorio reciente' : 'Unite directory_mru',
-            \'buscar directorio con busqueda recursiva' : 
-                \'Unite directory_rec/async',
-            \'crear nuevo directorio' : 'Unite directory/new',
-            \'cambiar directorio de trabajo' : 
-                \'Unite -default-action=lcd directory',
-            \'conocer directorio de trabajo' : 'Unite output:pwd',
-            \'abrir ranger' : 'call RangerChooser()',
-            \}
+    \ 'description' : 'Gestionar ficheros y directorios',
+    \}
+let g:unite_source_menu_menus.ficheros.command_candidates = [
+    \['▷ abrir fichero                                              ⌘ ,o',
+        \'Unite -start-insert file'],
+    \['▷ abrir fichero reciente                                     ⌘ ,m',
+        \'Unite file_mru'],
+    \['▷ abrir fichero con busqueda recursiva',
+        \'Unite -start-insert file_rec/async'],
+    \['▷ crear nuevo fichero',
+        \'Unite file/new'],
+    \['▷ buscar directorio',
+        \'Unite directory'],
+    \['▷ buscar directorio reciente',
+        \'Unite directory_mru'],
+    \['▷ buscar directorio con busqueda recursiva',
+        \'Unite directory_rec/async'],
+    \['▷ crear nuevo directorio',
+        \'Unite directory/new'],
+    \['▷ cambiar directorio de trabajo',
+        \'Unite -default-action=lcd directory'],
+    \['▷ conocer directorio de trabajo',
+        \'Unite output:pwd'],
+    \['▷ abrir ranger                                               ⌘ ,r',
+        \'call RangerChooser()'],
+    \]
 nnoremap <silent>[menu]o :Unite -start-insert menu:ficheros<CR>
+" }}}
 
-" menu busqueda de ficheros
-let g:unite_source_menu_menus.busquedas = {
-      \ 'description' : 'Buscar ficheros',
-      \}
-let g:unite_source_menu_menus.busquedas.command_candidates = {
-            \'grep (ag → ack → grep)' : 'Unite -no-quit grep',
-            \'grep (solo ficheros incluidos en el repositorio git)' :
-                \'Unite grep',
-            \'find' : 'Unite find',
-            \'locate' : 'Unite locate',
-            \'vimgrep (muy lento)' : 'Unite vimgrep',
-            \}
-nnoremap <silent>[menu]a :Unite menu:busquedas<CR>
+" menu busqueda de ficheros {{{
+function! OnlyGitFiles()
+    cgete system("git ls-files ".input("dir? " )."\\| xargs ack
+                \".input("pattern? "))
+endfunction
+let g:unite_source_menu_menus.grep = {
+    \ 'description' : 'Buscar ficheros',
+    \}
+let g:unite_source_menu_menus.grep.command_candidates = [
+    \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
+        \'Unite -no-quit grep'],
+    \['▷ grep (ack, solo ficheros en el repositorio git)',
+        \'exe "call OnlyGitFiles() | Unite quickfix"'],
+    \['▷ find',
+        \'Unite find'],
+    \['▷ locate',
+        \'Unite locate'],
+    \['▷ vimgrep (muy lento)',
+        \'Unite vimgrep'],
+    \]
+nnoremap <silent>[menu]a :Unite menu:grep<CR>
+" }}}
 
-" map <Leader>ag :cgete system("git ls-files ".input("dir? " )."\\| xargs 
-"             \ack ".input("pattern? "))<Bar>copen<CR>
-
-" menu buffers, ventanas y pestañas
+" menu buffers, ventanas y pestañas {{{
 let g:unite_source_menu_menus.navegacion = {
-      \ 'description' : 'Navegar por buffers, pestañas y ventanas de Vim',
-      \}
-let g:unite_source_menu_menus.navegacion.command_candidates = {
-            \'buffers' : 'Unite buffer',
-            \'pestañas' : 'Unite tab',
-            \'ventanas' : 'Unite window',
-            \'location list' : 'Unite location_list',
-            \'quickfix' : 'Unite quickfix',
-            \'redimensionar ventanas' : 'WinResizerStartResize',
-            \'scratch' : 'Scratch',
-            \'zoom' : 'ZoomWinTabToggle',
-            \'eliminar buffer' : 'bd',
-            \}
+    \ 'description' : 'Navegar por buffers, pestañas y ventanas de Vim',
+    \}
+let g:unite_source_menu_menus.navegacion.command_candidates = [
+    \['▷ buffers                                                    ⌘ ,b',
+        \'Unite buffer'],
+    \['▷ pestañas',
+        \'Unite tab'],
+    \['▷ ventanas',
+        \'Unite window'],
+    \['▷ location list',
+        \'Unite location_list'],
+    \['▷ quickfix',
+        \'Unite quickfix'],
+    \['▷ redimensionar ventanas                                     ⌘ C-E',
+        \'WinResizerStartResize'],
+    \['▷ scratch                                                    ⌘ F8',
+        \'Scratch'],
+    \['▷ zoom                                                       ⌘ ,z',
+        \'ZoomWinTabToggle'],
+    \['▷ eliminar buffer',
+        \'bd'],
+    \]
 nnoremap <silent>[menu]b :Unite menu:navegacion<CR>
+" }}}
 
-" menu busquedas dentro del buffer
-let g:unite_source_menu_menus.busqueda_buffer = {
-      \ 'description' : 'Realizar busquedas dentro del buffer activo',
-      \}
-let g:unite_source_menu_menus.busqueda_buffer.command_candidates = {
-            \'buscar linea' : 'Unite -auto-preview -start-insert line',
-            \'buscar encabezados' :
-                \'Unite -no-split -auto-preview -start-insert outline',
-            \'buscar etiquetas (ctags)' : 'TagbarToggle',
-            \'buscar marcas' : 'Unite -auto-preview -quick-match mark',
-            \'buscar pliegues' : 
-                \'Unite -no-split -auto-preview -start-insert fold',
-            \'buscar cambios' : 'Unite change',
-            \'buscar saltos' : 'Unite jump',
-            \'buscar undos' : 'Unite undo',
-            \'buscar tareas' : 'TagmaTaskToggle',
-            \}
-nnoremap <silent>[menu]h :Unite -start-insert menu:busqueda_buffer<CR>
+" menu busquedas dentro del buffer {{{
+let g:unite_source_menu_menus.busquedas = {
+    \ 'description' : 'Realizar busquedas dentro del buffer activo',
+    \}
+let g:unite_source_menu_menus.busquedas.command_candidates = [
+    \['▷ buscar linea                                               ⌘ ,f',
+        \'Unite -auto-preview -start-insert line'],
+    \['▷ buscar encabezados',
+        \'Unite -no-split -auto-preview -start-insert outline'],
+    \['▷ buscar etiquetas (ctags)                                   ⌘ ,t',
+        \'TagbarToggle'],
+    \['▷ buscar marcas',
+        \'Unite -auto-preview -quick-match mark'],
+    \['▷ buscar pliegues',
+        \'Unite -no-split -auto-preview -start-insert fold'],
+    \['▷ buscar cambios',
+        \'Unite change'],
+    \['▷ buscar saltos',
+        \'Unite jump'],
+    \['▷ buscar undos',
+        \'Unite undo'],
+    \['▷ buscar tareas                                              ⌘ ,kk',
+        \'TagmaTaskToggle'],
+    \]
+nnoremap <silent>[menu]f :Unite -start-insert menu:busquedas<CR>
+" }}}
 
-" menu yankring, registros e historia
+" menu yankring, registros e historia {{{
 let g:unite_source_menu_menus.registros = {
-      \ 'description' : 'Yankring, registros e historia de Vim',
-      \}
-let g:unite_source_menu_menus.registros.command_candidates = {
-            \'Yankring' : 'Unite history/yank',
-            \'Comandos' : 'Unite history/command',
-            \'Busquedas' : 'Unite history/search',
-            \'Registros' : 'Unite register',
-            \'Undos' : 'GundoToggle',
-            \}
+    \ 'description' : 'Yankring, registros e historia de Vim',
+    \}
+let g:unite_source_menu_menus.registros.command_candidates = [
+    \['▷ yankring                                                   ⌘ ,i',
+        \'Unite history/yank'],
+    \['▷ comandos       (historia)                                  ⌘ q:',
+        \'Unite history/command'],
+    \['▷ busquedas      (historia)                                  ⌘ q/',
+        \'Unite history/search'],
+    \['▷ registros',
+        \'Unite register'],
+    \['▷ deshacer       (gundo)                                     ⌘ ,u',
+        \'GundoToggle'],
+    \]
 nnoremap <silent>[menu]i :Unite -start-insert menu:registros<CR>
+" }}}
 
-" menu neobundle
+" menu neobundle {{{
 let g:unite_source_menu_menus.neobundle = {
-      \ 'description' : 'Gestionar NeoBundle',
-      \}
-let g:unite_source_menu_menus.neobundle.command_candidates = {
-            \'NeoBundle' : 'Unite neobundle',
-            \'NeoBundle Log' : 'Unite neobundle/log',
-            \'NeoBundle Lazy' : 'Unite neobundle/lazy',
-            \'NeoBundle Update' : 'Unite neobundle/update',
-            \'NeoBundle Search' : 'Unite neobundle/search',
-            \'NeoBundle Install' : 'Unite neobundle/install',
-            \'NeoBundle Check' : 'Unite -no-empty output:NeoBundleCheck',
-            \'NeoBundle Docs' : 'Unite output:NeoBundleDocs',
-            \'NeoBundle Clean' : 'Unite output:NeoBundleClean',
-            \'NeoBundle List' : 'Unite output:NeoBundleList',
-            \'NeoBundle Direct Edit' : 'NeoBundleDirectEdit',
-            \}
+    \ 'description' : 'Gestionar NeoBundle',
+    \}
+let g:unite_source_menu_menus.neobundle.command_candidates = [
+    \['▷ neobundle',
+        \'Unite neobundle'],
+    \['▷ neobundle log',
+        \'Unite neobundle/log'],
+    \['▷ neobundle lazy',
+        \'Unite neobundle/lazy'],
+    \['▷ neobundle update',
+        \'Unite neobundle/update'],
+    \['▷ neobundle search',
+        \'Unite neobundle/search'],
+    \['▷ neobundle install',
+        \'Unite neobundle/install'],
+    \['▷ neobundle check',
+        \'Unite -no-empty output:NeoBundleCheck'],
+    \['▷ neobundle docs',
+        \'Unite output:NeoBundleDocs'],
+    \['▷ neobundle clean',
+        \'Unite output:NeoBundleClean'],
+    \['▷ neobundle list',
+        \'Unite output:NeoBundleList'],
+    \['▷ neobundle direct edit',
+        \'NeoBundleDirectEdit'],
+    \]
 nnoremap <silent>[menu]n :Unite -start-insert menu:neobundle<CR>
+" }}}
 
-" menu git
-" TODO: terminar menu
+" menu git {{{
 let g:unite_source_menu_menus.git = {
-      \ 'description' : 'Gestionar git',
-      \}
+    \ 'description' : 'Gestionar git',
+    \}
 let g:unite_source_menu_menus.git.command_candidates = [
-            \['git status (Fugitive) ', 'Gstatus'],
-            \['git diff (Fugitive) ', 'Gdiff'],
-            \['git commit (Fugitive) ', 'Gcommit'],
-            \['git push (Fugitive) ', 'Git push'],
-            \['git pull (Fugitive) ', 'Git pull'],
-            \['git log (Fugitive) ', 'exe "silent Glog | Unite quickfix"'],
-            \['git blame (Fugitive) ', 'Gblame'],
-            \['git stage (Fugitive) ', 'Gwrite'],
-            \['git checkout (Fugitive) ', 'Gread'],
-            \['git rm (Fugitive) ', 'Gremove'],
-            \['git mv (Fugitive) ', 'exe "Gmove " input("destino: ")'],
-            \['git cd (Fugitive) ', 'Gcd'],
-            \['git prompt (con salida en buffer)', 'exe "Git! " input("comando git: ")'],
-            \['tig', '!tig'],
-            \]
+    \['▷ git status       (Fugitive)                                ⌘ ,gs',
+        \'Gstatus'],
+    \['▷ git diff         (Fugitive)                                ⌘ ,gd',
+        \'Gdiff'],
+    \['▷ git commit       (Fugitive)                                ⌘ ,gc',
+        \'Gcommit'],
+    \['▷ git push         (Fugitive)                                ⌘ ,gp',
+        \'Git push'],
+    \['▷ git pull         (Fugitive)                                ⌘ ,gP',
+        \'Git pull'],
+    \['▷ git log          (Fugitive)                                ⌘ ,gl',
+        \'exe "silent Glog | Unite quickfix"'],
+    \['▷ git blame        (Fugitive)                                ⌘ ,gb',
+        \'Gblame'],
+    \['▷ git stage        (Fugitive)                                ⌘ ,gw',
+        \'Gwrite'],
+    \['▷ git checkout     (Fugitive)                                ⌘ ,go',
+        \'Gread'],
+    \['▷ git rm           (Fugitive)                                ⌘ ,gr',
+        \'Gremove'],
+    \['▷ git mv           (Fugitive)                                ⌘ ,gm',
+        \'exe "Gmove " input("destino: ")'],
+    \['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
+        \'exe "Git! " input("comando git: ")'],
+    \['▷ git cd           (Fugitive)',
+        \'Gcd'],
+    \['▷ tig                                                        ⌘ ,gt',
+        \'!tig'],
+    \]
 nnoremap <silent>[menu]g :Unite -start-insert menu:git<CR>
+" }}}
 
-" menu python
+" menu python {{{
 " TODO: terminar menu
 let g:unite_source_menu_menus.python = {
-      \ 'description' : 'Gestionar python',
-      \}
-let g:unite_source_menu_menus.python.command_candidates = {
-            \'Syntastic Check' : 'SyntasticCheck',
-            \'Syntastic Errors' : 'Errors',
-            \'Contar lineas de codigo' : 'Unite output:call\\ LinesOfCode()',
-            \}
-nnoremap <silent>[menu]p :Unite menu:python<CR>
-
-" menu markdown
-let g:unite_source_menu_menus.markdown = {
-      \ 'description' : 'Markdown Extra Preview',
-      \}
-let g:unite_source_menu_menus.markdown.command_candidates = [
-            \['Previsualizar' , 'Me'],
-            \['Refrescar' , 'Mer'],
-            \]
-nnoremap <silent>[menu]k :Unite menu:markdown<CR>
-
-" menu sesiones
-let g:unite_source_menu_menus.sesiones = {
-      \ 'description' : 'Gestionar sesiones de Vim',
-      \}
-let g:unite_source_menu_menus.sesiones.command_candidates = {
-            \'cargar sesion' : 'Unite session',
-            \'guardar sesion (default)' : 'UniteSessionSave',
-            \'guardar sesion (personalizada)' :
-                \'exe "UniteSessionSave " input("nombre: ")',
-            \}
-nnoremap <silent>[menu]s :Unite menu:sesiones<CR>
-
-" menu favoritos
-let g:unite_source_menu_menus.favoritos = {
-      \ 'description' : 'Gestionar favoritos de Vim',
-      \}
-let g:unite_source_menu_menus.favoritos.command_candidates = {
-            \'añadir a favoritos' : 'UniteBookmarkAdd',
-            \'abrir favoritos' : 'Unite bookmark:*',
-            \}
-nnoremap <silent>[menu]f :Unite menu:favoritos<CR>
-
-" menu varios
-let g:unite_source_menu_menus.varios = {
-      \ 'description' : 'Varios comandos',
-      \}
-
-let g:unite_source_menu_menus.varios.command_candidates = {
-    \ 'Escoger esquema de color' : 'Unite colorscheme -auto-preview',
-    \ 'Frecuencia de cada palabra en el texto' : 'WordFrequency',
-    \ 'Muestra los digrafos disponibles' : 'digraphs',
-    \ 'Selector de color' : 'ColorVPicker',
-    \ 'Matar procesos' : 'Unite -default-action=sigkill -start-insert process',
-    \ 'Atajos de teclado' : 'Unite mapping -start-insert',
-    \ 'Fuentes de Unite' : 'Unite source',
-    \ 'Establecer el tipo de fichero' : 'Unite -start-insert filetype',
-    \ 'Ayuda de Vim' : 'Unite -start-insert help',
-    \ 'Comandos de Vim' : 'Unite -start-insert command',
-    \ 'Funciones de Vim' : 'Unite -start-insert function',
-    \ 'Lanzar ejecutable (dmenu like)' : 'Unite -start-insert launcher',
-    \ 'Runtimepath de Vim' : 'Unite -start-insert runtimepath',
-    \ 'Salida de comando de Vim' : 'Unite output',
+    \ 'description' : 'Gestionar python',
     \}
+let g:unite_source_menu_menus.python.command_candidates = [
+    \['▷ syntastic check',
+        \'SyntasticCheck'],
+    \['▷ syntastic errors',
+        \'Errors'],
+    \['▷ contar lineas de codigo',
+        \'Unite output:call\\ LinesOfCode()'],
+    \]
+nnoremap <silent>[menu]p :Unite menu:python<CR>
+" }}}
+
+" menu markdown {{{
+let g:unite_source_menu_menus.markdown = {
+    \ 'description' : 'Markdown Extra Preview',
+    \}
+let g:unite_source_menu_menus.markdown.command_candidates = [
+    \['▷ previsualizar',
+        \'Me'],
+    \['▷ refrescar',
+        \'Mer'],
+    \]
+nnoremap <silent>[menu]k :Unite menu:markdown<CR>
+" }}}
+
+" menu sesiones {{{
+let g:unite_source_menu_menus.sesiones = {
+    \ 'description' : 'Gestionar sesiones de Vim',
+    \}
+let g:unite_source_menu_menus.sesiones.command_candidates = [
+    \['▷ cargar sesion',
+        \'Unite session'],
+    \['▷ guardar sesion (default)',
+        \'UniteSessionSave'],
+    \['▷ guardar sesion (personalizada)',
+        \'exe "UniteSessionSave " input("nombre: ")'],
+    \]
+nnoremap <silent>[menu]s :Unite menu:sesiones<CR>
+" }}}
+
+" menu favoritos {{{
+let g:unite_source_menu_menus.favoritos = {
+    \ 'description' : 'Gestionar favoritos de Vim',
+    \}
+let g:unite_source_menu_menus.favoritos.command_candidates = [
+    \['▷ añadir a favoritos',
+        \'UniteBookmarkAdd'],
+    \['▷ abrir favoritos',
+        \'Unite bookmark:*'],
+    \]
+nnoremap <silent>[menu]h :Unite menu:favoritos<CR>
+" }}}
+
+" menu varios {{{
+let g:unite_source_menu_menus.varios = {
+    \ 'description' : 'Varios comandos',
+    \}
+let g:unite_source_menu_menus.varios.command_candidates = [
+    \['▷ escoger esquema de color',
+        \'Unite colorscheme -auto-preview'],
+    \['▷ frecuencia de cada palabra en el texto',
+        \'WordFrequency'],
+    \['▷ muestra los digrafos disponibles',
+        \'digraphs'],
+    \['▷ selector de color                                          ⌘ ,cd',
+        \'ColorVPicker'],
+    \['▷ matar procesos',
+        \'Unite -default-action=sigkill -start-insert process'],
+    \['▷ atajos de teclado',
+        \'Unite mapping -start-insert'],
+    \['▷ fuentes de unite',
+        \'Unite source'],
+    \['▷ establecer el tipo de fichero',
+        \'Unite -start-insert filetype'],
+    \['▷ ayuda de vim',
+        \'Unite -start-insert help'],
+    \['▷ comandos de vim',
+        \'Unite -start-insert command'],
+    \['▷ funciones de vim',
+        \'Unite -start-insert function'],
+    \['▷ lanzar ejecutable (dmenu like)',
+        \'Unite -start-insert launcher'],
+    \['▷ runtimepath de vim',
+        \'Unite -start-insert runtimepath'],
+    \['▷ salida de comando de vim',
+        \'Unite output'],
+    \]
+" }}}
 
 nnoremap <silent>[menu]v :Unite menu:varios -start-insert<CR>
+" }}}
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
@@ -1059,8 +1155,8 @@ let g:utl_cfg_hdl_mt_image_png = 'silent :!sxiv %p &'
 
 " Vim-markdown-extra-preview {{{
 
-map <LocalLeader>mp :Me<CR>
-map <LocalLeader>mr :Mer<CR>
+" map <LocalLeader>mp :Me<CR>
+" map <LocalLeader>mr :Mer<CR>
 
 " let g:VMEPextensions = ['extra', 'codehilite']
 " let g:VMEPhtmlreader= '/usr/bin/chromium-browser'
