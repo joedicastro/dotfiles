@@ -57,20 +57,21 @@ NeoBundle 'Shougo/unite.vim'
 
 " Unite sources
 NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
+NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session'}}
 NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
-NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':'colorscheme'}}
+NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':
+            \'colorscheme'}}
 NeoBundleLazy 'ujihisa/unite-locate', {'autoload':{'unite_sources':'locate'}}
 NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' :
             \['history/command', 'history/search']}}
-NeoBundle 'Shougo/unite-session'
-NeoBundle 'osyo-manga/unite-filetype', { 'autoload' : {'unite_sources' :
+NeoBundleLazy 'osyo-manga/unite-filetype', { 'autoload' : {'unite_sources' :
             \'filetype', }}
-NeoBundle 'osyo-manga/vim-powerline-unite-theme'
-NeoBundle 'osyo-manga/unite-quickfix'
-NeoBundle 'osyo-manga/unite-fold'
+NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
+            \'quickfix'}}
+NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
+NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
 NeoBundle 'taka84u9/unite-git'
-NeoBundle 'tacroe/unite-mark'
-
+NeoBundle 'osyo-manga/vim-powerline-unite-theme'
 " NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
 " NeoBundle 'Shougo/vimfiler'
 
@@ -800,8 +801,12 @@ nnoremap <silent> g<C-h> :UniteWithCursorWord help<CR>
 
 let g:unite_source_menu_menus = {}
 
-" menu menues
-nnoremap <silent>;u :Unite menu -start-insert<CR>
+" tecla prefijo para menus (cambiando esta se cambia para todos los menus)
+nnoremap [menu] <Nop>
+nmap ; [menu]
+
+" menu menus
+nnoremap <silent>[menu]u :Unite menu -start-insert<CR>
 
 "menu ficheros y directorios
 let g:unite_source_menu_menus.ficheros = {
@@ -820,9 +825,10 @@ let g:unite_source_menu_menus.ficheros.command_candidates = {
             \'crear nuevo directorio' : 'Unite directory/new',
             \'cambiar directorio de trabajo' : 
                 \'Unite -default-action=lcd directory',
+            \'conocer directorio de trabajo' : 'Unite output:pwd',
             \'abrir ranger' : 'call RangerChooser()',
             \}
-nnoremap <silent>;o :Unite -start-insert menu:ficheros<CR>
+nnoremap <silent>[menu]o :Unite -start-insert menu:ficheros<CR>
 
 " menu busqueda de ficheros
 let g:unite_source_menu_menus.busquedas = {
@@ -836,7 +842,7 @@ let g:unite_source_menu_menus.busquedas.command_candidates = {
             \'locate' : 'Unite locate',
             \'vimgrep (muy lento)' : 'Unite vimgrep',
             \}
-nnoremap <silent>;a :Unite menu:busquedas<CR>
+nnoremap <silent>[menu]a :Unite menu:busquedas<CR>
 
 " map <Leader>ag :cgete system("git ls-files ".input("dir? " )."\\| xargs 
 "             \ack ".input("pattern? "))<Bar>copen<CR>
@@ -851,11 +857,12 @@ let g:unite_source_menu_menus.navegacion.command_candidates = {
             \'ventanas' : 'Unite window',
             \'location list' : 'Unite location_list',
             \'quickfix' : 'Unite quickfix',
-            \'Redimensionar ventanas' : 'WinResizerStartResize',
-            \'Scratch' : 'Scratch',
-            \'Zoom' : 'ZoomWinTabToggle',
+            \'redimensionar ventanas' : 'WinResizerStartResize',
+            \'scratch' : 'Scratch',
+            \'zoom' : 'ZoomWinTabToggle',
+            \'eliminar buffer' : 'bd',
             \}
-nnoremap <silent>;b :Unite menu:navegacion<CR>
+nnoremap <silent>[menu]b :Unite menu:navegacion<CR>
 
 " menu busquedas dentro del buffer
 let g:unite_source_menu_menus.busqueda_buffer = {
@@ -866,8 +873,7 @@ let g:unite_source_menu_menus.busqueda_buffer.command_candidates = {
             \'buscar encabezados' :
                 \'Unite -no-split -auto-preview -start-insert outline',
             \'buscar etiquetas (ctags)' : 'TagbarToggle',
-            \'buscar marcas' : 
-                \'Unite -no-split -auto-preview -start-insert mark',
+            \'buscar marcas' : 'Unite -auto-preview -quick-match mark',
             \'buscar pliegues' : 
                 \'Unite -no-split -auto-preview -start-insert fold',
             \'buscar cambios' : 'Unite change',
@@ -875,7 +881,7 @@ let g:unite_source_menu_menus.busqueda_buffer.command_candidates = {
             \'buscar undos' : 'Unite undo',
             \'buscar tareas' : 'TagmaTaskToggle',
             \}
-nnoremap <silent>;h :Unite -start-insert menu:busqueda_buffer<CR>
+nnoremap <silent>[menu]h :Unite -start-insert menu:busqueda_buffer<CR>
 
 " menu yankring, registros e historia
 let g:unite_source_menu_menus.registros = {
@@ -888,7 +894,7 @@ let g:unite_source_menu_menus.registros.command_candidates = {
             \'Registros' : 'Unite register',
             \'Undos' : 'GundoToggle',
             \}
-nnoremap <silent>;i :Unite -start-insert menu:registros<CR>
+nnoremap <silent>[menu]i :Unite -start-insert menu:registros<CR>
 
 " menu neobundle
 let g:unite_source_menu_menus.neobundle = {
@@ -905,18 +911,32 @@ let g:unite_source_menu_menus.neobundle.command_candidates = {
             \'NeoBundle Docs' : 'Unite output:NeoBundleDocs',
             \'NeoBundle Clean' : 'Unite output:NeoBundleClean',
             \'NeoBundle List' : 'Unite output:NeoBundleList',
+            \'NeoBundle Direct Edit' : 'NeoBundleDirectEdit',
             \}
-nnoremap <silent>;n :Unite -start-insert menu:neobundle<CR>
+nnoremap <silent>[menu]n :Unite -start-insert menu:neobundle<CR>
 
 " menu git
 " TODO: terminar menu
 let g:unite_source_menu_menus.git = {
       \ 'description' : 'Gestionar git',
       \}
-let g:unite_source_menu_menus.git.command_candidates = {
-            \'tig' : '!tig',
-            \}
-nnoremap <silent>;g :Unite menu:git<CR>
+let g:unite_source_menu_menus.git.command_candidates = [
+            \['git status (Fugitive) ', 'Gstatus'],
+            \['git diff (Fugitive) ', 'Gdiff'],
+            \['git commit (Fugitive) ', 'Gcommit'],
+            \['git push (Fugitive) ', 'Git push'],
+            \['git pull (Fugitive) ', 'Git pull'],
+            \['git log (Fugitive) ', 'exe "silent Glog | Unite quickfix"'],
+            \['git blame (Fugitive) ', 'Gblame'],
+            \['git stage (Fugitive) ', 'Gwrite'],
+            \['git checkout (Fugitive) ', 'Gread'],
+            \['git rm (Fugitive) ', 'Gremove'],
+            \['git mv (Fugitive) ', 'exe "Gmove " input("destino: ")'],
+            \['git cd (Fugitive) ', 'Gcd'],
+            \['git prompt (con salida en buffer)', 'exe "Git! " input("comando git: ")'],
+            \['tig', '!tig'],
+            \]
+nnoremap <silent>[menu]g :Unite -start-insert menu:git<CR>
 
 " menu python
 " TODO: terminar menu
@@ -926,19 +946,19 @@ let g:unite_source_menu_menus.python = {
 let g:unite_source_menu_menus.python.command_candidates = {
             \'Syntastic Check' : 'SyntasticCheck',
             \'Syntastic Errors' : 'Errors',
-            \ "Contar lineas de codigo" : "Unite output:call\\ LinesOfCode()",
+            \'Contar lineas de codigo' : 'Unite output:call\\ LinesOfCode()',
             \}
-nnoremap <silent>;p :Unite menu:python<CR>
+nnoremap <silent>[menu]p :Unite menu:python<CR>
 
 " menu markdown
 let g:unite_source_menu_menus.markdown = {
       \ 'description' : 'Markdown Extra Preview',
       \}
-let g:unite_source_menu_menus.markdown.command_candidates = {
-            \'Previsualizar' : 'Me',
-            \'Refrescar' : 'Mer',
-            \}
-nnoremap <silent>;k :Unite menu:markdown<CR>
+let g:unite_source_menu_menus.markdown.command_candidates = [
+            \['Previsualizar' , 'Me'],
+            \['Refrescar' , 'Mer'],
+            \]
+nnoremap <silent>[menu]k :Unite menu:markdown<CR>
 
 " menu sesiones
 let g:unite_source_menu_menus.sesiones = {
@@ -950,7 +970,7 @@ let g:unite_source_menu_menus.sesiones.command_candidates = {
             \'guardar sesion (personalizada)' :
                 \'exe "UniteSessionSave " input("nombre: ")',
             \}
-nnoremap <silent>;s :Unite menu:sesiones<CR>
+nnoremap <silent>[menu]s :Unite menu:sesiones<CR>
 
 " menu favoritos
 let g:unite_source_menu_menus.favoritos = {
@@ -960,7 +980,7 @@ let g:unite_source_menu_menus.favoritos.command_candidates = {
             \'añadir a favoritos' : 'UniteBookmarkAdd',
             \'abrir favoritos' : 'Unite bookmark:*',
             \}
-nnoremap <silent>;f :Unite menu:favoritos<CR>
+nnoremap <silent>[menu]f :Unite menu:favoritos<CR>
 
 " menu varios
 let g:unite_source_menu_menus.varios = {
@@ -968,23 +988,23 @@ let g:unite_source_menu_menus.varios = {
       \}
 
 let g:unite_source_menu_menus.varios.command_candidates = {
-    \ "Escoger esquema de color" : "Unite colorscheme -auto-preview",
-    \ "Frecuencia de cada palabra en el texto" : "WordFrequency",
-    \ "Muestra los digrafos disponibles" : "digraphs",
-    \ "Selector de color" : "ColorVPicker",
-    \ "Matar procesos" : "Unite -default-action=sigkill -start-insert process",
-    \ "Atajos de teclado" : "Unite mapping -start-insert",
-    \ "Fuentes de Unite" : "Unite source",
-    \ "Establecer el tipo de fichero" : "Unite -start-insert filetype",
-    \ "Ayuda de Vim" : "Unite -start-insert help",
-    \ "Comandos de Vim" : "Unite -start-insert command",
-    \ "Funciones de Vim" : "Unite -start-insert function",
-    \ "Lanzar ejecutable (dmenu like)" : "Unite -start-insert launcher",
-    \ "Runtimepath de Vim" : "Unite -start-insert runtimepath",
-    \ "Salida de comando de Vim" : "Unite output",
+    \ 'Escoger esquema de color' : 'Unite colorscheme -auto-preview',
+    \ 'Frecuencia de cada palabra en el texto' : 'WordFrequency',
+    \ 'Muestra los digrafos disponibles' : 'digraphs',
+    \ 'Selector de color' : 'ColorVPicker',
+    \ 'Matar procesos' : 'Unite -default-action=sigkill -start-insert process',
+    \ 'Atajos de teclado' : 'Unite mapping -start-insert',
+    \ 'Fuentes de Unite' : 'Unite source',
+    \ 'Establecer el tipo de fichero' : 'Unite -start-insert filetype',
+    \ 'Ayuda de Vim' : 'Unite -start-insert help',
+    \ 'Comandos de Vim' : 'Unite -start-insert command',
+    \ 'Funciones de Vim' : 'Unite -start-insert function',
+    \ 'Lanzar ejecutable (dmenu like)' : 'Unite -start-insert launcher',
+    \ 'Runtimepath de Vim' : 'Unite -start-insert runtimepath',
+    \ 'Salida de comando de Vim' : 'Unite output',
     \}
 
-nnoremap <silent>;v :Unite menu:varios -start-insert<CR>
+nnoremap <silent>[menu]v :Unite menu:varios -start-insert<CR>
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
@@ -999,9 +1019,9 @@ let g:unite_winheight = 15
 let g:unite_update_time = 200
 let g:unite_split_rule = 'botright'
 let g:unite_data_directory = '~/.vim/tmp/unite'
-let g:unite_source_buffer_time_format = "(%d-%m-%Y %H:%M:%S) "
-let g:unite_source_file_mru_time_format = "(%d-%m-%Y %H:%M:%S) "
-let g:unite_source_directory_mru_time_format = "(%d-%m-%Y %H:%M:%S) "
+let g:unite_source_buffer_time_format = '(%d-%m-%Y %H:%M:%S) '
+let g:unite_source_file_mru_time_format = '(%d-%m-%Y %H:%M:%S) '
+let g:unite_source_directory_mru_time_format = '(%d-%m-%Y %H:%M:%S) '
 
 if executable('ag')
     let g:unite_source_grep_command='ag'
