@@ -167,7 +167,7 @@ su imagen como referencia.
 Un plugin para gobernarlos a todos! Me permite administrar el resto de los
 plugins, el mismo incluido. A su vez lo tengo configurado para que se instale a
 si mismo la primera vez que se ejecute vim con esta configuración (también
-instala automáticamente el resto de plugins). 
+instala automáticamente el resto de plugins).
 
 Las ventajas de este plugin frente a otros similares como Vundle son las
 siguientes:
@@ -272,7 +272,7 @@ elegante.
 
 El mayor inconveniente de Unite y a su vez una de sus mayores ventajas es que no
 viene configurado apenas, dejando a nuestro gusto y responsabilidad el adaptarlo
-a nuestro modo de trabajo. 
+a nuestro modo de trabajo.
 
 ### Fuentes y Menus
 
@@ -293,7 +293,7 @@ tecla `<LocalLeader>`
   mapeadas directamente, esto me permite no tener que consultar mi `~/.vimrc`
   para recordar cuales eran cuando me olvido de alguno. Un ejemplo que muestra
   las opciones que tengo disponibles para gestionar un repositorio git desde
-  Vim. 
+  Vim.
 
 ![unite_git](http://joedicastro.com/static/pictures/unite_git.gif "unite_git")
 
@@ -324,7 +324,7 @@ TODO: completar este apartado
 - `<C-K>` desplazamiento a la ventana superior
 - `<C-L>` desplazamiento a la siguiente ventana a la derecha
 
-### Unite 
+### Unite
 
 El resto de opciones, incluidas las siguientes que muestro a continuación, se
 pueden encontrar dentro del menú de Unite `navegacion`
@@ -729,8 +729,8 @@ __Atajos__
   - `m[a-zA-Z]` conmuta la marca y la muestra/oculta
   -  `m,`       activa el siguiente marcador disponible
   -  `m<Space>` borra todos los marcadores
-  -  `]``      salta al marcador siguiente
-  -  `[``      salta al marcador previo
+  -  <code>]`</code>      salta al marcador siguiente
+  -  <code>[`</code>      salta al marcador previo
   -  `]'`       salta al comienzo de la siguiente línea que tenga un marcador
   -  `['`       salta al comienzo de la anterior línea que tenga un marcador
 
@@ -748,6 +748,11 @@ __Comandos__
   se muestren)
 - `:SignatureRefreshDisplay` refresca los marcadores en caso de ser necesario
 
+__Unite__
+
+- `<localleader>b` o `:Unite menu:busquedas` activa el menu busquedas donde
+  podemos buscar todas las marcas del buffer
+
 *Repositorio:* <https://github.com/kshenoy/vim-signature>
 
 ## Exploracion de ficheros
@@ -760,7 +765,12 @@ A través de esto atajo llamo al programa externo
 [Ranger](http://joedicastro.com/productividad-linux-ranger.html) para navegar
 por el sistema de ficheros y elegir el fichero que queremos editar.
 
-__Atajo__ `<Leader>ra`
+__Atajo__ `<Leader>r`
+
+__Unite__
+
+- `<localleader>o` o `:Unite menu:ficheros` activa el menu ficheros donde
+  podemos acceder tambien a ranger
 
 ### utl
 
@@ -802,8 +812,8 @@ __Ayuda__ `:h neocomplete.txt` <vimhelp:neocomplete.txt>
 __Atajos__
 
 - `<CR>`    inserta la palabra seleccionada
-- `<C-N>`   nos desplaza a la palabra inferior en la lista de opciones 
-- `<C-P>`   nos desplaza a la palabra superior en la lista de opciones 
+- `<C-N>`   nos desplaza a la palabra inferior en la lista de opciones
+- `<C-P>`   nos desplaza a la palabra superior en la lista de opciones
 
 __Comandos__
 

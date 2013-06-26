@@ -1011,12 +1011,12 @@ let g:unite_source_menu_menus.texto.command_candidates = [
         \'Unite output:WordFrequency'],
     \['▷ muestra los digrafos disponibles',
         \'digraphs'],
-    \['▷ inserta texto lore ipsum',
+    \['▷ inserta texto lorem ipsum',
         \'exe "Loremipsum" input("numero de palabras: ")'],
     \['▷ muestra informacion sobre el caracter actual               ⌘ ga',
         \'normal ga'],
     \]
-nnoremap <silent>[menu]e :Unite menu:texto<CR>
+nnoremap <silent>[menu]e :Unite -winheight=20 menu:texto <CR>
 " }}}
 
 " menu neobundle {{{
@@ -1057,6 +1057,8 @@ let g:unite_source_menu_menus.git = {
         \                            ⌘ [espacio]g',
     \}
 let g:unite_source_menu_menus.git.command_candidates = [
+    \['▷ tig                                                        ⌘ ,gt',
+        \'normal ,gt'],
     \['▷ git status       (Fugitive)                                ⌘ ,gs',
         \'Gstatus'],
     \['▷ git diff         (Fugitive)                                ⌘ ,gd',
@@ -1083,8 +1085,6 @@ let g:unite_source_menu_menus.git.command_candidates = [
         \'exe "Git! " input("comando git: ")'],
     \['▷ git cd           (Fugitive)',
         \'Gcd'],
-    \['▷ tig                                                        ⌘ ,gt',
-        \'!tig'],
     \]
 nnoremap <silent>[menu]g :Unite -start-insert menu:git<CR>
 " }}}
