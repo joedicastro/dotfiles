@@ -1152,10 +1152,9 @@ previsualizar los cambios sin abandonar vim.
 
 __Ayuda__ `:h vmep.txt` <vimhelp:vmep.txt>
 
-__Atajos__
+__Unite__
 
-- `<LocalLeader>mp` previsualiza el buffer en una nueva pestaña
-- `<LocalLeader>mr` refresca la pestaña ya abierta
+- `<localleader>k` o `:Unite menu:markdown` nos abre el menu markdown
 
 __Comandos__
 
@@ -1243,20 +1242,20 @@ __Ayuda__ `:h po.txt` <vimhelp:po.txt>
 
 __Atajos__
 
-- `<LocalLeader>u` se desplaza a la siguiente cadena sin traducir
-- `<LocalLeader>U` se desplaza a la anterior cadena sin traducir
-- `<LocalLeader>c` copia la cadena `msgid` a `msgstr`
-- `<LocalLeader>C` crea un comentario para esa entrada
-- `<LocalLeader>d` elimina la cadena `msgstr` (solo en Insert mode)
-- `<LocalLeader>f` se desplaza a la siguiente cadena "fuzzy"
-- `<LocalLeader>F` se desplaza a la anterior cadena "fuzzy"
-- `<LocalLeader>z` etiqueta la entrada "fuzzy"
-- `<LocalLeader>Z` elimina la etiqueta de la entrada "fuzzy"
-- `<LocalLeader>s` muestra estadísticas `msgfmt` del fichero
-- `<LocalLeader>e` navega a través de los errores `msgfmt` del fichero
-- `<LocalLeader>t` introduce la información del traductor en la cabecera
-- `<LocalLeader>T` introduce la información del equipo de traducción en la cabecera
-- `<LocalLeader>W` formatea todo el fichero
+- `/u` se desplaza a la siguiente cadena sin traducir
+- `/U` se desplaza a la anterior cadena sin traducir
+- `/c` copia la cadena `msgid` a `msgstr`
+- `/C` crea un comentario para esa entrada
+- `/d` elimina la cadena `msgstr` (solo en Insert mode)
+- `/f` se desplaza a la siguiente cadena "fuzzy"
+- `/F` se desplaza a la anterior cadena "fuzzy"
+- `/z` etiqueta la entrada "fuzzy"
+- `/Z` elimina la etiqueta de la entrada "fuzzy"
+- `/s` muestra estadísticas `msgfmt` del fichero
+- `/e` navega a través de los errores `msgfmt` del fichero
+- `/t` introduce la información del traductor en la cabecera
+- `/T` introduce la información del equipo de traducción en la cabecera
+- `/W` formatea todo el fichero
 - `gf` abre en otra ventana el fichero que está debajo del cursor
 
 
