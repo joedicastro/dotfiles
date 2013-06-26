@@ -450,7 +450,7 @@ endfunction
 
 " Mostrar caracteres no imprimibles {{{
 
-nmap <Leader>sh :set list!<CR>
+nmap <Leader>eh :set list!<CR>
 set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
 
 " }}}
@@ -477,13 +477,6 @@ map <Leader>P :set invpaste<CR>
 
 " }}}
 
-" Edición rápida de varios archivos {{{ ----------------------------------------------
-
-nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <Leader>es :vsplit ~/.vim/UltiSnips/all.snippets<cr>
-
-" }}}
-
 " Autocargar configuración cuando se cambia $MYVIMRC {{{
 
 autocmd! BufWritePost vimrc source %
@@ -499,7 +492,11 @@ nmap <Leader>se :setlocal spell spelllang=en<cr>
 " Desactivar revisión ortográfica
 nmap <Leader>so :setlocal nospell <cr>
 " Ir a la siguiente palabra mal escrita
-nmap <Leader>sn  ]s
+nmap <Leader>sn ]s
+" Sugerir palabras
+nmap <Leader>sp z=
+" Añadir palabra al diccionario
+nmap <Leader>sa zg
 " }}}
 
 " Guardar como root {{{
@@ -516,7 +513,7 @@ nmap <silent> <Leader>w :update<CR>
 
 " Eliminar espacios al final de la línea {{{
 
-nmap <Leader>n :%s/\s\+$//<cr>
+nmap <Leader>et :%s/\s\+$//<cr>
 
 " }}}
 
@@ -555,7 +552,7 @@ nnoremap <silent> <Leader>q :ToggleQuickfix<CR>
 
 " obtener el numero de lineas, palabras, caracteres y bytes (totales y de la
 " posicion actual)
-map <Leader>st g<C-G>
+map <Leader>es g<C-G>
 
 " obtener la frecuencia con la que aparece cada palabra para un texto dado
 function! WordFrequency() range
@@ -564,15 +561,16 @@ function! WordFrequency() range
   for word in all
     let frequencies[word] = get(frequencies, word, 0) + 1
   endfor
-  new
-  setlocal buftype=nofile bufhidden=hide noswapfile tabstop=20
+  let lst = []
   for [key,value] in items(frequencies)
-    call append('$', key."\t".value)
+    call add(lst, value."\t".key."\n")
   endfor
-  sort i
+  call sort(lst)
+  let string = join(lst, '')
+  echo string
 endfunction
 command! -range=% WordFrequency <line1>,<line2>call WordFrequency()
-map <Leader>sw :WordFrequency<CR>
+map <Leader>ew :Unite output:WordFrequency<CR>
 
 " }}}
 
@@ -585,9 +583,9 @@ function! LinesOfCode()
 endfunction
 "}}}
 
-" desactivar el resaltado de la ultima búsqueda {{{
+" Activar/Desactivar el resaltado de búsqueda {{{
 
-map <Leader>sq :nohlsearch<CR>
+map <silent><Leader>eq :set invhlsearch<CR>
 
 " }}}
 
@@ -762,7 +760,7 @@ let g:syntastic_style_warning_symbol  = '⚡'
 
 " TagmaTasks {{{
 
-map <silent> <Leader>kk :TagmaTaskToggle<CR>
+map <silent> <Leader>tk :TagmaTaskToggle<CR>
 
 let g:TagmaTasksPrefix = ''
 " let g:TagmaTasksTokens = ['FIXME', 'TODO', 'NOTE', 'XXX', 'COMBAK', '@todo']
@@ -809,11 +807,12 @@ nmap <LocalLeader> [menu]
 " }}}
 
 " menu menus
-nnoremap <silent>[menu]u :Unite menu -start-insert<CR>
+nnoremap <silent>[menu]u :Unite -winheight=20 menu<CR>
 
 " menu ficheros y directorios {{{
 let g:unite_source_menu_menus.ficheros = {
-    \ 'description' : 'Gestionar ficheros y directorios',
+    \ 'description' : '       ficheros y directorios
+        \    ⌘ [espacio]o',
     \}
 let g:unite_source_menu_menus.ficheros.command_candidates = [
     \['▷ abrir fichero                                              ⌘ ,o',
@@ -836,6 +835,10 @@ let g:unite_source_menu_menus.ficheros.command_candidates = [
         \'Unite -default-action=lcd directory'],
     \['▷ conocer directorio de trabajo',
         \'Unite output:pwd'],
+    \['▷ guardar como root                                          ⌘ :w!!',
+        \'Unite -no-empty output:SudoWrite'],
+    \['▷ guardado rapido                                            ⌘ ,w',
+        \'normal ,w'],
     \['▷ abrir ranger                                               ⌘ ,r',
         \'call RangerChooser()'],
     \]
@@ -848,7 +851,8 @@ function! OnlyGitFiles()
                 \".input("pattern? "))
 endfunction
 let g:unite_source_menu_menus.grep = {
-    \ 'description' : 'Buscar ficheros',
+    \ 'description' : '           buscar ficheros
+        \        ⌘ [espacio]a',
     \}
 let g:unite_source_menu_menus.grep.command_candidates = [
     \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
@@ -867,7 +871,8 @@ nnoremap <silent>[menu]a :Unite menu:grep<CR>
 
 " menu buffers, ventanas y pestañas {{{
 let g:unite_source_menu_menus.navegacion = {
-    \ 'description' : 'Navegar por buffers, pestañas y ventanas de Vim',
+    \ 'description' : '     navegar por buffers, pestañas y ventanas
+        \   ⌘ [espacio]b',
     \}
 let g:unite_source_menu_menus.navegacion.command_candidates = [
     \['▷ buffers                                                    ⌘ ,b',
@@ -882,6 +887,14 @@ let g:unite_source_menu_menus.navegacion.command_candidates = [
         \'Unite quickfix'],
     \['▷ redimensionar ventanas                                     ⌘ C-E',
         \'WinResizerStartResize'],
+    \['▷ crear nueva ventana vertical                               ⌘ ,v',
+        \'vsplit'],
+    \['▷ crear nueva ventana horizontal                             ⌘ ,h',
+        \'split'],
+    \['▷ cerrar ventana actual                                      ⌘ ,k',
+        \'close'],
+    \['▷ cerrar/abrir ventana quickfix                              ⌘ ,q',
+        \'close'],
     \['▷ scratch                                                    ⌘ F8',
         \'Scratch'],
     \['▷ zoom                                                       ⌘ ,z',
@@ -894,13 +907,16 @@ nnoremap <silent>[menu]b :Unite menu:navegacion<CR>
 
 " menu busquedas dentro del buffer {{{
 let g:unite_source_menu_menus.busquedas = {
-    \ 'description' : 'Realizar busquedas dentro del buffer activo',
+    \ 'description' : '      busquedas dentro del buffer activo
+        \   ⌘ [espacio]f',
     \}
 let g:unite_source_menu_menus.busquedas.command_candidates = [
     \['▷ buscar linea                                               ⌘ ,f',
         \'Unite -auto-preview -start-insert line'],
+    \['▷ buscar palabra bajo el cursor                              ⌘ [espacio]w',
+        \'UniteWithCursorWord -no-split -auto-preview line'],
     \['▷ buscar encabezados',
-        \'Unite -no-split -auto-preview -start-insert outline'],
+        \'Unite -vertical -winwidth=30 -auto-highlight outline'],
     \['▷ buscar etiquetas (ctags)                                   ⌘ ,t',
         \'TagbarToggle'],
     \['▷ buscar marcas',
@@ -913,7 +929,7 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
         \'Unite jump'],
     \['▷ buscar undos',
         \'Unite undo'],
-    \['▷ buscar tareas                                              ⌘ ,kk',
+    \['▷ buscar tareas                                              ⌘ ,tk',
         \'TagmaTaskToggle'],
     \]
 nnoremap <silent>[menu]f :Unite -start-insert menu:busquedas<CR>
@@ -921,7 +937,8 @@ nnoremap <silent>[menu]f :Unite -start-insert menu:busquedas<CR>
 
 " menu yankring, registros e historia {{{
 let g:unite_source_menu_menus.registros = {
-    \ 'description' : 'Yankring, registros e historia de Vim',
+    \ 'description' : '      yankring, registros e historia
+        \   ⌘ [espacio]i',
     \}
 let g:unite_source_menu_menus.registros.command_candidates = [
     \['▷ yankring                                                   ⌘ ,i',
@@ -932,15 +949,74 @@ let g:unite_source_menu_menus.registros.command_candidates = [
         \'Unite history/search'],
     \['▷ registros',
         \'Unite register'],
+    \['▷ mensajes',
+        \'Unite output:messages'],
     \['▷ deshacer       (gundo)                                     ⌘ ,u',
         \'GundoToggle'],
     \]
 nnoremap <silent>[menu]i :Unite -start-insert menu:registros<CR>
 " }}}
 
+" menu edicion de ortografia {{{
+let g:unite_source_menu_menus.ortografia = {
+    \ 'description' : '     correcion ortografica
+        \  ⌘ [espacio]s',
+    \}
+let g:unite_source_menu_menus.ortografia.command_candidates = [
+    \['▷ activa corrector en español                                ⌘ ,ss',
+        \'setlocal spell spelllang=es'],
+    \['▷ activa corrector en ingles                                 ⌘ ,se',
+        \'setlocal spell spelllang=en'],
+    \['▷ desactiva corrector ortografico                            ⌘ ,so',
+        \'setlocal nospell'],
+    \['▷ siguiente palabra mal escrita                              ⌘ ,sn',
+        \'normal ,sn'],
+    \['▷ sugerencias                                                ⌘ ,sp',
+        \'normal ,sp'],
+    \['▷ añadir palabra al diccionario                              ⌘ ,sa',
+        \'normal ,sa'],
+    \]
+nnoremap <silent>[menu]s :Unite menu:ortografia<CR>
+" }}}
+
+" menu edicion de texto {{{
+let g:unite_source_menu_menus.texto = {
+    \ 'description' : '          edicion de texto
+        \       ⌘ [espacio]e',
+    \}
+let g:unite_source_menu_menus.texto.command_candidates = [
+    \['▷ activa/desactiva resaltado de busqueda                     ⌘ ,eq',
+        \'set invhlsearch'],
+    \['▷ conmuta los numeros de linea                               ⌘ ,l',
+        \'call ToggleRelativeAbsoluteNumber()'],
+    \['▷ mostrar caracteres no imprimibles                          ⌘ ,eh',
+        \'set list!'],
+    \['▷ abrir/cerrar pliegue                                       ⌘ /',
+        \'normal za'],
+    \['▷ abrir todos los pliegues                                   ⌘ zR',
+        \'normal zR'],
+    \['▷ cerrar todos los pliegues                                  ⌘ zM',
+        \'normal zM'],
+    \['▷ copiar al portapapeles                                     ⌘ ,y',
+        \'normal ,y'],
+    \['▷ pegar desde el portapapeles                                ⌘ ,p',
+        \'normal ,p'],
+    \['▷ conmutar el paste mode                                     ⌘ ,P',
+        \'normal ,P'],
+    \['▷ eliminar espacios al final de la linea                     ⌘ ,et',
+        \'normal ,et'],
+    \['▷ estadisticas de texto para la posicion actual              ⌘ ,es',
+        \'Unite output:normal\ ,es -no-cursor-line'],
+    \['▷ frecuencia de cada palabra en el texto                     ⌘ ,ew',
+        \'Unite output:WordFrequency'],
+    \]
+nnoremap <silent>[menu]e :Unite menu:texto<CR>
+" }}}
+
 " menu neobundle {{{
 let g:unite_source_menu_menus.neobundle = {
-    \ 'description' : 'Gestionar NeoBundle',
+    \ 'description' : '      gestionar plugins con neobundle
+        \   ⌘ [espacio]n',
     \}
 let g:unite_source_menu_menus.neobundle.command_candidates = [
     \['▷ neobundle',
@@ -971,7 +1047,8 @@ nnoremap <silent>[menu]n :Unite -start-insert menu:neobundle<CR>
 
 " menu git {{{
 let g:unite_source_menu_menus.git = {
-    \ 'description' : 'Gestionar git',
+    \ 'description' : '            gestionar repositorios git
+        \         ⌘ [espacio]g',
     \}
 let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git status       (Fugitive)                                ⌘ ,gs',
@@ -1006,12 +1083,13 @@ let g:unite_source_menu_menus.git.command_candidates = [
 nnoremap <silent>[menu]g :Unite -start-insert menu:git<CR>
 " }}}
 
-" menu python {{{
+" menu code {{{
 " TODO: terminar menu
-let g:unite_source_menu_menus.python = {
-    \ 'description' : 'Gestionar python',
+let g:unite_source_menu_menus.code = {
+    \ 'description' : '           herramientas para escribir codigo
+        \        ⌘ [espacio]p',
     \}
-let g:unite_source_menu_menus.python.command_candidates = [
+let g:unite_source_menu_menus.code.command_candidates = [
     \['▷ syntastic check',
         \'SyntasticCheck'],
     \['▷ syntastic errors',
@@ -1019,12 +1097,13 @@ let g:unite_source_menu_menus.python.command_candidates = [
     \['▷ contar lineas de codigo',
         \'Unite output:call\\ LinesOfCode()'],
     \]
-nnoremap <silent>[menu]p :Unite menu:python<CR>
+nnoremap <silent>[menu]p :Unite menu:code<CR>
 " }}}
 
 " menu markdown {{{
 let g:unite_source_menu_menus.markdown = {
-    \ 'description' : 'Markdown Extra Preview',
+    \ 'description' : '       previsualizar documentos markdown extra
+        \    ⌘ [espacio]k',
     \}
 let g:unite_source_menu_menus.markdown.command_candidates = [
     \['▷ previsualizar',
@@ -1037,7 +1116,8 @@ nnoremap <silent>[menu]k :Unite menu:markdown<CR>
 
 " menu sesiones {{{
 let g:unite_source_menu_menus.sesiones = {
-    \ 'description' : 'Gestionar sesiones de Vim',
+    \ 'description' : '       sesiones
+        \    ⌘ [espacio]h',
     \}
 let g:unite_source_menu_menus.sesiones.command_candidates = [
     \['▷ cargar sesion',
@@ -1047,25 +1127,27 @@ let g:unite_source_menu_menus.sesiones.command_candidates = [
     \['▷ guardar sesion (personalizada)',
         \'exe "UniteSessionSave " input("nombre: ")'],
     \]
-nnoremap <silent>[menu]s :Unite menu:sesiones<CR>
+nnoremap <silent>[menu]h :Unite menu:sesiones<CR>
 " }}}
 
 " menu favoritos {{{
 let g:unite_source_menu_menus.favoritos = {
-    \ 'description' : 'Gestionar favoritos de Vim',
+    \ 'description' : '      favoritos
+        \   ⌘ [espacio]q',
     \}
 let g:unite_source_menu_menus.favoritos.command_candidates = [
-    \['▷ añadir a favoritos',
-        \'UniteBookmarkAdd'],
     \['▷ abrir favoritos',
         \'Unite bookmark:*'],
+    \['▷ añadir a favoritos',
+        \'UniteBookmarkAdd'],
     \]
-nnoremap <silent>[menu]h :Unite menu:favoritos<CR>
+nnoremap <silent>[menu]q :Unite menu:favoritos<CR>
 " }}}
 
 " menu varios {{{
 let g:unite_source_menu_menus.varios = {
-    \ 'description' : 'Varios comandos',
+    \ 'description' : '         varios
+        \      ⌘ [espacio]v',
     \}
 let g:unite_source_menu_menus.varios.command_candidates = [
     \['▷ escoger esquema de color',
@@ -1097,9 +1179,8 @@ let g:unite_source_menu_menus.varios.command_candidates = [
     \['▷ salida de comando de vim',
         \'Unite output'],
     \]
-" }}}
-
 nnoremap <silent>[menu]v :Unite menu:varios -start-insert<CR>
+" }}}
 " }}}
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])

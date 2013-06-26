@@ -1,5 +1,3 @@
-# ATENCION!!! Debido a los grandes cambios introducidos al realizar el cambio a Unite este fichero esta temporalmente obsoleto, mientras no termino la migracion.
-
 # Mi Configuración de Vim
 
 El propósito de este documento es recopilar todas las opciones disponibles en mi
@@ -15,7 +13,7 @@ estará sujeto del mismo modo a un numero elevado de modificaciones en el futuro
 A todo esto habría que sumarle todo lo que Vim aporta de serie, que no es poco.
 
 > La tecla `<Leader>` la tengo mapeada a `,` y la tecla `<LocalLeader>` la tengo
-mapeada a `\`
+mapeada a la tecla espaciadora
 
     Esta configuración está basada en las de muchos otros, tantos que ni los
     recuerdo a todos y seria bastante injusto recordar a algunos y omitir a otros.
@@ -37,18 +35,18 @@ mapeada a `\`
  - [Gestion de plugins](#gestion-de-plugins)
      - [NeoBundle](#neobundle)
      - [Actualizacion de plugins](#actualizacion-de-plugins)
+ - [Unite](#unite)
  - [Operaciones con ventanas](#operaciones-con-ventanas)
      - [scratch-utility](#scratch-utility)
      - [zoomwintab](#zoomwintab)
      - [vim-powerline](#vim-powerline)
      - [winresizer](#winresizer)
  - [Edicion de texto](#edicion-de-texto)
-     - [Desactivar el resaltado de la ultima busqueda](#desactivar-el-resultado-de-la-ultima-busqueda)
+     - [Activar/Desactivar el resaltado de la ultima busqueda](#activar-desactivar-el-resultado-de-la-ultima-busqueda)
      - [Conmutar la visualizacion de numeros de linea](#conmutar-la-visualizacion-de-numeros-de-linea)
      - [Mostrar caracteres no imprimibles](#mostrar-caracteres-no-imprimibles)
      - [Abrir/cerrar pliegues](#abrircerrar-pliegues)
      - [Copiar/pegar](#copiarpegar)
-     - [Edicion rapida de varios archivos](#edicion-rapida-de-varios-archivos)
      - [Revision de ortografia](#revision-de-ortografia)
      - [Guardar como root](#guardar-como-root)
      - [Guardado rapido](#guardado-rapido)
@@ -65,7 +63,6 @@ mapeada a `\`
      - [vim-characterize](#vim-characterize)
      - [vim-transpose](#vim-transpose)
      - [vim-signature](#vim-signature)
- - [Unite](#unite)
  - [Exploracion de ficheros](#exploracion-de-ficheros)
      - [Ranger](#ranger)
      - [utl](#utl)
@@ -99,6 +96,15 @@ mapeada a `\`
      - [Traduccion de ficheros .po](#traduccion-de-ficheros-po)
 
 ## Esquemas de color
+
+Para cambiar de esquemas de color podemos hacerlo a través de Unite:
+
+__Unite__
+
+- `<LocalLeader>v` o `:Unite menu:varios` accedemos al menú *varios* donde
+  podemos cambiar el esquema seleccionando la opción correspondiente
+- `:Unite colorscheme -auto-preview` seleccionamos el esquema de la lista con
+  previsualización del mismo
 
 ### Temas oscuros
 
@@ -170,28 +176,26 @@ siguientes:
 - Permite establecer la revisión exacta que queremos emplear
 - Permite marcar plugins como no actualizables
 - Permite cargar los plugins bajo demanda, no al principio, para agilizar el
-  arranque de Vim
+  arranque de Vim y el consumo de recursos
 - Permite añadir multitud de opciones a cada plugin, como por ejemplo que se
-  haga el 'build' de forma automática si es necesario al instalar/actualizar
+  haga el `build` de forma automática si es necesario al instalar/actualizar
 - Y muchas mas posibilidades, sobre todo si también usamos 'Vimproc' y 'Unite'
   del mismo autor
 
-Funciona a través de comandos y a través de Unite.
-
 __Ayuda__ `:h neobundle.txt`  <vimhelp:neobundle.txt>
 
-__Comandos__
+La mejor manera de usar NeoBundle es a través de Unite
 
-- `:NeoBundleList`, muestra una lista de todos los plugins instalados
-- `:NeoBundleInstall`, instala aquellos plugins que estén configurados en .vimrc
-- `:NeoBundleClean`, elimina los plugins que ya no estén en .vimrc
-- `:NeoBundleUpdate`, actualiza los plugins actualmente instalados
+__Unite__
+
+- `<LocalLeader>n` o `:Unite menu:neobundle`, muestra un menú con las opciones
+  de Neobundle
 
 *Repositorio:* <https://github.com/Shougo/neobundle.vim>
 
 ### Actualizacion de Plugins
 
-Vundle es una muy buena y potente herramienta que nos permite administrar de
+NeoBundle es una muy buena y potente herramienta que nos permite administrar de
 forma muy sencilla nuestros plugins. Pero es una herramienta que conviene
 utilizar con cuidado, sentido común y guardando unas ciertas precauciones, sobre
 todo si usamos vim como herramienta profesional.
@@ -236,19 +240,97 @@ hora de realizar las actualizaciones. Evidentemente, en caso de que solo falle
 un plugin siempre podemos sustituir únicamente la carpeta de ese plugin dentro
 de `~/dotfiles/vim/bundle` en lugar de toda la configuración de Vim.
 
+#### Alternativa
+
+Otra opción la tenemos a través de NeoBundle, que nos permite especificar la
+revisión que queremos instalar de un plugin, e incluso nos permite decirle que
+no se actualice nunca, si no nos interesa actualizarlo.
+
+
+## Unite
+
+Unite es una interfaz que unifica varios 'resultados de búsquedas' bajo un mismo
+aspecto y siguiendo el comportamiento por defecto de Vim (modal). Es casi una
+API sobre la que podemos construir nuestras propias soluciones. Sirve tanto para
+abrir un fichero, como para cambiar de buffer, cambiar de esquema de color o
+para hacer una búsqueda con regex (vimgrep, grep, Ack, ag, ...). Sirve hasta
+para consultar los registros, ayuda, comandos... Resumiendo, es una navaja suiza
+que bien empleada nos permite sustituir un varios plugins distintos por uno
+solo (en este caso: CtrlP, Ack, YankRing).
+
+> Una de las principales ventajas de Unite es que me permite subsanar uno de los
+problemas que intentaba solucionar inicialmente con este documento, que es el
+recordar todas las opciones y atajos que con tanto esfuerzo y tiempo he
+incorporado a Vim. Es muy normal que tengamos disponible un plugin que usamos de
+cuando en cuando, lo tengamos personalizado y cuando vayamos a emplearlo no
+recordemos ni todas sus opciones, ni los atajos. Pues bien, con Unite es
+sencillo crear un menú para ese plugin donde mostremos las opciones que tenemos
+para el y los atajos que les hemos asignado y gracias otra vez a la magia de
+Unite, ni siquiera necesitamos recordar el atajo a este menú, podemos buscarlo
+dentro del indice de menús de Unite. Problema resuelto de forma rápida y
+elegante.
+
+El mayor inconveniente de Unite y a su vez una de sus mayores ventajas es que no
+viene configurado apenas, dejando a nuestro gusto y responsabilidad el adaptarlo
+a nuestro modo de trabajo. 
+
+### Fuentes y Menus
+
+Yo he configurado Unite siguiendo dos vías distintas, por un lado lo utilizo
+para acceder a fuentes directas (lo que Unite denomina *sources*) a través de un
+atajo usando la tecla `<Leader>` y por otro lado llamando a menús usando la
+tecla `<LocalLeader>`
+
+- Las __fuentes__ llamadas directamente a través de un atajo con `<Leader>` las uso
+  para aquellas tareas más comunes como abrir archivos, buscar dentro del
+  fichero, hacer una búsqueda de archivos mediante regex (ag, ack, grep), etc.
+  Un ejemplo de como abrir un archivo con Unite.
+
+![unite_file](http://joedicastro.com/static/pictures/unite_file.gif "unite file")
+
+- Los __menus__ los uso para agrupar las opciones bien por plugins o bien por
+  funcionalidad. Ademas muestro los atajos en aquellas opciones que tengo
+  mapeadas directamente, esto me permite no tener que consultar mi `~/.vimrc`
+  para recordar cuales eran cuando me olvido de alguno. Un ejemplo que muestra
+  las opciones que tengo disponibles para gestionar un repositorio git desde
+  Vim. 
+
+![unite_git](http://joedicastro.com/static/pictures/unite_git.gif "unite_git")
+
+También para no tener que recordar todos los menús que he creado, hay un menú
+maestro que me permite acceder a cada uno de ellos y ver los atajos asociados a
+cada uno de ellos. Unite posee un mecanismo que nos permite acceder a una lista
+de menús generada automáticamente, y aunque en este caso ni se muestran
+ordenados ni se pueden ver los atajos asociados directamente yo he creado las
+descripciones de los menús de manera que se puedan ver los atajos. Es lo que el
+comando `:menu` de Vim deberia haber sido: comodo, intuitivo y de fácil
+navegación.
+
+- `<LocalLeader>u` o `:Unite menu` muestra los menús disponibles
+
+
+### Navegacion dentro de Unite
+
+TODO: completar este apartado
+
+*Repositorio:* <https://github.com/Shougo/unite.vim>
+
 ## Operaciones con ventanas
 
 ### Atajos
 
-- `<Leader>v` crea una nueva ventana vertical
-- `<Leader>h` crea una nueva ventana horizontal
 - `<C-H>` desplazamiento a la siguiente ventana a la izquierda
 - `<C-J>` desplazamiento a la ventana inferior
 - `<C-K>` desplazamiento a la ventana superior
 - `<C-L>` desplazamiento a la siguiente ventana a la derecha
-- `<Leader>m` cierra la ventana actual
-- `<Leader>q` cierra la ventana QuickFix
 
+### Unite 
+
+El resto de opciones, incluidas las siguientes que muestro a continuación, se
+pueden encontrar dentro del menú de Unite `navegacion`
+
+`<LocalLeader>b` o `:Unite menu:navegacion` muestra el menú de navegación entre
+ventanas, buffers y pestañas
 
 ### scratch-utility
 
@@ -256,7 +338,7 @@ de `~/dotfiles/vim/bundle` en lugar de toda la configuración de Vim.
 
 Nos crea un nuevo buffer temporal en el que no se guardara nada de lo que
 editemos en ella, el contenido es descartado en cuanto cerramos la aplicación.
-La ventana aparecera siempre encima de la ventana actual
+La ventana aparecerá siempre encima de la ventana actual
 
 __Atajo__ `<F8>` o `:Scratch` Mostrar/Ocultar la ventana Scratch
 
@@ -311,13 +393,16 @@ __Atajos__
 
 ## Edicion de texto
 
-### Desactivar el resaltado de la ultima busqueda
+### Activar/desactivar el resaltado de busqueda
 
 ![nohlsearch][nhs]
 
   [nhs]: http://joedicastro.com/static/pictures/nohlsearch.gif  "nohlsearch"
 
-__Atajo__ `<Leader>sq`
+__Atajo__ `<Leader>eq`
+
+__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+incluida esta acción
 
 ### Conmutar la visualizacion de numeros de linea
 
@@ -330,14 +415,19 @@ __Atajo__ `<Leader>sq`
 
   __Atajo__ `<Leader>l`
 
+__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+incluida esta acción
+
 ### Mostrar caracteres no imprimibles
 
 ![hiddenchars][hdc]
 
   [hdc]: http://joedicastro.com/static/pictures/hiddenchars.gif "mostrar caracteres no imprimibles"
 
-__Atajo__ `<Leader>sh`
+__Atajo__ `<Leader>eh`
 
+__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+incluida esta acción
 
 ### Abrir/cerrar pliegues
 
@@ -345,7 +435,10 @@ __Atajo__ `<Leader>sh`
 
   [ufl]: http://joedicastro.com/static/pictures/unfold.gif "abrir/cerrar pliegues"
 
-__Atajo__ `<Space>`
+__Atajo__ <code>\\</code>
+
+__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+incluida esta acción
 
 ### Copiar/pegar
 
@@ -355,22 +448,15 @@ __Atajos__
 - `<Leader>p` pegar desde el portapapeles
 - `<Leader>P` conmutar el paste mode
 
-### Edicion rapida de varios archivos
-
-__Atajos__
-
-- `<Leader>ev` edita el archivo `~/.vimrc` en una nueva ventana vertical
-- `<Leader>es` edita el archivo de snippets globales
-  (`~/.vim/UltiSnips/all.snippets`) en una nueva ventana vertical
+__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+incluida esta acción
 
 ### Revision de ortografia
 
-__Atajos__
+__Unite__
 
-- `<Leader>ss` activa la corrección ortográfica en español
-- `<Leader>se` activa la corrección ortográfica en ingles
-- `<Leader>so` desactiva la corrección ortográfica
-- `<Leader>sn` se desplaza a la siguiente palabra mal escrita
+- `<LocalLeader>s` o `:Unite menu:ortografia` activa el menu con las opciones
+  para la correccion ortografica
 
 ### Guardar como root
 
@@ -380,11 +466,17 @@ ventajas de nuestra configuración.
 
 __Comando__ `:w!!`
 
+__Unite__ `<LocalLeader>o` Activa el menú de ficheros donde esta incluida esta
+acción
+
 ### Guardado rapido
 
 Para guardar rápidamente un archivo sin tener que ejecutar el comando `:w`
 
 __Atajo__ `<Leader>w`
+
+__Unite__ `<LocalLeader>o` Activa el menú de ficheros donde esta incluida esta
+acción
 
 ### Eliminar espacios al final de la linea
 
@@ -394,7 +486,10 @@ __Atajo__ `<Leader>w`
 Elimina esos espacios que se quedan a veces al final de la linea y que suelen
 ser casi siempre innecesarios y sin cometido alguno (excepto quizas en Markdown)
 
-__Atajo__ `<Leader>rt`
+__Atajo__ `<Leader>et`
+
+__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+incluida esta acción
 
 
 ### Estadisticas de texto
@@ -404,7 +499,10 @@ __Atajo__ `<Leader>rt`
 Obtener el numero de lineas, palabras, caracteres y bytes (totales y de la
 posición actual)
 
-__Atajo__ `<Leader>st`
+__Atajo__ `<Leader>es`
+
+__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+incluida esta acción
 
 ![frecuencia de palabras](
 http://joedicastro.com/static/pictures/word_frecuency.gif "frecuencia de
@@ -413,7 +511,10 @@ palabras")
 Obtener la frecuencia con la que aparece cada palabra para un texto dado, abre
 una nueva ventana con las estadísticas.
 
-__Atajo__ `<Leader>sw`
+__Atajo__ `<Leader>ew`
+
+__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+incluida esta acción
 
 ### vim-smartinput
 
@@ -660,19 +761,6 @@ __Atajo__ `<Leader>j` si usamos el atajo sobre un enlace se abrirá el destino
 correspondiente en la aplicación que tengamos configurada
 
 *Repositorio:* <https://github.com/vim-scripts/utl.vim>
-
-## Unite
-
-Unite es una interfaz que unifica varios 'resultados de búsquedas' bajo un mismo
-aspecto y siguiendo el comportamiento por defecto de Vim (modal). Es casi una
-API sobre la que podemos construir nuestras propias soluciones. Sirve tanto para
-abrir un fichero, como para cambiar de buffer, cambiar de esquema de color o
-para hacer una búsqueda con regex (vimgrep, grep, Ack, ag, ...). Sirve hasta
-para consultar los registros, ayuda, comandos... Resumiendo, es una navaja suiza
-que bien empleada nos permite sustituir un montón de plugins distintos por uno
-solo (en este caso: CtrlP, Ack, YankRing).
-
-TODO: Terminar esta sección.
 
 ## Edicion de codigo
 
