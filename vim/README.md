@@ -401,7 +401,7 @@ __Atajos__
 
 __Atajo__ `<Leader>eq`
 
-__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
 incluida esta acción
 
 ### Conmutar la visualizacion de numeros de linea
@@ -415,7 +415,7 @@ incluida esta acción
 
   __Atajo__ `<Leader>l`
 
-__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
 incluida esta acción
 
 ### Mostrar caracteres no imprimibles
@@ -426,7 +426,7 @@ incluida esta acción
 
 __Atajo__ `<Leader>eh`
 
-__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
 incluida esta acción
 
 ### Abrir/cerrar pliegues
@@ -437,7 +437,7 @@ incluida esta acción
 
 __Atajo__ <code>\\</code>
 
-__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
 incluida esta acción
 
 ### Copiar/pegar
@@ -448,7 +448,7 @@ __Atajos__
 - `<Leader>p` pegar desde el portapapeles
 - `<Leader>P` conmutar el paste mode
 
-__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
 incluida esta acción
 
 ### Revision de ortografia
@@ -488,7 +488,7 @@ ser casi siempre innecesarios y sin cometido alguno (excepto quizas en Markdown)
 
 __Atajo__ `<Leader>et`
 
-__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
 incluida esta acción
 
 
@@ -513,7 +513,7 @@ una nueva ventana con las estadísticas.
 
 __Atajo__ `<Leader>ew`
 
-__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
+__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
 incluida esta acción
 
 ### vim-smartinput
@@ -620,13 +620,18 @@ __Ayuda__ `:h easydigraph.txt@en` <vimhelp:easydigraph.txt@en>
 
 __Atajos__
 
-- `<Leader>bb {motion}` convierte en dígrafo la selección efectuada con el
+- `<Leader>dd {motion}` convierte en dígrafo la selección efectuada con el
   movimiento.
 
 __Comandos__
 
 - `:digraphs` muestra una tabla con todos los dígrafos disponibles y los
   caracteres necesarios para generarlos
+
+__Unite__ `<LocalLeader>e` Activa el menú de texto donde esta incluida esta
+acción
+
+
 
 *Repositorio:* <https://github.com/Rykka/easydigraph.vim>
 
@@ -642,6 +647,10 @@ un cambio.
 __Ayuda__ `:h gundo.txt` <vimhelp:gundo.txt>
 
 __Atajos__ `<Leader>u` abre el interfaz de ventanas de Gundo
+
+__Unite__ `<LocalLeader>i` Activa el menú de registros donde esta incluida esta
+acción
+
 
 *Repositorio:* <https://github.com/sjl/gundo.vim>
 
@@ -660,6 +669,9 @@ __Comandos__
 
 - `:LoremIpsum {num palabras}` inserta el texto Lorem Ipsum de forma aleatoria
 
+__Unite__ `<localleader>e` activa el menú de texto donde esta incluida esta
+acción
+
 *Repositorio:* <https://github.com/vim-scripts/loremipsum>
 
 ### vim-characterize
@@ -674,6 +686,8 @@ __Ayuda__ `:h characterize.txt` <vimhelp:characterize.txt>
 
 __Atajo__ `ga` muestra la información sobre el carácter.
 
+__Unite__ `<localleader>e` activa el menú de texto donde esta incluida esta
+acción
 
 *Repositorio:* <https://github.com/tpope/vim-characterize>
 

@@ -812,7 +812,7 @@ nnoremap <silent>[menu]u :Unite -winheight=20 menu<CR>
 " menu ficheros y directorios {{{
 let g:unite_source_menu_menus.ficheros = {
     \ 'description' : '       ficheros y directorios
-        \    ⌘ [espacio]o',
+        \                                ⌘ [espacio]o',
     \}
 let g:unite_source_menu_menus.ficheros.command_candidates = [
     \['▷ abrir fichero                                              ⌘ ,o',
@@ -852,7 +852,7 @@ function! OnlyGitFiles()
 endfunction
 let g:unite_source_menu_menus.grep = {
     \ 'description' : '           buscar ficheros
-        \        ⌘ [espacio]a',
+        \                                       ⌘ [espacio]a',
     \}
 let g:unite_source_menu_menus.grep.command_candidates = [
     \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
@@ -872,7 +872,7 @@ nnoremap <silent>[menu]a :Unite menu:grep<CR>
 " menu buffers, ventanas y pestañas {{{
 let g:unite_source_menu_menus.navegacion = {
     \ 'description' : '     navegar por buffers, pestañas y ventanas
-        \   ⌘ [espacio]b',
+        \              ⌘ [espacio]b',
     \}
 let g:unite_source_menu_menus.navegacion.command_candidates = [
     \['▷ buffers                                                    ⌘ ,b',
@@ -908,7 +908,7 @@ nnoremap <silent>[menu]b :Unite menu:navegacion<CR>
 " menu busquedas dentro del buffer {{{
 let g:unite_source_menu_menus.busquedas = {
     \ 'description' : '      busquedas dentro del buffer activo
-        \   ⌘ [espacio]f',
+        \                    ⌘ [espacio]f',
     \}
 let g:unite_source_menu_menus.busquedas.command_candidates = [
     \['▷ buscar linea                                               ⌘ ,f',
@@ -938,7 +938,7 @@ nnoremap <silent>[menu]f :Unite -start-insert menu:busquedas<CR>
 " menu yankring, registros e historia {{{
 let g:unite_source_menu_menus.registros = {
     \ 'description' : '      yankring, registros e historia
-        \   ⌘ [espacio]i',
+        \                        ⌘ [espacio]i',
     \}
 let g:unite_source_menu_menus.registros.command_candidates = [
     \['▷ yankring                                                   ⌘ ,i',
@@ -960,7 +960,7 @@ nnoremap <silent>[menu]i :Unite -start-insert menu:registros<CR>
 " menu edicion de ortografia {{{
 let g:unite_source_menu_menus.ortografia = {
     \ 'description' : '     correcion ortografica
-        \  ⌘ [espacio]s',
+        \                                 ⌘ [espacio]s',
     \}
 let g:unite_source_menu_menus.ortografia.command_candidates = [
     \['▷ activa corrector en español                                ⌘ ,ss',
@@ -982,7 +982,7 @@ nnoremap <silent>[menu]s :Unite menu:ortografia<CR>
 " menu edicion de texto {{{
 let g:unite_source_menu_menus.texto = {
     \ 'description' : '          edicion de texto
-        \       ⌘ [espacio]e',
+        \                                      ⌘ [espacio]e',
     \}
 let g:unite_source_menu_menus.texto.command_candidates = [
     \['▷ activa/desactiva resaltado de busqueda                     ⌘ ,eq',
@@ -1009,6 +1009,12 @@ let g:unite_source_menu_menus.texto.command_candidates = [
         \'Unite output:normal\ ,es -no-cursor-line'],
     \['▷ frecuencia de cada palabra en el texto                     ⌘ ,ew',
         \'Unite output:WordFrequency'],
+    \['▷ muestra los digrafos disponibles',
+        \'digraphs'],
+    \['▷ inserta texto lore ipsum',
+        \'exe "Loremipsum" input("numero de palabras: ")'],
+    \['▷ muestra informacion sobre el caracter actual               ⌘ ga',
+        \'normal ga'],
     \]
 nnoremap <silent>[menu]e :Unite menu:texto<CR>
 " }}}
@@ -1016,7 +1022,7 @@ nnoremap <silent>[menu]e :Unite menu:texto<CR>
 " menu neobundle {{{
 let g:unite_source_menu_menus.neobundle = {
     \ 'description' : '      gestionar plugins con neobundle
-        \   ⌘ [espacio]n',
+        \                       ⌘ [espacio]n',
     \}
 let g:unite_source_menu_menus.neobundle.command_candidates = [
     \['▷ neobundle',
@@ -1048,7 +1054,7 @@ nnoremap <silent>[menu]n :Unite -start-insert menu:neobundle<CR>
 " menu git {{{
 let g:unite_source_menu_menus.git = {
     \ 'description' : '            gestionar repositorios git
-        \         ⌘ [espacio]g',
+        \                            ⌘ [espacio]g',
     \}
 let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git status       (Fugitive)                                ⌘ ,gs',
@@ -1087,7 +1093,7 @@ nnoremap <silent>[menu]g :Unite -start-insert menu:git<CR>
 " TODO: terminar menu
 let g:unite_source_menu_menus.code = {
     \ 'description' : '           herramientas para escribir codigo
-        \        ⌘ [espacio]p',
+        \                     ⌘ [espacio]p',
     \}
 let g:unite_source_menu_menus.code.command_candidates = [
     \['▷ syntastic check',
@@ -1103,7 +1109,7 @@ nnoremap <silent>[menu]p :Unite menu:code<CR>
 " menu markdown {{{
 let g:unite_source_menu_menus.markdown = {
     \ 'description' : '       previsualizar documentos markdown extra
-        \    ⌘ [espacio]k',
+        \               ⌘ [espacio]k',
     \}
 let g:unite_source_menu_menus.markdown.command_candidates = [
     \['▷ previsualizar',
@@ -1117,7 +1123,7 @@ nnoremap <silent>[menu]k :Unite menu:markdown<CR>
 " menu sesiones {{{
 let g:unite_source_menu_menus.sesiones = {
     \ 'description' : '       sesiones
-        \    ⌘ [espacio]h',
+        \                                              ⌘ [espacio]h',
     \}
 let g:unite_source_menu_menus.sesiones.command_candidates = [
     \['▷ cargar sesion',
@@ -1133,7 +1139,7 @@ nnoremap <silent>[menu]h :Unite menu:sesiones<CR>
 " menu favoritos {{{
 let g:unite_source_menu_menus.favoritos = {
     \ 'description' : '      favoritos
-        \   ⌘ [espacio]q',
+        \                                             ⌘ [espacio]q',
     \}
 let g:unite_source_menu_menus.favoritos.command_candidates = [
     \['▷ abrir favoritos',
@@ -1147,15 +1153,11 @@ nnoremap <silent>[menu]q :Unite menu:favoritos<CR>
 " menu varios {{{
 let g:unite_source_menu_menus.varios = {
     \ 'description' : '         varios
-        \      ⌘ [espacio]v',
+        \                                                ⌘ [espacio]v',
     \}
 let g:unite_source_menu_menus.varios.command_candidates = [
     \['▷ escoger esquema de color',
         \'Unite colorscheme -auto-preview'],
-    \['▷ frecuencia de cada palabra en el texto',
-        \'WordFrequency'],
-    \['▷ muestra los digrafos disponibles',
-        \'digraphs'],
     \['▷ selector de color                                          ⌘ ,cd',
         \'ColorVPicker'],
     \['▷ matar procesos',
