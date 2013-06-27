@@ -191,9 +191,12 @@ NeoBundle 'salsifis/vim-transpose'
 " gestion de marcadores
 NeoBundle 'kshenoy/vim-signature'
 " text-objects
-NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kana/vim-textobj-entire' " ae, ie
+NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
+NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
 NeoBundle 'kana/vim-textobj-line' " al, il
-
+NeoBundle 'kana/vim-textobj-underscore' " a_, i_
+NeoBundle 'kana/vim-textobj-user'
 " }}}
 
 " HTML/CSS {{{
