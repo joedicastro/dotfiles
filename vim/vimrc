@@ -686,7 +686,7 @@ let g:gundo_preview_bottom = 1
 
 " indentLine {{{
 
-map <silent> <Leader>sl :IndentLinesToggle<CR>
+map <silent> <Leader>L :IndentLinesToggle<CR>
 let g:indentLine_enabled = 0
 let g:indentLine_char = '¦'
 let g:indentLine_color_term = 239
@@ -848,8 +848,8 @@ nnoremap <silent>[menu]o :Unite -start-insert menu:ficheros<CR>
 
 " menu busqueda de ficheros {{{
 function! OnlyGitFiles()
-    cgete system("git ls-files ".input("dir? " )."\\| xargs 
-                \ack ".input("pattern? "))
+    cgete system("git ls-files ".input("dir? " )."\\| xargs
+                \ ack ".input("pattern? "))
 endfunction
 let g:unite_source_menu_menus.grep = {
     \ 'description' : '           buscar ficheros
@@ -1105,6 +1105,8 @@ let g:unite_source_menu_menus.code.command_candidates = [
         \'Errors'],
     \['▷ contar lineas de codigo',
         \'Unite -default-action= output:call\\ LinesOfCode()'],
+    \['▷ conmutar lineas de indentado                               ⌘ ,L',
+        \'IndentLinesToggle'],
     \]
 nnoremap <silent>[menu]p :Unite menu:code<CR>
 " }}}

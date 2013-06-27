@@ -728,10 +728,11 @@ correspondiente en la aplicación que tengamos configurada
 
 ![cloc](http://joedicastro.com/static/pictures/cloc.gif "cloc")
 
-Ejecuta el programa externo `$ cloc` sobre el fichero y abre la ventana QuickFix
-con el resultado.
+Ejecuta el programa externo `$ cloc` sobre el fichero y muestra el resultado en
+Unite.
 
-__Atajo__ `<Leader>sc`
+__Unite__ `<localleader>p` o `:Unite menu:code` abre el menú de herramientas de
+código donde esta incluida esta función
 
 ### neocomplete
 
@@ -772,7 +773,10 @@ espacios para marcar los niveles de indentado. Lo tengo desactivado por defecto.
 
 __Ayuda__ `:h indentLine.txt` <vimhelp:indentLine.txt>
 
-__Atajo__ `<Leader>sl` oculta/muestra las lineas guía
+__Atajo__ `<Leader>L` oculta/muestra las lineas guía
+
+__Unite__ `<localleader>p` o `:Unite menu:code` muestra el menú de herramientas
+de código donde se encuentra esta opción
 
 __Comandos__
 
@@ -864,7 +868,7 @@ __Ayuda__ `:h TagmaTasks.txt` <vimhelp:TagmaTasks.txt>
 
 __Atajos__
 
-- `<Leader>k` muestra/oculta la ventana de tareas
+- `<Leader>tk` muestra/oculta la ventana de tareas
 - `[t` salta a la tarea anterior
 - `]t` salta a la tarea siguiente
 - `[T` salta a la primera tarea
@@ -1203,3 +1207,4 @@ __Atajos__
 TODO: Acabar con todos los TODOs
 FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.
 FIXME: Realizar una revisión de calidad
+FIXME: Actualizar algunas capturas de pantalla
