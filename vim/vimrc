@@ -566,8 +566,7 @@ function! WordFrequency() range
     call add(lst, value."\t".key."\n")
   endfor
   call sort(lst)
-  let string = join(lst, '')
-  echo string
+  echo join(lst)
 endfunction
 command! -range=% WordFrequency <line1>,<line2>call WordFrequency()
 map <Leader>ew :Unite output:WordFrequency<CR>
@@ -847,8 +846,8 @@ nnoremap <silent>[menu]o :Unite -start-insert menu:ficheros<CR>
 
 " menu busqueda de ficheros {{{
 function! OnlyGitFiles()
-    cgete system("git ls-files ".input("dir? " )."\\| xargs ack
-                \".input("pattern? "))
+    cgete system("git ls-files ".input("dir? " )."\\| xargs 
+                \ack ".input("pattern? "))
 endfunction
 let g:unite_source_menu_menus.grep = {
     \ 'description' : '           buscar ficheros
@@ -1066,9 +1065,9 @@ let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git commit       (Fugitive)                                ⌘ ,gc',
         \'Gcommit'],
     \['▷ git push         (Fugitive)                                ⌘ ,gp',
-        \'Git push'],
+        \'Git! push'],
     \['▷ git pull         (Fugitive)                                ⌘ ,gP',
-        \'Git pull'],
+        \'Git! pull'],
     \['▷ git log          (Fugitive)                                ⌘ ,gl',
         \'exe "silent Glog | Unite quickfix"'],
     \['▷ git blame        (Fugitive)                                ⌘ ,gb',
