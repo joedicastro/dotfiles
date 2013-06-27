@@ -168,8 +168,8 @@ NeoBundle 'vim-scripts/utl.vim'
 " Edición de texto {{{
 
 " Autocompletado de (, [, {, ', ", ...
-" NeoBundle 'kana/vim-smartinput'
-NeoBundle 'delimitMate.vim'
+NeoBundle 'kana/vim-smartinput'
+" NeoBundle 'delimitMate.vim'
 " Cambio de fechas rápido e inteligente
 NeoBundle 'tpope/vim-speeddating'
 " genial plugin para insertar/cambiar/eliminar pares de caracteres en torno a un
@@ -731,7 +731,7 @@ let g:Powerline_theme="unite_status"
 let g:Powerline_colorscheme="unite_status"
 set noshowmode
 
-" call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
+call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
 
 " }}}
 
@@ -1049,7 +1049,7 @@ let g:unite_source_menu_menus.neobundle.command_candidates = [
     \['▷ neobundle docs',
         \'Unite output:NeoBundleDocs'],
     \['▷ neobundle clean',
-        \'Unite output:NeoBundleClean'],
+        \'NeoBundleClean'],
     \['▷ neobundle list',
         \'Unite output:NeoBundleList'],
     \['▷ neobundle direct edit',
@@ -1280,7 +1280,7 @@ nnoremap <silent>[menu]v :Unite menu:varios -start-insert<CR>
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom#source('file_mru', 'ignore_pattern',
+call unite#custom#source('file_mru,grep', 'ignore_pattern',
             \join(['\.git/', 'tmp/'], '\|'))
 
 let g:unite_source_history_yank_enable = 1
