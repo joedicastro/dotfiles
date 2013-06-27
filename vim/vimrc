@@ -666,8 +666,8 @@ map <Leader>gd :Gdiff<CR>
 map <Leader>gb :Gblame<CR>
 map <Leader>gg :Ggrep<Space>
 map <Leader>gB :Gbrowse<CR>
-map <Leader>gp :Git push<CR>
-map <Leader>gP :Git pull<CR>
+map <Leader>gp :Git! push<CR>
+map <Leader>gP :Git! pull<CR>
 map <Leader>gi :Git <Space>
 map <Leader>gl :exe "silent Glog <Bar> Unite quickfix"<CR>
 map <Leader>gt :!tig<CR>:redraw!<CR>
