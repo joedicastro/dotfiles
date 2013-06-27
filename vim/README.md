@@ -1024,6 +1024,9 @@ envidiar a muchas herramientas profesionales.
 
 __Ayuda__ `h: colorv.txt` <vimhelp:colorv.txt>
 
+__Unite__ `<LocalLeader>c` o `:Unite menu:colorv` nos abre el menu de *colorv*
+donde se encuentran todas estas opciones
+
 __Atajos__
 
 - Visualizar colores
@@ -1205,6 +1208,9 @@ __Atajos__
 # ...Work in progress!
 
 TODO: Acabar con todos los TODOs
+
 FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.
+
 FIXME: Realizar una revisión de calidad
+
 FIXME: Actualizar algunas capturas de pantalla

@@ -168,7 +168,8 @@ NeoBundle 'vim-scripts/utl.vim'
 " Edición de texto {{{
 
 " Autocompletado de (, [, {, ', ", ...
-NeoBundle 'kana/vim-smartinput'
+" NeoBundle 'kana/vim-smartinput'
+NeoBundle 'delimitMate.vim'
 " Cambio de fechas rápido e inteligente
 NeoBundle 'tpope/vim-speeddating'
 " genial plugin para insertar/cambiar/eliminar pares de caracteres en torno a un
@@ -1158,6 +1159,92 @@ let g:unite_source_menu_menus.favoritos.command_candidates = [
 nnoremap <silent>[menu]q :Unite menu:favoritos<CR>
 " }}}
 
+" menu colorv {{{
+function! GetColorFormat()
+    let formats = {'r' : 'RGB',
+                  \'n' : 'NAME',
+                  \'s' : 'HEX',
+                  \'ar': 'RGBA',
+                  \'pr': 'RGBP',
+                  \'pa': 'RGBAP',
+                  \'m' : 'CMYK',
+                  \'l' : 'HSL',
+                  \'la' : 'HSLA',
+                  \'h' : 'HSV',
+                  \}
+    let formats_menu = ["\n"]
+    for [k, v] in items(formats)
+        call add(formats_menu, "  ".k."\t".v."\n")
+    endfor
+    let fsel = get(formats, input('Elije un formato: '.join(formats_menu).'? '))
+    return fsel
+endfunction
+
+function! GetColorMethod()
+    let methods = {
+                   \'h' : 'Hue',
+                   \'s' : 'Saturation',
+                   \'v' : 'Value',
+                   \'m' : 'Monochromatic',
+                   \'a' : 'Analogous',
+                   \'3' : 'Triadic',
+                   \'4' : 'Tetradic',
+                   \'n' : 'Neutral',
+                   \'c' : 'Clash',
+                   \'q' : 'Square',
+                   \'5' : 'Five-Tone',
+                   \'6' : 'Six-Tone',
+                   \'2' : 'Complementary',
+                   \'p' : 'Split-Complementary',
+                   \'l' : 'Luma',
+                   \'g' : 'Turn-To',
+                   \}
+    let methods_menu = ["\n"]
+    for [k, v] in items(methods)
+        call add(methods_menu, "  ".k."\t".v."\n")
+    endfor
+    let msel = get(methods, input('Elije un metodo: '.join(methods_menu).'? '))
+    return msel
+endfunction
+
+let g:unite_source_menu_menus.colorv = {
+    \ 'description' : '         gestion de color
+        \                                      ⌘ [espacio]c',
+    \}
+let g:unite_source_menu_menus.colorv.command_candidates = [
+    \['▷ abrir colorv                                               ⌘ ,cv',
+        \'ColorV'],
+    \['▷ abrir colorv con el color bajo el cursor seleccionado      ⌘ ,cw',
+        \'ColorVView'],
+    \['▷ previsualiza colores en el buffer actual                   ⌘ ,cpp',
+        \'ColorVPreview'],
+    \['▷ selector de color                                          ⌘ ,cd',
+        \'ColorVPicker'],
+    \['▷ edita el color bajo el cursor                              ⌘ ,ce',
+        \'ColorVEdit'],
+    \['▷ edita el color bajo el cursor (y todas las coincidencias)  ⌘ ,cE',
+        \'ColorVEditAll'],
+    \['▷ inserta un color                                           ⌘ ,cii',
+        \'exe "ColorVInsert " .GetColorFormat()'],
+    \['▷ lista de colores relativa al color actual                  ⌘ ,cgh',
+        \'exe "ColorVList " .GetColorMethod() "
+        \ ".input("numero de colores? (opcional): ")
+        \ " ".input("numero de pasos?  (opcional): ")'],
+    \['▷ muestra lista de colores (colores Web W3C)                 ⌘ ,cn',
+        \'ColorVName'],
+    \['▷ elegir esquema de color                                    ⌘ ,css',
+        \'ColorVScheme'],
+    \['▷ muestra esquemas de color favoritos                        ⌘ ,csf',
+        \'ColorVSchemeFav'],
+    \['▷ crear esquema de color                                     ⌘ ,csn',
+        \'ColorVSchemeNew'],
+    \['▷ crear variacion de tono entre dos colores ',
+        \'exe "ColorVTurn2 " " ".input("Color 1 (hex): ")
+        \" ".input("Color 2 (hex): ")'],
+    \]
+nnoremap <silent>[menu]c :Unite menu:colorv<CR>
+" }}}
+
 " menu varios {{{
 let g:unite_source_menu_menus.varios = {
     \ 'description' : '         varios
@@ -1166,8 +1253,6 @@ let g:unite_source_menu_menus.varios = {
 let g:unite_source_menu_menus.varios.command_candidates = [
     \['▷ escoger esquema de color',
         \'Unite colorscheme -auto-preview'],
-    \['▷ selector de color                                          ⌘ ,cd',
-        \'ColorVPicker'],
     \['▷ matar procesos',
         \'Unite -default-action=sigkill -start-insert process'],
     \['▷ atajos de teclado',
@@ -1195,6 +1280,8 @@ nnoremap <silent>[menu]v :Unite menu:varios -start-insert<CR>
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#custom#source('file_mru', 'ignore_pattern',
+            \join(['\.git/', 'tmp/'], '\|'))
 
 let g:unite_source_history_yank_enable = 1
 let g:unite_enable_start_insert = 0
