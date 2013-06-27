@@ -4,8 +4,8 @@ El propósito de este documento es recopilar todas las opciones disponibles en m
 configuración para poner un poco de orden en la misma y servirme de recordatorio
 de todo lo que tengo disponible. Evidentemente no pretendo replicar la ayuda de
 vim ni de los plugins, solo destacar aquellas opciones que puedo necesitar en un
-determinado momento. Del mismo modo puede servir de manual de instrucciones para
-aquel que decida clonar esta configuración.
+determinado momento. Del mismo modo puede servir de una suerte de manual de
+instrucciones para aquel que decida clonar esta configuración.
 
 Debido a la naturaleza altamente "mutante" de mi configuración, este documento
 estará sujeto del mismo modo a un numero elevado de modificaciones en el futuro.
@@ -15,85 +15,30 @@ A todo esto habría que sumarle todo lo que Vim aporta de serie, que no es poco.
 > La tecla `<Leader>` la tengo mapeada a `,` y la tecla `<LocalLeader>` la tengo
 mapeada a la tecla espaciadora
 
+    DISCLAIMER & AGRADECIMIENTOS
+
+    Evidentemente es necesario un conocimiento previo de Vim para sacarle todo
+    el partido posible a esta configuración, del mismo modo que será necesario
+    recurrir a la ayuda de ciertos plugins para familiarizarse con ellos más
+    allá de las pautas que doy en este documento. 
+
     Esta configuración está basada en las de muchos otros, tantos que ni los
-    recuerdo a todos y seria bastante injusto recordar a algunos y omitir a otros.
-    Pero gracias a que muchos comparten generosamente su configuración, yo he
-    llegado a la mía y sirva esta documento también de pequeña compensación por lo
-    mucho que otros me han aportado.
-
-## Esquemas de color
-
-Para cambiar de esquemas de color podemos hacerlo a través de Unite:
-
-__Unite__
-
-- `<LocalLeader>v` o `:Unite menu:varios` accedemos al menú *varios* donde
-  podemos cambiar el esquema seleccionando la opción correspondiente
-- `:Unite colorscheme -auto-preview` seleccionamos el esquema de la lista con
-  previsualización del mismo
-
-### Temas oscuros
-
-##### vim-molokai256
-
-Este es el tema por defecto para consola, es el tema molokai adaptado para
-terminal.
-
-![molokai256][mlk256]
-
-  [mlk256]: http://joedicastro.com/static/pictures/molokai256.png "vim-molokai256"
-
-*Repositorio:* <https://github.com/tomasr/molokai>
-
-#### molokai
-
-El tema por defecto para GVim, es practicamente identico a vim-molokai256, sirva
-su imagen como referencia.
-
-*Repositorio:* <https://github.com/joedicastro/vim-molokai256>
-
-#### badwolf
-
-![badwolf][bdwf]
-
-  [bdwf]: http://joedicastro.com/static/pictures/badwolf.png "badwolf"
-
-*Repositorio:* <https://github.com/sjl/badwolf>
-
-#### harlequin
-
-![harlequin][hqn]
-
-  [hqn]: http://joedicastro.com/static/pictures/harlequin.png "harlequin"
-
-*Repositorio:* <https://github.com/nielsmadan/harlequin>
-
-### Temas claros
-
-#### github256
-
-![github][gh]
-
-  [gh]: http://joedicastro.com/static/pictures/github.png "github"
-
-*Repositorio:* <https://github.com/joedicastro/vim-github256>
-
-#### summerfruit256
-
-![summerfruit256][summ]
-
-  [summ]: http://joedicastro.com/static/pictures/summerfruit256.png "summerfruit256"
-
-*Repositorio:* <https://github.com/vim-scripts/summerfruit256.vim>
+    recuerdo a todos y seria bastante injusto recordar a algunos y omitir a
+    otros. Pero gracias a que muchos comparten generosamente su configuración,
+    yo he llegado a la mía y sirva esta documento también de pequeña
+    compensación por lo mucho que otros me han aportado. Y gracias también a
+    todos aquellos desarrolladores que crearon los plugins que incluyo (e incluí
+    en el pasado) por que sin su maravillosa contribución y generosidad al
+    compartirlos con el resto del mundo, esta configuración no sería posible.
 
 ## Gestion de Plugins
 
 ### Neobundle
 
 Un plugin para gobernarlos a todos! Me permite administrar el resto de los
-plugins, el mismo incluido. A su vez lo tengo configurado para que se instale a
+plugins, el mismo incluido. __A su vez lo tengo configurado para que se instale a
 si mismo la primera vez que se ejecute vim con esta configuración (también
-instala automáticamente el resto de plugins).
+instala automáticamente el resto de plugins).__
 
 Las ventajas de este plugin frente a otros similares como Vundle son las
 siguientes:
@@ -240,6 +185,71 @@ navegación.
 TODO: completar este apartado
 
 *Repositorio:* <https://github.com/Shougo/unite.vim>
+
+## Esquemas de color
+
+Para cambiar de esquemas de color podemos hacerlo a través de Unite:
+
+__Unite__
+
+- `<LocalLeader>v` o `:Unite menu:varios` accedemos al menú *varios* donde
+  podemos cambiar el esquema seleccionando la opción correspondiente
+- `:Unite colorscheme -auto-preview` seleccionamos el esquema de la lista con
+  previsualización del mismo
+
+### Temas oscuros
+
+##### vim-molokai256
+
+Este es el tema por defecto para consola, es el tema molokai adaptado para
+terminal.
+
+![molokai256][mlk256]
+
+  [mlk256]: http://joedicastro.com/static/pictures/molokai256.png "vim-molokai256"
+
+*Repositorio:* <https://github.com/tomasr/molokai>
+
+#### molokai
+
+El tema por defecto para GVim, es practicamente identico a vim-molokai256, sirva
+su imagen como referencia.
+
+*Repositorio:* <https://github.com/joedicastro/vim-molokai256>
+
+#### badwolf
+
+![badwolf][bdwf]
+
+  [bdwf]: http://joedicastro.com/static/pictures/badwolf.png "badwolf"
+
+*Repositorio:* <https://github.com/sjl/badwolf>
+
+#### harlequin
+
+![harlequin][hqn]
+
+  [hqn]: http://joedicastro.com/static/pictures/harlequin.png "harlequin"
+
+*Repositorio:* <https://github.com/nielsmadan/harlequin>
+
+### Temas claros
+
+#### github256
+
+![github][gh]
+
+  [gh]: http://joedicastro.com/static/pictures/github.png "github"
+
+*Repositorio:* <https://github.com/joedicastro/vim-github256>
+
+#### summerfruit256
+
+![summerfruit256][summ]
+
+  [summ]: http://joedicastro.com/static/pictures/summerfruit256.png "summerfruit256"
+
+*Repositorio:* <https://github.com/vim-scripts/summerfruit256.vim>
 
 ## Operaciones con ventanas
 
