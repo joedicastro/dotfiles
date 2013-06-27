@@ -495,6 +495,8 @@ nmap <Leader>so :setlocal nospell <cr>
 nmap <Leader>sn ]s
 " Sugerir palabras
 nmap <Leader>sp z=
+" Ir a la siguiente palabra y sugerir correcion
+nmap <Leader>sc ]sz=
 " Añadir palabra al diccionario
 nmap <Leader>sa zg
 " }}}
@@ -968,6 +970,8 @@ let g:unite_source_menu_menus.ortografia.command_candidates = [
         \'setlocal spell spelllang=en'],
     \['▷ desactiva corrector ortografico                            ⌘ ,so',
         \'setlocal nospell'],
+    \['▷ ir a siguiente palabra y sugerir correcion                 ⌘ ,sc',
+        \'normal ,sc'],
     \['▷ siguiente palabra mal escrita                              ⌘ ,sn',
         \'normal ,sn'],
     \['▷ sugerencias                                                ⌘ ,sp',
@@ -1100,7 +1104,7 @@ let g:unite_source_menu_menus.code.command_candidates = [
     \['▷ syntastic errors',
         \'Errors'],
     \['▷ contar lineas de codigo',
-        \'Unite output:call\\ LinesOfCode()'],
+        \'Unite -default-action= output:call\\ LinesOfCode()'],
     \]
 nnoremap <silent>[menu]p :Unite menu:code<CR>
 " }}}
