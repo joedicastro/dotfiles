@@ -70,7 +70,7 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
             \'quickfix'}}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
-NeoBundle 'osyo-manga/vim-powerline-unite-theme'
+NeoBundle 'joedicastro/vim-powerline-unite-theme'
 " NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
 " NeoBundle 'Shougo/vimfiler'
 
@@ -121,8 +121,6 @@ NeoBundleLazy 'joedicastro/vim-markdown-extra-preview'
 
 " Utilidades de Linux {{{
 
-" Algunos atajos para comandos Unix desde Vim
-" NeoBundle 'tpope/vim-eunuch'
 " Permite realizar un diff entre directorios
 NeoBundleLazy 'joedicastro/DirDiff.vim', { 'autoload': { 'commands' : 'DirDiff'}}
 " Edición hexadecimal
@@ -1321,7 +1319,7 @@ nnoremap <silent>[menu]v :Unite menu:vim -start-insert<CR>
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 call unite#custom#source('file_mru,grep', 'ignore_pattern',
-            \join(['\.git/', 'tmp/'], '\|'))
+            \join(['\.git/', 'tmp/', 'bundle/'], '\|'))
 
 let g:unite_source_history_yank_enable = 1
 let g:unite_enable_start_insert = 0
