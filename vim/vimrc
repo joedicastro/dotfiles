@@ -70,7 +70,6 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
             \'quickfix'}}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
-NeoBundle 'taka84u9/unite-git'
 NeoBundle 'osyo-manga/vim-powerline-unite-theme'
 " NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
 " NeoBundle 'Shougo/vimfiler'
@@ -84,15 +83,21 @@ NeoBundle 'osyo-manga/vim-powerline-unite-theme'
 NeoBundle 'joedicastro/vim-molokai256'
 
 NeoBundle 'tomasr/molokai'
-NeoBundle 'sjl/badwolf'
-NeoBundle 'nielsmadan/harlequin'
+NeoBundleLazy 'sjl/badwolf', { 'autoload' :
+        \ { 'unite_sources' : 'colorscheme', }}
+NeoBundleLazy 'nielsmadan/harlequin', { 'autoload' :
+        \ { 'unite_sources' : 'colorscheme', }}
+
 
 " Temas claros
-NeoBundle 'vim-scripts/summerfruit256.vim'
-NeoBundle 'joedicastro/vim-github256'
+NeoBundleLazy 'vim-scripts/summerfruit256.vim', { 'autoload' :
+        \ { 'unite_sources' : 'colorscheme', }}
+NeoBundleLazy 'joedicastro/vim-github256', { 'autoload' :
+        \ { 'unite_sources' : 'colorscheme', }}
 
 " Crear temas para terminal a partir de temas para GUI
-" NeoBundle 'godlygeek/csapprox'
+NeoBundleLazy 'godlygeek/csapprox', { 'autoload' :
+        \ { 'commands' : ['CSApprox', 'CSApproxSnapshot']}}
 
 " }}}
 
@@ -119,9 +124,11 @@ NeoBundleLazy 'joedicastro/vim-markdown-extra-preview'
 " Algunos atajos para comandos Unix desde Vim
 NeoBundle 'tpope/vim-eunuch'
 " Permite realizar un diff entre directorios
-NeoBundle 'joedicastro/DirDiff.vim'
+NeoBundleLazy 'joedicastro/DirDiff.vim', { 'autoload': { 'commands' : 'DirDiff'}}
 " Edición hexadecimal
-NeoBundle 'vim-scripts/hexman.vim'
+NeoBundleLazy 'vim-scripts/hexman.vim', { 'autoload' :
+            \ { 'mappings' : [['ni', '<Plug>HexManager']]}}
+
 " }}}
 
 " Python {{{
@@ -182,13 +189,15 @@ NeoBundle 'tpope/vim-commentary'
 " inserción inteligente de digrafos
 NeoBundle 'Rykka/easydigraph.vim'
 " para navegar por el arbol de niveles de deshacer de vim
-NeoBundle 'sjl/gundo.vim'
+NeoBundleLazy 'sjl/gundo.vim', { 'autoload' : {'commands': 'GundoToggle'}}
 " para insertar bloques de lorem ipsum
-NeoBundle 'vim-scripts/loremipsum'
+NeoBundleLazy 'vim-scripts/loremipsum', { 'autoload' :
+            \ { 'commands' : 'Loremipsum'}}
 " para conocer toda la informacion sobre un caracter, incluido Unicode
 NeoBundle 'tpope/vim-characterize'
 " transponer lines y bloques de texto (intercambiar columnas y lineas)
-NeoBundle 'salsifis/vim-transpose'
+NeoBundleLazy 'salsifis/vim-transpose', { 'autoload' :
+            \ { 'commands' : 'Transpose'}}
 " gestion de marcadores
 NeoBundle 'kshenoy/vim-signature'
 " text-objects
@@ -215,7 +224,8 @@ NeoBundleLazy 'joedicastro/vim-sparkup', {'autoload':
 " TODOs & FIXMEs {{{
 
 " Gestión los TODOs y los FIXMEs
-NeoBundle 'LStinson/TagmaTasks'
+NeoBundleLazy 'LStinson/TagmaTasks', { 'autoload' :
+            \ { 'commands' : 'TagmaTaskToggle'}}
 
 " }}}
 
@@ -226,7 +236,8 @@ NeoBundle 'Lokaltog/vim-powerline'
 " crea buffer temporal desechable
 NeoBundle 'vim-scripts/scratch-utility'
 " permite des/hacer un zoom a ventana completa de uno de las ventanas
-NeoBundle 'vim-scripts/zoomwintab.vim'
+NeoBundleLazy 'vim-scripts/zoomwintab.vim', {'autoload' :
+            \{'commands' : 'ZoomWinTabToggle'}}
 " redimensionar ventanas facilmente
 NeoBundle 'jimsei/winresizer'
 
@@ -237,14 +248,14 @@ NeoBundle 'jimsei/winresizer'
 " Permite interactuar con Tmux desde vim
 NeoBundle 'benmills/vimux'
 " Sintaxis del fichero de configuración de tmux
-NeoBundle 'vimtopia/vim-tmux'
+NeoBundleLazy 'vimtopia/vim-tmux', { 'autoload' : { 'filetypes' : 'conf'}}
 
 " }}}
 
 " Ctags {{{
 
 " Muestra las ctags en una barra lateral
-NeoBundle 'majutsushi/tagbar'
+NeoBundleLazy 'majutsushi/tagbar', { 'autoload' : { 'commands' : 'TagbarToggle'}}
 
 " }}}
 
@@ -519,7 +530,7 @@ nmap <silent> <Leader>w :update<CR>
 
 " Eliminar espacios al final de la línea {{{
 
-nmap <Leader>et :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
+nmap <silent><Leader>et :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " }}}
 
@@ -685,6 +696,12 @@ map <Leader>gt :!tig<CR>:redraw!<CR>
 nnoremap <Leader>u :GundoToggle<CR>
 
 let g:gundo_preview_bottom = 1
+
+" }}}
+
+" HexManager {{{
+
+map <F6> <Plug>HexManager<CR>
 
 " }}}
 
