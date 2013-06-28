@@ -946,7 +946,11 @@ __Comandos__
 
 ### Fugitive
 
-TODO: Añadir descripción a Fugitive
+TODO: Completar esta seccion
+
+__Ayuda__ `:h fugitive.txt` <vimhelp:fugitive.txt>
+
+__Unite__ `<LocalLeader>`
 
 *Repositorio:* <https://github.com/tpope/vim-fugitive>
 
@@ -1110,30 +1114,6 @@ __Comandos__
 
 ## Utilidades de Linux/Unix
 
-### vim-eunuch
-
-Son una serie de comandos que llaman a diversos comandos UNIX que ayudan a
-realizar ciertas tareas de forma mas sencilla.
-
-> Ademas cuando se crea un nuevo fichero que comience con el shebang (`#!`), se
-> llama automáticamente a `$ chmod +x` la primera vez que se guarde el fichero,
-> por lo que pasa a tener permisos de ejecución.
-
-__Ayuda__ `:h eunuch.txt` <vimhelp:eunuch.txt>
-
-__Comandos__
-
-- `:Unlink` o `:Remove` elimina el buffer y el fichero del disco. __Cuidado!__
-- `:Move {file}` mueve un fichero en el disco y cambia el nombre del buffer
-- `:Rename {file}` renombra el fichero en el disco y en el buffer
-- `:Chmod {mode}` cambia los permisos del archivo
-- `:Find {args}` ejecuta `$ find` con los argumentos dados
-- `:Locate {args}` ejecuta `$ locate` con los argumentos dados
-- `:SudoWrite {mode}` guarda el archivo empleando sudo (con permisos de root)
-- `:W` guarda todas las ventanas abiertas (ventanas, no buffers)
-
-*Repositorio:* <https://github.com/tpope/vim-eunuch>
-
 ### DirDiff
 
 ![DirDiff](http://joedicastro.com/static/pictures/dirdiff.gif "DirDiff")
@@ -1161,7 +1141,7 @@ siempre al modo ASCII (abandonar el modo binario) antes de guardar el fichero.
 
 __Atajos__
 
-- `<Leader>hm` entrar/salir del modo Hexadecimal
+- `<F6>` entrar/salir del modo Hexadecimal
 - `<leader>hd` elimina el caracter Hexadecimal bajo el cursor
 - `<leader>hi` inserta un caracter ASCII antes del cursor
 - `<leader>hg` ir al byte que le indiquemos (en hexadecimal)

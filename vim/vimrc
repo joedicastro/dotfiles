@@ -122,7 +122,7 @@ NeoBundleLazy 'joedicastro/vim-markdown-extra-preview'
 " Utilidades de Linux {{{
 
 " Algunos atajos para comandos Unix desde Vim
-NeoBundle 'tpope/vim-eunuch'
+" NeoBundle 'tpope/vim-eunuch'
 " Permite realizar un diff entre directorios
 NeoBundleLazy 'joedicastro/DirDiff.vim', { 'autoload': { 'commands' : 'DirDiff'}}
 " Edición hexadecimal
@@ -637,6 +637,27 @@ endif
 " Salir sin guardar nada {{{
 
 nnoremap <Leader>`` :qa!<CR>
+
+" }}}
+
+" Permisos de ejecución automáticos a los archivos con shebang (#!) {{{
+
+augroup shebang_chmod
+  autocmd!
+  autocmd BufNewFile  * let b:brand_new_file = 1
+  autocmd BufWritePost * unlet! b:brand_new_file
+  autocmd BufWritePre *
+        \ if exists('b:brand_new_file') |
+        \   if getline(1) =~ '^#!' |
+        \     let b:chmod_post = '+x' |
+        \   endif |
+        \ endif
+  autocmd BufWritePost,FileWritePost *
+        \ if exists('b:chmod_post') && executable('chmod') |
+        \   silent! execute '!chmod '.b:chmod_post.' "<afile>"' |
+        \   unlet b:chmod_post |
+        \ endif
+augroup END
 
 " }}}
 
@@ -1262,20 +1283,18 @@ let g:unite_source_menu_menus.colorv.command_candidates = [
 nnoremap <silent>[menu]c :Unite menu:colorv<CR>
 " }}}
 
-" menu varios {{{
-let g:unite_source_menu_menus.varios = {
-    \ 'description' : '         varios
-        \                                                ⌘ [espacio]v',
+" menu vim {{{
+let g:unite_source_menu_menus.vim = {
+    \ 'description' : '            vim
+        \                                                   ⌘ [espacio]v',
     \}
-let g:unite_source_menu_menus.varios.command_candidates = [
+let g:unite_source_menu_menus.vim.command_candidates = [
     \['▷ escoger esquema de color',
         \'Unite colorscheme -auto-preview'],
-    \['▷ matar procesos',
-        \'Unite -default-action=sigkill -start-insert process'],
     \['▷ atajos de teclado',
         \'Unite mapping -start-insert'],
-    \['▷ fuentes de unite',
-        \'Unite source'],
+    \['▷ editar fichero de configuracion (vimrc)',
+        \'edit $MYVIMRC'],
     \['▷ establecer el tipo de fichero',
         \'Unite -start-insert filetype'],
     \['▷ ayuda de vim',
@@ -1284,14 +1303,18 @@ let g:unite_source_menu_menus.varios.command_candidates = [
         \'Unite -start-insert command'],
     \['▷ funciones de vim',
         \'Unite -start-insert function'],
-    \['▷ lanzar ejecutable (dmenu like)',
-        \'Unite -start-insert launcher'],
     \['▷ runtimepath de vim',
         \'Unite -start-insert runtimepath'],
     \['▷ salida de comando de vim',
         \'Unite output'],
+    \['▷ fuentes de unite',
+        \'Unite source'],
+    \['▷ matar procesos',
+        \'Unite -default-action=sigkill -start-insert process'],
+    \['▷ lanzar ejecutable (dmenu like)',
+        \'Unite -start-insert launcher'],
     \]
-nnoremap <silent>[menu]v :Unite menu:varios -start-insert<CR>
+nnoremap <silent>[menu]v :Unite menu:vim -start-insert<CR>
 " }}}
 " }}}
 
