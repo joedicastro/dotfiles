@@ -1,4 +1,5 @@
 " .vimrc
+"
 " Author: joe di castro <joe@joedicastro.com>
 " Source: http://github.com/joedicastro/dotfiles/tree/master/vim
 "
@@ -825,19 +826,21 @@ let g:tagbar_autoshowtag = 1
 " Unite {{{
 
 " archivos
-nnoremap <silent><Leader>o :Unite -start-insert file<CR>
-nnoremap <silent><Leader>m :Unite file_mru<CR>
+nnoremap <silent><Leader>o :Unite -silent -start-insert file<CR>
+nnoremap <silent><Leader>m :Unite -silent file_mru<CR>
 " buffers
-nnoremap <silent><Leader>b :Unite buffer<CR>
+nnoremap <silent><Leader>b :Unite -silent buffer<CR>
 " busquedas buffer
-nnoremap <silent><Leader>f :Unite line -no-split -start-insert -auto-preview<CR>
-nnoremap <silent>[menu]w :UniteWithCursorWord -no-split -auto-preview line<CR>
+nnoremap <silent><Leader>f :Unite -silent -no-split -start-insert -auto-preview
+            \ line<CR>
+nnoremap <silent>[menu]w :UniteWithCursorWord -silent -no-split -auto-preview
+            \ line<CR>
 " yankring
-nnoremap <silent><Leader>i :Unite history/yank <CR>
+nnoremap <silent><Leader>i :Unite -silent history/yank<CR>
 " grep
-nnoremap <silent><Leader>a :Unite -no-quit grep<CR>
+nnoremap <silent><Leader>a :Unite -silent -no-quit grep<CR>
 " ayuda
-nnoremap <silent> g<C-h> :UniteWithCursorWord help<CR>
+nnoremap <silent> g<C-h> :UniteWithCursorWord -silent help<CR>
 
 " menus {{{
 let g:unite_source_menu_menus = {}
@@ -848,7 +851,7 @@ nmap <LocalLeader> [menu]
 " }}}
 
 " menu menus
-nnoremap <silent>[menu]u :Unite -winheight=20 menu<CR>
+nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR>
 
 " menu ficheros y directorios {{{
 let g:unite_source_menu_menus.ficheros = {
@@ -883,7 +886,7 @@ let g:unite_source_menu_menus.ficheros.command_candidates = [
     \['▷ abrir ranger                                               ⌘ ,r',
         \'call RangerChooser()'],
     \]
-nnoremap <silent>[menu]o :Unite -start-insert menu:ficheros<CR>
+nnoremap <silent>[menu]o :Unite -silent -start-insert menu:ficheros<CR>
 " }}}
 
 " menu busqueda de ficheros {{{
@@ -907,7 +910,7 @@ let g:unite_source_menu_menus.grep.command_candidates = [
     \['▷ vimgrep (muy lento)',
         \'Unite vimgrep'],
     \]
-nnoremap <silent>[menu]a :Unite menu:grep<CR>
+nnoremap <silent>[menu]a :Unite -silent menu:grep<CR>
 " }}}
 
 " menu buffers, ventanas y pestañas {{{
@@ -943,7 +946,7 @@ let g:unite_source_menu_menus.navegacion.command_candidates = [
     \['▷ eliminar buffer',
         \'bd'],
     \]
-nnoremap <silent>[menu]b :Unite menu:navegacion<CR>
+nnoremap <silent>[menu]b :Unite -silent menu:navegacion<CR>
 " }}}
 
 " menu busquedas dentro del buffer {{{
@@ -973,7 +976,7 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
     \['▷ buscar tareas                                              ⌘ ,tk',
         \'TagmaTaskToggle'],
     \]
-nnoremap <silent>[menu]f :Unite -start-insert menu:busquedas<CR>
+nnoremap <silent>[menu]f :Unite -silent -start-insert menu:busquedas<CR>
 " }}}
 
 " menu yankring, registros e historia {{{
@@ -995,7 +998,7 @@ let g:unite_source_menu_menus.registros.command_candidates = [
     \['▷ deshacer       (gundo)                                     ⌘ ,u',
         \'GundoToggle'],
     \]
-nnoremap <silent>[menu]i :Unite -start-insert menu:registros<CR>
+nnoremap <silent>[menu]i :Unite -silent -start-insert menu:registros<CR>
 " }}}
 
 " menu edicion de ortografia {{{
@@ -1019,7 +1022,7 @@ let g:unite_source_menu_menus.ortografia.command_candidates = [
     \['▷ añadir palabra al diccionario                              ⌘ ,sa',
         \'normal ,sa'],
     \]
-nnoremap <silent>[menu]s :Unite menu:ortografia<CR>
+nnoremap <silent>[menu]s :Unite -silent menu:ortografia<CR>
 " }}}
 
 " menu edicion de texto {{{
@@ -1059,7 +1062,7 @@ let g:unite_source_menu_menus.texto.command_candidates = [
     \['▷ muestra informacion sobre el caracter actual               ⌘ ga',
         \'normal ga'],
     \]
-nnoremap <silent>[menu]e :Unite -winheight=20 menu:texto <CR>
+nnoremap <silent>[menu]e :Unite -silent -winheight=20 menu:texto <CR>
 " }}}
 
 " menu neobundle {{{
@@ -1091,7 +1094,7 @@ let g:unite_source_menu_menus.neobundle.command_candidates = [
     \['▷ neobundle direct edit',
         \'NeoBundleDirectEdit'],
     \]
-nnoremap <silent>[menu]n :Unite -start-insert menu:neobundle<CR>
+nnoremap <silent>[menu]n :Unite -silent -start-insert menu:neobundle<CR>
 " }}}
 
 " menu git {{{
@@ -1129,7 +1132,7 @@ let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git cd           (Fugitive)',
         \'Gcd'],
     \]
-nnoremap <silent>[menu]g :Unite -start-insert menu:git<CR>
+nnoremap <silent>[menu]g :Unite -silent -start-insert menu:git<CR>
 " }}}
 
 " menu code {{{
@@ -1148,7 +1151,7 @@ let g:unite_source_menu_menus.code.command_candidates = [
     \['▷ conmutar lineas de indentado                               ⌘ ,L',
         \'IndentLinesToggle'],
     \]
-nnoremap <silent>[menu]p :Unite menu:code<CR>
+nnoremap <silent>[menu]p :Unite -silent menu:code<CR>
 " }}}
 
 " menu markdown {{{
@@ -1178,7 +1181,7 @@ let g:unite_source_menu_menus.sesiones.command_candidates = [
     \['▷ guardar sesion (personalizada)',
         \'exe "UniteSessionSave " input("nombre: ")'],
     \]
-nnoremap <silent>[menu]h :Unite menu:sesiones<CR>
+nnoremap <silent>[menu]h :Unite -silent menu:sesiones<CR>
 " }}}
 
 " menu favoritos {{{
@@ -1192,7 +1195,7 @@ let g:unite_source_menu_menus.favoritos.command_candidates = [
     \['▷ añadir a favoritos',
         \'UniteBookmarkAdd'],
     \]
-nnoremap <silent>[menu]q :Unite menu:favoritos<CR>
+nnoremap <silent>[menu]q :Unite -silent menu:favoritos<CR>
 " }}}
 
 " menu colorv {{{
@@ -1278,7 +1281,7 @@ let g:unite_source_menu_menus.colorv.command_candidates = [
         \'exe "ColorVTurn2 " " ".input("Color 1 (hex): ")
         \" ".input("Color 2 (hex): ")'],
     \]
-nnoremap <silent>[menu]c :Unite menu:colorv<CR>
+nnoremap <silent>[menu]c :Unite -silent menu:colorv<CR>
 " }}}
 
 " menu vim {{{
@@ -1312,7 +1315,7 @@ let g:unite_source_menu_menus.vim.command_candidates = [
     \['▷ lanzar ejecutable (dmenu like)',
         \'Unite -start-insert launcher'],
     \]
-nnoremap <silent>[menu]v :Unite menu:vim -start-insert<CR>
+nnoremap <silent>[menu]v :Unite menu:vim -silent -start-insert<CR>
 " }}}
 " }}}
 
