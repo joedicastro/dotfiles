@@ -802,7 +802,7 @@ let g:syntastic_style_warning_symbol  = '⚡'
 
 " TagmaTasks {{{
 
-map <silent> <Leader>tk :TagmaTaskToggle<CR>
+map <silent> <Leader>; :TagmaTaskToggle<CR>
 
 let g:TagmaTasksPrefix = ''
 " let g:TagmaTasksTokens = ['FIXME', 'TODO', 'NOTE', 'XXX', 'COMBAK', '@todo']
@@ -831,7 +831,7 @@ nnoremap <silent><Leader>m :Unite -silent file_mru<CR>
 " buffers
 nnoremap <silent><Leader>b :Unite -silent buffer<CR>
 " busquedas buffer
-nnoremap <silent><Leader>f :Unite -silent -no-split -start-insert -auto-preview
+nnoremap <silent><Leader>n :Unite -silent -no-split -start-insert -auto-preview
             \ line<CR>
 nnoremap <silent>[menu]w :UniteWithCursorWord -silent -no-split -auto-preview
             \ line<CR>
