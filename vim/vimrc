@@ -490,11 +490,11 @@ autocmd! BufWritePost vimrc source %
 " Revisión de ortografía {{{ ---------------------------------------------------
 
 " Revisar ortografía en español
-nmap <Leader>ss :setlocal spell spelllang=es<cr>
+nmap <Leader>ss :setlocal spell spelllang=es<CR>
 " Revisar ortografía en inglés
-nmap <Leader>se :setlocal spell spelllang=en<cr>
+nmap <Leader>se :setlocal spell spelllang=en<CR>
 " Desactivar revisión ortográfica
-nmap <Leader>so :setlocal nospell <cr>
+nmap <Leader>so :setlocal nospell <CR>
 " Ir a la siguiente palabra mal escrita
 nmap <Leader>sn ]s
 " Sugerir palabras
@@ -519,7 +519,7 @@ nmap <silent> <Leader>w :update<CR>
 
 " Eliminar espacios al final de la línea {{{
 
-nmap <Leader>et :%s/\s\+$//<cr>
+nmap <Leader>et :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " }}}
 
@@ -610,10 +610,10 @@ if exists('$TMUX')
   let previous_title = substitute(system("tmux display-message -p '#{pane_title}'"), '\n', '', '')
   let &t_ti = "\<Esc>]2;vim\<Esc>\\" . &t_ti
   let &t_te = "\<Esc>]2;". previous_title . "\<Esc>\\" . &t_te
-  nnoremap <silent> <C-h> :call TmuxOrSplitSwitch('h', 'L')<cr>
-  nnoremap <silent> <C-j> :call TmuxOrSplitSwitch('j', 'D')<cr>
-  nnoremap <silent> <C-k> :call TmuxOrSplitSwitch('k', 'U')<cr>
-  nnoremap <silent> <C-l> :call TmuxOrSplitSwitch('l', 'R')<cr>
+  nnoremap <silent> <C-h> :call TmuxOrSplitSwitch('h', 'L')<CR>
+  nnoremap <silent> <C-j> :call TmuxOrSplitSwitch('j', 'D')<CR>
+  nnoremap <silent> <C-k> :call TmuxOrSplitSwitch('k', 'U')<CR>
+  nnoremap <silent> <C-l> :call TmuxOrSplitSwitch('l', 'R')<CR>
 else
   map <C-h> <C-w>h
   map <C-j> <C-w>j
@@ -625,7 +625,7 @@ endif
 
 " Salir sin guardar nada {{{
 
-nnoremap <Leader>`` :qa!<cr>
+nnoremap <Leader>`` :qa!<CR>
 
 " }}}
 
