@@ -71,9 +71,10 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
             \'quickfix'}}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
-NeoBundle 'joedicastro/vim-powerline-unite-theme'
 " NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
-" NeoBundle 'Shougo/vimfiler'
+
+" Explorador de archivos (para cuando no tenga disponible ranger)
+NeoBundle 'Shougo/vimfiler'
 
 " }}}
 
@@ -231,7 +232,7 @@ NeoBundleLazy 'LStinson/TagmaTasks', { 'autoload' :
 " GUI {{{
 
 " Barra de estado mas elegante y efectiva
-NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'joedicastro/vim-powerline'
 " crea buffer temporal desechable
 NeoBundle 'vim-scripts/scratch-utility'
 " permite des/hacer un zoom a ventana completa de uno de las ventanas
@@ -764,8 +765,6 @@ let g:po_translator = "joe di castro <joe@joedicastro.com>"
 let g:Powerline_symbols = 'fancy'
 let g:Powerline_cache_file = $HOME.'/.vim/tmp/Powerline.cache'
 
-let g:Powerline_theme="unite_status"
-let g:Powerline_colorscheme="unite_status"
 set noshowmode
 
 call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
