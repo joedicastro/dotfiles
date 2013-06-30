@@ -44,6 +44,16 @@ Configuración de [Emacs](http://www.gnu.org/software/emacs/) para usar
 
 Configuración de [fontconfig](http://www.freedesktop.org/wiki/Software/fontconfig)
 
+#### `/fonts`
+
+Las fuentes que uso en mi terminal, vim, etc...
+
+ - [Dejavu Sans Mono](http://dejavu-fonts.org) es una fuente libre de dominio
+   publico y cuenta con quizá el mejor soporte de caracteres Unicode de todas
+   las fuentes monoespaciadas.
+ - Dejavu Sans Mono for Powerline es la misma fuente adaptada para usarla con
+   Powerline en Vim
+
 ### `/git`
 
 Configuración de [git](http://git-scm.com/)
