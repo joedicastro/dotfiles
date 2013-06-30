@@ -868,7 +868,7 @@ __Ayuda__ `:h TagmaTasks.txt` <vimhelp:TagmaTasks.txt>
 
 __Atajos__
 
-- `<Leader>tk` muestra/oculta la ventana de tareas
+- `<Leader>;` muestra/oculta la ventana de tareas
 - `[t` salta a la tarea anterior
 - `]t` salta a la tarea siguiente
 - `[T` salta a la primera tarea
@@ -950,7 +950,7 @@ TODO: Completar esta seccion
 
 __Ayuda__ `:h fugitive.txt` <vimhelp:fugitive.txt>
 
-__Unite__ `<LocalLeader>`
+__Unite__ `<LocalLeader>g`
 
 *Repositorio:* <https://github.com/tpope/vim-fugitive>
 

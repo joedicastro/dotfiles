@@ -1,10 +1,14 @@
-" .vimrc
+"
+"                       __   _(_)_ __ ___  _ __ ___
+"                       \ \ / / | '_ ` _ \| '__/ __|
+"                        \ V /| | | | | | | | | (__
+"                       (_)_/ |_|_| |_| |_|_|  \___|
 "
 " Author: joe di castro <joe@joedicastro.com>
 " Source: http://github.com/joedicastro/dotfiles/tree/master/vim
 "
-" Este fichero esta sujeto a cambios frecuentes. Conviene seguir los commits
-" en el control de versiones.
+" Este fichero esta sujeto a cambios frecuentes. Conviene seguir los commits en
+" el control de versiones.
 
 " Establecer lenguaje {{{ ====================================================
 
@@ -143,7 +147,6 @@ NeoBundleLazy 'jmcantrell/vim-virtualenv', {'autoload': {'filetypes': ['python']
 NeoBundleLazy 'Yggdroot/indentLine', {'autoload': {'filetypes': ['python']}}
 " Visualizar informes de coverage.py
 NeoBundleLazy 'alfredodeza/coveragepy.vim', {'autoload': {'filetypes': ['python']}}
-
 
 " }}}
 
@@ -442,9 +445,10 @@ nnoremap <C-l> <C-w>l
 
 " }}}
 
-" Cierre rápido de ventana {{{
+" Cierre rápido de ventana y buffer {{{
 
 nnoremap <Leader>k <C-w>c
+nnoremap <silent><Leader>B :bd<CR>
 
 " }}}
 
@@ -494,7 +498,9 @@ map <Leader>P :set invpaste<CR>
 
 " Autocargar configuración cuando se cambia $MYVIMRC {{{
 
-autocmd! BufWritePost vimrc source %
+" Tambien volvemos a cargar el esquema de color de Powerline para evitar
+" artefactos
+autocmd! BufWritePost vimrc source % | call Pl#Load()
 
 " }}}
 
@@ -942,7 +948,7 @@ let g:unite_source_menu_menus.navegacion.command_candidates = [
         \'Scratch'],
     \['▷ zoom                                                       ⌘ ,z',
         \'ZoomWinTabToggle'],
-    \['▷ eliminar buffer',
+    \['▷ eliminar buffer                                            ⌘ ,B',
         \'bd'],
     \]
 nnoremap <silent>[menu]b :Unite -silent menu:navegacion<CR>
@@ -1368,6 +1374,26 @@ let g:utl_cfg_hdl_mt_application_pdf = 'silent :!zathura %p &'
 let g:utl_cfg_hdl_mt_image_jpeg = 'silent :!sxiv %p &'
 let g:utl_cfg_hdl_mt_image_gif = 'silent :!sxiv %p &'
 let g:utl_cfg_hdl_mt_image_png = 'silent :!sxiv %p &'
+
+" }}}
+
+" VimFiler {{{
+
+" let g:vimfiler_as_default_explorer = 1
+
+let g:vimfiler_tree_leaf_icon = '├'
+let g:vimfiler_tree_opened_icon = '┐'
+let g:vimfiler_tree_closed_icon = '─'
+let g:vimfiler_file_icon = '┄'
+let g:vimfiler_marked_file_icon = '✓'
+let g:vimfiler_readonly_file_icon = '✗'
+
+let g:vimfiler_force_overwrite_status_line = 0
+
+let g:vimfiler_time_format = '%d-%m-%Y %H:%M:%S'
+let g:vimfiler_data_directory = '~/.vim/tmp/vimfiler'
+
+" TODO: mapear de forma similar a ranger?
 
 " }}}
 
