@@ -64,6 +64,7 @@
 -- Win  +  b                        Hide/Show status bar (Wibox)
 -- Win  +  y                        Lock Screen
 -- Print Screen                     Take a screenshot
+-- Win  +  z/Z                      Screen zoom in/out
 --
 ---------------------------------------------------------------- Awesome Control
 --
@@ -523,6 +524,19 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "r",
         function ()
             mypromptbox[mouse.screen]:run()
+        end),
+
+    -- Screen Zoom In/Out
+    awful.key({ modkey }, "z",
+        function ()
+            awful.util.spawn("xrandr --output HDMI1 --mode 1024x768" .. 
+                            " --panning 1920x1200")
+        end),
+
+    awful.key({ modkey, "Shift" }, "z",
+        function ()
+            awful.util.spawn("xrandr --output HDMI1 --mode 1920x1200" .. 
+                            " --panning 1920x1200")
         end),
 
     -- Record screencasts
