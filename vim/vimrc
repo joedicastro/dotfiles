@@ -232,14 +232,6 @@ NeoBundleLazy 'joedicastro/vim-sparkup', {'autoload':
 
 " }}}
 
-" TODOs & FIXMEs {{{
-
-" Gestión los TODOs y los FIXMEs
-NeoBundleLazy 'LStinson/TagmaTasks', { 'autoload' :
-            \ { 'commands' : 'TagmaTaskToggle'}}
-
-" }}}
-
 " GUI {{{
 
 " Barra de estado mas elegante y efectiva
@@ -813,16 +805,6 @@ let g:syntastic_style_warning_symbol  = '⚡'
 
 " }}}
 
-" TagmaTasks {{{
-
-map <silent> <Leader>; :TagmaTaskToggle<CR>
-
-let g:TagmaTasksPrefix = ''
-" let g:TagmaTasksTokens = ['FIXME', 'TODO', 'NOTE', 'XXX', 'COMBAK', '@todo']
-" let g:TagmaTasksRegexp = '\<FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo\>'
-
-" }}}
-
 " Tagbar {{{ ----------------------------------------------------------------
 
 map <Leader>t :TagbarToggle<CR>
@@ -964,6 +946,9 @@ nnoremap <silent>[menu]b :Unite -silent menu:navegacion<CR>
 " }}}
 
 " menu busquedas dentro del buffer {{{
+nnoremap <silent><Leader>; :Unite 
+            \grep:.::FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo<CR>
+
 let g:unite_source_menu_menus.busquedas = {
     \ 'description' : '      busquedas dentro del buffer activo
         \                    ⌘ [espacio]f',
@@ -987,8 +972,8 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
         \'Unite jump'],
     \['▷ buscar undos',
         \'Unite undo'],
-    \['▷ buscar tareas                                              ⌘ ,tk',
-        \'TagmaTaskToggle'],
+    \['▷ buscar tareas                                              ⌘ ,jk',
+        \'Unite grep:.::FIXME|TODO|NOTE|XXX|COMBAK|@todo'],
     \]
 nnoremap <silent>[menu]f :Unite -silent -start-insert menu:busquedas<CR>
 " }}}
