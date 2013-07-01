@@ -78,7 +78,7 @@ NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
 " NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
 
 " Explorador de archivos (para cuando no tenga disponible ranger)
-NeoBundle 'Shougo/vimfiler'
+NeoBundleLazy 'Shougo/vimfiler', {'autoload' : { 'commands' : ['VimFiler']}}
 
 " }}}
 
@@ -215,8 +215,16 @@ NeoBundle 'kana/vim-textobj-user'
 " HTML/CSS {{{
 
 " Permite seleccionar colores mediante una paleta y previsualizarlos en los
-" ficheros css/html
-NeoBundle 'Rykka/colorv.vim'
+" ficheros css/html (los atajos de ColorV solo funcionaran cuando se cargue
+" este, a traves de un comando o Unite. Lo prefiero asi, no lo uso tan a menudo)
+NeoBundleLazy 'Rykka/colorv.vim', {'autoload' : {
+            \ 'commands' : [
+                             \ 'ColorV', 'ColorVView', 'ColorVPreview',
+                             \ 'ColorVPicker', 'ColorVEdit', 'ColorVEditAll',
+                             \ 'ColorVInsert', 'ColorVList', 'ColorVName',
+                             \ 'ColorVScheme', 'ColorVSchemeFav',
+                             \ 'ColorVSchemeNew', 'ColorVTurn2'],
+            \ }}
 NeoBundleLazy 'othree/html5.vim', {'autoload':
             \ {'filetypes': ['html', 'xhttml', 'css']}}
 NeoBundleLazy 'joedicastro/vim-sparkup', {'autoload':
@@ -1276,7 +1284,7 @@ let g:unite_source_menu_menus.colorv.command_candidates = [
         \ " ".input("numero de pasos?  (opcional): ")'],
     \['▷ muestra lista de colores (colores Web W3C)                 ⌘ ,cn',
         \'ColorVName'],
-    \['▷ elegir esquema de color                                    ⌘ ,css',
+    \['▷ elegir esquema de color (ColourLovers, Kuler)              ⌘ ,css',
         \'ColorVScheme'],
     \['▷ muestra esquemas de color favoritos                        ⌘ ,csf',
         \'ColorVSchemeFav'],

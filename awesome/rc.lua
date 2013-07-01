@@ -1,10 +1,18 @@
+--                                     _             
+--                          _ __ ___  | |_   _  __ _ 
+--                         | '__/ __| | | | | |/ _` |
+--                         | | | (__ _| | |_| | (_| |
+--                         |_|  \___(_)_|\__,_|\__,_|
+-- 
 -- {{{ License
+--
 -- rc.lua, works with awesome 3.5.1x
 -- author: joedicastro <joe [at] joedicastro.com>
 -- based on multiple rc.lua files from different awesome users
 --
 -- This work is licensed under the Creative Commons Attribution Share
 -- Alike License: http://creativecommons.org/licenses/by-sa/3.0/
+--
 -- }}}
 
 -- {{{ Cheat Sheet
