@@ -904,9 +904,10 @@ nnoremap <silent>[menu]o :Unite -silent -start-insert menu:ficheros<CR>
 
 " menu busqueda de ficheros {{{
 function! OnlyGitFiles()
-    cgete system("git ls-files ".input("dir? " )."\\| xargs
-                \ ack ".input("pattern? "))
+    cgete system("git ls-files ".input("Target? " )."\\| xargs
+                \ ack ".input("Pattern? "))
 endfunction
+nnoremap <silent><Leader>A :call OnlyGitFiles()<Bar>Unite quickfix<CR>
 let g:unite_source_menu_menus.grep = {
     \ 'description' : '           buscar ficheros
         \                                       ⌘ [espacio]a',
@@ -914,12 +915,12 @@ let g:unite_source_menu_menus.grep = {
 let g:unite_source_menu_menus.grep.command_candidates = [
     \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
         \'Unite -no-quit grep'],
-    \['▷ grep (ack, solo ficheros en el repositorio git)',
+    \['▷ grep (ack, solo ficheros en el repositorio git)            ⌘ ,A',
         \'exe "call OnlyGitFiles() | Unite quickfix"'],
     \['▷ find',
         \'Unite find'],
     \['▷ locate',
-        \'Unite locate'],
+        \'Unite -start-insert locate'],
     \['▷ vimgrep (muy lento)',
         \'Unite vimgrep'],
     \]
@@ -1334,7 +1335,7 @@ nnoremap <silent>[menu]v :Unite menu:vim -silent -start-insert<CR>
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#custom#source('file_mru,grep', 'ignore_pattern',
+call unite#custom#source('file_mru,grep,locate', 'ignore_pattern',
             \join(['\.git/', 'tmp/', 'bundle/'], '\|'))
 
 let g:unite_source_history_yank_enable = 1
