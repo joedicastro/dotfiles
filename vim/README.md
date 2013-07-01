@@ -20,7 +20,7 @@ mapeada a la tecla espaciadora
     Evidentemente es necesario un conocimiento previo de Vim para sacarle todo
     el partido posible a esta configuración, del mismo modo que será necesario
     recurrir a la ayuda de ciertos plugins para familiarizarse con ellos más
-    allá de las pautas que doy en este documento. 
+    allá de las pautas que doy en este documento.
 
     Esta configuración está basada en las de muchos otros, tantos que ni los
     recuerdo a todos y seria bastante injusto recordar a algunos y omitir a
@@ -864,24 +864,13 @@ de las tareas. Estas tareas se definen por medio de palabras clave en el buffer,
 como __TODO__, __FIXME__, __NOTE__, __XXX__ y __COMBAK__, aunque se pueden
 definir más.
 
-__Ayuda__ `:h TagmaTasks.txt` <vimhelp:TagmaTasks.txt>
+La funcionalidad de este plugin la he sustituido con una busqueda grep a traves
+de Unite.
 
-__Atajos__
+__Unite__ `<LocalLeader>f` abre el menu de busquedas donde tenemos acceso a esta
+funcon
 
-- `<Leader>;` muestra/oculta la ventana de tareas
-- `[t` salta a la tarea anterior
-- `]t` salta a la tarea siguiente
-- `[T` salta a la primera tarea
-- `]T` salta a la última tarea
-
-__Comandos__
-
-- `:TagmaTasks {glob}` Genera la lista de tareas para el buffer actual o para
-  una lista de ficheros definidos mediante *glob*
-- `:TagmaTaskToggle` muestra/oculta la ventana de tareas y ejecuta
-  automáticamente `:TagmaTasks` para el buffer actual
-
-*Repositorio:* <https://github.com/LStinson/TagmaTasks>
+__Atajo__ `<Leader>;` efectua la busqueda de tareas
 
 ### UltiSnips
 

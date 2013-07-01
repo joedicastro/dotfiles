@@ -946,7 +946,7 @@ nnoremap <silent>[menu]b :Unite -silent menu:navegacion<CR>
 " }}}
 
 " menu busquedas dentro del buffer {{{
-nnoremap <silent><Leader>; :Unite
+nnoremap <silent><Leader>; :Unite -silent
             \ grep:.::FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo<CR>
 
 let g:unite_source_menu_menus.busquedas = {
