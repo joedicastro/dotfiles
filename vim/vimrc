@@ -790,7 +790,7 @@ let g:pymode_rope_vim_completion = 0
 let g:pymode_rope_always_show_complete_menu = 1
 
 map <Leader>d :RopeGotoDefinition<CR>
-map <Leader>fo :RopeFindOccurrences<CR>
+map <Leader>n :RopeFindOccurrences<CR>
 
 " }}}
 
@@ -836,7 +836,7 @@ nnoremap <silent><Leader>m :Unite -silent file_mru<CR>
 " buffers
 nnoremap <silent><Leader>b :Unite -silent buffer<CR>
 " busquedas buffer
-nnoremap <silent><Leader>n :Unite -silent -no-split -start-insert -auto-preview
+nnoremap <silent><Leader>f :Unite -silent -no-split -start-insert -auto-preview
             \ line<CR>
 nnoremap <silent>[menu]w :UniteWithCursorWord -silent -no-split -auto-preview
             \ line<CR>
@@ -1379,7 +1379,7 @@ let g:utl_cfg_hdl_mt_image_png = 'silent :!sxiv %p &'
 
 " VimFiler {{{
 
-" let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_as_default_explorer = 1
 
 let g:vimfiler_tree_leaf_icon = '├'
 let g:vimfiler_tree_opened_icon = '┐'
