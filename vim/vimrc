@@ -62,17 +62,18 @@ NeoBundle 'Shougo/unite.vim'
 
 " Unite sources
 NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
-NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session'}}
+NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session',
+            \ 'commands' : ['UniteSessionSave', 'UniteSessionSave']}}
 NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
 NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':
-            \'colorscheme'}}
+            \ 'colorscheme'}}
 NeoBundleLazy 'ujihisa/unite-locate', {'autoload':{'unite_sources':'locate'}}
 NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' :
-            \['history/command', 'history/search']}}
+            \ ['history/command', 'history/search']}}
 NeoBundleLazy 'osyo-manga/unite-filetype', { 'autoload' : {'unite_sources' :
-            \'filetype', }}
+            \ 'filetype', }}
 NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
-            \'quickfix'}}
+            \ 'quickfix'}}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
 " NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
@@ -251,7 +252,7 @@ NeoBundle 'jimsei/winresizer'
 " Permite interactuar con Tmux desde vim
 NeoBundle 'benmills/vimux'
 " Sintaxis del fichero de configuración de tmux
-NeoBundleLazy 'vimtopia/vim-tmux', { 'autoload' : { 'filetypes' : 'conf'}}
+NeoBundleLazy 'vimez/vim-tmux', { 'autoload' : { 'filetypes' : 'conf'}}
 
 " }}}
 
@@ -934,7 +935,7 @@ let g:unite_source_menu_menus.navegacion.command_candidates = [
     \['▷ cerrar ventana actual                                      ⌘ ,k',
         \'close'],
     \['▷ cerrar/abrir ventana quickfix                              ⌘ ,q',
-        \'close'],
+        \'normal ,q'],
     \['▷ scratch                                                    ⌘ F8',
         \'Scratch'],
     \['▷ zoom                                                       ⌘ ,z',
@@ -1313,6 +1314,8 @@ let g:unite_source_menu_menus.vim.command_candidates = [
         \'Unite -default-action=sigkill -start-insert process'],
     \['▷ lanzar ejecutable (dmenu like)',
         \'Unite -start-insert launcher'],
+    \['▷ limpiar cache de Powerline',
+        \'PowerlineClearCache'],
     \]
 nnoremap <silent>[menu]v :Unite menu:vim -silent -start-insert<CR>
 " }}}
@@ -1357,6 +1360,11 @@ function! s:unite_settings()
   imap <buffer> <Esc> <Plug>(unite_insert_leave)
 endfunction
 
+" creacion del directorio para guardar sesiones si no existe
+if !isdirectory(expand(unite_data_directory)."/session")
+    call mkdir(expand(unite_data_directory)."/session", "p")
+endif
+
 " }}}
 
 " Utl {{{
@@ -1383,6 +1391,7 @@ let g:vimfiler_marked_file_icon = '✓'
 let g:vimfiler_readonly_file_icon = '✗'
 
 let g:vimfiler_force_overwrite_statusline = 0
+
 let g:vimfiler_time_format = '%d-%m-%Y %H:%M:%S'
 let g:vimfiler_data_directory = '~/.vim/tmp/vimfiler'
 
