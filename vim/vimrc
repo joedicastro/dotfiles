@@ -1337,17 +1337,17 @@ let g:unite_source_buffer_time_format = '(%d-%m-%Y %H:%M:%S) '
 let g:unite_source_file_mru_time_format = '(%d-%m-%Y %H:%M:%S) '
 let g:unite_source_directory_mru_time_format = '(%d-%m-%Y %H:%M:%S) '
 
-" if executable('ag')
-"     let g:unite_source_grep_command='ag'
-"     let g:unite_source_grep_default_opts='--nocolor --nogroup -a -S'
-"     let g:unite_source_grep_recursive_opt=''
-"     let g:unite_source_grep_search_word_highlight = 1
-" elseif executable('ack')
-"     let g:unite_source_grep_command='ack'
-"     let g:unite_source_grep_default_opts='--no-group --no-color'
-"     let g:unite_source_grep_recursive_opt=''
-"     let g:unite_source_grep_search_word_highlight = 1
-" endif
+if executable('ag')
+    let g:unite_source_grep_command='ag'
+    let g:unite_source_grep_default_opts='--nocolor --nogroup -a -S'
+    let g:unite_source_grep_recursive_opt=''
+    let g:unite_source_grep_search_word_highlight = 1
+elseif executable('ack')
+    let g:unite_source_grep_command='ack'
+    let g:unite_source_grep_default_opts='--no-group --no-color'
+    let g:unite_source_grep_recursive_opt=''
+    let g:unite_source_grep_search_word_highlight = 1
+endif
 
 " navegacion por la ventana de unite mas comoda
 autocmd FileType unite call s:unite_settings()
