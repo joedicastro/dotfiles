@@ -63,7 +63,7 @@ NeoBundle 'Shougo/unite.vim'
 " Unite sources
 NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
 NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session',
-            \ 'commands' : ['UniteSessionSave', 'UniteSessionSave']}}
+            \ 'commands' : ['UniteSessionSave', 'UniteSessionLoad']}}
 NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
 NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':
             \ 'colorscheme'}}
@@ -881,14 +881,16 @@ let g:unite_source_menu_menus.ficheros.command_candidates = [
         \'normal ,w'],
     \['▷ abrir ranger                                               ⌘ ,r',
         \'call RangerChooser()'],
+    \['▷ abrir vimfiler                                             ⌘ ,R',
+        \'VimFiler'],
     \]
 nnoremap <silent>[menu]o :Unite -silent -start-insert menu:ficheros<CR>
 " }}}
 
 " menu busqueda de ficheros {{{
 function! OnlyGitFiles()
-    cgete system("git ls-files ".input("Target? " )."\\| xargs
-                \ ack ".input("Pattern? "))
+    cgete system("git ls-files ".input("Target: " )."\\| xargs
+                \ ack ".input("Pattern: "))
 endfunction
 nnoremap <silent><Leader>A :call OnlyGitFiles()<Bar>Unite quickfix<CR>
 let g:unite_source_menu_menus.grep = {
@@ -1165,7 +1167,7 @@ let g:unite_source_menu_menus.markdown.command_candidates = [
     \['▷ refrescar',
         \'Mer'],
     \]
-nnoremap <silent>[menu]k :Unite menu:markdown<CR>
+nnoremap <silent>[menu]k :Unite -silent menu:markdown<CR>
 " }}}
 
 " menu sesiones {{{
@@ -1184,18 +1186,18 @@ let g:unite_source_menu_menus.sesiones.command_candidates = [
 nnoremap <silent>[menu]h :Unite -silent menu:sesiones<CR>
 " }}}
 
-" menu favoritos {{{
-let g:unite_source_menu_menus.favoritos = {
-    \ 'description' : '      favoritos
-        \                                             ⌘ [espacio]q',
+" menu marcadores {{{
+let g:unite_source_menu_menus.marcadores = {
+    \ 'description' : '     marcadores
+        \                                            ⌘ [espacio]m',
     \}
-let g:unite_source_menu_menus.favoritos.command_candidates = [
-    \['▷ abrir favoritos',
+let g:unite_source_menu_menus.marcadores.command_candidates = [
+    \['▷ abrir marcadores',
         \'Unite bookmark:*'],
-    \['▷ añadir a favoritos',
+    \['▷ añadir marcador',
         \'UniteBookmarkAdd'],
     \]
-nnoremap <silent>[menu]q :Unite -silent menu:favoritos<CR>
+nnoremap <silent>[menu]m :Unite -silent menu:marcadores<CR>
 " }}}
 
 " menu colorv {{{
@@ -1380,6 +1382,8 @@ let g:utl_cfg_hdl_mt_image_png = 'silent :!sxiv %p &'
 " }}}
 
 " VimFiler {{{
+
+nnoremap <silent><Leader>R :VimFiler<CR>
 
 let g:vimfiler_as_default_explorer = 1
 
