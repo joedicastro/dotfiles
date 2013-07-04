@@ -966,7 +966,7 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
     \['▷ buscar etiquetas (ctags)                                   ⌘ ,t',
         \'TagbarToggle'],
     \['▷ buscar marcas',
-        \'Unite -auto-preview -quick-match mark'],
+        \'Unite -auto-preview mark'],
     \['▷ buscar pliegues',
         \'Unite -no-split -auto-preview -start-insert fold'],
     \['▷ buscar cambios',
@@ -980,6 +980,7 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
     \]
 nnoremap <silent>[menu]f :Unite -silent -start-insert menu:busquedas<CR>
 " }}}
+" TODO: revisar undos
 
 " menu yankring, registros e historia {{{
 let g:unite_source_menu_menus.registros = {
