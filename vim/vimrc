@@ -255,13 +255,6 @@ NeoBundleLazy 'vimez/vim-tmux', { 'autoload' : { 'filetypes' : 'conf'}}
 
 " }}}
 
-" Ctags {{{
-
-" Muestra las ctags en una barra lateral
-NeoBundleLazy 'majutsushi/tagbar', { 'autoload' : { 'commands' : 'TagbarToggle'}}
-
-" }}}
-
 " API Web {{{
 
 NeoBundle 'mattn/webapi-vim'
@@ -805,19 +798,6 @@ let g:syntastic_style_warning_symbol  = '⚡'
 
 " }}}
 
-" Tagbar {{{ ----------------------------------------------------------------
-
-map <Leader>t :TagbarToggle<CR>
-
-let g:tagbar_autoclose = 1
-let g:tagbar_left = 1
-let g:tagbar_autofocus = 1
-let g:tagbar_sort = 0
-let g:tagbar_compact = 1
-let g:tagbar_autoshowtag = 1
-
-" }}}
-
 " Unite {{{
 
 " archivos
@@ -840,8 +820,8 @@ nnoremap <silent> g<C-h> :UniteWithCursorWord -silent help<CR>
 nnoremap <silent><Leader>; :Unite -silent
             \ grep:%::FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo<CR>
 " encabezados (tambien ctags)
-nnoremap <silent><Leader>T :Unite -silent -vertical -winwidth=30
-            \ -auto-highlight outline<CR>
+nnoremap <silent><Leader>t :Unite -silent -vertical -winwidth=30
+            \ -direction=topleft -toggle outline<CR>
 
 " menus {{{
 let g:unite_source_menu_menus = {}
@@ -963,10 +943,8 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
         \'Unite -auto-preview -start-insert line'],
     \['▷ buscar palabra bajo el cursor                              ⌘ [espacio]w',
         \'UniteWithCursorWord -no-split -auto-preview line'],
-    \['▷ buscar encabezados                                         ⌘ ,T',
-        \'Unite -vertical -winwidth=30 -auto-highlight outline'],
-    \['▷ buscar etiquetas (ctags)                                   ⌘ ,t',
-        \'TagbarToggle'],
+    \['▷ buscar encabezados & etiquetas (ctags)                 ⌘ ,t',
+        \'Unite -vertical -winwidth=30 -direction=topleft -toggle outline'],
     \['▷ buscar marcas',
         \'Unite -auto-preview mark'],
     \['▷ buscar pliegues',
