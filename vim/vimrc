@@ -76,7 +76,6 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
             \ 'quickfix'}}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
-" NeoBundleLazy 'tsukkee/unite-tag', {'autoload':{'unite_sources':'tag'}}
 
 " Explorador de archivos (para cuando no tenga disponible ranger)
 NeoBundleLazy 'Shougo/vimfiler', {'autoload' : { 'commands' : ['VimFiler']}}
@@ -837,6 +836,12 @@ nnoremap <silent><Leader>i :Unite -silent history/yank<CR>
 nnoremap <silent><Leader>a :Unite -silent -no-quit grep<CR>
 " ayuda
 nnoremap <silent> g<C-h> :UniteWithCursorWord -silent help<CR>
+" tareas
+nnoremap <silent><Leader>; :Unite -silent
+            \ grep:%::FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo<CR>
+" encabezados (tambien ctags)
+nnoremap <silent><Leader>T :Unite -silent -vertical -winwidth=30
+            \ -auto-highlight outline<CR>
 
 " menus {{{
 let g:unite_source_menu_menus = {}
@@ -949,9 +954,6 @@ nnoremap <silent>[menu]b :Unite -silent menu:navegacion<CR>
 " }}}
 
 " menu busquedas dentro del buffer {{{
-nnoremap <silent><Leader>; :Unite -silent
-            \ grep:%::FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo<CR>
-
 let g:unite_source_menu_menus.busquedas = {
     \ 'description' : '      busquedas dentro del buffer activo
         \                    ⌘ [espacio]f',
@@ -961,7 +963,7 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
         \'Unite -auto-preview -start-insert line'],
     \['▷ buscar palabra bajo el cursor                              ⌘ [espacio]w',
         \'UniteWithCursorWord -no-split -auto-preview line'],
-    \['▷ buscar encabezados',
+    \['▷ buscar encabezados                                         ⌘ ,T',
         \'Unite -vertical -winwidth=30 -auto-highlight outline'],
     \['▷ buscar etiquetas (ctags)                                   ⌘ ,t',
         \'TagbarToggle'],
@@ -980,7 +982,6 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
     \]
 nnoremap <silent>[menu]f :Unite -silent -start-insert menu:busquedas<CR>
 " }}}
-" TODO: revisar undos
 
 " menu yankring, registros e historia {{{
 let g:unite_source_menu_menus.registros = {
@@ -1399,8 +1400,6 @@ let g:vimfiler_force_overwrite_statusline = 0
 
 let g:vimfiler_time_format = '%d-%m-%Y %H:%M:%S'
 let g:vimfiler_data_directory = '~/.vim/tmp/vimfiler'
-
-" TODO: mapear de forma similar a ranger?
 
 " }}}
 
