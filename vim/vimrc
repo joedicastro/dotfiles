@@ -1416,7 +1416,9 @@ map <Leader>xz :VimuxCloseRunner<CR>
 
 " winresizer {{{
 
-let s:default_start_key = '<C-E>'
+let g:winresizer_start_key = '<C-E>'
+" cancelar pulsando ESC
+let g:winresizer_keycode_finish = 27
 
 " }}}
 
