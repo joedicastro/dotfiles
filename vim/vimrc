@@ -817,7 +817,7 @@ nnoremap <silent><Leader>a :Unite -silent -no-quit grep<CR>
 " ayuda
 nnoremap <silent> g<C-h> :UniteWithCursorWord -silent help<CR>
 " tareas
-nnoremap <silent><Leader>; :Unite -silent
+nnoremap <silent><Leader>; :Unite -silent -toggle
             \ grep:%::FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo<CR>
 " encabezados (tambien ctags)
 nnoremap <silent><Leader>t :Unite -silent -vertical -winwidth=40
@@ -955,10 +955,10 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
         \'Unite jump'],
     \['▷ buscar undos',
         \'Unite undo'],
-    \['▷ buscar tareas                                              ⌘ ,jk',
-        \'Unite grep:%::FIXME|TODO|NOTE|XXX|COMBAK|@todo'],
+    \['▷ buscar tareas                                              ⌘ ,;',
+        \'Unite -toggle grep:%::FIXME|TODO|NOTE|XXX|COMBAK|@todo'],
     \]
-nnoremap <silent>[menu]f :Unite -silent -start-insert menu:busquedas<CR>
+nnoremap <silent>[menu]f :Unite -silent menu:busquedas<CR>
 " }}}
 
 " menu yankring, registros e historia {{{
