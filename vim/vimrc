@@ -7,7 +7,7 @@
 " Author: joe di castro <joe@joedicastro.com>
 " Source: http://github.com/joedicastro/dotfiles/tree/master/vim
 "
-" Este fichero esta sujeto a cambios frecuentes. Conviene seguir los commits en
+" Este archivo esta sujeto a cambios frecuentes. Conviene seguir los commits en
 " el control de versiones.
 
 " Establecer lenguaje {{{ ====================================================
@@ -73,7 +73,7 @@ NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' :
 NeoBundleLazy 'osyo-manga/unite-filetype', { 'autoload' : {'unite_sources' :
             \ 'filetype', }}
 NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
-            \ 'quickfix'}}
+            \ ['quickfix', 'location_list']}}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
 
@@ -111,7 +111,7 @@ NeoBundleLazy 'godlygeek/csapprox', { 'autoload' :
 "
 " Para gestionar Git
 NeoBundle 'tpope/vim-fugitive'
-" Para señalar los cambios del fichero con respecto al repo Git
+" Para señalar los cambios del archivo con respecto al repo Git
 NeoBundle 'airblade/vim-gitgutter'
 
 " }}}
@@ -170,7 +170,7 @@ NeoBundle 'scrooloose/syntastic'
 
 " Abrir enlaces externos {{{
 
-" Abrir una url en el navegador u otro tipo de ficheros con una app externa
+" Abrir una url en el navegador u otro tipo de archivos con una app externa
 NeoBundle 'vim-scripts/utl.vim'
 
 " }}}
@@ -215,7 +215,7 @@ NeoBundle 'kana/vim-textobj-user'
 " HTML/CSS {{{
 
 " Permite seleccionar colores mediante una paleta y previsualizarlos en los
-" ficheros css/html (los atajos de ColorV solo funcionaran cuando se cargue
+" archivos css/html (los atajos de ColorV solo funcionaran cuando se cargue
 " este, a traves de un comando o Unite. Lo prefiero asi, no lo uso tan a menudo)
 NeoBundleLazy 'Rykka/colorv.vim', {'autoload' : {
             \ 'commands' : [
@@ -250,7 +250,7 @@ NeoBundle 'jimsei/winresizer'
 
 " Permite interactuar con Tmux desde vim
 NeoBundle 'benmills/vimux'
-" Sintaxis del fichero de configuración de tmux
+" Sintaxis del archivo de configuración de tmux
 NeoBundleLazy 'vimez/vim-tmux', { 'autoload' : { 'filetypes' : 'conf'}}
 
 " }}}
@@ -298,7 +298,7 @@ set visualbell                  " Activa la alarma visual.
 set cursorline                  " Resalta la linea bajo el cursor.
 set fillchars+=vert:│           " Mejora aspecto de la división de ventanas.
 set ttyfast                     " Mejora el redibujado de la pantalla.
-set title                       " Añade el nombre del fichero al terminal.
+set title                       " Añade el nombre del archivo al terminal.
 set showcmd                     " Muestra comandos incompletos.
 set hidden                      " Oculta los bufferes cerrados.
 set ruler                       " Establece una regla permanente.
@@ -533,7 +533,7 @@ nmap <silent><Leader>et :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 " }}}
 
-" Emplear Ranger como navegador de ficheros {{{
+" Emplear Ranger como navegador de archivos {{{
 
 fun! RangerChooser()
     exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
@@ -834,19 +834,19 @@ nmap <LocalLeader> [menu]
 " menu menus
 nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR>
 
-" menu ficheros y directorios {{{
-let g:unite_source_menu_menus.ficheros = {
-    \ 'description' : '       ficheros y directorios
+" menu archivos y directorios {{{
+let g:unite_source_menu_menus.archivos = {
+    \ 'description' : '       archivos y directorios
         \                                ⌘ [espacio]o',
     \}
-let g:unite_source_menu_menus.ficheros.command_candidates = [
-    \['▷ abrir fichero                                              ⌘ ,o',
+let g:unite_source_menu_menus.archivos.command_candidates = [
+    \['▷ abrir archivo                                              ⌘ ,o',
         \'Unite -start-insert file'],
-    \['▷ abrir fichero reciente                                     ⌘ ,m',
+    \['▷ abrir archivo reciente                                     ⌘ ,m',
         \'Unite file_mru'],
-    \['▷ abrir fichero con busqueda recursiva',
+    \['▷ abrir archivo con busqueda recursiva',
         \'Unite -start-insert file_rec/async'],
-    \['▷ crear nuevo fichero',
+    \['▷ crear nuevo archivo',
         \'Unite file/new'],
     \['▷ buscar directorio',
         \'Unite directory'],
@@ -869,23 +869,23 @@ let g:unite_source_menu_menus.ficheros.command_candidates = [
     \['▷ abrir vimfiler                                             ⌘ ,R',
         \'VimFiler'],
     \]
-nnoremap <silent>[menu]o :Unite -silent -start-insert menu:ficheros<CR>
+nnoremap <silent>[menu]o :Unite -silent -start-insert menu:archivos<CR>
 " }}}
 
-" menu busqueda de ficheros {{{
+" menu busqueda de archivos {{{
 function! OnlyGitFiles()
     cgete system("git ls-files ".input("Target: " )."\\| xargs
                 \ ack ".input("Pattern: "))
 endfunction
 nnoremap <silent><Leader>A :call OnlyGitFiles()<Bar>Unite quickfix<CR>
 let g:unite_source_menu_menus.grep = {
-    \ 'description' : '           buscar ficheros
+    \ 'description' : '           buscar archivos
         \                                       ⌘ [espacio]a',
     \}
 let g:unite_source_menu_menus.grep.command_candidates = [
     \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
         \'Unite -no-quit grep'],
-    \['▷ grep (ack, solo ficheros en el repositorio git)            ⌘ ,A',
+    \['▷ grep (ack, solo archivos en el repositorio git)            ⌘ ,A',
         \'exe "call OnlyGitFiles() | Unite quickfix"'],
     \['▷ find',
         \'Unite find'],
@@ -961,13 +961,13 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
 nnoremap <silent>[menu]f :Unite -silent menu:busquedas<CR>
 " }}}
 
-" menu yankring, registros e historia {{{
+" menu yanks, registros e historia {{{
 let g:unite_source_menu_menus.registros = {
-    \ 'description' : '      yankring, registros e historia
-        \                        ⌘ [espacio]i',
+    \ 'description' : '      yanks, registros e historia
+        \                           ⌘ [espacio]i',
     \}
 let g:unite_source_menu_menus.registros.command_candidates = [
-    \['▷ yankring                                                   ⌘ ,i',
+    \['▷ yanks                                                      ⌘ ,i',
         \'Unite history/yank'],
     \['▷ comandos       (historia)                                  ⌘ q:',
         \'Unite history/command'],
@@ -980,7 +980,7 @@ let g:unite_source_menu_menus.registros.command_candidates = [
     \['▷ deshacer       (gundo)                                     ⌘ ,u',
         \'GundoToggle'],
     \]
-nnoremap <silent>[menu]i :Unite -silent -start-insert menu:registros<CR>
+nnoremap <silent>[menu]i :Unite -silent menu:registros<CR>
 " }}}
 
 " menu edicion de ortografia {{{
@@ -1276,9 +1276,9 @@ let g:unite_source_menu_menus.vim.command_candidates = [
         \'Unite colorscheme -auto-preview'],
     \['▷ atajos de teclado',
         \'Unite mapping -start-insert'],
-    \['▷ editar fichero de configuracion (vimrc)',
+    \['▷ editar archivo de configuracion (vimrc)',
         \'edit $MYVIMRC'],
-    \['▷ establecer el tipo de fichero',
+    \['▷ establecer el tipo de archivo',
         \'Unite -start-insert filetype'],
     \['▷ ayuda de vim',
         \'Unite -start-insert help'],

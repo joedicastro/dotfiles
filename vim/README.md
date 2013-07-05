@@ -31,103 +31,16 @@ mapeada a la tecla espaciadora
     en el pasado) por que sin su maravillosa contribución y generosidad al
     compartirlos con el resto del mundo, esta configuración no sería posible.
 
-## Gestion de Plugins
-
-### Neobundle
-
-Un plugin para gobernarlos a todos! Me permite administrar el resto de los
-plugins, el mismo incluido. __A su vez lo tengo configurado para que se instale a
-si mismo la primera vez que se ejecute vim con esta configuración (también
-instala automáticamente el resto de plugins).__
-
-Las ventajas de este plugin frente a otros similares como Vundle son las
-siguientes:
-
-- Permite usar plugins desde otras fuentes distintas a git (svn, hg, dir, ...)
-- Permite establecer la revisión exacta que queremos emplear
-- Permite marcar plugins como no actualizables
-- Permite cargar los plugins bajo demanda, no al principio, para agilizar el
-  arranque de Vim y el consumo de recursos
-- Permite añadir multitud de opciones a cada plugin, como por ejemplo que se
-  haga el `build` de forma automática si es necesario al instalar/actualizar
-- Y muchas mas posibilidades, sobre todo si también usamos 'Vimproc' y 'Unite'
-  del mismo autor
-
-__Ayuda__ `:h neobundle.txt`  <vimhelp:neobundle.txt>
-
-La mejor manera de usar NeoBundle es a través de Unite
-
-__Unite__
-
-- `<LocalLeader>n` o `:Unite menu:neobundle`, muestra un menú con las opciones
-  de Neobundle
-
-*Repositorio:* <https://github.com/Shougo/neobundle.vim>
-
-### Actualizacion de Plugins
-
-NeoBundle es una muy buena y potente herramienta que nos permite administrar de
-forma muy sencilla nuestros plugins. Pero es una herramienta que conviene
-utilizar con cuidado, sentido común y guardando unas ciertas precauciones, sobre
-todo si usamos vim como herramienta profesional.
-
-Dado que en mi caso y en el de muchos otros, instalamos y actualizamos varios
-plugins directamente desde el repositorio git, esto nos expone a actualizaciones
-inestables de los mismos.
-
-Este es mi modo de actualizar los plugins que puede servir como guia u
-orientación de como hacerlo sin que nuestro flujo de trabajo se vea
-interrumpido.
-
-Lo primero es aclarar que mi configuración de vim está situada en el directorio
-`$HOME/dotfiles/vim` y utilizo enlaces simbólicos para que vim pueda localizar
-la configuración que espera por defecto. En concreto lo tengo establecido de
-esta manera:
-
-- `~/.vim` es un enlace simbólico que apunta a `~/dotfiles/vim`
-- `~/.vimrc` es un enlace simbólico que apunta a `~/dotfiles/vim/vimrc`
-
-De modo que cuando quiero hacer una actualización de los plugins de vim, lo
-único que tengo que hacer es crear una copia de la carpeta de vim en
-`~/dotfiles` para tener un backup en caso de que algún plugin no funcione como
-es debido.
-
-De hecho, hago esto sin salir de Vim y con la ayuda de ranger, en sencillos
-pasos:
-
- 1. entro en ranger desde vim pulsando `<Leader>rt`
- 2. voy a la carpeta `vim` en `~/dotfiles` y creo una copia pulsando `yy` y
- luego `pp` y me crea una copia llamada `vim_`
- 3. actualizo los plugins de vim con `:BundleUpdate`
- 4. sigo trabajando con normalidad
- 5. si veo que algún plugin se ha vuelto inestable durante la actualización y lo
- necesito para seguir trabajando, simplemente borro la carpeta `~/dotfiles/vim`
- y renombro la copia en `~/dotfiles/vim_` a `~/dotfiles/vim`. Con salir de vim y
- volver a entrar tenemos una configuración probada y completamente funcional sin
- esfuerzo.
-
-Usando este procedimiento o algo similar nos ahorramos muchos disgustos a la
-hora de realizar las actualizaciones. Evidentemente, en caso de que solo falle
-un plugin siempre podemos sustituir únicamente la carpeta de ese plugin dentro
-de `~/dotfiles/vim/bundle` en lugar de toda la configuración de Vim.
-
-#### Alternativa
-
-Otra opción la tenemos a través de NeoBundle, que nos permite especificar la
-revisión que queremos instalar de un plugin, e incluso nos permite decirle que
-no se actualice nunca, si no nos interesa actualizarlo.
-
-
 ## Unite
 
 Unite es una interfaz que unifica varios 'resultados de búsquedas' bajo un mismo
 aspecto y siguiendo el comportamiento por defecto de Vim (modal). Es casi una
 API sobre la que podemos construir nuestras propias soluciones. Sirve tanto para
-abrir un fichero, como para cambiar de buffer, cambiar de esquema de color o
+abrir un archivo, como para cambiar de buffer, cambiar de esquema de color o
 para hacer una búsqueda con regex (vimgrep, grep, Ack, ag, ...). Sirve hasta
 para consultar los registros, ayuda, comandos... Resumiendo, es una navaja suiza
 que bien empleada nos permite sustituir un varios plugins distintos por uno
-solo (en este caso: CtrlP, Ack, YankRing).
+solo (en este caso: CtrlP, Ack, YankRing, TagmaTasks y Tagbar).
 
 > Una de las principales ventajas de Unite es que me permite subsanar uno de los
 problemas que intentaba solucionar inicialmente con este documento, que es el
@@ -154,7 +67,7 @@ tecla `<LocalLeader>`
 
 - Las __fuentes__ llamadas directamente a través de un atajo con `<Leader>` las uso
   para aquellas tareas más comunes como abrir archivos, buscar dentro del
-  fichero, hacer una búsqueda de archivos mediante regex (ag, ack, grep), etc.
+  archivo, hacer una búsqueda de archivos mediante regex (ag, ack, grep), etc.
   Un ejemplo de como abrir un archivo con Unite.
 
 ![unite_file](http://joedicastro.com/static/pictures/unite_file.gif "unite file")
@@ -174,7 +87,7 @@ cada uno de ellos. Unite posee un mecanismo que nos permite acceder a una lista
 de menús generada automáticamente, y aunque en este caso ni se muestran
 ordenados ni se pueden ver los atajos asociados directamente yo he creado las
 descripciones de los menús de manera que se puedan ver los atajos. Es lo que el
-comando `:menu` de Vim deberia haber sido: comodo, intuitivo y de fácil
+comando `:menu` de Vim debería haber sido: cómodo, intuitivo y de fácil
 navegación.
 
 - `<LocalLeader>u` o `:Unite menu` muestra los menús disponibles
@@ -184,644 +97,595 @@ navegación.
 
 TODO: completar este apartado
 
-*Repositorio:* <https://github.com/Shougo/unite.vim>
+## Gestion de Plugins
+
+![neobundle](http://joedicastro.com/static/pictures/unite_menu_neobundle.png "neobundle")
+
+Un plugin para gobernarlos a todos! NeoBundle me permite administrar el resto de
+los plugins, a el mismo incluido. __A su vez lo tengo configurado para que se
+instale a si mismo la primera vez que se ejecute vim con esta configuración
+(también instala automáticamente el resto de plugins).__
+
+Las ventajas de este plugin frente a otros similares como Vundle son las
+siguientes:
+
+- Permite usar plugins desde otras fuentes distintas a git (svn, hg, dir, ...)
+- Permite establecer la revisión exacta que queremos emplear
+- Permite marcar plugins como no actualizables
+- Permite cargar los plugins bajo demanda, no al principio, para agilizar el
+  arranque de Vim y el consumo de recursos
+- Permite añadir multitud de opciones a cada plugin, como por ejemplo que se
+  haga el `build` de forma automática si es necesario al instalar/actualizar
+- Y muchas mas posibilidades, sobre todo si también usamos 'Vimproc' y 'Unite'
+  del mismo autor
+
+La mejor manera de usar NeoBundle es a través de Unite
+
+__Unite__
+
+- `<LocalLeader>n` o `:Unite menu:neobundle`, muestra un menú con las opciones
+  de Neobundle
+
+### Menu
+
+Voy a detallar aquí lo que hace cada uno de las entradas del menu:vim
+
+- *neobundle* nos muestra una lista de los plugins instalados. Seleccionándolos
+  (uno o varios) podemos realizar varias acciones sobre ellos
+
+- *log* muestra el registro de operaciones de neobundle
+
+- *lazy* nos muestra la lista de los plugins que tenemos configurados para ser
+  cargados bajo demanda
+
+- *update* actualiza automáticamente todos los plugins (e instala aquellos que
+  no lo estén)
+
+- *search* búsqueda de plugins por el nombre en vim.org y GitHub (pueden
+  aparecer duplicados los que se encuentren en ambos sitios)
+
+- *install* instala aquellos plugins que no hayan sido instalados pero si estén
+  en el vimrc
+
+- *check* comprueba que todos los plugins incluidos en .vimrc estén instalados,
+  de lo contrario nos preguntara por su instalación
+
+- *docs* instala la documentación de todos los plugins de forma manual
+
+- *clean* elimina aquellos plugins que ya no estén configurados pero aun
+  permanezcan en el disco
+
+- *list* lista todos los plugins instalados
+
+- *direct edit* sirve para editar el archivo `direct_bundles.vim` donde
+  neobundle guarda aquellos plugins que se han instalado directamente (por
+  ejemplo a través de la búsqueda)
+
+> __Actualización de Plugins__
+
+> NeoBundle es una muy buena y potente herramienta que nos permite administrar
+de forma muy sencilla nuestros plugins. Pero es una herramienta que conviene
+utilizar con cuidado, sentido común y guardando unas ciertas precauciones, sobre
+todo si usamos vim como herramienta profesional.
+
+> Dado que en mi caso y en el de muchos otros, instalamos y actualizamos varios
+plugins directamente desde el repositorio git, esto nos expone a actualizaciones
+inestables de los mismos.
+
+> Este es mi modo de actualizar los plugins que puede servir como guia u
+orientación de como hacerlo sin que nuestro flujo de trabajo se vea
+interrumpido.
+
+> Lo primero es aclarar que mi configuración de vim está situada en el
+directorio `$HOME/dotfiles/vim` y utilizo enlaces simbólicos para que vim pueda
+localizar la configuración que espera por defecto. En concreto lo tengo
+establecido de esta manera:
+
+  > - `~/.vim` es un enlace simbólico que apunta a `~/dotfiles/vim`
+  > - `~/.vimrc` es un enlace simbólico que apunta a `~/dotfiles/vim/vimrc`
+
+> De modo que cuando quiero hacer una actualización de los plugins de vim, lo
+único que tengo que hacer es crear una copia de la carpeta de vim en
+`~/dotfiles` para tener un backup en caso de que algún plugin no funcione como
+es debido.
+
+> De hecho, hago esto sin salir de Vim y con la ayuda de ranger, en sencillos
+pasos:
+
+>    1. entro en ranger desde vim pulsando `<Leader>rt`
+>    2. voy a la carpeta `vim` en `~/dotfiles` y creo una copia pulsando `yy` y
+>       luego `pp` y me crea una copia llamada `vim_`
+>    3. actualizo los plugins de vim con `:BundleUpdate`
+>    4. sigo trabajando con normalidad
+>    5. si veo que algún plugin se ha vuelto inestable durante la actualización
+>       y lo necesito para seguir trabajando, simplemente borro la carpeta
+>       `~/dotfiles/vim` y renombro la copia en `~/dotfiles/vim_` a
+>       `~/dotfiles/vim`. Con salir de vim y volver a entrar tenemos una
+>       configuración probada y completamente funcional sin esfuerzo.
+
+> Usando este procedimiento o algo similar nos ahorramos muchos disgustos a la
+hora de realizar las actualizaciones. Evidentemente, en caso de que solo falle
+un plugin siempre podemos sustituir únicamente la carpeta de ese plugin dentro
+de `~/dotfiles/vim/bundle` en lugar de toda la configuración de Vim.
+
+> __Alternativa__
+
+> Otra opción la tenemos a través de NeoBundle, que nos permite especificar la
+revisión que queremos instalar de un plugin, e incluso nos permite decirle que
+no se actualice nunca, si no nos interesa actualizarlo.
+
 
 ## Esquemas de color
+
+![unite_colorscheme](http://joedicastro.com/static/pictures/unite_colorscheme.gif "unite colorscheme")
 
 Para cambiar de esquemas de color podemos hacerlo a través de Unite:
 
 __Unite__
 
-- `<LocalLeader>v` o `:Unite menu:varios` accedemos al menú *varios* donde
+- `<LocalLeader>v` o `:Unite menu:vim` accedemos al menú *vim* donde
   podemos cambiar el esquema seleccionando la opción correspondiente
 - `:Unite colorscheme -auto-preview` seleccionamos el esquema de la lista con
   previsualización del mismo
 
-### Temas oscuros
 
-##### vim-molokai256
 
-Este es el tema por defecto para consola, es el tema molokai adaptado para
-terminal.
+## Navegacion
 
-![molokai256][mlk256]
+![unite navegacion](http://joedicastro.com/static/pictures/unite_menu_navegacion.png "unite navegacion")
 
-  [mlk256]: http://joedicastro.com/static/pictures/molokai256.png "vim-molokai256"
+>   __Atajos__
 
-*Repositorio:* <https://github.com/tomasr/molokai>
+> Ademas de las opciones disponibles en el menú tengo configurados una serie de
+> atajos que hacen mucho más sencillo el desplazarse entre ventanas.
 
-#### molokai
+>   - `<C-H>` desplazamiento a la siguiente ventana a la izquierda
+>   - `<C-J>` desplazamiento a la ventana inferior
+>   - `<C-K>` desplazamiento a la ventana superior
+>   - `<C-L>` desplazamiento a la siguiente ventana a la derecha
 
-El tema por defecto para GVim, es practicamente identico a vim-molokai256, sirva
-su imagen como referencia.
+__Unite__
 
-*Repositorio:* <https://github.com/joedicastro/vim-molokai256>
+`<LocalLeader>b` o `:Unite menu:navegacion` muestra el menú de navegación
 
-#### badwolf
+### Menu
 
-![badwolf][bdwf]
+- Las tres primeras entradas del menú nos permiten acceder rápidamente al buffer,
+ventana o pestaña que deseemos con rapidez.
 
-  [bdwf]: http://joedicastro.com/static/pictures/badwolf.png "badwolf"
+- *location list* y *quickfix* nos dejan acceder a ambas ventanas a través de la
+interfaz de Unite
 
-*Repositorio:* <https://github.com/sjl/badwolf>
+- *redimensionar ventanas* utiliza el plugin winresizer para redimensionar
+  (cambiar de tamaño) muy fácilmente las ventanas de vim.
+   > __Atajos__
+   >
+   > - `h`, `j`, `k`, `l` mueve el divisor de ventanas usando los movimientos
+   >   típicos de Vim
+   > - `<CR>` finaliza el redimensionado y `q` lo cancela
 
-#### harlequin
+- las dos siguientes entradas nos permiten crear nuevas ventanas, tanto en
+  posición vertical como horizontal y la siguiente opción nos permite cerrar
+  cualquier ventana abierta.
 
-![harlequin][hqn]
+- *cerrar/abrir ventana quickfix* nos abre/cierra la ventana quickfix y a
+  diferencia de la quinta entrada no la muestra a través de Unite.
 
-  [hqn]: http://joedicastro.com/static/pictures/harlequin.png "harlequin"
+- *scratch* nos crea un nuevo buffer temporal en el que no se guardara nada de
+  lo que editemos en ella, el contenido es descartado en cuanto cerramos la
+  aplicación. La ventana aparecerá siempre encima de la ventana actual
 
-*Repositorio:* <https://github.com/nielsmadan/harlequin>
+- *zoom* hace zoom sobre una ventana, ocultando el resto.
 
-### Temas claros
 
-#### github256
+## Sesiones
 
-![github][gh]
+![unite sesiones](http://joedicastro.com/static/pictures/unite_menu_sesiones.png "unite sesiones")
 
-  [gh]: http://joedicastro.com/static/pictures/github.png "github"
+Este menú nos permite guardar las sesiones de trabajo, bien bajo el nombre por
+defecto o uno personalizado para que posteriormente podamos cargarlas y seguir
+trabajando donde lo habíamos dejado.
 
-*Repositorio:* <https://github.com/joedicastro/vim-github256>
+__Unite__
 
-#### summerfruit256
+`<LocalLeader>h` o `:Unite menu:sesiones` muestra el menú de sesiones
 
-![summerfruit256][summ]
 
-  [summ]: http://joedicastro.com/static/pictures/summerfruit256.png "summerfruit256"
+## Marcadores
 
-*Repositorio:* <https://github.com/vim-scripts/summerfruit256.vim>
+![unite marcadores](http://joedicastro.com/static/pictures/unite_menu_marcadores.png "unite marcadores")
 
-## Operaciones con ventanas
+Con las entradas de este menú podemos guardar marcadores de los archivos que
+queramos para poder abrirlos de forma rápida y directa. Nos permite añadir una
+descripción para cada uno y elegir el archivo donde guardarlos.
 
-### Atajos
 
-- `<C-H>` desplazamiento a la siguiente ventana a la izquierda
-- `<C-J>` desplazamiento a la ventana inferior
-- `<C-K>` desplazamiento a la ventana superior
-- `<C-L>` desplazamiento a la siguiente ventana a la derecha
+__Unite__
 
-### Unite
-
-El resto de opciones, incluidas las siguientes que muestro a continuación, se
-pueden encontrar dentro del menú de Unite `navegacion`
-
-`<LocalLeader>b` o `:Unite menu:navegacion` muestra el menú de navegación entre
-ventanas, buffers y pestañas
-
-### scratch-utility
-
-![Scratch](http://joedicastro.com/static/pictures/scratch.gif "Scratch")
-
-Nos crea un nuevo buffer temporal en el que no se guardara nada de lo que
-editemos en ella, el contenido es descartado en cuanto cerramos la aplicación.
-La ventana aparecerá siempre encima de la ventana actual
-
-__Atajo__ `<F8>` o `:Scratch` Mostrar/Ocultar la ventana Scratch
-
-*Repositorio:* <https://github.com/vim-scripts/scratch-utility>
-
-### zoomwintab
-
-![zoom](http://joedicastro.com/static/pictures/zoomwintab.gif "zoom")
-
-Hace zoom sobre una ventana, ocultando el resto.
-
-__Ayuda__ `:h zoomwintab.vim` <vimhelp:zoomwintab.vim>
-
-__Atajo__ `<Leader>z` o `:ZoomWinTabToggle`
-
-*Repositorio:* <https://github.com/vim-scripts/zoomwintab.vim>
-
-### vim-powerline
-
-![Powerline](http://joedicastro.com/static/pictures/powerline.gif "Powerline")
-
-Es una linea de estado mejorada, mas agradable visualmente y preconfigurada para
-mostrar bastante información útil sobre cada buffer (modo, tipo de fichero,
-codificación, nombre, información de Git, ...).
-
-__Ayuda__ `:h Powerline.txt` <vimhelp:Powerline.txt>
-
-__Comandos__ `:PowerlineClearCache` útil para cuando introducimos cambios en la
-configuración de la misma y no se ven reflejados por culpa del cache.
-
-*Repositorio:* <https://github.com/Lokaltog/powerline>
-
-### winresizer
-
-![winresizer](http://joedicastro.com/static/pictures/winresizer.gif "winresizer")
-
-Es un plugin que sirve para redimensionar (cambiar de tamaño) muy fácilmente las
-ventanas de vim.
-
-__Atajos__
-
-- `<C-E>` o `:WinResizerStartResize` activa el redimensionamiento de las ventanas
-- `h` mueve el divisor de ventanas hacia la izquierda
-- `l` mueve el divisor de ventanas hacia la derecha
-- `j` mueve el divisor de ventanas hacia abajo
-- `k` mueve el divisor de ventanas hacia arriba
-- `<CR>` finaliza el redimensionado
-- `q` cancela el redimensionado
-
-*Repositorio:* <https://github.com/jimsei/winresizer>
+`<LocalLeader>m` o `:Unite menu:marcadores` muestra el menú de marcadores
 
 
 ## Edicion de texto
 
-### Activar/desactivar el resaltado de busqueda
+![unite texto](http://joedicastro.com/static/pictures/unite_menu_texto.png "unite texto")
 
-![nohlsearch][nhs]
-
-  [nhs]: http://joedicastro.com/static/pictures/nohlsearch.gif  "nohlsearch"
-
-__Atajo__ `<Leader>eq`
-
-__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
-incluida esta acción
-
-### Conmutar la visualizacion de numeros de linea
-
-![Conmutar numeros de linea][cnl]
-
-  [cnl]: http://joedicastro.com/static/pictures/linenumbers.gif "Conmutar numeros de linea"
-
-  Conmuta entre no mostrar los números de línea, mostrarlos relativos y
-  mostrarlos absolutos.
-
-  __Atajo__ `<Leader>l`
-
-__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
-incluida esta acción
-
-### Mostrar caracteres no imprimibles
-
-![hiddenchars][hdc]
-
-  [hdc]: http://joedicastro.com/static/pictures/hiddenchars.gif "mostrar caracteres no imprimibles"
-
-__Atajo__ `<Leader>eh`
-
-__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
-incluida esta acción
-
-### Abrir/cerrar pliegues
-
-![unfold][ufl]
-
-  [ufl]: http://joedicastro.com/static/pictures/unfold.gif "abrir/cerrar pliegues"
-
-__Atajo__ <code>\\</code>
-
-__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
-incluida esta acción
-
-### Copiar/pegar
-
-__Atajos__
-
-- `<Leader>y` copiar al portapapeles
-- `<Leader>p` pegar desde el portapapeles
-- `<Leader>P` conmutar el paste mode
-
-__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
-incluida esta acción
-
-### Revision de ortografia
+Este menú aglutina algunas de las funciones que podemos usar para la edición de
+texto.
 
 __Unite__
 
-- `<LocalLeader>s` o `:Unite menu:ortografia` activa el menu con las opciones
-  para la correccion ortografica
+`<LocalLeader>e` o `:Unite menu:texto` muestra el menú de sesiones
 
-### Guardar como root
+### Menu
 
-Permite guardar un archivo que solo tiene permisos para `root` sin necesidad de
-ejecutar vim desde ese usuario o utilizando `$ sudo` y perder de ese modo las
-ventajas de nuestra configuración.
+- *activar/desactivar el resaltado de búsqueda* nos sirve para ocultar el
+   resaltado de los resultados una vez hemos realizado la búsqueda
 
-__Comando__ `:w!!`
+- *conmutar los números de linea* conmuta entre no mostrar los números de línea,
+  mostrarlos relativos y mostrarlos absolutos.
 
-__Unite__ `<LocalLeader>o` Activa el menú de ficheros donde esta incluida esta
-acción
+- *mostrar caracteres no imprimibles* nos conmuta la visualización de los
+  caracteres no visibles tales como tabulados, retornos de carro, espacios a
+  final de linea, etc
 
-### Guardado rapido
+- las tres entradas siguientes nos permiten plegar/desplegar los pliegues que
+  tengamos en nuestro documento, bien sea individualmente o todos a la vez
 
-Para guardar rápidamente un archivo sin tener que ejecutar el comando `:w`
+- las siguientes 3 entradas nos sirven para pegar/copiar al portapapeles del
+  sistema y para activar/desactivar el paste mode (todo se pega literalmente)
 
-__Atajo__ `<Leader>w`
+- la siguiente entrada elimina esos espacios que se quedan a veces al final de
+  la linea y que suelen ser casi siempre innecesarios y sin cometido alguno
+  (excepto quizás en Markdown)
 
-__Unite__ `<LocalLeader>o` Activa el menú de ficheros donde esta incluida esta
-acción
+- *estadísticas de texto para la posición actual* muestra en la linea de
+  comandos el numero de lineas, palabras, caracteres y bytes (totales y de la
+  posición actual)
 
-### Eliminar espacios al final de la linea
+- la entrada que le sigue muestra una lista de palabras con la frecuencia con la
+  que aparece cada palabra para un texto dado
 
-![remove_trail](http://joedicastro.com/static/pictures/remove_trail_spaces.gif "eliminar espacios finales")
+- *muestra los dígrafos disponibles* muestra una tabla con todos los dígrafos
+  disponibles y los caracteres necesarios para generarlos
+   > Los dígrafos son caracteres especiales que se forman a partir otros dos
 
+- *inserta texto lorem ipsum* sirve para generar texto aleatorio para rellenar
+  borradores y pruebas de diseño, muy usado en diseño web. Genera el famoso
+  texto [Lorem Ipsum][lorem]
 
-Elimina esos espacios que se quedan a veces al final de la linea y que suelen
-ser casi siempre innecesarios y sin cometido alguno (excepto quizas en Markdown)
+   [lorem]: http://es.wikipedia.org/wiki/Lorem_ipsum
 
-__Atajo__ `<Leader>et`
+- la ultima entrada muestra información ampliada sobre un carácter en la linea
+  de comandos. Muestra el valor Unicode en decimal, hexadecimal, octal, el
+  nombre Unicode, la HTML entity, el código Emoji y cualquier dígrafo
+  disponible.
 
-__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
-incluida esta acción
+### Otras herramientas
 
+A parte de las herramientas incluidas en el menú, disponemos de otra serie de
+ellas para poder editar texto más fácilmente.
 
-### Estadisticas de texto
+TODO: añadir text-objs
 
-![text stats]( http://joedicastro.com/static/pictures/textstats.gif "estadisticas de texto")
 
-Obtener el numero de lineas, palabras, caracteres y bytes (totales y de la
-posición actual)
+- __easydigraph__ sirve para insertar un dígrafo de forma bastante sencilla,
+   sobre todo cuando se trata de insertar varios simultáneamente.
 
-__Atajo__ `<Leader>es`
+    ![easydigraph](http://joedicastro.com/static/pictures/easydigraph.gif "easydigraph")
+    >
+    > __Atajo__
+    >
+    > - `<Leader>dd {motion}` convierte en dígrafo la selección efectuada con el
+    >   movimiento.
 
-__Unite__ `<LocalLeader>t` Activa el menú de edición de texto donde esta
-incluida esta acción
+- __vim-commentary__ herramienta extremadamente sencilla para
+  comentar/descomentar fragmentos de texto/código. Simplemente tenemos que
+  pulsar un atajo seguido de un movimiento para comentar/descomentar o pulsar el
+  atajo después de una selección visual.
 
-![frecuencia de palabras](
-http://joedicastro.com/static/pictures/word_frecuency.gif "frecuencia de
-palabras")
+    ![commentary](http://joedicastro.com/static/pictures/commentary.gif "commentary")
 
-Obtener la frecuencia con la que aparece cada palabra para un texto dado, abre
-una nueva ventana con las estadísticas.
+    > __Atajo__
+    >
+    >  - `<Leader>c` o `gc`
 
-__Atajo__ `<Leader>ew`
+- __vim-surround__ nos sirve para "envolver" un objeto de texto de vim con un
+  par de caracteres o etiquetas similares (paréntesis, comillas, etiquetas HTML,
+  ...). También nos permite cambiar o eliminar los ya existentes.
 
-__Unite__ `<LocalLeader>e` Activa el menú de edición de texto donde esta
-incluida esta acción
+    ![surround](http://joedicastro.com/static/pictures/surround.gif "surround")
 
-### vim-smartinput
+    > __Atajos__
 
-![smartinput](http://joedicastro.com/static/pictures/smartinput.gif "smartinput")
+    > - `ys{motion or text-object}{char}` crear "envolvente" (*'your surround'*)
+    > - `cs{orig_char}{dest_char}` cambiar "envolvente" (*'change surround'*)
+    > - `ds{char}` eliminar "envolvente"  (*'delete surround'*)
+    > - `S{char}` para usarlo en modo visual (solo para crear)
 
-Provee de autocompletado inteligente para pares de caracteres muy empleados en
-programación como son __(), {}, [], "", '', ``__
+    > *Si elegimos el primer miembro de un par, e.g '(', entonces nos crea el
+    > envolvente con un espacio entre el envolvente y la seleccion. Si elegimos el
+    > ultimo miembro, e.g. ')', entonces nos lo crea sin los espacios.*
 
-El funcionamiento es muy sencillo, si escribimos el primero de este par de
-caracteres, aparece automaticamente el segundo y el cursor se mueve al interior
-de los mismos. Entonces escribimos lo que queremos y cuando acabemos solo
-tenemos que introducir el segundo caracter. Sin en cambio solo quisieramos el
-primero, bastaria con pulsar la tecla __Delete__
+- __vim-speeddating__ sirve para incrementar/decrementar de forma inteligente
+  valores de fechas y horas.
 
-__Ayuda__ `:h smartinput.txt` <vimhelp:smartinput.txt>
+    ![speeddating](http://joedicastro.com/static/pictures/speeddating.gif "speeddating")
 
-*Repositorio:* <https://github.com/kana/vim-smartinput>
+    > __Atajos__
 
-### vim-speeddating
+    > - `<C-A>` Incrementa el valor bajo el cursor una unidad
+    > - `<C-X>` Decrementa el valor bajo el cursor una unidad
+    > - `d<C-A>` Cambia la fecha/hora bajo el cursor a la hora actual en UTC
+    > - `d<C-X>` Cambia la fecha/hora bajo el cursor a la hora actual en local
 
-![speeddating](http://joedicastro.com/static/pictures/speeddating.gif "speeddating")
+- __vim-smartinput__ provee de autocompletado inteligente para pares de
+  caracteres muy empleados en programación como son __(), {}, [], "", '', ``__
 
-Sirve para incrementar/decrementar de forma inteligente valores de fechas y
-horas.
+     El funcionamiento es muy sencillo, si escribimos el primero de este par de
+  caracteres, aparece automáticamente el segundo y el cursor se mueve al interior
+  de los mismos. Entonces escribimos lo que queremos y cuando acabemos solo
+  tenemos que introducir el segundo carácter. Sin en cambio solo quisiéramos el
+  primero, bastaría con pulsar la tecla __Delete__
 
-__Ayuda__ `:speeddating.txt`  <vimhelp:speeddating.txt>
+    ![smartinput](http://joedicastro.com/static/pictures/smartinput.gif "smartinput")
 
-__Atajos__
 
-- `<C-A>` Incrementa el valor bajo el cursor una unidad
-- `<C-X>` Decrementa el valor bajo el cursor una unidad
-- `d<C-A>` Cambia la fecha/hora bajo el cursor a la hora actual en UTC
-- `d<C-X>` Cambia la fecha/hora bajo el cursor a la hora actual en local
+- __neocomplete__ autocompleta palabras clave, métodos, ... con solo escribir
+  las primeras letras.  Bien usado permite agilizar mucho la escritura de código
+  o texto. Neocomplete es un plugin que mejora el autocompletado por defecto de
+  Vim, con búsqueda con lógica difusa (fuzzy) al mismo tiempo que se escribe.
+  Esta plagado de opciones y es completamente personalizable.
 
-__Comandos__
+    ![neocomp](http://joedicastro.com/static/pictures/neocomp.gif "neocomp")
 
-- `:SpeedDatingFormat` Lista los formatos definidos
-- `:SpeedDatingFormat!` Ayuda para los formatos soportados
-- `:SpeedDatingFormat {format}` Define un formato nuevo
-- `:SpeedDatingFormat! {format}` Eliminar un formato existente
+    > __Atajos__
 
-*Repositorio:* <https://github.com/tpope/vim-speeddating>
+    > - `<CR>`    inserta la palabra seleccionada
+    > - `<C-N>`   nos desplaza a la palabra inferior en la lista de opciones
+    > - `<C-P>`   nos desplaza a la palabra superior en la lista de opciones
 
-### vim-surround
+## Revision de ortografia
 
-![surround](http://joedicastro.com/static/pictures/surround.gif "surround")
+![unite spell](http://joedicastro.com/static/pictures/unite_menu_spell.png "unite spell")
 
-Nos sirve para "envolver" un objeto de texto de vim con un par de caracteres o
-etiquetas similares (parentesis, comillas, etiquetas HTML, ...). Tambien nos
-permite cambiar o eliminar los ya existentes.
-
-__Ayuda__ `:h surround.txt` <vimhelp:surround.txt>
-
-__Atajos__
-
-- `ys{motion or text-object}{char}` crear "envolvente" (*'your surround'*)
-- `cs{orig_char}{dest_char}` cambiar "envolvente" (*'change surround'*)
-- `ds{char}` eliminar "envolvente"  (*'delete surround'*)
-- `S{char}`
-
-> Si elegimos el primer miembro de un par, e.g '(', entonces nos crea el
-> envolvente con un espacio entre el envolvente y la seleccion. Si elegimos el
-> ultimo miembro, e.g. ')', entonces nos lo crea sin los espacios.
-
-*Repositorio:* <https://github.com/tpope/vim-surround>
-
-### vim-repeat
-
-Este es un plugin muy sencillo creado por Tim Pope para dar soporte al operando
-de Vim repetición `.` en la mayoría de sus plugins. En este caso da soporte a
-*vim-speeddating*, *vim-surroud* y *vim-commentary*
-
-__Ayuda__ `:h repeat.txt` <vimhelp:repeat.txt>
-
-__Atajos__
-
-- `.` repite la ultima operación una vez
-
-*Repositorio:* <https://github.com/tpope/vim-repeat>
-
-### vim-commentary
-
-![commentary](http://joedicastro.com/static/pictures/commentary.gif "commentary")
-
-Herramienta extremadamente sencilla para comentar/descomentar fragmentos de
-texto/código. Simplemente tenemos que pulsar un atajo seguido de un movimiento
-para comentar/descomentar o pulsar el atajo después de una selección visual.
-
-__Ayuda__ `:h commentary.txt` <vimhelp:commentary.txt>
-
-__Atajo__ `<Leader>c` o `gc`
-
-*Repositorio:* <https://github.com/tpope/vim-commentary>
-
-### easydigraph
-
-![easydigraph](http://joedicastro.com/static/pictures/easydigraph.gif "easydigraph")
-
-Herramienta para insertar un dígrafo de forma bastante sencilla, sobre todo
-cuando se trata de insertar varios simultáneamente.
-
-__Ayuda__ `:h easydigraph.txt@en` <vimhelp:easydigraph.txt@en>
-
-__Atajos__
-
-- `<Leader>dd {motion}` convierte en dígrafo la selección efectuada con el
-  movimiento.
-
-__Comandos__
-
-- `:digraphs` muestra una tabla con todos los dígrafos disponibles y los
-  caracteres necesarios para generarlos
-
-__Unite__ `<LocalLeader>e` Activa el menú de texto donde esta incluida esta
-acción
-
-
-
-*Repositorio:* <https://github.com/Rykka/easydigraph.vim>
-
-### Gundo
-
-![gundo](http://joedicastro.com/static/pictures/gundo.gif "gundo")
-
-Sirve para hacer mas amigable la utilización del árbol de deshacer de Vim. De
-esta manera podemos ver el árbol de los cambios realizados, previsualizar los
-cambios que vamos a realizar y saber a donde vamos a retornar antes de deshacer
-un cambio.
-
-__Ayuda__ `:h gundo.txt` <vimhelp:gundo.txt>
-
-__Atajos__ `<Leader>u` abre el interfaz de ventanas de Gundo
-
-__Unite__ `<LocalLeader>i` Activa el menú de registros donde esta incluida esta
-acción
-
-
-*Repositorio:* <https://github.com/sjl/gundo.vim>
-
-### LoremIpsum
-
-![loremipsum](http://joedicastro.com/static/pictures/loremipsum.gif "loremipsum")
-
-Sirve para generar texto aleatorio para rellenar borradores y pruebas de diseño,
-muy usado en diseño web. Genera el famoso texto [Lorem Ipsum][lorem]
-
-  [lorem]: http://es.wikipedia.org/wiki/Lorem_ipsum
-
-__Ayuda__ `:h loremipsum.txt` <vimhelp:loremipsum.txt>
-
-__Comandos__
-
-- `:LoremIpsum {num palabras}` inserta el texto Lorem Ipsum de forma aleatoria
-
-__Unite__ `<localleader>e` activa el menú de texto donde esta incluida esta
-acción
-
-*Repositorio:* <https://github.com/vim-scripts/loremipsum>
-
-### vim-characterize
-
-![characterize](http://joedicastro.com/static/pictures/characterize.gif "characterize")
-
-Muestra información ampliada sobre un carácter. Muestra el valor Unicode en
-decimal, hexadecimal, octal, el nombre Unicode, la HTML entity, el codigo Emoji
-y cualquier dígrafo disponible.
-
-__Ayuda__ `:h characterize.txt` <vimhelp:characterize.txt>
-
-__Atajo__ `ga` muestra la información sobre el carácter.
-
-__Unite__ `<localleader>e` activa el menú de texto donde esta incluida esta
-acción
-
-*Repositorio:* <https://github.com/tpope/vim-characterize>
-
-### vim-transpose
-
-![transpose](http://joedicastro.com/static/pictures/transpose.gif "transpose")
-
-Sirve para transponer filas y columnas, que puede ser muy útil para editar
-cierto tipo de ficheros (e.g. *csv*). Funciona con selecciones visuales.
-
-__Ayuda__ `:h transpose.txt` <vimhelp:transpose.txt>
-
-__Comandos__
-
-- `:Transpose` hace la transposición por defecto
-- `:TransposeCSV {separador} {delimitador}` hace la transposición teniendo en cuenta la separación por
-  punto y coma o el separador que le especifiquemos y el delimitador
-- `:TransposeTab` hace la transposición teniendo en cuenta los tabulados
-- `:TransposeWords` hace la transposición por palabras e inserta una
-  interrogación donde falte una
-- `:TransposeInteractive` para transposiciones complejas
-
-*Repositorio:* <https://github.com/salsifis/vim-transpose>
-
-### vim-signature
-
-![signature](http://joedicastro.com/static/pictures/signature.gif "signature")
-
-Un plugin que sirve para conmutar, mostrar y navegar por los marcadores. Los
-marcadores se muestran en la columna lateral de signos de Vim, a la izquierda de
-los números de línea.
-
-__Ayuda__  `:h signature` <vimhelp:signature>
-
-__Atajos__
-
-- Marcadores alfabéticos
-
-  - `m[a-zA-Z]` conmuta la marca y la muestra/oculta
-  -  `m,`       activa el siguiente marcador disponible
-  -  `m<Space>` borra todos los marcadores
-  -  <code>]`</code>      salta al marcador siguiente
-  -  <code>[`</code>      salta al marcador previo
-  -  `]'`       salta al comienzo de la siguiente línea que tenga un marcador
-  -  `['`       salta al comienzo de la anterior línea que tenga un marcador
-
-- Marcadores simbólicos
-
-  -  `m[0-9]`       activa el marcador simbólico correspondiente !@#$%^&*()
-  -  `m<S-[0-9]>`   eliminar todos los marcadores iguales
-  -  `]-`           salta a la siguiente línea que tenga el mismo marcador
-  -  `[-`           salta a la anterior línea que tenga el mismo marcador
-  -  `m<BS>`        elimina todos los marcadores simbólicos
-
-__Comandos__
-
-- `:SignatureToggle` muestra/oculta los marcadores (seguirán activos aunque no
-  se muestren)
-- `:SignatureRefreshDisplay` refresca los marcadores en caso de ser necesario
+ Estas entradas sirven para la corrección ortográfica del texto y son
+ suficientemente autoexplicativas por si mismas.
 
 __Unite__
 
-- `<localleader>b` o `:Unite menu:busquedas` activa el menu busquedas donde
-  podemos buscar todas las marcas del buffer
+- `<LocalLeader>s` o `:Unite menu:ortografia` activa el menú con las opciones
+  para la corrección ortográfica
 
-*Repositorio:* <https://github.com/kshenoy/vim-signature>
 
-## Exploracion de ficheros
+## Busqueda de archivos (grep)
 
-### Ranger
+![unite grep](http://joedicastro.com/static/pictures/unite_menu_grep.png "unite grep")
 
-![ranger](http://joedicastro.com/static/pictures/ranger_vim.gif "ranger")
-
-A través de esto atajo llamo al programa externo
-[Ranger](http://joedicastro.com/productividad-linux-ranger.html) para navegar
-por el sistema de ficheros y elegir el fichero que queremos editar.
-
-__Atajo__ `<Leader>r`
+Este menú contiene la opciones para búsqueda de archivos por su contenido o de
+búsqueda de archivos de los que conocemos su nombre o parte de el pero no el
+path completo donde se encuentran. Por esta razón separo estas herramientas de
+la gestión de archivos, por que son herramientas para buscar nuestro archivo en
+lugar de ir a tiro fijo.
 
 __Unite__
 
-- `<localleader>o` o `:Unite menu:ficheros` activa el menu ficheros donde
-  podemos acceder tambien a ranger
+- `<LocalLeader>a` o `:Unite menu:grep` activa el menú de búsqueda de archivos
 
-### utl
 
-![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
+### Menu
 
-Es un plugin que nos permite abrir URLs y enlaces a otro tipo de ficheros desde
-vim.
+- la primera entrada es la clásica herramienta de búsqueda del contenido de un
+  archivo a partir de un patrón basado en una expresión regular. Si tenemos
+  instalada la utilidad `ag` usara esta, en su defecto la herramienta `ack` y en
+  ausencia de ambas el clásico `grep`. Cuando la ejecutemos nos solicitara el
+  directorio destino (target) donde realizar la búsqueda recursiva y luego la
+  expresión regular (pattern).
 
-__Ayuda__ `:h utl_usr.txt` <vimhelp:utl_usr.txt>
+- la siguiente entrada realiza exactamente la misma función pero limitándose a
+  los archivos incluidos dentro del repositorio cuando nos encontremos dentro de
+  un repositorio de git. Es decir, que buscaría dentro de los archivos que
+  podemos listar con el comando `$ git ls-files`
 
-__Atajo__ `<Leader>j` si usamos el atajo sobre un enlace se abrirá el destino
-correspondiente en la aplicación que tengamos configurada
+- *find* realiza la búsqueda por el nombre del archivo empleando la conocida
+  herramienta `find`
 
-*Repositorio:* <https://github.com/vim-scripts/utl.vim>
+- *locate* también utiliza el nombre para buscar el archivo dentro de la base de
+  datos de la herramienta `locate`
+
+- *vimgrep* utiliza la herramienta interna de vim para realizar búsquedas en
+  función de expresiones regulares, pero debido a su lentitud debería emplearse
+  como ultimo recurso cuando no disponemos de las herramientas de la primera
+  entrada.
+
+## Busqueda dentro del buffer
+
+![unite busquedas](http://joedicastro.com/static/pictures/unite_menu_busquedas.png "unite busquedas")
+
+__Unite__
+
+- `<LocalLeader>f` o `:Unite menu:busquedas` activa el menú de búsquedas
+
+### Menu
+
+- *linea* busca todas las lineas en las que aparezca la palabra (o parte de
+  ella) que introduzcamos
+
+- la siguiente entrada busca todas las lineas donde aparece la palabra que está
+  situada bajo el cursor en el momento de activar la búsqueda
+
+- *encabezados*  muestra todos los "encabezados" del documento y permite navegar
+  entre ellos. Muy útil para navegar entre los headers de documentos Markdown
+  como este, aunque soporta también varios tipos de archivo como el código fuente de
+  distintos lenguajes donde muestra las etiquetas generadas por ctags
+
+- *marcas* lista todas las marcas del archivo
+
+- *pliegues* permite movernos entre los distintos pliegues
+
+- *cambios*  muestra las lineas donde se han realizado cambios en el documento
+  en orden temporal inverso (primero los mas recientes)
+
+- *saltos* muestra una lista de los últimos saltos producidos
+
+- *undos* la historia de cambios que podemos deshacer
+
+- *tareas* visualiza las tareas pendientes para el buffer actual (o para una
+  lista de archivos) y muestra marcas en la columna lateral izquierda de signos
+  para cada una de las tareas. Estas tareas se definen por medio de palabras
+  clave en el buffer, como __TODO__, __FIXME__, __NOTE__, __XXX__ , __COMBAK__ y
+  __@todo__
+
+### Otras herramientas
+
+- __vim-signature__ un plugin que sirve para conmutar, mostrar y navegar por las
+  marcas. Las marcas se muestran en la columna lateral de signos de Vim, a la
+  izquierda de los números de línea.
+
+    ![signature](http://joedicastro.com/static/pictures/signature.gif "signature")
+
+    > __Atajos__
+
+    > - Marcadores alfabéticos
+
+    >   - `m[a-zA-Z]` conmuta la marca y la muestra/oculta
+    >   -  `m,`       activa el siguiente marcador disponible
+    >   -  `m<Space>` borra todos los marcadores
+    >   -  <code>]`</code>      salta al marcador siguiente
+    >   -  <code>[`</code>      salta al marcador previo
+    >   -  `]'`       salta al comienzo de la siguiente línea que tenga un marcador
+    >   -  `['`       salta al comienzo de la anterior línea que tenga un marcador
+
+    > - Marcadores simbólicos
+
+    >   -  `m[0-9]`       activa el marcador simbólico correspondiente `!@#$%^&*()`
+    >   -  `m<S-[0-9]>`   eliminar todos los marcadores iguales
+    >   -  `]-`           salta a la siguiente línea que tenga el mismo marcador
+    >   -  `[-`           salta a la anterior línea que tenga el mismo marcador
+    >   -  `m<BS>`        elimina todos los marcadores simbólicos
+
+
+## Registros
+
+![unite registros](http://joedicastro.com/static/pictures/unite_menu_registros.png "unite registros")
+
+__Unite__
+
+- `<LocalLeader>i` o `:Unite menu:registros` activa el menú de registros
+
+### Menu
+
+- *yanks* mantiene un registro de el texto que ha sido "yankeado" (copiado),
+  borrado o cambiado. Está ordenado cronológicamente empezando por el más
+  reciente
+
+- *comandos* muestra la historia de los últimos comandos ejecutados en la linea
+  de comandos
+
+- *búsquedas* lista la ultimas búsquedas efectuadas
+
+- *registros* enseña el contenido de los registros de Vim
+
+- *mensajes* muestra el registro de mensajes de Vim (como el comando `:messages`)
+
+- *deshacer* activa el plugin gundo que sirve para hacer mas amigable la
+  utilización del árbol de deshacer de Vim. De esta manera podemos ver el árbol
+  de los cambios realizados, previsualizar los cambios que vamos a realizar y
+  saber a donde vamos a retornar antes de deshacer un cambio.
+
+    ![gundo](http://joedicastro.com/static/pictures/gundo.gif "gundo")
+
+## Archivos y directorios
+
+![unite archivos](http://joedicastro.com/static/pictures/unite_menu_archivos.png "unite archivos")
+
+__Unite__
+
+- `<LocalLeader>o` o `:Unite menu:archivos` activa el menú de archivos y
+  directorios
+
+### Menu
+
+- *abrir archivo* abre una lista de los archivos disponibles en el directorio de
+  trabajo
+
+- *abrir archivo reciente* muestra los últimos archivos abiertos
+
+- *abrir archivo con búsqueda recursiva* no solo lista los archivos del
+  directorio de trabajo si no que ademas incluye los de los subdirectorios
+
+- las tres entradas siguientes son similares a las de arriba trabajando con
+  directorios en lugar de archivos
+
+- *crear nuevo directorio* nos permite crear un nuevo directorio sin necesidad
+  de abrir un explorador de archivos
+
+- *cambiar directorio de trabajo* nos permite cambiar el directorio de trabajo
+  actual independientemente del que se usara para llamar a Vim
+
+- *conocer el directorio de trabajo* es el equivalente al comando `pwd`
+
+- *guardar como root* permite guardar un archivo que solo tiene permisos para
+  `root` sin necesidad de ejecutar vim desde ese usuario o utilizando `$ sudo` y
+  perder de ese modo las ventajas de nuestra configuración.
+
+- *guardado rápido* guarda rápidamente un archivo sin tener que ejecutar el
+  comando `:w`
+
+- *abrir ranger* llama al programa externo
+  [Ranger](http://joedicastro.com/productividad-linux-ranger.html) para navegar
+  por el sistema de archivos y elegir el archivo que queremos editar.
+
+    ![ranger](http://joedicastro.com/static/pictures/ranger_vim.gif "ranger")
+
+- *abrir vimfiler* abre el explorador de archivos vimfiler, muy completo y
+  basado en Unite. Lo uso principalmente en donde no tengo instalado ranger.
+
+    ![vimfiler](http://joedicastro.com/static/pictures/vimfiler.png "vimfiler")
+
+  TODO: completar vimfiler
+
+### Otras herramientas
+
+- __utl__ es un plugin que nos permite abrir URLs y enlaces a otro tipo de
+  archivos desde vim.
+
+    ![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
+
+    > __Atajo__
+
+    > `<Leader>j` si usamos el atajo sobre un enlace se abrirá el destino
+    > correspondiente en la aplicación que tengamos configurada
+
 
 ## Edicion de codigo
 
-### Contar lineas de codigo
 
-![cloc](http://joedicastro.com/static/pictures/cloc.gif "cloc")
+### Menu
 
-Ejecuta el programa externo `$ cloc` sobre el fichero y muestra el resultado en
-Unite.
+- *syntastic check* y *syntastic errors* son dos opciones de Syntastic, un
+  plugin que comprueba la sintaxis de numerosos lenguajes (python, ruby, lua,
+  haskell, css, html, js, json, ...) a través de herramientas externas. Muestra
+  los errores de sintaxis en la columna de signos de Vim, a la izquierda de los
+  números de línea. También muestra un resumen del numero de errores y la
+  localización del primero de ellos en la barra de estado (en este caso la de
+  Powerline)
 
-__Unite__ `<localleader>p` o `:Unite menu:code` abre el menú de herramientas de
-código donde esta incluida esta función
+    > *Estas herramientas necesitan estar instaladas para que el plugin funcione
+    correctamente.
 
-### neocomplete
+- *contar lineas de codigo* ejecuta el programa externo `$ cloc` sobre el
+  archivo y muestra el resultado en Unite.
 
-![neocomp](http://joedicastro.com/static/pictures/neocomp.gif "neocomp")
+- *conmutar lines de indentado* sirve para mostrar lineas verticales en el
+  código indentado (sangrado) con espacios para marcar los niveles de indentado.
+  Lo tengo desactivado por defecto.
 
-Autocompleta palabras clave, métodos, ... con solo escribir las primeras letras.
-Bien usado permite agilizar mucho la escritura de código o texto.
-Neocomplete es un plugin que mejora el autocompletado por defecto de Vim, con
-búsqueda con lógica difusa (fuzzy) al mismo tiempo que se escribe. Esta plagado
-de opciones y es completamente personalizable.
+    ![indentLine](http://joedicastro.com/static/pictures/indentline.gif "indentLine")
 
-__Ayuda__ `:h neocomplete.txt` <vimhelp:neocomplete.txt>
 
-__Atajos__
-
-- `<CR>`    inserta la palabra seleccionada
-- `<C-N>`   nos desplaza a la palabra inferior en la lista de opciones
-- `<C-P>`   nos desplaza a la palabra superior en la lista de opciones
-
-__Comandos__
-
-- `:NeocompleteToggle` activa/desactiva Neocomplete en el buffer actual
-
-*Repositorio:* <https://github.com/Shougo/neocomplete.vim>
-
-### python-mode
-
-TODO: Añadir descripción a python-mode
-
-*Repositorio:* <https://github.com/klen/python-mode>
-
-### indentLine
-
-![indentLine](http://joedicastro.com/static/pictures/indentline.gif "indentLine")
-
-Sirve para mostrar lineas verticales en el código indentado (sangrado) con
-espacios para marcar los niveles de indentado. Lo tengo desactivado por defecto.
-
-__Ayuda__ `:h indentLine.txt` <vimhelp:indentLine.txt>
-
-__Atajo__ `<Leader>L` oculta/muestra las lineas guía
-
-__Unite__ `<localleader>p` o `:Unite menu:code` muestra el menú de herramientas
-de código donde se encuentra esta opción
-
-__Comandos__
-
-- `:IndentLinesToggle` oculta/muestra las lineas guía
-- `:IndentLinesReset {ancho}` redibuja las lineas guía, si se especifica el ancho (en
-  espacios) se utilizara ese como espaciado entre niveles
-
-*Repositorio:* <https://github.com/Yggdroot/indentLine>
-
-### vim-virtualenv
-
-TODO: Añadir descripción a Virtualenv
-
-*Repositorio:* <https://github.com/jmcantrell/vim-virtualenv>
-
-### coveragepy
-
-TODO: Añadir descripción a coveragepy
-
-*Repositorio:* <https://github.com/alfredodeza/coveragepy.vim>
-
-### tagbar
-
-![tagbar](http://joedicastro.com/static/pictures/tagbar.gif "tagbar")
-
-Muestra una barra lateral con las etiquetas generadas por `ctags` para un
-fichero de código fuente ordenadas por su "alcance" (scope). Desde esta barra
-podemos navegar directamente a una etiqueta determinada en el fichero.
-
-__Ayuda__ `:h tagbar.txt` <vimhelp:tagbar.txt>
-
-__Atajo__ `<Leader>t` muestra/oculta la barra lateral
-
-__Atajos en la barra lateral__
-
-- `<Enter>` salta a la etiqueta en el fichero y cierra la barra
-- `p` salta a la etiqueta en el fichero sin cerrar la barra y sin perder el foco
-- `o` contrae/expande un pliege (scope)
-- `s` ordena las etiquetas por nombre o por su orden de aparición en el fichero
-- `<Space>` Visualiza la linea en la que es definida la etiqueta en la linea de
-  comandos
-- `q` cierra la barra lateral
-- `<F1>` muestra la ayuda para los atajos
-
-*Repositorio:* <https://github.com/majutsushi/tagbar>
+TODO: Añadir entradas de python-mode
+TODO: Añadir entradas de Virtualenv
+TODO: Añadir entradas de coveragepy
 
 ### vimux
 
@@ -832,8 +696,6 @@ un panel de tmux e interactuar con el sin perder el foco en Vim. Tal y como lo
 tengo configurado, si no hay ningún otro panel abierto aparte del de Vim, se
 abrirá uno debajo de este ocupando el 20% del espacio, en otro caso se
 ejecutara en el panel abierto.
-
-__Ayuda__ `:h vimux.txt` <vimhelp:vimux.txt>
 
 __Atajos__
 
@@ -852,25 +714,6 @@ __Atajos__
   en *copy mode*
 - `<Leader>xz` cierra el panel donde se ha ejecutado el comando de vimux
 
-*Repositorio:* <https://github.com/benmills/vimux>
-
-### TagmaTasks
-
-![tagmatasks](http://joedicastro.com/static/pictures/tagmatasks.gif "TagmaTasks")
-
-Visualiza las tareas pendientes para el buffer actual (o para una lista de
-ficheros) y muestra marcas en la columna lateral izquierda de signos para cada una
-de las tareas. Estas tareas se definen por medio de palabras clave en el buffer,
-como __TODO__, __FIXME__, __NOTE__, __XXX__ y __COMBAK__, aunque se pueden
-definir más.
-
-La funcionalidad de este plugin la he sustituido con una busqueda grep a traves
-de Unite.
-
-__Unite__ `<LocalLeader>f` abre el menu de busquedas donde tenemos acceso a esta
-funcon
-
-__Atajo__ `<Leader>;` efectua la busqueda de tareas
 
 ### UltiSnips
 
@@ -894,8 +737,6 @@ Destacaría de todos modos que nos permite emplear comandos externos (shell,
 vimscript y Python) dentro de los mismos o que podemos usarlos con selecciones
 visuales, así como anidar snippets o usar transformaciones de texto.
 
-__Ayuda__ `:h UltiSnips.txt` <vimhelp:UltiSnips.txt>
-
 __Atajos__
 
 - `<Tab>` precedido por el identificador nos lanza el snippet
@@ -904,73 +745,38 @@ __Atajos__
 
 En el directorio `./UltiSnips` guardo mis snippets personalizados.
 
-*Repositorio:* <https://github.com/SirVer/ultisnips>
-
-### Syntastic
-
-Comprueba la sintaxis de numerosos lenguajes (python, ruby, lua, haskell, css,
-html, js, json, ...) a través de herramientas externas*.
-
-> *Estas herramientas necesitan estar instaladas para que el plugin funcione
-correctamente.
-
-Muestra los errores de sintaxis en la columna de signos de Vim, a la izquierda
-de los números de línea. También muestra un resumen del numero de errores y la
-localización del primero de ellos en la barra de estado (en este caso la de
-Powerline)
-
-__Ayuda__ `:h syntastic.txt` <vimhelp:syntastic.txt>
-
-__Comandos__
-
-- `:Errors` muestra una ventana con la lista de errores
-- `:SyntasticToggleMode` conmuta entre el modo activo y pasivo
-- `:SyntasticCheck` ejecuta la comprobación manualmente, útil para cuando
-  empleamos el modo pasivo.
-
-*Repositorio:* <https://github.com/scrooloose/syntastic>
 
 
 ## DVCS: Git
 
-### Fugitive
+![unite git](http://joedicastro.com/static/pictures/unite_menu_git.png "unite git")
 
-TODO: Completar esta seccion
+__Unite__
 
-__Ayuda__ `:h fugitive.txt` <vimhelp:fugitive.txt>
+- `<localleader>g` o `:Unite menu:git` abre el menú de Git
 
-__Unite__ `<LocalLeader>g`
+### Menu
 
-*Repositorio:* <https://github.com/tpope/vim-fugitive>
+- *tig* abrimos la aplicación externa [tig][tig] que es un interfaz ncurses para
+  git. Evidentemente esto solo funciona cuando te encuentras dentro de un
+  repositorio git.
 
-### vim-gitgutter
-
-![gitgutter](http://joedicastro.com/static/pictures/gitgutter.gif "gitgutter")
-
-Muestra los cambios que se producen en el buffer con respecto al repositorio git
-en el que se encuentra. Hace un git diff y muestra el estado de cada linea que
-se ha cambiado/eliminado/añadido en la columna de signos de Vim a la izquierda
-de los números de línea.
-
-__Ayuda__ `:h gitgutter.txt` <vimhelp:gitgutter.txt>
-
-*Repositorio:* <https://github.com/airblade/vim-gitgutter>
-
-### tig
-
-![tig](http://joedicastro.com/static/pictures/tig.gif "tig")
-
-Con este atajo abrimos la aplicación externa [tig][tig] que es un interfaz
-ncurses para git.
-
-> Evidentemente esto solo funciona cuando te encuentras dentro de un repositorio
-> git.
+    ![tig](http://joedicastro.com/static/pictures/tig.gif "tig")
 
   [tig]: https://github.com/jonas/tig
 
-__Atajo__ `<Leader>gt` abre la aplicación tig
+- El resto de entradas son comandos típicos de Git que se ejecutan a traves de
+  la herramienta Fugitive
 
-*Repositorio:* <https://github.com/jonas/tig>
+    TODO: Completar Fugitive
+
+### Otras herramientas
+
+- *vim-gitgutter* muestra los cambios que se producen en el buffer con respecto
+  al repositorio git en el que se encuentra. Hace un git diff y muestra el
+  estado de cada linea que se ha cambiado/eliminado/añadido en la columna de
+  signos de Vim a la izquierda de los números de línea.
+
 
 ## Desarrollo Web
 
@@ -978,8 +784,6 @@ __Atajo__ `<Leader>gt` abre la aplicación tig
 
 Proporciona funciones de autocompletado, sintaxis e indentación para HTML5. Para
 ello tiene soporte de SVG, RDFa, microdata y WAI-AIRA.
-
-*Repositorio:* <https://github.com/othree/html5.vim>
 
 ### Sparkup
 
@@ -989,8 +793,6 @@ Sparkup nos permite escribir archivos HTML más rápido, de manera más concisa 
 de forma menos tediosa. Se basa en Zen Coding, por lo que toda la nomenclatura
 que funciona con Zen Coding es valida para Sparkup.
 
-__Ayuda__ `:h sparkup.txt` <vimhelp:sparkup.txt>
-
 __Atajos__
 
 - `<C-E>` ejecutar sparkup sobre la expresión bajo el cursor
@@ -998,108 +800,80 @@ __Atajos__
 
 La mejor forma de comprender como funciona es acceder a los ejemplos en la ayuda
 de Vim, `:h sparkup-examples` <vimhelp:sparkup-examples> y si tienes
-conocimientos de Python consultar el codigo en
+conocimientos de Python consultar el código en
 `~/.vim/bundle/vim-sparkup/ftplugin/html/sparkup.py`
 
-*Repositorio:* <http://github.com/joedicastro/vim-sparkup>
 
-### ColorV
 
-![colorv](http://joedicastro.com/static/pictures/colorv.gif "ColorV")
+## Gestion de color
 
-ColorV es el complemento perfecto para editar ficheros CSS a la hora de lidiar
-con colores. No solo nos permite previsualizarlos en el fichero para saber que
+![unite colorv](http://joedicastro.com/static/pictures/unite_menu_colorv.png "unite colorv")
+
+ColorV es el complemento perfecto para editar archivos CSS a la hora de lidiar
+con colores. No solo nos permite previsualizarlos en el archivo para saber que
 color se corresponde con cada definición, si no que ademas nos provee de
 herramientas para escoger colores (tanto en la consola como en modo gráfico),
 esquemas de color, trabaja con varios espacios de color, etc. Tiene
 prácticamente todo lo que se puede necesitar para la gestión del color, sin
 envidiar a muchas herramientas profesionales.
 
-__Ayuda__ `h: colorv.txt` <vimhelp:colorv.txt>
-
-__Unite__ `<LocalLeader>c` o `:Unite menu:colorv` nos abre el menu de *colorv*
-donde se encuentran todas estas opciones
-
-__Atajos__
-
-- Visualizar colores
-
-   - `<Leader>cv` muestra la ventana de ColorV
-   - `<Leader>cw` muestra la ventana de ColorV con el color debajo del cursor
-   - `<Leader>cpp` previsualiza los colores en el buffer actual
-
-- Editar colores
-
-   - `<Leader>ce` edita el color situado bajo de el cursor
-   - `<Leader>cE` edita el color situado bajo de el cursor y cambia todas los
-     colores similares en el mismo buffer (con confirmación previa)
-   - `<Leader>cii` inserta un color empleando la ventana de ColorV. La segunda i
-     puede ser sustituida por una `r` para insertar un color con nomenclatura
-     RGB, una `m` para CMYK, etc... consultar la ayuda para más información
-
-- Elegir colores
-
-   - `<Leader>cn` muestra una ventana lateral con una lista de colores por
-      nombre (colores Web del W3C)
-   - `<Leader>cgh` muestra una ventana lateral con una lista de colores
-      con el mismo tono que el situado bajo el cursor. La `h` puede ser cambiada
-      para mostrar una lista de colores por saturación `s`, análogos `a`, ...
-      consultar la ayuda para una lista completa
-   - `<Leader>cd` muestra un selector de color gráfico (GUI)
-
-- Elegir esquemas
-
-   - `<Leader>css` elegir un esquema de color desde
-     [Kuler](https://kuler.adobe.com) o [ColourLovers](http://www.colourlovers.com/)
-   - `<Leader>csf` muestra los esquemas marcados como favoritos (`f` para marcar
-     como favorito, `F` para desmarcarlo)
-   - `<Leader>csn` crea un nuevo esquema
-
-
-__Atajos en la ventana de ColorV__
-
-- `z/Z` cambia el tamaño de la ventana
-- `?` muestra los atajos disponibles ciclicamente
-- `q` cierra la ventana
-
-__Comandos__
-
-- `:ColorvList {tipo} {num} {pasos}` Genera una lista de colores partiendo del
-  que está bajo el cursor del tipo indicado (Hue, Saturation, ...) y con el
-  numero y pasos indicados
-- `:ColorVTurn2 {hex1} {hex2}` muestra una paleta de colores que varían el tono
-  desde el primer color al segundo
-
-
-*Repositorio:* <https://github.com/Rykka/colorv.vim>
-
-## Markdown
-
-### vim-markdown-extra-preview
-
-![mep]( http://joedicastro.com/static/pictures/mep.gif "mep")
-
-Es una utilidad que nos permite previsualizar el renderizado de un fichero
-Markdown en el navegador, soporta además la extensión `extra` de Markdown.  El
-fichero es renderizado con Python-Markdown, crea un fichero temporal html y lo
-abre en una pestaña en el navegador. Usado en conjunto con algún plugin que
-refresque la pestaña del navegador al cambiar el fichero html, conseguimos
-previsualizar los cambios sin abandonar vim.
-
-__Ayuda__ `:h vmep.txt` <vimhelp:vmep.txt>
 
 __Unite__
 
-- `<localleader>k` o `:Unite menu:markdown` nos abre el menu markdown
+`<LocalLeader>c` o `:Unite menu:colorv` nos abre el menu de *colorv*
+donde se encuentran todas estas opciones
 
-__Comandos__
+![colorv](http://joedicastro.com/static/pictures/colorv.gif "ColorV")
 
-- `:Me` para previsualizar el buffer actual
+### Menu
 
-- `:Mer` refresca la pestaña ya abierta anteriormente para el buffer actual
+- `<Leader>cv` muestra la ventana de ColorV
+- `<Leader>cw` muestra la ventana de ColorV con el color debajo del cursor
+- `<Leader>cpp` previsualiza los colores en el buffer actual
+- `<Leader>ce` edita el color situado bajo de el cursor
+- `<Leader>cE` edita el color situado bajo de el cursor y cambia todas los
+ colores similares en el mismo buffer (con confirmación previa)
+- `<Leader>cii` inserta un color empleando la ventana de ColorV. La segunda i
+ puede ser sustituida por una `r` para insertar un color con nomenclatura
+ RGB, una `m` para CMYK, etc... consultar la ayuda para más información
+- `<Leader>cn` muestra una ventana lateral con una lista de colores por
+  nombre (colores Web del W3C)
+- `<Leader>cgh` muestra una ventana lateral con una lista de colores
+  con el mismo tono que el situado bajo el cursor. La `h` puede ser cambiada
+  para mostrar una lista de colores por saturación `s`, análogos `a`, ...
+  consultar la ayuda para una lista completa
+- `<Leader>cd` muestra un selector de color gráfico (GUI)
+- `<Leader>css` elegir un esquema de color desde
+ [Kuler](https://kuler.adobe.com) o [ColourLovers](http://www.colourlovers.com/)
+- `<Leader>csf` muestra los esquemas marcados como favoritos (`f` para marcar
+ como favorito, `F` para desmarcarlo)
+- `<Leader>csn` crea un nuevo esquema
 
 
-*Repositorio:* <http://github.com/joedicastro/vim-markdown-extra-preview>
+    > __Atajos en la ventana de ColorV__
+
+    > - `z/Z` cambia el tamaño de la ventana
+    > - `?` muestra los atajos disponibles cíclicamente
+    > - `q` cierra la ventana
+
+
+## Markdown
+
+![unite markdown](http://joedicastro.com/static/pictures/unite_menu_markdown.png "unite markdown")
+
+Nos permite previsualizar el renderizado de un archivo Markdown en el navegador,
+soporta además la extensión `extra` de Markdown.  El archivo es renderizado con
+Python-Markdown, crea un archivo temporal html y lo abre en una pestaña en el
+navegador. Usado en conjunto con algún plugin que refresque la pestaña del
+navegador al cambiar el archivo html, conseguimos previsualizar los cambios sin
+abandonar vim.
+
+![mep]( http://joedicastro.com/static/pictures/mep.gif "mep")
+
+__Unite__
+
+- `<localleader>k` o `:Unite menu:markdown` nos abre el menú markdown
+
 
 ## Utilidades de Linux/Unix
 
@@ -1115,42 +889,39 @@ __Comandos__
   los dos directorios
 - `:DirDiffQuit` sale del modo DirDiff
 
-*Repositorio:* <http://github.com/joedicastro/DirDiff.vim>
 
 ### Editor hexadecimal
 
 ![hex](http://joedicastro.com/static/pictures/hexman.gif "hex")
 
-Este plugin en realidad utiliza la herramienta `xxd` para visualizar un fichero
+Este plugin en realidad utiliza la herramienta `xxd` para visualizar un archivo
 de forma hexadecimal.
 
 Este es un plugin a manejar con cuidado y sabiendo lo que se está haciendo.
-Conviene ademas abrir el fichero en modo binario (`$ vim -b fichero`) y volver
-siempre al modo ASCII (abandonar el modo binario) antes de guardar el fichero.
+Conviene ademas abrir el archivo en modo binario (`$ vim -b archivo`) y volver
+siempre al modo ASCII (abandonar el modo binario) antes de guardar el archivo.
 
 __Atajos__
 
 - `<F6>` entrar/salir del modo Hexadecimal
-- `<leader>hd` elimina el caracter Hexadecimal bajo el cursor
-- `<leader>hi` inserta un caracter ASCII antes del cursor
+- `<leader>hd` elimina el carácter Hexadecimal bajo el cursor
+- `<leader>hi` inserta un carácter ASCII antes del cursor
 - `<leader>hg` ir al byte que le indiquemos (en hexadecimal)
 - `<leader>hn` o `<Tab>` ir al siguiente byte
 - `<leader>hp` o `<Shift><Tab>` ir al byte anterior
-- `<leader>ht` mueve el cursor del area Hexadecimal al area ASCII y viceversa
+- `<leader>ht` mueve el cursor del área Hexadecimal al área ASCII y viceversa
 - `?`          muestra la ayuda
 
-*Repositorio:* <https://github.com/vim-scripts/hexman.vim>
+
 
 ## Internalizacion
 
-### Traduccion de ficheros .po
+### Traduccion de archivos .po
 
 ![po](http://joedicastro.com/static/pictures/po.gif "po")
 
-Es una utilidad para añadir sintaxis y algunos atajos para los ficheros `.po` de
+Es una utilidad para añadir sintaxis y algunos atajos para los archivos `.po` de
 traducción de cadenas (GNU gettext)
-
-__Ayuda__ `:h po.txt` <vimhelp:po.txt>
 
 __Atajos__
 
@@ -1163,23 +934,114 @@ __Atajos__
 - `/F` se desplaza a la anterior cadena "fuzzy"
 - `/z` etiqueta la entrada "fuzzy"
 - `/Z` elimina la etiqueta de la entrada "fuzzy"
-- `/s` muestra estadísticas `msgfmt` del fichero
-- `/e` navega a través de los errores `msgfmt` del fichero
+- `/s` muestra estadísticas `msgfmt` del archivo
+- `/e` navega a través de los errores `msgfmt` del archivo
 - `/t` introduce la información del traductor en la cabecera
 - `/T` introduce la información del equipo de traducción en la cabecera
-- `/W` formatea todo el fichero
-- `gf` abre en otra ventana el fichero que está debajo del cursor
+- `/W` formatea todo el archivo
+- `gf` abre en otra ventana el archivo que está debajo del cursor
 
 
-*Repositorio:* <https://github.com/vim-scripts/po.vim--gray>
+## vim-transpose
 
+![transpose](http://joedicastro.com/static/pictures/transpose.gif "transpose")
+
+Sirve para transponer filas y columnas, que puede ser muy útil para editar
+cierto tipo de archivos (e.g. *csv*). Funciona con selecciones visuales.
+
+__Comandos__
+
+- `:Transpose` hace la transposición por defecto
+- `:TransposeCSV {separador} {delimitador}` hace la transposición teniendo en cuenta la separación por
+  punto y coma o el separador que le especifiquemos y el delimitador
+- `:TransposeTab` hace la transposición teniendo en cuenta los tabulados
+- `:TransposeWords` hace la transposición por palabras e inserta una
+  interrogación donde falte una
+- `:TransposeInteractive` para transposiciones complejas
+
+
+
+
+
+## Herramientas de Vim
+
+![unite vim](http://joedicastro.com/static/pictures/unite_menu_vim.png "unite vim")
+
+## Prerequisitos
+
+TODO: completar prerequisitos
+
+
+## Plugins & Esquemas de color
+
+- __badwolf__  <https://github.com/sjl/badwolf>
+- __colorv.vim__ <https://github.com/Rykka/colorv.vim>
+- __coveragepy.vim__ <https://github.com/alfredodeza/coveragepy.vim>
+- __crontab.vim__ <https://github.com/vim-scripts/crontab.vim>
+- __csapprox__ <https://github.com/godlygeek/csapprox>
+- __DirDiff.vim__ <http://github.com/joedicastro/DirDiff.vim>
+- __easydigraph.vim__ <https://github.com/Rykka/easydigraph.vim>
+- __gundo.vim__ <https://github.com/sjl/gundo.vim>
+- __harlequin__ <https://github.com/nielsmadan/harlequin>
+- __hexman.vim__ <https://github.com/vim-scripts/hexman.vim>
+- __html5.vim__ <https://github.com/othree/html5.vim>
+- __indentLine__ <https://github.com/Yggdroot/indentLine>
+- __JSON.vim__ <https://github.com/vim-scripts/JSON.vim>
+- __loremipsum__ <https://github.com/vim-scripts/loremipsum>
+- __molokai__ <https://github.com/tomasr/molokai>
+- __neobundle.vim__ <https://github.com/Shougo/neobundle.vim>
+- __neocomplete.vim__ <https://github.com/Shougo/neocomplete.vim>
+- __po.vim--gray__ <https://github.com/vim-scripts/po.vim--gray>
+- __python-mode__ <https://github.com/klen/python-mode>
+- __scratch-utility__ <https://github.com/vim-scripts/scratch-utility>
+- __summerfruit256.vim__ <https://github.com/vim-scripts/summerfruit256.vim>
+- __syntastic__ <https://github.com/scrooloose/syntastic>
+- __ultisnips__ <https://github.com/SirVer/ultisnips>
+- __unite-colorscheme__ <https://github.com/ujihisa/unite-colorscheme>
+- __unite-filetype__ <https://github.com/osyo-manga/unite-filetype>
+- __unite-fold__ <https://github.com/osyo-manga/unite-fold>
+- __unite-help__ <https://github.com/tsukkee/unite-help?>
+- __unite-locate__ <https://github.com/ujihisa/unite-locate>
+- __unite-mark__ <https://github.com/tacroe/unite-mark>
+- __unite-outline__ <https://github.com/Shougo/unite-outline>
+- __unite-quickfix__ <https://github.com/osyo-manga/unite-quickfix>
+- __unite-session__ <https://github.com/Shougo/unite-session>
+- __unite.vim__ <https://github.com/Shougo/unite.vim>
+- __utl.vim__ <https://github.com/vim-scripts/utl.vim>
+- __vim-characterize__ <https://github.com/tpope/vim-characterize>
+- __vim-commentary__ <https://github.com/tpope/vim-commentary>
+- __vim-fugitive__ <https://github.com/tpope/vim-fugitive>
+- __vim-gitgutter__ <https://github.com/airblade/vim-gitgutter>
+- __vim-github256__ <https://github.com/joedicastro/vim-github256>
+- __vim-markdown__ <https://github.com/joedicastro/vim-markdown>
+- __vim-markdown-extra-preview__ <https://github.com/joedicastro/vim-markdown-extra-preview>
+- __vim-molokai256__  <https://github.com/joedicastro/vim-molokai256>
+- __vim-pentadactyl__ <https://github.com/joedicastro/vim-pentadactyl>
+- __vim-powerline__ <https://github.com/joedicastro/vim-powerline>
+- __vim-repeat__ <https://github.com/tpope/vim-repeat>
+- __vim-signature__ <https://github.com/kshenoy/vim-signature>
+- __vim-smartinput__ <https://github.com/kana/vim-smartinput>
+- __vim-sparkup__ <https://github.com/joedicastro/vim-sparkup>
+- __vim-speeddating__ <https://github.com/tpope/vim-speeddating>
+- __vim-surround__ <https://github.com/tpope/vim-surround>
+- __vim-textobj-entire__ <https://github.com/kana/vim-textobj-entire>
+- __vim-textobj-indent__ <https://github.com/kana/vim-textobj-indent>
+- __vim-textobj-lastpat__ <https://github.com/kana/vim-textobj-lastpat>
+- __vim-textobj-line__ <https://github.com/kana/vim-textobj-line>
+- __vim-textobj-underscore__ <https://github.com/kana/vim-textobj-underscore>
+- __vim-textobj-user__ <https://github.com/kana/vim-textobj-user>
+- __vim-tmux__ <https://github.com/vimez/vim-tmux>
+- __vim-transpose__ <https://github.com/salsifis/vim-transpose>
+- __vim-unite-history__ <https://github.com/thinca/vim-unite-history>
+- __vim-virtualenv__ <https://github.com/jmcantrell/vim-virtualenv>
+- __vimfiler__ <https://github.com/Shougo/vimfiler.vim>
+- __vimproc__ <https://github.com/Shougo/vimproc.vim>
+- __vimux__ <https://github.com/benmills/vimux>
+- __webapi-vim__ <https://github.com/mattn/webapi-vim>
+- __winresizer__ <https://github.com/jimsei/winresizer>
+- __zoomwintab.vim__ <https://github.com/vim-scripts/zoomwintab.vim>
 
 # ...Work in progress!
 
-TODO: Acabar con todos los TODOs
-
-FIXME: Reorganizar de forma coherente todos los mapeados para los atajos.
-
 FIXME: Realizar una revisión de calidad
 
-FIXME: Actualizar algunas capturas de pantalla
