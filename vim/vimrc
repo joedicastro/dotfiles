@@ -820,7 +820,7 @@ nnoremap <silent> g<C-h> :UniteWithCursorWord -silent help<CR>
 nnoremap <silent><Leader>; :Unite -silent
             \ grep:%::FIXME\|TODO\|NOTE\|XXX\|COMBAK\|@todo<CR>
 " encabezados (tambien ctags)
-nnoremap <silent><Leader>t :Unite -silent -vertical -winwidth=30
+nnoremap <silent><Leader>t :Unite -silent -vertical -winwidth=40
             \ -direction=topleft -toggle outline<CR>
 
 " menus {{{
@@ -943,8 +943,8 @@ let g:unite_source_menu_menus.busquedas.command_candidates = [
         \'Unite -auto-preview -start-insert line'],
     \['▷ buscar palabra bajo el cursor                              ⌘ [espacio]w',
         \'UniteWithCursorWord -no-split -auto-preview line'],
-    \['▷ buscar encabezados & etiquetas (ctags)                 ⌘ ,t',
-        \'Unite -vertical -winwidth=30 -direction=topleft -toggle outline'],
+    \['▷ buscar encabezados & etiquetas (ctags)                     ⌘ ,t',
+        \'Unite -vertical -winwidth=40 -direction=topleft -toggle outline'],
     \['▷ buscar marcas',
         \'Unite -auto-preview mark'],
     \['▷ buscar pliegues',
@@ -1066,7 +1066,7 @@ let g:unite_source_menu_menus.neobundle.command_candidates = [
     \['▷ neobundle install',
         \'Unite neobundle/install'],
     \['▷ neobundle check',
-        \'Unite -no-empty output:NeoBundleCheck'],
+        \'Unite -no-empty -output:NeoBundleCheck'],
     \['▷ neobundle docs',
         \'Unite output:NeoBundleDocs'],
     \['▷ neobundle clean',
@@ -1335,12 +1335,12 @@ elseif executable('ack')
 endif
 
 " navegacion por la ventana de unite mas comoda
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  nmap <buffer> <Esc><Esc> <Plug>(unite_exit)
-  imap <buffer> <Esc><Esc> <Plug>(unite_exit)
-  imap <buffer> <Esc> <Plug>(unite_insert_leave)
-endfunction
+" autocmd FileType unite call s:unite_settings()
+" function! s:unite_settings()
+"   nmap <buffer> <Esc><Esc> <Plug>(unite_exit)
+"   imap <buffer> <Esc><Esc> <Plug>(unite_exit)
+"   imap <buffer> <Esc> <Plug>(unite_insert_leave)
+" endfunction
 
 " creacion del directorio para guardar sesiones si no existe
 if !isdirectory(expand(unite_data_directory)."/session")
