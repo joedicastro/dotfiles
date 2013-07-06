@@ -913,7 +913,7 @@ let g:unite_source_menu_menus.navegacion.command_candidates = [
         \'Unite location_list'],
     \['▷ quickfix',
         \'Unite quickfix'],
-    \['▷ redimensionar ventanas                                     ⌘ C-E',
+    \['▷ redimensionar ventanas                                     ⌘ C-C C-W',
         \'WinResizerStartResize'],
     \['▷ crear nueva ventana vertical                               ⌘ ,v',
         \'vsplit'],
@@ -1100,7 +1100,7 @@ let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git stage        (Fugitive)                                ⌘ ,gw',
         \'Gwrite'],
     \['▷ git checkout     (Fugitive)                                ⌘ ,go',
-        \'Gread'],
+        \'Gread!'],
     \['▷ git rm           (Fugitive)                                ⌘ ,gr',
         \'Gremove'],
     \['▷ git mv           (Fugitive)                                ⌘ ,gm',
@@ -1416,8 +1416,9 @@ map <Leader>xz :VimuxCloseRunner<CR>
 
 " winresizer {{{
 
-let g:winresizer_start_key = '<C-E>'
+let g:winresizer_start_key = '<C-C><C-W>'
 " cancelar pulsando ESC
+" let g:winresizer_finish_with_escape = 1
 let g:winresizer_keycode_finish = 27
 
 " }}}
@@ -1431,6 +1432,12 @@ map <Leader>z :ZoomWinTabToggle<CR>
 " FIN CONFIGURACION PLUGINS }}}
 
 " TIPOS DE ARCHIVO  {{{ ======================================================
+
+" DJANGO HTML (Templates) {{{
+
+au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
+
+" }}}
 
 " JSON {{{ -------------------------------------------------------------------
 
