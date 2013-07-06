@@ -856,6 +856,7 @@ donde se encuentran todas estas opciones
     > - `?` muestra los atajos disponibles cíclicamente
     > - `q` cierra la ventana
 
+TODO: terminar el menu
 
 ## Markdown
 
@@ -868,12 +869,18 @@ navegador. Usado en conjunto con algún plugin que refresque la pestaña del
 navegador al cambiar el archivo html, conseguimos previsualizar los cambios sin
 abandonar vim.
 
-![mep]( http://joedicastro.com/static/pictures/mep.gif "mep")
-
 __Unite__
 
 - `<localleader>k` o `:Unite menu:markdown` nos abre el menú markdown
 
+### Menu
+
+- *previsualizar* renderiza el documento markdown en un archivo temporal y lo
+  abre en una pestaña del navegador
+
+- *refrescar* reescribe el fichero html con los cambios introducidos
+
+    ![mep]( http://joedicastro.com/static/pictures/mep.gif "mep")
 
 ## Utilidades de Linux/Unix
 
@@ -960,17 +967,36 @@ __Comandos__
 - `:TransposeInteractive` para transposiciones complejas
 
 
-
-
-
 ## Herramientas de Vim
 
 ![unite vim](http://joedicastro.com/static/pictures/unite_menu_vim.png "unite vim")
+
+TODO: completar herramientas de Vim
 
 ## Prerequisitos
 
 TODO: completar prerequisitos
 
+Para que todos los plugins incluidos funcionen adecuadamente es necesario
+disponer de una versión de Vim superior o igual a la __7.3__ y compilada para
+dar soporte a Python, Lua y Ruby. Esto se puede saber empleando el comando
+`:version` que ademas de darnos el numero de versión nos dirá que opciones
+soporta precediéndolas de un símbolo más `+`
+
+Ademas es necesario tener instalados una serie de programas para un
+funcionamiento integral:
+
+- __ctags__, para generar las "etiquetas" de los archivos de código fuente. Suele
+  venir distribuido como `exuberant-ctags`
+- __ag__, __ack__ o __grep__ para la búsqueda del contenido de archivos mediante expresiones
+  regulares
+- __git__ para las operaciones de control de versiones
+
+__Fuente__
+
+Es necesario ademas emplear la fuente `Dejavu Sans for Powerline` para el plugin
+Powerline. Esta fuente está incluida en este mismo repositorio en la carpeta
+`../fonts`
 
 ## Plugins & Esquemas de color
 
