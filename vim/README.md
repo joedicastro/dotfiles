@@ -742,6 +742,7 @@ __Atajos__
 - `<Tab>` precedido por el identificador nos lanza el snippet
 - `<C-J>` nos desplaza al siguiente campo a rellenar
 - `<C-K>` nos desplaza al anterior campo a rellenar
+- `<BS>`  cancela la entrada de un campo opcional
 
 En el directorio `./UltiSnips` guardo mis snippets personalizados.
 
@@ -975,8 +976,6 @@ TODO: completar herramientas de Vim
 
 ## Prerequisitos
 
-TODO: completar prerequisitos
-
 Para que todos los plugins incluidos funcionen adecuadamente es necesario
 disponer de una versión de Vim superior o igual a la __7.3__ y compilada para
 dar soporte a Python, Lua y Ruby. Esto se puede saber empleando el comando
@@ -986,17 +985,24 @@ soporta precediéndolas de un símbolo más `+`
 Ademas es necesario tener instalados una serie de programas para un
 funcionamiento integral:
 
-- __ctags__, para generar las "etiquetas" de los archivos de código fuente. Suele
-  venir distribuido como `exuberant-ctags`
-- __ag__, __ack__ o __grep__ para la búsqueda del contenido de archivos mediante expresiones
-  regulares
-- __git__ para las operaciones de control de versiones
+- __[ctags][ctags]__, para generar las "etiquetas" de los archivos de código
+  fuente. Suele venir distribuido como `exuberant-ctags`
+- __[ag][ag]__, __[ack][ack]__ o __[grep][grep]__ para la búsqueda del contenido
+  de archivos mediante expresiones regulares
+- __[git][git]__ para las operaciones de control de versiones
 
 __Fuente__
 
-Es necesario ademas emplear la fuente `Dejavu Sans for Powerline` para el plugin
-Powerline. Esta fuente está incluida en este mismo repositorio en la carpeta
-`../fonts`
+Es necesario ademas emplear la fuente __Dejavu Sans for Powerline__ para el
+plugin Powerline. Esta fuente está incluida en este mismo repositorio en la
+carpeta `../fonts`
+
+  [ctags]: http://ctags.sourceforge.net/
+  [ag]: https://github.com/ggreer/the_silver_searcher
+  [ack]: http://beyondgrep.com/
+  [grep]:http://www.gnu.org/software/grep/
+  [git]: http://git-scm.com/
+
 
 ## Plugins & Esquemas de color
 
