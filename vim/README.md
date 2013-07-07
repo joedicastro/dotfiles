@@ -95,7 +95,70 @@ navegación.
 
 ### Navegacion dentro de Unite
 
-TODO: completar este apartado
+En el tema de Powerline que estoy empleando hay un circulo de color detrás del
+numero de candidatos que indica el modo en el que nos encontramos actualmente.
+
+ - __Verde__ modo normal
+ - __Azul__ modo inserción
+ - __Naranja__ modo visual
+
+En modo `Normal` podemos acceder a la ayuda de Unite donde se pueden ver todos
+los atajos disponibles con `?`. De todos modos los atajos principales son los
+siguientes:
+
+> __Atajos__
+
+> Modo normal:
+
+> - `q` salir de Unite o de submenu
+> - `Q` salir de Unite y de todos los submenus
+> - `i` cambiar a modo inserción
+> - `v` cambiar a modo visual
+> - `<Tab>` elegir una acción
+> - `a` elegir una acción para el candidato seleccionado o añade texto a la ultima
+>   posición del *prompt*
+> - `<C-R>` reiniciar el menú
+> - `<Space>` marcar el candidato actual
+> - `*` marcar todos los candidatos
+> - `M` elimina el limite de candidatos a mostrar
+> - `gg`, `G`, `j`, `k` los típicos movimientos de vim para movernos entre los
+>   candidatos
+> - `?` mostrar la ayuda (atajos)
+> - `N` añadir un nuevo candidato (no se aplica a todos los menús, solo en
+>   aquellos que tiene sentido (archivos, dirs, ...))
+> - `.` permite seleccionar los dotfiles (archivos ocultos)
+
+>     *Con un candidato seleccionado:*
+
+>     - `<CR>` ejecutar la acción por defecto
+>     - `b` lo añade a marcadores
+>     - `d` lo elimina
+>     - `e` expande el path
+>     - `t` abre el candidato en una nueva pestaña
+>     - `yy` hace un yank (copia)
+>     - `p` previsualiza el candidato
+>     - `x` lanza la selección rápida (una letra por candidato)
+
+> Modo inserción:
+
+> - `<ESC>` cambiar a modo normal
+> - `<Tab>` elegir una acción
+> - `<CR>` ejecutar la acción por defecto
+> - `<C-G>` salir de Unite
+> - `<C-D>` elimina el candidato
+> - `<C-E>` expande el path
+> - `<C-T>` abre el candidato en una nueva pestaña
+> - `<C-Y>` hace un yank (copia)
+> - `<C-N>`, `<C-P>`, `<C-F>` y `<C-B>` movimientos de vim para moverse entre los
+>   candidatos
+
+>     *Con un candidato seleccionado:*
+
+>     - `<Space>` marcar el candidato actual
+
+> Modo visual:
+
+> - `<Space>` marcar el candidato actual
 
 ## Gestion de Plugins
 
@@ -136,7 +199,8 @@ Voy a detallar aquí lo que hace cada uno de las entradas del menu:vim
 - *log* muestra el registro de operaciones de neobundle
 
 - *lazy* nos muestra la lista de los plugins que tenemos configurados para ser
-  cargados bajo demanda
+  cargados bajo demanda (algo que nos permite tener instalados plugins que no
+  usamos muy frecuentemente sin que afecte al rendimiento de Vim)
 
 - *update* actualiza automáticamente todos los plugins (e instala aquellos que
   no lo estén)
@@ -365,18 +429,23 @@ __Unite__
 A parte de las herramientas incluidas en el menú, disponemos de otra serie de
 ellas para poder editar texto más fácilmente.
 
-TODO: añadir text-objs
+- __text-objects__ los objetos de texto personalizados nos permiten ampliar los
+  ya definidos por defecto en Vim (palabra, frase, párrafo, bloque,
+  delimitadores (comillas, paréntesis, ...) y etiquetas de marcado (html)) y
+  poder usar selecciones de texto mas eficientes. En esta configuración he
+  añadido los siguientes:
 
-
-- __easydigraph__ sirve para insertar un dígrafo de forma bastante sencilla,
-   sobre todo cuando se trata de insertar varios simultáneamente.
-
-    ![easydigraph](http://joedicastro.com/static/pictures/easydigraph.gif "easydigraph")
-    >
-    > __Atajo__
-    >
-    > - `<Leader>dd {motion}` convierte en dígrafo la selección efectuada con el
-    >   movimiento.
+    > - __línea__ selecciona una linea mediante `al` o `il`
+    > - __guión bajo__ selecciona el contenido delimitado por guiones bajos
+    >   usando `a_` o `i_`
+    > - __todo el buffer__ nos permite seleccionar todo el contenido del buffer,
+    >   soporta la siguientes selecciones: `ae` y `ie`
+    > - __indentado__ permite seleccionar un nivel de indentado. Selecciones:
+    >   `ai`, `ii`, `aI`, `iI`. La diferencia es que `i` selecciona un nivel de
+    >   indentado y los inferiores e `I` solo selecciona lo que esté al mismo
+    >   nivel de indentado
+    > - __último elemento buscado__ nos selecciona el ultimo resultado de
+    >   búsqueda. Las opciones que tenemos son: `a/`, `i/`, `a?` e `iw`
 
 - __vim-commentary__ herramienta extremadamente sencilla para
   comentar/descomentar fragmentos de texto/código. Simplemente tenemos que
@@ -443,6 +512,17 @@ TODO: añadir text-objs
     > - `<CR>`    inserta la palabra seleccionada
     > - `<C-N>`   nos desplaza a la palabra inferior en la lista de opciones
     > - `<C-P>`   nos desplaza a la palabra superior en la lista de opciones
+
+- __easydigraph__ sirve para insertar un dígrafo de forma bastante sencilla,
+   sobre todo cuando se trata de insertar varios simultáneamente.
+
+    ![easydigraph](http://joedicastro.com/static/pictures/easydigraph.gif "easydigraph")
+    >
+    > __Atajo__
+    >
+    > - `<Leader>dd {motion}` convierte en dígrafo la selección efectuada con el
+    >   movimiento.
+
 
 ## Revision de ortografia
 
@@ -639,10 +719,64 @@ __Unite__
 
 - *abrir vimfiler* abre el explorador de archivos vimfiler, muy completo y
   basado en Unite. Lo uso principalmente en donde no tengo instalado ranger.
+  Dispone de un modo seguro (activado por defecto) en el cual no se pueden
+  copiar, mover, crear, renombrar o eliminar archivos y directorios.
 
     ![vimfiler](http://joedicastro.com/static/pictures/vimfiler.png "vimfiler")
 
-  TODO: completar vimfiler
+      > __Atajos__
+
+    > - `<Tab>` abre una nueva ventana vertical y si ya lo esta, conmuta entre ellas
+    > - `j`, `k` y `gg` movimientos típicos de vim para movernos entre los archivos
+    > - `h`, `l` se mueve entre los directorios "padre" e "hijo"
+    > - `<Space>` selecciona/deselecciona la linea actual
+    > - `*` selecciona/deselecciona todas las lineas
+    > - `&` selecciona lineas similares
+    > - `U` deselecciona todo
+    > - `S` cambiar la manera de ordenar los ficheros (nombre, fecha, tamaño, ...)
+
+    > - `c` copia el archivo (precediendola de `C` lo hace al portapapeles)
+    > - `m` mueve el archivo (precediendola de `C` lo hace al portapapeles)
+    > - `d` elimina el archivo
+    > - `r` renombra el archivo
+    > - `Cp` pega archivo desde el portapapeles
+    > - `K` nuevo directorio
+    > - `N` nuevo archivo
+    > - `x` ejecuta el programa asociado al archivo en el sistema
+    > - `e` edita el fichero
+    > - `E` edita el fichero en una nueva ventana
+    > - `v` previsualiza el fichero
+
+    > - `L` cambia la unidad de disco
+    > - `~` nos mueve al directorio `home`
+    > - <code>\\</code> nos mueve al directorio `root`
+    > - `<C-J>` abre la historia de directorios que hemos visitado (abiertos
+      > directamente sin usar `h` y `l`)
+    > - `<CR>` abre un directorio
+    > - `<BS>` vuelve al directorio padre
+    > - `t` expande el directorio sin entrar en el
+    > - `T` expande el directorio sin entrar en el de manera recursiva
+    > - `I` cambiar al directorio que introduzcamos en la linea de comandos
+    > - `M` establece la mascara actual (para filtrar ficheros)
+    > - `.` muestra/oculta los archivos ocultos (dotfiles)
+
+    > - `q` oculta vimfiler
+    > - `Q` sale de vimfiler
+    > - `H` sale al shell (salir del shell para volver a vimfiler)
+    > - `-` cierra la ventana actual de vimfiler
+    > - `?` muestra la ayuda de vimfiler (atajos)
+    > - `o` sincroniza otro vimfiler con este
+    > - `O` abre fichero o directorio en otro vimfiler
+    > - `yy` copia el path completo
+    > - `gr` hace grep en el directorio actual
+    > - `gf` hace find en el directorio actual
+    > - `gc` convierte el directorio actual al directorrio de trabajo de Vim
+    > - `a` elige la accion a realizar sobre el fichero
+    > - `Y` guarda la ruta actual en una lista temporal
+    > - `P` muestra las rutas guardadas en esa lista temporal
+    > - `<C-L>` redibuja la pantalla
+    > - `gs` conmuta el modo seguro (safe) __Cuidado!__
+    > - `gS` conmuta el modo simple
 
 ### Otras herramientas
 
@@ -828,27 +962,36 @@ donde se encuentran todas estas opciones
 
 ### Menu
 
-- `<Leader>cv` muestra la ventana de ColorV
-- `<Leader>cw` muestra la ventana de ColorV con el color debajo del cursor
-- `<Leader>cpp` previsualiza los colores en el buffer actual
-- `<Leader>ce` edita el color situado bajo de el cursor
-- `<Leader>cE` edita el color situado bajo de el cursor y cambia todas los
- colores similares en el mismo buffer (con confirmación previa)
-- `<Leader>cii` inserta un color empleando la ventana de ColorV. La segunda i
- puede ser sustituida por una `r` para insertar un color con nomenclatura
- RGB, una `m` para CMYK, etc... consultar la ayuda para más información
-- `<Leader>cn` muestra una ventana lateral con una lista de colores por
-  nombre (colores Web del W3C)
-- `<Leader>cgh` muestra una ventana lateral con una lista de colores
-  con el mismo tono que el situado bajo el cursor. La `h` puede ser cambiada
-  para mostrar una lista de colores por saturación `s`, análogos `a`, ...
-  consultar la ayuda para una lista completa
-- `<Leader>cd` muestra un selector de color gráfico (GUI)
-- `<Leader>css` elegir un esquema de color desde
- [Kuler](https://kuler.adobe.com) o [ColourLovers](http://www.colourlovers.com/)
-- `<Leader>csf` muestra los esquemas marcados como favoritos (`f` para marcar
- como favorito, `F` para desmarcarlo)
-- `<Leader>csn` crea un nuevo esquema
+- *abrir colorv* muestra la ventana de ColorV
+- la siguiente entrada muestra la ventana de ColorV con el color situado debajo
+  del cursor seleccionado
+- *previsualiza los colores en el buffer actual* muy útil para hojas css, donde
+  muestra los códigos de color coloreados con su color correspondiente
+- *selector de color* muestra un selector de color gráfico (GUI)
+- *edita el color situado bajo de el cursor* abre ColorV con el color situado
+  bajo el cursor y cuando cerramos colorv lo cambia por el que hayamos
+  establecido
+- la entrada que le sigue edita el color situado bajo de el cursor y cambia
+  todas los colores similares en el mismo buffer (con confirmación previa)
+- *inserta un color* inserta un color empleando la ventana de ColorV. En el
+  atajo la segunda `i` puede ser sustituida por una `r` para insertar un color
+  con nomenclatura RGB, una `m` para CMYK, etc... consultar la ayuda para más
+  información o lanzarlo a través del menú
+- *lista de colores relativa al actual* muestra una ventana lateral con una
+  lista de colores con el mismo tono que el situado bajo el cursor. La `h` del
+  atajo puede ser cambiada para mostrar una lista de colores por saturación `s`,
+  análogos `a`, ...  consultar la ayuda para una lista completa o lanzarlo
+  interactivamente a través del menú
+- *lista de colores relativa al color actual* muestra una ventana lateral con
+  una lista de colores por nombre (colores Web del W3C)
+- *elegir un esquema de color* nos permite elegir un esquema de color desde
+  [Kuler](https://kuler.adobe.com) o
+  [ColourLovers](http://www.colourlovers.com/)
+- *muestra esquemas de color favoritos* muestra los esquemas marcados como
+  favoritos (`f` para marcar como favorito, `F` para desmarcarlo)
+- *crear esquema de color* crea un nuevo esquema
+- *crear variación de tono entre dos colores* crea una lista de colores que
+  varían en función de un parámetro (tono, saturación, ...)
 
 
     > __Atajos en la ventana de ColorV__
@@ -857,7 +1000,6 @@ donde se encuentran todas estas opciones
     > - `?` muestra los atajos disponibles cíclicamente
     > - `q` cierra la ventana
 
-TODO: terminar el menu
 
 ## Markdown
 
@@ -879,7 +1021,7 @@ __Unite__
 - *previsualizar* renderiza el documento markdown en un archivo temporal y lo
   abre en una pestaña del navegador
 
-- *refrescar* reescribe el fichero html con los cambios introducidos
+- *refrescar* reescribe el archivo html con los cambios introducidos
 
     ![mep]( http://joedicastro.com/static/pictures/mep.gif "mep")
 
@@ -976,11 +1118,15 @@ TODO: completar herramientas de Vim
 
 ## Prerequisitos
 
+__Vim__
+
 Para que todos los plugins incluidos funcionen adecuadamente es necesario
 disponer de una versión de Vim superior o igual a la __7.3__ y compilada para
 dar soporte a Python, Lua y Ruby. Esto se puede saber empleando el comando
 `:version` que ademas de darnos el numero de versión nos dirá que opciones
 soporta precediéndolas de un símbolo más `+`
+
+__Programas__
 
 Ademas es necesario tener instalados una serie de programas para un
 funcionamiento integral:
