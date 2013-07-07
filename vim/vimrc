@@ -304,6 +304,7 @@ set hidden                      " Oculta los bufferes cerrados.
 set ruler                       " Establece una regla permanente.
 set lazyredraw                  " Redibuja solo cuando es necesario.
 set autoread                    " Actualiza cambios realizados fuera de vim.
+set ttimeoutlen=50              " Conmuta más rápido entre modos
 
 " }}}
 
@@ -1314,6 +1315,7 @@ let g:unite_enable_short_source_mes = 0
 let g:unite_force_overwrite_statusline = 0
 let g:unite_prompt = '>>> '
 let g:unite_marked_icon = '✓'
+" let g:unite_candidate_icon = '∘'
 let g:unite_winheight = 15
 let g:unite_update_time = 200
 let g:unite_split_rule = 'botright'
