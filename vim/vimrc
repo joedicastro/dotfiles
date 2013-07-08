@@ -560,6 +560,7 @@ function! s:QuickfixToggle()
         let bnum = winbufnr(i)
         if getbufvar(bnum, '&buftype') == 'quickfix'
             cclose
+            lclose
             return
         endif
     endfor
