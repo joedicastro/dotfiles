@@ -1124,8 +1124,47 @@ __Unite__
 La primera entrada ya la comente al principio de este documento
 
 - *atajos de teclado* es una opción tremendamente útil que nos permite conocer a
-  que función o comando esta asociado cada atajo.
+  que función o comando esta asociado a cada atajo. Los de los plugins con carga
+  bajo demanda (empleando NeoBundleLazy) no aparecerán en la lista a menos que
+  el plugin se haya cargado
 
+- *editar fichero de configuración (vimrc)* edita el fichero donde albergamos
+  nuestra configuración de Vim
+
+- *establecer tipo de archivo* nos permite elegir entre una lista de tipos de
+  archivo para asignárselo al buffer actual. Es útil cuando Vim no reconoce o
+  reconoce erróneamente un tipo de archivo
+
+- *ayuda de Vim* nos permite encontrar dentro de la ayuda de Vim la información
+  que necesitamos sobre un plugin, una función, un comando, ... Es un poco lento
+  debido al elevado numero de candidatos
+
+- *comandos de vim* una lista con todos los comandos disponibles para Vim. Los
+  de los plugins con carga bajo demanda (empleando NeoBundleLazy) no aparecerán
+  en la lista a menos que el plugin se haya cargado
+
+- *funciones de vim* tiene el mismo comportamiento que la entrada anterior
+  aunque para las funciones en lugar de los comandos
+
+- *runtimpath de vim* muestra todos aquellos paths que se encuentren dentro del
+  runtimepath de vim
+
+- *salida de comando de vim* sirve para recoger por Unite la salida de un
+  comando que se ejecute en la linea de comandos de Vim (e.g. `:ls`)
+
+- *fuentes de Unite* lista todas las fuentes de las que disponemos para usar con
+  Unite
+
+- *matar procesos* muestra la salida del comando `top` donde podemos seleccionar
+  uno o varios procesos y matarlos con `kill`. Puede ser muy útil para matar un
+  proceso que estemos desarrollando y se haya quedado colgado en un bucle
+
+- *lanzar ejecutable* nos permite lanzar un programa desde Vim eligiendo el
+  ejecutable de una lista
+
+- *limpiar cache de Powerline* es algo que podemos necesitar cuando realizamos
+  cambios en la configuración de Vim para que se vuelve a visualizar
+  correctamente la linea de estado
 
 ## Prerequisitos
 
