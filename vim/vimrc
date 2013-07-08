@@ -448,14 +448,20 @@ nnoremap <silent><Leader>B :bd<CR>
 
 " Conmutar números de linea {{{ ----------------------------------------------
 
-nnoremap <Leader>l :call ToggleRelativeAbsoluteNumber()<CR>
+nnoremap <silent><Leader>l :call ToggleRelativeAbsoluteNumber()<CR>
 function! ToggleRelativeAbsoluteNumber()
-  if &number
-    set relativenumber
-  elseif &relativenumber
-    set nonumber & norelativenumber
-  else
-    set number
+  if !&number && !&relativenumber
+      set number 
+      set norelativenumber
+  elseif &number && !&relativenumber
+      set nonumber
+      set relativenumber
+  elseif !&number && &relativenumber
+      set number
+      set relativenumber
+  elseif &number && &relativenumber
+      set nonumber
+      set norelativenumber
   endif
 endfunction
 

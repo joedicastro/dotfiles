@@ -386,7 +386,7 @@ __Unite__
    resaltado de los resultados una vez hemos realizado la búsqueda
 
 - *conmutar los números de linea* conmuta entre no mostrar los números de línea,
-  mostrarlos relativos y mostrarlos absolutos.
+  mostrarlos relativos (en las dos formas posibles) y mostrarlos absolutos.
 
 - *mostrar caracteres no imprimibles* nos conmuta la visualización de los
   caracteres no visibles tales como tabulados, retornos de carro, espacios a
@@ -734,7 +734,6 @@ __Unite__
     > - `&` selecciona lineas similares
     > - `U` deselecciona todo
     > - `S` cambiar la manera de ordenar los ficheros (nombre, fecha, tamaño, ...)
-
     > - `c` copia el archivo (precediendola de `C` lo hace al portapapeles)
     > - `m` mueve el archivo (precediendola de `C` lo hace al portapapeles)
     > - `d` elimina el archivo
@@ -746,12 +745,11 @@ __Unite__
     > - `e` edita el fichero
     > - `E` edita el fichero en una nueva ventana
     > - `v` previsualiza el fichero
-
     > - `L` cambia la unidad de disco
     > - `~` nos mueve al directorio `home`
     > - <code>\\</code> nos mueve al directorio `root`
     > - `<C-J>` abre la historia de directorios que hemos visitado (abiertos
-      > directamente sin usar `h` y `l`)
+    >   directamente sin usar `h` y `l`)
     > - `<CR>` abre un directorio
     > - `<BS>` vuelve al directorio padre
     > - `t` expande el directorio sin entrar en el
@@ -759,7 +757,6 @@ __Unite__
     > - `I` cambiar al directorio que introduzcamos en la linea de comandos
     > - `M` establece la mascara actual (para filtrar ficheros)
     > - `.` muestra/oculta los archivos ocultos (dotfiles)
-
     > - `q` oculta vimfiler
     > - `Q` sale de vimfiler
     > - `H` sale al shell (salir del shell para volver a vimfiler)
@@ -1114,7 +1111,21 @@ __Comandos__
 
 ![unite vim](http://joedicastro.com/static/pictures/unite_menu_vim.png "unite vim")
 
-TODO: completar herramientas de Vim
+Bajo este menú he agrupado varias herramientas de Vim y alguna otra que no me
+acababa de cuadrar en ningún otro menú.
+
+__Unite__
+
+- `<LocalLeader>v` o `:Unite menu:vim` abren este menú
+
+
+### Menu
+
+La primera entrada ya la comente al principio de este documento
+
+- *atajos de teclado* es una opción tremendamente útil que nos permite conocer a
+  que función o comando esta asociado cada atajo.
+
 
 ## Prerequisitos
 
