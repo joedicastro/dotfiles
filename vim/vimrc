@@ -451,7 +451,7 @@ nnoremap <silent><Leader>B :bd<CR>
 nnoremap <silent><Leader>l :call ToggleRelativeAbsoluteNumber()<CR>
 function! ToggleRelativeAbsoluteNumber()
   if !&number && !&relativenumber
-      set number 
+      set number
       set norelativenumber
   elseif &number && !&relativenumber
       set nonumber
@@ -550,7 +550,7 @@ fun! RangerChooser()
     endif
     redraw!
 endfun
-map <Leader>r :call RangerChooser()<CR>
+map <Leader>x :call RangerChooser()<CR>
 " }}}
 
 " Mostrar/Ocultar la ventana Quickfix {{{
@@ -747,9 +747,10 @@ let g:indentLine_color_term = 239
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#enable_refresh_always = 1
 let g:neocomplete#max_list = 30
-let g:neocomplete#min_keyword_length = 3
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#min_keyword_length = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 1
 let g:neocomplete#data_directory = $HOME.'/.vim/tmp/neocomplete'
 
 " Enable omni completion.
@@ -782,16 +783,15 @@ call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
 
 let g:pymode_breakpoint_key = '<Leader>B'
 
-let g:pymode_lint_checker = 'pyflakes,pep8,mccabe,pep257'
+let g:pymode_lint_checker = 'pylint,pep8,mccabe,pep257'
 let g:pymode_lint_ignore = ''
+let g:pymode_lint_config = '$HOME/dotfiles/pylint/pylint.rc'
 
 let g:pymode_rope = 1
+let g:pymode_rope_goto_def_newwin = 'new'
 let g:pymode_rope_guess_project = 0
-let g:pymode_rope_vim_completion = 0
+let g:pymode_rope_vim_completion = 1
 let g:pymode_rope_always_show_complete_menu = 1
-
-map <Leader>d :RopeGotoDefinition<CR>
-map <Leader>n :RopeFindOccurrences<CR>
 
 " }}}
 
@@ -1108,7 +1108,7 @@ let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git stage        (Fugitive)                                ⌘ ,gw',
         \'Gwrite'],
     \['▷ git checkout     (Fugitive)                                ⌘ ,go',
-        \'Gread!'],
+        \'Gread'],
     \['▷ git rm           (Fugitive)                                ⌘ ,gr',
         \'Gremove'],
     \['▷ git mv           (Fugitive)                                ⌘ ,gm',
@@ -1126,22 +1126,93 @@ nnoremap <silent>[menu]g :Unite -silent -start-insert menu:git<CR>
 " }}}
 
 " menu code {{{
-" TODO: terminar menu
 let g:unite_source_menu_menus.code = {
     \ 'description' : '           herramientas para escribir codigo
         \                     ⌘ [espacio]p',
     \}
 let g:unite_source_menu_menus.code.command_candidates = [
-    \['▷ syntastic check',
+    \['▷ ejecutar codigo python                     (pymode)        ⌘ ,r',
+        \'Pyrun'],
+    \['▷ mostrar docs python para palabra actual    (pymode)        ⌘ K',
+        \'normal K'],
+    \['▷ insertar un breakpoint                     (pymode)        ⌘ ,B',
+        \'normal ,B'],
+    \['▷ conmuta la revision con pylint             (pymode)',
+        \'PyLintToggle'],
+    \['▷ ejecutar con python2 en panel tmux         (vimux)         ⌘ ,rr',
+        \'normal ,rr'],
+    \['▷ ejecutar con python3 en panel tmux         (vimux)         ⌘ ,r3',
+        \'normal ,r3'],
+    \['▷ ejecutar con python2 y time en panel tmux  (vimux)         ⌘ ,rt',
+        \'normal ,rt'],
+    \['▷ ejecutar con pypy y time en panel tmux     (vimux)         ⌘ ,rp',
+        \'normal ,rp'],
+    \['▷ ejecutar comando en panel tmux             (vimux)         ⌘ ,rc',
+        \'VimuxPromptCommand'],
+    \['▷ repetir ultimo comando                     (vimux)         ⌘ ,rl',
+        \'VimuxRunLastCommand'],
+    \['▷ interrumpir ejecucion del panel tmux       (vimux)         ⌘ ,rs',
+        \'VimuxInterruptRunner'],
+    \['▷ inspeccionar panel tmux                    (vimux)         ⌘ ,ri',
+        \'VimuxInspectRunner'],
+    \['▷ cerrar panel tmux                          (vimux)         ⌘ ,rq',
+        \'VimuxCloseRunner'],
+    \['▷ autocompletado con rope                    (rope)          ⌘ C-[espacio]',
+        \'RopeCodeAssist'],
+    \['▷ ir a la definición                         (rope)          ⌘ C-C g',
+        \'RopeGotoDefinition'],
+    \['▷ reorganizar imports                        (rope)          ⌘ C-C r o',
+        \'RopeOrganizeImports'],
+    \['▷ refactorizar - renombrar                   (rope)          ⌘ C-C r r',
+        \'RopeRename'],
+    \['▷ refactorizar - extraer variable            (rope)          ⌘ C-C r l',
+        \'RopeExtractVariable'],
+    \['▷ refactorizar - extraer metodo              (rope)          ⌘ C-C r m',
+        \'RopeExtractMethod'],
+    \['▷ refactorizar - inline                      (rope)          ⌘ C-C r i',
+        \'RopeInline'],
+    \['▷ refactorizar - mover                       (rope)          ⌘ C-C r v',
+        \'RopeMove'],
+    \['▷ refactorizar - reestructurar               (rope)          ⌘ C-C r x',
+        \'RopeRestructure'],
+    \['▷ refactorizar - usar funcion                (rope)          ⌘ C-C r u',
+        \'RopeUseFunction'],
+    \['▷ refactorizar - introducir factor           (rope)          ⌘ C-C r f',
+        \'RopeIntroduceFactory'],
+    \['▷ refactorizar - cambiar firma               (rope)          ⌘ C-C r s',
+        \'RopeChangeSignature'],
+    \['▷ refactorizar - renombrar modulo actual     (rope)          ⌘ C-C r 1 r',
+        \'RopeRenameCurrentModule'],
+    \['▷ refactorizar - mover modulo actual         (rope)          ⌘ C-C r 1 m',
+        \'RopeMoveCurrentModule'],
+    \['▷ refactorizar - convertir modulo en paquete (rope)          ⌘ C-C r 1 p',
+        \'RopeModuleToPackage'],
+    \['▷ mostrar docs palabra actual                (rope)          ⌘ C-C r a d',
+        \'RopeShowDoc'],
+    \['▷ syntastic check                            (syntastic)',
         \'SyntasticCheck'],
-    \['▷ syntastic errors',
+    \['▷ syntastic errors                           (syntastic)',
         \'Errors'],
+    \['▷ listar virtualenvs                         (virtualenv)',
+        \'Unite output:VirtualEnvList'],
+    \['▷ activar virtualenv                         (virtualenv)',
+        \'VirtualEnvActivate'],
+    \['▷ desactivar virtualenv                      (virtualenv)',
+        \'VirtualEnvDeactivate'],
+    \['▷ ejecutar coveragepy2                       (coveragepy)',
+        \'call system("coverage2 run ".bufname("%")) | Coveragepy report'],
+    \['▷ ejecutar coveragepy3                       (coveragepy)',
+        \'call system("coverage3 run ".bufname("%")) | Coveragepy report'],
+    \['▷ mostrar/ocultar informe de coveragepy      (coveragepy)',
+        \'Coveragepy session'],
+    \['▷ muestra/oculta marcas de coveragepy        (coveragepy)',
+        \'Coveragepy show'],
     \['▷ contar lineas de codigo',
         \'Unite -default-action= output:call\\ LinesOfCode()'],
     \['▷ conmutar lineas de indentado                               ⌘ ,L',
         \'IndentLinesToggle'],
     \]
-nnoremap <silent>[menu]p :Unite -silent menu:code<CR>
+nnoremap <silent>[menu]p :Unite -silent -winheight=42 menu:code<CR>
 " }}}
 
 " menu markdown {{{
@@ -1372,7 +1443,7 @@ let g:utl_cfg_hdl_mt_image_png = 'silent :!sxiv %p &'
 
 " VimFiler {{{
 
-nnoremap <silent><Leader>R :VimFiler<CR>
+nnoremap <silent><Leader>X :VimFiler<CR>
 
 let g:vimfiler_as_default_explorer = 1
 
@@ -1405,21 +1476,23 @@ let g:vimfiler_data_directory = '~/.vim/tmp/vimfiler'
 let g:VimuxUseNearestPane = 1
 
 " ejecutar el buffer actual con el interprete de python
-map <Leader>xr :w<CR>:call VimuxRunCommand("clear;python2 " . bufname("%"))<CR>
-map <Leader>xt :w<CR>:call VimuxRunCommand("clear;time python2 " . bufname("%"))<CR>
-map <Leader>xp :w<CR>:call VimuxRunCommand("clear;time pypy " . bufname("%"))<CR>
+map <Leader>rr :w<CR>:call VimuxRunCommand("clear;python2 " . bufname("%"))<CR>
+map <Leader>r3 :w<CR>:call VimuxRunCommand("clear;python3 " . bufname("%"))<CR>
+map <Leader>rt :w<CR>:call VimuxRunCommand("clear;time python2 " . bufname("%"))<CR>
+map <Leader>rp :w<CR>:call VimuxRunCommand("clear;time pypy " . bufname("%"))<CR>
 
-map <Leader>xc :VimuxPromptCommand<CR>
-map <Leader>xl :VimuxRunLastCommand<CR>
-map <Leader>xs :VimuxInterruptRunner<CR>
-map <Leader>xi :VimuxInspectRunner<CR>
-map <Leader>xz :VimuxCloseRunner<CR>
+map <Leader>rc :VimuxPromptCommand<CR>
+map <Leader>rl :VimuxRunLastCommand<CR>
+map <Leader>rs :VimuxInterruptRunner<CR>
+map <Leader>ri :VimuxInspectRunner<CR>
+map <Leader>rq :VimuxCloseRunner<CR>
 
 " }}}
 
 " Virtualenv {{{
 
-" TODO
+let g:virtualenv_auto_activate = 1
+let g:virtualenv_stl_format = '(%n)'
 
 " }}}
 
