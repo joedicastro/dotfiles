@@ -97,6 +97,10 @@ Configuración de [Newsbeuter](http://newsbeuter.org/)
 
 Configuración de [Pentadactyl](http://5digits.org/pentadactyl/)
 
+### `/pylint`
+
+Configuración de [Pylint](http://www.pylint.org/)
+
 ### `/ranger`
 
 Configuración de [ranger](http://ranger.nongnu.org/)
