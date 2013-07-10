@@ -446,6 +446,10 @@ ellas para poder editar texto más fácilmente.
     >   nivel de indentado
     > - __último elemento buscado__ nos selecciona el ultimo resultado de
     >   búsqueda. Las opciones que tenemos son: `a/`, `i/`, `a?` e `iw`
+    > - __clase python__ selecciona una clase en código Python. Podemos emplear
+    >   `aC`, `iC` y `C`
+    > - __método o función python__ igual que el anterior pero para métodos y
+    >   funciones Python. Opciones: `aM`, `iM` y `M`
 
 - __vim-commentary__ herramienta extremadamente sencilla para
   comentar/descomentar fragmentos de texto/código. Simplemente tenemos que
@@ -790,8 +794,78 @@ __Unite__
 
 ## Edicion de codigo
 
+![unite code](http://joedicastro.com/static/pictures/unite_menu_code.png "unite code")
 
 ### Menu
+
+- *ejecutar codigo python* ejecuta el código python presente en el buffer actual
+  por medio de pymode. Crea un buffer inferior donde se muestra la salida por
+  pantalla
+
+- *mostrar docs python para la palabra actual* muestra la documentación de
+  Python en relación con la palabra situada bajo el cursor
+
+- *insertar un breakpoint* inserta un breakpoint en el código python. Si tenemos
+  instalado ipython (o pudb) usara este en lugar del interprete de python
+
+- *conmuta la revisión con pylint* activa/desactiva la revisión con pylint cada
+  vez que guardamos el fichero
+
+- *ejecutar con python2 en panel tmux* emplea el plugin Vimux que sirve para
+  interactuar entre vim y tmux. Básicamente permite enviar comandos a un panel
+  de tmux e interactuar con el sin perder el foco en Vim. Tal y como lo tengo
+  configurado, si no hay ningún otro panel abierto aparte del de Vim, se abrirá
+  uno debajo de este ocupando el 20% del espacio, en otro caso se ejecutara en
+  el panel abierto. Este comando en concreto ejecuta el contenido del buffer
+  actual con `python2` en un panel de Tmux. En la imagen se puede apreciar un
+  ejemplo de este comando
+
+    ![vimux](http://joedicastro.com/static/pictures/vimux.gif "vimux")
+
+- *ejecutar con python3 en panel tmux* es similar a la entrada anterior pero
+  empleando `python3` para ejecutar el buffer
+
+- *ejecutar con python2 y time en panel tmux* ejecuta el contenido precedido
+  por el programa unix `time` para conocer el tiempo total empleado en su
+  ejecución
+
+- *ejecutar con pypy y time en panel tmux* igual que la entrada anterior pero
+  empleando `pypy` en lugar de `python2`
+
+- *ejecutar comando en panel tmux* nos abre un prompt en la linea de comandos en
+  el que podemos introducir el comando que queremos ejecutar en el panel de tmux
+
+- *repetir ultimo comando* nos repite el comando vimux que hayamos ejecutado
+  anteriormente
+
+- *interrumpir ejecución del panel de tmux* interrumpe la ejecución del comando
+  que hayamos lanzado con vimux
+
+- *inspeccionar panel tmux* salta al panel donde se ha ejecutado el comando de
+  vimux y entra en *copy mode* lo que nos permite desplazarnos con scroll por el
+  panel de tmux y con el *vi mode* copiar lineas de texto
+
+- *cerrar panel de tmux* cierra el panel que hayamos abierto con vimux o en el
+  que se haya estado ejecutando este
+
+- *autocompletado con rope* nos permite realizar el autocompletado con rope. Es
+  especialmente útil a la hora de completar métodos
+
+- *ir a la definición* salta al lugar donde se ha definido la variable, función,
+  clase, método, ... que este bajo el cursor. Abre un nuevo buffer con el lugar
+  donde esta, incluso si se encuentra en otro modulo o libreria
+
+- *reorganizar imports* reordena los imports de forma automática
+
+- *refactorizar - ...* las entradas que empiezan de este modo sirven para
+  refactorizar el código con rope, empleando cada uno de los métodos que se
+  mencionan en las entradas
+
+- *mostrar docs con la palabra actual* emplea rope para mostrar la documentación
+  que existe sobre la palabra que esta bajo el cursor. La ventaja de esta
+  entrada frente a la que emplea pymode, es que nos permite buscar en la
+  documentación de librerías externas no incluidas en la librería estándar de
+  Python
 
 - *syntastic check* y *syntastic errors* son dos opciones de Syntastic, un
   plugin que comprueba la sintaxis de numerosos lenguajes (python, ruby, lua,
@@ -804,62 +878,42 @@ __Unite__
     > *Estas herramientas necesitan estar instaladas para que el plugin funcione
     correctamente.
 
-- *contar lineas de codigo* ejecuta el programa externo `$ cloc` sobre el
+- *listar virtualenvs* emplea el plugin virtualenv que nos permite interactuar
+  con los virtualenvs desde Vim. Esta entrada nos muestra los virtualenvs
+
+- *activar virtualenv* nos activa el virtualenv
+
+- *desactivar virtualenv* nos desactiva el virtualenv
+
+- *ejecutar coverage2* y *ejecutar coverage3* ejecutan la herramienta coverage
+  para python2 y python3 respectivamente. Luego nos muestran los resultados
+  empleando coveragepy, tanto en un buffer como en forma de marca para conocer
+  la cobertura del código actual
+
+- *mostrar/ocultar informa de coverage* y *mostrar/ocultar marcas de coverage*
+  conmutan la visibilidad tanto de las marcas como del informe de coverage
+
+- *contar lineas de código* ejecuta el programa externo `$ cloc` sobre el
   archivo y muestra el resultado en Unite.
 
-- *conmutar lines de indentado* sirve para mostrar lineas verticales en el
+- *conmutar lineas de indentado* sirve para mostrar lineas verticales en el
   código indentado (sangrado) con espacios para marcar los niveles de indentado.
   Lo tengo desactivado por defecto.
 
     ![indentLine](http://joedicastro.com/static/pictures/indentline.gif "indentLine")
 
+### Otras herramientas
 
-TODO: Añadir entradas de python-mode
-TODO: Añadir entradas de Virtualenv
-TODO: Añadir entradas de coveragepy
+- __Ultisnips__ es un plugin para gestionar Snippets, el mas avanzado y potente
+  que conozco para Vim.  Los snippets son porciones de código o texto en las que
+  cierta parte es declarada como variable y el resto como fija y nos ayudan a no
+  tener que teclear una y otra vez las mismas porciones de texto/código.
+  Simplemente invocamos el snippet con el identificador y el texto fijo es
+  insertado automáticamente, dejando aquellas partes declaradas como variables
+  para ser rellenadas de forma interactiva. Se puede apreciar mejor en la imagen
+  el funcionamiento de los mismos.
 
-### vimux
-
-![vimux](http://joedicastro.com/static/pictures/vimux.gif "vimux")
-
-Sirve para interactuar entre vim y tmux. Básicamente permite enviar comandos a
-un panel de tmux e interactuar con el sin perder el foco en Vim. Tal y como lo
-tengo configurado, si no hay ningún otro panel abierto aparte del de Vim, se
-abrirá uno debajo de este ocupando el 20% del espacio, en otro caso se
-ejecutara en el panel abierto.
-
-__Atajos__
-
-- `<Leader>xr` guarda el buffer actual, limpia el panel y ejecuta el contenido
-  del buffer con `python2`
-- `<Leader>xt` igual que el atajo anterior pero ejecuta el contenido precedido
-  por el programa unix `time` para conocer el tiempo total empleado en su
-  ejecucion.
-- `<Leader>xp` igual que al atajo anterior pero empleando `pypy` en lugar de
-  `python2`
-- `<Leader>xc` llama a un prompt en la linea de comandos en el que podemos
-  introducir el comando que queremos que se ejecute en el panel de tmux
-- `<Leader>xl` repite el ultimo comando que se he ejecutado con vimux
-- `<Leader>xs` interrumpe la ejecución del comando que hayamos lanzado con vimux
-- `<Leader>xi` salta al panel donde se ha ejecutado el comando de vimux y entra
-  en *copy mode*
-- `<Leader>xz` cierra el panel donde se ha ejecutado el comando de vimux
-
-
-### UltiSnips
-
-![ulti](http://joedicastro.com/static/pictures/ulti.gif "ulti")
-
-Ultisnips es un plugin para gestionar Snippets, el mas avanzado y potente que
-conozco para Vim.  Los snippets son porciones de código o texto en las que
-cierta parte es declarada como variable y el resto como fija y nos ayudan a no
-tener que teclear una y otra vez las mismas porciones de texto/código.
-Simplemente invocamos el snippet con el identificador y el texto fijo es
-insertado automáticamente, dejando aquellas partes declaradas como variables
-para ser rellenadas de forma interactiva. Se puede apreciar mejor en la imagen
-el funcionamiento de los mismos.
-
-Ultisnips trae por defecto algunos snippets predefinidos para varios lenguajes y
+    Ultisnips trae por defecto algunos snippets predefinidos para varios lenguajes y
 algunos globales. La mejor característica de Ultisnips es que nos permite
 definir los nuestros propios con un nivel de control y automatismo que ningún
 otro plugin nos ofrece. Es lo suficiente complejo para no entrar aquí en
@@ -868,14 +922,17 @@ Destacaría de todos modos que nos permite emplear comandos externos (shell,
 vimscript y Python) dentro de los mismos o que podemos usarlos con selecciones
 visuales, así como anidar snippets o usar transformaciones de texto.
 
-__Atajos__
+    En el directorio `./UltiSnips` guardo mis snippets personalizados.
 
-- `<Tab>` precedido por el identificador nos lanza el snippet
-- `<C-J>` nos desplaza al siguiente campo a rellenar
-- `<C-K>` nos desplaza al anterior campo a rellenar
-- `<BS>`  cancela la entrada de un campo opcional
+    ![ulti](http://joedicastro.com/static/pictures/ulti.gif "ulti")
 
-En el directorio `./UltiSnips` guardo mis snippets personalizados.
+    > __Atajos__
+
+    > - `<Tab>` precedido por el identificador nos lanza el snippet
+    > - `<C-J>` nos desplaza al siguiente campo a rellenar
+    > - `<C-K>` nos desplaza al anterior campo a rellenar
+    > - `<BS>`  cancela la entrada de un campo opcional
+
 
 
 
@@ -897,8 +954,11 @@ __Unite__
 
   [tig]: https://github.com/jonas/tig
 
-- El resto de entradas son comandos típicos de Git que se ejecutan a traves de
-  la herramienta Fugitive
+- El resto de entradas son comandos típicos de Git que se ejecutan a través de
+  la herramienta Fugitive. Fugitive es una herramienta que nos permite
+  administrar repositorios Git sin tener que abandonar Vim. Es un plugin muy
+  completo y lleno de posibilidades que también requiere cierto tiempo para
+  aprender a usarlo y a acostumbrarse a su particular interfaz.
 
     TODO: Completar Fugitive
 
