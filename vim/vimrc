@@ -701,6 +701,7 @@ let g:EasyDigraph_nmap = '<Leader>dd'
 
 " Fugitive {{{
 
+map <Leader>gn :Unite output:echo\ system("git\ init")<CR>
 map <Leader>gs :Gstatus<CR>
 map <Leader>gw :Gwrite<CR>
 map <Leader>go :Gread<CR>
@@ -872,9 +873,9 @@ let g:unite_source_menu_menus.archivos.command_candidates = [
         \'Unite -no-empty output:SudoWrite'],
     \['▷ guardado rapido                                            ⌘ ,w',
         \'normal ,w'],
-    \['▷ abrir ranger                                               ⌘ ,r',
+    \['▷ abrir ranger                                               ⌘ ,x',
         \'call RangerChooser()'],
-    \['▷ abrir vimfiler                                             ⌘ ,R',
+    \['▷ abrir vimfiler                                             ⌘ ,X',
         \'VimFiler'],
     \]
 nnoremap <silent>[menu]o :Unite -silent -start-insert menu:archivos<CR>
@@ -1119,6 +1120,8 @@ let g:unite_source_menu_menus.git.command_candidates = [
         \'Git! pull'],
     \['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
         \'exe "Git! " input("comando git: ")'],
+    \['▷ git init                                                   ⌘ ,gn',
+        \'Unite output:echo\ system("git\ init")'],
     \['▷ git cd           (Fugitive)',
         \'Gcd'],
     \]
