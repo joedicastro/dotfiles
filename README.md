@@ -44,7 +44,7 @@ Configuración de [Emacs](http://www.gnu.org/software/emacs/) para usar
 
 Configuración de [fontconfig](http://www.freedesktop.org/wiki/Software/fontconfig)
 
-#### `/fonts`
+### `/fonts`
 
 Las fuentes que uso en mi terminal, vim, etc...
 
