@@ -1476,10 +1476,10 @@ let g:vimfiler_data_directory = '~/.vim/tmp/vimfiler'
 let g:VimuxUseNearestPane = 1
 
 " ejecutar el buffer actual con el interprete de python
-map <Leader>rr :w<CR>:call VimuxRunCommand("clear;python2 " . bufname("%"))<CR>
-map <Leader>r3 :w<CR>:call VimuxRunCommand("clear;python3 " . bufname("%"))<CR>
-map <Leader>rt :w<CR>:call VimuxRunCommand("clear;time python2 " . bufname("%"))<CR>
-map <Leader>rp :w<CR>:call VimuxRunCommand("clear;time pypy " . bufname("%"))<CR>
+map <Leader>rr :call VimuxRunCommand('clear;cd '.expand("%:p:h") .' ;python2 '.bufname("%"))<CR>
+map <Leader>r3 :call VimuxRunCommand('clear;cd '.expand("%:p:h") .' ;python3 '.bufname("%"))<CR>
+map <Leader>rt :call VimuxRunCommand('clear;cd '.expand("%:p:h") .' ;time python2 '.bufname("%"))<CR>
+map <Leader>rp :call VimuxRunCommand('clear;cd '.expand("%:p:h") .' ;time pypy '.bufname("%"))<CR>
 
 map <Leader>rc :VimuxPromptCommand<CR>
 map <Leader>rl :VimuxRunLastCommand<CR>
