@@ -448,6 +448,22 @@ nnoremap <C-l> <C-w>l
 
 " }}}
 
+" Rotar ventanas (dentro de la misma columna o fila) {{{
+
+nnoremap <Tab>j <C-W>R 
+nnoremap <Tab>k <C-W>r 
+
+" }}}
+
+" Mover ventanas {{{
+
+nnoremap <S-h> <C-w>H
+nnoremap <S-j> <C-w>J
+nnoremap <S-k> <C-w>K
+nnoremap <S-l> <C-w>L
+
+" }}}
+
 " Cierre rápido de ventana y buffer {{{
 
 nnoremap <Leader>k <C-w>c
@@ -475,7 +491,6 @@ function! ToggleRelativeAbsoluteNumber()
 endfunction
 
 " }}}
-
 " Mostrar caracteres no imprimibles {{{
 
 nmap <Leader>eh :set list!<CR>
@@ -864,7 +879,7 @@ nnoremap <silent><Leader>; :Unite -silent -toggle
 nnoremap <silent><Leader>t :Unite -silent -vertical -winwidth=40
             \ -direction=topleft -toggle outline<CR>
 " archivos desechables
-  nnoremap <silent><Leader>d :Unite -silent junkfile junkfile/new<cr>
+  nnoremap <silent><Leader>d :Unite -silent junkfile/new junkfile<CR>
 
 " menus {{{
 let g:unite_source_menu_menus = {}
@@ -904,7 +919,7 @@ let g:unite_source_menu_menus.archivos.command_candidates = [
     \['▷ conocer directorio de trabajo',
         \'Unite output:pwd'],
     \['▷ ficheros desechables                                       ⌘ ,d',
-        \'Unite junkfile junkfile/new'],
+        \'Unite junkfile/new junkfile'],
     \['▷ guardar como root                                          ⌘ :w!!',
         \'Unite -no-empty output:SudoWrite'],
     \['▷ guardado rapido                                            ⌘ ,w',
