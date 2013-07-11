@@ -114,8 +114,8 @@ NeoBundle 'tpope/vim-fugitive'
 " Para señalar los cambios del archivo con respecto al repo Git
 NeoBundle 'airblade/vim-gitgutter'
 " Visor de Git
-NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'], 
-            \ 'autoload':{'commands':'Gitv'}} 
+NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'],
+            \ 'autoload':{'commands':'Gitv'}}
 
 " }}}
 
@@ -720,7 +720,7 @@ nnoremap <Leader>gn :Unite output:echo\ system("git\ init")<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>go :Gread<CR>
-nnoremap <Leader>gr :Gremove<CR>
+nnoremap <Leader>gR :Gremove<CR>
 nnoremap <Leader>gm :Gmove<Space>
 nnoremap <Leader>gc :Gcommit<CR>
 nnoremap <Leader>gd :Gdiff<CR>
@@ -1125,36 +1125,40 @@ let g:unite_source_menu_menus.git = {
 let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ tig                                                        ⌘ ,gt',
         \'normal ,gt'],
-    \['▷ git status       (Fugitive)                                ⌘ ,gs',
+    \['▷ visor git              (gitv)                              ⌘ ,gv',
+        \'normal ,gv'],
+    \['▷ visor git buffer       (gitv)                              ⌘ ,gV',
+        \'normal ,gV'],
+    \['▷ git status             (fugitive)                          ⌘ ,gs',
         \'Gstatus'],
-    \['▷ git diff         (Fugitive)                                ⌘ ,gd',
+    \['▷ git diff               (fugitive)                          ⌘ ,gd',
         \'Gdiff'],
-    \['▷ git commit       (Fugitive)                                ⌘ ,gc',
+    \['▷ git commit             (fugitive)                          ⌘ ,gc',
         \'Gcommit'],
-    \['▷ git log          (Fugitive)                                ⌘ ,gl',
+    \['▷ git log                (fugitive)                          ⌘ ,gl',
         \'exe "silent Glog | Unite quickfix"'],
-    \['▷ git blame        (Fugitive)                                ⌘ ,gb',
+    \['▷ git blame              (fugitive)                          ⌘ ,gb',
         \'Gblame'],
-    \['▷ git stage        (Fugitive)                                ⌘ ,gw',
+    \['▷ git stage/add          (fugitive)                          ⌘ ,gw',
         \'Gwrite'],
-    \['▷ git checkout     (Fugitive)                                ⌘ ,go',
+    \['▷ git checkout           (fugitive)                          ⌘ ,go',
         \'Gread'],
-    \['▷ git rm           (Fugitive)                                ⌘ ,gr',
+    \['▷ git rm                 (fugitive)                          ⌘ ,gR',
         \'Gremove'],
-    \['▷ git mv           (Fugitive)                                ⌘ ,gm',
+    \['▷ git mv                 (fugitive)                          ⌘ ,gm',
         \'exe "Gmove " input("destino: ")'],
-    \['▷ git push         (Fugitive, salida por buffer)             ⌘ ,gp',
+    \['▷ git push               (fugitive, salida por buffer)       ⌘ ,gp',
         \'Git! push'],
-    \['▷ git pull         (Fugitive, salida por buffer)             ⌘ ,gP',
+    \['▷ git pull               (fugitive, salida por buffer)       ⌘ ,gP',
         \'Git! pull'],
-    \['▷ git prompt       (Fugitive, salida por buffer)             ⌘ ,gi',
+    \['▷ git prompt             (fugitive, salida por buffer)       ⌘ ,gi',
         \'exe "Git! " input("comando git: ")'],
     \['▷ git init                                                   ⌘ ,gn',
         \'Unite output:echo\ system("git\ init")'],
-    \['▷ git cd           (Fugitive)',
+    \['▷ git cd                 (fugitive)',
         \'Gcd'],
     \]
-nnoremap <silent>[menu]g :Unite -silent -start-insert menu:git<CR>
+nnoremap <silent>[menu]g :Unite -silent -winheight=20 -start-insert menu:git<CR>
 " }}}
 
 " menu code {{{
