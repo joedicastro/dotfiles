@@ -1,6 +1,6 @@
 # Mi Configuración de Vim
 
-__Version 0.9  (11-07-2013)__ 
+__Version 0.9  (11-07-2013)__
 
 El propósito de este documento es recopilar todas las opciones disponibles en mi
 configuración para poner un poco de orden en la misma y servirme de recordatorio
@@ -309,7 +309,7 @@ __Unite__
 >   - `<C-J>` desplazamiento a la ventana inferior
 >   - `<C-K>` desplazamiento a la ventana superior
 >   - `<C-L>` desplazamiento a la siguiente ventana a la derecha
->   - `<Tab>J` rotar la ventana dentro de la misma columna o fila 
+>   - `<Tab>J` rotar la ventana dentro de la misma columna o fila
 >   - `<Tab>K` rotar la ventana dentro de la misma columna o fila (inverso)
 
 __Unite__
@@ -989,6 +989,61 @@ __Unite__
     ![tig](http://joedicastro.com/static/pictures/tig.gif "tig")
 
   [tig]: https://github.com/jonas/tig
+
+- *visor git* y *visor git buffer* utilizan el plugin __gitv__ que es un clon de
+  la herramienta `gitk` para Vim, que es el visor incluido con la herramienta
+  `git`. Este plugin te permite ver la historia del repositorio, realizar diffs,
+  checkouts, ... Este plugin requiere de Fugitive para funcionar. La primera
+  entrada abrirá un visor relativo a todo el repositorio (modo explorador),
+  mientras la segunda entrada lo hará en función al buffer actual o a una
+  selección visual (modo archivo)
+
+    ![gitv](http://joedicastro.com/static/pictures/gitv.png "gitv")
+
+    > __Atajos__
+
+    > - `<CR>` abre un commit, un diff, un arbol, un fichero, mas commits, ...
+    >   dependiendo de donde se emplee 
+
+    > - `o` abre en una nueva ventana horizontal
+
+    > - `O` abre en una nueva pestaña
+
+    > - `s` abre en una nueva ventana vertical
+
+    > - `i` en "modo explorador" abre el fichero y en "modo archivo" abre los detalles
+    >   del commit
+
+    > - `q` salir de gitv
+
+    > - `a` conmuta el argumento `-all` y actualiza la ventana
+
+    > - `u` actualiza el contenido de la ventana
+
+    > - `co` realiza un `git checkout`. En "modo explorador" lo hace sobre todo el
+    >   repositorio y en "modo archivo" solo sobre el archivo actual
+
+    > - `D` realiza un diff utilizando vimdiff.
+
+    > - `S` muestra un `diffstat`
+
+    > - `m` y `<Leader>m` realizan un merge en modo visual y normal respectivamente.
+
+    > - `git` introduce el comando `:Git ` en la linea de comandos para que puedas
+    >   introducir un comando git a medida. Si el comando afecta al estado del
+    >   repositorio, los cambios se verán reflejados en gitv
+
+    > - `yc` copia el hash corto `sha` del commit
+
+    > __Movimientos__
+
+    > - `x` y `X` nos desplazan hacia delante y detrás entre los puntos donde se
+    >   cambian las ramas (se crean o se hace un merge)
+
+    > - `r` y `R` nos mueven entre las referencias
+
+    > - `P` nos mueve al commit marcado como `HEAD`
+
 
 - El resto de entradas son comandos típicos de Git que se ejecutan a través de
   la herramienta Fugitive. Fugitive es una herramienta que nos permite
