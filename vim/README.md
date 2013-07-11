@@ -1051,7 +1051,21 @@ __Unite__
   completo y lleno de posibilidades que también requiere cierto tiempo para
   aprender a usarlo y a acostumbrarse a su particular interfaz.
 
-    TODO: Completar Fugitive
+    - `status` nos muestra el estado del repositorio, es la ventana "maestra" de
+    Fugitive y desde ella podemos acceder a múltiples opciones. Dentro de esta
+    ventana tenemos disponibles estos atajos:
+    
+    __Atajos__
+
+    - `<CR>` ejcuta el comando `:Gedit` que nos permite "editar" una revision
+    - `-` sobre un archivo que no esta en el 'stage area' nos permite añádirlo a
+      ella, es como ejecutar un `git add` o un `git stage`. Usandola sobre un
+      archivo que está en el 'stage area' para ser empleado en el commit, lo
+      quita de ella, el equivalente a realizar un `git reset`
+    - `cc` realiza un commit
+
+    
+
 
 ### Otras herramientas
 
