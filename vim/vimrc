@@ -80,6 +80,10 @@ NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
 " Explorador de archivos (para cuando no tenga disponible ranger)
 NeoBundleLazy 'Shougo/vimfiler', {'autoload' : { 'commands' : ['VimFiler']}}
 
+" Ficheros desechables
+NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen',
+            \ 'unite_sources':['junkfile','junkfile/new']}}
+
 " }}}
 
 " Esquemas de color {{{
@@ -239,8 +243,6 @@ NeoBundleLazy 'joedicastro/vim-sparkup', {'autoload':
 
 " Barra de estado mas elegante y efectiva
 NeoBundle 'joedicastro/vim-powerline'
-" crea buffer temporal desechable
-NeoBundle 'vim-scripts/scratch-utility'
 " permite des/hacer un zoom a ventana completa de uno de las ventanas
 NeoBundleLazy 'vim-scripts/zoomwintab.vim', {'autoload' :
             \{'commands' : 'ZoomWinTabToggle'}}
@@ -788,6 +790,7 @@ autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " }}}
@@ -860,6 +863,8 @@ nnoremap <silent><Leader>; :Unite -silent -toggle
 " encabezados (tambien ctags)
 nnoremap <silent><Leader>t :Unite -silent -vertical -winwidth=40
             \ -direction=topleft -toggle outline<CR>
+" archivos desechables
+  nnoremap <silent><Leader>d :Unite -silent junkfile junkfile/new<cr>
 
 " menus {{{
 let g:unite_source_menu_menus = {}
@@ -898,6 +903,8 @@ let g:unite_source_menu_menus.archivos.command_candidates = [
         \'Unite -default-action=lcd directory'],
     \['▷ conocer directorio de trabajo',
         \'Unite output:pwd'],
+    \['▷ ficheros desechables                                       ⌘ ,d',
+        \'Unite junkfile junkfile/new'],
     \['▷ guardar como root                                          ⌘ :w!!',
         \'Unite -no-empty output:SudoWrite'],
     \['▷ guardado rapido                                            ⌘ ,w',
@@ -961,8 +968,6 @@ let g:unite_source_menu_menus.navegacion.command_candidates = [
         \'close'],
     \['▷ cerrar/abrir ventana quickfix                              ⌘ ,q',
         \'normal ,q'],
-    \['▷ scratch                                                    ⌘ F8',
-        \'Scratch'],
     \['▷ zoom                                                       ⌘ ,z',
         \'ZoomWinTabToggle'],
     \['▷ eliminar buffer                                            ⌘ ,B',
@@ -1449,6 +1454,8 @@ elseif executable('ack')
     let g:unite_source_grep_recursive_opt=''
     let g:unite_source_grep_search_word_highlight = 1
 endif
+
+let g:junkfile#directory=expand("~/.vim/tmp/junk")
 
 " navegacion por la ventana de unite mas comoda
 " autocmd FileType unite call s:unite_settings()
