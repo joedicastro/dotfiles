@@ -1,5 +1,7 @@
 # Mi Configuración de Vim
 
+__Version 0.9  (11-07-2013)__ 
+
 El propósito de este documento es recopilar todas las opciones disponibles en mi
 configuración para poner un poco de orden en la misma y servirme de recordatorio
 de todo lo que tengo disponible. Evidentemente no pretendo replicar la ayuda de
@@ -301,12 +303,14 @@ __Unite__
 >   __Atajos__
 
 > Ademas de las opciones disponibles en el menú tengo configurados una serie de
-> atajos que hacen mucho más sencillo el desplazarse entre ventanas.
+> atajos que hacen mucho más sencillo el gestionar las ventanas.
 
 >   - `<C-H>` desplazamiento a la siguiente ventana a la izquierda
 >   - `<C-J>` desplazamiento a la ventana inferior
 >   - `<C-K>` desplazamiento a la ventana superior
 >   - `<C-L>` desplazamiento a la siguiente ventana a la derecha
+>   - `<Tab>J` rotar la ventana dentro de la misma columna o fila 
+>   - `<Tab>K` rotar la ventana dentro de la misma columna o fila (inverso)
 
 __Unite__
 
@@ -330,14 +334,10 @@ interfaz de Unite
 
 - las dos siguientes entradas nos permiten crear nuevas ventanas, tanto en
   posición vertical como horizontal y la siguiente opción nos permite cerrar
-  cualquier ventana abierta.
+  cualquier ventana abierta (excepto cuando solo hay una)
 
 - *cerrar/abrir ventana quickfix* nos abre/cierra la ventana quickfix y a
   diferencia de la quinta entrada no la muestra a través de Unite.
-
-- *scratch* nos crea un nuevo buffer temporal en el que no se guardara nada de
-  lo que editemos en ella, el contenido es descartado en cuanto cerramos la
-  aplicación. La ventana aparecerá siempre encima de la ventana actual
 
 - *zoom* hace zoom sobre una ventana, ocultando el resto.
 
@@ -527,6 +527,38 @@ ellas para poder editar texto más fácilmente.
     > - `<Leader>dd {motion}` convierte en dígrafo la selección efectuada con el
     >   movimiento.
 
+- __múltiples cursores__ este plugin nos permite editar la misma selección en
+  varias localizaciones al mismo tiempo. En realidad funciona igual que una
+  búsqueda y reemplazado pero de forma interactiva.
+
+    ![multiple cursors](http://joedicastro.com/static/pictures/multiple_cursors.gif "multiple cursors")
+
+    > __Atajos__
+
+    > - `<C-N>` nos activa los múltiples cursores para la palabra o selección visual
+    > actual. Volviéndola a pulsar nos va seleccionando las distintas posiciones que
+    > queremos editar
+    > - `<C-X>` nos salta la posición actual y nos desplaza a la siguiente, si la hay
+    > - `<C-P>` deselecciona la posición actual y nos desplaza a la anterior
+    > - `<ESC>` desactiva los multiples cursores
+
+- __vim-transpose__ sirve para transponer filas y columnas, que puede ser muy
+  útil para editar cierto tipo de archivos (e.g. *csv*). Funciona con
+  selecciones visuales.
+
+    ![transpose](http://joedicastro.com/static/pictures/transpose.gif "transpose")
+
+    > __Comandos__
+
+    > - `:Transpose` hace la transposición por defecto
+    > - `:TransposeCSV {separador} {delimitador}` hace la transposición teniendo
+    >   en cuenta la separación por punto y coma o el separador que le
+    >   especifiquemos y el delimitador
+    > - `:TransposeTab` hace la transposición teniendo en cuenta los tabulados
+    > - `:TransposeWords` hace la transposición por palabras e inserta una
+    >   interrogación donde falte una
+    > - `:TransposeInteractive` para transposiciones complejas
+
 
 ## Revision de ortografia
 
@@ -708,6 +740,10 @@ __Unite__
 
 - *conocer el directorio de trabajo* es el equivalente al comando `pwd`
 
+- *archivos desechables* crea un archivo temporal que puede servir para hacer
+  anotaciones, pruebas, etc. El menu nos sirve tanto para crear uno nuevo como
+  para seleccionar los existentes
+
 - *guardar como root* permite guardar un archivo que solo tiene permisos para
   `root` sin necesidad de ejecutar vim desde ese usuario o utilizando `$ sudo` y
   perder de ese modo las ventajas de nuestra configuración.
@@ -737,7 +773,7 @@ __Unite__
     > - `*` selecciona/deselecciona todas las lineas
     > - `&` selecciona lineas similares
     > - `U` deselecciona todo
-    > - `S` cambiar la manera de ordenar los ficheros (nombre, fecha, tamaño, ...)
+    > - `S` cambiar la manera de ordenar los archivos (nombre, fecha, tamaño, ...)
     > - `c` copia el archivo (precediendola de `C` lo hace al portapapeles)
     > - `m` mueve el archivo (precediendola de `C` lo hace al portapapeles)
     > - `d` elimina el archivo
@@ -746,9 +782,9 @@ __Unite__
     > - `K` nuevo directorio
     > - `N` nuevo archivo
     > - `x` ejecuta el programa asociado al archivo en el sistema
-    > - `e` edita el fichero
-    > - `E` edita el fichero en una nueva ventana
-    > - `v` previsualiza el fichero
+    > - `e` edita el archivo
+    > - `E` edita el archivo en una nueva ventana
+    > - `v` previsualiza el archivo
     > - `L` cambia la unidad de disco
     > - `~` nos mueve al directorio `home`
     > - <code>\\</code> nos mueve al directorio `root`
@@ -759,7 +795,7 @@ __Unite__
     > - `t` expande el directorio sin entrar en el
     > - `T` expande el directorio sin entrar en el de manera recursiva
     > - `I` cambiar al directorio que introduzcamos en la linea de comandos
-    > - `M` establece la mascara actual (para filtrar ficheros)
+    > - `M` establece la mascara actual (para filtrar archivos)
     > - `.` muestra/oculta los archivos ocultos (dotfiles)
     > - `q` oculta vimfiler
     > - `Q` sale de vimfiler
@@ -767,12 +803,12 @@ __Unite__
     > - `-` cierra la ventana actual de vimfiler
     > - `?` muestra la ayuda de vimfiler (atajos)
     > - `o` sincroniza otro vimfiler con este
-    > - `O` abre fichero o directorio en otro vimfiler
+    > - `O` abre archivo o directorio en otro vimfiler
     > - `yy` copia el path completo
     > - `gr` hace grep en el directorio actual
     > - `gf` hace find en el directorio actual
     > - `gc` convierte el directorio actual al directorrio de trabajo de Vim
-    > - `a` elige la accion a realizar sobre el fichero
+    > - `a` elige la accion a realizar sobre el archivo
     > - `Y` guarda la ruta actual en una lista temporal
     > - `P` muestra las rutas guardadas en esa lista temporal
     > - `<C-L>` redibuja la pantalla
@@ -809,7 +845,7 @@ __Unite__
   instalado ipython (o pudb) usara este en lugar del interprete de python
 
 - *conmuta la revisión con pylint* activa/desactiva la revisión con pylint cada
-  vez que guardamos el fichero
+  vez que guardamos el archivo
 
 - *ejecutar con python2 en panel tmux* emplea el plugin Vimux que sirve para
   interactuar entre vim y tmux. Básicamente permite enviar comandos a un panel
@@ -985,17 +1021,15 @@ Sparkup nos permite escribir archivos HTML más rápido, de manera más concisa 
 de forma menos tediosa. Se basa en Zen Coding, por lo que toda la nomenclatura
 que funciona con Zen Coding es valida para Sparkup.
 
-__Atajos__
-
-- `<C-E>` ejecutar sparkup sobre la expresión bajo el cursor
-- `<C-N>` saltar a la siguiente etiqueta/atributo vacío
-
 La mejor forma de comprender como funciona es acceder a los ejemplos en la ayuda
 de Vim, `:h sparkup-examples` <vimhelp:sparkup-examples> y si tienes
 conocimientos de Python consultar el código en
 `~/.vim/bundle/vim-sparkup/ftplugin/html/sparkup.py`
 
+> __Atajos__
 
+> - `<C-E>` ejecutar sparkup sobre la expresión bajo el cursor
+> - `<C-N>` saltar a la siguiente etiqueta/atributo vacío
 
 ## Gestion de color
 
@@ -1086,20 +1120,18 @@ __Unite__
 
 ### DirDiff
 
-![DirDiff](http://joedicastro.com/static/pictures/dirdiff.gif "DirDiff")
-
 Funciona de modo similar a vimdiff pero entre directorios en lugar de archivos.
 
-__Comandos__
+![DirDiff](http://joedicastro.com/static/pictures/dirdiff.gif "DirDiff")
 
-- `:DirDiff {A:directorio 1} {B: directorio 2}` muestra las diferencias entre
-  los dos directorios
-- `:DirDiffQuit` sale del modo DirDiff
+> __Comandos__
+
+> - `:DirDiff {A:directorio 1} {B: directorio 2}` muestra las diferencias entre
+>   los dos directorios
+> - `:DirDiffQuit` sale del modo DirDiff
 
 
 ### Editor hexadecimal
-
-![hex](http://joedicastro.com/static/pictures/hexman.gif "hex")
 
 Este plugin en realidad utiliza la herramienta `xxd` para visualizar un archivo
 de forma hexadecimal.
@@ -1108,63 +1140,45 @@ Este es un plugin a manejar con cuidado y sabiendo lo que se está haciendo.
 Conviene ademas abrir el archivo en modo binario (`$ vim -b archivo`) y volver
 siempre al modo ASCII (abandonar el modo binario) antes de guardar el archivo.
 
-__Atajos__
+![hex](http://joedicastro.com/static/pictures/hexman.gif "hex")
 
-- `<F6>` entrar/salir del modo Hexadecimal
-- `<leader>hd` elimina el carácter Hexadecimal bajo el cursor
-- `<leader>hi` inserta un carácter ASCII antes del cursor
-- `<leader>hg` ir al byte que le indiquemos (en hexadecimal)
-- `<leader>hn` o `<Tab>` ir al siguiente byte
-- `<leader>hp` o `<Shift><Tab>` ir al byte anterior
-- `<leader>ht` mueve el cursor del área Hexadecimal al área ASCII y viceversa
-- `?`          muestra la ayuda
+> __Atajos__
 
-
+> - `<F6>` entrar/salir del modo Hexadecimal
+> - `<leader>hd` elimina el carácter Hexadecimal bajo el cursor
+> - `<leader>hi` inserta un carácter ASCII antes del cursor
+> - `<leader>hg` ir al byte que le indiquemos (en hexadecimal)
+> - `<leader>hn` o `<Tab>` ir al siguiente byte
+> - `<leader>hp` o `<Shift><Tab>` ir al byte anterior
+> - `<leader>ht` mueve el cursor del área Hexadecimal al área ASCII y viceversa
+> - `?`          muestra la ayuda
 
 ## Internalizacion
 
-### Traduccion de archivos .po
-
-![po](http://joedicastro.com/static/pictures/po.gif "po")
+__Traduccion de archivos .po__
 
 Es una utilidad para añadir sintaxis y algunos atajos para los archivos `.po` de
 traducción de cadenas (GNU gettext)
 
-__Atajos__
+![po](http://joedicastro.com/static/pictures/po.gif "po")
 
-- `/u` se desplaza a la siguiente cadena sin traducir
-- `/U` se desplaza a la anterior cadena sin traducir
-- `/c` copia la cadena `msgid` a `msgstr`
-- `/C` crea un comentario para esa entrada
-- `/d` elimina la cadena `msgstr` (solo en Insert mode)
-- `/f` se desplaza a la siguiente cadena "fuzzy"
-- `/F` se desplaza a la anterior cadena "fuzzy"
-- `/z` etiqueta la entrada "fuzzy"
-- `/Z` elimina la etiqueta de la entrada "fuzzy"
-- `/s` muestra estadísticas `msgfmt` del archivo
-- `/e` navega a través de los errores `msgfmt` del archivo
-- `/t` introduce la información del traductor en la cabecera
-- `/T` introduce la información del equipo de traducción en la cabecera
-- `/W` formatea todo el archivo
-- `gf` abre en otra ventana el archivo que está debajo del cursor
+> __Atajos__
 
-
-## vim-transpose
-
-![transpose](http://joedicastro.com/static/pictures/transpose.gif "transpose")
-
-Sirve para transponer filas y columnas, que puede ser muy útil para editar
-cierto tipo de archivos (e.g. *csv*). Funciona con selecciones visuales.
-
-__Comandos__
-
-- `:Transpose` hace la transposición por defecto
-- `:TransposeCSV {separador} {delimitador}` hace la transposición teniendo en cuenta la separación por
-  punto y coma o el separador que le especifiquemos y el delimitador
-- `:TransposeTab` hace la transposición teniendo en cuenta los tabulados
-- `:TransposeWords` hace la transposición por palabras e inserta una
-  interrogación donde falte una
-- `:TransposeInteractive` para transposiciones complejas
+> - `/u` se desplaza a la siguiente cadena sin traducir
+> - `/U` se desplaza a la anterior cadena sin traducir
+> - `/c` copia la cadena `msgid` a `msgstr`
+> - `/C` crea un comentario para esa entrada
+> - `/d` elimina la cadena `msgstr` (solo en Insert mode)
+> - `/f` se desplaza a la siguiente cadena "fuzzy"
+> - `/F` se desplaza a la anterior cadena "fuzzy"
+> - `/z` etiqueta la entrada "fuzzy"
+> - `/Z` elimina la etiqueta de la entrada "fuzzy"
+> - `/s` muestra estadísticas `msgfmt` del archivo
+> - `/e` navega a través de los errores `msgfmt` del archivo
+> - `/t` introduce la información del traductor en la cabecera
+> - `/T` introduce la información del equipo de traducción en la cabecera
+> - `/W` formatea todo el archivo
+> - `gf` abre en otra ventana el archivo que está debajo del cursor
 
 
 ## Herramientas de Vim
@@ -1188,7 +1202,7 @@ La primera entrada ya la comente al principio de este documento
   bajo demanda (empleando NeoBundleLazy) no aparecerán en la lista a menos que
   el plugin se haya cargado
 
-- *editar fichero de configuración (vimrc)* edita el fichero donde albergamos
+- *editar archivo de configuración (vimrc)* edita el archivo donde albergamos
   nuestra configuración de Vim
 
 - *establecer tipo de archivo* nos permite elegir entre una lista de tipos de
