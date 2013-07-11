@@ -326,25 +326,29 @@ set undoreload=1000
 
 " }}}
 
+" Crear directorio si no existe previamente {{{
+
+function! MakeDirIfNoExists(path)
+    if !isdirectory(expand(a:path))
+        call mkdir(expand(a:path), "p")
+    endif
+endfunction
+
+" }}}
+
 " Copias de seguridad {{{ ----------------------------------------------------
 
 set backup
 set noswapfile
-set backupdir=~/.vim/tmp/backup//
-set undodir=~/.vim/tmp/undo//
-set directory=~/.vim/tmp/swap//
+set backupdir=~/.vim/tmp/backup/
+set undodir=~/.vim/tmp/undo/
+set directory=~/.vim/tmp/swap/
 set viminfo+=n~/.vim/tmp/viminfo
 
 " Crear estos directorios si no existen previamente
-if !isdirectory(expand(&undodir))
-    call mkdir(expand(&undodir), "p")
-endif
-if !isdirectory(expand(&backupdir))
-    call mkdir(expand(&backupdir), "p")
-endif
-if !isdirectory(expand(&directory))
-    call mkdir(expand(&directory), "p")
-endif
+silent! call MakeDirIfNoExists(&undodir)
+silent! call MakeDirIfNoExists(&backupdir)
+silent! call MakeDirIfNoExists(&directory)
 
 " }}}
 
@@ -1426,9 +1430,7 @@ endif
 " endfunction
 
 " creacion del directorio para guardar sesiones si no existe
-if !isdirectory(expand(unite_data_directory)."/session")
-    call mkdir(expand(unite_data_directory)."/session", "p")
-endif
+silent! call MakeDirIfNoExists(expand(unite_data_directory)."/session/")
 
 " }}}
 
