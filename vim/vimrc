@@ -113,6 +113,9 @@ NeoBundleLazy 'godlygeek/csapprox', { 'autoload' :
 NeoBundle 'tpope/vim-fugitive'
 " Para señalar los cambios del archivo con respecto al repo Git
 NeoBundle 'airblade/vim-gitgutter'
+" Visor de Git
+NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'], 
+            \ 'autoload':{'commands':'Gitv'}} 
 
 " }}}
 
@@ -672,6 +675,14 @@ augroup END
 
 " }}}
 
+" Cargar matchit por defecto {{{
+
+if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
+
+" }}}
+
 " FIN CONFIGURACIÓN VIM }}}
 
 " CONFIGURACIÓN DE PLUGINS {{{ ===============================================
@@ -705,22 +716,36 @@ let g:EasyDigraph_nmap = '<Leader>dd'
 
 " Fugitive {{{
 
-map <Leader>gn :Unite output:echo\ system("git\ init")<CR>
-map <Leader>gs :Gstatus<CR>
-map <Leader>gw :Gwrite<CR>
-map <Leader>go :Gread<CR>
-map <Leader>gr :Gremove<CR>
-map <Leader>gm :Gmove<Space>
-map <Leader>gc :Gcommit<CR>
-map <Leader>gd :Gdiff<CR>
-map <Leader>gb :Gblame<CR>
-map <Leader>gg :Ggrep<Space>
-map <Leader>gB :Gbrowse<CR>
-map <Leader>gp :Git! push<CR>
-map <Leader>gP :Git! pull<CR>
-map <Leader>gi :Git <Space>
-map <Leader>gl :exe "silent Glog <Bar> Unite quickfix"<CR>
-map <Leader>gt :!tig<CR>:redraw!<CR>
+nnoremap <Leader>gn :Unite output:echo\ system("git\ init")<CR>
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>go :Gread<CR>
+nnoremap <Leader>gr :Gremove<CR>
+nnoremap <Leader>gm :Gmove<Space>
+nnoremap <Leader>gc :Gcommit<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gg :Ggrep<Space>
+nnoremap <Leader>gB :Gbrowse<CR>
+nnoremap <Leader>gp :Git! push<CR>
+nnoremap <Leader>gP :Git! pull<CR>
+nnoremap <Leader>gi :Git <Space>
+nnoremap <Leader>gl :exe "silent Glog <Bar> Unite quickfix"<CR>
+nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
+
+" }}}
+
+" Gitv {{{
+
+nnoremap <silent> <leader>gv :Gitv --all<CR>
+nnoremap <silent> <leader>gV :Gitv! --all<CR>
+vnoremap <silent> <leader>gV :Gitv! --all<CR>
+
+let g:Gitv_OpenHorizontal = 'auto'
+let g:Gitv_WipeAllOnClose = 1
+" let g:Gitv_WrapLines = 1
+
+autocmd FileType git set nofoldenable
 
 " }}}
 
