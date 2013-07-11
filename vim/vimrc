@@ -80,7 +80,7 @@ NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
 " Explorador de archivos (para cuando no tenga disponible ranger)
 NeoBundleLazy 'Shougo/vimfiler', {'autoload' : { 'commands' : ['VimFiler']}}
 
-" Ficheros desechables
+" Archivos desechables
 NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen',
             \ 'unite_sources':['junkfile','junkfile/new']}}
 
@@ -217,6 +217,9 @@ NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
 NeoBundle 'kana/vim-textobj-line' " al, il
 NeoBundle 'kana/vim-textobj-underscore' " a_, i_
 NeoBundle 'kana/vim-textobj-user'
+" multiples cursores
+NeoBundle 'terryma/vim-multiple-cursors'
+
 " }}}
 
 " HTML/CSS {{{
@@ -309,7 +312,7 @@ set hidden                      " Oculta los bufferes cerrados.
 set ruler                       " Establece una regla permanente.
 set lazyredraw                  " Redibuja solo cuando es necesario.
 set autoread                    " Actualiza cambios realizados fuera de vim.
-set ttimeoutlen=50              " Conmuta más rápido entre modos
+set ttimeoutlen=0               " Conmuta instantaneamente entre modos
 
 " }}}
 
@@ -450,17 +453,8 @@ nnoremap <C-l> <C-w>l
 
 " Rotar ventanas (dentro de la misma columna o fila) {{{
 
-nnoremap <Tab>j <C-W>R 
-nnoremap <Tab>k <C-W>r 
-
-" }}}
-
-" Mover ventanas {{{
-
-nnoremap <S-h> <C-w>H
-nnoremap <S-j> <C-w>J
-nnoremap <S-k> <C-w>K
-nnoremap <S-l> <C-w>L
+nnoremap <Tab>j <C-W>R
+nnoremap <Tab>k <C-W>r
 
 " }}}
 
@@ -491,6 +485,7 @@ function! ToggleRelativeAbsoluteNumber()
 endfunction
 
 " }}}
+
 " Mostrar caracteres no imprimibles {{{
 
 nmap <Leader>eh :set list!<CR>
@@ -697,6 +692,12 @@ augroup END
 if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
   runtime! macros/matchit.vim
 endif
+
+" }}}
+
+" Convertir comportamiento de Y en similar a D y C {{{
+
+nnoremap Y y$
 
 " }}}
 
@@ -918,7 +919,7 @@ let g:unite_source_menu_menus.archivos.command_candidates = [
         \'Unite -default-action=lcd directory'],
     \['▷ conocer directorio de trabajo',
         \'Unite output:pwd'],
-    \['▷ ficheros desechables                                       ⌘ ,d',
+    \['▷ archivos desechables                                       ⌘ ,d',
         \'Unite junkfile/new junkfile'],
     \['▷ guardar como root                                          ⌘ :w!!',
         \'Unite -no-empty output:SudoWrite'],
@@ -929,7 +930,8 @@ let g:unite_source_menu_menus.archivos.command_candidates = [
     \['▷ abrir vimfiler                                             ⌘ ,X',
         \'VimFiler'],
     \]
-nnoremap <silent>[menu]o :Unite -silent -start-insert menu:archivos<CR>
+nnoremap <silent>[menu]o :Unite -silent -winheight=17 -start-insert
+            \ menu:archivos<CR>
 " }}}
 
 " menu busqueda de archivos {{{
