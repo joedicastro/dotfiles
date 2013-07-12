@@ -64,8 +64,8 @@ crear nuevos plugins que proporcionen nuevas "fuentes" para Unite.
 
 ### Fuentes y Menus
 
-Yo he configurado Unite siguiendo dos vías distintas, por un lado lo utilizo
-para acceder a fuentes directas (lo que Unite denomina *sources*) a través de un
+He configurado Unite siguiendo dos vías distintas, por un lado lo utilizo para
+acceder a fuentes directas (lo que Unite denomina *sources*) a través de un
 atajo usando la tecla `<Leader>` y por otro lado llamando a menús confeccionados
 con Unite usando la tecla `<LocalLeader>`
 
@@ -638,13 +638,13 @@ __Unite__
 - *linea* busca todas las lineas en las que aparezca la palabra (o parte de
   ella) que introduzcamos
 
-- la siguiente entrada busca todas las lineas donde aparece la palabra que está
-  situada bajo el cursor en el momento de activar la búsqueda
+- *palabra bajo el cursor* busca todas las lineas donde aparece la palabra que
+  está situada bajo el cursor en el momento de activar la búsqueda
 
 - *encabezados*  muestra todos los "encabezados" del documento y permite navegar
   entre ellos. Muy útil para navegar entre los headers de documentos Markdown
-  como este, aunque soporta también varios tipos de archivo como el código fuente de
-  distintos lenguajes donde muestra las etiquetas generadas por ctags
+  como este, aunque soporta también varios tipos de archivo como el código
+  fuente de distintos lenguajes donde muestra las etiquetas generadas por `ctags`
 
 - *marcas* lista todas las marcas del archivo
 
@@ -741,7 +741,7 @@ __Unite__
 - *abrir archivo con búsqueda recursiva* no solo lista los archivos del
   directorio de trabajo si no que ademas incluye los de los subdirectorios
 
-- las tres entradas siguientes son similares a las de arriba trabajando con
+- las tres entradas siguientes son similares a las precedentes trabajando con
   directorios en lugar de archivos
 
 - *crear nuevo directorio* nos permite crear un nuevo directorio sin necesidad
@@ -753,7 +753,7 @@ __Unite__
 - *conocer el directorio de trabajo* es el equivalente al comando `pwd`
 
 - *archivos desechables* crea un archivo temporal que puede servir para hacer
-  anotaciones, pruebas, etc. El menu nos sirve tanto para crear uno nuevo como
+  anotaciones, pruebas, etc. El menú nos sirve tanto para crear uno nuevo como
   para seleccionar los existentes
 
 - *guardar como root* permite guardar un archivo que solo tiene permisos para
@@ -763,9 +763,10 @@ __Unite__
 - *guardado rápido* guarda rápidamente un archivo sin tener que ejecutar el
   comando `:w`
 
-- *abrir ranger* llama al programa externo
-  [Ranger](http://joedicastro.com/productividad-linux-ranger.html) para navegar
-  por el sistema de archivos y elegir el archivo que queremos editar.
+- *abrir ranger* llama al programa externo [Ranger][rngr] para navegar por el
+  sistema de archivos y elegir el archivo que queremos editar.
+
+  [rngr]:http://joedicastro.com/productividad-linux-ranger.html
 
     ![ranger](http://joedicastro.com/static/pictures/ranger_vim.gif "ranger")
 
@@ -776,7 +777,7 @@ __Unite__
 
     ![vimfiler](http://joedicastro.com/static/pictures/vimfiler.png "vimfiler")
 
-      > __Atajos__
+    > __Atajos__
 
     > - `<Tab>` abre una nueva ventana vertical y si ya lo esta, conmuta entre ellas
     > - `j`, `k` y `gg` movimientos típicos de vim para movernos entre los archivos
@@ -786,8 +787,8 @@ __Unite__
     > - `&` selecciona lineas similares
     > - `U` deselecciona todo
     > - `S` cambiar la manera de ordenar los archivos (nombre, fecha, tamaño, ...)
-    > - `c` copia el archivo (precediendola de `C` lo hace al portapapeles)
-    > - `m` mueve el archivo (precediendola de `C` lo hace al portapapeles)
+    > - `c` copia el archivo (precediéndola de `C` lo hace al portapapeles)
+    > - `m` mueve el archivo (precediendo de `C` lo hace al portapapeles)
     > - `d` elimina el archivo
     > - `r` renombra el archivo
     > - `Cp` pega archivo desde el portapapeles
@@ -819,8 +820,8 @@ __Unite__
     > - `yy` copia el path completo
     > - `gr` hace grep en el directorio actual
     > - `gf` hace find en el directorio actual
-    > - `gc` convierte el directorio actual al directorrio de trabajo de Vim
-    > - `a` elige la accion a realizar sobre el archivo
+    > - `gc` convierte el directorio actual al directorio de trabajo de Vim
+    > - `a` elige la acción a realizar sobre el archivo
     > - `Y` guarda la ruta actual en una lista temporal
     > - `P` muestra las rutas guardadas en esa lista temporal
     > - `<C-L>` redibuja la pantalla
@@ -854,14 +855,18 @@ __Unite__
   Python en relación con la palabra situada bajo el cursor
 
 - *insertar un breakpoint* inserta un breakpoint en el código python. Si tenemos
-  instalado ipython (o pudb) usara este en lugar del interprete de python
+  instalado `ipython` o `pudb` usara uno de ellos en lugar del interprete de
+  python
 
-- *conmuta la revisión con pylint* activa/desactiva la revisión con pylint cada
-  vez que guardamos el archivo
+- *conmuta la revisión con pylint* activa/desactiva la revisión con
+  [pylint][pylint] cada vez que guardamos el archivo
+
+  [pylint]: http://www.pylint.org/
+
 
 - *ejecutar con python2 en panel tmux* emplea el plugin Vimux que sirve para
-  interactuar entre vim y tmux. Básicamente permite enviar comandos a un panel
-  de tmux e interactuar con el sin perder el foco en Vim. Tal y como lo tengo
+  interactuar entre Vim y Tmux. Básicamente permite enviar comandos a un panel
+  de Tmux e interactuar con el sin perder el foco en Vim. Tal y como lo tengo
   configurado, si no hay ningún otro panel abierto aparte del de Vim, se abrirá
   uno debajo de este ocupando el 20% del espacio, en otro caso se ejecutara en
   el panel abierto. Este comando en concreto ejecuta el contenido del buffer
@@ -874,7 +879,7 @@ __Unite__
   empleando `python3` para ejecutar el buffer
 
 - *ejecutar con python2 y time en panel tmux* ejecuta el contenido precedido
-  por el programa unix `time` para conocer el tiempo total empleado en su
+  por el programa Unix `time` para conocer el tiempo total empleado en su
   ejecución
 
 - *ejecutar con pypy y time en panel tmux* igual que la entrada anterior pero
@@ -901,7 +906,7 @@ __Unite__
 
 - *ir a la definición* salta al lugar donde se ha definido la variable, función,
   clase, método, ... que este bajo el cursor. Abre un nuevo buffer con el lugar
-  donde esta, incluso si se encuentra en otro modulo o libreria
+  donde esta, incluso si se encuentra en otro modulo o librería
 
 - *reorganizar imports* reordena los imports de forma automática
 
@@ -927,16 +932,19 @@ __Unite__
     correctamente.
 
 - *listar virtualenvs* emplea el plugin virtualenv que nos permite interactuar
-  con los virtualenvs desde Vim. Esta entrada nos muestra los virtualenvs
+  con los virtualenvs de Python desde Vim. Esta entrada nos muestra los
+  virtualenvs
 
 - *activar virtualenv* nos activa el virtualenv
 
 - *desactivar virtualenv* nos desactiva el virtualenv
 
-- *ejecutar coverage2* y *ejecutar coverage3* ejecutan la herramienta coverage
-  para python2 y python3 respectivamente. Luego nos muestran los resultados
-  empleando coveragepy, tanto en un buffer como en forma de marca para conocer
-  la cobertura del código actual
+- *ejecutar coverage2* y *ejecutar coverage3* ejecutan la herramienta
+  [coverage.py][cvg] para python2 y python3 respectivamente. Luego nos muestran
+  los resultados empleando coveragepy, tanto en un buffer como en forma de marca
+  para conocer la cobertura del código actual
+
+  [cvg]: http://nedbatchelder.com/code/coverage/
 
 - *mostrar/ocultar informa de coverage* y *mostrar/ocultar marcas de coverage*
   conmutan la visibilidad tanto de las marcas como del informe de coverage
@@ -966,8 +974,8 @@ algunos globales. La mejor característica de Ultisnips es que nos permite
 definir los nuestros propios con un nivel de control y automatismo que ningún
 otro plugin nos ofrece. Es lo suficiente complejo para no entrar aquí en
 detalles, es necesario leerse detenidamente la ayuda para comprenderlo.
-Destacaría de todos modos que nos permite emplear comandos externos (shell,
-vimscript y Python) dentro de los mismos o que podemos usarlos con selecciones
+Destacaría de todos modos que nos permite emplear comandos externos (Shell,
+Vimscript y Python) dentro de los mismos o que podemos usarlos con selecciones
 visuales, así como anidar snippets o usar transformaciones de texto.
 
     En el directorio `./UltiSnips` guardo mis snippets personalizados.
@@ -1005,10 +1013,11 @@ __Unite__
 - *visor git* y *visor git buffer* utilizan el plugin __gitv__ que es un clon de
   la herramienta `gitk` para Vim, que es el visor incluido con la herramienta
   `git`. Este plugin te permite ver la historia del repositorio, realizar diffs,
-  checkouts, ... Este plugin requiere de Fugitive para funcionar. La primera
-  entrada abrirá un visor relativo a todo el repositorio (modo explorador),
-  mientras la segunda entrada lo hará en función al buffer actual o a una
-  selección visual (modo archivo)
+  checkouts, merges ... Este plugin requiere de Fugitive para funcionar y por
+  eso mismo su funcionamiento es muy parecido. La primera entrada abrirá un
+  visor relativo a todo el repositorio (modo explorador), mientras la segunda
+  entrada lo hará en función al buffer actual o a una selección visual (modo
+  archivo)
 
     ![gitv](http://joedicastro.com/static/pictures/gitv.png "gitv")
 
@@ -1099,12 +1108,12 @@ __Unite__
 
 ## Desarrollo Web
 
-### HTML5
+__HTML5__
 
 Proporciona funciones de autocompletado, sintaxis e indentación para HTML5. Para
 ello tiene soporte de SVG, RDFa, microdata y WAI-AIRA.
 
-### Sparkup
+__Sparkup__
 
 ![sparkup](http://joedicastro.com/static/pictures/sparkup.gif "sparkup")
 
@@ -1145,10 +1154,10 @@ donde se encuentran todas estas opciones
 ### Menu
 
 - *abrir colorv* muestra la ventana de ColorV
-- la siguiente entrada muestra la ventana de ColorV con el color situado debajo
-  del cursor seleccionado
-- *previsualiza los colores en el buffer actual* muy útil para hojas css, donde
-  muestra los códigos de color coloreados con su color correspondiente
+- *abrir colorv con el color bajo el cursor seleccionado* muestra la ventana de
+  ColorV con el color situado debajo del cursor seleccionado
+- *previsualiza los colores en el buffer actual* es muy útil para hojas css,
+  donde muestra los códigos de color coloreados con su color correspondiente
 - *selector de color* muestra un selector de color gráfico (GUI)
 - *edita el color situado bajo de el cursor* abre ColorV con el color situado
   bajo el cursor y cuando cerramos colorv lo cambia por el que hayamos
@@ -1164,7 +1173,7 @@ donde se encuentran todas estas opciones
   atajo puede ser cambiada para mostrar una lista de colores por saturación `s`,
   análogos `a`, ...  consultar la ayuda para una lista completa o lanzarlo
   interactivamente a través del menú
-- *lista de colores relativa al color actual* muestra una ventana lateral con
+- *muestra lista de colores (colores Web W3C)* muestra una ventana lateral con
   una lista de colores por nombre (colores Web del W3C)
 - *elegir un esquema de color* nos permite elegir un esquema de color desde
   [Kuler](https://kuler.adobe.com) o
@@ -1174,7 +1183,6 @@ donde se encuentran todas estas opciones
 - *crear esquema de color* crea un nuevo esquema
 - *crear variación de tono entre dos colores* crea una lista de colores que
   varían en función de un parámetro (tono, saturación, ...)
-
 
     > __Atajos en la ventana de ColorV__
 
@@ -1209,7 +1217,7 @@ __Unite__
 
 ## Utilidades de Linux/Unix
 
-### DirDiff
+__DirDiff__
 
 Funciona de modo similar a vimdiff pero entre directorios en lugar de archivos.
 
@@ -1222,7 +1230,7 @@ Funciona de modo similar a vimdiff pero entre directorios en lugar de archivos.
 > - `:DirDiffQuit` sale del modo DirDiff
 
 
-### Editor hexadecimal
+__Editor hexadecimal__
 
 Este plugin en realidad utiliza la herramienta `xxd` para visualizar un archivo
 de forma hexadecimal.
@@ -1286,7 +1294,7 @@ __Unite__
 
 ### Menu
 
-La primera entrada ya la comente al principio de este documento
+La primera entrada es comentada al principio de este documento
 
 - *atajos de teclado* es una opción tremendamente útil que nos permite conocer a
   que función o comando esta asociado a cada atajo. Los de los plugins con carga
@@ -1311,7 +1319,7 @@ La primera entrada ya la comente al principio de este documento
 - *funciones de vim* tiene el mismo comportamiento que la entrada anterior
   aunque para las funciones en lugar de los comandos
 
-- *runtimpath de vim* muestra todos aquellos paths que se encuentren dentro del
+- *runtimepath de vim* muestra todos aquellos paths que se encuentren dentro del
   runtimepath de vim
 
 - *salida de comando de vim* sirve para recoger por Unite la salida de un
@@ -1329,7 +1337,7 @@ La primera entrada ya la comente al principio de este documento
 
 - *limpiar cache de Powerline* es algo que podemos necesitar cuando realizamos
   cambios en la configuración de Vim para que se vuelve a visualizar
-  correctamente la linea de estado
+  correctamente la linea de estado de Powerline
 
 ## Prerequisitos
 
@@ -1360,13 +1368,21 @@ los necesarios a instalar:
 - __[tig][tig]__ para gestionar los repositorios git con una herramienta bajo
   ncurses
 
-- [coverage][cvg]
+- __[coverage][cvg]__ es una herramienta que sirve para analizar la "cobertura" de
+  nuestros programas Python, para localizar que fragmentos de código no están
+  siendo ejecutados
 
-- [ranger][rngr]
+- __[ranger][rngr]__ para poder emplear este explorador de archivos externo. La
+  configuración del mismo que empleo la puedes encontrar en este mismo
+  repositorio
 
-- [pylint][plnt]
+- __[pylint][pylint]__ herramienta que sirve para revisar la calidad de nuestro
+  código y señalarnos los errores encontrados
 
+- __[virtualenvwrapper][venvwppr]__ una herramienta que nos permite administrar más
+  cómodamente nuestros entornos virtuales en Python
 
+  [venvwppr]: http://virtualenvwrapper.readthedocs.org/en/latest/
 
 __Fuente__
 
@@ -1379,7 +1395,6 @@ carpeta `../fonts`
   [ack]: http://beyondgrep.com/
   [grep]:http://www.gnu.org/software/grep/
   [git]: http://git-scm.com/
-
 
 ## Plugins & Esquemas de color
 
@@ -1451,4 +1466,5 @@ carpeta `../fonts`
 - __webapi-vim__ <https://github.com/mattn/webapi-vim>
 - __winresizer__ <https://github.com/jimsei/winresizer>
 - __zoomwintab.vim__ <https://github.com/vim-scripts/zoomwintab.vim>
+
 
