@@ -936,11 +936,8 @@ nnoremap <silent>[menu]o :Unite -silent -winheight=17 -start-insert
 " }}}
 
 " menu busqueda de archivos {{{
-function! OnlyGitFiles()
-    cgete system("git ls-files ".input("Target: " )."\\| xargs
-                \ ack ".input("Pattern: "))
-endfunction
-nnoremap <silent><Leader>A :call OnlyGitFiles()<Bar>Unite quickfix<CR>
+nnoremap <silent><Leader>A :cgete system("git grep -in ".input("Pattern: ")."
+            \ ".input("Target: "))<Bar>Unite quickfix<CR>
 let g:unite_source_menu_menus.grep = {
     \ 'description' : '           buscar archivos
         \                                       ⌘ [espacio]a',
@@ -948,8 +945,8 @@ let g:unite_source_menu_menus.grep = {
 let g:unite_source_menu_menus.grep.command_candidates = [
     \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
         \'Unite -no-quit grep'],
-    \['▷ grep (ack, solo archivos en el repositorio git)            ⌘ ,A',
-        \'exe "call OnlyGitFiles() | Unite quickfix"'],
+    \['▷ git-grep                                                   ⌘ ,A',
+        \'normal ,A'],
     \['▷ find',
         \'Unite find'],
     \['▷ locate',
