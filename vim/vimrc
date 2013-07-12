@@ -1164,6 +1164,9 @@ let g:unite_source_menu_menus.git.command_candidates = [
         \'Gremove'],
     \['▷ git mv                 (fugitive)                          ⌘ ,gm',
         \'exe "Gmove " input("destino: ")'],
+    \['▷ git grep               (fugitive)                          ⌘ ,gg',
+        \':exe "silent Ggrep -i ".input("Pattern: ") | Unite
+            \ quickfix -no-quit'],
     \['▷ git push               (fugitive, salida por buffer)       ⌘ ,gp',
         \'Git! push'],
     \['▷ git pull               (fugitive, salida por buffer)       ⌘ ,gP',
