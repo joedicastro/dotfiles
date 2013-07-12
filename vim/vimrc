@@ -1607,14 +1607,6 @@ au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown
 autocmd FileType markdown NeoBundleSource vim-markdown
 autocmd FileType markdown NeoBundleSource vim-markdown-extra-preview
 
-" Después de N segundos (definidos por `updatetime`) sin actividad en el buffer,
-" se salva el archivo. Útil para previsualizar los artículos de Pelican.
-augroup ft_markdown
-    au!
-    au CursorHold,CursorHoldI *.{md,mdown,mkd,mkdn,markdown,mdwn} w
-augroup END
-
-let g:updatetime=5
 " }}}
 
 " FIN TIPOS DE ARCHIVO }}}
