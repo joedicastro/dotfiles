@@ -24,20 +24,20 @@ set nocompatible               " No a la compatibilidad completa con vi.
 
 " Autoinstalando NeoBundle
 let iCanHazNeoBundle=1
-let neobundle_readme=expand('~/.vim/bundle/neobundle.vim/README.md')
+let neobundle_readme=expand($HOME.'/.vim/bundle/neobundle.vim/README.md')
 if !filereadable(neobundle_readme)
     echo "Installing NeoBundle.."
     echo ""
-    silent !mkdir -p ~/.vim/bundle
-    silent !git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+    silent !mkdir -p $HOME/.vim/bundle
+    silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
     let iCanHazNeoBundle=0
 endif
 
 " Llama a NeoBundle
 if has('vim_starting')
-    set rtp+=~/.vim/bundle/neobundle.vim/
+    set rtp+=$HOME/.vim/bundle/neobundle.vim/
 endif
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#rc(expand($HOME.'/.vim/bundle/'))
 
 " dejemos que NeoBundle administre a NeoBundle (necesario!)
 NeoBundle 'Shougo/neobundle.vim'
@@ -348,10 +348,10 @@ endfunction
 
 set backup
 set noswapfile
-set backupdir=~/.vim/tmp/backup/
-set undodir=~/.vim/tmp/undo/
-set directory=~/.vim/tmp/swap/
-set viminfo+=n~/.vim/tmp/viminfo
+set backupdir=$HOME/.vim/tmp/backup/
+set undodir=$HOME/.vim/tmp/undo/
+set directory=$HOME/.vim/tmp/swap/
+set viminfo+=n$HOME/.vim/tmp/viminfo
 
 " Crear estos directorios si no existen previamente
 silent! call MakeDirIfNoExists(&undodir)
@@ -747,7 +747,9 @@ nnoremap <Leader>gB :Gbrowse<CR>
 nnoremap <Leader>gp :Git! push<CR>
 nnoremap <Leader>gP :Git! pull<CR>
 nnoremap <Leader>gi :Git <Space>
-nnoremap <Leader>gl :exe "silent Glog <Bar> Unite quickfix"<CR>
+nnoremap <Leader>ge :Gedit<CR>
+nnoremap <Leader>gl :exe "silent Glog <Bar> Unite -no-quit
+            \ quickfix"<CR>:redraw!<CR>
 nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
 nnoremap <Leader>gg :exe 'silent Ggrep -i '.input("Pattern: ")<Bar>Unite
             \ quickfix -no-quit<CR>
@@ -836,7 +838,7 @@ let g:pymode_breakpoint_key = '<Leader>B'
 
 let g:pymode_lint_checker = 'pylint,pep8,mccabe,pep257'
 let g:pymode_lint_ignore = ''
-let g:pymode_lint_config = '$HOME/dotfiles/pylint/pylint.rc'
+let g:pymode_lint_config = $HOME.'/dotfiles/pylint/pylint.rc'
 
 let g:pymode_rope = 1
 let g:pymode_rope_goto_def_newwin = 'new'
@@ -1153,7 +1155,7 @@ let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git commit             (fugitive)                          ⌘ ,gc',
         \'Gcommit'],
     \['▷ git log                (fugitive)                          ⌘ ,gl',
-        \'exe "silent Glog | Unite quickfix"'],
+        \'exe "silent Glog | Unite -no-quit quickfix"'],
     \['▷ git blame              (fugitive)                          ⌘ ,gb',
         \'Gblame'],
     \['▷ git stage/add          (fugitive)                          ⌘ ,gw',
@@ -1166,7 +1168,7 @@ let g:unite_source_menu_menus.git.command_candidates = [
         \'exe "Gmove " input("destino: ")'],
     \['▷ git grep               (fugitive)                          ⌘ ,gg',
         \':exe "silent Ggrep -i ".input("Pattern: ") | Unite
-            \ quickfix -no-quit'],
+        \ -no-quit quickfix'],
     \['▷ git push               (fugitive, salida por buffer)       ⌘ ,gp',
         \'Git! push'],
     \['▷ git pull               (fugitive, salida por buffer)       ⌘ ,gP',
@@ -1453,7 +1455,7 @@ let g:unite_marked_icon = '✓'
 let g:unite_winheight = 15
 let g:unite_update_time = 200
 let g:unite_split_rule = 'botright'
-let g:unite_data_directory = '~/.vim/tmp/unite'
+let g:unite_data_directory = $HOME.'/.vim/tmp/unite'
 let g:unite_source_buffer_time_format = '(%d-%m-%Y %H:%M:%S) '
 let g:unite_source_file_mru_time_format = '(%d-%m-%Y %H:%M:%S) '
 let g:unite_source_directory_mru_time_format = '(%d-%m-%Y %H:%M:%S) '
@@ -1470,7 +1472,7 @@ elseif executable('ack')
     let g:unite_source_grep_search_word_highlight = 1
 endif
 
-let g:junkfile#directory=expand("~/.vim/tmp/junk")
+let g:junkfile#directory=expand($HOME."/.vim/tmp/junk")
 
 " navegacion por la ventana de unite mas comoda
 " autocmd FileType unite call s:unite_settings()
@@ -1513,7 +1515,7 @@ let g:vimfiler_readonly_file_icon = '✗'
 let g:vimfiler_force_overwrite_statusline = 0
 
 let g:vimfiler_time_format = '%d-%m-%Y %H:%M:%S'
-let g:vimfiler_data_directory = '~/.vim/tmp/vimfiler'
+let g:vimfiler_data_directory = $HOME.'/.vim/tmp/vimfiler'
 
 " }}}
 
