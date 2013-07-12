@@ -1,6 +1,6 @@
 # Mi Configuración de Vim
 
-__Version 0.9  (11-07-2013)__
+__Version 1.0  (12-07-2013)__
 
 El propósito de este documento es recopilar todas las opciones disponibles en mi
 configuración para poner un poco de orden en la misma y servirme de recordatorio
@@ -9,10 +9,10 @@ vim ni de los plugins, solo destacar aquellas opciones que puedo necesitar en un
 determinado momento. Del mismo modo puede servir de una suerte de manual de
 instrucciones para aquel que decida clonar esta configuración.
 
-Debido a la naturaleza altamente "mutante" de mi configuración, este documento
-estará sujeto del mismo modo a un numero elevado de modificaciones en el futuro.
+Debido a la naturaleza "dinámica" de mi configuración, este documento estará
+sujeto del mismo modo a modificaciones en el futuro.
 
-A todo esto habría que sumarle todo lo que Vim aporta de serie, que no es poco.
+A todo esto hay que sumarle todo lo que Vim aporta de serie, que no es poco.
 
 > La tecla `<Leader>` la tengo mapeada a `,` y la tecla `<LocalLeader>` la tengo
 mapeada a la tecla espaciadora
@@ -27,22 +27,23 @@ mapeada a la tecla espaciadora
     Esta configuración está basada en las de muchos otros, tantos que ni los
     recuerdo a todos y seria bastante injusto recordar a algunos y omitir a
     otros. Pero gracias a que muchos comparten generosamente su configuración,
-    yo he llegado a la mía y sirva esta documento también de pequeña
+    yo he llegado a la mía y espero sirva esta documento también de pequeña
     compensación por lo mucho que otros me han aportado. Y gracias también a
     todos aquellos desarrolladores que crearon los plugins que incluyo (e incluí
-    en el pasado) por que sin su maravillosa contribución y generosidad al
+    en el pasado), por que sin su maravillosa contribución y generosidad al
     compartirlos con el resto del mundo, esta configuración no sería posible.
 
 ## Unite
 
-Unite es una interfaz que unifica varios 'resultados de búsquedas' bajo un mismo
-aspecto y siguiendo el comportamiento por defecto de Vim (modal). Es casi una
-API sobre la que podemos construir nuestras propias soluciones. Sirve tanto para
+Unite es una interfaz que unifica varios "resultados de búsquedas" bajo un mismo
+aspecto y que sigue el comportamiento por defecto de Vim (modal). Es casi una
+API sobre la que podemos construir nuestras propias soluciones, de hecho el
+propio autor lo describe como "unificar y crear interfaces". Sirve tanto para
 abrir un archivo, como para cambiar de buffer, cambiar de esquema de color o
 para hacer una búsqueda con regex (vimgrep, grep, Ack, ag, ...). Sirve hasta
 para consultar los registros, ayuda, comandos... Resumiendo, es una navaja suiza
-que bien empleada nos permite sustituir un varios plugins distintos por uno
-solo (en este caso: CtrlP, Ack, YankRing, TagmaTasks y Tagbar).
+que bien empleada nos permite sustituir un varios plugins distintos por uno solo
+(en este caso: CtrlP, Ack, YankRing, TagmaTasks y Tagbar).
 
 > Una de las principales ventajas de Unite es que me permite subsanar uno de los
 problemas que intentaba solucionar inicialmente con este documento, que es el
@@ -53,60 +54,62 @@ recordemos ni todas sus opciones, ni los atajos. Pues bien, con Unite es
 sencillo crear un menú para ese plugin donde mostremos las opciones que tenemos
 para el y los atajos que les hemos asignado y gracias otra vez a la magia de
 Unite, ni siquiera necesitamos recordar el atajo a este menú, podemos buscarlo
-dentro del indice de menús de Unite. Problema resuelto de forma rápida y
-elegante.
+dentro del indice de menús de Unite. __Problema resuelto de forma rápida y
+elegante.__
 
-El mayor inconveniente de Unite y a su vez una de sus mayores ventajas es que no
-viene configurado apenas, dejando a nuestro gusto y responsabilidad el adaptarlo
-a nuestro modo de trabajo.
+El mayor inconveniente de Unite y a su vez una de sus mayores ventajas es que
+apenas viene configurado, dejando a nuestro gusto y responsabilidad el adaptarlo
+a nuestro modo de trabajo. De hecho, esto es así hasta el punto de que podemos
+crear nuevos plugins que proporcionen nuevas "fuentes" para Unite.
 
 ### Fuentes y Menus
 
 Yo he configurado Unite siguiendo dos vías distintas, por un lado lo utilizo
 para acceder a fuentes directas (lo que Unite denomina *sources*) a través de un
-atajo usando la tecla `<Leader>` y por otro lado llamando a menús usando la
-tecla `<LocalLeader>`
+atajo usando la tecla `<Leader>` y por otro lado llamando a menús confeccionados
+con Unite usando la tecla `<LocalLeader>`
 
-- Las __fuentes__ llamadas directamente a través de un atajo con `<Leader>` las uso
-  para aquellas tareas más comunes como abrir archivos, buscar dentro del
+- Las __fuentes__ llamadas directamente a través de un atajo con `<Leader>` las
+  uso para aquellas tareas más comunes como: abrir archivos, buscar dentro del
   archivo, hacer una búsqueda de archivos mediante regex (ag, ack, grep), etc.
   Un ejemplo de como abrir un archivo con Unite.
 
-![unite_file](http://joedicastro.com/static/pictures/unite_file.gif "unite file")
+    ![unite_file](http://joedicastro.com/static/pictures/unite_file.gif "unite file")
 
-- Los __menus__ los uso para agrupar las opciones bien por plugins o bien por
-  funcionalidad. Ademas muestro los atajos en aquellas opciones que tengo
-  mapeadas directamente, esto me permite no tener que consultar mi `~/.vimrc`
-  para recordar cuales eran cuando me olvido de alguno. Un ejemplo que muestra
-  las opciones que tengo disponibles para gestionar un repositorio git desde
-  Vim.
+- Los __menús__ los uso para agrupar opciones bien por plugins o bien por
+  funcionalidad. Ademas muestro los atajos de teclado en aquellas opciones que
+  tengo mapeadas directamente, esto me permite no tener que consultar mi
+  `~/.vimrc` cuando me olvido de algún atajo. Un ejemplo que muestra como
+  gestionar un repositorio git desde Vim utilizando un menú para acceder a las
+  opciones.
 
-![unite_git](http://joedicastro.com/static/pictures/unite_git.gif "unite_git")
+    ![unite_git](http://joedicastro.com/static/pictures/unite_git.gif "unite_git")
 
 También para no tener que recordar todos los menús que he creado, hay un menú
 maestro que me permite acceder a cada uno de ellos y ver los atajos asociados a
-cada uno de ellos. Unite posee un mecanismo que nos permite acceder a una lista
-de menús generada automáticamente, y aunque en este caso ni se muestran
-ordenados ni se pueden ver los atajos asociados directamente yo he creado las
-descripciones de los menús de manera que se puedan ver los atajos. Es lo que el
-comando `:menu` de Vim debería haber sido: cómodo, intuitivo y de fácil
-navegación.
+cada uno. Unite posee un mecanismo que nos permite acceder a una lista de menús
+generada automáticamente, y aunque en este caso ni se muestran ordenados ni se
+pueden ver los atajos asociados directamente, he creado las descripciones de
+los menús de manera que se puedan ver los atajos. Es lo que el comando `:menu`
+de Vim debería haber sido: cómodo, intuitivo y de fácil navegación.
 
 - `<LocalLeader>u` o `:Unite menu` muestra los menús disponibles
 
+Este es un ejemplo de como se vería este menú:
+
+![unite menu](http://joedicastro.com/static/pictures/unite_menu.png "unite menu")
 
 ### Navegacion dentro de Unite
 
 En el tema de Powerline que estoy empleando hay un circulo de color detrás del
-numero de candidatos que indica el modo en el que nos encontramos actualmente.
+número de candidatos que indica el modo en el que nos encontramos actualmente.
 
- - __Verde__ modo normal
- - __Azul__ modo inserción
- - __Naranja__ modo visual
+ - __Verde:__    modo normal
+ - __Azul:__     modo inserción
+ - __Naranja:__  modo visual
 
 En modo `Normal` podemos acceder a la ayuda de Unite donde se pueden ver todos
-los atajos disponibles con `?`. De todos modos los atajos principales son los
-siguientes:
+los atajos disponibles con `?`. Los atajos principales son los siguientes:
 
 > __Atajos__
 
@@ -180,11 +183,11 @@ siguientes:
 - Permite cargar los plugins bajo demanda, no al principio, para agilizar el
   arranque de Vim y el consumo de recursos
 - Permite añadir multitud de opciones a cada plugin, como por ejemplo que se
-  haga el `build` de forma automática si es necesario al instalar/actualizar
+  haga la compilación de forma automática si es necesario al instalar/actualizar
 - Y muchas mas posibilidades, sobre todo si también usamos 'Vimproc' y 'Unite'
   del mismo autor
 
-La mejor manera de usar NeoBundle es a través de Unite
+La manera idónea de usar NeoBundle es a través de Unite
 
 __Unite__
 
@@ -193,16 +196,18 @@ __Unite__
 
 ### Menu
 
-Voy a detallar aquí lo que hace cada uno de las entradas del menu:vim
+Voy a detallar aquí lo que hace cada uno de las entradas del menú:
 
 - *neobundle* nos muestra una lista de los plugins instalados. Seleccionándolos
-  (uno o varios) podemos realizar varias acciones sobre ellos
+  (uno o varios) podemos realizar varias acciones sobre ellos (e.g. instalarlo,
+  borrarlo, ir a la página del repositorio)
 
-- *log* muestra el registro de operaciones de neobundle
+- *log* muestra el último registro de operaciones de neobundle
 
 - *lazy* nos muestra la lista de los plugins que tenemos configurados para ser
   cargados bajo demanda (algo que nos permite tener instalados plugins que no
-  usamos muy frecuentemente sin que afecte al rendimiento de Vim)
+  usamos muy frecuentemente sin que afecte al rendimiento de Vim). Una opción
+  que empleo abundantemente en esta configuración
 
 - *update* actualiza automáticamente todos los plugins (e instala aquellos que
   no lo estén)
@@ -219,7 +224,7 @@ Voy a detallar aquí lo que hace cada uno de las entradas del menu:vim
 - *docs* instala la documentación de todos los plugins de forma manual
 
 - *clean* elimina aquellos plugins que ya no estén configurados pero aun
-  permanezcan en el disco
+  permanezcan en el disco, previa confirmación
 
 - *list* lista todos los plugins instalados
 
@@ -229,7 +234,7 @@ Voy a detallar aquí lo que hace cada uno de las entradas del menu:vim
 
 > __Actualización de Plugins__
 
-> NeoBundle es una muy buena y potente herramienta que nos permite administrar
+> NeoBundle es una herramienta excelente y potente que nos permite administrar
 de forma muy sencilla nuestros plugins. Pero es una herramienta que conviene
 utilizar con cuidado, sentido común y guardando unas ciertas precauciones, sobre
 todo si usamos vim como herramienta profesional.
@@ -238,7 +243,7 @@ todo si usamos vim como herramienta profesional.
 plugins directamente desde el repositorio git, esto nos expone a actualizaciones
 inestables de los mismos.
 
-> Este es mi modo de actualizar los plugins que puede servir como guia u
+> Este es mi manera de actualizar los plugins que puede servir como guia u
 orientación de como hacerlo sin que nuestro flujo de trabajo se vea
 interrumpido.
 
@@ -258,10 +263,10 @@ es debido.
 > De hecho, hago esto sin salir de Vim y con la ayuda de ranger, en sencillos
 pasos:
 
->    1. entro en ranger desde vim pulsando `<Leader>rt`
+>    1. entro en ranger desde vim pulsando `<Leader>x`
 >    2. voy a la carpeta `vim` en `~/dotfiles` y creo una copia pulsando `yy` y
 >       luego `pp` y me crea una copia llamada `vim_`
->    3. actualizo los plugins de vim con `:BundleUpdate`
+>    3. actualizo los plugins de vim con `:NeoBundleUpdate`
 >    4. sigo trabajando con normalidad
 >    5. si veo que algún plugin se ha vuelto inestable durante la actualización
 >       y lo necesito para seguir trabajando, simplemente borro la carpeta
@@ -272,7 +277,7 @@ pasos:
 > Usando este procedimiento o algo similar nos ahorramos muchos disgustos a la
 hora de realizar las actualizaciones. Evidentemente, en caso de que solo falle
 un plugin siempre podemos sustituir únicamente la carpeta de ese plugin dentro
-de `~/dotfiles/vim/bundle` en lugar de toda la configuración de Vim.
+de `~/dotfiles/vim/bundle` en lugar de toda la configuración de Vim
 
 > __Alternativa__
 
@@ -285,7 +290,8 @@ no se actualice nunca, si no nos interesa actualizarlo.
 
 ![unite_colorscheme](http://joedicastro.com/static/pictures/unite_colorscheme.gif "unite colorscheme")
 
-Para cambiar de esquemas de color podemos hacerlo a través de Unite:
+Para cambiar de esquemas de color podemos hacerlo de forma cómoda e interactiva,
+con previsualización incluida a través de Unite:
 
 __Unite__
 
@@ -293,7 +299,6 @@ __Unite__
   podemos cambiar el esquema seleccionando la opción correspondiente
 - `:Unite colorscheme -auto-preview` seleccionamos el esquema de la lista con
   previsualización del mismo
-
 
 
 ## Navegacion
@@ -326,20 +331,24 @@ interfaz de Unite
 
 - *redimensionar ventanas* utiliza el plugin winresizer para redimensionar
   (cambiar de tamaño) muy fácilmente las ventanas de vim.
-   > __Atajos__
-   >
-   > - `h`, `j`, `k`, `l` mueve el divisor de ventanas usando los movimientos
-   >   típicos de Vim
-   > - `<CR>` finaliza el redimensionado y `q` lo cancela
+
+    > __Atajos__
+    >
+    > - `h`, `j`, `k`, `l` mueve el divisor de ventanas usando los movimientos
+    >   típicos de Vim
+    > - `<ESC>` finaliza el redimensionado y `q` lo cancela
 
 - las dos siguientes entradas nos permiten crear nuevas ventanas, tanto en
   posición vertical como horizontal y la siguiente opción nos permite cerrar
   cualquier ventana abierta (excepto cuando solo hay una)
 
 - *cerrar/abrir ventana quickfix* nos abre/cierra la ventana quickfix y a
-  diferencia de la quinta entrada no la muestra a través de Unite.
+  diferencia de la quinta entrada no la muestra a través de Unite. Nos permite
+  cerrar además la "location list"
 
 - *zoom* hace zoom sobre una ventana, ocultando el resto.
+
+- *eliminar buffer* cierra el buffer, no lo deja oculto
 
 
 ## Sesiones
@@ -396,18 +405,19 @@ __Unite__
   tengamos en nuestro documento, bien sea individualmente o todos a la vez
 
 - las siguientes 3 entradas nos sirven para pegar/copiar al portapapeles del
-  sistema y para activar/desactivar el paste mode (todo se pega literalmente)
+  sistema y para activar/desactivar el paste mode (todo se pega literalmente,
+  sin aplicar ningún formateo)
 
 - la siguiente entrada elimina esos espacios que se quedan a veces al final de
   la linea y que suelen ser casi siempre innecesarios y sin cometido alguno
   (excepto quizás en Markdown)
 
 - *estadísticas de texto para la posición actual* muestra en la linea de
-  comandos el numero de lineas, palabras, caracteres y bytes (totales y de la
+  comandos el número de lineas, palabras, caracteres y bytes (totales y de la
   posición actual)
 
-- la entrada que le sigue muestra una lista de palabras con la frecuencia con la
-  que aparece cada palabra para un texto dado
+- *frecuencia de cada palabra en el texto* muestra una lista de palabras con la
+  frecuencia con la que aparece cada palabra para el buffer actual
 
 - *muestra los dígrafos disponibles* muestra una tabla con todos los dígrafos
   disponibles y los caracteres necesarios para generarlos
@@ -419,15 +429,16 @@ __Unite__
 
    [lorem]: http://es.wikipedia.org/wiki/Lorem_ipsum
 
-- la ultima entrada muestra información ampliada sobre un carácter en la linea
-  de comandos. Muestra el valor Unicode en decimal, hexadecimal, octal, el
-  nombre Unicode, la HTML entity, el código Emoji y cualquier dígrafo
-  disponible.
+- *muestra información sobre el carácter actual* muestra información ampliada
+  sobre un carácter en la linea de comandos. Muestra el valor Unicode en
+  decimal, hexadecimal, octal, el nombre Unicode, la HTML entity, el código
+  Emoji y cualquier dígrafo disponible.
 
 ### Otras herramientas
 
 A parte de las herramientas incluidas en el menú, disponemos de otra serie de
-ellas para poder editar texto más fácilmente.
+ellas para poder editar texto más fácilmente (sin contar evidentemente con todas
+las que nos proporciona Vim de serie).
 
 - __text-objects__ los objetos de texto personalizados nos permiten ampliar los
   ya definidos por defecto en Vim (palabra, frase, párrafo, bloque,
@@ -460,7 +471,7 @@ ellas para poder editar texto más fácilmente.
 
     > __Atajo__
     >
-    >  - `<Leader>c` o `gc`
+    >  - `<Leader>c` o `gc` comenta/descomenta la seleccion
 
 - __vim-surround__ nos sirve para "envolver" un objeto de texto de vim con un
   par de caracteres o etiquetas similares (paréntesis, comillas, etiquetas HTML,
@@ -590,17 +601,18 @@ __Unite__
 
 ### Menu
 
-- la primera entrada es la clásica herramienta de búsqueda del contenido de un
-  archivo a partir de un patrón basado en una expresión regular. Si tenemos
-  instalada la utilidad `ag` usara esta, en su defecto la herramienta `ack` y en
-  ausencia de ambas el clásico `grep`. Cuando la ejecutemos nos solicitara el
-  directorio destino (target) donde realizar la búsqueda recursiva y luego la
-  expresión regular (pattern).
+- *grep (ag → ack → grep)* la primera entrada es la clásica herramienta de
+  búsqueda del contenido de un archivo a partir de un patrón basado en una
+  expresión regular. Si tenemos instalada la utilidad `ag` usara esta, en su
+  defecto la herramienta `ack` y en ausencia de ambas el clásico `grep`. Cuando
+  la ejecutemos nos solicitara el directorio destino (target) donde realizar la
+  búsqueda recursiva y luego la expresión regular (pattern).
 
-- la siguiente entrada realiza exactamente la misma función pero limitándose a
-  los archivos incluidos dentro del repositorio cuando nos encontremos dentro de
-  un repositorio de git. Es decir, que buscaría dentro de los archivos que
-  podemos listar con el comando `$ git ls-files`
+- *git grep* la siguiente entrada realiza exactamente la misma función pero
+  empleando `git grep` y limitándose a los archivos incluidos dentro del
+  repositorio cuando nos encontremos dentro de un repositorio de git. Es decir,
+  que buscaría dentro de los archivos que podemos listar con el comando `$ git
+  ls-files`
 
 - *find* realiza la búsqueda por el nombre del archivo empleando la conocida
   herramienta `find`
@@ -907,7 +919,7 @@ __Unite__
   plugin que comprueba la sintaxis de numerosos lenguajes (python, ruby, lua,
   haskell, css, html, js, json, ...) a través de herramientas externas. Muestra
   los errores de sintaxis en la columna de signos de Vim, a la izquierda de los
-  números de línea. También muestra un resumen del numero de errores y la
+  números de línea. También muestra un resumen del número de errores y la
   localización del primero de ellos en la barra de estado (en este caso la de
   Powerline)
 
@@ -1002,8 +1014,8 @@ __Unite__
 
     > __Atajos__
 
-    > - `<CR>` abre un commit, un diff, un arbol, un fichero, mas commits, ...
-    >   dependiendo de donde se emplee 
+    > - `<CR>` abre un commit, un diff, un arbol, un archivo, mas commits, ...
+    >   dependiendo de donde se emplee
 
     > - `o` abre en una nueva ventana horizontal
 
@@ -1011,7 +1023,7 @@ __Unite__
 
     > - `s` abre en una nueva ventana vertical
 
-    > - `i` en "modo explorador" abre el fichero y en "modo archivo" abre los detalles
+    > - `i` en "modo explorador" abre el archivo y en "modo archivo" abre los detalles
     >   del commit
 
     > - `q` salir de gitv
@@ -1054,18 +1066,28 @@ __Unite__
     - `status` nos muestra el estado del repositorio, es la ventana "maestra" de
     Fugitive y desde ella podemos acceder a múltiples opciones. Dentro de esta
     ventana tenemos disponibles estos atajos:
-    
-    __Atajos__
 
-    - `<CR>` ejcuta el comando `:Gedit` que nos permite "editar" una revision
-    - `-` sobre un archivo que no esta en el 'stage area' nos permite añádirlo a
-      ella, es como ejecutar un `git add` o un `git stage`. Usandola sobre un
-      archivo que está en el 'stage area' para ser empleado en el commit, lo
-      quita de ella, el equivalente a realizar un `git reset`
-    - `cc` realiza un commit
+    > __Atajos__
 
-    
+    > - `<CR>` ejcuta el comando `:Gedit` que nos permite "editar" una revision
+    > - `-` sobre un archivo que no esta en el 'stage area' nos permite añádirlo a
+    >   ella, es como ejecutar un `git add` o un `git stage`. Usandola sobre un
+    >   archivo que está en el 'stage area' para ser empleado en el commit, lo
+    >   quita de ella, el equivalente a realizar un `git reset`
+    > - `cc` realiza un commit con el comando `:Gcommit` el equivalente a `git
+    >   commit`
 
+    > - `D` realiza un diff, empleando vimdiff con el comando `:Gdiff`
+
+    > - `ds` realiza un diff, pero dividiendo horizontalmente las ventanas
+    > - `dv` realiza un diff, pero dividiendo verticalmanete las ventanas, es
+    >   igual que D
+    > - `dp`
+    > - `p`
+    > - `o` abre el archivo en una nueva ventana horizontal
+    > - `O` abre el archivo en una nueva pestaña
+    > - `q` cierra la ventana de estado
+    > - `R` actualiza la ventana de estado
 
 ### Otras herramientas
 
@@ -1280,7 +1302,7 @@ La primera entrada ya la comente al principio de este documento
 
 - *ayuda de Vim* nos permite encontrar dentro de la ayuda de Vim la información
   que necesitamos sobre un plugin, una función, un comando, ... Es un poco lento
-  debido al elevado numero de candidatos
+  debido al elevado número de candidatos
 
 - *comandos de vim* una lista con todos los comandos disponibles para Vim. Los
   de los plugins con carga bajo demanda (empleando NeoBundleLazy) no aparecerán
@@ -1316,7 +1338,7 @@ __Vim__
 Para que todos los plugins incluidos funcionen adecuadamente es necesario
 disponer de una versión de Vim superior o igual a la __7.3__ y compilada para
 dar soporte a Python, Lua y Ruby. Esto se puede saber empleando el comando
-`:version` que ademas de darnos el numero de versión nos dirá que opciones
+`:version` que ademas de darnos el número de versión nos dirá que opciones
 soporta precediéndolas de un símbolo más `+`
 
 __Programas__
@@ -1329,6 +1351,22 @@ funcionamiento integral:
 - __[ag][ag]__, __[ack][ack]__ o __[grep][grep]__ para la búsqueda del contenido
   de archivos mediante expresiones regulares
 - __[git][git]__ para las operaciones de control de versiones
+
+__Programas opcionales__
+
+Si se quieren emplear los mismos programas externos que yo empleo, estos serian
+los necesarios a instalar:
+
+- __[tig][tig]__ para gestionar los repositorios git con una herramienta bajo
+  ncurses
+
+- [coverage][cvg]
+
+- [ranger][rngr]
+
+- [pylint][plnt]
+
+
 
 __Fuente__
 
@@ -1352,19 +1390,20 @@ carpeta `../fonts`
 - __csapprox__ <https://github.com/godlygeek/csapprox>
 - __DirDiff.vim__ <http://github.com/joedicastro/DirDiff.vim>
 - __easydigraph.vim__ <https://github.com/Rykka/easydigraph.vim>
+- __gitv__ <https://github.com/gregsexton/gitv>
 - __gundo.vim__ <https://github.com/sjl/gundo.vim>
 - __harlequin__ <https://github.com/nielsmadan/harlequin>
 - __hexman.vim__ <https://github.com/vim-scripts/hexman.vim>
 - __html5.vim__ <https://github.com/othree/html5.vim>
 - __indentLine__ <https://github.com/Yggdroot/indentLine>
 - __JSON.vim__ <https://github.com/vim-scripts/JSON.vim>
+- __junkfile.vim__ <https://github.com/Shougo/junkfile.vim>
 - __loremipsum__ <https://github.com/vim-scripts/loremipsum>
 - __molokai__ <https://github.com/tomasr/molokai>
 - __neobundle.vim__ <https://github.com/Shougo/neobundle.vim>
 - __neocomplete.vim__ <https://github.com/Shougo/neocomplete.vim>
 - __po.vim--gray__ <https://github.com/vim-scripts/po.vim--gray>
 - __python-mode__ <https://github.com/klen/python-mode>
-- __scratch-utility__ <https://github.com/vim-scripts/scratch-utility>
 - __summerfruit256.vim__ <https://github.com/vim-scripts/summerfruit256.vim>
 - __syntastic__ <https://github.com/scrooloose/syntastic>
 - __ultisnips__ <https://github.com/SirVer/ultisnips>
@@ -1387,6 +1426,7 @@ carpeta `../fonts`
 - __vim-markdown__ <https://github.com/joedicastro/vim-markdown>
 - __vim-markdown-extra-preview__ <https://github.com/joedicastro/vim-markdown-extra-preview>
 - __vim-molokai256__  <https://github.com/joedicastro/vim-molokai256>
+- __vim-multiple-cursors__ <https://github.com/terryma/vim-multiple-cursors>
 - __vim-pentadactyl__ <https://github.com/joedicastro/vim-pentadactyl>
 - __vim-powerline__ <https://github.com/joedicastro/vim-powerline>
 - __vim-repeat__ <https://github.com/tpope/vim-repeat>
@@ -1411,8 +1451,4 @@ carpeta `../fonts`
 - __webapi-vim__ <https://github.com/mattn/webapi-vim>
 - __winresizer__ <https://github.com/jimsei/winresizer>
 - __zoomwintab.vim__ <https://github.com/vim-scripts/zoomwintab.vim>
-
-# ...Work in progress!
-
-FIXME: Realizar una revisión de calidad
 
