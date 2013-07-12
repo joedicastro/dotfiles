@@ -608,12 +608,6 @@ __Unite__
   la ejecutemos nos solicitara el directorio destino (target) donde realizar la
   búsqueda recursiva y luego la expresión regular (pattern).
 
-- *git grep* la siguiente entrada realiza exactamente la misma función pero
-  empleando `git grep` y limitándose a los archivos incluidos dentro del
-  repositorio cuando nos encontremos dentro de un repositorio de git. Es decir,
-  que buscaría dentro de los archivos que podemos listar con el comando `$ git
-  ls-files`
-
 - *find* realiza la búsqueda por el nombre del archivo empleando la conocida
   herramienta `find`
 

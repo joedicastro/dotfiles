@@ -743,13 +743,14 @@ nnoremap <Leader>gm :Gmove<Space>
 nnoremap <Leader>gc :Gcommit<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gg :Ggrep<Space>
 nnoremap <Leader>gB :Gbrowse<CR>
 nnoremap <Leader>gp :Git! push<CR>
 nnoremap <Leader>gP :Git! pull<CR>
 nnoremap <Leader>gi :Git <Space>
 nnoremap <Leader>gl :exe "silent Glog <Bar> Unite quickfix"<CR>
 nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
+nnoremap <Leader>gg :exe 'silent Ggrep -i '.input("Pattern: ")<Bar>Unite
+            \ quickfix -no-quit<CR>
 
 " }}}
 
@@ -936,8 +937,6 @@ nnoremap <silent>[menu]o :Unite -silent -winheight=17 -start-insert
 " }}}
 
 " menu busqueda de archivos {{{
-nnoremap <silent><Leader>A :cgete system("git grep -in ".input("Pattern: ")."
-            \ ".input("Target: "))<Bar>Unite quickfix<CR>
 let g:unite_source_menu_menus.grep = {
     \ 'description' : '           buscar archivos
         \                                       ⌘ [espacio]a',
@@ -945,8 +944,6 @@ let g:unite_source_menu_menus.grep = {
 let g:unite_source_menu_menus.grep.command_candidates = [
     \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
         \'Unite -no-quit grep'],
-    \['▷ git-grep                                                   ⌘ ,A',
-        \'normal ,A'],
     \['▷ find',
         \'Unite find'],
     \['▷ locate',
