@@ -313,6 +313,7 @@ set ruler                       " Establece una regla permanente.
 set lazyredraw                  " Redibuja solo cuando es necesario.
 set autoread                    " Actualiza cambios realizados fuera de vim.
 set ttimeoutlen=0               " Conmuta instantaneamente entre modos
+set backspace=indent,eol,start  " Definir el comportamiento de tecla Backspace
 
 " }}}
 
@@ -789,7 +790,7 @@ map <F6> <Plug>HexManager<CR>
 
 map <silent> <Leader>L :IndentLinesToggle<CR>
 let g:indentLine_enabled = 0
-let g:indentLine_char = '¦'
+let g:indentLine_char = '┊'
 let g:indentLine_color_term = 239
 
 " }}}
