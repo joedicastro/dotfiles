@@ -1067,7 +1067,9 @@ __Unite__
   la herramienta __Fugitive__. Fugitive es una herramienta que nos permite
   administrar repositorios Git sin tener que abandonar Vim. Es un plugin muy
   completo y lleno de posibilidades que también requiere cierto tiempo para
-  aprender a usarlo y a acostumbrarse a su particular interfaz.
+  aprender a usarlo y a acostumbrarse a su particular interfaz. El propio autor
+  dice que "es tan increíble que debería estar prohibido" y la verdad es que
+  algo de razón lleva, es fantástico.
 
     - *status* nos muestra el estado del repositorio y desde este buffer podemos
       acceder a múltiples opciones. Dentro de esta ventana tenemos disponibles
@@ -1086,8 +1088,8 @@ __Unite__
         >   area' para ser empleado en el commit, lo quita de ella, el
         >   equivalente a realizar un `git reset`
 
-        > - `cc` realiza un commit con el comando `:Gcommit` el equivalente a
-        >   `git commit`
+        > - `cc` o `C` realiza un commit con el comando `:Gcommit` el
+        >   equivalente a `git commit`
 
         > - `ca` realiza un commit que añade los cambios al commit realizado
         >   anteriormente, util para cuando nos dejamos algo olvidado al
@@ -1200,9 +1202,6 @@ __Unite__
       relativo al directorio actual, a menos que lo precedamos con `/` en cuyo
       caso toma como referencia el directorio raiz del repositorio
 
-    - *grep* hace un grep sobre el repositorio empleando `:Ggrep` que a su vez
-      emplea `git grep`
-
     - *push* ejecuta el comando `:Git! push` mostrando la salida en el buffer
 
     - *pull* ejecuta el comando `:Git! pull` mostrando la salida en el buffer
@@ -1212,6 +1211,20 @@ __Unite__
       pulsando `q`). Podemos emplear los alias que tengamos definidos en nuestra
       configuración. Esta sola opción ya justifica por si sola el emplear
       Fugitive
+
+    - *edit* permite "editar" cualquier objeto de git (blobs, trees, commits,
+      tags). Soporta autocompletado y podemos introducir un SHA, una rama, una
+      etiqueta, un arbol y un commit.
+
+    - *grep* hace un grep sobre el repositorio empleando `:Ggrep` que a su vez
+      emplea `git grep`
+
+    - *grep (mensajes)* hace un grep sobre el repositorio empleando `:Glog
+      --grep=` para hacer buscar dentro de los mensajes de los commits
+
+    - *grep (texto)* hace un grep sobre el repositorio empleando `:Glog
+      -S` para hacer un grep que busca los commits donde el texto ha sido
+      añadido o eliminado
 
     - *init* crea un nuevo repositorio git o reinicia uno existente (es seguro)
 
