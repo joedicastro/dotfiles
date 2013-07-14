@@ -747,14 +747,23 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gB :Gbrowse<CR>
 nnoremap <Leader>gp :Git! push<CR>
 nnoremap <Leader>gP :Git! pull<CR>
-nnoremap <Leader>gi :Git <Space>
+nnoremap <Leader>gi :Git!<Space>
 nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gl :exe "silent Glog <Bar> Unite -no-quit
+            \ quickfix"<CR>:redraw!<CR>
+nnoremap <Leader>gL :exe "silent Glog -- <Bar> Unite -no-quit
             \ quickfix"<CR>:redraw!<CR>
 nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
 nnoremap <Leader>gg :exe 'silent Ggrep -i '.input("Pattern: ")<Bar>Unite
             \ quickfix -no-quit<CR>
 
+" para el diffmode
+noremap <Leader>du :diffupdate<CR>
+
+if !exists(":Gdiffoff")
+    command Gdiffoff diffoff | q | Gedit
+endif
+noremap <Leader>dq :Gdiffoff<CR>
 " }}}
 
 " Gitv {{{
@@ -1157,9 +1166,11 @@ let g:unite_source_menu_menus.git.command_candidates = [
         \'Gcommit'],
     \['▷ git log                (fugitive)                          ⌘ ,gl',
         \'exe "silent Glog | Unite -no-quit quickfix"'],
+    \['▷ git log (todo)         (fugitive)                          ⌘ ,gL',
+        \'exe "silent Glog -all | Unite -no-quit quickfix"'],
     \['▷ git blame              (fugitive)                          ⌘ ,gb',
         \'Gblame'],
-    \['▷ git stage/add          (fugitive)                          ⌘ ,gw',
+    \['▷ git add/stage          (fugitive)                          ⌘ ,gw',
         \'Gwrite'],
     \['▷ git checkout           (fugitive)                          ⌘ ,go',
         \'Gread'],
@@ -1168,20 +1179,23 @@ let g:unite_source_menu_menus.git.command_candidates = [
     \['▷ git mv                 (fugitive)                          ⌘ ,gm',
         \'exe "Gmove " input("destino: ")'],
     \['▷ git grep               (fugitive)                          ⌘ ,gg',
-        \':exe "silent Ggrep -i ".input("Pattern: ") | Unite
-        \ -no-quit quickfix'],
+        \':exe "silent Ggrep -i ".input("Pattern: ") | Unite -no-quit quickfix'],
     \['▷ git push               (fugitive, salida por buffer)       ⌘ ,gp',
         \'Git! push'],
     \['▷ git pull               (fugitive, salida por buffer)       ⌘ ,gP',
         \'Git! pull'],
-    \['▷ git prompt             (fugitive, salida por buffer)       ⌘ ,gi',
+    \['▷ git command            (fugitive, salida por buffer)       ⌘ ,gi',
         \'exe "Git! " input("comando git: ")'],
     \['▷ git init                                                   ⌘ ,gn',
         \'Unite output:echo\ system("git\ init")'],
     \['▷ git cd                 (fugitive)',
         \'Gcd'],
+    \['▷ git lcd                (fugitive)',
+        \'Glcd'],
+    \['▷ git browse             (fugitive)                          ⌘ ,gB',
+        \'Gbrowse'],
     \]
-nnoremap <silent>[menu]g :Unite -silent -winheight=20 -start-insert menu:git<CR>
+nnoremap <silent>[menu]g :Unite -silent -winheight=24 -start-insert menu:git<CR>
 " }}}
 
 " menu code {{{
