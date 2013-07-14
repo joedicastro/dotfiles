@@ -633,7 +633,8 @@ __Unite__
   ella) que introduzcamos
 
 - *palabra bajo el cursor* busca todas las lineas donde aparece la palabra que
-  está situada bajo el cursor en el momento de activar la búsqueda
+  está situada bajo el cursor en el momento de activar la búsqueda. Es una
+  version mejorada de la tecla `*`
 
 - *encabezados*  muestra todos los "encabezados" del documento y permite navegar
   entre ellos. Muy útil para navegar entre los headers de documentos Markdown
@@ -1018,13 +1019,14 @@ __Unite__
     > __Atajos__
 
     > - `<CR>` abre un commit, un diff, un arbol, un archivo, mas commits, ...
-    >   dependiendo de donde se emplee
+    >   dependiendo de donde se emplee, con un comportamiento similar al de
+    >   Fugitive
 
-    > - `o` abre en una nueva ventana horizontal
+    > - `o` abre el commit en una nueva ventana horizontal
 
-    > - `O` abre en una nueva pestaña
+    > - `O` abre el commit en una nueva pestaña
 
-    > - `s` abre en una nueva ventana vertical
+    > - `s` abre el commit en una nueva ventana vertical
 
     > - `i` en "modo explorador" abre el archivo y en "modo archivo" abre los detalles
     >   del commit
@@ -1035,18 +1037,19 @@ __Unite__
 
     > - `u` actualiza el contenido de la ventana
 
-    > - `co` realiza un `git checkout`. En "modo explorador" lo hace sobre todo el
-    >   repositorio y en "modo archivo" solo sobre el archivo actual
+    > - `co` realiza un `git checkout`. En "modo explorador" lo hace sobre todo
+    >   el repositorio y en "modo archivo" solo sobre el archivo actual
 
     > - `D` realiza un diff utilizando vimdiff.
 
     > - `S` muestra un `diffstat`
 
-    > - `m` y `<Leader>m` realizan un merge en modo visual y normal respectivamente.
+    > - `m` y `<Leader>m` realizan un merge en modo visual y normal
+    >   respectivamente.
 
-    > - `git` introduce el comando `:Git ` en la linea de comandos para que puedas
-    >   introducir un comando git a medida. Si el comando afecta al estado del
-    >   repositorio, los cambios se verán reflejados en gitv
+    > - `git` introduce el comando `:Git ` en la linea de comandos para que
+    >   puedas introducir un comando git a medida. Si el comando afecta al
+    >   estado del repositorio, los cambios se verán reflejados en gitv
 
     > - `yc` copia el hash corto `sha` del commit
 
@@ -1061,36 +1064,169 @@ __Unite__
 
 
 - El resto de entradas son comandos típicos de Git que se ejecutan a través de
-  la herramienta Fugitive. Fugitive es una herramienta que nos permite
+  la herramienta __Fugitive__. Fugitive es una herramienta que nos permite
   administrar repositorios Git sin tener que abandonar Vim. Es un plugin muy
   completo y lleno de posibilidades que también requiere cierto tiempo para
   aprender a usarlo y a acostumbrarse a su particular interfaz.
 
-    - `status` nos muestra el estado del repositorio, es la ventana "maestra" de
-    Fugitive y desde ella podemos acceder a múltiples opciones. Dentro de esta
-    ventana tenemos disponibles estos atajos:
+    - *status* nos muestra el estado del repositorio y desde este buffer podemos
+      acceder a múltiples opciones. Dentro de esta ventana tenemos disponibles
+      estos atajos:
 
-    > __Atajos__
+        > __Atajos__
 
-    > - `<CR>` ejcuta el comando `:Gedit` que nos permite "editar" una revision
-    > - `-` sobre un archivo que no esta en el 'stage area' nos permite añádirlo a
-    >   ella, es como ejecutar un `git add` o un `git stage`. Usandola sobre un
-    >   archivo que está en el 'stage area' para ser empleado en el commit, lo
-    >   quita de ella, el equivalente a realizar un `git reset`
-    > - `cc` realiza un commit con el comando `:Gcommit` el equivalente a `git
-    >   commit`
+        > - `<C-N>` y `<C-P>` nos permiten movernos entre los ficheros
 
-    > - `D` realiza un diff, empleando vimdiff con el comando `:Gdiff`
+        > - `<CR>` ejecuta el comando `:Gedit` que nos permite "editar" una
+        >   revisión
 
-    > - `ds` realiza un diff, pero dividiendo horizontalmente las ventanas
-    > - `dv` realiza un diff, pero dividiendo verticalmanete las ventanas, es
-    >   igual que D
-    > - `dp`
-    > - `p`
-    > - `o` abre el archivo en una nueva ventana horizontal
-    > - `O` abre el archivo en una nueva pestaña
-    > - `q` cierra la ventana de estado
-    > - `R` actualiza la ventana de estado
+        > - `-` empleándolo sobre un archivo que no esta en el 'stage area'
+        >   (indice) nos permite añadirlo a ella, es como ejecutar un `git add`
+        >   o un `git stage`. Usándolo sobre un archivo que está en el 'stage
+        >   area' para ser empleado en el commit, lo quita de ella, el
+        >   equivalente a realizar un `git reset`
+
+        > - `cc` realiza un commit con el comando `:Gcommit` el equivalente a
+        >   `git commit`
+
+        > - `ca` realiza un commit que añade los cambios al commit realizado
+        >   anteriormente, util para cuando nos dejamos algo olvidado al
+        >   realizar un commit. Equivalente al comando `git commit --ammend`
+
+        > - `D` realiza un diff entre la version actual y la del indice,
+        >   empleando vimdiff con el comando `:Gdiff`
+
+        > - `ds` realiza un diff con `:Gsdiff`, igual que el anterior pero
+        >   dividiendo horizontalmente las ventanas
+
+        > - `dv` realiza un diff con `:Gvdiff`, pero dividiendo verticalmente
+        >   las ventanas, es igual que D
+
+        > - `dp` tiene un comportamiento dual. Por un lado, si hay cambios pero
+        >   no están en el 'staging area' (indice) entonces muestra un diff de
+        >   los cambios, como si ejecutáramos el comando `git diff`, y si ademas
+        >   ejecutamos un `:Gwrite` (atajo `<Leader>gw`) entonces se introducen
+        >   los cambios y quedan listos para
+        >   hacer un commit. Por otro lado, si hay ficheros que no están siendo
+        >   "rastreados", intenta añadirlos, ejecutando el comando `git add
+        >   --intent-to-add .`
+
+        > - `p` sirve para hacer commits parciales, donde elegimos
+        >   interactivamente que parte de los cambios realizados queremos
+        >   incluir en el indice. Si lo ejecutamos sobre un fichero que no esta
+        >   en el indice, nos pedirá que elijamos que partes queremos "indexar",
+        >   el equivalente a ejecutar `git add --patch`. Si lo hacemos sobre un
+        >   archivo ya indexado, elegiremos que parte
+        >   queremos no incluir en el commit, como si ejecutáramos `git reset
+        >   --patch`
+
+        > - `o` abre el archivo en una nueva ventana horizontal
+
+        > - `O` abre el archivo en una nueva pestaña
+
+        > - `S` abre el archivo en una nueva ventana vertical
+
+        > - `R` actualiza la ventana de estado
+
+        > - `q` cierra la ventana de estado
+
+    - *diff* realiza un diff (`:Gdiff`) entre la versión actual del archivo y la
+      que se encuentra en el indice. En situaciones de conflicto durante un
+      `merge` sera un diff a tres vías, lo que lo convierte en una buena
+      herramienta para realizar `merge` y `rebase`. Disponemos de una serie de
+      atajos en esta ventana (para conocer mejor como funciona vimdiff,
+      recomiendo consultar la ayuda):
+
+        > __Atajos__
+
+        > - `do` ejecuta `:diffget`, toma los cambios del otro fichero
+        > - `dp` ejecuta `:diffput`, envia los cambios al otro fichero
+        > - `<Leader>du` ejecuta `:diffupdate`, actualiza los cambios realizados
+        > - `<Leader>dq` sale del diffmode
+        > - `u` deshace todos los cambios realizados
+        > - `[c` y `]c` nos mueven entre las diferencias
+        > - `:Gwrite` o `<Leader>gw` escriben los cambios al indice
+
+    - *commit* usa el comando `:Gcommit` que es el equivalente a realizar un
+      `git commit`. Si no hay nada en el indice, entonces ejecuta `:Gstatus` y
+      nos muestra la ventana de estado. __Advertencia__: Mientras no guardamos
+      los cambios de esta ventana para ejecutar el commit, es posible "trastear"
+      con el indice, añadiendo o quitando cambios, algo a tener en cuenta si
+      dejamos la ventana abierta y queremos guardarla luego.
+
+    - *log* muestra todas las revisiones anteriores del fichero actual en una
+      ventana de Unite, empezando por la mas reciente y abre la ultima en el
+      buffer actual. Para volver al fichero actual, usamos `:Gedit` o
+      `<Leader>ge`. Dentro del buffer podemos movernos entre revisiones
+      empleando los comandos `:cnext`, `:cprevious`, `:cfirst` y `:clast`
+
+    - *log (todos)* es similar al anterior, pero en este caso se muestran todos
+      los commits anteriores del repositorio y lo que se abre el buffer es algo
+      parecido a lo que seria el resultado del comando `git show`
+
+    - *blame* usa el comando `:Gblame` que despliega una nueva ventana lateral a la
+      izquierda del buffer actual, donde se visualiza el commit, el autor y la fecha
+      de cada linea del fichero. Es el equivalente a ejecutar `git blame`. Están
+      disponibles estos atajos:
+
+        > __Atajos__
+
+        > - `A` redimensiona la ventana de blame al final de la columna de autor
+        > - `C` redimensiona la ventana de blame al final de la columna de
+        >   commit
+        > - `D` redimensiona la ventana de blame al final de la columna de fecha
+        > - `q` cierra la ventana de blame
+        > - `gq` cierra la ventana de blame y ejecuta `:Gedit` para volver a la
+        >   versión actual
+        > - `<CR>` cierra la ventana de blame y abre el commit seleccionado
+        > - `o` abre el commit seleccionado en una ventana horizontal
+        > - `O` abre el commit seleccionado en una pestaña
+        > - `-` ejecuta un nuevo `blame` en el commit seleccionado
+
+    - *add/stage* emplea el comando `:Gwrite` que guarda el fichero actual y lo
+      añade al indice con los cambios que contenga. Es el equivalente a realizar un
+      `git add` o su sinónimo `git stage`
+
+    - *checkout* lanza el comando `:Gread`, vacía el buffer actual y restaura la
+      copia del indice, o lo que es lo mismo, como si realizáramos un `git checkout`
+      sobre el fichero. Los cambios no se hacen efectivos hasta que guardamos el
+      fichero
+
+    - *rm* elimina el fichero con el comando `:Gremove` y vacía el buffer. Obtenemos
+      el mismo resultado que ejecutando `git rm` en el shell
+
+    - *mv* nos pregunta el nuevo destino y mueve allí el fichero, renombrando el
+      buffer automáticamente. El comando git sería `git mv`. El destino es
+      relativo al directorio actual, a menos que lo precedamos con `/` en cuyo
+      caso toma como referencia el directorio raiz del repositorio
+
+    - *grep* hace un grep sobre el repositorio empleando `:Ggrep` que a su vez
+      emplea `git grep`
+
+    - *push* ejecuta el comando `:Git! push` mostrando la salida en el buffer
+
+    - *pull* ejecuta el comando `:Git! pull` mostrando la salida en el buffer
+
+    - *command* ejecuta el comando de git que introduzcamos en la linea de
+      comandos y muestra el resultado en un buffer nuevo (de este buffer salimos
+      pulsando `q`). Podemos emplear los alias que tengamos definidos en nuestra
+      configuración. Esta sola opción ya justifica por si sola el emplear
+      Fugitive
+
+    - *init* crea un nuevo repositorio git o reinicia uno existente (es seguro)
+
+    - *cd* cambia el directorio de trabajo al del repositorio
+
+    - *lcd* cambia el directorio de trabajo del buffer actual al del repositorio
+
+    - *browse* si el repositorio remoto está en GitHub lo abre en el navegador,
+      conteniendo lo que tengamos seleccionado en ese momento. En su defecto
+      emplea `git instaweb` si lo tenemos configurado
+
+    Fugitive es un plugin como vemos muy completo que solo se puede aprender
+    usándolo, y con el que conviene además leerse la ayuda para conocer las
+    opciones que tiene cada uno de estos comandos ejecutado desde la línea de
+    comandos y otras posibilidades.
 
 ### Otras herramientas
 
