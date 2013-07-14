@@ -1071,6 +1071,8 @@ __Unite__
   dice que "es tan increíble que debería estar prohibido" y la verdad es que
   algo de razón lleva, es fantástico.
 
+      ![fugitive](http://joedicastro.com/static/pictures/fugitive.png "fugitive")
+
     - *status* nos muestra el estado del repositorio y desde este buffer podemos
       acceder a múltiples opciones. Dentro de esta ventana tenemos disponibles
       estos atajos:
