@@ -702,6 +702,22 @@ endif
 nnoremap Y y$
 
 " }}}
+"
+" Conmutar el color de fondo {{{
+
+function! s:SwitchBackground()
+    if &background == 'dark'
+        set background=light
+    elseif &background == 'light'
+        set background=dark
+    endif
+endfunction
+
+command! ToggleBackground call <SID>SwitchBackground()
+nnoremap <silent><Leader>n :ToggleBackground<CR>
+
+" }}}
+
 
 " FIN CONFIGURACIÓN VIM }}}
 
@@ -881,6 +897,7 @@ let g:syntastic_style_warning_symbol  = '⚡'
 
 " archivos
 nnoremap <silent><Leader>o :Unite -silent -start-insert file<CR>
+nnoremap <silent><Leader>O :Unite -silent -start-insert file_rec/async<CR>
 nnoremap <silent><Leader>m :Unite -silent file_mru<CR>
 " buffers
 nnoremap <silent><Leader>b :Unite -silent buffer<CR>
@@ -925,7 +942,7 @@ let g:unite_source_menu_menus.archivos.command_candidates = [
         \'Unite -start-insert file'],
     \['▷ abrir archivo reciente                                     ⌘ ,m',
         \'Unite file_mru'],
-    \['▷ abrir archivo con busqueda recursiva',
+    \['▷ abrir archivo con busqueda recursiva                       ⌘ ,O',
         \'Unite -start-insert file_rec/async'],
     \['▷ crear nuevo archivo',
         \'Unite file/new'],
@@ -1641,5 +1658,6 @@ autocmd FileType markdown NeoBundleSource vim-markdown-extra-preview
 " }}}
 
 " FIN TIPOS DE ARCHIVO }}}
+
 
 " vim:foldmethod=marker
