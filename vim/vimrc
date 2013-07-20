@@ -463,7 +463,7 @@ nnoremap <Tab>k <C-W>r
 " Cierre rápido de ventana y buffer {{{
 
 nnoremap <Leader>k <C-w>c
-nnoremap <silent><Leader>B :bd<CR>
+nnoremap <silent><Leader>K :bd<CR>
 
 " }}}
 
@@ -885,6 +885,8 @@ nnoremap <silent><Leader>O :Unite -silent -start-insert file_rec/async<CR>
 nnoremap <silent><Leader>m :Unite -silent file_mru<CR>
 " buffers
 nnoremap <silent><Leader>b :Unite -silent buffer<CR>
+" pestañas
+nnoremap <silent><Leader>B :Unite -silent tab<CR>
 " busquedas buffer
 nnoremap <silent><Leader>f :Unite -silent -no-split -start-insert -auto-preview
             \ line<CR>
@@ -983,7 +985,7 @@ let g:unite_source_menu_menus.navegacion = {
 let g:unite_source_menu_menus.navegacion.command_candidates = [
     \['▷ buffers                                                    ⌘ ,b',
         \'Unite buffer'],
-    \['▷ pestañas',
+    \['▷ pestañas                                                   ⌘ ,B',
         \'Unite tab'],
     \['▷ ventanas',
         \'Unite window'],
@@ -1003,7 +1005,7 @@ let g:unite_source_menu_menus.navegacion.command_candidates = [
         \'normal ,q'],
     \['▷ zoom                                                       ⌘ ,z',
         \'ZoomWinTabToggle'],
-    \['▷ eliminar buffer                                            ⌘ ,B',
+    \['▷ eliminar buffer                                            ⌘ ,K',
         \'bd'],
     \]
 nnoremap <silent>[menu]b :Unite -silent menu:navegacion<CR>
