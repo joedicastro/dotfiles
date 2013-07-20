@@ -702,22 +702,6 @@ endif
 nnoremap Y y$
 
 " }}}
-"
-" Conmutar el color de fondo {{{
-
-function! s:SwitchBackground()
-    if &background == 'dark'
-        set background=light
-    elseif &background == 'light'
-        set background=dark
-    endif
-endfunction
-
-command! ToggleBackground call <SID>SwitchBackground()
-nnoremap <silent><Leader>n :ToggleBackground<CR>
-
-" }}}
-
 
 " FIN CONFIGURACIÓN VIM }}}
 
