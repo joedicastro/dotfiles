@@ -33,6 +33,17 @@ mapeada a la tecla espaciadora
     en el pasado), por que sin su maravillosa contribución y generosidad al
     compartirlos con el resto del mundo, esta configuración no sería posible.
 
+Para hacer uso de esta configuración de Vim es necesario tener una compilación
+de Vim con soporte para Lua y para Python.
+
+La major manera de conseguirlo es compilando nuestra propia versión con los 
+parámetros adecuados, por ejemplo:
+
+> ./configure --with-features=huge --enable-gui=gnome2 --enable-luainterp=yes
+--enable-pythoninterp=yes --enable-rubyinterp=yes
+
+
+
 ## Unite
 
 Unite es una interfaz que unifica varios "resultados de búsquedas" bajo un mismo
