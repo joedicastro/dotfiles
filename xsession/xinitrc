@@ -1,33 +1,35 @@
 #!/bin/sh
 
-# configurar el teclado en español e ingles (teclado ANSI US) y mapear la tecla
-# CapsLock como un Ctrl adicional
+# setup the keyboard in two layouts at the same time: english (ANSI US) and
+# spanish (ALT-GR international) and maps the Capslock key as another Ctrl Key.
+# The menu key is used to toggle between the layouts
 setxkbmap -layout us,es -variant altgr-intl, -option grp:menu_toggle -option grp_led:scroll -option ctrl:nocaps
 
-# cargar la configuracion para urxvt
+# load the X11 configuration for urxvt and xterm
 xrdb -merge ~/.Xresources
 
-# iniciar xcape para que la tecla Ctrl se comporte como Esc cuando es pulsada sola
+# start xcape to do that Ctrl key act like an Esc key when is pressed and
+# released on its own
 ~/.bin/xcape
 
-# iniciar udiskie para el automontado de dispositivos usb
+# start udiskie for usb drives automount
 udiskie &
 
-# iniciar autocutsel para gestionar un unico portapapeles
+# start autocutsel to admin only one clipboard
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
 
-# iniciar el gestor de notificaciones dunst
+# start the notification daemon dunst
 dunst &
 
-# ocultar el cursor del raton cuando no se usa
+# hide the mouse cursor when is inactive
 unclutter &
 
-# iniciar un gestor de transparencias
+# start a compositor for X11
 compton -b --config ~/.compton.conf 
 
-# iniciar urxvt como demonio
+# start urxvt as a daemon
 urxvtd -q -o -f &
 
-# iniciar el gestor de ventanas tiling awesome
+# start the tiling window manager awesome
 exec awesome

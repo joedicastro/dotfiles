@@ -1,145 +1,140 @@
 # dotfiles
 
-Este es un repositorio de mis archivos de configuración, lo que en Linux
-normalmente son los ficheros del `$HOME` que están ocultos y precedidos por un
-punto.
+This is a repository with my configuration files, those that in Linux normally
+are these files under the `$HOME` directory that are hidden and preceded by a
+dot, AKA __dotfiles__
 
-## Contenido
+## Content
 
-Este es el contenido actual de este repositorio, reseñando los archivos
-significativos.
+That's the current content of this repository, and these are the more remarkable
+files.
 
 ### `/awesome`
 
-Configuración de [Awesome](http://awesome.naquadah.org/)
+Configuration of [Awesome](http://awesome.naquadah.org/)
 
-+ `/awesome/awdt.py` script python que me permite testear cambios en la
-  configuración de Awesome. Arranca una sesión X anidada dentro de la actual y
-  servida por Xephyr, con un Awesome con una configuración de pruebas corriendo
-  dentro de la misma
++ `/awesome/awdt.py` python script that allows me to test changes in the Awesome
+  configuration. Starts a X session nested into the current session and served
+  by Xephyr, with an test configuration (Awesome) running inside it.
 
-+ `/awesome/prep.org` archivo en formato Org-mode en el que anoto los
-  repositorios, autores y licencias de las librerías externas que empleo en la
-  configuración. Contiene además los ficheros necesarios para hacerlo funcionar
-  conjuntamente con Gnome 2
++ `/awesome/prep.org` is a Org-mode format file in which I store the
+  repositories, authors and licenses of the external libraries that I use in
+  this configuration. 
 
-+ `/awesome/check_execs.py` & `/awesome/logger.py` son enlaces simbólicos a dos
-  ficheros python que pueden ser encontrados en este repositorio,
++ `/awesome/check_execs.py` & `/awesome/logger.py` are symbolic links to two
+  python files that can be founded in this repository,
   <https://github.com/joedicastro/python-recipes>
 
 ### `/compton`
 
-Configuración de [Compton](https://github.com/chjj/compton)
+Configuration of [Compton](https://github.com/chjj/compton)
 
 ### `/dunst`
 
-Configuración de [dunst](https://github.com/knopwob/dunst)
+Configuration of [dunst](https://github.com/knopwob/dunst)
 
 ### `/emacs`
 
-Configuración de [Emacs](http://www.gnu.org/software/emacs/) para usar
+Configuration of [Emacs](http://www.gnu.org/software/emacs/) to use it with
 [Org-mode](http://orgmode.org/)
 
 ### `/fontconfig`
 
-Configuración de [fontconfig](http://www.freedesktop.org/wiki/Software/fontconfig)
+Configuration of [fontconfig](http://www.freedesktop.org/wiki/Software/fontconfig)
 
 ### `/fonts`
 
-Las fuentes que uso en mi terminal, vim, etc...
+The fonts that I use in my terminal, vim, etc ...
 
- - [Dejavu Sans Mono](http://dejavu-fonts.org) es una fuente libre de dominio
-   publico y cuenta con quizá el mejor soporte de caracteres Unicode de todas
-   las fuentes monoespaciadas.
- - Dejavu Sans Mono for Powerline es la misma fuente adaptada para usarla con
-   Powerline en Vim
+ - [Dejavu Sans Mono](http://dejavu-fonts.org) is a free public domain font and
+   has the probably best Unicode support from all the monospaced fonts
+   available.
+ - Dejavu Sans Mono for Powerline is the same font adapted to use it with 
+   Powerline in Vim
 
 ### `/git`
 
-Configuración de [git](http://git-scm.com/)
+Configuration of [git](http://git-scm.com/)
 
 ### `/gtk`
 
-Configuración del tema __Gtk__ a emplear y corregir un fallo en la ventana de
-Gvim
+Configuration of the __Gtk__ theme to fix an error with the Gvim window
 
 ### `/hg`
 
-Configuración de [Mercurial](http://mercurial.selenic.com/)
+Configuration of [Mercurial](http://mercurial.selenic.com/)
 
-+ `/hg/bb_gh.py` hook para Mercurial en Python para hacer `push` simultáneamente
-  a el mismo repositorio en GitHub y en Bitbucket
++ `/hg/bb_gh.py` a Python Mercurial hook to do `hg push` simultaneously to the
+  same repository in both GitHub and Bitbucket sites
 
 ### `/mpd`
 
-Configuración de [mpd](http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki)
+Configuration of [mpd](http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki)
 
 ### `/ncmpcpp`
 
-Configuración de [ncmpcpp](http://ncmpcpp.rybczak.net/)
+Configuration of [ncmpcpp](http://ncmpcpp.rybczak.net/)
 
 ### `/newsbeuter`
 
-Configuración de [Newsbeuter](http://newsbeuter.org/)
+Configuration of [Newsbeuter](http://newsbeuter.org/)
 
-+ `/newsbeuter/readitlater` API Python para Pocket (Formerly Read it Later)
++ `/newsbeuter/readitlater` API Python for Pocket (Formerly Read it Later)
 
-+ `/newsbeuter/getfromril.py` script Python que emplea la API de Pocket para
-   hacer una copia de seguridad de las urls guardadas en Pocket
++ `/newsbeuter/getfromril.py` a Python script that uses the Pocket API to do a
+  backup of the urls stored there
 
-+ `/newsbeuter/notify.py` script Python que genera las notificaciones emergentes
-  que emite newsbeuter al acabar de actualizar las fuentes de noticias
++ `/newsbeuter/notify.py` a Python script that generate the popup notifications
+  that newsbeuter sends at the end of a news update
 
-+ `/newsbeuter/sen2ril.py` script Python que emplea la API de Pocket y me
-  permite guardar marcadores en Pocket directamente desde Newsbeuter
++ `/newsbeuter/sen2ril.py` a Python script that uses the Pocket API to store the
+  bookmarks into Pocket directly from Newsbeuter
 
 ### `/pentadactyl`
 
-Configuración de [Pentadactyl](http://5digits.org/pentadactyl/)
+Configuration of [Pentadactyl](http://5digits.org/pentadactyl/)
 
 ### `/pylint`
 
-Configuración de [Pylint](http://www.pylint.org/)
+Configuration of [Pylint](http://www.pylint.org/)
 
 ### `/ranger`
 
-Configuración de [ranger](http://ranger.nongnu.org/)
+Configuration of [ranger](http://ranger.nongnu.org/)
 
 ### `/tmux`
 
-Configuración de [tmux](http://tmux.sourceforge.net/)
+Configuration of [tmux](http://tmux.sourceforge.net/)
 
 ### `/tmuxinator`
 
-Configuración de [Tmuxinator](https://github.com/aziz/tmuxinator)
+Configuration of [Tmuxinator](https://github.com/aziz/tmuxinator)
 
 ### `/turses`
 
-Configuración de [Turses](https://github.com/alejandrogomez/turses)
+Configuration of [Turses](https://github.com/alejandrogomez/turses)
 
 ### `/urxvt`
 
-Configuración de [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.html)
+Configuration of [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.html)
 
 #### `/vim`
 
-Configuración de [Vim](http://www.vim.org)
+Configuration of [Vim](http://www.vim.org)
 
-+ `/vim/vimrc` es el archivo de configuración de Vim
-+ `/vim/README.md` es un resumen de las opciones disponibles en mi configuracion
-+ `/vim/spell/` son los archivos necesarios para la correccion ortografica
-+ `/vim/UltiSnips/` son mis snippets personalizados para [UltiSnips][ulsns]
++ `/vim/vimrc` the Vim configuration file
++ `/vim/README.md` is a summary of my Vim configuration customizations
++ `/vim/spell/` files needed for spelling
++ `/vim/UltiSnips/` my custom [UltiSnips][ulsns] snippets
 
   [ulsns]: https://github.com/SirVer/ultisnips
 
 ### `/xsession`
 
-Configuración de la sesión __X__
+Configuration of the __X__ session
 
-+ `/xsession/xinitrc` es un shell script que configura la sesión X
-
-+ `/xsession/xmodmap.rc` es la configuración del mapeado del teclado
++ `/xsession/xinitrc` bash script to setup the X session
 
 ### `/zathura`
 
-Configuración de [zathura](http://pwmt.org/projects/zathura/)
+Configuration of [zathura](http://pwmt.org/projects/zathura/)
