@@ -313,6 +313,7 @@ set lazyredraw                  " only redraws if it is needed
 set autoread                    " update a open file edited outside of Vim
 set ttimeoutlen=0               " toggle between modes almost instantly
 set backspace=indent,eol,start  " defines the backspace key behavior
+set virtualedit=all             " to edit where there is no actual character
 
 " }}}
 
