@@ -675,6 +675,12 @@ endif
 
 " }}}
 
+" Fast exiting without save {{{
+
+nnoremap <Leader>`` :qa!<CR>
+
+" }}}
+
 " Execution permissions by default to shebang (#!) files {{{
 
 augroup shebang_chmod
