@@ -1415,8 +1415,8 @@ function! GetColorMethod()
 endfunction
 
 let g:unite_source_menu_menus.colorv = {
-    \ 'description' : '         color administration
-        \                                  ⌘ [space]c',
+    \ 'description' : '         color management
+        \                                      ⌘ [space]c',
     \}
 let g:unite_source_menu_menus.colorv.command_candidates = [
     \['▷ open colorv                                                ⌘ ,cv',
@@ -1652,5 +1652,15 @@ autocmd FileType markdown NeoBundleSource vim-markdown-extra-preview
 " }}}
 
 " END FILETYPES }}}
+
+" Other Customizations {{{ =====================================================
+
+let s:vimcustomfile = $HOME.'/.vim/custom.vim'
+
+if filereadable(s:vimcustomfile)
+    exec 'source '.s:vimcustomfile
+endif
+
+" }}}
 
 " vim:foldmethod=marker
