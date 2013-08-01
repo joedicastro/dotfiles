@@ -8,7 +8,7 @@
 " Source: http://github.com/joedicastro/dotfiles/tree/master/vim
 "
 " This file is under a lot of stress, it changes frequently, so it's better if
-" you watch the DCVS commits to be in the loop.
+" you watch the DVCS commits to be in the loop.
 
 " Setup language {{{ ==========================================================
 
@@ -116,7 +116,7 @@ NeoBundleLazy 'godlygeek/csapprox', { 'autoload' :
 "
 " Admin Git
 NeoBundle 'tpope/vim-fugitive'
-" Shows git repository changes in the current file
+" Show git repository changes in the current file
 NeoBundle 'airblade/vim-gitgutter'
 " Git viewer
 NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'],
@@ -225,7 +225,7 @@ NeoBundle 'maksimr/vim-translator'
 
 " HTML/CSS {{{
 
-" A smart and powerful Color administration tool. Needs to be loaded to be able
+" A smart and powerful Color Management tool. Needs to be loaded to be able
 " to use the mappings
 NeoBundleLazy 'Rykka/colorv.vim', {'autoload' : {
             \ 'commands' : [
@@ -291,6 +291,13 @@ filetype plugin indent on      " Indent and plugins by filetype
 " END NEOBUNDLE }}}
 
 " VIM Setup {{{ ===============================================================
+
+" <Leader> & <LocalLeader> mapping {{{
+
+let mapleader=','
+let maplocalleader= ' '
+
+" }}}
 
 " Basic options {{{
 
@@ -388,6 +395,16 @@ set textwidth=80
 " set formatoptions=qrn1
 set colorcolumn=+1
 
+function! ToggleWrap()
+    if &textwidth == 80
+        set textwidth=0
+    elseif &textwidth == 0
+        set textwidth=80
+    endif
+endfunction
+
+nmap <Leader>ew :call ToggleWrap()<CR>
+
 " }}}
 
 " Ok, a vim for men, get off the cursor keys {{{
@@ -425,13 +442,6 @@ set guifont=Dejavu\ Sans\ Mono\ for\ Powerline\ 11
 " Resize the divisions if the Vim window size changes {{{
 
 au VimResized * exe "normal! \<c-w>="
-
-" }}}
-
-" <Leader> & <LocalLeader> mapping {{{
-
-let mapleader=','
-let maplocalleader= ' '
 
 " }}}
 
@@ -603,7 +613,7 @@ function! WordFrequency() range
   echo join(lst)
 endfunction
 command! -range=% WordFrequency <line1>,<line2>call WordFrequency()
-map <Leader>ew :Unite output:WordFrequency<CR>
+map <Leader>ef :Unite output:WordFrequency<CR>
 
 " }}}
 
@@ -1085,6 +1095,8 @@ let g:unite_source_menu_menus.text.command_candidates = [
         \'set invhlsearch'],
     \['▷ toggle line numbers                                        ⌘ ,l',
         \'call ToggleRelativeAbsoluteNumber()'],
+    \['▷ toggle wrapping                                            ⌘ ,ew',
+        \'call ToggleWrap()'],
     \['▷ show hidden chars                                          ⌘ ,eh',
         \'set list!'],
     \['▷ toggle fold                                                ⌘ /',
@@ -1101,15 +1113,15 @@ let g:unite_source_menu_menus.text.command_candidates = [
         \'normal ,P'],
     \['▷ remove trailing whitespaces                                ⌘ ,et',
         \'normal ,et'],
-    \['▷ text statistics for the current position                   ⌘ ,es',
+    \['▷ text statistics                                            ⌘ ,es',
         \'Unite output:normal\ ,es -no-cursor-line'],
-    \['▷ show word frequency                                        ⌘ ,ew',
+    \['▷ show word frequency                                        ⌘ ,ef',
         \'Unite output:WordFrequency'],
-    \['▷ shows available digraphs',
+    \['▷ show available digraphs',
         \'digraphs'],
     \['▷ insert lorem ipsum text',
         \'exe "Loremipsum" input("numero de palabras: ")'],
-    \['▷ shows current char info                                    ⌘ ga',
+    \['▷ show current char info                                     ⌘ ga',
         \'normal ga'],
     \]
 nnoremap <silent>[menu]e :Unite -silent -winheight=20 menu:text <CR>
