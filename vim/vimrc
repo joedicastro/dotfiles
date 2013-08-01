@@ -799,8 +799,6 @@ autocmd FileType git set nofoldenable
 " Google Translator {{{
 
 let g:goog_user_conf = {'langpair': 'es|en', 'v_key': 'T'}
-" vmap T :Unite output:call\ GoogTranslateBlock()<CR>
-map T :Unite output:visual\ T<CR>
 
 " }}}
 
