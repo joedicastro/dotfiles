@@ -390,20 +390,35 @@ set shiftwidth=4               " number of spaces for auto-indent
 set softtabstop=4              " a soft-tab of four spaces
 set autoindent                 " set on the auto-indent
 
-" set wrap
+" set formatoptions=qrn1ct
 set textwidth=80
-" set formatoptions=qrn1
-set colorcolumn=+1
+set colorcolumn=81
 
 function! ToggleWrap()
+    let s:nowrap_cc_bg = [22, '#005f00']
+    redir => s:curr_cc_hi
+    silent hi ColorColumn
+    redir END
+    let s:curr_cc_ctermbg = matchstr(s:curr_cc_hi, 'ctermbg=\zs.\{-}\s\ze\1')
+    let s:curr_cc_guibg = matchstr(s:curr_cc_hi, 'guibg=\zs.\{-}\_$\ze\1')
+    if s:curr_cc_ctermbg != s:nowrap_cc_bg[0]
+        let g:curr_cc_ctermbg = s:curr_cc_ctermbg
+    endif
+    if s:curr_cc_guibg != s:nowrap_cc_bg[1]
+        let g:curr_cc_guibg = s:curr_cc_guibg
+    endif
     if &textwidth == 80
         set textwidth=0
+        exec 'hi ColorColumn ctermbg='.s:nowrap_cc_bg[0].
+                    \' guibg='.s:nowrap_cc_bg[1]
     elseif &textwidth == 0
         set textwidth=80
+        exec 'hi ColorColumn ctermbg='.g:curr_cc_ctermbg.
+                    \' guibg='.g:curr_cc_guibg
     endif
 endfunction
 
-nmap <Leader>ew :call ToggleWrap()<CR>
+nmap <silent><Leader>ew :call ToggleWrap()<CR>
 
 " }}}
 
