@@ -235,11 +235,12 @@ NeoBundleLazy 'Rykka/colorv.vim', {'autoload' : {
                              \ 'ColorVScheme', 'ColorVSchemeFav',
                              \ 'ColorVSchemeNew', 'ColorVTurn2'],
             \ }}
+
 NeoBundleLazy 'othree/html5.vim', {'autoload':
             \ {'filetypes': ['html', 'xhttml', 'css']}}
-NeoBundleLazy 'joedicastro/vim-sparkup', {'autoload':
-            \ {'filetypes': ['html', 'xhttml', 'css']}}
 
+NeoBundleLazy 'mattn/emmet-vim', {'autoload':
+            \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
 " }}}
 
 " GUI {{{
@@ -564,7 +565,7 @@ cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
 
 " }}}
 
-" Fast saving {{{
+" Quick saving {{{
 
 nmap <silent> <Leader>w :update<CR>
 
@@ -675,7 +676,7 @@ endif
 
 " }}}
 
-" Fast exiting without save {{{
+" Quick exiting without save {{{
 
 nnoremap <Leader>`` :qa!<CR>
 
@@ -959,15 +960,15 @@ let g:unite_source_menu_menus.files.command_candidates = [
         \'Unite directory_rec/async'],
     \['▷ make new directory',
         \'Unite directory/new'],
-    \['▷ change work path',
+    \['▷ change working directory',
         \'Unite -default-action=lcd directory'],
-    \['▷ know current work path',
+    \['▷ know current working directory',
         \'Unite output:pwd'],
     \['▷ junk files                                                 ⌘ ,d',
         \'Unite junkfile/new junkfile'],
     \['▷ save as root                                               ⌘ :w!!',
         \'exe "write !sudo tee % >/dev/null"'],
-    \['▷ fast save                                                  ⌘ ,w',
+    \['▷ quick save                                                 ⌘ ,w',
         \'normal ,w'],
     \['▷ open ranger                                                ⌘ ,x',
         \'call RangerChooser()'],
@@ -1068,7 +1069,7 @@ let g:unite_source_menu_menus.registers.command_candidates = [
         \'Unite history/yank'],
     \['▷ commands       (history)                                   ⌘ q:',
         \'Unite history/command'],
-    \['▷ searchs        (history)                                   ⌘ q/',
+    \['▷ searches       (history)                                   ⌘ q/',
         \'Unite history/search'],
     \['▷ registers',
         \'Unite register'],
@@ -1657,7 +1658,7 @@ autocmd FileType markdown NeoBundleSource vim-markdown-extra-preview
 
 " END FILETYPES }}}
 
-" Other Customizations {{{ =====================================================
+" Other Customizations {{{ ====================================================
 
 let s:vimcustomfile = $HOME.'/.vim/custom.vim'
 
