@@ -1,1539 +1,1398 @@
-# Mi Configuración de Vim
+# My Vim Configuration
 
-__Version 1.0  (12-07-2013)__
 
-El propósito de este documento es recopilar todas las opciones disponibles en mi
-configuración para poner un poco de orden en la misma y servirme de recordatorio
-de todo lo que tengo disponible. Evidentemente no pretendo replicar la ayuda de
-vim ni de los plugins, solo destacar aquellas opciones que puedo necesitar en un
-determinado momento. Del mismo modo puede servir de una suerte de manual de
-instrucciones para aquel que decida clonar esta configuración.
+__Version 1.3  (19-08-2013)__
 
-Debido a la naturaleza "dinámica" de mi configuración, este documento estará
-sujeto del mismo modo a modificaciones en el futuro.
+The purpose of this document is to compile all the customizations available in
+my vim configuration to help me to reorganize them properly and as a sort of
+cheat sheet when memory fails. Obviously is no my intend to replicate the vim
+help or the plugins ones, only to highlight those options that I found useful
+and maybe I need to remember at a given moment. At the same time this doc can
+serve as a sort of instructions manual to those who decide to clone this
+configuration.
 
-A todo esto hay que sumarle todo lo que Vim aporta de serie, que no es poco.
+Due to the "dynamic" nature of my configuration, this document is under a lot of
+stress, it changes frequently and it's better if you watch the DVCS commits to
+be in the loop. Also some images may be outdated with respect to the current
+configuraton.
 
-> La tecla `<Leader>` la tengo mapeada a `,` y la tecla `<LocalLeader>` la tengo
-mapeada a la tecla espaciadora
+To all this we must add all that Vims provides by default, which is no small.
 
-    DISCLAIMER & AGRADECIMIENTOS
+> I have mapped the `<Leader>` key to `,` and the `<LocalLeader>` key to ` `
+> (spacebar)
 
-    Evidentemente es necesario un conocimiento previo de Vim para sacarle todo
-    el partido posible a esta configuración, del mismo modo que será necesario
-    recurrir a la ayuda de ciertos plugins para familiarizarse con ellos más
-    allá de las pautas que doy en este documento.
+    DISCLAIMER & ACKNOWLEDGMENTS
 
-    Esta configuración está basada en las de muchos otros, tantos que ni los
-    recuerdo a todos y seria bastante injusto recordar a algunos y omitir a
-    otros. Pero gracias a que muchos comparten generosamente su configuración,
-    yo he llegado a la mía y espero sirva esta documento también de pequeña
-    compensación por lo mucho que otros me han aportado. Y gracias también a
-    todos aquellos desarrolladores que crearon los plugins que incluyo (e incluí
-    en el pasado), por que sin su maravillosa contribución y generosidad al
-    compartirlos con el resto del mundo, esta configuración no sería posible.
+    Obviously a prior knowledge of Vim is needed to get full advantage of this
+    configuration, the same way it will be necessary to look at the certain
+    plugins help to become familiar with them beyond the guidelines that I put
+    in this document.
+
+    This configuration is based in many others, so many that I don't remember
+    them all and would be quite unfair to remind a few and omit others. But
+    because many generously share their settings, I have come to mine and I hope
+    that this document will also serve as a small compensation for so great help
+    that them provided to me. And thanks also to all those developers who
+    created the plugins included in this config (and also the included in the
+    past), because without his wonderful contribution and generosity to share it
+    with the rest of the world, this configuration would not be possible.
+
 
 ## Unite
 
-Unite es una interfaz que unifica varios "resultados de búsquedas" bajo un mismo
-aspecto y que sigue el comportamiento por defecto de Vim (modal). Es casi una
-API sobre la que podemos construir nuestras propias soluciones, de hecho el
-propio autor lo describe como "unificar y crear interfaces". Sirve tanto para
-abrir un archivo, como para cambiar de buffer, cambiar de esquema de color o
-para hacer una búsqueda con regex (vimgrep, grep, Ack, ag, ...). Sirve hasta
-para consultar los registros, ayuda, comandos... Resumiendo, es una navaja suiza
-que bien empleada nos permite sustituir un varios plugins distintos por uno solo
-(en este caso: CtrlP, Ack, YankRing, TagmaTasks y Tagbar).
+Unite is an interface that unifies various "query results" under a common
+aspect and that follows the Vim's default behavior (modal). It's almost an API
+that we can use to build our own solutions, in fact the author describes it as
+"unite and create interfaces". With Unite you can open a file, change the
+buffer, choose a colorscheme, make a regex search (grep, Ack, Ag, ...), etc.
+Even you can take a look at the Vim registers, messages, help, command, functions,
+... In short, is a swiss knife that well used allows us to replace several
+different plugins by only one (in this case: CtrlP, Ack, YankRing, TagmaTasks
+and Tagbar)
 
-> Una de las principales ventajas de Unite es que me permite subsanar uno de los
-problemas que intentaba solucionar inicialmente con este documento, que es el
-recordar todas las opciones y atajos que con tanto esfuerzo y tiempo he
-incorporado a Vim. Es muy normal que tengamos disponible un plugin que usamos de
-cuando en cuando, lo tengamos personalizado y cuando vayamos a emplearlo no
-recordemos ni todas sus opciones, ni los atajos. Pues bien, con Unite es
-sencillo crear un menú para ese plugin donde mostremos las opciones que tenemos
-para el y los atajos que les hemos asignado y gracias otra vez a la magia de
-Unite, ni siquiera necesitamos recordar el atajo a este menú, podemos buscarlo
-dentro del indice de menús de Unite. __Problema resuelto de forma rápida y
-elegante.__
+> One of the main advantages of Unite is that allows me to address one of the
+problems that I initially tried to resolve with this document, which is to
+remember all the options and mappings that with so much effort and time I added
+to my Vim configuration. It's pretty normal that we have a plugin installed and
+customized but no frequently used, then when we need it, we don't remember a
+thing about it. Nor the mappings, nor the commands, even his name. Well, with
+Unite is easy to create a menu for the plugin where we show the options it has
+and his mappings, and thanks again to the magic of Unite, even we don't need to
+remember the mapping of this menu, we can look for it in the Unite menu for
+menus. __Problem solved quickly and gracefully__
 
-El mayor inconveniente de Unite y a su vez una de sus mayores ventajas es que
-apenas viene configurado, dejando a nuestro gusto y responsabilidad el adaptarlo
-a nuestro modo de trabajo. De hecho, esto es así hasta el punto de que podemos
-crear nuevos plugins que proporcionen nuevas "fuentes" para Unite.
+The mayor drawback of Unite and also one of its greatest advantages is that it
+comes hardly configured, leaving at our own judgement and responsibility the
+way we set it to work to our liking. In fact, we can make our own Unite plugins
+to make new Unite sources and scratch your itches.
 
-### Fuentes y Menus
+### Sources and Menus
 
-He configurado Unite siguiendo dos vías distintas, por un lado lo utilizo para
-acceder a fuentes directas (lo que Unite denomina *sources*) a través de un
-atajo usando la tecla `<Leader>` y por otro lado llamando a menús confeccionados
-con Unite usando la tecla `<LocalLeader>`
+I set Unite following two different ways, in one hand I use it to access to
+Unite sources via mappings with the `<Leader>` key and secondly calling Unite
+menus through `<LocalLeader>` key mappings.
 
-- Las __fuentes__ llamadas directamente a través de un atajo con `<Leader>` las
-  uso para aquellas tareas más comunes como: abrir archivos, buscar dentro del
-  archivo, hacer una búsqueda de archivos mediante regex (ag, ack, grep), etc.
-  Un ejemplo de como abrir un archivo con Unite.
+- The __sources__ that I call from a `<Leader>` mapping are used to access the
+  most common tasks. Like open files, searching inside the buffer, do regex
+  searchs (grep), etc. There is an example of how to open a file in this way:
 
-    ![unite_file](http://joedicastro.com/static/pictures/unite_file.gif "unite file")
+    ![unite_file](http://joedicastro.com/static/pictures/unite_file_en.gif "unite file")
 
-- Los __menús__ los uso para agrupar opciones bien por plugins o bien por
-  funcionalidad. Ademas muestro los atajos de teclado en aquellas opciones que
-  tengo mapeadas directamente, esto me permite no tener que consultar mi
-  `~/.vimrc` cuando me olvido de algún atajo. Un ejemplo que muestra como
-  gestionar un repositorio git desde Vim utilizando un menú para acceder a las
-  opciones.
+- The __menus__ are used to group options either by plugins or by functionality.
+  Also shows the mappings for all of those options that have one, this allows me
+  to avoid looking for them in the `~/.vimrc` file when I forget one. The next
+  image shows a Unit menu for managing a git repository:
 
-    ![unite_git](http://joedicastro.com/static/pictures/unite_git.gif "unite_git")
+    ![unite_git](http://joedicastro.com/static/pictures/unite_git_en.gif "unite_git")
 
-También para no tener que recordar todos los menús que he creado, hay un menú
-maestro que me permite acceder a cada uno de ellos y ver los atajos asociados a
-cada uno. Unite posee un mecanismo que nos permite acceder a una lista de menús
-generada automáticamente, y aunque en este caso ni se muestran ordenados ni se
-pueden ver los atajos asociados directamente, he creado las descripciones de
-los menús de manera que se puedan ver los atajos. Es lo que el comando `:menu`
-de Vim debería haber sido: cómodo, intuitivo y de fácil navegación.
+Unite has a master menu that shows all the custom menus that we have created,
+allowing us to access to them and see the mapping associated for each one. This
+menu doesn't show the mappings by design, but I arranged their descriptions to
+allow that. This is what the Vim command `:menu` should have been: *comfortable,
+intuitive and easy to navigate.*
 
-- `<LocalLeader>u` o `:Unite menu` muestra los menús disponibles
+- `<LocalLeader>u` or `:Unite menu` shows the available menus
 
-Este es un ejemplo de como se vería este menú:
+![unite menu](http://joedicastro.com/static/pictures/unite_menu_en.png "unite menu")
 
-![unite menu](http://joedicastro.com/static/pictures/unite_menu.png "unite menu")
+### Navigation inside Unite
 
-### Navegacion dentro de Unite
+In the Powerline theme I'm using there is a circle after the candidates number
+that shows the current mode following this criteria:
 
-En el tema de Powerline que estoy empleando hay un circulo de color detrás del
-número de candidatos que indica el modo en el que nos encontramos actualmente.
+ - __Green:__    normal mode
+ - __Blue:__     insert mode
+ - __Orange:__   visual mode
 
- - __Verde:__    modo normal
- - __Azul:__     modo inserción
- - __Naranja:__  modo visual
+These are some of the available mappings:
 
-En modo `Normal` podemos acceder a la ayuda de Unite donde se pueden ver todos
-los atajos disponibles con `?`. Los atajos principales son los siguientes:
+> __Mappings__
 
-> __Atajos__
+> __Normal__ mode:
 
-> Modo normal:
+> - `q` exit from Unite and submenus
+> - `Q` exit from Unite and all submenus
+> - `i` change to insert mode
+> - `v` change to visual mode
+> - `<Tab>` choose an action
+> - `a` choose an action for the selected candidate or add text at the end of
+>   the prompt
+> - `<C-R>` reset the menu
+> - `<Space>` mark the current candidate
+> - `*` mark all candidates
+> - `M` removes the candidate number limit
+> - `gg`, `G`, `j`, `k` typical Vim moves to move around candidates
+> - `?` shows help (mappings)
+> - `N` add a new candidate (only where have sense)
+> - `.` show hidden files (dotfiles)
 
-> - `q` salir de Unite o de submenu
-> - `Q` salir de Unite y de todos los submenus
-> - `i` cambiar a modo inserción
-> - `v` cambiar a modo visual
-> - `<Tab>` elegir una acción
-> - `a` elegir una acción para el candidato seleccionado o añade texto a la ultima
->   posición del *prompt*
-> - `<C-R>` reiniciar el menú
-> - `<Space>` marcar el candidato actual
-> - `*` marcar todos los candidatos
-> - `M` elimina el limite de candidatos a mostrar
-> - `gg`, `G`, `j`, `k` los típicos movimientos de vim para movernos entre los
->   candidatos
-> - `?` mostrar la ayuda (atajos)
-> - `N` añadir un nuevo candidato (no se aplica a todos los menús, solo en
->   aquellos que tiene sentido (archivos, dirs, ...))
-> - `.` permite seleccionar los dotfiles (archivos ocultos)
+>     *With a candidate selected:*
 
->     *Con un candidato seleccionado:*
+>     - `<CR>` execute the default action
+>     - `b` add it to bookmarks
+>     - `d` delete it
+>     - `e` expand the path
+>     - `t` open the candidate in a new tab
+>     - `yy` do a yank
+>     - `p` preview it
+>     - `x` launch the quick selection
 
->     - `<CR>` ejecutar la acción por defecto
->     - `b` lo añade a marcadores
->     - `d` lo elimina
->     - `e` expande el path
->     - `t` abre el candidato en una nueva pestaña
->     - `yy` hace un yank (copia)
->     - `p` previsualiza el candidato
->     - `x` lanza la selección rápida (una letra por candidato)
+> __Insert__  mode:
 
-> Modo inserción:
+> - `<ESC>` change to normal mode
+> - `<Tab>` choose an action
+> - `<CR>`  execute the default action
+> - `<C-G>` exit Unite
+> - `<C-D>` delete it
+> - `<C-E>` expand the path
+> - `<C-T>` open the candidate in a new tab
+> - `<C-Y>` do a yank
+> - `<C-N>`, `<C-P>`, `<C-F>` y `<C-B>` Vim motions to move around candidates
 
-> - `<ESC>` cambiar a modo normal
-> - `<Tab>` elegir una acción
-> - `<CR>` ejecutar la acción por defecto
-> - `<C-G>` salir de Unite
-> - `<C-D>` elimina el candidato
-> - `<C-E>` expande el path
-> - `<C-T>` abre el candidato en una nueva pestaña
-> - `<C-Y>` hace un yank (copia)
-> - `<C-N>`, `<C-P>`, `<C-F>` y `<C-B>` movimientos de vim para moverse entre los
->   candidatos
+>     *With a candidate selected:*
 
->     *Con un candidato seleccionado:*
+>     - `<Space>` marks the current candidate
 
->     - `<Space>` marcar el candidato actual
+> __Visual__ mode:
 
-> Modo visual:
+> - `<Space>` marks the current candidate
 
-> - `<Space>` marcar el candidato actual
+## Managing Plugins
 
-## Gestion de Plugins
+![neobundle](http://joedicastro.com/static/pictures/unite_menu_neobundle_en.png "neobundle")
 
-![neobundle](http://joedicastro.com/static/pictures/unite_menu_neobundle.png "neobundle")
+A plugin to rule them all! NeoBundle allows us to manage the rest of plugins,
+itself included. __I have it configured to auto install itself and all of the
+plugins when Vim is executed by first time__.
 
-Un plugin para gobernarlos a todos! NeoBundle me permite administrar el resto de
-los plugins, a el mismo incluido. __A su vez lo tengo configurado para que se
-instale a si mismo la primera vez que se ejecute vim con esta configuración
-(también instala automáticamente el resto de plugins).__
+The advantages of NeoBundle versus Vundle and other similar plugins are the
+following:
 
-Las ventajas de este plugin frente a otros similares como Vundle son las
-siguientes:
+- Allows to use another VCS other than git (hg, svn) even a local dir
+- Allows revision lock or even set a plugin to not be updated
+- Supports lazy initialization of plugins to optimizing startup time
+- Supports multiple config options per plugin, like automatic building if needed
+- and so on...
 
-- Permite usar plugins desde otras fuentes distintas a git (svn, hg, dir, ...)
-- Permite establecer la revisión exacta que queremos emplear
-- Permite marcar plugins como no actualizables
-- Permite cargar los plugins bajo demanda, no al principio, para agilizar el
-  arranque de Vim y el consumo de recursos
-- Permite añadir multitud de opciones a cada plugin, como por ejemplo que se
-  haga la compilación de forma automática si es necesario al instalar/actualizar
-- Y muchas mas posibilidades, sobre todo si también usamos 'Vimproc' y 'Unite'
-  del mismo autor
-
-La manera idónea de usar NeoBundle es a través de Unite
+The best way to use NeoBundle is through Unite:
 
 __Unite__
 
-- `<LocalLeader>n` o `:Unite menu:neobundle`, muestra un menú con las opciones
-  de Neobundle
+- `<LocalLeader>n` or `:Unite menu:neobundle`, shows the NeoBundle menu
 
 ### Menu
 
-Voy a detallar aquí lo que hace cada uno de las entradas del menú:
+These are the menu entries in detail:
 
-- *neobundle* nos muestra una lista de los plugins instalados. Seleccionándolos
-  (uno o varios) podemos realizar varias acciones sobre ellos (e.g. instalarlo,
-  borrarlo, ir a la página del repositorio)
+- *neobundle* shows the installed plugins as candidates. Via the actions we can
+  delete them, browse the repository page, ...
 
-- *log* muestra el último registro de operaciones de neobundle
+- *log* shows the last NeoBundle log
 
-- *lazy* nos muestra la lista de los plugins que tenemos configurados para ser
-  cargados bajo demanda (algo que nos permite tener instalados plugins que no
-  usamos muy frecuentemente sin que afecte al rendimiento de Vim). Una opción
-  que empleo abundantemente en esta configuración
+- *lazy* shows all the installed plugins configured as Lazy. Those are loaded by
+  demand and allows us to have installed a lot of plugins not frequently used
+  without delay the vim startup. An option that is used a lot in this
+  configuration.
 
-- *update* actualiza automáticamente todos los plugins (e instala aquellos que
-  no lo estén)
+- *update* updates automatically all the plugins (and install those not already
+  installed)
 
-- *search* búsqueda de plugins por el nombre en vim.org y GitHub (pueden
-  aparecer duplicados los que se encuentren en ambos sitios)
+- *search* searchs plugins by name into vim.org & GitHub (duplicates prone)
 
-- *install* instala aquellos plugins que no hayan sido instalados pero si estén
-  en el vimrc
+- *install* install all the plugins already present in the `.vimrc` file or in
+  the `direct_bundles.vim` one but not are yet installed
 
-- *check* comprueba que todos los plugins incluidos en .vimrc estén instalados,
-  de lo contrario nos preguntara por su instalación
+- *check* checks if all the plugins are already installed, in other case ask for
+  their installation
 
-- *docs* instala la documentación de todos los plugins de forma manual
+- *docs* install all plugins help docs manually
 
-- *clean* elimina aquellos plugins que ya no estén configurados pero aun
-  permanezcan en el disco, previa confirmación
+- *clean* delete those plugins folders that are not more needed because are not
+  still installed, previous confirmation
 
-- *list* lista todos los plugins instalados
+- *list* lists all the installed plugins
 
-- *direct edit* sirve para editar el archivo `direct_bundles.vim` donde
-  neobundle guarda aquellos plugins que se han instalado directamente (por
-  ejemplo a través de la búsqueda)
+- *direct edit* edits the `~/.vim/bundle/.neobundle/direct_bundles.vim` file
+  where NeoBundle stores those plugins installed directly (e.g. via NeoBundle
+  search)
 
-> __Actualización de Plugins__
+> __Plugins updating__
 
-> NeoBundle es una herramienta excelente y potente que nos permite administrar
-de forma muy sencilla nuestros plugins. Pero es una herramienta que conviene
-utilizar con cuidado, sentido común y guardando unas ciertas precauciones, sobre
-todo si usamos vim como herramienta profesional.
+> Since we often install plugins from repositories, we are exposed to error
+> prone updates. Once in a while, a plugin update introduces a bug and you end
+> with a unstable configuration until that bug is fixed (and may take a while).
+> If we use Vim for work, that is very inconvenient.
 
-> Dado que en mi caso y en el de muchos otros, instalamos y actualizamos varios
-plugins directamente desde el repositorio git, esto nos expone a actualizaciones
-inestables de los mismos.
+> A way to avoid this is by using symbolic links and backups of our vim folder.
+> If we made a backup of our vim config before an update, is easy to restore it
+> to a previous stable state without much effort. But is tedious and error prone
+> too. And alternative is managing this via NeoBundle. We can use the revision
+> lock feature to specify what revision we want to install or even say to
+> NeoBundle that a plugin should not be updated. But is not a perfect solution
+> too, and very manually. Maybe in a future, we could do plugin rollbacks...
 
-> Este es mi manera de actualizar los plugins que puede servir como guia u
-orientación de como hacerlo sin que nuestro flujo de trabajo se vea
-interrumpido.
+## Colorschemes
 
-> Lo primero es aclarar que mi configuración de vim está situada en el
-directorio `$HOME/dotfiles/vim` y utilizo enlaces simbólicos para que vim pueda
-localizar la configuración que espera por defecto. En concreto lo tengo
-establecido de esta manera:
+![unite_colorscheme](http://joedicastro.com/static/pictures/unite_colorscheme_en.gif "unite colorscheme")
 
-  > - `~/.vim` es un enlace simbólico que apunta a `~/dotfiles/vim`
-  > - `~/.vimrc` es un enlace simbólico que apunta a `~/dotfiles/vim/vimrc`
-
-> De modo que cuando quiero hacer una actualización de los plugins de vim, lo
-único que tengo que hacer es crear una copia de la carpeta de vim en
-`~/dotfiles` para tener un backup en caso de que algún plugin no funcione como
-es debido.
-
-> De hecho, hago esto sin salir de Vim y con la ayuda de ranger, en sencillos
-pasos:
-
->    1. entro en ranger desde vim pulsando `<Leader>x`
->    2. voy a la carpeta `vim` en `~/dotfiles` y creo una copia pulsando `yy` y
->       luego `pp` y me crea una copia llamada `vim_`
->    3. actualizo los plugins de vim con `:NeoBundleUpdate`
->    4. sigo trabajando con normalidad
->    5. si veo que algún plugin se ha vuelto inestable durante la actualización
->       y lo necesito para seguir trabajando, simplemente borro la carpeta
->       `~/dotfiles/vim` y renombro la copia en `~/dotfiles/vim_` a
->       `~/dotfiles/vim`. Con salir de vim y volver a entrar tenemos una
->       configuración probada y completamente funcional sin esfuerzo.
-
-> Usando este procedimiento o algo similar nos ahorramos muchos disgustos a la
-hora de realizar las actualizaciones. Evidentemente, en caso de que solo falle
-un plugin siempre podemos sustituir únicamente la carpeta de ese plugin dentro
-de `~/dotfiles/vim/bundle` en lugar de toda la configuración de Vim
-
-> __Alternativa__
-
-> Otra opción la tenemos a través de NeoBundle, que nos permite especificar la
-revisión que queremos instalar de un plugin, e incluso nos permite decirle que
-no se actualice nunca, si no nos interesa actualizarlo.
-
-
-## Esquemas de color
-
-![unite_colorscheme](http://joedicastro.com/static/pictures/unite_colorscheme.gif "unite colorscheme")
-
-Para cambiar de esquemas de color podemos hacerlo de forma cómoda e interactiva,
-con previsualización incluida a través de Unite:
+To choose a colorscheme we can do it easily and comfortably with a included
+preview through a Unite menu:
 
 __Unite__
 
-- `<LocalLeader>v` o `:Unite menu:vim` accedemos al menú *vim* donde
-  podemos cambiar el esquema seleccionando la opción correspondiente
-- `:Unite colorscheme -auto-preview` seleccionamos el esquema de la lista con
-  previsualización del mismo
+- `<LocalLeader>v` or `:Unite menu:vim` shows the *vim* menu where we can access
+  to an option to choose the colorscheme
+- `:Unite colorscheme -auto-preview` choose the colorscheme from the candidates
 
 
-## Navegacion
+## Navigation
 
-![unite navegacion](http://joedicastro.com/static/pictures/unite_menu_navegacion.png "unite navegacion")
+![unite navigation](http://joedicastro.com/static/pictures/unite_menu_navigation.png "unite navigation")
 
->   __Atajos__
+>   __Mappings__
 
-> Ademas de las opciones disponibles en el menú tengo configurados una serie de
-> atajos que hacen mucho más sencillo el gestionar las ventanas.
+> In addition to the options available on the menu I have set a number of
+> mappings that make it much easier to manage windows
 
->   - `<C-H>` desplazamiento a la siguiente ventana a la izquierda
->   - `<C-J>` desplazamiento a la ventana inferior
->   - `<C-K>` desplazamiento a la ventana superior
->   - `<C-L>` desplazamiento a la siguiente ventana a la derecha
->   - `<Tab>J` rotar la ventana dentro de la misma columna o fila
->   - `<Tab>K` rotar la ventana dentro de la misma columna o fila (inverso)
+>   - `<C-H>` move to the next window to the left
+>   - `<C-J>` move to the lower window
+>   - `<C-K>` move to the upper window
+>   - `<C-L>` move to the next window to the right
 
 __Unite__
 
-`<LocalLeader>b` o `:Unite menu:navegacion` muestra el menú de navegación
+`<LocalLeader>b` or `:Unite menu:navigation` shows the navigation menu
 
 ### Menu
 
-- Las tres primeras entradas del menú nos permiten acceder rápidamente al buffer,
-ventana o pestaña que deseemos con rapidez.
+- The first three menu entries let us to easily move to the chosen buffer, tab
+  or window from the candidates
 
-- *location list* y *quickfix* nos dejan acceder a ambas ventanas a través de la
-interfaz de Unite
+- *location list* and *quickfix* to access to these windows content through
+  Unite interface
 
-- *redimensionar ventanas* utiliza el plugin winresizer para redimensionar
-  (cambiar de tamaño) muy fácilmente las ventanas de vim.
+- *resize windows* use the winresizer plugin to easily resize the windows
 
-    > __Atajos__
+    > __Mappings__
     >
-    > - `h`, `j`, `k`, `l` mueve el divisor de ventanas usando los movimientos
-    >   típicos de Vim
-    > - `<ESC>` finaliza el redimensionado y `q` lo cancela
+    > - `h`, `j`, `k`, `l` use vim motions to move the windows separator
+    > - `<ESC>` end the resizing
+    > - `q` cancel the resizing
 
-- las dos siguientes entradas nos permiten crear nuevas ventanas, tanto en
-  posición vertical como horizontal y la siguiente opción nos permite cerrar
-  cualquier ventana abierta (excepto cuando solo hay una)
+- the next two entries are for create new windows (horizontal and vertical) and
+  the third one to close any window (except the last)
 
-- *cerrar/abrir ventana quickfix* nos abre/cierra la ventana quickfix y a
-  diferencia de la quinta entrada no la muestra a través de Unite. Nos permite
-  cerrar además la "location list"
+- *toggle quickfix window* toggle the quickfix window, also close the location
+  list if is opened
 
-- *zoom* hace zoom sobre una ventana, ocultando el resto.
+- *zoom* make zoom in a window
 
-- *eliminar buffer* cierra el buffer, no lo deja oculto
+- *delete buffer* delete a buffer
 
 
-## Sesiones
+## Sessions
 
-![unite sesiones](http://joedicastro.com/static/pictures/unite_menu_sesiones.png "unite sesiones")
+![unite sessions](http://joedicastro.com/static/pictures/unite_menu_sessions.png "unite sessions")
 
-Este menú nos permite guardar las sesiones de trabajo, bien bajo el nombre por
-defecto o uno personalizado para que posteriormente podamos cargarlas y seguir
-trabajando donde lo habíamos dejado.
+This menu manages the Vim sessions. We can store them as the default session or
+we can give them a custom name. If we load one session we can continue working
+in the same point where we was when was saved.
 
 __Unite__
 
-`<LocalLeader>h` o `:Unite menu:sesiones` muestra el menú de sesiones
+`<LocalLeader>h` or `:Unite menu:sessions` shows the sessions menu
 
 
-## Marcadores
+## Bookmarks
 
-![unite marcadores](http://joedicastro.com/static/pictures/unite_menu_marcadores.png "unite marcadores")
+![unite bookmarks](http://joedicastro.com/static/pictures/unite_menu_bookmarks.png "unite bookmarks")
 
-Con las entradas de este menú podemos guardar marcadores de los archivos que
-queramos para poder abrirlos de forma rápida y directa. Nos permite añadir una
-descripción para cada uno y elegir el archivo donde guardarlos.
-
+With this menu we can manage the bookmarks easily.
 
 __Unite__
 
-`<LocalLeader>m` o `:Unite menu:marcadores` muestra el menú de marcadores
+`<LocalLeader>m` or `:Unite menu:bookmarks` shows the bookmarks menu
 
 
-## Edicion de texto
+## Text Edition
 
-![unite texto](http://joedicastro.com/static/pictures/unite_menu_texto.png "unite texto")
+![unite text](http://joedicastro.com/static/pictures/unite_menu_text.png "unite text")
 
-Este menú aglutina algunas de las funciones que podemos usar para la edición de
-texto.
+This menu group several options to edit text
 
 __Unite__
 
-`<LocalLeader>e` o `:Unite menu:texto` muestra el menú de sesiones
+`<LocalLeader>e` or `:Unite menu:text` shows the text menu
 
 ### Menu
 
-- *activar/desactivar el resaltado de búsqueda* nos sirve para ocultar el
-   resaltado de los resultados una vez hemos realizado la búsqueda
+- *toggle search results highlight* toggle the search results highlight,
+  obviously
 
-- *conmutar los números de linea* conmuta entre no mostrar los números de línea,
-  mostrarlos relativos (en las dos formas posibles) y mostrarlos absolutos.
+- *toggle line numbers* toggle between the four possible visualizations for the
+  line numbers column: none, relative (two forms) and absolute
 
-- *mostrar caracteres no imprimibles* nos conmuta la visualización de los
-  caracteres no visibles tales como tabulados, retornos de carro, espacios a
-  final de linea, etc
+- *toggle wrapping* toggle automatic wrapping and the vertical column color. The
+  vertical column that indicates wrapping threshold turns green when the
+  automatic wrapping is disabled
 
-- las tres entradas siguientes nos permiten plegar/desplegar los pliegues que
-  tengamos en nuestro documento, bien sea individualmente o todos a la vez
+- *show hidden chars* show the hidden chars, those that are not printable
+  (tabs, carriage returns, spaces, ...)
 
-- las siguientes 3 entradas nos sirven para pegar/copiar al portapapeles del
-  sistema y para activar/desactivar el paste mode (todo se pega literalmente,
-  sin aplicar ningún formateo)
+- the next three entries are for fold/unfold the folds in our doc, one by one or
+  all at the same time
 
-- la siguiente entrada elimina esos espacios que se quedan a veces al final de
-  la linea y que suelen ser casi siempre innecesarios y sin cometido alguno
-  (excepto quizás en Markdown)
+- and the three after those allows us to copy/paste from system clipboard and
+  for toggle the paste mode.
 
-- *estadísticas de texto para la posición actual* muestra en la linea de
-  comandos el número de lineas, palabras, caracteres y bytes (totales y de la
-  posición actual)
+- *remove trailing whitespaces* delete those empty and almost never significant
+  spaces at the end of the line
 
-- *frecuencia de cada palabra en el texto* muestra una lista de palabras con la
-  frecuencia con la que aparece cada palabra para el buffer actual
+- *text statistics* it shows the number of columns, lines, words, chars and
+  bytes in total and for the current position
 
-- *muestra los dígrafos disponibles* muestra una tabla con todos los dígrafos
-  disponibles y los caracteres necesarios para generarlos
-   > Los dígrafos son caracteres especiales que se forman a partir otros dos
+- *show word frequency* show the times that each word appears in the text
 
-- *inserta texto lorem ipsum* sirve para generar texto aleatorio para rellenar
-  borradores y pruebas de diseño, muy usado en diseño web. Genera el famoso
-  texto [Lorem Ipsum][lorem]
+- *show available digraphs* show a table with all the digraphs available and
+  the pair of chars needed to generate each of them.
+
+- *insert lorem ipsum text* insert a text block containing the famous [Lorem
+  Ipsum][lorem] text
 
    [lorem]: http://es.wikipedia.org/wiki/Lorem_ipsum
 
-- *muestra información sobre el carácter actual* muestra información ampliada
-  sobre un carácter en la linea de comandos. Muestra el valor Unicode en
-  decimal, hexadecimal, octal, el nombre Unicode, la HTML entity, el código
-  Emoji y cualquier dígrafo disponible.
+- *show current char info* show extended info about the current character.
+  The info include the decimal Unicode value, hexadecimal, octal, Unicode name,
+  HTML entity, Emoji code and any digraph available.
 
-### Otras herramientas
+### Other tools
 
-A parte de las herramientas incluidas en el menú, disponemos de otra serie de
-ellas para poder editar texto más fácilmente (sin contar evidentemente con todas
-las que nos proporciona Vim de serie).
+Apart from the tools included in the menu, and apart from the Vanilla Vim ones
+too, we have available another bunch of tools to help us to edit the text more
+easily.
 
-- __text-objects__ los objetos de texto personalizados nos permiten ampliar los
-  ya definidos por defecto en Vim (palabra, frase, párrafo, bloque,
-  delimitadores (comillas, paréntesis, ...) y etiquetas de marcado (html)) y
-  poder usar selecciones de texto mas eficientes. En esta configuración he
-  añadido los siguientes:
+- __text-objects__ these are customized text objects that allow us to extend the
+  Vim motions defined by default (word, sentence, paragraph, block,
+  delimiters, and markup tags) and be able to use more efficient text
+  selections. In this config I added the next ones:
 
-    > - __línea__ selecciona una linea mediante `al` o `il`
-    > - __guión bajo__ selecciona el contenido delimitado por guiones bajos
-    >   usando `a_` o `i_`
-    > - __todo el buffer__ nos permite seleccionar todo el contenido del buffer,
-    >   soporta la siguientes selecciones: `ae` y `ie`
-    > - __indentado__ permite seleccionar un nivel de indentado. Selecciones:
-    >   `ai`, `ii`, `aI`, `iI`. La diferencia es que `i` selecciona un nivel de
-    >   indentado y los inferiores e `I` solo selecciona lo que esté al mismo
-    >   nivel de indentado
-    > - __último elemento buscado__ nos selecciona el ultimo resultado de
-    >   búsqueda. Las opciones que tenemos son: `a/`, `i/`, `a?` e `iw`
-    > - __clase python__ selecciona una clase en código Python. Podemos emplear
-    >   `aC`, `iC` y `C`
-    > - __método o función python__ igual que el anterior pero para métodos y
-    >   funciones Python. Opciones: `aM`, `iM` y `M`
+    > - __line__ select a line by `al` or `il`
+    > - __underscore__ select the text surrounded by underscores via `a_` or
+    >   `i_`
+    > - __all the buffer__ select the entire buffer. We can use `ae` and `ie`
+    > - __indent__ allow to select a indentation level. Options: `ai`, `ii`,
+    >   `aI`, `iI`. `i` selects the current level and the nested ones, `I` only
+    >   selects the current indent level
+    > - __last search__ select the last searched term results. Options:: `a/`,
+    >   `i/`, `a?` and `i?`
+    > - __python class__ into a Python code file selects a class by `aC`, `iC`
+    >   and `C`
+    > - __python method or function__ same as above for methods and functions
+    >   via `aM`, `iM` and `M`
 
-- __vim-commentary__ herramienta extremadamente sencilla para
-  comentar/descomentar fragmentos de texto/código. Simplemente tenemos que
-  pulsar un atajo seguido de un movimiento para comentar/descomentar o pulsar el
-  atajo después de una selección visual.
+- __vim-commentary__ a extremely easy tool to toggle commentary in lines and
+  visual selections. We only need to entry a mapping and a movement to do the
+  action, as simple as that.
 
-    ![commentary](http://joedicastro.com/static/pictures/commentary.gif "commentary")
+    ![commentary](http://joedicastro.com/static/pictures/commentary_en.gif "commentary")
 
-    > __Atajo__
+    > __Mapping__
     >
-    >  - `<Leader>c` o `gc` comenta/descomenta la seleccion
+    >  - `<Leader>c` or `gc` toggle the commentary
 
-- __vim-surround__ nos sirve para "envolver" un objeto de texto de vim con un
-  par de caracteres o etiquetas similares (paréntesis, comillas, etiquetas HTML,
-  ...). También nos permite cambiar o eliminar los ya existentes.
+- __vim-surround__ to surround a vim text object with a pair of symmetrical
+  chars.  We can also remove or change the ones already there
 
-    ![surround](http://joedicastro.com/static/pictures/surround.gif "surround")
+    ![surround](http://joedicastro.com/static/pictures/surround_en.gif "surround")
 
-    > __Atajos__
+    > __Mappings__
 
-    > - `ys{motion or text-object}{char}` crear "envolvente" (*'your surround'*)
-    > - `cs{orig_char}{dest_char}` cambiar "envolvente" (*'change surround'*)
-    > - `ds{char}` eliminar "envolvente"  (*'delete surround'*)
-    > - `S{char}` para usarlo en modo visual (solo para crear)
+    > - `ys{motion or text-object}{char}` create surround (*'your surround'*)
+    > - `cs{orig_char}{dest_char}` change surround
+    > - `ds{char}` delete surround
+    > - `S{char}` for create surrounds in visual mode
 
-    > *Si elegimos el primer miembro de un par, e.g '(', entonces nos crea el
-    > envolvente con un espacio entre el envolvente y la seleccion. Si elegimos el
-    > ultimo miembro, e.g. ')', entonces nos lo crea sin los espacios.*
+    > *If we choose the first member of a pair, e.g '(', then the surround is
+    > created with a whitespace between the char and the selection. If the last
+    > is choosen, e.g. ')', then the extra space is not added.*
 
-- __vim-speeddating__ sirve para incrementar/decrementar de forma inteligente
-  valores de fechas y horas.
+- __vim-speeddating__ provides a smart way to increase/decrease time values
 
-    ![speeddating](http://joedicastro.com/static/pictures/speeddating.gif "speeddating")
+    ![speeddating](http://joedicastro.com/static/pictures/speeddating_en.gif "speeddating")
 
-    > __Atajos__
+    > __Mappings__
 
-    > - `<C-A>` Incrementa el valor bajo el cursor una unidad
-    > - `<C-X>` Decrementa el valor bajo el cursor una unidad
-    > - `d<C-A>` Cambia la fecha/hora bajo el cursor a la hora actual en UTC
-    > - `d<C-X>` Cambia la fecha/hora bajo el cursor a la hora actual en local
+    > - `<C-A>` Increase the time value under the cursor
+    > - `<C-X>` Decrease the time value under the cursor
+    > - `d<C-A>` Change the time under the cursor to the current UTC time
+    > - `d<C-X>` Change the time under the cursor to the current Local time
 
-- __vim-smartinput__ provee de autocompletado inteligente para pares de
-  caracteres muy empleados en programación como son __(), {}, [], "", '', ``__
+- __vim-smartinput__ provides smart auto-completion for delimiters like
+  __(), {}, [], "", '', ``__
 
-     El funcionamiento es muy sencillo, si escribimos el primero de este par de
-  caracteres, aparece automáticamente el segundo y el cursor se mueve al interior
-  de los mismos. Entonces escribimos lo que queremos y cuando acabemos solo
-  tenemos que introducir el segundo carácter. Sin en cambio solo quisiéramos el
-  primero, bastaría con pulsar la tecla __Delete__
+    Is very easy to use, if we write the first pair of these chars, then
+    automatically is introduced the second one and the cursor moves to the
+    interior thereof. Then, we continue writing and to exit the inside you only
+    have to write the second character. If you only want the first char, you
+    only have to press the __Delete__ key
 
-    ![smartinput](http://joedicastro.com/static/pictures/smartinput.gif "smartinput")
+    ![smartinput](http://joedicastro.com/static/pictures/smartinput_en.gif "smartinput")
 
+- __neocomplete__ auto-completion of keywords. methods, functions, etc by only
+  typing a few letters (normally the first). Well used speeds up a lot writing
+  of code or text. It improves the Vanilla Vim auto-completion, with a live
+  fuzzy-logic search. It's powerful and totally customizable.
 
-- __neocomplete__ autocompleta palabras clave, métodos, ... con solo escribir
-  las primeras letras.  Bien usado permite agilizar mucho la escritura de código
-  o texto. Neocomplete es un plugin que mejora el autocompletado por defecto de
-  Vim, con búsqueda con lógica difusa (fuzzy) al mismo tiempo que se escribe.
-  Esta plagado de opciones y es completamente personalizable.
+    ![neocomp](http://joedicastro.com/static/pictures/neocomp_en.gif "neocomp")
 
-    ![neocomp](http://joedicastro.com/static/pictures/neocomp.gif "neocomp")
+    > __Mappings__
 
-    > __Atajos__
+    > - `<CR>`    insert the selected word
+    > - `<C-N>`   go to the next word (below) in the option list
+    > - `<C-P>`   go to the previous word (above) in the option list
 
-    > - `<CR>`    inserta la palabra seleccionada
-    > - `<C-N>`   nos desplaza a la palabra inferior en la lista de opciones
-    > - `<C-P>`   nos desplaza a la palabra superior en la lista de opciones
+- __easydigraph__ to easily insert digraphs, especially when trying to insert
+  several simultaneously
 
-- __easydigraph__ sirve para insertar un dígrafo de forma bastante sencilla,
-   sobre todo cuando se trata de insertar varios simultáneamente.
-
-    ![easydigraph](http://joedicastro.com/static/pictures/easydigraph.gif "easydigraph")
+    ![easydigraph](http://joedicastro.com/static/pictures/easydigraph_en.gif "easydigraph")
     >
-    > __Atajo__
+    > __Mapping__
     >
-    > - `<Leader>dd {motion}` convierte en dígrafo la selección efectuada con el
-    >   movimiento.
+    > - `<Leader>dd {motion}` turns in digraph the motion selected text
 
-- __múltiples cursores__ este plugin nos permite editar la misma selección en
-  varias localizaciones al mismo tiempo. En realidad funciona igual que una
-  búsqueda y reemplazado pero de forma interactiva.
+- __multiple cursors__ this allow us to edit the same visual selection in
+  multiple locations at the same time. It's like a interactive search & replace
 
-    ![multiple cursors](http://joedicastro.com/static/pictures/multiple_cursors.gif "multiple cursors")
+    ![multiple cursors](http://joedicastro.com/static/pictures/multiple_cursors_en.gif "multiple cursors")
 
-    > __Atajos__
+    > __Mappings__
 
-    > - `<C-N>` nos activa los múltiples cursores para la palabra o selección visual
-    > actual. Volviéndola a pulsar nos va seleccionando las distintas posiciones que
-    > queremos editar
-    > - `<C-X>` nos salta la posición actual y nos desplaza a la siguiente, si la hay
-    > - `<C-P>` deselecciona la posición actual y nos desplaza a la anterior
-    > - `<ESC>` desactiva los multiples cursores
+    > - `<C-N>` turn on the multiple cursors for the current word or visual
+    >   selection. Pressing it again, find the next occurrence & moves to it
+    > - `<C-X>` skip the current position and move to the next one if exists
+    > - `<C-P>` deselect the current position and turn back to the previous one
+    > - `<ESC>` turn off the multiple cursors
 
-- __vim-transpose__ sirve para transponer filas y columnas, que puede ser muy
-  útil para editar cierto tipo de archivos (e.g. *csv*). Funciona con
-  selecciones visuales.
+- __vim-transpose__ to transpose rows & columns. For certain kind of files, like
+  *CSV*, it can be really helpful for deal with them. It works in visual mode.
 
-    ![transpose](http://joedicastro.com/static/pictures/transpose.gif "transpose")
+    ![transpose](http://joedicastro.com/static/pictures/transpose_en.gif "transpose")
 
-    > __Comandos__
+    > __Commands__
 
-    > - `:Transpose` hace la transposición por defecto
-    > - `:TransposeCSV {separador} {delimitador}` hace la transposición teniendo
-    >   en cuenta la separación por punto y coma o el separador que le
-    >   especifiquemos y el delimitador
-    > - `:TransposeTab` hace la transposición teniendo en cuenta los tabulados
-    > - `:TransposeWords` hace la transposición por palabras e inserta una
-    >   interrogación donde falte una
-    > - `:TransposeInteractive` para transposiciones complejas
+    > - `:Transpose` to do the transposition by default
+    > - `:TransposeCSV {separator} {delimiter}` to do the transposition by `;` or by
+    >   the specified separator & delimiter
+    > - `:TransposeTab` to transpose by tabs
+    > - `:TransposeWords` to transpose by words (inserts a `?` where is no one)
+    > - `:TransposeInteractive` for complex transpositions
 
 
-## Revision de ortografia
+## Spell checking
 
-![unite spell](http://joedicastro.com/static/pictures/unite_menu_spell.png "unite spell")
+![unite spell](http://joedicastro.com/static/pictures/unite_menu_spell_en.png "unite spell")
 
- Estas entradas sirven para la corrección ortográfica del texto y son
- suficientemente autoexplicativas por si mismas.
+This menu entries are used to spell checking the text
 
 __Unite__
 
-- `<LocalLeader>s` o `:Unite menu:ortografia` activa el menú con las opciones
-  para la corrección ortográfica
+- `<LocalLeader>s` or `:Unite menu:spelling` shows the spelling menu
 
+## Regular expression searching (grep)
 
-## Busqueda de archivos (grep)
+![unite grep](http://joedicastro.com/static/pictures/unite_menu_grep_en.png "unite grep")
 
-![unite grep](http://joedicastro.com/static/pictures/unite_menu_grep.png "unite grep")
-
-Este menú contiene la opciones para búsqueda de archivos por su contenido o de
-búsqueda de archivos de los que conocemos su nombre o parte de el pero no el
-path completo donde se encuentran. Por esta razón separo estas herramientas de
-la gestión de archivos, por que son herramientas para buscar nuestro archivo en
-lugar de ir a tiro fijo.
+This menu allows us to search files by regular expression engines. I have it
+configured to use first the `ag` program, then `ack` if `ag` is not found and
+else the `grep` program. Also we can use other Unix tools like `locate` and
+`find` from this menu.
 
 __Unite__
 
-- `<LocalLeader>a` o `:Unite menu:grep` activa el menú de búsqueda de archivos
-
+- `<LocalLeader>a` or `:Unite menu:grep` shows the grep menu
 
 ### Menu
 
-- *grep (ag → ack → grep)* la primera entrada es la clásica herramienta de
-  búsqueda del contenido de un archivo a partir de un patrón basado en una
-  expresión regular. Si tenemos instalada la utilidad `ag` usara esta, en su
-  defecto la herramienta `ack` y en ausencia de ambas el clásico `grep`. Cuando
-  la ejecutemos nos solicitara el directorio destino (target) donde realizar la
-  búsqueda recursiva y luego la expresión regular (pattern).
+- *grep (ag → ack → grep)* to search files by its content. Using a regular
+  expression pattern in a target directory, shows us the results in Unite.
+  Between brackets are the list of programs to use sorted by priority, uses the
+  first available.
 
-- *find* realiza la búsqueda por el nombre del archivo empleando la conocida
-  herramienta `find`
+- *find* it uses the known Unix tool `find` to search files by name
 
-- *locate* también utiliza el nombre para buscar el archivo dentro de la base de
-  datos de la herramienta `locate`
+- *locate* same as above using the `locate` tool instead
 
-- *vimgrep* utiliza la herramienta interna de vim para realizar búsquedas en
-  función de expresiones regulares, pero debido a su lentitud debería emplearse
-  como ultimo recurso cuando no disponemos de las herramientas de la primera
-  entrada.
+- *vimgrep* as last resource in case that you don't have installed any regex
+  search engine tool you can use the internal Vim grep one. But is extremely low
+  in comparison with another of the mentioned in the first entry. So, only if
+  you are desperate.
 
-## Busqueda dentro del buffer
 
-![unite busquedas](http://joedicastro.com/static/pictures/unite_menu_busquedas.png "unite busquedas")
+## Searching inside the buffer
+
+![unite searching](http://joedicastro.com/static/pictures/unite_menu_searching.png "unite searching")
 
 __Unite__
 
-- `<LocalLeader>f` o `:Unite menu:busquedas` activa el menú de búsquedas
+- `<LocalLeader>f` or `:Unite menu:searching` shows the searching menu
 
 ### Menu
 
-- *linea* busca todas las lineas en las que aparezca la palabra (o parte de
-  ella) que introduzcamos
+- *line* find all the lines where the introduced string appears
 
-- *palabra bajo el cursor* busca todas las lineas donde aparece la palabra que
-  está situada bajo el cursor en el momento de activar la búsqueda. Es una
-  version mejorada de la tecla `*`
+- *word under the cursor* find all the lines where the word under the cursor
+  appears. It is a improved version of the `*` key behavior
 
-- *encabezados*  muestra todos los "encabezados" del documento y permite navegar
-  entre ellos. Muy útil para navegar entre los headers de documentos Markdown
-  como este, aunque soporta también varios tipos de archivo como el código
-  fuente de distintos lenguajes donde muestra las etiquetas generadas por `ctags`
+- *outlines & tags (ctags)* lists all the document "outlines" and allows us to
+  navigate between them. Very useful to move around the headers of a Markdown
+  document like this. In code files it shows the source tags (ctags) to move
+  easily to a given point of the code.
 
-- *marcas* lista todas las marcas del archivo
+- *marks* list all the marks
 
-- *pliegues* permite movernos entre los distintos pliegues
+- *folds* allows us to navigate between folders
 
-- *cambios*  muestra las lineas donde se han realizado cambios en el documento
-  en orden temporal inverso (primero los mas recientes)
+- *changes* a list of all the changes made to the file
 
-- *saltos* muestra una lista de los últimos saltos producidos
+- *jumps* list all the last window jumps
 
-- *undos* la historia de cambios que podemos deshacer
+- *undos* the file undo history
 
-- *tareas* visualiza las tareas pendientes para el buffer actual (o para una
-  lista de archivos) y muestra marcas en la columna lateral izquierda de signos
-  para cada una de las tareas. Estas tareas se definen por medio de palabras
-  clave en el buffer, como __TODO__, __FIXME__, __NOTE__, __XXX__ , __COMBAK__ y
-  __@todo__
+- *tasks* all the pending tasks for the current buffer. This tasks (and notes)
+  are defined by the following keywords: __TODO__, __FIXME__, __NOTE__, __XXX__
+  , __COMBAK__ y __@todo__
 
-### Otras herramientas
+### Other tools
 
-- __vim-signature__ un plugin que sirve para conmutar, mostrar y navegar por las
-  marcas. Las marcas se muestran en la columna lateral de signos de Vim, a la
-  izquierda de los números de línea.
+- __vim-signature__ a plugin that improves the default Vim marks. It shows the
+  marks in the lateral signs column.
 
-    ![signature](http://joedicastro.com/static/pictures/signature.gif "signature")
+    ![signature](http://joedicastro.com/static/pictures/signature_en.gif "signature")
 
-    > __Atajos__
+    > __Mappings__
 
-    > - Marcadores alfabéticos
+    > - Alphabetic marks
 
-    >   - `m[a-zA-Z]` conmuta la marca y la muestra/oculta
-    >   -  `m,`       activa el siguiente marcador disponible
-    >   -  `m<Space>` borra todos los marcadores
-    >   -  <code>]`</code>      salta al marcador siguiente
-    >   -  <code>[`</code>      salta al marcador previo
-    >   -  `]'`       salta al comienzo de la siguiente línea que tenga un marcador
-    >   -  `['`       salta al comienzo de la anterior línea que tenga un marcador
+    >   - `m[a-zA-Z]` toggle the mark and display it in the signs column (gutter)
+    >   -  `m,`       place the next available mark
+    >   -  `m<Space>` delete all marks
+    >   -  <code>]`</code>  jump the next mark
+    >   -  <code>[`</code>  jmmp the previous mark
+    >   -  `]'`       jump to start of next line containing a mark
+    >   -  `['`       jump to start of previous line containing a mark
 
-    > - Marcadores simbólicos
+    > - Symbol marks (markers)
 
-    >   -  `m[0-9]`       activa el marcador simbólico correspondiente `!@#$%^&*()`
-    >   -  `m<S-[0-9]>`   eliminar todos los marcadores iguales
-    >   -  `]-`           salta a la siguiente línea que tenga el mismo marcador
-    >   -  `[-`           salta a la anterior línea que tenga el mismo marcador
-    >   -  `m<BS>`        elimina todos los marcadores simbólicos
+    >   -  `m[0-9]`       toggle the corresponding marker `!@#$%^&*()`
+    >   -  `m<S-[0-9]>`   remove all markers of the same type
+    >   -  `]-`           jump to next line having same marker
+    >   -  `[-`           jump to prev line having same marker
+    >   -  `m<BS>`        remove all markers
 
 
-## Registros
+## Registers
 
-![unite registros](http://joedicastro.com/static/pictures/unite_menu_registros.png "unite registros")
+![unite registers](http://joedicastro.com/static/pictures/unite_menu_registers.png "unite registers")
 
 __Unite__
 
-- `<LocalLeader>i` o `:Unite menu:registros` activa el menú de registros
+- `<LocalLeader>i` or `:Unite menu:registers` shows the registers menu
 
 ### Menu
 
-- *yanks* mantiene un registro de el texto que ha sido "yankeado" (copiado),
-  borrado o cambiado. Está ordenado cronológicamente empezando por el más
-  reciente
+- *yanks* list all the yanks arranged chronologically starting with the most
+  recent
 
-- *comandos* muestra la historia de los últimos comandos ejecutados en la linea
-  de comandos
+- *commands* show the Ex commands history
 
-- *búsquedas* lista la ultimas búsquedas efectuadas
+- *searches* list the last searches
 
-- *registros* enseña el contenido de los registros de Vim
+- *registers* show the vim registers content
 
-- *mensajes* muestra el registro de mensajes de Vim (como el comando `:messages`)
+- *messages* the messages register (like the `:messages` command)
 
-- *deshacer* activa el plugin gundo que sirve para hacer mas amigable la
-  utilización del árbol de deshacer de Vim. De esta manera podemos ver el árbol
-  de los cambios realizados, previsualizar los cambios que vamos a realizar y
-  saber a donde vamos a retornar antes de deshacer un cambio.
+- *undo* launch the Gundo plugin. Gundo makes friendly the Vim undo tree, we
+  can preview the changes and navigate easily around the tree.
 
-    ![gundo](http://joedicastro.com/static/pictures/gundo.gif "gundo")
+    ![gundo](http://joedicastro.com/static/pictures/gundo_en.gif "gundo")
 
-## Archivos y directorios
+## Files and directories
 
-![unite archivos](http://joedicastro.com/static/pictures/unite_menu_archivos.png "unite archivos")
+![unite files](http://joedicastro.com/static/pictures/unite_menu_files.png "unite files")
 
 __Unite__
 
-- `<LocalLeader>o` o `:Unite menu:archivos` activa el menú de archivos y
-  directorios
+- `<LocalLeader>o` or `:Unite menu:archivos` show the file menu
 
 ### Menu
 
-- *abrir archivo* abre una lista de los archivos disponibles en el directorio de
-  trabajo
+- *open file* show a list of files available in the current working directory
 
-- *abrir archivo reciente* muestra los últimos archivos abiertos
+- *open more recently used files* show the last opened files
 
-- *abrir archivo con búsqueda recursiva* no solo lista los archivos del
-  directorio de trabajo si no que ademas incluye los de los subdirectorios
+- *open file with recursive search* same as above but including the files under
+  the subdirectories recursively
 
-- las tres entradas siguientes son similares a las precedentes trabajando con
-  directorios en lugar de archivos
+- the next three entries are similar to the preceding ones but working with
+  directories instead of files
 
-- *crear nuevo directorio* nos permite crear un nuevo directorio sin necesidad
-  de abrir un explorador de archivos
+- *make new directory* make a new directory without opening a file browser
 
-- *cambiar directorio de trabajo* nos permite cambiar el directorio de trabajo
-  actual independientemente del que se usara para llamar a Vim
+- *change working directory* allow us to change the current working directory
 
-- *conocer el directorio de trabajo* es el equivalente al comando `pwd`
+- *know current working directory* is like running the `:pwd` command
 
-- *archivos desechables* crea un archivo temporal que puede servir para hacer
-  anotaciones, pruebas, etc. El menú nos sirve tanto para crear uno nuevo como
-  para seleccionar los existentes
+- *junk files* to open a new (or a previous one) junk file to make annotations,
+  tests, ...
 
-- *guardar como root* permite guardar un archivo que solo tiene permisos para
-  `root` sin necesidad de ejecutar vim desde ese usuario o utilizando `$ sudo` y
-  perder de ese modo las ventajas de nuestra configuración.
+- *save as root* allow us to save a file that only have permissions for `root`
+  without need to run Vim under that user (or use `$ sudo`) and lost our
+  configuration advantages by doing that.
 
-- *guardado rápido* guarda rápidamente un archivo sin tener que ejecutar el
-  comando `:w`
+- *quick save* save quickly the file without need to run the `:w` command
 
-- *abrir ranger* llama al programa externo [Ranger][rngr] para navegar por el
-  sistema de archivos y elegir el archivo que queremos editar.
+- *open ranger* call the external ncurses file manager [Ranger][rngr] to browse
+  the directory hierarchy and choose the file that you want to edit.
 
   [rngr]:http://joedicastro.com/productividad-linux-ranger.html
 
-    ![ranger](http://joedicastro.com/static/pictures/ranger_vim.gif "ranger")
+    ![ranger](http://joedicastro.com/static/pictures/ranger_vim_en.gif "ranger")
 
-- *abrir vimfiler* abre el explorador de archivos vimfiler, muy completo y
-  basado en Unite. Lo uso principalmente en donde no tengo instalado ranger.
-  Dispone de un modo seguro (activado por defecto) en el cual no se pueden
-  copiar, mover, crear, renombrar o eliminar archivos y directorios.
+- *open vimfiler* open the file explorer Vimfiler, Unite based and very
+  powerful. I used mainly in those computers where ranger is not available. It
+  has a safe mode (enabled by default) in which you cannot copy, rename, move,
+  create or delete files and directories.
 
-    ![vimfiler](http://joedicastro.com/static/pictures/vimfiler.png "vimfiler")
+    ![vimfiler](http://joedicastro.com/static/pictures/vimfiler_en.png "vimfiler")
 
-    > __Atajos__
+    > __Mappings__
 
-    > - `<Tab>` abre una nueva ventana vertical y si ya lo esta, conmuta entre ellas
-    > - `j`, `k` y `gg` movimientos típicos de vim para movernos entre los archivos
-    > - `h`, `l` se mueve entre los directorios "padre" e "hijo"
-    > - `<Space>` selecciona/deselecciona la linea actual
-    > - `*` selecciona/deselecciona todas las lineas
-    > - `&` selecciona lineas similares
-    > - `U` deselecciona todo
-    > - `S` cambiar la manera de ordenar los archivos (nombre, fecha, tamaño, ...)
-    > - `c` copia el archivo (precediéndola de `C` lo hace al portapapeles)
-    > - `m` mueve el archivo (precediendo de `C` lo hace al portapapeles)
-    > - `d` elimina el archivo
-    > - `r` renombra el archivo
-    > - `Cp` pega archivo desde el portapapeles
-    > - `K` nuevo directorio
-    > - `N` nuevo archivo
-    > - `x` ejecuta el programa asociado al archivo en el sistema
-    > - `e` edita el archivo
-    > - `E` edita el archivo en una nueva ventana
-    > - `v` previsualiza el archivo
-    > - `L` cambia la unidad de disco
-    > - `~` nos mueve al directorio `home`
-    > - <code>\\</code> nos mueve al directorio `root`
-    > - `<C-J>` abre la historia de directorios que hemos visitado (abiertos
-    >   directamente sin usar `h` y `l`)
-    > - `<CR>` abre un directorio
-    > - `<BS>` vuelve al directorio padre
-    > - `t` expande el directorio sin entrar en el
-    > - `T` expande el directorio sin entrar en el de manera recursiva
-    > - `I` cambiar al directorio que introduzcamos en la linea de comandos
-    > - `M` establece la mascara actual (para filtrar archivos)
-    > - `.` muestra/oculta los archivos ocultos (dotfiles)
-    > - `q` oculta vimfiler
-    > - `Q` sale de vimfiler
-    > - `H` sale al shell (salir del shell para volver a vimfiler)
-    > - `-` cierra la ventana actual de vimfiler
-    > - `?` muestra la ayuda de vimfiler (atajos)
-    > - `o` sincroniza otro vimfiler con este
-    > - `O` abre archivo o directorio en otro vimfiler
-    > - `yy` copia el path completo
-    > - `gr` hace grep en el directorio actual
-    > - `gf` hace find en el directorio actual
-    > - `gc` convierte el directorio actual al directorio de trabajo de Vim
-    > - `a` elige la acción a realizar sobre el archivo
-    > - `Y` guarda la ruta actual en una lista temporal
-    > - `P` muestra las rutas guardadas en esa lista temporal
-    > - `<C-L>` redibuja la pantalla
-    > - `gs` conmuta el modo seguro (safe) __Cuidado!__
-    > - `gS` conmuta el modo simple
+    > - `<Tab>` open a new vertical window, if is already opened toggle between them
+    > - `j`, `k` and `gg` typical vim motions to move between the files
+    > - `h`, `l` move between the parent and child directories
+    > - `<Space>` select/deselect the current line
+    > - `*` select/deselect all the lines
+    > - `&` select similar lines
+    > - `U` deselect everything
+    > - `S` change the sort type (by name, date, size, ...)
+    > - `c` copy the file (preceded by `C` do it to the clipboard)
+    > - `m` move the file(preceded by `C` do it to the clipboard)
+    > - `d` delete the file
+    > - `r` rename the file
+    > - `Cp` paste file from clipboard
+    > - `K` new directory
+    > - `N` new file
+    > - `x` run the file's system associated program
+    > - `e` edit the file
+    > - `E` edit the file in a new window
+    > - `v` preview the file
+    > - `L` change the drive unit
+    > - `~` go to the `home` directory
+    > - <code>\\</code> go to the `root` directory
+    > - `<C-J>` open the visited directories history (opened by <CR>)
+    > - `<CR>` open a directory
+    > - `<BS>` return to the parent directory
+    > - `t` expand the directory tree
+    > - `T` expand the directory tree recursively
+     - `I` change to the directory entered in the command line
+    > - `M` set the current mask (to filter files)
+    > - `.` show/hide the hidden files (dotfiles)
+    > - `q` hide vimfiler
+    > - `Q` exit vimfiler
+    > - `H` exit to the shell (exit from shell to return to vimfiler)
+    > - `-` close the current vimfiler window
+    > - `?` show the vimfiler help (mappings)
+    > - `o` sync another vimfiler with this one
+    > - `O` open a file/directory in another vimfiler
+    > - `yy` yank the full path
+    > - `gr` make grep into the current directory
+    > - `gf` make find into the current directory
+    > - `gc` make the current directory in the Vim working directory
+    > - `a` choose the action to apply to the file
+    > - `Y` save the current path in a temporal list
+    > - `P` show the paths saved in the temporal list
+    > - `<C-L>` redraw the screen
+    > - `gs` toggle the safe mode __Warning!__
+    > - `gS` toggle the simple mode
 
-### Otras herramientas
+### Other tools
 
-- __utl__ es un plugin que nos permite abrir URLs y enlaces a otro tipo de
-  archivos desde vim.
+- __utl__ is a plugin to open URLs and files with an external tool from Vim
 
-    ![utl](http://joedicastro.com/static/pictures/utl.gif "utl")
+    ![utl](http://joedicastro.com/static/pictures/utl_en.gif "utl")
 
-    > __Atajo__
+    > __Mapping__
 
-    > `<Leader>j` si usamos el atajo sobre un enlace se abrirá el destino
-    > correspondiente en la aplicación que tengamos configurada
+    > `<Leader>j` if we use the mapping over a link, it will be opened into the
+    > preconfigured application
 
+## Code Edition
 
-## Edicion de codigo
-
-![unite code](http://joedicastro.com/static/pictures/unite_menu_code.png "unite code")
+![unite code](http://joedicastro.com/static/pictures/unite_menu_code_en.png "unite code")
 
 ### Menu
 
-- *ejecutar codigo python* ejecuta el código python presente en el buffer actual
-  por medio de pymode. Crea un buffer inferior donde se muestra la salida por
-  pantalla
+- *run python code* run the current buffer python code via pymode. It shows the
+  output in a new vertical window below
 
-- *mostrar docs python para la palabra actual* muestra la documentación de
-  Python en relación con la palabra situada bajo el cursor
+- *show docs for the current word* show the documentation available for the word
+  under the cursor
 
-- *insertar un breakpoint* inserta un breakpoint en el código python. Si tenemos
-  instalado `ipython` o `pudb` usara uno de ellos en lugar del interprete de
-  python
+- *insert a breakpoint* insert a breakpoint in python code. If we have `ipython`
+  or `pudb` installed, it will use one of those instead the python `pdb`
 
-- *conmuta la revisión con pylint* activa/desactiva la revisión con
-  [pylint][pylint] cada vez que guardamos el archivo
+- *toggle pylint revision* toggle the code revision by [pylint][pylint] each
+  time that the file is saved
 
   [pylint]: http://www.pylint.org/
 
+- *run with python2 in tmux panel* use the Vimux plugin to interact with Tmux.
+  It allows to send commands to a Tmux panel and interact with it without losing
+  focus in Vim. If there are no other tmux panels opened, then a new panel is
+  opened in the 20% lower space. In other case, the command runs in the already
+  opened panel. This specific command run the buffer content with the `python2`
+  executable in the tmux panel. In the next image we can see the actual
+  behavior:
 
-- *ejecutar con python2 en panel tmux* emplea el plugin Vimux que sirve para
-  interactuar entre Vim y Tmux. Básicamente permite enviar comandos a un panel
-  de Tmux e interactuar con el sin perder el foco en Vim. Tal y como lo tengo
-  configurado, si no hay ningún otro panel abierto aparte del de Vim, se abrirá
-  uno debajo de este ocupando el 20% del espacio, en otro caso se ejecutara en
-  el panel abierto. Este comando en concreto ejecuta el contenido del buffer
-  actual con `python2` en un panel de Tmux. En la imagen se puede apreciar un
-  ejemplo de este comando
+    ![vimux](http://joedicastro.com/static/pictures/vimux_en.gif "vimux")
 
-    ![vimux](http://joedicastro.com/static/pictures/vimux.gif "vimux")
+- *run with python3 in tmux panel* same as above but using the `python3`
+  interpreter
 
-- *ejecutar con python3 en panel tmux* es similar a la entrada anterior pero
-  empleando `python3` para ejecutar el buffer
+- *run with python2 & time in tmux panel* run the python code wrapped by the
+  Unix `time` program to know the time consumed in the execution
 
-- *ejecutar con python2 y time en panel tmux* ejecuta el contenido precedido
-  por el programa Unix `time` para conocer el tiempo total empleado en su
-  ejecución
+- *run with pypy & time in tmux panel* same as above but using `pypy` instead of
+  `python2`
 
-- *ejecutar con pypy y time en panel tmux* igual que la entrada anterior pero
-  empleando `pypy` en lugar de `python2`
+- *command prompt to run in tmux panel* open a command line prompt to enter a
+  custom command to run in a tmux panel
 
-- *ejecutar comando en panel tmux* nos abre un prompt en la linea de comandos en
-  el que podemos introducir el comando que queremos ejecutar en el panel de tmux
+- *repeat last command* repeat the last vimux command
 
-- *repetir ultimo comando* nos repite el comando vimux que hayamos ejecutado
-  anteriormente
+- *stop command execution in tmux panel* stop the execution of the last vimux
+  command
 
-- *interrumpir ejecución del panel de tmux* interrumpe la ejecución del comando
-  que hayamos lanzado con vimux
+- *inspect tmux panel* jump to the tmux panel where the last vimux command was
+  executed and enter in the tmux *copy mode* allowing us to scroll around the
+  panel and use the *vi mode* to copy text lines
 
-- *inspeccionar panel tmux* salta al panel donde se ha ejecutado el comando de
-  vimux y entra en *copy mode* lo que nos permite desplazarnos con scroll por el
-  panel de tmux y con el *vi mode* copiar lineas de texto
+- *close tmux panel* close the tmux panel opened or used by Vimux
 
-- *cerrar panel de tmux* cierra el panel que hayamos abierto con vimux o en el
-  que se haya estado ejecutando este
+- *rope auto-completion* allow us to use the rope auto-completion. Useful for
+  methods auto-completion.
 
-- *autocompletado con rope* nos permite realizar el autocompletado con rope. Es
-  especialmente útil a la hora de completar métodos
+- *jump to definition* jump to the location where the word under the cursor
+  (variable, function, class, method, ...) is defined. Open a new window with
+  the location, even if it is in another module or library
 
-- *ir a la definición* salta al lugar donde se ha definido la variable, función,
-  clase, método, ... que este bajo el cursor. Abre un nuevo buffer con el lugar
-  donde esta, incluso si se encuentra en otro modulo o librería
+- *reorganize imports* reorganize automatically the import statements
 
-- *reorganizar imports* reordena los imports de forma automática
+- *refactorize - x* the entries that begin in this way are for refactorize the
+  python code with rope, using the method mentioned in each description
 
-- *refactorizar - ...* las entradas que empiezan de este modo sirven para
-  refactorizar el código con rope, empleando cada uno de los métodos que se
-  mencionan en las entradas
+- *show docs for current word* use rope to show the available documentation
+  about the word under the cursor. The advantage of this entry against the
+  pymode one is that this one allow us to search in the external libraries
+  documentation
 
-- *mostrar docs con la palabra actual* emplea rope para mostrar la documentación
-  que existe sobre la palabra que esta bajo el cursor. La ventaja de esta
-  entrada frente a la que emplea pymode, es que nos permite buscar en la
-  documentación de librerías externas no incluidas en la librería estándar de
-  Python
+- *syntastic check* and *syntastic errors* are two options of Syntastic, a
+  plugin for code quality (syntax revision) for various programming and markup
+  languages (python, ruby, lua, haskell, css, html, js, json, ...) via external
+  tools (these tools are required). Show the syntax errors in the signs column
+  (gutter). Also shows the total of errors and the number line of the first in
+  the status line
 
-- *syntastic check* y *syntastic errors* son dos opciones de Syntastic, un
-  plugin que comprueba la sintaxis de numerosos lenguajes (python, ruby, lua,
-  haskell, css, html, js, json, ...) a través de herramientas externas. Muestra
-  los errores de sintaxis en la columna de signos de Vim, a la izquierda de los
-  números de línea. También muestra un resumen del número de errores y la
-  localización del primero de ellos en la barra de estado (en este caso la de
-  Powerline)
+- *list virtualenvs* use the virtualenv plugin to list the python virtualenvs.
 
-    > *Estas herramientas necesitan estar instaladas para que el plugin funcione
-    correctamente.
+- *activate virtualenv* activate the virtualenv
 
-- *listar virtualenvs* emplea el plugin virtualenv que nos permite interactuar
-  con los virtualenvs de Python desde Vim. Esta entrada nos muestra los
-  virtualenvs
+- *deactivate virtualenv* deactivate the virtualenv
 
-- *activar virtualenv* nos activa el virtualenv
-
-- *desactivar virtualenv* nos desactiva el virtualenv
-
-- *ejecutar coverage2* y *ejecutar coverage3* ejecutan la herramienta
-  [coverage.py][cvg] para python2 y python3 respectivamente. Luego nos muestran
-  los resultados empleando coveragepy, tanto en un buffer como en forma de marca
-  para conocer la cobertura del código actual
+- *run coverage2* and *run coverage3* use the [coverage.py][cvg] tool for
+  python2 and python3 respectively. It shows us the results in a window and as
+  marks in the signs column (gutter) to know the code coverage of the current
+  code.
 
   [cvg]: http://nedbatchelder.com/code/coverage/
 
-- *mostrar/ocultar informa de coverage* y *mostrar/ocultar marcas de coverage*
-  conmutan la visibilidad tanto de las marcas como del informe de coverage
+- *toggle coverage report* and *toggle coverage marks* toggle the visibility of
+  the marks and report from coverage
 
-- *contar lineas de código* ejecuta el programa externo `$ cloc` sobre el
-  archivo y muestra el resultado en Unite.
+- *count lines of code* count the lines of code of the current file by the
+  external program `$ cloc` and shows the output in Unite
 
-- *conmutar lineas de indentado* sirve para mostrar lineas verticales en el
-  código indentado (sangrado) con espacios para marcar los niveles de indentado.
-  Lo tengo desactivado por defecto.
+- *toggle indent lines* show/hide the indent lines, that works as a visual guide
+  for long nested blocks of code, putting vertical lines for each indentation
+  level. Is disabled by default.
 
-    ![indentLine](http://joedicastro.com/static/pictures/indentline.gif "indentLine")
+    ![indentLine](http://joedicastro.com/static/pictures/indentline_en.gif "indentLine")
 
-### Otras herramientas
+### Other tools
 
-- __Ultisnips__ es un plugin para gestionar Snippets, el mas avanzado y potente
-  que conozco para Vim.  Los snippets son porciones de código o texto en las que
-  cierta parte es declarada como variable y el resto como fija y nos ayudan a no
-  tener que teclear una y otra vez las mismas porciones de texto/código.
-  Simplemente invocamos el snippet con el identificador y el texto fijo es
-  insertado automáticamente, dejando aquellas partes declaradas como variables
-  para ser rellenadas de forma interactiva. Se puede apreciar mejor en la imagen
-  el funcionamiento de los mismos.
+- __Ultisnips__ is a plugin to manage snippets, the most advanced and powerful
+  for this task that I know for Vim. Snippets are portions of code or text in
+  which certain parts are declared as variable and the rest is fixed. They are
+  very helpful to insert the same code structures again and again without need
+  to write all the text, saving us an important number of keystrokes. To use
+  them we only have to type the snippet keyword and the mapping, the fixed part
+  of text is inserted automatically. Then the cursor moves to the first variable
+  field to enter the desired text interactively, and so on. In the image you can
+  see how it really works.
 
-    Ultisnips trae por defecto algunos snippets predefinidos para varios lenguajes y
-algunos globales. La mejor característica de Ultisnips es que nos permite
-definir los nuestros propios con un nivel de control y automatismo que ningún
-otro plugin nos ofrece. Es lo suficiente complejo para no entrar aquí en
-detalles, es necesario leerse detenidamente la ayuda para comprenderlo.
-Destacaría de todos modos que nos permite emplear comandos externos (Shell,
-Vimscript y Python) dentro de los mismos o que podemos usarlos con selecciones
-visuales, así como anidar snippets o usar transformaciones de texto.
+    Ultisnips brings by default a bunch of snippets classified for languages and
+some globals. The best feature of Ultisnips is that allows us to define our
+custom snippets with a level of control and automation than any other one
+offers. To know all the details is essential to read carefully the plugin help.
+BTW certain features are remarkable, like: nested snippets, embed external
+commands (shell, vimscript and python) in the snippets, use the snippets over
+visual selections, and text transformations into the snippets.
 
-    En el directorio `./UltiSnips` guardo mis snippets personalizados.
+    I save my custom snippets in the `./Ultisnips` directory
 
-    ![ulti](http://joedicastro.com/static/pictures/ulti.gif "ulti")
+    ![ulti](http://joedicastro.com/static/pictures/ulti_en.gif "ulti")
 
-    > __Atajos__
+    > __Mappings__
 
-    > - `<Tab>` precedido por el identificador nos lanza el snippet
-    > - `<C-J>` nos desplaza al siguiente campo a rellenar
-    > - `<C-K>` nos desplaza al anterior campo a rellenar
-    > - `<BS>`  cancela la entrada de un campo opcional
-
-
+    > - `<Tab>` preceded by the snippet keyword, trigger the snippet
+    > - `<C-J>` jump to the next field
+    > - `<C-K>` jump to the previous field
+    > - `<BS>`  cancel the text enter in an optional field
 
 
 ## DVCS: Git
 
-![unite git](http://joedicastro.com/static/pictures/unite_menu_git.png "unite git")
+![unite git](http://joedicastro.com/static/pictures/unite_menu_git_en.png "unite git")
 
 __Unite__
 
-- `<localleader>g` o `:Unite menu:git` abre el menú de Git
+- `<localleader>g` or `:Unite menu:git` show the git menu
 
 ### Menu
 
-- *tig* abrimos la aplicación externa [tig][tig] que es un interfaz ncurses para
-  git. Evidentemente esto solo funciona cuando te encuentras dentro de un
-  repositorio git.
+- *tig* open the external application [tig][tig], which is a ncurses interface
+  for git. Obviously, this only works when the working directory is into a git
+  repository.
 
-    ![tig](http://joedicastro.com/static/pictures/tig.gif "tig")
+    ![tig](http://joedicastro.com/static/pictures/tig_en.gif "tig")
 
   [tig]: https://github.com/jonas/tig
 
-- *visor git* y *visor git buffer* utilizan el plugin __gitv__ que es un clon de
-  la herramienta `gitk` para Vim, que es el visor incluido con la herramienta
-  `git`. Este plugin te permite ver la historia del repositorio, realizar diffs,
-  checkouts, merges ... Este plugin requiere de Fugitive para funcionar y por
-  eso mismo su funcionamiento es muy parecido. La primera entrada abrirá un
-  visor relativo a todo el repositorio (modo explorador), mientras la segunda
-  entrada lo hará en función al buffer actual o a una selección visual (modo
-  archivo)
+- *git viewer* and *git viewer - buffer* use the __gitv__ plugin that is a clone
+  of the `gitk` tool for Vim, which is the viewer provided originally by `git`.
+  This plugin allows us to view the repository history, to do diffs, checkouts,
+  merges, ... It works atop of Fugitive and requires of it for work, and both
+  have a similar behavior. The first entry will open a viewer relative to the
+  whole repository (explorer mode), while the second one will do it in function
+  of the current buffer or a visual selection (file mode)
 
-    ![gitv](http://joedicastro.com/static/pictures/gitv.png "gitv")
+    ![gitv](http://joedicastro.com/static/pictures/gitv_en.png "gitv")
 
-    > __Atajos__
+    > __Mappings__
 
-    > - `<CR>` abre un commit, un diff, un arbol, un archivo, mas commits, ...
-    >   dependiendo de donde se emplee, con un comportamiento similar al de
-    >   Fugitive
+    > - `<CR>` open a commit, a diff, a tree, a file, more commits, etc,
+    >   depending of where is used, with a similar behavior that Fugitive
 
-    > - `o` abre el commit en una nueva ventana horizontal
+    > - `o` open the commit in a new horizontal window
 
-    > - `O` abre el commit en una nueva pestaña
+    > - `O` open the commit in a new tab
 
-    > - `s` abre el commit en una nueva ventana vertical
+    > - `s` open the commit in a new vertical window
 
-    > - `i` en "modo explorador" abre el archivo y en "modo archivo" abre los detalles
-    >   del commit
+    > - `i` in "explorer mode" open the file & in "file mode" open the commit
+    >   details
 
-    > - `q` salir de gitv
+    > - `q` exit from gitv
 
-    > - `a` conmuta el argumento `-all` y actualiza la ventana
+    > - `a` toggle the `-all` argument and update the window
 
-    > - `u` actualiza el contenido de la ventana
+    > - `u` update the window content
 
-    > - `co` realiza un `git checkout`. En "modo explorador" lo hace sobre todo
-    >   el repositorio y en "modo archivo" solo sobre el archivo actual
+    > - `co` do a `git checkout`. In "explorer mode" dot it over the whole
+    >   repository and in the "file mode" do it over the current file
 
-    > - `D` realiza un diff utilizando vimdiff.
+    > - `D` do a diff via vimdiff.
 
-    > - `S` muestra un `diffstat`
+    > - `S` show a `diffstat`
 
-    > - `m` y `<Leader>m` realizan un merge en modo visual y normal
-    >   respectivamente.
+    > - `m` and `<Leader>m` do a merge in visual and normal modes respectively
 
-    > - `git` introduce el comando `:Git ` en la linea de comandos para que
-    >   puedas introducir un comando git a medida. Si el comando afecta al
-    >   estado del repositorio, los cambios se verán reflejados en gitv
+    > - `git` enter the `:Git ` command in the command line to enter a custom
+    >   git command. If the command changes the repository status, the changes
+    >   will be updated in gitv
 
-    > - `yc` copia el hash corto `sha` del commit
+    > - `yc` yank the commit short hash, `sha`
 
-    > __Movimientos__
+    > __Motions__
 
-    > - `x` y `X` nos desplazan hacia delante y detrás entre los puntos donde se
-    >   cambian las ramas (se crean o se hace un merge)
+    > - `x` and `X` to move around the branch points (where a merge is created)
 
-    > - `r` y `R` nos mueven entre las referencias
+    > - `r` and `R` to move around the references
 
-    > - `P` nos mueve al commit marcado como `HEAD`
+    > - `P` jump to the commit tagged as `HEAD`
 
 
-- El resto de entradas son comandos típicos de Git que se ejecutan a través de
-  la herramienta __Fugitive__. Fugitive es una herramienta que nos permite
-  administrar repositorios Git sin tener que abandonar Vim. Es un plugin muy
-  completo y lleno de posibilidades que también requiere cierto tiempo para
-  aprender a usarlo y a acostumbrarse a su particular interfaz. El propio autor
-  dice que "es tan increíble que debería estar prohibido" y la verdad es que
-  algo de razón lleva, es fantástico.
+- The rest of the entries are typical git commands which are executed via the
+  __Fugitive__ tool. Fugitive is a git wrapper, so good that allows us to manage
+  git repositories without leave Vim. It's so complete and powerful that
+  requires a certain amount of time to get used to it and get total control over
+  its particular interface. The author, Tim Pope, says that about it: "A Git
+  wrapper so awesome, it should be illegal" and is almost true.
 
-      ![fugitive](http://joedicastro.com/static/pictures/fugitive.png "fugitive")
+      ![fugitive](http://joedicastro.com/static/pictures/fugitive_en.png "fugitive")
 
-    - *status* nos muestra el estado del repositorio y desde este buffer podemos
-      acceder a múltiples opciones. Dentro de esta ventana tenemos disponibles
-      estos atajos:
+    - *status* show the repository status and from this window we can access to
+      multiple options. In this window this mappings are available:
 
-        > __Atajos__
+        > __Mappings__
 
-        > - `<C-N>` y `<C-P>` nos permiten movernos entre los ficheros
+        > - `<C-N>` and `<C-P>` allow us to move between files
 
-        > - `<CR>` ejecuta el comando `:Gedit` que nos permite "editar" una
-        >   revisión
+        > - `<CR>` run the `:Gedit` command that allow us to "edit" a revision
 
-        > - `-` empleándolo sobre un archivo que no esta en el 'stage area'
-        >   (indice) nos permite añadirlo a ella, es como ejecutar un `git add`
-        >   o un `git stage`. Usándolo sobre un archivo que está en el 'stage
-        >   area' para ser empleado en el commit, lo quita de ella, el
-        >   equivalente a realizar un `git reset`
+        > - `-` using it over a file that is not included in the 'stage area'
+        >   (index) it add it, is like run a `git add` or `git stage` in the
+        >   shell.  Using it over a file included in the `stage area`, remove it
+        >   from there, like using a `git reset`
 
-        > - `cc` o `C` realiza un commit con el comando `:Gcommit` el
-        >   equivalente a `git commit`
+        > - `cc` or `C` do a commit with the command `:Gcommit` the same as
+        >   doing a `git commit`
 
-        > - `ca` realiza un commit que añade los cambios al commit realizado
-        >   anteriormente, util para cuando nos dejamos algo olvidado al
-        >   realizar un commit. Equivalente al comando `git commit --ammend`
+        > - `ca` do a commit which add the new changes to the previous commit,
+        >   useful when we forgot add something in a commit. Same as `git commit
+        >   --ammend`
 
-        > - `D` realiza un diff entre la version actual y la del indice,
-        >   empleando vimdiff con el comando `:Gdiff`
+        > - `D` make a diff between the current version and the index one, using
+        >   vimfiler via the `:Gdiff` command
 
-        > - `ds` realiza un diff con `:Gsdiff`, igual que el anterior pero
-        >   dividiendo horizontalmente las ventanas
+        > - `ds` do a diff with `:Gsdiff`, same as above but split windows
+        >   horizontally
 
-        > - `dv` realiza un diff con `:Gvdiff`, pero dividiendo verticalmente
-        >   las ventanas, es igual que D
+        > - `dv` do a diff without `:Gvdiff`, with vertical split windows. A
+        >   synonym of `D`
 
-        > - `dp` tiene un comportamiento dual. Por un lado, si hay cambios pero
-        >   no están en el 'staging area' (indice) entonces muestra un diff de
-        >   los cambios, como si ejecutáramos el comando `git diff`, y si ademas
-        >   ejecutamos un `:Gwrite` (atajo `<Leader>gw`) entonces se introducen
-        >   los cambios y quedan listos para
-        >   hacer un commit. Por otro lado, si hay ficheros que no están siendo
-        >   "rastreados", intenta añadirlos, ejecutando el comando `git add
-        >   --intent-to-add .`
-
-        > - `p` sirve para hacer commits parciales, donde elegimos
-        >   interactivamente que parte de los cambios realizados queremos
-        >   incluir en el indice. Si lo ejecutamos sobre un fichero que no esta
-        >   en el indice, nos pedirá que elijamos que partes queremos "indexar",
-        >   el equivalente a ejecutar `git add --patch`. Si lo hacemos sobre un
-        >   archivo ya indexado, elegiremos que parte
-        >   queremos no incluir en el commit, como si ejecutáramos `git reset
-        >   --patch`
-
-        > - `o` abre el archivo en una nueva ventana horizontal
-
-        > - `O` abre el archivo en una nueva pestaña
-
-        > - `S` abre el archivo en una nueva ventana vertical
-
-        > - `R` actualiza la ventana de estado
-
-        > - `q` cierra la ventana de estado
-
-    - *diff* realiza un diff (`:Gdiff`) entre la versión actual del archivo y la
-      que se encuentra en el indice. En situaciones de conflicto durante un
-      `merge` sera un diff a tres vías, lo que lo convierte en una buena
-      herramienta para realizar `merge` y `rebase`. Disponemos de una serie de
-      atajos en esta ventana (para conocer mejor como funciona vimdiff,
-      recomiendo consultar la ayuda):
-
-        > __Atajos__
-
-        > - `do` ejecuta `:diffget`, toma los cambios del otro fichero
-        > - `dp` ejecuta `:diffput`, envia los cambios al otro fichero
-        > - `<Leader>du` ejecuta `:diffupdate`, actualiza los cambios realizados
-        > - `<Leader>dq` sale del diffmode
-        > - `u` deshace todos los cambios realizados
-        > - `[c` y `]c` nos mueven entre las diferencias
-        > - `:Gwrite` o `<Leader>gw` escriben los cambios al indice
-
-    - *commit* usa el comando `:Gcommit` que es el equivalente a realizar un
-      `git commit`. Si no hay nada en el indice, entonces ejecuta `:Gstatus` y
-      nos muestra la ventana de estado. __Advertencia__: Mientras no guardamos
-      los cambios de esta ventana para ejecutar el commit, es posible "trastear"
-      con el indice, añadiendo o quitando cambios, algo a tener en cuenta si
-      dejamos la ventana abierta y queremos guardarla luego.
-
-    - *log* muestra todas las revisiones anteriores del fichero actual en una
-      ventana de Unite, empezando por la mas reciente y abre la ultima en el
-      buffer actual. Para volver al fichero actual, usamos `:Gedit` o
-      `<Leader>ge`. Dentro del buffer podemos movernos entre revisiones
-      empleando los comandos `:cnext`, `:cprevious`, `:cfirst` y `:clast`
-
-    - *log (todos)* es similar al anterior, pero en este caso se muestran todos
-      los commits anteriores del repositorio y lo que se abre el buffer es algo
-      parecido a lo que seria el resultado del comando `git show`
-
-    - *blame* usa el comando `:Gblame` que despliega una nueva ventana lateral a la
-      izquierda del buffer actual, donde se visualiza el commit, el autor y la fecha
-      de cada linea del fichero. Es el equivalente a ejecutar `git blame`. Están
-      disponibles estos atajos:
-
-        > __Atajos__
-
-        > - `A` redimensiona la ventana de blame al final de la columna de autor
-        > - `C` redimensiona la ventana de blame al final de la columna de
-        >   commit
-        > - `D` redimensiona la ventana de blame al final de la columna de fecha
-        > - `q` cierra la ventana de blame
-        > - `gq` cierra la ventana de blame y ejecuta `:Gedit` para volver a la
-        >   versión actual
-        > - `<CR>` cierra la ventana de blame y abre el commit seleccionado
-        > - `o` abre el commit seleccionado en una ventana horizontal
-        > - `O` abre el commit seleccionado en una pestaña
-        > - `-` ejecuta un nuevo `blame` en el commit seleccionado
-
-    - *add/stage* emplea el comando `:Gwrite` que guarda el fichero actual y lo
-      añade al indice con los cambios que contenga. Es el equivalente a realizar un
-      `git add` o su sinónimo `git stage`
-
-    - *checkout* lanza el comando `:Gread`, vacía el buffer actual y restaura la
-      copia del indice, o lo que es lo mismo, como si realizáramos un `git checkout`
-      sobre el fichero. Los cambios no se hacen efectivos hasta que guardamos el
-      fichero
-
-    - *rm* elimina el fichero con el comando `:Gremove` y vacía el buffer. Obtenemos
-      el mismo resultado que ejecutando `git rm` en el shell
-
-    - *mv* nos pregunta el nuevo destino y mueve allí el fichero, renombrando el
-      buffer automáticamente. El comando git sería `git mv`. El destino es
-      relativo al directorio actual, a menos que lo precedamos con `/` en cuyo
-      caso toma como referencia el directorio raiz del repositorio
-
-    - *push* ejecuta el comando `:Git! push` mostrando la salida en el buffer
-
-    - *pull* ejecuta el comando `:Git! pull` mostrando la salida en el buffer
-
-    - *command* ejecuta el comando de git que introduzcamos en la linea de
-      comandos y muestra el resultado en un buffer nuevo (de este buffer salimos
-      pulsando `q`). Podemos emplear los alias que tengamos definidos en nuestra
-      configuración. Esta sola opción ya justifica por si sola el emplear
-      Fugitive
-
-    - *edit* permite "editar" cualquier objeto de git (blobs, trees, commits,
-      tags). Soporta autocompletado y podemos introducir un SHA, una rama, una
-      etiqueta, un arbol y un commit.
-
-    - *grep* hace un grep sobre el repositorio empleando `:Ggrep` que a su vez
-      emplea `git grep`
-
-    - *grep (mensajes)* hace un grep sobre el repositorio empleando `:Glog
-      --grep=` para hacer buscar dentro de los mensajes de los commits
-
-    - *grep (texto)* hace un grep sobre el repositorio empleando `:Glog
-      -S` para hacer un grep que busca los commits donde el texto ha sido
-      añadido o eliminado
-
-    - *init* crea un nuevo repositorio git o reinicia uno existente (es seguro)
-
-    - *cd* cambia el directorio de trabajo al del repositorio
-
-    - *lcd* cambia el directorio de trabajo del buffer actual al del repositorio
-
-    - *browse* si el repositorio remoto está en GitHub lo abre en el navegador,
-      conteniendo lo que tengamos seleccionado en ese momento. En su defecto
-      emplea `git instaweb` si lo tenemos configurado
-
-    Fugitive es un plugin como vemos muy completo que solo se puede aprender
-    usándolo, y con el que conviene además leerse la ayuda para conocer las
-    opciones que tiene cada uno de estos comandos ejecutado desde la línea de
-    comandos y otras posibilidades.
-
-### Otras herramientas
-
-- *vim-gitgutter* muestra los cambios que se producen en el buffer con respecto
-  al repositorio git en el que se encuentra. Hace un git diff y muestra el
-  estado de cada linea que se ha cambiado/eliminado/añadido en la columna de
-  signos de Vim a la izquierda de los números de línea.
-
-
-## Desarrollo Web
+        > - `dp` has a dual behavior. On the one hand, if there are changes but
+        >   those are not in the `stage area` (index), then show a diff with the
+        >   changes, like running the `git diff` command. Then, if we make a
+        >   `:Gwrite` (`<Leader>gw`) the changes are added to the index and we
+        >   can submit a commit now. On the other hand, if there are files that
+        >   are not being tracked, try to add them using the `git add
+        >   --intent-to-add .` command
+
+        > - `p` to submit partial commits, where we choose interactively which
+        >   changes portions are included in the index and which not. If we use
+        >   it over a file that is not in the index, we will we asked about what
+        >   parts we want to index, like running `git add --patch`. If we use it
+        >   with an already indexed file, we'll choose what parts remove from
+        >   the index, same as `git reset --patch`
+
+        > - `o` open the file in a new horizontal window
+
+        > - `O` open the file in a new tab
+
+        > - `S` open the file in a new vertical window
+
+        > - `R` update the status window
+
+        > - `q` close the status window
+
+    - *diff* make a diff (`:Gdiff`) between the current version of the file versus
+      the one in the index. In conflict situations like in a merge, it will we a
+      three-way diff, which makes it a good tool for dealing with `merge` and
+      `rebase`. The mapping available for this window are the following (to know how
+      vimdiff works, look up the help):
+
+        > __Mappings__
+
+        > - `do` do a `:diffget`, get the changes from the other file
+        > - `dp` do a `:diffput`, put the changes to the other file
+        > - `<Leader>du` do a  `:diffupdate`, update changes
+        > - `<Leader>dq` exit from diffmode
+        > - `u` undoes all changes
+        > - `[c` and `]c` to move between diffs
+        > - `:Gwrite` or `<Leader>gw` write the changes to the index
+
+    - *commit* use the `:Gcommit` command (same as `git commit`). If there is
+      nothing in the index, then do a `:Gstatus` and show the status window.
+      __Warning__: Unlike when running the actual git-commit command, it is
+      possible (but unadvisable) to muck with the index with commands like
+      git-add and git-reset while a commit message is pending
+
+    - *log* show all the previous revisions of the current file in a Unite
+      window, starting for the most recent and open the last in the current
+      buffer. To return to the current file, use `:Gedit` (`<Leader>ge`). Within
+      the buffer we can move between revision using the commands `:cnext`,
+      `:cprevious`, `:cfirst` and `:clast`
+
+    - *log - all* similar as the previous one, but in this case all the
+      repository commits are showed, and what appears in the buffer is something
+      similar to the `git show` command output
+
+    - *blame* use the `:Gblame` command that opens a new vertical widow at the
+      left of the current buffer, where is displayed the commit, the author and
+      date for each line of the file. Similar to run `git blame`.
+
+        > __Mappings__
+
+        > - `A` resize the blame window to end of author column
+        > - `C` resize the blame window to end of commit column
+        > - `D` resize the blame window to end of date column
+        > - `q` close the blame window
+        > - `gq` close the blame window and runs `:Gedit` to restore the current
+        >   version
+        > - `<CR>` close the blame window and open the selected commit
+        > - `o` open the selected commit in a new horizontal window
+        > - `O` open the selected commit in a new tab
+        > - `-` runs a new `blame` in the selected commit
+
+    - *add/stage* use the `:Gwrite` command that save the actual file and adds
+      it to the index with the changes made. Is like doing a `git add` or its
+      synonym `git stage`
+
+    - *checkout* do a `:Gread`, empty the current buffer and restore the index
+      copy or what is the same, like if we were making a `git checkout` to the
+      file. The changes are not permanent until we save the file.
+
+    - *rm* remove the file with the `:Gremove` command and empty the buffer. We
+      get the same as if we do a `git rm` in the shell
+
+    - *mv* as for a new path and move the file there, renaming automatically the
+      buffer. The similar git command would be `git mv`. The target is relative to
+      the current path, unless is preceded by `/` in which case is relative to the
+      repository root
+
+    - *push* execute the `:Git! push` command, showing the output in the buffer
+
+    - *pull* do a `:Git! pull` redirecting the output to the buffer
+
+    - *command* run the git command that we entered in the command line and show
+      the result in a new buffer (exit from there by pressing `q`). We can use
+      the current custom alias in our git config. This option by itself is
+      reason enough to use Fugitive.
+
+    - *edit* allow us to "edit" any git object (blobs, trees, commits, tags). It
+      supports auto-completion and we can use a SHA, a branch, a tag, a tree or a
+      commit.
+
+    - *grep* do a grep over the repository using `:Ggrep` which in turn use `git
+      grep`
+
+    - *grep (messages)* make a grep over the repository using `:Glog --grep=` to
+      search into the commit messages
+
+    - *grep (text)* make a grep over the repository using `:Glog -S` to search
+      into the commits where the text had been added or removed
+
+    - *init* create a new git repository or reset a previous one (safe)
+
+    - *cd* change the working directory to the repository one
+
+    - *lcd* change the current buffer's working directory to the repository one
+
+    - *browse* if the remote repository is at GitHub open it in a browser,
+      showing the git object that  we have selected in that moment. Otherwise,
+      use `git instaweb` to display the current selected blob, tree, commit or
+      tag.  If a range is given, it is appropriately appended to the URL as an
+      anchor
+
+    Fugitive is a very powerful plugin that you only can learn how to use it by
+    using it. And is very advisable to read the help to get a global vision of
+    it.
+
+### Other tools
+
+- *vim-gitgutter* show the changes that are made in the buffer versus the git
+  repository index. It makes a `git diff` and shows the status
+  (changed/added/deleted) of each line in the gutter (signs column).
+
+
+## Web Development
 
 __HTML5__
 
-Proporciona funciones de autocompletado, sintaxis e indentación para HTML5. Para
-ello tiene soporte de SVG, RDFa, microdata y WAI-AIRA.
+Provides autocompletion, syntax and indentation for HTML5. For that purpose
+supports SVG, RDFa, microdata and WAI-AIRA
 
-__Sparkup__
 
-![sparkup](http://joedicastro.com/static/pictures/sparkup.gif "sparkup")
+__Emmet__
 
-Sparkup nos permite escribir archivos HTML más rápido, de manera más concisa y
-de forma menos tediosa. Se basa en Zen Coding, por lo que toda la nomenclatura
-que funciona con Zen Coding es valida para Sparkup.
+![emmet](http://joedicastro.com/static/pictures/emmet.gif "emmet")
 
-La mejor forma de comprender como funciona es acceder a los ejemplos en la ayuda
-de Vim, `:h sparkup-examples` <vimhelp:sparkup-examples> y si tienes
-conocimientos de Python consultar el código en
-`~/.vim/bundle/vim-sparkup/ftplugin/html/sparkup.py`
+Emmet (former Zen Coding) allow us to write HTML/XML and CSS files more fast and
+in a more brief and less tedious way. Emmet takes the snippets idea to a whole
+new level: you can type CSS-like expressions that can be dynamically parsed, and
+produce output depending on what you type in the abbreviation.
 
-> __Atajos__
+The best way to know how this works is to look at the tutorial (`:h
+emmet-tutorial` <vimhelp:emmet-tutorial>) or read the official documentation,
+[Emmet docs](http://docs.emmet.io/)
 
-> - `<C-E>` ejecutar sparkup sobre la expresión bajo el cursor
-> - `<C-N>` saltar a la siguiente etiqueta/atributo vacío
+> __Mappings__
 
-## Gestion de color
+> - `<C-Y>,` expand abbreviation (works as a wraper in visual mode, see the help)
+> - `<C-Y>d` select the tag inward
+> - `<C-Y>D` select the tag outward
+> - `<C-Y>n` go to the next edit point
+> - `<C-Y>N` go to the previous edit point
+> - `<C-Y>i` update image size
+> - `<C-Y>k` remove tag
+> - `<C-Y>j` split/join tag
+> - `<C-Y>/` toggle comment
+> - `<C-Y>a` make anchor from url
+> - `<C-Y>A` make quoted text from url
+> - `<C-Y>c` code pretty
 
-![unite colorv](http://joedicastro.com/static/pictures/unite_menu_colorv.png "unite colorv")
 
-ColorV es el complemento perfecto para editar archivos CSS a la hora de lidiar
-con colores. No solo nos permite previsualizarlos en el archivo para saber que
-color se corresponde con cada definición, si no que ademas nos provee de
-herramientas para escoger colores (tanto en la consola como en modo gráfico),
-esquemas de color, trabaja con varios espacios de color, etc. Tiene
-prácticamente todo lo que se puede necesitar para la gestión del color, sin
-envidiar a muchas herramientas profesionales.
+## Color Management
 
+![unite colorv](http://joedicastro.com/static/pictures/unite_menu_colorv_en.png "unite colorv")
+
+ColorV is the perfect plugin to deal with Color Management under Vim. And is
+ideal for edit CSS files and preview the colors that match with his definition.
+Also have a lot of tools for pick a color, choose/create a color scheme, deal
+with different color spaces, ... It has virtually everything you could need for
+color management, without envy too many professional tools
 
 __Unite__
 
-`<LocalLeader>c` o `:Unite menu:colorv` nos abre el menu de *colorv*
-donde se encuentran todas estas opciones
+`<LocalLeader>c` or `:Unite menu:colorv` shows the *ColorV* menu
 
-![colorv](http://joedicastro.com/static/pictures/colorv.gif "ColorV")
+![colorv](http://joedicastro.com/static/pictures/colorv_en.gif "ColorV")
 
 ### Menu
 
-- *abrir colorv* muestra la ventana de ColorV
-- *abrir colorv con el color bajo el cursor seleccionado* muestra la ventana de
-  ColorV con el color situado debajo del cursor seleccionado
-- *previsualiza los colores en el buffer actual* es muy útil para hojas css,
-  donde muestra los códigos de color coloreados con su color correspondiente
-- *selector de color* muestra un selector de color gráfico (GUI)
-- *edita el color situado bajo de el cursor* abre ColorV con el color situado
-  bajo el cursor y cuando cerramos colorv lo cambia por el que hayamos
-  establecido
-- la entrada que le sigue edita el color situado bajo de el cursor y cambia
-  todas los colores similares en el mismo buffer (con confirmación previa)
-- *inserta un color* inserta un color empleando la ventana de ColorV. En el
-  atajo la segunda `i` puede ser sustituida por una `r` para insertar un color
-  con nomenclatura RGB, una `m` para CMYK, etc... consultar la ayuda para más
-  información o lanzarlo a través del menú
-- *lista de colores relativa al actual* muestra una ventana lateral con una
-  lista de colores con el mismo tono que el situado bajo el cursor. La `h` del
-  atajo puede ser cambiada para mostrar una lista de colores por saturación `s`,
-  análogos `a`, ...  consultar la ayuda para una lista completa o lanzarlo
-  interactivamente a través del menú
-- *muestra lista de colores (colores Web W3C)* muestra una ventana lateral con
-  una lista de colores por nombre (colores Web del W3C)
-- *elegir un esquema de color* nos permite elegir un esquema de color desde
-  [Kuler](https://kuler.adobe.com) o
+- *open colorv* show the ColorV window
+
+- *open colorv with the color under the cursor* show the ColorV window with the
+  color under the cursor selected
+
+- *preview colors* is very useful for CSS sheets, where shows the color codes
+  highlighted with its matching color
+
+- *color picker* open a graphical color picker
+
+- *edit the color under the cursor* open ColorV window with the color under the
+  cursor and when we close it, put the edited color in the buffer
+
+- the next entry is similar as above, but in this case change all the buffer
+  colors similar to the selected one (previous confirmation)
+
+- *insert a color* insert a color using the ColorV window. In the mapping the
+  second `i` can be replaced for a `r` to insert a RGB color or a `m` for a CMYK
+  one, etcetera (look at the help for more information)
+
+- *color list relative to the current* show a side window with a color list with
+  the same hue that the one under the cursor. The `h` in the mapping can
+  replaced by a `s` to show a color list by saturation, `a` for analogues, and
+  so on (consult the help for more info)
+
+- *show color list (Web W3C colors)* show a side window with a colors list by
+  name (Web W3C colors)
+
+- *choose color scheme (ColourLovers, Kuler)* allow us to choose a color scheme
+  from [Kuler](https://kuler.adobe.com) o
   [ColourLovers](http://www.colourlovers.com/)
-- *muestra esquemas de color favoritos* muestra los esquemas marcados como
-  favoritos (`f` para marcar como favorito, `F` para desmarcarlo)
-- *crear esquema de color* crea un nuevo esquema
-- *crear variación de tono entre dos colores* crea una lista de colores que
-  varían en función de un parámetro (tono, saturación, ...)
 
-    > __Atajos en la ventana de ColorV__
+- *show favoire color schemes* show the color schemes marked as favorites
+  (`f` to mark it, `F` to unmark it)
 
-    > - `z/Z` cambia el tamaño de la ventana
-    > - `?` muestra los atajos disponibles cíclicamente
-    > - `q` cierra la ventana
+- *new color scheme* create a new color scheme
+
+- *create hue gradation between two colors* crate a color gradation based in a
+  parameter (hue, saturation, ...)
+
+    > __Mappigns in the ColorV window__
+
+    > - `z/Z` resize the window
+    > - `?` show the mappings ciclically
+    > - `q` close the window
 
 
 ## Markdown
 
-![unite markdown](http://joedicastro.com/static/pictures/unite_menu_markdown.png "unite markdown")
+![unite markdown](http://joedicastro.com/static/pictures/unite_menu_markdown_en.png "unite markdown")
 
-Nos permite previsualizar el renderizado de un archivo Markdown en el navegador,
-soporta además la extensión `extra` de Markdown.  El archivo es renderizado con
-Python-Markdown, crea un archivo temporal html y lo abre en una pestaña en el
-navegador. Usado en conjunto con algún plugin que refresque la pestaña del
-navegador al cambiar el archivo html, conseguimos previsualizar los cambios sin
-abandonar vim.
+This allows us to preview the rendering of a Markdown file in the browser,
+it supports the Markdown `extra` extension. The file is rendered by
+Python-markdown, creating a temporal html file and open it in a browser tab.
+
+Used in conjunction with a plugin that refresh the browser tab when the html file
+changes, we get a way to preview your document changes without leaving vim .
 
 __Unite__
 
-- `<localleader>k` o `:Unite menu:markdown` nos abre el menú markdown
+- `<localleader>k` or`:Unite menu:markdown` shows the markdown menu
 
 ### Menu
 
-- *previsualizar* renderiza el documento markdown en un archivo temporal y lo
-  abre en una pestaña del navegador
+- *preview* renders the Markdown document in a temporal html file and open it in
+  a new browser tab
 
-- *refrescar* reescribe el archivo html con los cambios introducidos
+- *refresh* rewrites the html file with the changes
 
-    ![mep]( http://joedicastro.com/static/pictures/mep.gif "mep")
+    ![mep]( http://joedicastro.com/static/pictures/mep_en.gif "mep")
 
-## Utilidades de Linux/Unix
+## Linux/Unix tools
 
 __DirDiff__
 
-Funciona de modo similar a vimdiff pero entre directorios en lugar de archivos.
+It has a similar behavior that the vimdiff tool but for directories instead
+of individual files
 
-![DirDiff](http://joedicastro.com/static/pictures/dirdiff.gif "DirDiff")
+![DirDiff](http://joedicastro.com/static/pictures/dirdiff_en.gif "DirDiff")
 
-> __Comandos__
+> __Commands__
 
-> - `:DirDiff {A:directorio 1} {B: directorio 2}` muestra las diferencias entre
->   los dos directorios
-> - `:DirDiffQuit` sale del modo DirDiff
-
-
-__Editor hexadecimal__
-
-Este plugin en realidad utiliza la herramienta `xxd` para visualizar un archivo
-de forma hexadecimal.
-
-Este es un plugin a manejar con cuidado y sabiendo lo que se está haciendo.
-Conviene ademas abrir el archivo en modo binario (`$ vim -b archivo`) y volver
-siempre al modo ASCII (abandonar el modo binario) antes de guardar el archivo.
-
-![hex](http://joedicastro.com/static/pictures/hexman.gif "hex")
-
-> __Atajos__
-
-> - `<F6>` entrar/salir del modo Hexadecimal
-> - `<leader>hd` elimina el carácter Hexadecimal bajo el cursor
-> - `<leader>hi` inserta un carácter ASCII antes del cursor
-> - `<leader>hg` ir al byte que le indiquemos (en hexadecimal)
-> - `<leader>hn` o `<Tab>` ir al siguiente byte
-> - `<leader>hp` o `<Shift><Tab>` ir al byte anterior
-> - `<leader>ht` mueve el cursor del área Hexadecimal al área ASCII y viceversa
-> - `?`          muestra la ayuda
-
-## Internalizacion
-
-__Traduccion de archivos .po__
-
-Es una utilidad para añadir sintaxis y algunos atajos para los archivos `.po` de
-traducción de cadenas (GNU gettext)
-
-![po](http://joedicastro.com/static/pictures/po.gif "po")
-
-> __Atajos__
-
-> - `/u` se desplaza a la siguiente cadena sin traducir
-> - `/U` se desplaza a la anterior cadena sin traducir
-> - `/c` copia la cadena `msgid` a `msgstr`
-> - `/C` crea un comentario para esa entrada
-> - `/d` elimina la cadena `msgstr` (solo en Insert mode)
-> - `/f` se desplaza a la siguiente cadena "fuzzy"
-> - `/F` se desplaza a la anterior cadena "fuzzy"
-> - `/z` etiqueta la entrada "fuzzy"
-> - `/Z` elimina la etiqueta de la entrada "fuzzy"
-> - `/s` muestra estadísticas `msgfmt` del archivo
-> - `/e` navega a través de los errores `msgfmt` del archivo
-> - `/t` introduce la información del traductor en la cabecera
-> - `/T` introduce la información del equipo de traducción en la cabecera
-> - `/W` formatea todo el archivo
-> - `gf` abre en otra ventana el archivo que está debajo del cursor
+> - `:DirDiff {A:directory 1} {B: directory 2}` shows the differences between
+>   the two directories
+> - `:DirDiffQuit` exit from DirDiff mode
 
 
-## Herramientas de Vim
+__Hexadecimal Editor__
 
-![unite vim](http://joedicastro.com/static/pictures/unite_menu_vim.png "unite vim")
+This is actually a wrapper around the tool `xxd` to visualize the file in an
+hexadecimal binary mode.
 
-Bajo este menú he agrupado varias herramientas de Vim y alguna otra que no me
-acababa de cuadrar en ningún otro menú.
+No play with this, is not a toy, this is for grown ups only! If you do not know
+what you are doing, keep your hands out of it! :smile: If you are all thumbs,
+this tool is a sure candidate for a disaster. One tip: remember to come back to
+the ASCII mode before saving the file.
+
+![hex](http://joedicastro.com/static/pictures/hexman_en.gif "hex")
+
+> __Mappings__
+
+> - `<F6>` toggle the Hexadecimal/ASCII modes
+> - `<leader>hd` delete the Hexadecimal character under the cursor
+> - `<leader>hi` insert a ASCII character before the cursor
+> - `<leader>hg` goto hex offset
+> - `<leader>hn` or `<Tab>` goto next hex offset
+> - `<leader>hp` or `<Shift><Tab>` goto previous hex offset
+> - `<leader>ht` move the cursor between the Hexadecimal and ASCII areas
+> - `?`          show help
+
+## Internalization
+
+__Translate .po files__
+
+Is a tool to add syntax highlighting to `.po` files (GNU gettext) and some
+mappings to edit them easily.
+
+![po](http://joedicastro.com/static/pictures/po_en.gif "po")
+
+> __Mappings__
+
+> - `/u` move to the next untranslated string
+> - `/U` move to the previous untranslated string
+> - `/c` copy the `msgid` string to `msgstr`
+> - `/C` create a comment for that entry
+> - `/d` delete the `msgstr` string (Insert mode only)
+> - `/f` move to the next "fuzzy" string
+> - `/F` move to the previous "fuzzy" string
+> - `/z` tag the entry as "fuzzy"
+> - `/Z` delete the "fuzzy" tag
+> - `/s` show the `msgfmt` statistics from the file
+> - `/e` move along the `msgfmt` errors from the file
+> - `/t` entry the translator info in the header
+> - `/T` entry the translator team info in the header
+> - `/W` formats the entire file
+> - `gf` open in a new window the file under the cursor
+
+
+## Vim tools
+
+![unite vim](http://joedicastro.com/static/pictures/unite_menu_vim_en.png "unite vim")
+
+Several Vim tools grouped under this menu among others that not fitted well in
+any other menu.
 
 __Unite__
 
-- `<LocalLeader>v` o `:Unite menu:vim` abren este menú
-
+- `<LocalLeader>v` or `:Unite menu:vim` shows this menu
 
 ### Menu
 
-La primera entrada es comentada al principio de este documento
+The first entry is already commented at the beginning of this document
 
-- *atajos de teclado* es una opción tremendamente útil que nos permite conocer a
-  que función o comando esta asociado a cada atajo. Los de los plugins con carga
-  bajo demanda (empleando NeoBundleLazy) no aparecerán en la lista a menos que
-  el plugin se haya cargado
+- *mappings*  shows all the customized mappings available whit their
+  corresponding associated action. Those ones that corresponds with plugins that
+  are Lazy are not showed unless the plugin is already loaded.
 
-- *editar archivo de configuración (vimrc)* edita el archivo donde albergamos
-  nuestra configuración de Vim
+- *edit configuration file (vimrc)* edits the vim configuration file `~./.vimrc`
 
-- *establecer tipo de archivo* nos permite elegir entre una lista de tipos de
-  archivo para asignárselo al buffer actual. Es útil cuando Vim no reconoce o
-  reconoce erróneamente un tipo de archivo
+- *choose filetype* choose a filetype from a list to apply to the current buffer
 
-- *ayuda de Vim* nos permite encontrar dentro de la ayuda de Vim la información
-  que necesitamos sobre un plugin, una función, un comando, ... Es un poco lento
-  debido al elevado número de candidatos
+- *vim help* search into the vim help (slow)
 
-- *comandos de vim* una lista con todos los comandos disponibles para Vim. Los
-  de los plugins con carga bajo demanda (empleando NeoBundleLazy) no aparecerán
-  en la lista a menos que el plugin se haya cargado
+- *vim commands* list all commands available as candidates. For Lazy plugins,
+  these need to be loaded before appears in the list.
 
-- *funciones de vim* tiene el mismo comportamiento que la entrada anterior
-  aunque para las funciones en lugar de los comandos
+- *vim functions* same as above for functions instead of commands
 
-- *runtimepath de vim* muestra todos aquellos paths que se encuentren dentro del
-  runtimepath de vim
+- *vim runtimepath* shows all paths in the vim runtimepath
 
-- *salida de comando de vim* sirve para recoger por Unite la salida de un
-  comando que se ejecute en la linea de comandos de Vim (e.g. `:ls`)
+- *vim command output* shows the output of a Vim command through the Unite
+  interface (e.g. `:ls`)
 
-- *fuentes de Unite* lista todas las fuentes de las que disponemos para usar con
-  Unite
+- *unite sources* all the Unite sources available
 
-- *matar procesos* muestra la salida del comando `top` donde podemos seleccionar
-  uno o varios procesos y matarlos con `kill`. Puede ser muy útil para matar un
-  proceso que estemos desarrollando y se haya quedado colgado en un bucle
+- *kill process* shows the output of the Unix command `top` where we can select
+  one or more process to kill them with `kill`
 
-- *lanzar ejecutable* nos permite lanzar un programa desde Vim eligiendo el
-  ejecutable de una lista
+- *launch executable* launch an executable from a list, in a similar behavior as
+  `dmenu`
 
-- *limpiar cache de Powerline* es algo que podemos necesitar cuando realizamos
-  cambios en la configuración de Vim para que se vuelve a visualizar
-  correctamente la linea de estado de Powerline
+- *clear powerline cache* to clean the Powerline cache to reflect the changes
+  made if needed
 
-## Prerequisitos
+## Prerequisites
 
 __Vim__
 
-Para que todos los plugins incluidos funcionen adecuadamente es necesario
-disponer de una versión de Vim superior o igual a la __7.3__ y compilada para
-dar soporte a Python, Lua y Ruby. Esto se puede saber empleando el comando
-`:version` que ademas de darnos el número de versión nos dirá que opciones
-soporta precediéndolas de un símbolo más `+`
+To have a completely functional version of Vim with this configuration, you need
+a Vim version greater or equal than __7.3__ and compiled with support for
+Python, Lua and Ruby. You can know that using the `:version` command, it shows
+the Vim version and the supported features (those one preceded by a plus symbol
+`+`)
 
-__Programas__
+You can compile Vim from source if your distribution does not offer a package
+that fits those requirements. You only have to configure it with the adequate
+parameters, something like this:
 
-Ademas es necesario tener instalados una serie de programas para un
-funcionamiento integral:
+    $ ./configure --with-features=huge --enable-gui=gnome2
+    --enable-luainterp=yes +--enable-pythoninterp=yes --enable-rubyinterp=yes
 
-- __[ctags][ctags]__, para generar las "etiquetas" de los archivos de código
-  fuente. Suele venir distribuido como `exuberant-ctags`
-- __[ag][ag]__, __[ack][ack]__ o __[grep][grep]__ para la búsqueda del contenido
-  de archivos mediante expresiones regulares
-- __[git][git]__ para las operaciones de control de versiones
+__Programs__
 
-__Programas opcionales__
+You need also several programs to enjoy a complete experience:
 
-Si se quieren emplear los mismos programas externos que yo empleo, estos serian
-los necesarios a instalar:
+- __[ctags][ctags]__, to generate the tags for code files, usually distributed
+  as `exuberant-ctags`
+- __[ag][ag]__, __[ack][ack]__ or __[grep][grep]__ for regex searches of files
+- __[git][git]__ for git repositories administration
 
-- __[tig][tig]__ para gestionar los repositorios git con una herramienta bajo
-  ncurses
+__Optional programs__
 
-- __[coverage][cvg]__ es una herramienta que sirve para analizar la "cobertura" de
-  nuestros programas Python, para localizar que fragmentos de código no están
-  siendo ejecutados
+If you want to use the same external auxiliary programs that I use for this
+config, those are the needed:
 
-- __[ranger][rngr]__ para poder emplear este explorador de archivos externo. La
-  configuración del mismo que empleo la puedes encontrar en este mismo
-  repositorio
+- __[tig][tig]__ is a ncurses git manager
 
-- __[pylint][pylint]__ herramienta que sirve para revisar la calidad de nuestro
-  código y señalarnos los errores encontrados
+- __[coverage][cvg]__ analyze the coverage for a Python program
 
-- __[virtualenvwrapper][venvwppr]__ una herramienta que nos permite administrar más
-  cómodamente nuestros entornos virtuales en Python
+- __[ranger][rngr]__ an amazing ncurses file explorer. My personal configuration
+  is also in this same repository in the `../ranger` folder
+
+- __[pylint][pylint]__ code quality tool for Python
+
+- __[virtualenvwrapper][venvwppr]__ to manage Python virtualenvs easily
 
   [venvwppr]: http://virtualenvwrapper.readthedocs.org/en/latest/
 
-__Fuente__
+__Font__
 
-Es necesario ademas emplear la fuente __Dejavu Sans for Powerline__ para el
-plugin Powerline. Esta fuente está incluida en este mismo repositorio en la
-carpeta `../fonts`
+The __Dejavu Sans for Powerline__ font is required for the Powerline plugin. It
+can be founded in this same repository under the `../fonts` folder.
 
   [ctags]: http://ctags.sourceforge.net/
   [ag]: https://github.com/ggreer/the_silver_searcher
@@ -1541,7 +1400,7 @@ carpeta `../fonts`
   [grep]:http://www.gnu.org/software/grep/
   [git]: http://git-scm.com/
 
-## Plugins & Esquemas de color
+## Plugins & Colorschemes
 
 - __badwolf__  <https://github.com/sjl/badwolf>
 - __colorv.vim__ <https://github.com/Rykka/colorv.vim>
@@ -1550,6 +1409,7 @@ carpeta `../fonts`
 - __csapprox__ <https://github.com/godlygeek/csapprox>
 - __DirDiff.vim__ <http://github.com/joedicastro/DirDiff.vim>
 - __easydigraph.vim__ <https://github.com/Rykka/easydigraph.vim>
+- __emmet-vim__ <https://github.com/mattn/emmet-vim>
 - __gitv__ <https://github.com/gregsexton/gitv>
 - __gundo.vim__ <https://github.com/sjl/gundo.vim>
 - __harlequin__ <https://github.com/nielsmadan/harlequin>
@@ -1592,7 +1452,6 @@ carpeta `../fonts`
 - __vim-repeat__ <https://github.com/tpope/vim-repeat>
 - __vim-signature__ <https://github.com/kshenoy/vim-signature>
 - __vim-smartinput__ <https://github.com/kana/vim-smartinput>
-- __vim-sparkup__ <https://github.com/joedicastro/vim-sparkup>
 - __vim-speeddating__ <https://github.com/tpope/vim-speeddating>
 - __vim-surround__ <https://github.com/tpope/vim-surround>
 - __vim-textobj-entire__ <https://github.com/kana/vim-textobj-entire>

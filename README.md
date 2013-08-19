@@ -6,7 +6,7 @@ dot, AKA __dotfiles__
 
 ## Content
 
-That's the current content of this repository, and these are the more remarkable
+That's the *current content* of this repository, and these are the more remarkable
 files.
 
 ### `/awesome`
