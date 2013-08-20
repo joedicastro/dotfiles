@@ -4,7 +4,6 @@ XTerm*utf8:                 2
 URxvt.iconFile:             /usr/share/icons/elementary/apps/24/terminal.svg
 URxvt.letterSpace:          -2
 
-URxvt.depth:                32
 URxvt.background:           #121214
 URxvt.foreground:           #FFFFFF
 XTerm*background:           #121212
@@ -76,4 +75,3 @@ Xft.lcdfilter:  lcddefault
 Xft.hintstyle:  hintfull
 Xft.hinting: 1
 Xft.antialias: 1
-Xft.rgba: rgb
