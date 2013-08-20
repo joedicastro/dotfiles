@@ -38,6 +38,17 @@ To all this we must add all that Vims provides by default, which is no small.
     with the rest of the world, this configuration would not be possible.
 
 
+Para hacer uso de esta configuración de Vim es necesario tener una compilación
+de Vim con soporte para Lua y para Python.
+
+La major manera de conseguirlo es compilando nuestra propia versión con los 
+parámetros adecuados, por ejemplo:
+
+> ./configure --with-features=huge --enable-gui=gnome2 --enable-luainterp=yes
+--enable-pythoninterp=yes --enable-rubyinterp=yes
+
+
+
 ## Unite
 
 Unite is an interface that unifies various "query results" under a common
