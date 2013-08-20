@@ -1,9 +1,9 @@
---                                     _             
---                          _ __ ___  | |_   _  __ _ 
+--                                     _
+--                          _ __ ___  | |_   _  __ _
 --                         | '__/ __| | | | | |/ _` |
 --                         | | | (__ _| | |_| | (_| |
 --                         |_|  \___(_)_|\__,_|\__,_|
--- 
+--
 -- {{{ License
 --
 -- rc.lua, works with awesome 3.5.1x
@@ -345,7 +345,7 @@ for s = 1, screen.count() do
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s, height = "17" })
-    
+
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(mytaglist[s])
@@ -384,7 +384,7 @@ for s = 1, screen.count() do
     layout:set_right(right_layout)
 
     mywibox[s]:set_widget(layout)
-    
+
 end
 -- }}}
 -- }}}
@@ -442,8 +442,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "/",
         function()
             awful.util.spawn_with_shell(
-                "export LANGUAGE=en_US.UTF8;dmenu_run -b -i -fn " ..
-                 "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' -p 'run:'")
+                "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" .. 
+                "dmenu_run -b -i -fn " ..
+                "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' -p 'run:'")
         end),
 
     -- Standard program
@@ -537,13 +538,13 @@ globalkeys = awful.util.table.join(
     -- Screen Zoom In/Out
     awful.key({ modkey }, "z",
         function ()
-            awful.util.spawn("xrandr --output HDMI1 --mode 1024x768" .. 
+            awful.util.spawn("xrandr --output HDMI1 --mode 1024x768" ..
                             " --panning 1920x1200")
         end),
 
     awful.key({ modkey, "Shift" }, "z",
         function ()
-            awful.util.spawn("xrandr --output HDMI1 --mode 1920x1200" .. 
+            awful.util.spawn("xrandr --output HDMI1 --mode 1920x1200" ..
                             " --panning 1920x1200")
         end),
 
@@ -578,7 +579,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F4",
         function ()
             awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
-            awful.util.spawn("ffmpeg -f x11grab -s 957x1180" .. 
+            awful.util.spawn("ffmpeg -f x11grab -s 957x1180" ..
                             " -r 2 -i :0.0+2,19 -b:v 500k -pix_fmt rgb24 -y" ..
                             " -loop 0 " .. home_dir ..  "/animated.gif")
         end),
@@ -586,7 +587,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F5",
         function ()
             awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.gif")
-            awful.util.spawn("ffmpeg -f x11grab -s 860x588" .. 
+            awful.util.spawn("ffmpeg -f x11grab -s 860x588" ..
                             " -r 2 -i :0.0+2,19 -b:v 500k -pix_fmt rgb24 -y" ..
                             " -loop 0 " .. home_dir ..  "/animated.gif")
         end),
