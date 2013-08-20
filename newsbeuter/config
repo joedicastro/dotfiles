@@ -40,7 +40,7 @@ googlereader-show-special-feeds         true
 goto-first-unread                       true
 goto-next-feed                          yes
 help-title-format                       "%N %V - Ayuda"
-history-limit                           25
+history-limit                           50
 http-auth-method                        any
 html-renderer                           "internal"
 ignore-mode                             "display"
@@ -49,7 +49,7 @@ keep-articles-days                      15
 mark-as-read-on-hover                   false
 max-download-speed                      0
 max-downloads                           1
-max-items                               25
+max-items                               50
 notify-always                           yes
 notify-beep                             no
 notify-format                           "%d articulos nuevos, (%n articulos no leidos, %f feeds no leidos)"
