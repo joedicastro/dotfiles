@@ -1400,6 +1400,16 @@ can be founded in this same repository under the `../fonts` folder.
   [grep]:http://www.gnu.org/software/grep/
   [git]: http://git-scm.com/
 
+## Alternative configuration
+
+Maybe this setup can be helpful to you and decide to clone/fork it, but you
+don't like all the settings. Well, in this case you still can clone this config
+and customize it as you want without loose the evolution of mine.
+
+To do this I added the possibility to read an additional file to load your
+custom settings. This file is located by default in this path
+`~/.vim/custom.vim`
+
 ## Plugins & Colorschemes
 
 - __badwolf__  <https://github.com/sjl/badwolf>
