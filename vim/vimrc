@@ -8,7 +8,7 @@
 " Source: http://github.com/joedicastro/dotfiles/tree/master/vim
 "
 " This file is under a lot of stress, it changes frequently, so it's better if
-" you watch the DVCS commits to be in the loop.
+" you watch the DVCS commits to stay in the loop.
 
 " Setup language {{{ ==========================================================
 
