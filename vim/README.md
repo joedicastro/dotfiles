@@ -4,89 +4,90 @@
 __Version 1.3  (19-08-2013)__
 
 The purpose of this document is to compile all the customizations available in
-my vim configuration to help me to reorganize them properly and as a sort of
-cheat sheet when memory fails. Obviously is no my intend to replicate the vim
-help or the plugins ones, only to highlight those options that I found useful
-and maybe I need to remember at a given moment. At the same time this doc can
-serve as a sort of instructions manual to those who decide to clone this
+my vim configuration, to help me reorganize them properly, and as a sort of
+cheat sheet when memory fails. Obviously it is not my intent to replicate the vim
+help or the plugins documentation, only to highlight those options that I found
+useful and might need to remember at a given moment. At the same time, this doc
+can serve as a sort of instruction manual to those who decide to clone this
 configuration.
 
 Due to the "dynamic" nature of my configuration, this document is under a lot of
-stress, it changes frequently and it's better if you watch the DVCS commits to
-be in the loop. Also some images may be outdated with respect to the current
+stress. It changes frequently and it's better if you watch the DVCS commits to
+stay in the loop. Also, some images may be outdated with respect to the current
 configuraton.
 
-To all this we must add all that Vims provides by default, which is no small.
+To all this we must add everything that Vim provides by default, which is no
+small service.
 
 > I have mapped the `<Leader>` key to `,` and the `<LocalLeader>` key to ` `
 > (spacebar)
 
     DISCLAIMER & ACKNOWLEDGMENTS
 
-    Obviously a prior knowledge of Vim is needed to get full advantage of this
-    configuration, the same way it will be necessary to look at the certain
-    plugins help to become familiar with them beyond the guidelines that I put
-    in this document.
+    Obviously, a prior knowledge of Vim is needed to take full advantage of this
+    configuration, the same way it will be necessary to look at certain
+    plugins' documentation to become familiar with them beyond the guidelines
+    that I put in this document.
 
-    This configuration is based in many others, so many that I don't remember
-    them all and would be quite unfair to remind a few and omit others. But
-    because many generously share their settings, I have come to mine and I hope
-    that this document will also serve as a small compensation for so great help
-    that them provided to me. And thanks also to all those developers who
-    created the plugins included in this config (and also the included in the
-    past), because without his wonderful contribution and generosity to share it
+    This configuration is based on many others. So many that I don't remember
+    them all, and it would be quite unfair to mention a few and omit others. But
+    because many generously share their settings, I have been able to arrive at
+    mine and I hope that this document will also serve as a small compensation
+    for such great help that they provided to me. And thanks also to all those
+    developers who created the plugins included in this config (now and in the
+    past), because without their wonderful contribution and generosity to share it
     with the rest of the world, this configuration would not be possible.
 
 
 ## Unite
 
 Unite is an interface that unifies various "query results" under a common
-aspect and that follows the Vim's default behavior (modal). It's almost an API
-that we can use to build our own solutions, in fact the author describes it as
+aspect and that follows Vim's default behavior (modal). It's almost an API
+that we can use to build our own solutions. In fact, the author describes it as
 "unite and create interfaces". With Unite you can open a file, change the
 buffer, choose a colorscheme, make a regex search (grep, Ack, Ag, ...), etc.
 Even you can take a look at the Vim registers, messages, help, command, functions,
-... In short, is a swiss knife that well used allows us to replace several
-different plugins by only one (in this case: CtrlP, Ack, YankRing, TagmaTasks
-and Tagbar)
+... In short, it is a Swiss army knife that, well used, allows us to replace
+several different plugins with only one (in this case: CtrlP, Ack, YankRing,
+TagmaTasks and Tagbar).
 
-> One of the main advantages of Unite is that allows me to address one of the
+> One of the main advantages of Unite is that it allows me to address one of the
 problems that I initially tried to resolve with this document, which is to
-remember all the options and mappings that with so much effort and time I added
+remember all the options and mappings that, with so much effort and time, I added
 to my Vim configuration. It's pretty normal that we have a plugin installed and
-customized but no frequently used, then when we need it, we don't remember a
-thing about it. Nor the mappings, nor the commands, even his name. Well, with
-Unite is easy to create a menu for the plugin where we show the options it has
-and his mappings, and thanks again to the magic of Unite, even we don't need to
-remember the mapping of this menu, we can look for it in the Unite menu for
-menus. __Problem solved quickly and gracefully__
+customized but do not use it frequently. Then when we need it, we don't remember
+a thing about it. Not the mappings, nor the commands, nor even its name. Well,
+with Unite it is easy to create a menu for the plugin where we show the options
+it has and its mappings, and, thanks again to the magic of Unite, we don't even
+need to remember the mapping of this menu, we can look for it in the Unite menu for
+menus. __Problem solved quickly and gracefully.__
 
 The mayor drawback of Unite and also one of its greatest advantages is that it
-comes hardly configured, leaving at our own judgement and responsibility the
+comes hardly configured, leaving to our own judgement and responsibility the
 way we set it to work to our liking. In fact, we can make our own Unite plugins
 to make new Unite sources and scratch your itches.
 
 ### Sources and Menus
 
-I set Unite following two different ways, in one hand I use it to access to
-Unite sources via mappings with the `<Leader>` key and secondly calling Unite
+I set Unite following two different ways. On one hand I use it to access
+Unite sources via mappings with the `<Leader>` key, and secondly calling Unite
 menus through `<LocalLeader>` key mappings.
 
 - The __sources__ that I call from a `<Leader>` mapping are used to access the
-  most common tasks. Like open files, searching inside the buffer, do regex
-  searchs (grep), etc. There is an example of how to open a file in this way:
+  most common tasks, like open files, search inside the buffer, do regex
+  searchs (grep), etc. Here is an example of how to open a file in this way:
 
     ![unite_file](http://joedicastro.com/static/pictures/unite_file_en.gif "unite file")
 
 - The __menus__ are used to group options either by plugins or by functionality.
   Also shows the mappings for all of those options that have one, this allows me
   to avoid looking for them in the `~/.vimrc` file when I forget one. The next
-  image shows a Unit menu for managing a git repository:
+  image shows a Unite menu for managing a git repository:
 
     ![unite_git](http://joedicastro.com/static/pictures/unite_git_en.gif "unite_git")
 
 Unite has a master menu that shows all the custom menus that we have created,
-allowing us to access to them and see the mapping associated for each one. This
+allowing us to access them and see the mapping associated with each one. This
 menu doesn't show the mappings by design, but I arranged their descriptions to
 allow that. This is what the Vim command `:menu` should have been: *comfortable,
 intuitive and easy to navigate.*
@@ -98,7 +99,7 @@ intuitive and easy to navigate.*
 ### Navigation inside Unite
 
 In the Powerline theme I'm using there is a circle after the candidates number
-that shows the current mode following this criteria:
+that shows the current mode following these criteria:
 
  - __Green:__    normal mode
  - __Blue:__     insert mode
@@ -151,24 +152,24 @@ These are some of the available mappings:
 
 >     *With a candidate selected:*
 
->     - `<Space>` marks the current candidate
+>     - `<Space>` mark the current candidate
 
 > __Visual__ mode:
 
-> - `<Space>` marks the current candidate
+> - `<Space>` mark the current candidate
 
 ## Managing Plugins
 
 ![neobundle](http://joedicastro.com/static/pictures/unite_menu_neobundle_en.png "neobundle")
 
-A plugin to rule them all! NeoBundle allows us to manage the rest of plugins,
+A plugin to rule them all! NeoBundle allows us to manage the rest of the plugins,
 itself included. __I have it configured to auto install itself and all of the
-plugins when Vim is executed by first time__.
+plugins when Vim is executed for the first time__.
 
 The advantages of NeoBundle versus Vundle and other similar plugins are the
 following:
 
-- Allows to use another VCS other than git (hg, svn) even a local dir
+- Allows to use another VCS other than git (hg, svn), even a local dir
 - Allows revision lock or even set a plugin to not be updated
 - Supports lazy initialization of plugins to optimizing startup time
 - Supports multiple config options per plugin, like automatic building if needed
@@ -189,26 +190,26 @@ These are the menu entries in detail:
 
 - *log* shows the last NeoBundle log
 
-- *lazy* shows all the installed plugins configured as Lazy. Those are loaded by
-  demand and allows us to have installed a lot of plugins not frequently used
-  without delay the vim startup. An option that is used a lot in this
+- *lazy* shows all the installed plugins configured as Lazy. Those are loaded on
+  demand and allow us to have a lot of plugins installed that are not frequently
+  used without delaying the vim startup. I use this option a lot in this
   configuration.
 
-- *update* updates automatically all the plugins (and install those not already
+- *update* updates all the plugins automatically (and installs those not already
   installed)
 
-- *search* searchs plugins by name into vim.org & GitHub (duplicates prone)
+- *search* searches plugins by name on vim.org & GitHub (duplicates prone)
 
-- *install* install all the plugins already present in the `.vimrc` file or in
-  the `direct_bundles.vim` one but not are yet installed
+- *install* installs all the plugins already present in the `.vimrc` file or in
+  the `direct_bundles.vim` file that are not yet installed
 
-- *check* checks if all the plugins are already installed, in other case ask for
-  their installation
+- *check* checks if all the plugins are already installed, and if not, prompt
+  for their installation
 
-- *docs* install all plugins help docs manually
+- *docs* installs help docs for all plugins manually
 
-- *clean* delete those plugins folders that are not more needed because are not
-  still installed, previous confirmation
+- *clean* deletes, upon confirmation, those plugin folders that are no longer
+  needed because they are not still installed
 
 - *list* lists all the installed plugins
 
@@ -218,24 +219,25 @@ These are the menu entries in detail:
 
 > __Plugins updating__
 
-> Since we often install plugins from repositories, we are exposed to error
-> prone updates. Once in a while, a plugin update introduces a bug and you end
-> with a unstable configuration until that bug is fixed (and may take a while).
+> Since we often install plugins from repositories, we are exposed to error-
+> prone updates. Once in a while, a plugin update introduces a bug and you end up
+> with an unstable configuration until that bug is fixed (which may take a while).
 > If we use Vim for work, that is very inconvenient.
 
 > A way to avoid this is by using symbolic links and backups of our vim folder.
 > If we made a backup of our vim config before an update, is easy to restore it
-> to a previous stable state without much effort. But is tedious and error prone
-> too. And alternative is managing this via NeoBundle. We can use the revision
-> lock feature to specify what revision we want to install or even say to
-> NeoBundle that a plugin should not be updated. But is not a perfect solution
-> too, and very manually. Maybe in a future, we could do plugin rollbacks...
+> to a previous stable state without much effort. But this is tedious and
+> error-prone too. And alternative is managing this via NeoBundle. We can use
+> the revision lock feature to specify what revision we want to install or even
+> say to NeoBundle that a plugin should not be updated. But it is not a perfect
+> solution either, and very manual. Maybe in a future, we could do plugin
+> rollbacks...
 
 ## Colorschemes
 
 ![unite_colorscheme](http://joedicastro.com/static/pictures/unite_colorscheme_en.gif "unite colorscheme")
 
-To choose a colorscheme we can do it easily and comfortably with a included
+To choose a colorscheme we can do it easily and comfortably with an included
 preview through a Unite menu:
 
 __Unite__
@@ -251,7 +253,7 @@ __Unite__
 
 >   __Mappings__
 
-> In addition to the options available on the menu I have set a number of
+> In addition to the options available on the menui, I have set a number of
 > mappings that make it much easier to manage windows
 
 >   - `<C-H>` move to the next window to the left
@@ -265,10 +267,10 @@ __Unite__
 
 ### Menu
 
-- The first three menu entries let us to easily move to the chosen buffer, tab
+- The first three menu entries let us to easily move to the chosen buffer, tab,
   or window from the candidates
 
-- *location list* and *quickfix* to access to these windows content through
+- *location list* and *quickfix* to access these windows content through
   Unite interface
 
 - *resize windows* use the winresizer plugin to easily resize the windows
@@ -279,8 +281,8 @@ __Unite__
     > - `<ESC>` end the resizing
     > - `q` cancel the resizing
 
-- the next two entries are for create new windows (horizontal and vertical) and
-  the third one to close any window (except the last)
+- the next two entries are for creating new windows (horizontal and vertical) and
+  the third one is to close any window (except the last)
 
 - *toggle quickfix window* toggle the quickfix window, also close the location
   list if is opened
@@ -296,7 +298,7 @@ __Unite__
 
 This menu manages the Vim sessions. We can store them as the default session or
 we can give them a custom name. If we load one session we can continue working
-in the same point where we was when was saved.
+in the same point where we were when it was saved.
 
 __Unite__
 
@@ -318,7 +320,7 @@ __Unite__
 
 ![unite text](http://joedicastro.com/static/pictures/unite_menu_text.png "unite text")
 
-This menu group several options to edit text
+This menu groups several options to edit text
 
 __Unite__
 
@@ -329,8 +331,8 @@ __Unite__
 - *toggle search results highlight* toggle the search results highlight,
   obviously
 
-- *toggle line numbers* toggle between the four possible visualizations for the
-  line numbers column: none, relative (two forms) and absolute
+- *toggle line numbers* toggle between the four possible visualizations of the
+  line numbers column: none, relative (two forms), and absolute
 
 - *toggle wrapping* toggle automatic wrapping and the vertical column color. The
   vertical column that indicates wrapping threshold turns green when the
@@ -339,7 +341,7 @@ __Unite__
 - *show hidden chars* show the hidden chars, those that are not printable
   (tabs, carriage returns, spaces, ...)
 
-- the next three entries are for fold/unfold the folds in our doc, one by one or
+- the next three entries are to fold/unfold the folds in our doc, one by one or
   all at the same time
 
 - and the three after those allows us to copy/paste from system clipboard and
@@ -348,10 +350,10 @@ __Unite__
 - *remove trailing whitespaces* delete those empty and almost never significant
   spaces at the end of the line
 
-- *text statistics* it shows the number of columns, lines, words, chars and
+- *text statistics* show the number of columns, lines, words, chars and
   bytes in total and for the current position
 
-- *show word frequency* show the times that each word appears in the text
+- *show word frequency* show the number of times that each word appears in the text
 
 - *show available digraphs* show a table with all the digraphs available and
   the pair of chars needed to generate each of them.
@@ -362,36 +364,36 @@ __Unite__
    [lorem]: http://es.wikipedia.org/wiki/Lorem_ipsum
 
 - *show current char info* show extended info about the current character.
-  The info include the decimal Unicode value, hexadecimal, octal, Unicode name,
+  The info includes the decimal Unicode value, hexadecimal, octal, Unicode name,
   HTML entity, Emoji code and any digraph available.
 
 ### Other tools
 
 Apart from the tools included in the menu, and apart from the Vanilla Vim ones
-too, we have available another bunch of tools to help us to edit the text more
+too, we have another bunch of tools available to help us to edit the text more
 easily.
 
 - __text-objects__ these are customized text objects that allow us to extend the
   Vim motions defined by default (word, sentence, paragraph, block,
   delimiters, and markup tags) and be able to use more efficient text
-  selections. In this config I added the next ones:
+  selections. In this config I added the following ones:
 
     > - __line__ select a line by `al` or `il`
     > - __underscore__ select the text surrounded by underscores via `a_` or
     >   `i_`
     > - __all the buffer__ select the entire buffer. We can use `ae` and `ie`
-    > - __indent__ allow to select a indentation level. Options: `ai`, `ii`,
-    >   `aI`, `iI`. `i` selects the current level and the nested ones, `I` only
+    > - __indent__ select a indentation level. Options: `ai`, `ii`,
+    >   `aI`, `iI`. `i` select the current level and the nested ones, `I` only
     >   selects the current indent level
-    > - __last search__ select the last searched term results. Options:: `a/`,
+    > - __last search__ select the last search term results. Options:: `a/`,
     >   `i/`, `a?` and `i?`
-    > - __python class__ into a Python code file selects a class by `aC`, `iC`
+    > - __python class__ in a Python code file, selects a class by `aC`, `iC`
     >   and `C`
     > - __python method or function__ same as above for methods and functions
     >   via `aM`, `iM` and `M`
 
-- __vim-commentary__ a extremely easy tool to toggle commentary in lines and
-  visual selections. We only need to entry a mapping and a movement to do the
+- __vim-commentary__ an extremely easy tool to toggle commentary in lines and
+  visual selections. We only need to enter a mapping and a movement to do the
   action, as simple as that.
 
     ![commentary](http://joedicastro.com/static/pictures/commentary_en.gif "commentary")
@@ -400,7 +402,7 @@ easily.
     >
     >  - `<Leader>c` or `gc` toggle the commentary
 
-- __vim-surround__ to surround a vim text object with a pair of symmetrical
+- __vim-surround__ surround a vim text object with a pair of symmetrical
   chars.  We can also remove or change the ones already there
 
     ![surround](http://joedicastro.com/static/pictures/surround_en.gif "surround")
@@ -430,16 +432,16 @@ easily.
 - __vim-smartinput__ provides smart auto-completion for delimiters like
   __(), {}, [], "", '', ``__
 
-    Is very easy to use, if we write the first pair of these chars, then
-    automatically is introduced the second one and the cursor moves to the
+    This is very easy to use. If we write the first pair of these chars, then
+    the second one is automatically introduced and the cursor moves to the
     interior thereof. Then, we continue writing and to exit the inside you only
     have to write the second character. If you only want the first char, you
     only have to press the __Delete__ key
 
     ![smartinput](http://joedicastro.com/static/pictures/smartinput_en.gif "smartinput")
 
-- __neocomplete__ auto-completion of keywords. methods, functions, etc by only
-  typing a few letters (normally the first). Well used speeds up a lot writing
+- __neocomplete__ auto-completion of keywords, methods, functions, etc by only
+  typing a few letters (normally the first). Well used, this speeds up a lot writing
   of code or text. It improves the Vanilla Vim auto-completion, with a live
   fuzzy-logic search. It's powerful and totally customizable.
 
@@ -451,7 +453,7 @@ easily.
     > - `<C-N>`   go to the next word (below) in the option list
     > - `<C-P>`   go to the previous word (above) in the option list
 
-- __easydigraph__ to easily insert digraphs, especially when trying to insert
+- __easydigraph__ easily insert digraphs, especially when trying to insert
   several simultaneously
 
     ![easydigraph](http://joedicastro.com/static/pictures/easydigraph_en.gif "easydigraph")
@@ -468,23 +470,23 @@ easily.
     > __Mappings__
 
     > - `<C-N>` turn on the multiple cursors for the current word or visual
-    >   selection. Pressing it again, find the next occurrence & moves to it
-    > - `<C-X>` skip the current position and move to the next one if exists
-    > - `<C-P>` deselect the current position and turn back to the previous one
+    >   selection. Press it again to find the next occurrence & move to it
+    > - `<C-X>` skip the current position and move to the next one if it exists
+    > - `<C-P>` deselect the current position and move back to the previous one
     > - `<ESC>` turn off the multiple cursors
 
-- __vim-transpose__ to transpose rows & columns. For certain kind of files, like
-  *CSV*, it can be really helpful for deal with them. It works in visual mode.
+- __vim-transpose__ transpose rows & columns. For certain kind of files, like
+  *CSV*, it can be really helpful to deal with them. It works in visual mode.
 
     ![transpose](http://joedicastro.com/static/pictures/transpose_en.gif "transpose")
 
     > __Commands__
 
-    > - `:Transpose` to do the transposition by default
-    > - `:TransposeCSV {separator} {delimiter}` to do the transposition by `;` or by
+    > - `:Transpose` do the transposition by default
+    > - `:TransposeCSV {separator} {delimiter}` do the transposition by `;` or by
     >   the specified separator & delimiter
-    > - `:TransposeTab` to transpose by tabs
-    > - `:TransposeWords` to transpose by words (inserts a `?` where is no one)
+    > - `:TransposeTab` transpose by tabs
+    > - `:TransposeWords` transpose by words (inserts a `?` where is no one)
     > - `:TransposeInteractive` for complex transpositions
 
 
@@ -492,7 +494,7 @@ easily.
 
 ![unite spell](http://joedicastro.com/static/pictures/unite_menu_spell_en.png "unite spell")
 
-This menu entries are used to spell checking the text
+These menu entries are used for spell checking the text
 
 __Unite__
 
@@ -503,8 +505,8 @@ __Unite__
 ![unite grep](http://joedicastro.com/static/pictures/unite_menu_grep_en.png "unite grep")
 
 This menu allows us to search files by regular expression engines. I have it
-configured to use first the `ag` program, then `ack` if `ag` is not found and
-else the `grep` program. Also we can use other Unix tools like `locate` and
+configured to use the `ag` program first, then `ack` if `ag` is not found, and
+else the `grep` program. We can also use other Unix tools like `locate` and
 `find` from this menu.
 
 __Unite__
@@ -513,19 +515,19 @@ __Unite__
 
 ### Menu
 
-- *grep (ag → ack → grep)* to search files by its content. Using a regular
+- *grep (ag → ack → grep)* search files by content. Using a regular
   expression pattern in a target directory, shows us the results in Unite.
-  Between brackets are the list of programs to use sorted by priority, uses the
-  first available.
+  Between brackets are the list of programs to use sorted by priority. It uses
+  the first available.
 
-- *find* it uses the known Unix tool `find` to search files by name
+- *find* use the known Unix tool `find` to search files by name
 
 - *locate* same as above using the `locate` tool instead
 
-- *vimgrep* as last resource in case that you don't have installed any regex
-  search engine tool you can use the internal Vim grep one. But is extremely low
-  in comparison with another of the mentioned in the first entry. So, only if
-  you are desperate.
+- *vimgrep* as a last resort, in case you don't have any regex search tool
+  installed, you can use the internal Vim grep one. But it is extremely low
+  in comparison with another of the mentioned in the first entry. So, use it
+  only if you are desperate.
 
 
 ## Searching inside the buffer
@@ -543,24 +545,24 @@ __Unite__
 - *word under the cursor* find all the lines where the word under the cursor
   appears. It is a improved version of the `*` key behavior
 
-- *outlines & tags (ctags)* lists all the document "outlines" and allows us to
+- *outlines & tags (ctags)* list all the document "outlines" and allow us to
   navigate between them. Very useful to move around the headers of a Markdown
   document like this. In code files it shows the source tags (ctags) to move
   easily to a given point of the code.
 
 - *marks* list all the marks
 
-- *folds* allows us to navigate between folders
+- *folds* navigate among folders
 
-- *changes* a list of all the changes made to the file
+- *changes* list all the changes made to the file
 
 - *jumps* list all the last window jumps
 
-- *undos* the file undo history
+- *undos* show the file undo history
 
-- *tasks* all the pending tasks for the current buffer. This tasks (and notes)
+- *tasks* show all the pending tasks for the current buffer. These tasks (and notes)
   are defined by the following keywords: __TODO__, __FIXME__, __NOTE__, __XXX__
-  , __COMBAK__ y __@todo__
+  , __COMBAK__, and __@todo__
 
 ### Other tools
 
@@ -603,15 +605,15 @@ __Unite__
 - *yanks* list all the yanks arranged chronologically starting with the most
   recent
 
-- *commands* show the Ex commands history
+- *commands* show the Ex command history
 
 - *searches* list the last searches
 
 - *registers* show the vim registers content
 
-- *messages* the messages register (like the `:messages` command)
+- *messages* show the messages register (like the `:messages` command)
 
-- *undo* launch the Gundo plugin. Gundo makes friendly the Vim undo tree, we
+- *undo* launch the Gundo plugin. Gundo makes the Vim undo tree friendlier. We
   can preview the changes and navigate easily around the tree.
 
     ![gundo](http://joedicastro.com/static/pictures/gundo_en.gif "gundo")
