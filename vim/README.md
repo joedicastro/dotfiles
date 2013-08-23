@@ -1402,15 +1402,32 @@ can be founded in this same repository under the `../fonts` folder.
   [grep]:http://www.gnu.org/software/grep/
   [git]: http://git-scm.com/
 
-## Alternative configuration
+## Alternative settings
 
 Maybe this setup can be helpful to you and decide to clone/fork it, but you
 don't like all the settings. Well, in this case you still can clone this config
-and customize it as you want without loose the evolution of mine.
+and customize it as you want without loose the evolution of mine. 
 
 To do this I added the possibility to read an additional file to load your
 custom settings. This file is located by default in this path
-`~/.vim/custom.vim`
+`~/.vim/custom.vim`. Those settings override the similar ones in the .vimrc file
+
+__Example__
+
+I like the folding setting by default in python files, but if you do not like
+it, you can add this line to that file:
+
+```VimL
+let g:pymode_folding = 0
+```
+
+At the same time I have all the folds closed by default, if you prefer open the
+file with all the folds opened, you can add this other line:
+
+```VimL 
+set foldlevel=100
+```
+
 
 ## Plugins & Colorschemes
 
