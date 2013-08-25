@@ -150,7 +150,7 @@ NeoBundle 'Shougo/neocomplete.vim'
 " A Python plugin
 NeoBundleLazy 'klen/python-mode', {'autoload': {'filetypes': ['python']}}
 " Admin virtualenvs
-NeoBundleLazy 'jmcantrell/vim-virtualenv', {'autoload': {'filetypes': ['python']}}
+NeoBundle     'jmcantrell/vim-virtualenv'
 " Show indent lines
 NeoBundleLazy 'Yggdroot/indentLine', {'autoload': {'filetypes': ['python']}}
 " Show reports from coverage.py
@@ -877,6 +877,7 @@ let g:pymode_breakpoint_key = '<Leader>B'
 let g:pymode_lint_checker = 'pylint,pep8,mccabe,pep257'
 let g:pymode_lint_ignore = ''
 let g:pymode_lint_config = $HOME.'/dotfiles/pylint/pylint.rc'
+" let g:pymode_virtualenv = 0
 
 let g:pymode_rope = 1
 let g:pymode_rope_goto_def_newwin = 'new'
