@@ -246,7 +246,7 @@ NeoBundleLazy 'mattn/emmet-vim', {'autoload':
 " GUI {{{
 
 " A better looking status line
-NeoBundle 'joedicastro/vim-powerline'
+NeoBundle 'bling/vim-airline'
 " Zooms a window
 NeoBundleLazy 'vim-scripts/zoomwintab.vim', {'autoload' :
             \{'commands' : 'ZoomWinTabToggle'}}
@@ -536,8 +536,7 @@ map <Leader>P :set invpaste<CR>
 
 " Autoload configuration when this file changes ($MYVIMRC) {{{
 
-" also reload the Powerline colorscheme to avoid artifacts
-autocmd! BufWritePost vimrc source % | call Pl#Load()
+autocmd! BufWritePost vimrc source %
 
 " }}}
 
@@ -721,6 +720,30 @@ nnoremap Y y$
 
 " PLUGINS Setup {{{ ===========================================================
 
+" Airline {{{
+
+set noshowmode
+
+let g:airline_theme='powerlineish'
+let g:airline_enable_branch=1
+let g:airline_powerline_fonts=0
+let g:airline_detect_whitespace = 1
+
+let g:airline#extensions#hunks#non_zero_only = 1
+
+let g:airline_paste_symbol = 'ρ'
+let g:airline_paste_symbol = 'Þ'
+let g:airline_paste_symbol = '∥'
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_branch_prefix = '⭠'
+let g:airline_readonly_symbol = '⭤'
+let g:airline_linecolumn_prefix = '⭡'
+
+" }}}
+
 " ColorV {{{
 
 let g:colorv_cache_file=$HOME.'/.vim/tmp/vim_colorv_cache'
@@ -856,17 +879,6 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " Po.vim {{{ -----------------------------------------------------------------
 
 let g:po_translator = "joe di castro <joe@joedicastro.com>"
-
-" }}}
-
-" Powerline {{{ --------------------------------------------------------------
-
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_cache_file = $HOME.'/.vim/tmp/Powerline.cache'
-
-set noshowmode
-
-call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
 
 " }}}
 
@@ -1487,8 +1499,6 @@ let g:unite_source_menu_menus.vim.command_candidates = [
         \'Unite -default-action=sigkill -start-insert process'],
     \['▷ launch executable (dmenu like)',
         \'Unite -start-insert launcher'],
-    \['▷ clear powerline cache',
-        \'PowerlineClearCache'],
     \]
 nnoremap <silent>[menu]v :Unite menu:vim -silent -start-insert<CR>
 " }}}
@@ -1571,7 +1581,7 @@ let g:vimfiler_data_directory = $HOME.'/.vim/tmp/vimfiler'
 " map <LocalLeader>mr :Mer<CR>
 
 " let g:VMEPextensions = ['extra', 'codehilite']
-" let g:VMEPhtmlreader= '/usr/bin/chromium-browser'
+" let g:VMEPhtmlreader= '/usr/bin/chromium'
 
 " }}}
 

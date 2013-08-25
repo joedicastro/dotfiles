@@ -98,13 +98,6 @@ intuitive and easy to navigate.*
 
 ### Navigation inside Unite
 
-In the Powerline theme I'm using there is a circle after the candidates number
-that shows the current mode following these criteria:
-
- - __Green:__    normal mode
- - __Blue:__     insert mode
- - __Orange:__   visual mode
-
 These are some of the available mappings:
 
 > __Mappings__
@@ -1344,9 +1337,6 @@ The first entry is already commented at the beginning of this document
 - *launch executable* launch an executable from a list, in a similar behavior as
   `dmenu`
 
-- *clear powerline cache* to clean the Powerline cache to reflect the changes
-  made if needed
-
 ## Prerequisites
 
 __Vim__
@@ -1467,6 +1457,7 @@ set foldlevel=100
 - __unite-session__ <https://github.com/Shougo/unite-session>
 - __unite.vim__ <https://github.com/Shougo/unite.vim>
 - __utl.vim__ <https://github.com/vim-scripts/utl.vim>
+- __vim-airline__ <https://github.com/bling/vim-airline>
 - __vim-characterize__ <https://github.com/tpope/vim-characterize>
 - __vim-commentary__ <https://github.com/tpope/vim-commentary>
 - __vim-fugitive__ <https://github.com/tpope/vim-fugitive>
@@ -1477,7 +1468,6 @@ set foldlevel=100
 - __vim-molokai256__  <https://github.com/joedicastro/vim-molokai256>
 - __vim-multiple-cursors__ <https://github.com/terryma/vim-multiple-cursors>
 - __vim-pentadactyl__ <https://github.com/joedicastro/vim-pentadactyl>
-- __vim-powerline__ <https://github.com/joedicastro/vim-powerline>
 - __vim-repeat__ <https://github.com/tpope/vim-repeat>
 - __vim-signature__ <https://github.com/kshenoy/vim-signature>
 - __vim-smartinput__ <https://github.com/kana/vim-smartinput>
