@@ -1383,20 +1383,23 @@ config, those are the needed:
 
 __Font__
 
-The __Dejavu Sans for Powerline__ font is required for the Powerline plugin. It
-can be founded in this same repository under the `../fonts` folder.
+The __Dejavu Sans for Powerline__ font is required for the vim-airline plugin.
+It can be founded in this same repository under the `../fonts` folder. You can
+find more fonts ready for powerline in this repository, [powerline
+fonts][pwrfnts]
 
   [ctags]: http://ctags.sourceforge.net/
   [ag]: https://github.com/ggreer/the_silver_searcher
   [ack]: http://beyondgrep.com/
   [grep]:http://www.gnu.org/software/grep/
   [git]: http://git-scm.com/
+  [pwrfnts]: https://github.com/Lokaltog/powerline-fonts
 
 ## Alternative settings
 
 Maybe this setup can be helpful to you and decide to clone/fork it, but you
 don't like all the settings. Well, in this case you still can clone this config
-and customize it as you want without loose the evolution of mine. 
+and customize it as you want without loose the evolution of mine.
 
 To do this I added the possibility to read an additional file to load your
 custom settings. This file is located by default in this path
@@ -1414,7 +1417,7 @@ let g:pymode_folding = 0
 At the same time I have all the folds closed by default, if you prefer open the
 file with all the folds opened, you can add this other line:
 
-```VimL 
+```VimL
 set foldlevel=100
 ```
 
