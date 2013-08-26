@@ -1267,7 +1267,7 @@ the ASCII mode before saving the file.
 > - `<leader>ht` move the cursor between the Hexadecimal and ASCII areas
 > - `?`          show help
 
-## Internalization
+## Internationalization
 
 __Translate .po files__
 
