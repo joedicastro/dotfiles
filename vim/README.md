@@ -1,7 +1,7 @@
 # My Vim Configuration
 
 
-__Version 1.3  (2013-08-19)__
+__Version 1.4  (2013-08-26)__
 
 The purpose of this document is to compile all the customizations available in
 my vim configuration, to help me reorganize them properly, and as a sort of
@@ -14,7 +14,8 @@ configuration.
 Due to the "dynamic" nature of my configuration, this document is under a lot of
 stress. It changes frequently and it's better if you watch the DVCS commits to
 stay in the loop. Also, some images may be outdated with respect to the current
-configuraton.
+configuration (also in GitHub the images are cached and maybe do not correspond
+with the current version of the image).
 
 To all this we must add everything that Vim provides by default, which is no
 small service.
@@ -422,14 +423,14 @@ easily.
     > - `d<C-A>` Change the time under the cursor to the current UTC time
     > - `d<C-X>` Change the time under the cursor to the current Local time
 
-- __vim-smartinput__ provides smart auto-completion for delimiters like
+- __delimitMate__ provides smart auto-completion for delimiters like
   __(), {}, [], "", '', ``__
 
     This is very easy to use. If we write the first pair of these chars, then
     the second one is automatically introduced and the cursor moves to the
     interior thereof. Then, we continue writing and to exit the inside you only
-    have to write the second character. If you only want the first char, you
-    only have to press the __Delete__ key
+    have to write the second character or press <S-Tab>. If you only want the
+    first char, you only have to press the __Delete__ key
 
     ![smartinput](http://joedicastro.com/static/pictures/smartinput_en.gif "smartinput")
 
@@ -1429,6 +1430,7 @@ set foldlevel=100
 - __coveragepy.vim__ <https://github.com/alfredodeza/coveragepy.vim>
 - __crontab.vim__ <https://github.com/vim-scripts/crontab.vim>
 - __csapprox__ <https://github.com/godlygeek/csapprox>
+- __delimitMate__ <https://github.com/Raimondi/delimitMate>
 - __DirDiff.vim__ <http://github.com/joedicastro/DirDiff.vim>
 - __easydigraph.vim__ <https://github.com/Rykka/easydigraph.vim>
 - __emmet-vim__ <https://github.com/mattn/emmet-vim>
@@ -1473,7 +1475,6 @@ set foldlevel=100
 - __vim-pentadactyl__ <https://github.com/joedicastro/vim-pentadactyl>
 - __vim-repeat__ <https://github.com/tpope/vim-repeat>
 - __vim-signature__ <https://github.com/kshenoy/vim-signature>
-- __vim-smartinput__ <https://github.com/kana/vim-smartinput>
 - __vim-speeddating__ <https://github.com/tpope/vim-speeddating>
 - __vim-surround__ <https://github.com/tpope/vim-surround>
 - __vim-textobj-entire__ <https://github.com/kana/vim-textobj-entire>

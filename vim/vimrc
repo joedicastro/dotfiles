@@ -185,8 +185,7 @@ NeoBundle 'vim-scripts/utl.vim'
 " Text edition {{{
 
 " Autocompletion of (, [, {, ', ", ...
-NeoBundle 'kana/vim-smartinput'
-" NeoBundle 'delimitMate.vim'
+NeoBundle 'delimitMate.vim'
 " Smart and fast date changer
 NeoBundle 'tpope/vim-speeddating'
 " to surround vim objects with a pair of identical chars
@@ -750,6 +749,12 @@ augroup plugin_commentary
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType puppet setlocal commentstring=#\ %s
 augroup END
+
+" }}}
+
+" delimitmate {{{
+
+let delimitMate_expand_space = 1
 
 " }}}
 
