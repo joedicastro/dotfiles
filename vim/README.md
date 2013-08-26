@@ -429,7 +429,7 @@ easily.
     This is very easy to use. If we write the first pair of these chars, then
     the second one is automatically introduced and the cursor moves to the
     interior thereof. Then, we continue writing and to exit the inside you only
-    have to write the second character or press <S-Tab>. If you only want the
+    have to write the second character or press `<S-Tab>`. If you only want the
     first char, you only have to press the __Delete__ key
 
     ![smartinput](http://joedicastro.com/static/pictures/smartinput_en.gif "smartinput")
@@ -956,7 +956,7 @@ __Unite__
 
         > - `ca` do a commit which add the new changes to the previous commit,
         >   useful when we forgot add something in a commit. Same as `git commit
-        >   --ammend`
+        >   --amend`
 
         > - `D` make a diff between the current version and the index one, using
         >   vimfiler via the `:Gdiff` command
