@@ -1246,26 +1246,33 @@ of individual files
 
 __Hexadecimal Editor__
 
-This is actually a wrapper around the tool `xxd` to visualize the file in an
-hexadecimal binary mode.
+For this I use the Vinarise plugin, a well thought hexadecimal editor for Vim.
 
 No play with this, is not a toy, this is for grown ups only! If you do not know
 what you are doing, keep your hands out of it! :smile: If you are all thumbs,
-this tool is a sure candidate for a disaster. One tip: remember to come back to
-the ASCII mode before saving the file.
+this tool is a sure candidate for a disaster.
 
-![hex](http://joedicastro.com/static/pictures/hexman_en.gif "hex")
+![hex](http://joedicastro.com/static/pictures/vinarise_en.png "hex")
 
 > __Mappings__
 
-> - `<F6>` toggle the Hexadecimal/ASCII modes
-> - `<leader>hd` delete the Hexadecimal character under the cursor
-> - `<leader>hi` insert a ASCII character before the cursor
-> - `<leader>hg` goto hex offset
-> - `<leader>hn` or `<Tab>` goto next hex offset
-> - `<leader>hp` or `<Shift><Tab>` goto previous hex offset
-> - `<leader>ht` move the cursor between the Hexadecimal and ASCII areas
-> - `?`          show help
+- `<F6>` entry into the Hexadecimal mode
+- `V`  edit the file in ASCII mode with Vim (Vinarise keeps opened)
+- `q`  hide Vinarise
+- `Q`  quit Vinarise
+- `<C-G>` show current position
+- `r`  change current address
+- `R`  overwrite from current address
+- `gG` move to input address
+- `go` move by offset address
+- `/`  search binary value
+- `?`  search binary value reverse
+- `g/` search string value
+- `g?` search string value reverse
+- `e/` search regular expression (search only forward)
+- `E`  change encoding
+- `<C-L>` redraw
+- `g<C-L>` reload
 
 ## Internationalization
 
@@ -1437,7 +1444,6 @@ set foldlevel=100
 - __gitv__ <https://github.com/gregsexton/gitv>
 - __gundo.vim__ <https://github.com/sjl/gundo.vim>
 - __harlequin__ <https://github.com/nielsmadan/harlequin>
-- __hexman.vim__ <https://github.com/vim-scripts/hexman.vim>
 - __html5.vim__ <https://github.com/othree/html5.vim>
 - __indentLine__ <https://github.com/Yggdroot/indentLine>
 - __JSON.vim__ <https://github.com/vim-scripts/JSON.vim>
@@ -1490,6 +1496,7 @@ set foldlevel=100
 - __vimfiler__ <https://github.com/Shougo/vimfiler.vim>
 - __vimproc__ <https://github.com/Shougo/vimproc.vim>
 - __vimux__ <https://github.com/benmills/vimux>
+- __vinarise.vim__ <https://github.com/Shougo/vinarise.vim>
 - __webapi-vim__ <https://github.com/mattn/webapi-vim>
 - __winresizer__ <https://github.com/jimsei/winresizer>
 - __zoomwintab.vim__ <https://github.com/vim-scripts/zoomwintab.vim>

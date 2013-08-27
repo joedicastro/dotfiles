@@ -138,8 +138,7 @@ NeoBundleLazy 'joedicastro/vim-markdown-extra-preview'
 " A diff tool for directories
 NeoBundleLazy 'joedicastro/DirDiff.vim', { 'autoload': { 'commands' : 'DirDiff'}}
 " Hexadecimal editor
-NeoBundleLazy 'vim-scripts/hexman.vim', { 'autoload' :
-            \ { 'mappings' : [['ni', '<Plug>HexManager']]}}
+NeoBundle 'Shougo/vinarise.vim'
 
 " }}}
 
@@ -830,12 +829,6 @@ let g:goog_user_conf = {'langpair': 'es|en', 'v_key': 'T'}
 nnoremap <Leader>u :GundoToggle<CR>
 
 let g:gundo_preview_bottom = 1
-
-" }}}
-
-" HexManager {{{
-
-map <F6> <Plug>HexManager<CR>
 
 " }}}
 
@@ -1593,6 +1586,16 @@ map <Leader>rl :VimuxRunLastCommand<CR>
 map <Leader>rs :VimuxInterruptRunner<CR>
 map <Leader>ri :VimuxInspectRunner<CR>
 map <Leader>rq :VimuxCloseRunner<CR>
+
+" }}}
+
+" Vinarise {{{
+
+map <F6> :Vinarise<CR>
+
+let g:vinarise_enable_auto_detect = 1
+
+au FileType vinarise let g:airline_section_warning = ''
 
 " }}}
 
