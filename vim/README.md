@@ -1359,8 +1359,17 @@ You can compile Vim from source if your distribution does not offer a package
 that fits those requirements. You only have to configure it with the adequate
 parameters, something like this:
 
-    $ ./configure --with-features=huge --enable-gui=gnome2
-    --enable-luainterp=yes +--enable-pythoninterp=yes --enable-rubyinterp=yes
+    $ hg clone https://code.google.com/p/vim/ vim
+    $ cd vim
+    $ ./configure --with-features=huge \
+                  --enable-gui=gnome2 \
+                  --enable-luainterp=yes \
+                  --enable-pythoninterp=yes \
+                  --enable-rubyinterp=yes \
+                  --enable-perlinterp=yes \
+                  --enable-cscope
+    $ make
+    $ sudo make install
 
 __Programs__
 
