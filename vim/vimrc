@@ -63,8 +63,6 @@ NeoBundle 'Shougo/unite.vim'
 
 " Unite sources
 NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
-NeoBundleLazy 'Shougo/unite-session', {'autoload':{'unite_sources':'session',
-            \ 'commands' : ['UniteSessionSave', 'UniteSessionLoad']}}
 NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
 NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':
             \ 'colorscheme'}}
@@ -732,6 +730,7 @@ let g:airline#extensions#hunks#non_zero_only = 1
 
 let g:airline#extensions#tabline#enabled = 2
 let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#buffer_min_count = 1
 
 " }}}
 
@@ -1345,22 +1344,6 @@ let g:unite_source_menu_menus.markdown.command_candidates = [
 nnoremap <silent>[menu]k :Unite -silent menu:markdown<CR>
 " }}}
 
-" sessions menu {{{
-let g:unite_source_menu_menus.sessions = {
-    \ 'description' : '       sessions
-        \                                              ⌘ [space]h',
-    \}
-let g:unite_source_menu_menus.sessions.command_candidates = [
-    \['▷ load session',
-        \'Unite session'],
-    \['▷ make session (default)',
-        \'UniteSessionSave'],
-    \['▷ make session (custom)',
-        \'exe "UniteSessionSave " input("name: ")'],
-    \]
-nnoremap <silent>[menu]h :Unite -silent menu:sessions<CR>
-" }}}
-
 " bookmarks menu {{{
 let g:unite_source_menu_menus.bookmarks = {
     \ 'description' : '      bookmarks
@@ -1529,9 +1512,6 @@ elseif executable('ack')
 endif
 
 let g:junkfile#directory=expand($HOME."/.vim/tmp/junk")
-
-" make this dir if no exists previously
-silent! call MakeDirIfNoExists(expand(unite_data_directory)."/session/")
 
 " }}}
 

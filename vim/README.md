@@ -286,19 +286,6 @@ __Unite__
 - *delete buffer* delete a buffer
 
 
-## Sessions
-
-![unite sessions](http://joedicastro.com/static/pictures/unite_menu_sessions.png "unite sessions")
-
-This menu manages the Vim sessions. We can store them as the default session or
-we can give them a custom name. If we load one session we can continue working
-in the same point where we were when it was saved.
-
-__Unite__
-
-`<LocalLeader>h` or `:Unite menu:sessions` shows the sessions menu
-
-
 ## Bookmarks
 
 ![unite bookmarks](http://joedicastro.com/static/pictures/unite_menu_bookmarks.png "unite bookmarks")
@@ -1474,7 +1461,6 @@ set foldlevel=100
 - __unite-mark__ <https://github.com/tacroe/unite-mark>
 - __unite-outline__ <https://github.com/Shougo/unite-outline>
 - __unite-quickfix__ <https://github.com/osyo-manga/unite-quickfix>
-- __unite-session__ <https://github.com/Shougo/unite-session>
 - __unite.vim__ <https://github.com/Shougo/unite.vim>
 - __utl.vim__ <https://github.com/vim-scripts/utl.vim>
 - __vim-airline__ <https://github.com/bling/vim-airline>
