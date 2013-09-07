@@ -119,6 +119,8 @@ NeoBundle 'airblade/vim-gitgutter'
 " Git viewer
 NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'],
             \ 'autoload':{'commands':'Gitv'}}
+" Browse GitHub events in Vim
+NeoBundle 'joedicastro/vim-github-dashboard'
 
 " }}}
 
@@ -214,8 +216,6 @@ NeoBundle 'kana/vim-textobj-underscore' " a_, i_
 NeoBundle 'kana/vim-textobj-user'
 " multiple cursors
 NeoBundle 'terryma/vim-multiple-cursors'
-" translate text with google translator
-NeoBundle 'maksimr/vim-translator'
 
 " }}}
 
@@ -789,6 +789,7 @@ nnoremap <Leader>gl :exe "silent Glog <Bar> Unite -no-quit
 nnoremap <Leader>gL :exe "silent Glog -- <Bar> Unite -no-quit
             \ quickfix"<CR>:redraw!<CR>
 nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
+nnoremap <Leader>gS :exe "silent !shipit"<CR>:redraw!<CR>
 nnoremap <Leader>gg :exe 'silent Ggrep -i '.input("Pattern: ")<Bar>Unite
             \ quickfix -no-quit<CR>
 nnoremap <Leader>ggm :exe 'silent Glog --grep='.input("Pattern: ").' <Bar>
@@ -822,9 +823,30 @@ autocmd FileType git set nofoldenable
 
 " }}}
 
-" Google Translator {{{
+" GitHub dashboard {{{
 
-let g:goog_user_conf = {'langpair': 'es|en', 'v_key': 'T'}
+nnoremap <Leader>gD :exe 'GHD! '.input("Username: ")<CR>
+nnoremap <Leader>gA :exe 'GHA! '.input("Username or repository: ")<CR>
+
+function! GHDashboard (...)
+  if &filetype == 'github-dashboard'
+    " first variable is the statusline builder
+    let builder = a:1
+
+    call builder.add_section('airline_a', 'GitHub ')
+    call builder.add_section('airline_b',
+                \ ' %{get(split(get(split(github_dashboard#statusline(), " "),
+                \ 1, ""), ":"), 0, "")} ')
+    call builder.add_section('airline_c',
+                \ ' %{get(split(get(split(github_dashboard#statusline(), " "),
+                \ 2, ""), "]"), 0, "")} ')
+
+    " tell the core to use the contents of the builder
+    return 1
+  endif
+endfunction
+
+autocmd FileType github-dashboard call airline#add_statusline_func('GHDashboard')
 
 " }}}
 
@@ -1236,8 +1258,14 @@ let g:unite_source_menu_menus.git.command_candidates = [
         \'Glcd'],
     \['▷ git browse             (fugitive)                          ⌘ ,gB',
         \'Gbrowse'],
+    \['▷ github dashboard       (github-dashboard)                  ⌘ ,gD',
+        \'exe "GHD! " input("Username: ")'],
+    \['▷ github activity        (github-dashboard)                  ⌘ ,gA',
+        \'exe "GHA! " input("Username or repository: ")'],
+    \['▷ github issues & PR                                         ⌘ ,gS',
+        \'normal ,gS'],
     \]
-nnoremap <silent>[menu]g :Unite -silent -winheight=26 -start-insert menu:git<CR>
+nnoremap <silent>[menu]g :Unite -silent -winheight=29 -start-insert menu:git<CR>
 " }}}
 
 " code menu {{{

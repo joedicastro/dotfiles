@@ -915,12 +915,12 @@ __Unite__
     > - `P` jump to the commit tagged as `HEAD`
 
 
-- The rest of the entries are typical git commands which are executed via the
-  __Fugitive__ tool. Fugitive is a git wrapper, so good that allows us to manage
-  git repositories without leave Vim. It's so complete and powerful that
-  requires a certain amount of time to get used to it and get total control over
-  its particular interface. The author, Tim Pope, says that about it: "A Git
-  wrapper so awesome, it should be illegal" and is almost true.
+- Almost of the rest of the entries are typical git commands which are executed
+  via the __Fugitive__ tool. Fugitive is a git wrapper, so good that allows us
+  to manage git repositories without leave Vim. It's so complete and powerful
+  that requires a certain amount of time to get used to it and get total control
+  over its particular interface. The author, Tim Pope, says that about it: "A
+  Git wrapper so awesome, it should be illegal" and is almost true.
 
       ![fugitive](http://joedicastro.com/static/pictures/fugitive_en.png "fugitive")
 
@@ -1082,6 +1082,32 @@ __Unite__
     using it. And is very advisable to read the help to get a global vision of
     it.
 
+- *github dashboard* and *github activity* are two options to browse events at
+  GitHub. With the first one we can browse the GitHub Dashboard of a given user.
+  The last one allow us to view the public activity of a given user or repository.
+  There is a limit of 60 calls/hour on the GitHub API without authentication.
+
+    ![gh dashboard](http://joedicastro.com/static/pictures/gh_dashboard.png "gh dashboard")
+
+    > __Mappings__
+
+    > - <Tab> & <S-Tab> to navigate back and forth through the links
+    > - <Enter> open a link in the browser
+    > - R refresh the window
+    > - q close the window
+
+- *github issues & PR* open the external ncurses application [shipit][shpt]
+  that is an interface for GitHub issues and pull requests. The application is
+  still in development but is an amazing way to manage GitHub issues without
+  leaving Vim and the terminal. If you are inside a git repository that have a
+  remote in GitHub, it will open the app for that repository.
+
+    ![shipit](http://joedicastro.com/static/pictures/shipit.png "shipit")
+
+  [shpt]: https://github.com/alejandrogomez/shipit
+
+
+
 ### Other tools
 
 - *vim-gitgutter* show the changes that are made in the buffer versus the git
@@ -1184,7 +1210,7 @@ __Unite__
 - *create hue gradation between two colors* crate a color gradation based in a
   parameter (hue, saturation, ...)
 
-    > __Mappigns in the ColorV window__
+    > __Mappings in the ColorV window__
 
     > - `z/Z` resize the window
     > - `?` show the mappings ciclically
@@ -1469,6 +1495,7 @@ set foldlevel=100
 - __vim-fugitive__ <https://github.com/tpope/vim-fugitive>
 - __vim-gitgutter__ <https://github.com/airblade/vim-gitgutter>
 - __vim-github256__ <https://github.com/joedicastro/vim-github256>
+- __vim-github-dashboard <https://github.com/junegunn/vim-github-dashboard>
 - __vim-markdown__ <https://github.com/joedicastro/vim-markdown>
 - __vim-markdown-extra-preview__ <https://github.com/joedicastro/vim-markdown-extra-preview>
 - __vim-molokai256__  <https://github.com/joedicastro/vim-molokai256>
