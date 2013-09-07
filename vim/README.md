@@ -1091,8 +1091,8 @@ __Unite__
 
     > __Mappings__
 
-    > - <Tab> & <S-Tab> to navigate back and forth through the links
-    > - <Enter> open a link in the browser
+    > - `<Tab>` & `<S-Tab>` to navigate back and forth through the links
+    > - `<Enter>` open a link in the browser
     > - R refresh the window
     > - q close the window
 
