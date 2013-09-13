@@ -9,9 +9,6 @@ hgext.graphlog =
 hgext.color=
 hgext.hgview=
 
-[hooks]
-post-push = $HOME/dotfiles/hg/bb_gh.py
-
 [hgview]
 # your hgview configs statements like: 
 dotradius = 6
