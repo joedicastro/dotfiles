@@ -779,12 +779,12 @@ __Unite__
   pymode one is that this one allow us to search in the external libraries
   documentation
 
-- *syntastic check* and *syntastic errors* are two options of Syntastic, a
-  plugin for code quality (syntax revision) for various programming and markup
-  languages (python, ruby, lua, haskell, css, html, js, json, ...) via external
-  tools (these tools are required). Show the syntax errors in the signs column
-  (gutter). Also shows the total of errors and the number line of the first in
-  the status line
+- *syntastic toggle*,  *syntastic check* and *syntastic errors* are three options
+  of Syntastic, a plugin for code quality (syntax revision) for various
+  programming and markup languages (python, ruby, lua, haskell, css, html, js,
+  json, ...) via external tools (these tools are required). Show the syntax
+  errors in the signs column (gutter). Also shows the total of errors and the
+  number line of the first in the status line
 
 - *list virtualenvs* use the virtualenv plugin to list the python virtualenvs.
 
