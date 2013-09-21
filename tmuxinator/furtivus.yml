@@ -1,0 +1,18 @@
+# ~/.tmuxinator/furtivus.yml
+# you can make as many tabs as you wish...
+
+project_name: furtivus
+project_root: ~/code/furtivus
+pre: vagrant up
+tabs:
+  - code:
+      layout: ae1d,212x65,0,0{105x65,0,0,15,106x65,106,0[106x32,106,0,17,106x32,106,33,18]}
+      panes:
+        - vim furtivus/furtivus.py
+        - vagrant ssh
+        - emacs cogitatum.org
+  - ipython:
+      layout: even-horizontal
+      panes:
+        - ipython2
+        - 
