@@ -1672,6 +1672,12 @@ au BufRead,BufNewFile rc.lua setlocal foldmethod=marker
 
 " }}}
 
+" PYTHON {{{
+
+au FileType python setlocal foldlevel=1000
+
+" }}}
+
 " MARKDOWN {{{
 
 " markdown filetype file
