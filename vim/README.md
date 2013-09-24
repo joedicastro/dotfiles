@@ -724,8 +724,7 @@ __Unite__
 - *insert a breakpoint* insert a breakpoint in python code. If we have `ipython`
   or `pudb` installed, it will use one of those instead the python `pdb`
 
-- *toggle pylint revision* toggle the code revision by [pylint][pylint] each
-  time that the file is saved
+- *pylint check* do a code revision by [pylint][pylint] by demand
 
   [pylint]: http://www.pylint.org/
 
@@ -779,7 +778,7 @@ __Unite__
   pymode one is that this one allow us to search in the external libraries
   documentation
 
-- *syntastic toggle*,  *syntastic check* and *syntastic errors* are three options
+- *syntastic toggle*,  *syntastic check & errors* are two options
   of Syntastic, a plugin for code quality (syntax revision) for various
   programming and markup languages (python, ruby, lua, haskell, css, html, js,
   json, ...) via external tools (these tools are required). Show the syntax
@@ -1445,10 +1444,11 @@ let g:pymode_folding = 0
 ```
 
 At the same time I have all the folds closed by default, if you prefer open the
-file with all the folds opened, you can add this other line:
+file with all the folds opened, you can add this other line (currently is the
+default):
 
 ```VimL
-set foldlevel=100
+au FileType python setlocal foldlevel=1000
 ```
 
 

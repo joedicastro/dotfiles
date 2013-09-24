@@ -896,8 +896,12 @@ let g:po_translator = "joe di castro <joe@joedicastro.com>"
 
 " PythonMode {{{ -------------------------------------------------------------
 
+nmap <silent><Leader>n :PyLint<CR>
+
 let g:pymode_breakpoint_key = '<Leader>B'
 
+let g:pymode_lint = 1
+let g:pymode_lint_write = 0
 let g:pymode_lint_checker = 'pylint,pep8,mccabe,pep257'
 let g:pymode_lint_ignore = ''
 let g:pymode_lint_config = $HOME.'/dotfiles/pylint/pylint.rc'
@@ -913,9 +917,11 @@ let g:pymode_rope_always_show_complete_menu = 1
 
 " Syntastic {{{
 
+nmap <silent><Leader>N :SyntasticCheck<CR>:Errors<CR>
+
 let g:syntastic_python_pylint_exe = "pylint2"
-let g:syntastic_mode_map = { 'mode': 'active', 
-            \'active_filetypes': [],
+let g:syntastic_mode_map = { 'mode': 'active',
+            \ 'active_filetypes': [],
             \ 'passive_filetypes': ['python'] }
 
 let g:syntastic_error_symbol='✗'
@@ -1283,7 +1289,7 @@ let g:unite_source_menu_menus.code.command_candidates = [
         \'normal K'],
     \['▷ insert a breakpoint                        (pymode)        ⌘ ,B',
         \'normal ,B'],
-    \['▷ toggle pylint revison                      (pymode)',
+    \['▷ pylint check                               (pymode)        ⌘ ,n',
         \'PyLintToggle'],
     \['▷ run with python2 in tmux panel             (vimux)         ⌘ ,rr',
         \'normal ,rr'],
@@ -1337,10 +1343,8 @@ let g:unite_source_menu_menus.code.command_candidates = [
         \'RopeShowDoc'],
     \['▷ syntastic toggle                           (syntastic)',
         \'SyntasticToggleMode'],
-    \['▷ syntastic check                            (syntastic)',
-        \'SyntasticCheck'],
-    \['▷ syntastic errors                           (syntastic)',
-        \'Errors'],
+    \['▷ syntastic check & errors                   (syntastic)     ⌘ ,N',
+        \'normal ,N'],
     \['▷ list virtualenvs                           (virtualenv)',
         \'Unite output:VirtualEnvList'],
     \['▷ activate virtualenv                        (virtualenv)',
