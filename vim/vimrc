@@ -1290,7 +1290,7 @@ let g:unite_source_menu_menus.code.command_candidates = [
     \['▷ insert a breakpoint                        (pymode)        ⌘ ,B',
         \'normal ,B'],
     \['▷ pylint check                               (pymode)        ⌘ ,n',
-        \'PyLintToggle'],
+        \'PyLint'],
     \['▷ run with python2 in tmux panel             (vimux)         ⌘ ,rr',
         \'normal ,rr'],
     \['▷ run with python3 in tmux panel             (vimux)         ⌘ ,r3',
