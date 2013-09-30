@@ -10,6 +10,7 @@
         monokai-theme
         org
         powerline
+        sml-mode
         surround
         undo-tree
         ))
