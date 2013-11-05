@@ -281,21 +281,21 @@ vicious.register(memwidget, vicious.widgets.mem, "$1% $2MB", 10)
 cpuwidget = wibox.widget.textbox()
 cpuwidget.width, cpuwidget.align = 150, "center"
 vicious.cache(vicious.widgets.cpu)
-vicious.register(cpuwidget, vicious.widgets.cpu, "$1%   $2  $3  $4  $5  $6  $7  $8", 3)
+vicious.register(cpuwidget, vicious.widgets.cpu, "$1% ", 3)
 -- }}}
 
 -- {{{ Filesystem widget
-fswidget = wibox.widget.textbox()
-vicious.cache(vicious.widgets.fs)
-vicious.register(fswidget, vicious.widgets.fs,
-    "/ ${/ avail_p}% ~ ${/home avail_p}%", 61)
+-- fswidget = wibox.widget.textbox()
+-- vicious.cache(vicious.widgets.fs)
+-- vicious.register(fswidget, vicious.widgets.fs,
+--     "/ ${/ avail_p}% ~ ${/home avail_p}%", 61)
 -- }}}
 
 -- {{{ CPU Temperature & Fans velocity
 cputemp = wibox.widget.textbox()
 vicious.register(cputemp, vicious.contrib.sensors, " $1 ºC" , 3, "Physical id 0")
-fan180mm = wibox.widget.textbox()
-vicious.register(fan180mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan4")
+-- fan180mm = wibox.widget.textbox()
+-- vicious.register(fan180mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan4")
 -- fan120mm = widget({ type = "textbox" })
 -- vicious.register(fan120mm, vicious.contrib.sensors, " $1 RPM" , 5, "fan2")
 -- }}}
@@ -361,16 +361,16 @@ for s = 1, screen.count() do
     right_layout:add(space)
     right_layout:add(cputemp)
     right_layout:add(space)
-    right_layout:add(fan180mm)
-    right_layout:add(space)
+    -- right_layout:add(fan180mm)
+    -- right_layout:add(space)
     right_layout:add(cpuwidget)
     right_layout:add(space)
     right_layout:add(memwidget)
     right_layout:add(space)
     right_layout:add(netwidget)
     right_layout:add(space)
-    right_layout:add(fswidget)
-    right_layout:add(space)
+    -- right_layout:add(fswidget)
+    -- right_layout:add(space)
     right_layout:add(mute)
     right_layout:add(soundvol)
     right_layout:add(space)
