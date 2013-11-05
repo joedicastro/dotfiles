@@ -237,6 +237,14 @@ NeoBundleLazy 'othree/html5.vim', {'autoload':
 
 NeoBundleLazy 'mattn/emmet-vim', {'autoload':
             \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
+
+NeoBundle 'denysonique/vim-coffee-script',{'autoload' : {
+            \ 'commands' : [
+                             \ 'CoffeeCompile', 'CoffeeLint', 'CoffeeMake',
+                             \ 'CoffeeRun', 'CoffeeWatch'],
+            \ 'filetypes' : ['coffee']
+            \ }}
+
 " }}}
 
 " GUI {{{
@@ -731,6 +739,12 @@ let g:airline#extensions#hunks#non_zero_only = 1
 " let g:airline#extensions#tabline#enabled = 2
 " let g:airline#extensions#tabline#fnamemod = ':t'
 " let g:airline#extensions#tabline#buffer_min_count = 1
+
+" }}}
+
+" CoffeeScript {{{
+
+map <Leader>rw :CoffeeWatch vert<CR>
 
 " }}}
 
@@ -1359,6 +1373,8 @@ let g:unite_source_menu_menus.code.command_candidates = [
         \'Coveragepy session'],
     \['▷ toggle coverage marks                      (coveragepy)',
         \'Coveragepy show'],
+    \['▷ CoffeeWatch                                (coffeescript)  ⌘ ,rw',
+        \'CoffeeWatch vert'],
     \['▷ count lines of code',
         \'Unite -default-action= output:call\\ LinesOfCode()'],
     \['▷ toggle indent lines                                        ⌘ ,L',
