@@ -38,7 +38,7 @@ https://github.com/joedicastro/python-recipes
 
 __author__ = "joe di castro <joe@joedicastro.com>"
 __license__ = "GNU General Public License version 3"
-__date__ = "2013-17-11"
+__date__ = "2013-11-17"
 __version__ = "0.6"
 
 try:
