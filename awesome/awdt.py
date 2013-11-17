@@ -2,19 +2,20 @@
 # encoding: utf-8
 
 """
-    awdt.py: a script to debug awesome wm configs in nested Xephyr sessions
+awdt.py: a script to debug awesome wm configs in nested Xephyr sessions.
 
-    This script is a tool intended to help to debug Awesome wm configurations
-    in a safe manner. To this purpose uses the Xephyr X server to nest a X
-    session inside the current Awesome X session.
+This script is a tool intended to help to debug Awesome wm configurations
+in a safe manner. To this purpose uses the Xephyr X server to nest a X
+session inside the current Awesome X session.
 
-    The original idea come from the mikar's bash awmtt script (Thanks mikar):
+The original idea come from the mikar's bash awmtt script (Thanks mikar):
 
-    https://github.com/mikar/awmtt
+https://github.com/mikar/awmtt
 
-    Needs logger.py and check_execs.py from my Python Recipes repository at
+Needs logger.py and check_execs.py from my Python Recipes repository at
 
-    https://github.com/joedicastro/python-recipes
+https://github.com/joedicastro/python-recipes
+
 """
 
 #==============================================================================
@@ -37,8 +38,8 @@
 
 __author__ = "joe di castro <joe@joedicastro.com>"
 __license__ = "GNU General Public License version 3"
-__date__ = "05/06/2012"
-__version__ = "0.5"
+__date__ = "2013-17-11"
+__version__ = "0.6"
 
 try:
     import os
@@ -54,12 +55,12 @@ try:
 except ImportError:
     # Checks the installation of the necessary python modules
     print((os.linesep * 2).join(["An error found importing one module:",
-    str(sys.exc_info()[1]), "You need to install it", "Stopping..."]))
+          str(sys.exc_info()[1]), "You need to install it", "Stopping..."]))
     sys.exit(-2)
 
 
 def arguments():
-    """Defines the command line arguments for the script."""
+    """Define the command line arguments for the script."""
     main_desc = """Debug awesome wm configurations in Xephyr sessions.
 
     Use `new` to create a new test config file cloned from your rc.lua
@@ -83,13 +84,18 @@ def arguments():
     return parser
 
 
+def create_config_file(original_file, copy_file):
+    """Create a config file as a copy of another configuration file."""
+    copy(original_file, copy_file)
+
+
 def main():
     """The script core."""
     # the files needed
     cfg_dir = os.path.expanduser("~/.config/awesome")
     rc_real = os.path.join(cfg_dir, "rc.lua")
     rc_test = os.path.join(cfg_dir, "rc_test.lua")
-    rc_original = os.path.join(cfg_dir, "rc_original.lua")
+    rc_original = "/etc/xdg/awesome/rc.lua"
     xpids_tmp = os.path.join(gettempdir(), "xpids")
     apids_tmp = os.path.join(gettempdir(), "apids")
     log_file = os.path.join(cfg_dir, "awdt.log")
@@ -98,7 +104,7 @@ def main():
 
     # get the current screen resolution
     xdpyinfo = Popen("xdpyinfo", stdout=PIPE).stdout.read()
-    currres = findall("dimensions:\s*(\d+x\d+)\spixels", xdpyinfo)[0]
+    currres = findall(r"dimensions:\s*(\d+x\d+)\spixels", xdpyinfo)[0]
 
     # set defaults
     args.screen = args.screen if args.screen else currres
@@ -106,7 +112,7 @@ def main():
     args.display = args.display if args.display else 1
 
     if args.action == "new":
-        copy(rc_real, rc_test)
+        create_config_file(rc_real, rc_test)
 
     if args.action == "check":
         check = Popen("awesome -c {0} -k".format(rc_test).split(), stdout=PIPE,
@@ -115,6 +121,10 @@ def main():
         Popen(["notify-send", "Lua sintax chek:", os.linesep.join(check_out)])
 
     if args.action == "start":
+        # create test file if no exists
+        if not os.path.exists(rc_test):
+            create_config_file(rc_real, rc_test)
+
         # clean log in each debug session
         if not os.path.exists(apids_tmp):
             if os.path.exists(log_file):
@@ -173,6 +183,12 @@ if __name__ == '__main__':
 #==============================================================================
 # Changelog:
 #==============================================================================
+#
+# 0.6:
+#
+# * Create a test configuration file if not exists
+# * Use the original configuration file directly (always updated)
+# * Change date format to ISO 8601 date format
 #
 # 0.5:
 #
