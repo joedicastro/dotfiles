@@ -900,6 +900,12 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
+if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+endif
+
+let g:neocomplete#sources#omni#input_patterns.python='\h\w*\|[^. \t]\.\w*'
+
 " }}}
 
 " Po.vim {{{ -----------------------------------------------------------------
