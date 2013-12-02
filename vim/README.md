@@ -761,22 +761,25 @@ __Unite__
 
 - *close tmux panel* close the tmux panel opened or used by Vimux
 
-- *rope auto-completion* allow us to use the rope auto-completion. Useful for
-  methods auto-completion.
+- *sort imports* sort the `imports` in the file in a smart way
 
-- *jump to definition* jump to the location where the word under the cursor
+- *go to definition* jump to the location where the word under the cursor
   (variable, function, class, method, ...) is defined. Open a new window with
   the location, even if it is in another module or library
 
-- *reorganize imports* reorganize automatically the import statements
-
-- *refactorize - x* the entries that begin in this way are for refactorize the
-  python code with rope, using the method mentioned in each description
+- *find where a function is used* open a quickfix window with all the locatons
+  where the function under the cursor is used
 
 - *show docs for current word* use rope to show the available documentation
   about the word under the cursor. The advantage of this entry against the
   pymode one is that this one allow us to search in the external libraries
   documentation
+
+- *reorganize imports* reorganize automatically the import statements, similar
+  to *sort imports* but using Rope instead of Isort
+
+- *refactorize - x* the entries that begin in this way are for refactorize the
+  python code with rope, using the method mentioned in each description
 
 - *syntastic toggle*,  *syntastic check & errors* are two options
   of Syntastic, a plugin for code quality (syntax revision) for various
@@ -800,6 +803,8 @@ __Unite__
 
 - *toggle coverage report* and *toggle coverage marks* toggle the visibility of
   the marks and report from coverage
+
+- *coffewatch* live preview compiling of coffescript files to javascript
 
 - *count lines of code* count the lines of code of the current file by the
   external program `$ cloc` and shows the output in Unite
@@ -1492,10 +1497,12 @@ au FileType python setlocal foldlevel=1000
 - __vim-airline__ <https://github.com/bling/vim-airline>
 - __vim-characterize__ <https://github.com/tpope/vim-characterize>
 - __vim-commentary__ <https://github.com/tpope/vim-commentary>
+- __vim-coffe-script <https://github.com/kchmck/vim-coffee-script>
 - __vim-fugitive__ <https://github.com/tpope/vim-fugitive>
 - __vim-gitgutter__ <https://github.com/airblade/vim-gitgutter>
 - __vim-github256__ <https://github.com/joedicastro/vim-github256>
 - __vim-github-dashboard__ <https://github.com/junegunn/vim-github-dashboard>
+- __vim-isort__ <https://github.com/fisadev/vim-isort>
 - __vim-markdown__ <https://github.com/joedicastro/vim-markdown>
 - __vim-markdown-extra-preview__ <https://github.com/joedicastro/vim-markdown-extra-preview>
 - __vim-molokai256__  <https://github.com/joedicastro/vim-molokai256>
