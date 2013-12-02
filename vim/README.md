@@ -1,7 +1,7 @@
 # My Vim Configuration
 
 
-__Version 1.4  (2013-08-26)__
+__Version 1.5  (2013-12-02)__
 
 The purpose of this document is to compile all the customizations available in
 my vim configuration, to help me reorganize them properly, and as a sort of
