@@ -1497,7 +1497,7 @@ au FileType python setlocal foldlevel=1000
 - __vim-airline__ <https://github.com/bling/vim-airline>
 - __vim-characterize__ <https://github.com/tpope/vim-characterize>
 - __vim-commentary__ <https://github.com/tpope/vim-commentary>
-- __vim-coffe-script <https://github.com/kchmck/vim-coffee-script>
+- __vim-coffe-script__ <https://github.com/kchmck/vim-coffee-script>
 - __vim-fugitive__ <https://github.com/tpope/vim-fugitive>
 - __vim-gitgutter__ <https://github.com/airblade/vim-gitgutter>
 - __vim-github256__ <https://github.com/joedicastro/vim-github256>
