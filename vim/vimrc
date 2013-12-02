@@ -916,22 +916,16 @@ let g:po_translator = "joe di castro <joe@joedicastro.com>"
 
 " PythonMode {{{ -------------------------------------------------------------
 
-nmap <silent><Leader>n :PyLint<CR>
+nmap <silent><Leader>n :PymodeLint<CR>
 
-let g:pymode_breakpoint_key = '<Leader>B'
+let g:pymode_breakpoint_bind = '<Leader>B'
 
 let g:pymode_lint = 1
-let g:pymode_lint_write = 0
-let g:pymode_lint_checker = 'pylint,pep8,mccabe,pep257'
+let g:pymode_lint_on_write = 0
+let g:pymode_lint_checkers = ['pylint', 'pep8', 'mccabe', 'pep257']
 let g:pymode_lint_ignore = ''
-let g:pymode_lint_config = $HOME.'/dotfiles/pylint/pylint.rc'
 let g:pymode_virtualenv = 0
-
 let g:pymode_rope = 1
-let g:pymode_rope_goto_def_newwin = 'new'
-let g:pymode_rope_guess_project = 0
-let g:pymode_rope_vim_completion = 1
-let g:pymode_rope_always_show_complete_menu = 1
 
 " }}}
 
@@ -1304,13 +1298,13 @@ let g:unite_source_menu_menus.code = {
     \}
 let g:unite_source_menu_menus.code.command_candidates = [
     \['▷ run python code                            (pymode)        ⌘ ,r',
-        \'Pyrun'],
+        \'PymodeRun'],
     \['▷ show docs for the current word             (pymode)        ⌘ K',
         \'normal K'],
     \['▷ insert a breakpoint                        (pymode)        ⌘ ,B',
         \'normal ,B'],
     \['▷ pylint check                               (pymode)        ⌘ ,n',
-        \'PyLint'],
+        \'PymodeLint'],
     \['▷ run with python2 in tmux panel             (vimux)         ⌘ ,rr',
         \'normal ,rr'],
     \['▷ run with python3 in tmux panel             (vimux)         ⌘ ,r3',
@@ -1329,38 +1323,28 @@ let g:unite_source_menu_menus.code.command_candidates = [
         \'VimuxInspectRunner'],
     \['▷ close tmux panel                           (vimux)         ⌘ ,rq',
         \'VimuxCloseRunner'],
-    \['▷ rope autocompletion                        (rope)          ⌘ C-[espacio]',
-        \'RopeCodeAssist'],
     \['▷ go to definition                           (rope)          ⌘ C-C g',
-        \'RopeGotoDefinition'],
+        \'call pymode#rope#goto_definition()'],
+    \['▷ find where a function is used              (rope)          ⌘ C-C f',
+        \'call pymode#rope#find_it()'],
+    \['▷ show docs for current word                 (rope)          ⌘ C-C d',
+        \'call pymode#rope#show_doc()'],
     \['▷ reorganize imports                         (rope)          ⌘ C-C r o',
-        \'RopeOrganizeImports'],
+        \'call pymode#rope#organize_imports()'],
     \['▷ refactorize - rename                       (rope)          ⌘ C-C r r',
-        \'RopeRename'],
-    \['▷ refactorize - extract variable             (rope)          ⌘ C-C r l',
-        \'RopeExtractVariable'],
-    \['▷ refactorize - extract method               (rope)          ⌘ C-C r m',
-        \'RopeExtractMethod'],
+        \'call pymode#rope#rename()'],
     \['▷ refactorize - inline                       (rope)          ⌘ C-C r i',
-        \'RopeInline'],
+        \'call pymode#rope#inline()'],
     \['▷ refactorize - move                         (rope)          ⌘ C-C r v',
-        \'RopeMove'],
-    \['▷ refactorize - restructure                  (rope)          ⌘ C-C r x',
-        \'RopeRestructure'],
+        \'call pymode#rope#move()'],
     \['▷ refactorize - use function                 (rope)          ⌘ C-C r u',
-        \'RopeUseFunction'],
-    \['▷ refactorize - introduce factory            (rope)          ⌘ C-C r f',
-        \'RopeIntroduceFactory'],
+        \'call pymode#rope#use_function()'],
     \['▷ refactorize - change signature             (rope)          ⌘ C-C r s',
-        \'RopeChangeSignature'],
+        \'call pymode#rope#signature()'],
     \['▷ refactorize - rename current module        (rope)          ⌘ C-C r 1 r',
-        \'RopeRenameCurrentModule'],
-    \['▷ refactorize - move current module          (rope)          ⌘ C-C r 1 m',
-        \'RopeMoveCurrentModule'],
+        \'PymodeRopeRenameModule'],
     \['▷ refactorize - module to package            (rope)          ⌘ C-C r 1 p',
-        \'RopeModuleToPackage'],
-    \['▷ show docs for current word                 (rope)          ⌘ C-C r a d',
-        \'RopeShowDoc'],
+        \'PymodeRopeModuleToPackage'],
     \['▷ syntastic toggle                           (syntastic)',
         \'SyntasticToggleMode'],
     \['▷ syntastic check & errors                   (syntastic)     ⌘ ,N',
