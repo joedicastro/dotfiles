@@ -1506,7 +1506,7 @@ au FileType python setlocal foldlevel=1000
 - __vim-markdown__ <https://github.com/joedicastro/vim-markdown>
 - __vim-markdown-extra-preview__ <https://github.com/joedicastro/vim-markdown-extra-preview>
 - __vim-molokai256__  <https://github.com/joedicastro/vim-molokai256>
-- __vim-multiple-cursors__ <https://github.com/terryma/vim-multiple-cursors>
+- __vim-multiple-cursors__ <https://github.com/joedicastro/vim-multiple-cursors>
 - __vim-pentadactyl__ <https://github.com/joedicastro/vim-pentadactyl>
 - __vim-repeat__ <https://github.com/tpope/vim-repeat>
 - __vim-signature__ <https://github.com/kshenoy/vim-signature>
