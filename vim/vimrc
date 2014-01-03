@@ -909,6 +909,12 @@ let g:neocomplete#sources#omni#input_patterns.python='\h\w*\|[^. \t]\.\w*'
 
 " }}}
 
+" Neobundle {{{
+
+let g:neobundle#log_filename = $HOME.'/.vim/tmp/neobundle.log'
+
+" }}}
+
 " Po.vim {{{ -----------------------------------------------------------------
 
 let g:po_translator = "joe di castro <joe@joedicastro.com>"
