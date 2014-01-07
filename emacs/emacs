@@ -58,6 +58,11 @@
 ; detect idle time when clock is running
 (setq org-clock-idle-time 10)
 
+ (eval-after-load "org"
+  '(progn
+     ;; Change .pdf association directly within the alist
+     (setcdr (assoc "\\.pdf\\'" org-file-apps) "zathura %s")))
+
 ;;;;}}}
 ;;;; AESTHETICS {{{
 
