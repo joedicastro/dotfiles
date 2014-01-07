@@ -139,6 +139,3 @@ Configuration of the __X__ session
 
 Configuration of [zathura](http://pwmt.org/projects/zathura/)
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/joedicastro/dotfiles/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
