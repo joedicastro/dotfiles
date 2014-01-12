@@ -167,7 +167,7 @@ NeoBundle 'SirVer/ultisnips'
 
 " Syntax {{{
 
-NeoBundleLazy 'vim-scripts/JSON.vim', {'autoload': {'filetypes': ['json']}}
+NeoBundleLazy 'elzr/vim-json', {'filetypes' : 'json'}
 NeoBundleLazy 'vim-scripts/po.vim--gray', {'autoload': {'filetypes': ['po']}}
 NeoBundleLazy 'joedicastro/vim-pentadactyl', {
             \ 'autoload': {'filetypes': ['pentadactyl']}}
@@ -1673,16 +1673,7 @@ au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
 
 " JSON {{{ -------------------------------------------------------------------
 
-" autocmd BufNewFile,BufRead *.json set ft=javascript
-autocmd BufNewFile,BufRead *.json set ft=json
-
 augroup json_autocmd
-  autocmd!
-  autocmd FileType json set autoindent
-  autocmd FileType json set formatoptions=tcq2l
-  autocmd FileType json set textwidth=78 shiftwidth=2
-  autocmd FileType json set softtabstop=2 tabstop=8
-  autocmd FileType json set expandtab
   autocmd FileType json set foldmethod=syntax
 augroup END
 

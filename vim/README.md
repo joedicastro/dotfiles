@@ -1616,7 +1616,6 @@ au FileType python setlocal foldlevel=1000
 - __harlequin__ <https://github.com/nielsmadan/harlequin>
 - __html5.vim__ <https://github.com/othree/html5.vim>
 - __indentLine__ <https://github.com/Yggdroot/indentLine>
-- __JSON.vim__ <https://github.com/vim-scripts/JSON.vim>
 - __junkfile.vim__ <https://github.com/Shougo/junkfile.vim>
 - __loremipsum__ <https://github.com/vim-scripts/loremipsum>
 - __molokai__ <https://github.com/tomasr/molokai>
@@ -1646,6 +1645,7 @@ au FileType python setlocal foldlevel=1000
 - __vim-github256__ <https://github.com/joedicastro/vim-github256>
 - __vim-github-dashboard__ <https://github.com/junegunn/vim-github-dashboard>
 - __vim-isort__ <https://github.com/fisadev/vim-isort>
+- __vim-json <https://github.com/elzr/vim-json>
 - __vim-markdown__ <https://github.com/joedicastro/vim-markdown>
 - __vim-markdown-extra-preview__ <https://github.com/joedicastro/vim-markdown-extra-preview>
 - __vim-molokai256__  <https://github.com/joedicastro/vim-molokai256>
