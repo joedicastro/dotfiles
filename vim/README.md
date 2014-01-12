@@ -195,7 +195,7 @@ These are the menu entries in detail:
 - *search* searches plugins by name on vim.org & GitHub (duplicates prone)
 
 - *install* installs all the plugins already present in the `.vimrc` file or in
-  the `direct_bundles.vim` file that are not yet installed
+  the `extra_bundles.vim` file that are not yet installed
 
 - *check* checks if all the plugins are already installed, and if not, prompt
   for their installation
@@ -207,7 +207,7 @@ These are the menu entries in detail:
 
 - *list* lists all the installed plugins
 
-- *direct edit* edits the `~/.vim/bundle/.neobundle/direct_bundles.vim` file
+- *direct edit* edits the `~/.vim/bundle/.neobundle/extra_bundles.vim` file
   where NeoBundle stores those plugins installed directly (e.g. via NeoBundle
   search)
 
@@ -367,7 +367,8 @@ These are the menu entries in detail:
 
 >      NeoBundle 'scrooloose/syntastic'
 
-> So, that's it, is more simple that appears and save us a lot of headaches.
+> By the way, you can remove all unused directories using the `NeoBundleClean`
+> command. So, that's it, is more simple that appears and save us a lot of headaches.
 
 
 ## Colorschemes
