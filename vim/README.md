@@ -232,56 +232,55 @@ These are the menu entries in detail:
 > Suppose that in the last update of a plugin (from the repository) it comes
 > with a nasty error as an "extra gift". And due this error we have now a not
 > working Vim configuration. If we did this update via the Neobundle `update`
-> command and we are using this configuration, we have a log file where this
+> command and we are using this configuration, we have a info file where this
 > actions are registered. Let's take a look to this file,
-> `~/.vim/tmp/neobundle.log`, make a search and see what happened with our
-> plugin:
+> `~/.vim/bundle/.neobundle/install_info`:
 
->  *I'm gonna use the Syntastic plugin only as an example because is the plugin
->  that had more entries in my log at this time, not for any other reason*
+> *The format of the file is not very human readable, but is almost a JSON file,
+> so with a few transformations, we had a very nice document to look at.
+> There are the transformations that I'll apply to this document:*
 
->      ...
->     [neobundle/install] (63/75): |syntastic| git pull --rebase && git submodule update --init --recursive
+>     dd                        " delete the first line
+>     :%s/'/"/g                 " substitute `'` for `"` to obey the JSON standard
+>     :%!python -m json.tool    " an easy way to prettify the format
+>     :set ft=json              " set the vim filetype to json
+>     zR                        " unfold all
+
+>  So let's take a look to a plugin, the Syntastic one for instance:
+
 >     ...
->     [neobundle/install] (63/75): |syntastic| Updated
->     [neobundle/install] |syntastic| * 2d9ff24 [19 minutes ago] Minor cleanup: remove dead code; formatting.
->     [neobundle/install] Installed/Updated bundles:
->     syntastic
->     [neobundle/install] Helptags: done. 50 bundles processed
->     ...
->     [neobundle/install] (63/75): |syntastic| git pull --rebase && git submodule update --init --recursive
->     ...
->     [neobundle/install] (63/75): |syntastic| Skipped
->     [neobundle/install] Same revision.
->     ...
->     [neobundle/install] (63/75): |syntastic| git pull --rebase && git submodule update --init --recursive
->     ...
->     [neobundle/install] (63/75): |syntastic| Updated
->     [neobundle/install] |syntastic| *   40aa5e2 [3 hours ago] Merge pull request #930 from troydm/master
->     [neobundle/install] |syntastic| |\
->     [neobundle/install] |syntastic| | * 0619f65 [15 hours ago] javac checker custom classpath command added
->     [neobundle/install] |syntastic| | * 4a7ca82 [15 hours ago] javac checker config file loading/editing added
->     [neobundle/install] |syntastic| * | 6c91e8d [3 hours ago] Rework of the python checker, fixing column reporting.
->     [neobundle/install] |syntastic| * | 00e75e1 [3 hours ago] Minor cleanup.
->     [neobundle/install] |syntastic| * | 5594136 [3 hours ago] Clarifications to the docs.
->     [neobundle/install] |syntastic| * | 2754bcb [16 hours ago] Fix column reporting in pyflakes.
->     [neobundle/install] |syntastic| |/
->     [neobundle/install] |syntastic| * 38f7378 [21 hours ago] Fix tab handling in status messages.
->     [neobundle/install] |syntastic| * 4740a7e [23 hours ago] Safer cursor saving / restoring for cgc.
->     [neobundle/install] |syntastic| * 78666b1 [25 hours ago] Minor doc update.
->     [neobundle/install] |syntastic| * 4bdb607 [26 hours ago] Optimise postprocessing functions.
->     [neobundle/install] |syntastic| * 327ba4c [26 hours ago] Optimise loclist.filter().
->     [neobundle/install] |syntastic| * ee3c56c [26 hours ago] New feature: message filtering.
->     [neobundle/install] |syntastic| * ab94210 [26 hours ago] Rework of message decoding for flake8.
+>      "syntastic": {
+>          "checked_time": 1389635495,
+>          "installed_path": "/home/joedicastro/.vim/bundle/syntastic",
+>          "installed_uri": "https://github.com/scrooloose/syntastic.git",
+>          "revisions": {
+>              "1388823825": "2d9ff2457f57f4c43d7dd6d911003b7ce07588f6",
+>              "1389610724": "f23ddae1a7982b40dbfbe55033c1817480f0a0ed"
+>          },
+>          "updated_time": "1389610724"
+>      },
 >     ...
 
-> What you can see there is that three updates were attempted and only two times
-> the plugin had a new revision to update. *Do not mind the dates, they are
-> relative to the time when the log was written (when the `update` command was
-> executed) and are complete useless to this purpose.* So the current revision
-> is `40aa5e2` and a previous revision was `2d9ff24`. If we are certain that the
-> previous version didn't have that error, we can use now the "revision lock"
-> feature of NeoBundle to restore a previous version.
+> In the `revisions` object we have two members in which the key is a date in
+> UNIX Time format and the value is a git SHA hash that matches to a unique
+> revision.  The Unix time can be very helpful to determine what revision is
+> more appropriate to restore if we know when approximately the plugin still
+> worked. To convert the UNIX time to a more human readable format, we can do
+> something like this:
+
+>     # create a temporal mapping (ISO 8061 time)
+>     :vnoremap <F3> "=strftime("%FT%T%z", @*)<CR>P
+
+> Then we only have to select the unix time which want to convert and press `<F3>`.
+> From `1389610724` we get `2014-01-13T11:58:44+0100`
+
+
+> What you can see there, in that file, is that two updates were made and the
+> last one is the current revision. So the current revision installed is the one
+> which `git SHA` begins with `f23ddae1a7` and a previous revision that was
+> `2d9ff2457f`.  If we are certain that the previous version didn't have that
+> error, we can use now the "revision lock" feature of NeoBundle to restore a
+> previous version.
 
 > If in the `~/.vimrc` file we have this line:
 
@@ -289,7 +288,7 @@ These are the menu entries in detail:
 
 > We can now lock the plugin revision with this:
 
->     NeoBundle 'scrooloose/syntastic' ,{ 'rev' : '2d9ff24'}
+>     NeoBundle 'scrooloose/syntastic' ,{ 'rev' : '2d9ff2457f'}
 
 > When we save the file, we are asked to install the plugins, if we say 'yes'
 > then we are using now a previous revision of the plugin. (This can be made too
@@ -307,43 +306,16 @@ These are the menu entries in detail:
 >     ...
 >     |-- summerfruit256.vim
 >     |-- syntastic
->     |-- syntastic_2d9ff24
+>     |-- syntastic_2d9ff2457f
 >     |-- ultisnips
 >     ...
 
-> With a new directory storing the plugin at the specified revision. This is what
-> is registered in the log file:
-
->     ...
->     [neobundle/install] (1/1): |syntastic| git clone --recursive https://github.com/scrooloose/syntastic.git "/home/joedicastro/.vim/bundle/syntastic_2d9ff24"
->     [neobundle/install] (1/1): |syntastic| Locked
->     [neobundle/install] (1/1): |syntastic| git checkout 2d9ff24
->     [neobundle/install] (1/1): |syntastic| Updated
->     [neobundle/install] |syntastic|  -> 2d9ff2457f57f4c43d7dd6d911003b7ce07588f6
->     ...
->
-
-> And now if we try to update the plugins this is what happens, the plugin is
-> locked for updates (Ignore the error, is harmless):
-
->     ...
->     [neobundle/install] (63/75): |syntastic| Locked
->     [neobundle/install] (63/75): |syntastic| git checkout 2d9ff24
->     [neobundle/install] (63/75): |syntastic| Error
->     /home/joedicastro/.vim/bundle/syntastic_2d9ff24
->     You are not currently on a branch. Please specify which
->     branch you want to rebase against. See git-pull(1) for details.
-
->         git pull <remote> <branch>
-
->     Please read error message log by :message command.
->     ...
-
-> So we have now a working Vim configuration again, an we can keep working with
-> that plugin's revision all the time we want. That can be done in a few
-> minutes, and we keep working as normally as before the update. And using this
-> way we only have to lock that plugin and still enjoying the new features that
-> other plugins maybe have added in the same update.
+> With a new directory storing the plugin at the specified revision.  So we have
+> now a working Vim configuration again, an we can keep working with that
+> plugin's revision all the time we want. That can be done in a few minutes, and
+> we keep working as normally as before the update. And using this way we only
+> have to lock that plugin and still enjoying the new features that other
+> plugins maybe have added in the same update.
 
 > If after certain time we want to go back to the master branch of the plugin
 > and see if there is a new revision that solve that error or/and add new
@@ -357,7 +329,7 @@ These are the menu entries in detail:
 >     ...
 >     |-- summerfruit256.vim
 >     |-- syntastic
->     |-- syntastic_2d9ff24
+>     |-- syntastic_2d9ff2457f
 >     |-- syntastic_master
 >     |-- ultisnips
 >     ...
@@ -368,7 +340,8 @@ These are the menu entries in detail:
 >      NeoBundle 'scrooloose/syntastic'
 
 > By the way, you can remove all unused directories using the `NeoBundleClean`
-> command. So, that's it, is more simple that appears and save us a lot of headaches.
+> command. So, that's it, is more simple that appears and save us a lot of
+> headaches.
 
 
 ## Colorschemes
