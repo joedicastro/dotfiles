@@ -1595,6 +1595,7 @@ au FileType python setlocal foldlevel=1000
 - __molokai__ <https://github.com/tomasr/molokai>
 - __neobundle.vim__ <https://github.com/Shougo/neobundle.vim>
 - __neocomplete.vim__ <https://github.com/Shougo/neocomplete.vim>
+- __neocomplete-ultisnips__ <https://github.com/RyanPineo/neocomplete-ultisnips>
 - __po.vim--gray__ <https://github.com/vim-scripts/po.vim--gray>
 - __python-mode__ <https://github.com/klen/python-mode>
 - __summerfruit256.vim__ <https://github.com/vim-scripts/summerfruit256.vim>
