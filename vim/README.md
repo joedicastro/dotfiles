@@ -560,18 +560,6 @@ easily.
     >
     > - `<Leader>dd {motion}` turns in digraph the motion selected text
 
-- __multiple cursors__ this allow us to edit the same visual selection in
-  multiple locations at the same time. It's like a interactive search & replace
-
-    ![multiple cursors](http://joedicastro.com/static/pictures/multiple_cursors_en.gif "multiple cursors")
-
-    > __Mappings__
-
-    > - `<C-N>` turn on the multiple cursors for the current word or visual
-    >   selection. Press it again to find the next occurrence & move to it
-    > - `<C-X>` skip the current position and move to the next one if it exists
-    > - `<C-P>` deselect the current position and move back to the previous one
-    > - `<ESC>` turn off the multiple cursors
 
 - __vim-transpose__ transpose rows & columns. For certain kind of files, like
   *CSV*, it can be really helpful to deal with them. It works in visual mode.
@@ -1624,7 +1612,6 @@ au FileType python setlocal foldlevel=1000
 - __vim-markdown__ <https://github.com/joedicastro/vim-markdown>
 - __vim-markdown-extra-preview__ <https://github.com/joedicastro/vim-markdown-extra-preview>
 - __vim-molokai256__  <https://github.com/joedicastro/vim-molokai256>
-- __vim-multiple-cursors__ <https://github.com/joedicastro/vim-multiple-cursors>
 - __vim-pentadactyl__ <https://github.com/joedicastro/vim-pentadactyl>
 - __vim-repeat__ <https://github.com/tpope/vim-repeat>
 - __vim-signature__ <https://github.com/kshenoy/vim-signature>
