@@ -548,8 +548,8 @@ easily.
     > __Mappings__
 
     > - `<CR>`    insert the selected word
-    > - `<C-N>`   go to the next word (below) in the option list
-    > - `<C-P>`   go to the previous word (above) in the option list
+    > - `<C-N>`   go to the first/next word (below) in the option list
+    > - `<C-P>`   go to the last/previous word (above) in the option list
 
 - __easydigraph__ easily insert digraphs, especially when trying to insert
   several simultaneously
@@ -1535,7 +1535,7 @@ fonts][pwrfnts]
   [git]: http://git-scm.com/
   [pwrfnts]: https://github.com/Lokaltog/powerline-fonts
   [isort]: https://github.com/timothycrosley/isort
-  
+
 
 ## Alternative settings
 
