@@ -1501,6 +1501,7 @@ You need also several programs to enjoy a complete experience:
   as `exuberant-ctags`
 - __[ag][ag]__, __[ack][ack]__ or __[grep][grep]__ for regex searches of files
 - __[git][git]__ for git repositories administration
+- __[isort][isort]__ for the vim-isort plugin (to sort imports in python)
 
 __Optional programs__
 
@@ -1533,6 +1534,8 @@ fonts][pwrfnts]
   [grep]:http://www.gnu.org/software/grep/
   [git]: http://git-scm.com/
   [pwrfnts]: https://github.com/Lokaltog/powerline-fonts
+  [isort]: https://github.com/timothycrosley/isort
+  
 
 ## Alternative settings
 
