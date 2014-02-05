@@ -9,6 +9,7 @@
 global !p
 
 import os
+import glob
 from subprocess import Popen, PIPE
 
 def get_output(cmd):
@@ -25,6 +26,7 @@ def get_output(cmd):
 def get_vcs_username(path):
 
     directory = os.path.dirname(path)
+    vcs = glob.glob('.??*')
 
     vcs_to_check = {
         '.git': {
@@ -51,7 +53,7 @@ def get_vcs_username(path):
 
     }
 
-    for i in vcs_to_check.keys():
+    for i in vcs:
         # try to get the local values
         try:
             cmd_output = get_output(vcs_to_check[i]['cmd'])
@@ -65,13 +67,14 @@ def get_vcs_username(path):
             except:
                 return ''
     else:
-        # try to get the global values instead
-        try:
-            user = get_output(vcs_to_check[i]['guser'])
-            email = get_output(vcs_to_check[i]['gemail'])
-            return '{0} <{1}>'.format(user, email) if email else user
-        except:
-            return ''
+        for i in vcs_to_check.keys():
+            # try to get the global values instead
+            try:
+                user = get_output(vcs_to_check[i]['guser'])
+                email = get_output(vcs_to_check[i]['gemail'])
+                return '{0} <{1}>'.format(user, email) if email else user
+            except:
+                return ''
 
 endglobal
 
