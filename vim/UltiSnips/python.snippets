@@ -2,6 +2,69 @@
 #                             Python Snippets                             #
 ###########################################################################
 
+############
+#  COMMON  #
+############
+
+global !p
+
+import os
+from subprocess import Popen, PIPE
+
+def check_vcs(path):
+
+    directory = os.path.dirname(path)
+
+    vcs_to_check = {
+        '.git': {
+            'name': 'git',
+            'cmd': 'git -C {0} rev-parse --show-toplevel'.format(directory),
+            'user': 'git -C {0} config --get user.name'.format(directory),
+            'email': 'git -C {0} config --get user.email'.format(directory),
+        },
+        '.hg': {
+            'name': 'mercurial',
+            'cmd': 'hg -R {0} root'.format(directory),
+            'user': 'hg -R {0} showconfig ui.username'.format(directory),
+            'email': ''
+         },
+    }
+
+    for i in vcs_to_check.keys():
+        try:
+            cmd_output = Popen(
+                vcs_to_check[i]['cmd'],
+                stdout=PIPE,
+                stderr=PIPE,
+                shell=True
+            ).stdout.read().strip()
+        except:
+            cmd_output = ''
+        if cmd_output and directory == cmd_output:
+            try:
+                user =  Popen(
+                    vcs_to_check[i]['user'],
+                    stdout=PIPE,
+                    stderr=PIPE,
+                    shell=True
+                ).stdout.read().strip()
+
+                email = Popen(
+                    vcs_to_check[i]['email'],
+                    stdout = PIPE,
+                    stderr=PIPE,
+                    shell=True
+                ).stdout.read().strip()
+
+                return '{0} <{1}>'.format(user, email) if email else user
+            except:
+                return ''
+    else:
+        return ''
+
+endglobal
+
+
 ##############
 #  New File  #
 ##############
@@ -11,13 +74,13 @@ snippet script "Template for new script" !b
 # -*- coding: utf8 -*-
 
 """
-`!p snip.rv =snip.rv =  fn`
+`!p snip.rv = fn`
 
 ${1}
 
 """
 
-__author__ = "`git config --get user.name` <`git config --get user.email`>"
+__author__ = "${2:`!p snip.rv = check_vcs(path)`}"
 __license__ = "MIT"
 __date__ = "`date +%Y-%m-%d`"
 __version__ = "0.1"
@@ -25,7 +88,7 @@ __version__ = "0.1"
 try:
     import sys
     import os
-    ${2}
+    ${3}
 except ImportError:
     print('''
           An error found importing one module:
@@ -42,7 +105,7 @@ except ImportError:
 
 def main():
     """Main section."""
-    ${3:pass}
+    ${4:pass}
 
 if __name__ == '__main__':
     main()
