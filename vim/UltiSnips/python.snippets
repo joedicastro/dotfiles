@@ -92,14 +92,14 @@ ${1}
 """
 
 __author__ = "${2:`!p snip.rv = get_vcs_username(path)`}"
-__license__ = "MIT"
+__license__ = "${3:MIT}"
 __date__ = "`date +%Y-%m-%d`"
 __version__ = "0.1"
 
 try:
     import sys
     import os
-    ${3}
+    ${4}
 except ImportError:
     print('''
           An error found importing one module:
@@ -116,7 +116,7 @@ except ImportError:
 
 def main():
     """Main section."""
-    ${4:pass}
+    ${5:pass}
 
 if __name__ == '__main__':
     main()
