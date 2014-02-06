@@ -1,7 +1,7 @@
 # My Vim Configuration
 
 
-__Version 1.5  (2013-12-02)__
+__Version 1.6  (2014-02-06)__
 
 The purpose of this document is to compile all the customizations available in
 my vim configuration, to help me reorganize them properly, and as a sort of
@@ -1223,6 +1223,92 @@ __Unite__
   repository index. It makes a `git diff` and shows the status
   (changed/added/deleted) of each line in the gutter (signs column).
 
+## DBMS/SQL
+
+![dbext](http://joedicastro.com/static/pictures/dbext.gif "dbext")
+
+The DBext plugin provides support to interact with various DBMS. The Databases
+supported are: *Sybase SQL Anywhere, Sybase UltraLite, Sybase ASE, SAP HANA,
+Oracle, Oracle RDB, SQL Server, MySQL, PostgreSQL, DB2, Firebird, Ingres,
+Interbase, SQLite* and other databases supported by the Perl DBI drivers. The
+SQLite DB is supported directly.
+
+Is a very useful plugin, but I recommend to read the tutorial first (`:h
+dbext-tutorial` <vimhelp:dbext-tutorial>) to get an idea of how it works.
+
+![unite db](http://joedicastro.com/static/pictures/unite_menu_db_en.png "unite db")
+
+ __Unite__
+
+- `<localleader>S` or `:Unite menu:db` show the git menu
+
+### Menu
+
+- *Execute SQL* allows us to write a SQL statement and execute it in the the current
+  database.
+
+- *Execute SQL (with limit of n rows)* same as above, but allow to limit the
+  output to the number of columns specified.
+
+- *SQL ... statements* these entries are for create and execute SQL statements
+  where the first word is automatically inserted.
+
+- *List all ...* to list all Tables, Procedures, Views and Variables in the
+  current database.
+
+- *DBext Get Options* get all the DBext options (settings).
+
+- *DBext Set Option* set a DBext option (setting).
+
+- *DBext Set Var* set a Variable.
+
+- *DBext Set Buffer Parameters* to set all the parameters to the current buffer.
+
+- *List all Connections* list all database connections. Only for DBI/ODBC
+  connections.
+
+- *Commit*, *Rollback*, *Connect* & *Disconnect* to do those acctions over the
+  current Database connection. Only for DBI/ODBC
+
+> __Mappings__
+
+> __Normal__ mode
+
+> - `<Leader>Se` execute SQL query under the cursor (properly terminated by `;`)
+> - `<Leader>SE` execute SQL query under the cursor with a limit of rows
+>       (properly terminated by `;`)
+> - `<Leader>Sea` execute a range of lines
+> - `<Leader>Sel` execute the current line
+> - `<Leader>Sep` execute the previous range
+> - `<Leader>St` select * from the table under the cursor
+> - `<Leader>ST` select * from the table under the cursor with a limit of rows
+> - `<Leader>Stw` select * from the table under the cursor with a where clause
+> - `<Leader>Sta` ask for a table and do a select * from it
+> - `<Leader>Sd` describe the table under the cursor
+> - `<Leader>Sda` ask for a table and describe it
+> - `<Leader>Sp` describe the procedure under the cursor
+> - `<Leader>Spa` ask for a procedure and describe it
+> - `<Leader>Slt` display a list of tables with a specified prefix
+> - `<Leader>Slp` display a list of procedures/packages/functions with a
+>       specified prefix
+> - `<Leader>Slv` display a list of views with a specified prefix
+> - `<Leader>Slc` display a list of columnns for a given table
+> - `<Leader>Svr` display a list of all buffer specific variables
+
+> ... and the rest of standart DBext mappings using the prefix `S` instead of
+> `s`
+
+> __Visual__ mode
+
+> - `<Leader>Se` execute SQL visually selected
+> - `<Leader>St` select * from the table visually selected
+> - `<Leader>Sdt` describe the table visually selected
+> - `<Leader>Sdp` describe the procedure visually selected
+> - `<Leader>Slt` display a list of tables with a specified prefix
+> - `<Leader>Slp` display a list of procedures/packages/functions with a
+>       specified prefix
+> - `<Leader>Slv` display a list of views with a specified prefix
+> - `<Leader>Slc` display a list of columns for a given table
 
 ## Web Development
 
@@ -1606,6 +1692,7 @@ au FileType python setlocal foldlevel=1000
 - __vim-characterize__ <https://github.com/tpope/vim-characterize>
 - __vim-commentary__ <https://github.com/tpope/vim-commentary>
 - __vim-coffe-script__ <https://github.com/kchmck/vim-coffee-script>
+- __vim-dbext__ <https://github.com/joedicastro/vim-dbext>
 - __vim-fugitive__ <https://github.com/tpope/vim-fugitive>
 - __vim-gitgutter__ <https://github.com/airblade/vim-gitgutter>
 - __vim-github256__ <https://github.com/joedicastro/vim-github256>

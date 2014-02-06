@@ -274,6 +274,12 @@ NeoBundle 'mattn/webapi-vim'
 
 " }}}
 
+" DBMS {{{
+
+NeoBundleLazy 'joedicastro/dbext.vim', { 'autoload' : { 'filetypes' : 'sql'}}
+
+" }}}
+
 " END BUNDLES }}}
 
 " Auto install the plugins {{{
@@ -766,6 +772,64 @@ augroup plugin_commentary
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType puppet setlocal commentstring=#\ %s
 augroup END
+
+" }}}
+
+" DBext {{{
+
+let g:dbext_default_type = 'SQLITE'
+let g:dbext_default_user = ""
+let g:dbext_default_passwd = ""
+let g:dbext_default_display_cmd_line = 0
+let g:dbext_default_prompt_for_parameters=0
+let g:dbext_default_history_file = $HOME.'./vim/tmp/dbext_sql_history.txt'
+
+" Mappings
+
+let g:dbext_default_usermaps = 0
+let g:dbext_map_or_cmd = 'cmd'
+
+vnoremap <Leader>Se :DBExecVisualSQL<CR>
+vnoremap <leader>St :DBSelectFromTable<CR>
+vnoremap <Leader>Sdt :DBDescribeTable<CR>
+vnoremap <Leader>Sdp :DBDescribeProcedure<CR>
+vnoremap <Leader>Slt :DBListTable<CR>
+vnoremap <Leader>Slp :DBListProcedure<CR>
+vnoremap <Leader>Slv :DBListView<CR>
+vnoremap <Leader>Slc :DBListColumn<CR>
+
+nnoremap <Leader>Se :DBExecSQLUnderCursor<CR>
+nnoremap <Leader>SE :DBExecSQLTopX<CR>
+nnoremap <Leader>Sea :1,$DBExecRangeSQL<CR>
+nnoremap <Leader>Sel :.,.DBExecRangeSQL<CR>
+nnoremap <Leader>Sep :'<,'>DBExecRangeSQL<CR>
+nnoremap <Leader>St :DBSelectFromTable<CR>
+nnoremap <Leader>ST :DBSelectFromTableTopX<CR>
+nnoremap <Leader>Stw :DBSelectFromTableWithWhere<CR>
+nnoremap <Leader>Sta :DBSelectFromTableAskName<CR>
+nnoremap <Leader>Sd :DBDescribeTable<CR>
+nnoremap <Leader>Sda :DBDescribeTableAskName<CR>
+nnoremap <Leader>Sdp :DBDescribeProcedure<CR>
+nnoremap <Leader>Sdpa :DBDescribeProcedureAskName<CR>
+nnoremap <Leader>Slt :DBListTable<CR>
+nnoremap <Leader>Slp :DBListProcedure<CR>
+nnoremap <Leader>Slv :DBListView<CR>
+nnoremap <Leader>Slc :DBListColumn<CR>
+nnoremap <Leader>Svr :DBListVar<CR>
+nmap <silent> <Leader>Sal :.,.DBVarRangeAssign<CR>
+nmap <silent> <Leader>Saa :1,$DBVarRangeAssign<CR>
+nmap <silent> <Leader>Sap :'<,'>DBVarRangeAssign<CR>
+xmap <silent> <Leader>Sa :DBVarRangeAssign<CR>
+nnoremap <Leader>Sh :DBHistory<CR>
+nnoremap <Leader>So :DBOrientation<CR>
+nnoremap <Leader>Sbp <Plug>DBPromptForBufferParameters<CR>
+
+" SQLite
+let g:dbext_default_SQLITE_bin = 'sqlite3'
+" let g:dbext_default_SQLITE_cmd_header        = ".mode column\n.headers ON\n"
+" let g:dbext_default_SQLITE_cmd_terminator    = ';'
+" let g:dbext_default_SQLITE_cmd_terminator    = ';'
+" let g:dbext_default_SQLITE_extra             = ''
 
 " }}}
 
@@ -1533,6 +1597,65 @@ let g:unite_source_menu_menus.vim.command_candidates = [
     \]
 nnoremap <silent>[menu]v :Unite menu:vim -silent -start-insert<CR>
 " }}}
+
+" db menu {{{
+let g:unite_source_menu_menus.db = {
+    \ 'description' : '             database (SQL)
+        \                                        ⌘ [space]S',
+    \}
+let g:unite_source_menu_menus.db.command_candidates = [
+    \['▷ Execute SQL',
+        \'exe "DBExecSQL" " ".input("SQL?: ")'],
+    \['▷ Execute SQL (with limit of n rows)',
+        \'exe "DBExecSQL" " ".input("SQL?: ")'],
+    \['▷ SQL SELECT statement',
+        \'exe "Select" " ".input("SELECT ")'],
+    \['▷ SQL UPDATE statement',
+        \'exe "Update" " ".input("UPDATE")'],
+    \['▷ SQL INSERT statement',
+        \'exe "Insert" " ".input("INSERT")'],
+    \['▷ SQL DELETE statement',
+        \'exe "Delete" " ".input("DELETE")'],
+    \['▷ SQL CALL statement',
+        \'exe "Call" " ".input("CALL")'],
+    \['▷ SQL DROP statement',
+        \'exe "Drop" " ".input("DROP")'],
+    \['▷ SQL ALTER statement',
+        \'exe "Alter" " ".input("ALTER")'],
+    \['▷ SQL CREATE statement',
+        \'exe "Create" " ".input("CREATE")'],
+    \['▷ List all Tables                                            ⌘ ,Slt',
+        \'DBListTable'],
+    \['▷ List all Procedures                                        ⌘ ,Slp',
+        \'DBListProcedure'],
+    \['▷ List all Views                                             ⌘ ,Slv',
+        \'DBListView'],
+    \['▷ List all Variables                                         ⌘ ,Svr',
+        \'DBListVar'],
+    \['▷ DBext Get Options',
+        \'DBGetOption'],
+    \['▷ DBext Set Option',
+        \'exe "DBSetOption" " ".input("Option: ")'],
+    \['▷ DBext Set Var',
+        \'exe "DBSetVar" " ".input("Var: ")'],
+    \['▷ DBext Set Buffer Parameters',
+        \'DBPromptForBufferParameters'],
+    \['▷ List all Connections       (only DBI/ODBC)',
+        \'DBListConnections'],
+    \['▷ Commit                     (only DBI/ODBC)',
+        \'DBCommit'],
+    \['▷ Rollback                   (only DBI/ODBC)',
+        \'DBRollback'],
+    \['▷ Connect                    (only DBI/ODBC)',
+        \'DBConnect'],
+    \['▷ Disconnect                 (only DBI/ODBC)',
+        \'DBDisconnect'],
+    \]
+
+nnoremap <silent>[menu]S :Unite menu:db -silent -winheight=25 -start-insert<CR>
+
+" }}}
+
 " }}}
 
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
@@ -1707,6 +1830,11 @@ au FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2
 
 " }}}
 
+" SQL {{{
+
+autocmd FileType sql DBCheckModeline
+
+" }}}
 
 " END FILETYPES }}}
 
