@@ -1244,7 +1244,7 @@ dbext-tutorial` <vimhelp:dbext-tutorial>) to get an idea of how it works.
 
 ### Menu
 
-- *Execute SQL* allows us to write a SQL statement and execute it in the the current
+- *Execute SQL* allows us to write a SQL statement and execute it in the current
   database.
 
 - *Execute SQL (with limit of n rows)* same as above, but allow to limit the
@@ -1267,7 +1267,7 @@ dbext-tutorial` <vimhelp:dbext-tutorial>) to get an idea of how it works.
 - *List all Connections* list all database connections. Only for DBI/ODBC
   connections.
 
-- *Commit*, *Rollback*, *Connect* & *Disconnect* to do those acctions over the
+- *Commit*, *Rollback*, *Connect* & *Disconnect* to do those actions over the
   current Database connection. Only for DBI/ODBC
 
 > __Mappings__
@@ -1292,10 +1292,10 @@ dbext-tutorial` <vimhelp:dbext-tutorial>) to get an idea of how it works.
 > - `<Leader>Slp` display a list of procedures/packages/functions with a
 >       specified prefix
 > - `<Leader>Slv` display a list of views with a specified prefix
-> - `<Leader>Slc` display a list of columnns for a given table
+> - `<Leader>Slc` display a list of columns for a given table
 > - `<Leader>Svr` display a list of all buffer specific variables
 
-> ... and the rest of standart DBext mappings using the prefix `S` instead of
+> ... and the rest of standard DBext mappings using the prefix `S` instead of
 > `s`
 
 > __Visual__ mode
@@ -1658,6 +1658,7 @@ au FileType python setlocal foldlevel=1000
 - __coveragepy.vim__ <https://github.com/alfredodeza/coveragepy.vim>
 - __crontab.vim__ <https://github.com/vim-scripts/crontab.vim>
 - __csapprox__ <https://github.com/godlygeek/csapprox>
+- __dbext.vim__ <https://github.com/joedicastro/dbext.vim>
 - __delimitMate__ <https://github.com/Raimondi/delimitMate>
 - __DirDiff.vim__ <http://github.com/joedicastro/DirDiff.vim>
 - __easydigraph.vim__ <https://github.com/Rykka/easydigraph.vim>
@@ -1692,7 +1693,6 @@ au FileType python setlocal foldlevel=1000
 - __vim-characterize__ <https://github.com/tpope/vim-characterize>
 - __vim-commentary__ <https://github.com/tpope/vim-commentary>
 - __vim-coffe-script__ <https://github.com/kchmck/vim-coffee-script>
-- __vim-dbext__ <https://github.com/joedicastro/vim-dbext>
 - __vim-fugitive__ <https://github.com/tpope/vim-fugitive>
 - __vim-gitgutter__ <https://github.com/airblade/vim-gitgutter>
 - __vim-github256__ <https://github.com/joedicastro/vim-github256>
