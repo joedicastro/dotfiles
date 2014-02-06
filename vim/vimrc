@@ -952,13 +952,26 @@ let g:indentLine_color_term = 239
 
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#enable_auto_select = 1
 let g:neocomplete#enable_refresh_always = 1
 let g:neocomplete#max_list = 30
 let g:neocomplete#min_keyword_length = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 1
 let g:neocomplete#data_directory = $HOME.'/.vim/tmp/neocomplete'
 
+" disable the auto select feature by default to speed up writing without
+" obstacles (is optimal for certain situations)
+let g:neocomplete#enable_auto_select = 0
+                                        
+" toggle the auto select feature
+nnoremap <silent><Leader>ea :call ToggleNeoCompleteAutoSelect()<CR>
+function! ToggleNeoCompleteAutoSelect()
+  if !g:neocomplete#enable_auto_select
+      let g:neocomplete#enable_auto_select = 1
+  else
+      let g:neocomplete#enable_auto_select = 0
+  endif
+endfunction
+   
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -1243,6 +1256,8 @@ let g:unite_source_menu_menus.text.command_candidates = [
         \'call ToggleRelativeAbsoluteNumber()'],
     \['▷ toggle wrapping                                            ⌘ ,ew',
         \'call ToggleWrap()'],
+    \['▷ toggle auto-completion word auto-selection                 ⌘ ,ea',
+        \'call ToggleNeoCompleteAutoSelect()'],
     \['▷ show hidden chars                                          ⌘ ,eh',
         \'set list!'],
     \['▷ toggle fold                                                ⌘ /',

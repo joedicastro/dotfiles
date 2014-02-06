@@ -445,6 +445,11 @@ __Unite__
   vertical column that indicates wrapping threshold turns green when the
   automatic wrapping is disabled
 
+- *toggle auto-complete word auto-selection* enable/disable the auto selection
+  of the optimal word from the auto-completion pop-up dialog. This option is
+  disabled by default to allow a fast writing/edition without obstacles. This is
+  optimal for very situations, but can be enabled again with this entry.
+
 - *show hidden chars* show the hidden chars, those that are not printable
   (tabs, carriage returns, spaces, ...)
 
@@ -556,9 +561,13 @@ easily.
 
     > __Mappings__
 
-    > - `<CR>`    insert the selected word
+    > - `<Leader>ea` conmute the word auto-selection (disabled by default)
     > - `<C-N>`   go to the first/next word (below) in the option list
     > - `<C-P>`   go to the last/previous word (above) in the option list
+
+    > __Auto-selection active__
+
+    > - `<CR>`    insert the selected word
 
 - __easydigraph__ easily insert digraphs, especially when trying to insert
   several simultaneously
