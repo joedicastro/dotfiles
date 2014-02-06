@@ -83,6 +83,9 @@ NeoBundleLazy 'Shougo/vimfiler', {'autoload' : { 'commands' : ['VimFiler']}}
 NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen',
             \ 'unite_sources':['junkfile','junkfile/new']}}
 
+" Unite plugin that provides command line completition
+NeoBundle 'majkinetor/unite-cmdmatch'
+
 " }}}
 
 " Colorschemes {{{

@@ -87,6 +87,15 @@ menus through `<LocalLeader>` key mappings.
 
     ![unite_git](http://joedicastro.com/static/pictures/unite_git_en.gif "unite_git")
 
+ - __Commands__ using a third plugin, Unite is able to help in the
+   auto-completion and look for commands in the command line. We only have to
+   proceed as always, using `:` the first letters of the command and instead of
+   use `<Tab>` to auto-complete the command, use `<C-O>` to use a Unite menu
+   where we can select the right command using the Unite auto-completion (with
+   fuzzy-logic)
+
+    ![unite_cmdmatch](http://joedicastro.com/static/pictures/unite_cmdmatch.png "unite_cmdmatch")
+
 Unite has a master menu that shows all the custom menus that we have created,
 allowing us to access them and see the mapping associated with each one. This
 menu doesn't show the mappings by design, but I arranged their descriptions to
@@ -1680,6 +1689,7 @@ au FileType python setlocal foldlevel=1000
 - __syntastic__ <https://github.com/scrooloose/syntastic>
 - __ultisnips__ <https://github.com/SirVer/ultisnips>
 - __unite-colorscheme__ <https://github.com/ujihisa/unite-colorscheme>
+- __unite-cmdmatch__ <https://github.com/majkinetor/unite-cmdmatch>
 - __unite-filetype__ <https://github.com/osyo-manga/unite-filetype>
 - __unite-fold__ <https://github.com/osyo-manga/unite-fold>
 - __unite-help__ <https://github.com/tsukkee/unite-help?>
