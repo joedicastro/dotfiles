@@ -47,6 +47,9 @@ def get_vcs_username(path, username=''):
         '.hg': {
             'user'  : 'hg showconfig ui.username'
         },
+        '.bzr': {
+            'user'  :'bzr whoami'
+        }
     }
 
     repo_directory, current_directory = os.path.dirname(path), os.getcwd()
