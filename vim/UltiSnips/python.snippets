@@ -12,7 +12,14 @@ import os
 import glob
 from subprocess import Popen, PIPE
 
+
 def get_output(cmd):
+    """Get the output of a shell command.
+
+    :cmd: the command to execute
+    :return: the command output
+
+    """
     output = Popen(
         cmd,
         stdout=PIPE,
@@ -23,58 +30,42 @@ def get_output(cmd):
     return output
 
 
-def get_vcs_username(path):
+def get_vcs_username(path, username=''):
+    """Get the user information from a local DVCS or the global values instead.
 
-    directory = os.path.dirname(path)
-    vcs = glob.glob('.??*')
+    :path: the path of the python file from where it is called the snippet
+    :username: the default username if not one is founded
+    :return: the user information (name & email) set in the DVCS
 
-    vcs_to_check = {
+    """
+
+    vcs_cmds = {
         '.git': {
-            'cmd': 'git -C {0} rev-parse --show-toplevel'.format(directory),
-            'luser': 'git -C {0} config --get user.name'.format(directory),
-            'lemail': 'git -C {0} config --get user.email'.format(directory),
-            'guser': 'git config --get user.name',
-            'gemail': 'git config --get user.email'
+            'user'  : 'git config --get user.name',
+            'email' : 'git config --get user.email'
         },
         '.hg': {
-            'cmd': 'hg -R {0} root'.format(directory),
-            'luser': 'hg -R {0} showconfig ui.username'.format(directory),
-            'lemail': '',
-            'guser': 'hg showconfig ui.username',
-            'gemail': ''
+            'user'  : 'hg showconfig ui.username'
         },
-        '.bzr': {
-            'cmd': 'bzr root {0}'.format(directory),
-            'luser': 'bzr whoami --directory {0}'.format(directory),
-            'lemail': '',
-            'guser': 'bzr whoami',
-            'gemail': ''
-        },
-
     }
 
-    for i in vcs:
-        # try to get the local values
-        try:
-            cmd_output = get_output(vcs_to_check[i]['cmd'])
-        except:
-            cmd_output = ''
-        if cmd_output and directory == cmd_output:
-            try:
-                user = get_output(vcs_to_check[i]['luser'])
-                email = get_output(vcs_to_check[i]['lemail'])
-                return '{0} <{1}>'.format(user, email) if email else user
-            except:
-                return ''
-    else:
-        for i in vcs_to_check.keys():
-            # try to get the global values instead
-            try:
-                user = get_output(vcs_to_check[i]['guser'])
-                email = get_output(vcs_to_check[i]['gemail'])
-                return '{0} <{1}>'.format(user, email) if email else user
-            except:
-                return ''
+    repo_directory, current_directory = os.path.dirname(path), os.getcwd()
+    os.chdir(repo_directory)
+
+    vcs_at_dir = [i for i in glob.iglob('.??*') if i in vcs_cmds.keys()]
+
+    # if there is a local repository check only that type, else check all
+    vcs_to_check = vcs_at_dir if vcs_at_dir else vcs_cmds.keys()
+
+    for i in vcs_to_check:
+        user = get_output(vcs_cmds[i].get('user'))
+        email = get_output(vcs_cmds[i].get('email', ''))
+        if user:
+            os.chdir(current_directory)
+            username = '{0} <{1}>'.format(user, email) if email else user
+            break
+
+    return username
 
 endglobal
 
@@ -94,7 +85,7 @@ ${1}
 
 """
 
-__author__ = "${2:`!p snip.rv = get_vcs_username(path)`}"
+__author__ = "${2:`!p snip.rv = get_vcs_username(vim.eval("expand('%:p')"))`}"
 __license__ = "${3:MIT}"
 __date__ = "`date +%Y-%m-%d`"
 __version__ = "0.1"
