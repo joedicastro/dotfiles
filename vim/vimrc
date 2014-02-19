@@ -774,6 +774,7 @@ augroup plugin_commentary
     au FileType python setlocal commentstring=#%s
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType puppet setlocal commentstring=#\ %s
+    au FileType xquery setlocal commentstring=(:\ %s\ :)
 augroup END
 
 " }}}
