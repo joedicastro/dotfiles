@@ -30,13 +30,6 @@ feed-sort-order                         "none-desc"
 feedlist-format                         "%4i %n %11u %t"
 feedlist-title-format                   "%N %V - Tus feeds (%u no leidos, %t total)%?T? - etiqueta `%T'&?"
 filebrowser-title-format                "%N %V - %?O?Abrir arcivo&Salvar archivo? - %f"
-googlereader-flag-share                 ""
-googlereader-flag-star                  ""
-googlereader-login                      ""
-googlereader-min-items                  20
-googlereader-password                   ""
-googlereader-passwordfile               ""
-googlereader-show-special-feeds         true
 goto-first-unread                       true
 goto-next-feed                          yes
 help-title-format                       "%N %V - Ayuda"
