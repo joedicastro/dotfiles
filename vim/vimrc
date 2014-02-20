@@ -75,6 +75,8 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
             \ ['quickfix', 'location_list']}}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
+NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources': 
+            \['file_mru', 'directory_mru']}}
 
 " File explorer (needed where ranger is not available)
 NeoBundleLazy 'Shougo/vimfiler', {'autoload' : { 'commands' : ['VimFiler']}}
