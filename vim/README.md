@@ -561,7 +561,9 @@ easily.
 
     > __Mappings__
 
-    > - `<Leader>ea` conmute the word auto-selection (disabled by default)
+    > - `<Leader>ea` conmute the auto-completion state
+        - The possible 3 states are: 
+          `candidate manual-selected → disabled → candidate auto-selected`
     > - `<C-N>`   go to the first/next word (below) in the option list
     > - `<C-P>`   go to the last/previous word (above) in the option list
 

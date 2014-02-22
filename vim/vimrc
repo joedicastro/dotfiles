@@ -966,14 +966,19 @@ let g:neocomplete#data_directory = $HOME.'/.vim/tmp/neocomplete'
 let g:neocomplete#enable_auto_select = 0
                                         
 " toggle the auto select feature
-nnoremap <silent><Leader>ea :call ToggleNeoCompleteAutoSelect()<CR>
-function! ToggleNeoCompleteAutoSelect()
-  if !g:neocomplete#enable_auto_select
-      let g:neocomplete#enable_auto_select = 1
-  else
+function! ToggleNeoComplete()
+  if !g:neocomplete#disable_auto_complete && g:neocomplete#enable_auto_select
+      let g:neocomplete#disable_auto_complete = 0
       let g:neocomplete#enable_auto_select = 0
+  elseif !g:neocomplete#disable_auto_complete && !g:neocomplete#enable_auto_select
+      let g:neocomplete#disable_auto_complete = 1
+      let g:neocomplete#enable_auto_select = 0
+  elseif g:neocomplete#disable_auto_complete && !g:neocomplete#enable_auto_select
+      let g:neocomplete#disable_auto_complete = 0
+      let g:neocomplete#enable_auto_select = 1
   endif
 endfunction
+nnoremap <silent><Leader>ea :call ToggleNeoComplete()<CR>
    
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -1259,7 +1264,7 @@ let g:unite_source_menu_menus.text.command_candidates = [
         \'call ToggleRelativeAbsoluteNumber()'],
     \['▷ toggle wrapping                                            ⌘ ,ew',
         \'call ToggleWrap()'],
-    \['▷ toggle auto-completion word auto-selection                 ⌘ ,ea',
+    \['▷ toggle auto-completion state (manual → disabled → auto)    ⌘ ,ea',
         \'call ToggleNeoCompleteAutoSelect()'],
     \['▷ show hidden chars                                          ⌘ ,eh',
         \'set list!'],
