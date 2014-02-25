@@ -992,9 +992,7 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
 
-" let g:neocomplete#sources#omni#input_patterns.python='\h\w*\|[^. \t]\.\w*'
-" let g:neocomplete#sources#omni#input_patterns.python='[^. \t]\.\w*'
-let g:neocomplete#sources#omni#input_patterns.python='\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+let g:neocomplete#sources#omni#input_patterns.python='[^. \t]\.\w*'
 
 " }}}
 
