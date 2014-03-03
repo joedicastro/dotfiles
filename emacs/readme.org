@@ -1,0 +1,331 @@
+#+TITLE:     joe di castro's Emacs Configuration
+#+AUTHOR:    joe di castro
+#+EMAIL:     joe@joedicastro.com
+#+DATE:      2014-03-02
+#+LANGUAGE:  en
+
+* Emacs Configuration using Org-Babel
+
+This repository contains the setup I use to customize Emacs. The
+configuration uses [[http://orgmode.org/][Org-Mode]], [[http://orgmode.org/worg/org-contrib/babel/][Org-Babel]] and [[http://orgmode.org/worg/org-contrib/babel/intro.html#literate-programming][Literate Programming]] to
+manage all the settings in a unique Org Mode file.
+
+** How it works
+
+It uses one of the standard Emacs init files, =init.el= to bootstrap
+all the configuration. This cofiguration is thought to be stored in
+the standard =~/.emacs.d= directory and to setup this configuration
+you need to symlik this =emacs= directory to that. Once made that, if
+you start Emacs the =~/.emacs.d/init.el= file loads the
+=~/emacs.d/readme.org= file into Emacs, and exports all the code
+blocks (this process is called "tangling") to
+=~/.emacs.d/readme.el=. If a block is marked with =:tangle no= it will
+be skipped. When the tangling is finished =readme.el= is loaded to
+initialize Emacs.
+
+The cool thing about this setup is that you can export the same file
+as documentation to HTML or PDF or LaTeX quite easily, e.g. to do it
+from Org mode directly press =C-c C-e=, choose =h= and then one of the
+options to produce HTML output. At the same time it makes the
+configuration managament a delight, been pretty easy to find any
+setting and organize them.
+
+* Packages setup
+** Packages list
+
+The list of pakacges to install
+
+#+BEGIN_SRC emacs-lisp
+    (setq my-packages
+          '(
+            evil
+            evil-leader
+            magit
+            moe-theme
+            monokai-theme
+            org
+            pretty-mode
+            smart-mode-line
+            surround
+            undo-tree
+            w3m
+            ))
+#+END_SRC
+
+** Repositories
+
+The ELPA repositories from where the packages are fetched.
+
+#+BEGIN_SRC emacs-lisp
+    (setq package-archives '(("ELPA" . "http://tromey.com/elpa/")
+                             ("gnu" . "http://elpa.gnu.org/packages/")
+                             ("marmalade" . "http://marmalade-repo.org/packages/")
+                             ("melpa" . "http://melpa.milkbox.net/packages/")))
+#+END_SRC
+
+** Auto-installation
+
+The auto-installation process for all the packages that are not
+already installed.
+
+#+BEGIN_SRC emacs-lisp
+    ;;; initialaze the packages and create the packages list if not exists
+    (package-initialize)
+    (when (not package-archive-contents)
+      (package-refresh-contents))
+
+    ;;; install packages if not exists
+    (dolist (pkg my-packages)
+      (when (and (not (package-installed-p pkg))
+               (assoc pkg package-archive-contents))
+        (package-install pkg)))
+#+END_SRC
+
+* General Behaviour
+** Encodig
+Make sure that UTF-8 is used everywhere
+#+BEGIN_SRC emacs-lisp
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (set-language-environment "UTF-8")
+    (prefer-coding-system 'utf-8)
+#+END_SRC emacs-lisp
+ 
+** Backup files directory
+
+Don't spread backup files all over the filesystem, one place to store
+them all
+
+#+BEGIN_SRC emacs-lisp
+(setq backup-directory-alist
+      `((".*" . "~/.emacs.d/backup-files")))
+#+END_SRC emacs-lisp
+
+** Autosave files directory
+
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-file-name-transforms
+      `((".*" "~/.emacs.d/auto-save-files" t)))
+#+END_SRC emacs-lisp
+
+** Show matching parenthesis
+
+#+BEGIN_SRC emacs-lisp
+    (show-paren-mode t)
+#+END_SRC emacs-lisp
+
+** Always show trailing whitespaces
+
+#+BEGIN_SRC emacs-lisp
+    (setq-default show-trailing-whitespace t)
+#+END_SRC emacs-lisp
+
+** Always indent with spaces
+
+#+BEGIN_SRC emacs-lisp
+    (setq-default indent-tabs-mode nil)
+    (setq-default default-tab-width 4)
+#+END_SRC emacs-lisp
+
+** Replace yes/no questions with y/n
+
+#+BEGIN_SRC emacs-lisp
+    (fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC emacs-lisp
+
+** Mondays are the first day of the week (for M-x calendar)
+
+#+BEGIN_SRC emacs-lisp
+    (setq-default calendar-week-start-day 1)
+#+END_SRC emacs-lisp
+
+** Use undo-tree for better undo
+
+#+BEGIN_SRC emacs-lisp
+    (require 'undo-tree)
+    (global-undo-tree-mode)
+#+END_SRC emacs-lisp
+
+** keep session between emacs runs (~/.emacs.desktop)
+#+BEGIN_SRC emacs-lisp
+
+    (setq desktop-save 'if-exists)
+    (desktop-save-mode 1)
+    (setq desktop-globals-to-save
+          (append '((extended-command-history . 50)
+                    (file-name-history . 200)
+                    (grep-history . 50)
+                    (compile-history . 50)
+                    (minibuffer-history . 100)
+                    (query-replace-history . 100)
+                    (read-expression-history . 100)
+                    (regexp-history . 100)
+                    (regexp-search-ring . 100)
+                    (search-ring . 50)
+                    (shell-command-history . 50)
+                    tags-file-name
+                    register-alist)))
+#+END_SRC
+
+** User information
+
+Sets the user's information properly
+
+#+BEGIN_SRC emacs-lisp
+  (setq user-full-name "joe di castro"
+        user-mail-address "joe@joedicastro.com")
+#+END_SRC
+
+* Aesthetics
+
+** Remove the welcome screen
+#+BEGIN_SRC emacs-lisp
+    (setq inhibit-startup-screen t)
+#+END_SRC
+
+** Remove the message in the scratch buffer
+#+BEGIN_SRC emacs-lisp
+    (setq initial-scratch-message "")
+#+END_SRC
+
+** Hide the menu bar
+#+BEGIN_SRC emacs-lisp
+    (menu-bar-mode -1)
+#+END_SRC
+
+** Hide the tool bar
+#+BEGIN_SRC emacs-lisp
+    (tool-bar-mode -1)
+#+END_SRC
+
+** Hide the scroll bar
+#+BEGIN_SRC emacs-lisp
+    (scroll-bar-mode -1)
+#+END_SRC
+
+** Color Theme
+#+BEGIN_SRC emacs-lisp
+    (load-theme 'monokai t)
+#+END_SRC
+
+** Mode Line
+
+Settings for the mode line
+
+*** Show the column number
+
+#+BEGIN_SRC emacs-lisp
+     (column-number-mode t)
+#+END_SRC
+
+*** Show the buffer size (bytes)
+#+BEGIN_SRC emacs-lisp
+    (setq size-indication-mode t)
+#+END_SRC
+
+*** Smart mode line
+
+#+BEGIN_SRC emacs-lisp
+    ;;; smart-mode-line
+    (setq sml/theme 'dark)
+    (setq sml/mode-width 'full)
+    (setq sml/name-width 30)
+    (sml/setup)
+#+END_SRC
+
+** Font
+#+BEGIN_SRC emacs-lisp
+    (set-face-attribute 'default nil :family "Dejavu Sans Mono" :height 110)
+#+END_SRC
+
+** Cursor not blinking
+
+#+BEGIN_SRC emacs-lisp
+    (blink-cursor-mode -1)
+#+END_SRC
+
+** Show empty lines
+This option show the empty lines at the end of the buffer
+#+BEGIN_SRC emacs-lisp
+    (toggle-indicate-empty-lines)
+#+END_SRC
+
+** Pretty mode
+
+Use mathematical *Unicode* /symbols/ instead of expressions or keywords in
+some programming languages
+#+BEGIN_SRC emacs-lisp
+    (global-pretty-mode t)
+#+END_SRC
+
+** More thinner window divisions
+#+BEGIN_SRC emacs-lisp
+    (fringe-mode '(1 . 1))
+#+END_SRC
+
+* Vim-like Features
+
+For those who came from Vim is more easy to use something alike
+
+** Use evil 
+ 
+#+BEGIN_SRC emacs-lisp
+    (require 'evil)
+    (evil-mode 1)
+#+END_SRC
+
+** Use evil for Org Mode
+ 
+#+BEGIN_SRC emacs-lisp
+    (require 'evil-leader)
+    (load "~/.emacs.d/evil-org.el")
+#+END_SRC
+
+** Surround
+ 
+#+BEGIN_SRC emacs-lisp
+    (require 'surround)
+    (global-surround-mode 1)
+#+END_SRC
+
+* Modes
+** Org-mode settings
+
+*** Enable Org Mode 
+
+*** Tasks management
+
+*** Agenda
+
+*** Third Apss
+#+BEGIN_SRC emacs-lisp
+
+    ;;; org-mode
+    (require 'org)
+    (setq org-directory "~/org")
+    (setq org-default-notes-file (concat org-directory "/notes.org"))
+
+    ; record date and time when a task is marked as DONE
+    (setq org-log-done t)
+
+    ; detect idle time when clock is running
+    (setq org-clock-idle-time 10)
+
+     (eval-after-load "org"
+      '(progn
+         ;; Change .pdf association directly within the alist
+         (setcdr (assoc "\\.pdf\\'" org-file-apps) "zathura %s")))
+
+    ;; highlight code blocks syntax
+    (setq org-src-fontify-natively t)
+ 
+    ;; show images inline
+    (setq org-html-inline-images t)
+#+END_SRC
+
+* Browser
+
+#+BEGIN_SRC emacs-lisp
+    (setq browse-url-browser-function 'w3m-browse-url)
+    (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+#+END_SRC

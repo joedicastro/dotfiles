@@ -721,6 +721,8 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "Gvim" },
       properties = { size_hints_honor = false } },
+    { rule = { class = "Emacs" },
+      properties = { size_hints_honor = false } },
     { rule = { class = "URxvt" },
       properties = { size_hints_honor = false } },
     { rule = { class = "Xephyr" },
