@@ -562,7 +562,7 @@ easily.
     > __Mappings__
 
     > - `<Leader>ea` conmute the auto-completion state
-        - The possible 3 states are: 
+        - The possible 3 states are:
           `candidate manual-selected → disabled → candidate auto-selected`
     > - `<C-N>`   go to the first/next word (below) in the option list
     > - `<C-P>`   go to the last/previous word (above) in the option list
@@ -1456,6 +1456,33 @@ __Unite__
 
     ![mep]( http://joedicastro.com/static/pictures/mep_en.gif "mep")
 
+## reStructuredText
+
+This is provided by the Riv plugin, a plugin so powerful that I only will
+mention here the more essential features. It supports Folding, Syntax
+Highlighting, Sphinx Support, Projects, Export, Scratch, Todos, ... and a
+complete set of reST Document edition features. It can be used as a
+Document/Documentation Writer, but also as a Task Manager, Diary, Project
+Manager, ...
+
+In fact, the only thing I'm going to show is the commands that documents the
+plugin (the help itself is made via various *rst* documents):
+
+> __Commands__
+
+> - `:RivIntro` shows the Intro documentation
+> - `:RivQuickStart` shows a QuickStart documentation about riv
+> - `:RivInstruciton` shows a detailed Instructions manual
+> - `:RivCheatSheet` shows a reST CheatSheet
+
+There is also a little Unite menu (maybe I'll improve it later):
+
+__Unite__
+
+- `<localleader>r` or`:Unite menu:rest` shows the reStructuredText menu
+
+The plugin is only available when a __reST__ document is opened/created.
+
 ## Linux/Unix tools
 
 __DirDiff__
@@ -1696,6 +1723,7 @@ au FileType python setlocal foldlevel=1000
 - __neocomplete-ultisnips__ <https://github.com/RyanPineo/neocomplete-ultisnips>
 - __po.vim--gray__ <https://github.com/vim-scripts/po.vim--gray>
 - __python-mode__ <https://github.com/klen/python-mode>
+- __riv.vim__ <https://github.com/Rykka/riv.vim>
 - __summerfruit256.vim__ <https://github.com/vim-scripts/summerfruit256.vim>
 - __syntastic__ <https://github.com/scrooloose/syntastic>
 - __ultisnips__ <https://github.com/SirVer/ultisnips>

@@ -129,12 +129,14 @@ NeoBundle 'joedicastro/vim-github-dashboard'
 
 " }}}
 
-" Markdown {{{
+" Markdown & reStructuredText {{{
 
 " Markdown Syntax
 NeoBundleLazy 'joedicastro/vim-markdown'
 " Makes a Markdown Extra preview into the browser
 NeoBundleLazy 'joedicastro/vim-markdown-extra-preview'
+" reStructuredText in vim. Your personal Wiki in RST
+NeoBundleLazy 'Rykka/riv.vim', {'autoload': {'filetypes': ['rst']}} 
 
 " }}}
 
@@ -1487,7 +1489,21 @@ let g:unite_source_menu_menus.markdown.command_candidates = [
     \]
 nnoremap <silent>[menu]k :Unite -silent menu:markdown<CR>
 " }}}
-
+ 
+" reST menu {{{
+let g:unite_source_menu_menus.rest = {
+    \ 'description' : '           reStructuredText
+    \                                      ⌘ [space]r',
+    \}
+let g:unite_source_menu_menus.rest.command_candidates = [
+    \['▷ CheatSheet',
+        \'RivCheatSheet'],
+    \['▷ reStructuredText Specification',
+        \'RivSpecification'],
+    \]
+nnoremap <silent>[menu]r :Unite -silent menu:rest<CR>
+" }}}
+ 
 " bookmarks menu {{{
 let g:unite_source_menu_menus.bookmarks = {
     \ 'description' : '      bookmarks
