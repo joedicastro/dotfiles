@@ -79,16 +79,8 @@ Configuration of [ncmpcpp](http://ncmpcpp.rybczak.net/)
 
 Configuration of [Newsbeuter](http://newsbeuter.org/)
 
-+ `/newsbeuter/readitlater` API Python for Pocket (Formerly Read it Later)
-
-+ `/newsbeuter/getfromril.py` a Python script that uses the Pocket API to do a
-  backup of the urls stored there
-
 + `/newsbeuter/notify.py` a Python script that generate the popup notifications
   that newsbeuter sends at the end of a news update
-
-+ `/newsbeuter/sen2ril.py` a Python script that uses the Pocket API to store the
-  bookmarks into Pocket directly from Newsbeuter
 
 ### `/pentadactyl`
 

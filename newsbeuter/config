@@ -8,7 +8,7 @@ article-sort-order                      "date-asc"
 articlelist-format                      "%4i %f %D %6L  %?T?|%-17T|  &?%t"
 articlelist-title-format                "%N %V - Articulos en el feed '%T' (%u no leidos, %t total) - %U"
 auto-reload                             yes
-bookmark-cmd                            "~/.newsbeuter/send2ril.py"
+bookmark-cmd                            ""
 bookmark-interactive                    false
 bookmark-autopilot                      yes
 browser                                 "firefox" # default: lynx

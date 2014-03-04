@@ -7,9 +7,6 @@ group user
 " Command to validate XHTML
 command! -description='Validate XHTML' valid :open javascript:void(location='http://validator.w3.org/check?uri='+escape(location))
 
-" Command to save the current page to Pocket (former Read It Later)
-command! pocket -description "Bookmarklet: Save to Pocket" open javascript:(function(){var%20e=function(t,n,r,i,s){var%20o=[1317718,4718526,7001011,3462764,3519244,5230303,3865006,4143221,4218118,2217577];var%20i=i||0,u=0,n=n||[],r=r||0,s=s||0;var%20a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var%20f=0;f<t.length;f++){var%20l=function(e,t){return%20a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var%20c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var%20p=c%(50*1);if(n[p]){var%20d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==206){var%20v='';for(var%20f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return%20v+'8a1730f393'}else{return%20e(u+'',n,r,i,s+1)}};var%20t=document,n=t.location.href,r=t.title;var%20i=e(n);var%20s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var%20o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})();
-
 " Colorscheme
 colorscheme molokai
 
@@ -18,8 +15,8 @@ map -count -modes=n j -builtin <count>3j
 map -count -modes=n k -builtin <count>3k
 
 " Use duckduckgo to search by default
-map -builtin -modes=n s :open duckduckgo !g 
-map -builtin -modes=n S :tabopen duckduckgo !g 
+map -builtin -modes=n s :open duckduckgo !g
+map -builtin -modes=n S :tabopen duckduckgo !g
 
 " I never use marks, but always use quickmarks
 nmap -builtin "'" go
