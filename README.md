@@ -35,8 +35,7 @@ Configuration of [dunst](https://github.com/knopwob/dunst)
 
 ### `/emacs`
 
-Configuration of [Emacs](http://www.gnu.org/software/emacs/) to use it with
-[Org-mode](http://orgmode.org/)
+Configuration of [Emacs](http://www.gnu.org/software/emacs/)
 
 ### `/fontconfig`
 

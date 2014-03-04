@@ -13,9 +13,9 @@ manage all the settings in a unique Org Mode file.
 ** How it works
 
 It uses one of the standard Emacs init files, =init.el= to bootstrap
-all the configuration. This cofiguration is thought to be stored in
+all the configuration. This configuration is thought to be stored in
 the standard =~/.emacs.d= directory and to setup this configuration
-you need to symlik this =emacs= directory to that. Once made that, if
+you need to symlink this =emacs= directory to that. Once made that, if
 you start Emacs the =~/.emacs.d/init.el= file loads the
 =~/emacs.d/readme.org= file into Emacs, and exports all the code
 blocks (this process is called "tangling") to
@@ -27,17 +27,18 @@ The cool thing about this setup is that you can export the same file
 as documentation to HTML or PDF or LaTeX quite easily, e.g. to do it
 from Org mode directly press =C-c C-e=, choose =h= and then one of the
 options to produce HTML output. At the same time it makes the
-configuration managament a delight, been pretty easy to find any
+configuration management a delight, been pretty easy to find any
 setting and organize them.
 
 * Packages setup
 ** Packages list
 
-The list of pakacges to install
+The list of packages to install
 
 #+BEGIN_SRC emacs-lisp
     (setq my-packages
           '(
+            auto-complete
             evil
             evil-leader
             magit
@@ -46,7 +47,9 @@ The list of pakacges to install
             org
             pretty-mode
             smart-mode-line
+            smartparens
             surround
+            ujelly-theme
             undo-tree
             w3m
             ))
@@ -69,7 +72,7 @@ The auto-installation process for all the packages that are not
 already installed.
 
 #+BEGIN_SRC emacs-lisp
-    ;;; initialaze the packages and create the packages list if not exists
+    ;;; initialize the packages and create the packages list if not exists
     (package-initialize)
     (when (not package-archive-contents)
       (package-refresh-contents))
@@ -82,7 +85,7 @@ already installed.
 #+END_SRC
 
 * General Behaviour
-** Encodig
+** Encoding
 Make sure that UTF-8 is used everywhere
 #+BEGIN_SRC emacs-lisp
     (set-terminal-coding-system 'utf-8)
@@ -90,7 +93,7 @@ Make sure that UTF-8 is used everywhere
     (set-language-environment "UTF-8")
     (prefer-coding-system 'utf-8)
 #+END_SRC emacs-lisp
- 
+
 ** Backup files directory
 
 Don't spread backup files all over the filesystem, one place to store
@@ -101,7 +104,7 @@ them all
       `((".*" . "~/.emacs.d/backup-files")))
 #+END_SRC emacs-lisp
 
-** Autosave files directory
+** Auto-save files directory
 
 #+BEGIN_SRC emacs-lisp
 (setq auto-save-file-name-transforms
@@ -114,7 +117,7 @@ them all
     (show-paren-mode t)
 #+END_SRC emacs-lisp
 
-** Always show trailing whitespaces
+** Always show trailing white-spaces
 
 #+BEGIN_SRC emacs-lisp
     (setq-default show-trailing-whitespace t)
@@ -223,6 +226,12 @@ Settings for the mode line
     (setq size-indication-mode t)
 #+END_SRC
 
+*** Show the current function
+
+#+BEGIN_SRC emacs-lisp
+    (which-function-mode 1)
+#+END_SRC
+
 *** Smart mode line
 
 #+BEGIN_SRC emacs-lisp
@@ -244,6 +253,12 @@ Settings for the mode line
     (blink-cursor-mode -1)
 #+END_SRC
 
+** Highlight the current line
+
+#+BEGIN_SRC emacs-lisp
+    (global-hl-line-mode 1)
+#+END_SRC
+
 ** Show empty lines
 This option show the empty lines at the end of the buffer
 #+BEGIN_SRC emacs-lisp
@@ -263,26 +278,57 @@ some programming languages
     (fringe-mode '(1 . 1))
 #+END_SRC
 
+* Edition
+** Auto-completion
+
+#+BEGIN_SRC emacs-lisp
+    (require 'auto-complete)
+    (global-auto-complete-mode)
+#+END_SRC
+
+** Delete after insertion over selection
+
+#+BEGIN_SRC emacs-lisp
+    (delete-selection-mode)
+#+END_SRC
+
+** Basic indentation
+
+#+BEGIN_SRC emacs-lisp
+    (setq-default c-basic-offset 4)
+#+END_SRC
+
+** Smartparens
+
+#+BEGIN_SRC emacs-lisp
+    (smartparens-global-mode)
+#+END_SRC
+
+
+
+
+
+
 * Vim-like Features
 
 For those who came from Vim is more easy to use something alike
 
-** Use evil 
- 
+** Use evil
+
 #+BEGIN_SRC emacs-lisp
     (require 'evil)
     (evil-mode 1)
 #+END_SRC
 
 ** Use evil for Org Mode
- 
+
 #+BEGIN_SRC emacs-lisp
     (require 'evil-leader)
     (load "~/.emacs.d/evil-org.el")
 #+END_SRC
 
 ** Surround
- 
+
 #+BEGIN_SRC emacs-lisp
     (require 'surround)
     (global-surround-mode 1)
@@ -291,13 +337,13 @@ For those who came from Vim is more easy to use something alike
 * Modes
 ** Org-mode settings
 
-*** Enable Org Mode 
+*** Enable Org Mode
 
 *** Tasks management
 
 *** Agenda
 
-*** Third Apss
+*** Third Apps
 #+BEGIN_SRC emacs-lisp
 
     ;;; org-mode
@@ -318,7 +364,7 @@ For those who came from Vim is more easy to use something alike
 
     ;; highlight code blocks syntax
     (setq org-src-fontify-natively t)
- 
+
     ;; show images inline
     (setq org-html-inline-images t)
 #+END_SRC
