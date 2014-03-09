@@ -46,6 +46,7 @@ The list of packages to install.
             evil-nerdcommenter
             ido-ubiquitous
             ido-vertical-mode
+            ido-yes-or-no
             magit
             markdown-mode
             moe-theme
@@ -95,11 +96,12 @@ already installed.
 
 A relation of personal & standard bindings to remember.
 
-| Binding | Call               | Do                                            |
-|---------+--------------------+-----------------------------------------------|
-| C-w     | backward-kill-word | Kill the entire previous (to the cursor) word |
-| C-z     | evil-emacs-state   | Toggle evil-mode                              |
-| M-x     | smex               | Calls a interactive command using smex        |
+| Binding | Call                     | Do                                                           |
+|---------+--------------------------+--------------------------------------------------------------|
+| C-w     | backward-kill-word       | Kill the entire previous (to the cursor) word                |
+| C-z     | evil-emacs-state         | Toggle evil-mode                                             |
+| M-x     | smex                     | Calls a interactive command using smex                       |
+| M-X     | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
 
 * General Behaviour
 ** Encoding
@@ -552,7 +554,7 @@ should load without this hack.
 
 Just have smex call =smex-initialize= when it's needed instead of
 having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsWiki]]
-#+END_QUOTE 
+#+END_QUOTE
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key [(meta x)] (lambda ()
@@ -575,13 +577,8 @@ having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsW
 #+BEGIN_SRC emacs-lisp
     (setq ido-enable-flex-matching t)
     (require 'ido)
-    (require 'ido-ubiquitous)
-    (require 'ido-vertical-mode)
     (ido-mode t)
     (ido-everywhere t)
-    (ido-ubiquitous-mode t)
-    (ido-vertical-mode t)
-    (ido-yes-or-no-mode t)
 #+END_SRC
 
 *** Ido-ubiquitous
@@ -591,6 +588,8 @@ Gimme some ido... everywhere!
 Does what you expected ido-everywhere to do.
 
 #+BEGIN_SRC emacs-lisp
+    (require 'ido-ubiquitous)
+    (ido-ubiquitous-mode t)
 #+END_SRC
 
 *** Ido-vertical-mode
@@ -598,6 +597,15 @@ Does what you expected ido-everywhere to do.
 Makes ido-mode display vertically.
 
 #+BEGIN_SRC emacs-lisp
+    (require 'ido-vertical-mode)
+    (ido-vertical-mode t)
+#+END_SRC
+
+*** Ido for yes or no questions
+
+#+BEGIN_SRC emacs-lisp
+    (require 'ido-yes-or-no)
+    (ido-yes-or-no-mode t)
 #+END_SRC
 
 ** Magit
