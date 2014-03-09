@@ -1,7 +1,7 @@
 #+TITLE:     joe di castro's Emacs Configuration
 #+AUTHOR:    joe di castro
 #+EMAIL:     joe@joedicastro.com
-#+DATE:      2014-03-02
+#+DATE:      2014-03-09
 #+LANGUAGE:  en
 
 * Emacs Configuration using Org-Babel
@@ -33,21 +33,28 @@ setting and organize them.
 * Packages setup
 ** Packages list
 
-The list of packages to install
+The list of packages to install.
 
 #+BEGIN_SRC emacs-lisp
     (setq my-packages
           '(
             auto-complete
             evil
+            evil-indent-textobject
             evil-leader
+            evil-matchit
+            evil-nerdcommenter
+            ido-ubiquitous
+            ido-vertical-mode
             magit
+            markdown-mode
             moe-theme
             monokai-theme
             org
             pretty-mode
             smart-mode-line
             smartparens
+            smex
             surround
             ujelly-theme
             undo-tree
@@ -84,9 +91,20 @@ already installed.
         (package-install pkg)))
 #+END_SRC
 
+* Bindings
+
+A relation of personal & standard bindings to remember.
+
+| Binding | Call               | Do                                            |
+|---------+--------------------+-----------------------------------------------|
+| C-w     | backward-kill-word | Kill the entire previous (to the cursor) word |
+| C-z     | evil-emacs-state   | Toggle evil-mode                              |
+| M-x     | smex               | Calls a interactive command using smex        |
+
 * General Behaviour
 ** Encoding
 Make sure that UTF-8 is used everywhere
+
 #+BEGIN_SRC emacs-lisp
     (set-terminal-coding-system 'utf-8)
     (set-keyboard-coding-system 'utf-8)
@@ -179,7 +197,16 @@ Sets the user's information properly
         user-mail-address "joe@joedicastro.com")
 #+END_SRC
 
+** Remove beep
+
+#+BEGIN_SRC emacs-lisp
+  (setq visible-bell t)
+#+END_SRC
+
 * Aesthetics
+
+You don't only want to have a beast to edit, you want a good looking
+one too!
 
 ** Remove the welcome screen
 #+BEGIN_SRC emacs-lisp
@@ -222,6 +249,7 @@ Settings for the mode line
 #+END_SRC
 
 *** Show the buffer size (bytes)
+
 #+BEGIN_SRC emacs-lisp
     (setq size-indication-mode t)
 #+END_SRC
@@ -304,10 +332,24 @@ some programming languages
     (smartparens-global-mode)
 #+END_SRC
 
+** Backward-kill-word as alternative to Backspace
 
+Kill the entire word instead of hitting Backspace key several
+times. To do this will bind the =backward-kill-region= function to the
+=C-w= key combination
 
+#+BEGIN_SRC emacs-lisp
+    (global-set-key "\C-w" 'backward-kill-word)
+#+END_SRC
 
+*** Rebind the original C-w binding
 
+Now we reasigne the original binding to that combination to a new one
+
+#+BEGIN_SRC emacs-lisp
+    (global-set-key "\C-x\C-k" 'kill-region)
+    (global-set-key "\C-c\C-k" 'kill-region)
+#+END_SRC
 
 * Vim-like Features
 
@@ -320,14 +362,115 @@ For those who came from Vim is more easy to use something alike
     (evil-mode 1)
 #+END_SRC
 
-** Use evil for Org Mode
+** evil-leader
 
 #+BEGIN_SRC emacs-lisp
     (require 'evil-leader)
-    (load "~/.emacs.d/evil-org.el")
+#+END_SRC
+
+** evil-indent-textobject
+
+#+BEGIN_SRC emacs-lisp
+    (require 'evil-indent-textobject)
+#+END_SRC
+
+** Use evil for Org Mode
+
+This was shameless stolen from https://github.com/edwtjo/evil-org-mode.git
+
+*** Define minor mode =evil-org-mode=
+
+#+BEGIN_SRC emacs-lisp
+    (define-minor-mode evil-org-mode
+      "Buffer local minor mode for evil-org"
+      :init-value nil
+      :lighter " EvilOrg"
+      :keymap (make-sparse-keymap) ; defines evil-org-mode-map
+      :group 'evil-org)
+#+END_SRC
+
+*** Hook to only load this mode with org-mode
+
+#+BEGIN_SRC emacs-lisp
+    (add-hook 'org-mode-hook 'evil-org-mode)
+#+END_SRC
+
+*** Aux functions
+
+#+BEGIN_SRC emacs-lisp
+    (defun always-insert-item ()
+      "Force insertion of org item"
+      (if (not (org-in-item-p))
+          (insert "\n- ")
+        (org-insert-item))
+      )
+
+    (defun evil-org-eol-call (fun)
+      "Go to end of line and call provided function"
+      (end-of-line)
+      (funcall fun)
+      (evil-append nil)
+      )
+#+END_SRC
+
+*** Normal state shorcuts
+
+#+BEGIN_SRC emacs-lisp
+    (evil-define-key 'normal evil-org-mode-map
+      "gh" 'outline-up-heading
+      "gj" (if (fboundp 'org-forward-same-level) ;to be backward compatible with older org version
+           'org-forward-same-level
+          'org-forward-heading-same-level)
+      "gk" (if (fboundp 'org-backward-same-level)
+           'org-backward-same-level
+          'org-backward-heading-same-level)
+      "gl" 'outline-next-visible-heading
+      "t" 'org-todo
+      "T" '(lambda () (interactive) (evil-org-eol-call '(org-insert-todo-heading nil)))
+      "H" 'org-beginning-of-line
+      "L" 'org-end-of-line
+      ";t" 'org-show-todo-tree
+      "o" '(lambda () (interactive) (evil-org-eol-call 'always-insert-item))
+      "O" '(lambda () (interactive) (evil-org-eol-call 'org-insert-heading))
+      "$" 'org-end-of-line
+      "^" 'org-beginning-of-line
+      "<" 'org-metaleft
+      ">" 'org-metaright
+      ";a" 'org-agenda
+      "-" 'org-cycle-list-bullet
+      (kbd "TAB") 'org-cycle)
+#+END_SRC
+
+*** Normal & Insert stats shorcuts
+
+#+BEGIN_SRC emacs-lisp
+    (mapc (lambda (state)
+            (evil-define-key state evil-org-mode-map
+              (kbd "M-l") 'org-metaright
+              (kbd "M-h") 'org-metaleft
+              (kbd "M-k") 'org-metaup
+              (kbd "M-j") 'org-metadown
+              (kbd "M-L") 'org-shiftmetaright
+              (kbd "M-H") 'org-shiftmetaleft
+              (kbd "M-K") 'org-shiftmetaup
+              (kbd "M-J") 'org-shiftmetadown
+              (kbd "M-o") '(lambda () (interactive)
+                             (evil-org-eol-call
+                              '(lambda()
+                                 (org-insert-heading)
+                                 (org-metaright))))
+              (kbd "M-t") '(lambda () (interactive)
+                             (evil-org-eol-call
+                              '(lambda()
+                                 (org-insert-todo-heading nil)
+                                 (org-metaright))))
+              ))
+          '(normal insert))
 #+END_SRC
 
 ** Surround
+
+Use the surround plugin, the equivalent to the Vim one.
 
 #+BEGIN_SRC emacs-lisp
     (require 'surround)
@@ -339,17 +482,23 @@ For those who came from Vim is more easy to use something alike
 
 *** Enable Org Mode
 
+#+BEGIN_SRC emacs-lisp
+    (require 'org)
+#+END_SRC
+
+*** Set default directories
+
+#+BEGIN_SRC emacs-lisp
+    (setq org-directory "~/org")
+    (setq org-default-notes-file (concat org-directory "/notes.org"))
+#+END_SRC
+
 *** Tasks management
 
 *** Agenda
 
 *** Third Apps
 #+BEGIN_SRC emacs-lisp
-
-    ;;; org-mode
-    (require 'org)
-    (setq org-directory "~/org")
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
 
     ; record date and time when a task is marked as DONE
     (setq org-log-done t)
@@ -365,8 +514,14 @@ For those who came from Vim is more easy to use something alike
     ;; highlight code blocks syntax
     (setq org-src-fontify-natively t)
 
-    ;; show images inline
-    (setq org-html-inline-images t)
+#+END_SRC
+
+*** Show images inline
+
+Only works in GUI, but is a nice feature to have
+
+#+BEGIN_SRC emacs-lisp
+    (setq org-startup-with-inline-images t)
 #+END_SRC
 
 * Browser
@@ -374,4 +529,79 @@ For those who came from Vim is more easy to use something alike
 #+BEGIN_SRC emacs-lisp
     (setq browse-url-browser-function 'w3m-browse-url)
     (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+#+END_SRC
+
+* Batteries
+
+** Smex
+
+Smex is a M-x enhancement for Emacs. Built on top of IDO, it provides
+a convenient interface to your recently and most frequently used
+commands. And to all the other commands, too.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'smex)
+#+END_SRC
+
+*** Useful bindings & Delayed Initation
+
+#+BEGIN_QUOTE
+I install smex with the following code to make emacs startup a little
+faster.  This delays initializing smex until it's needed. IMO, smex
+should load without this hack.
+
+Just have smex call =smex-initialize= when it's needed instead of
+having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsWiki]]
+#+END_QUOTE 
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key [(meta x)] (lambda ()
+                             (interactive)
+                             (or (boundp 'smex-cache)
+                                 (smex-initialize))
+                             (global-set-key [(meta x)] 'smex)
+                             (smex)))
+
+(global-set-key [(shift meta x)] (lambda ()
+                                   (interactive)
+                                   (or (boundp 'smex-cache)
+                                       (smex-initialize))
+                                   (global-set-key [(shift meta x)] 'smex-major-mode-commands)
+                                   (smex-major-mode-commands)))
+#+END_SRC
+
+** Ido
+
+#+BEGIN_SRC emacs-lisp
+    (setq ido-enable-flex-matching t)
+    (require 'ido)
+    (require 'ido-ubiquitous)
+    (require 'ido-vertical-mode)
+    (ido-mode t)
+    (ido-everywhere t)
+    (ido-ubiquitous-mode t)
+    (ido-vertical-mode t)
+    (ido-yes-or-no-mode t)
+#+END_SRC
+
+*** Ido-ubiquitous
+
+Gimme some ido... everywhere!
+
+Does what you expected ido-everywhere to do.
+
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+*** Ido-vertical-mode
+
+Makes ido-mode display vertically.
+
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** Magit
+
+#+BEGIN_SRC emacs-lisp
+    (require 'magit)
 #+END_SRC

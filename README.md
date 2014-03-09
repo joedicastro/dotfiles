@@ -1,5 +1,4 @@
 # dotfiles
-
 This is a repository with my configuration files, those that in Linux normally
 are these files under the `$HOME` directory that are hidden and preceded by a
 dot, AKA __dotfiles__
@@ -19,7 +18,7 @@ Configuration of [Awesome](http://awesome.naquadah.org/)
 
 + `/awesome/prep.org` is a Org-mode format file in which I store the
   repositories, authors and licenses of the external libraries that I use in
-  this configuration. 
+  this configuration.
 
 + `/awesome/check_execs.py` & `/awesome/logger.py` are symbolic links to two
   python files that can be founded in this repository,
@@ -48,7 +47,7 @@ The fonts that I use in my terminal, vim, etc ...
  - [Dejavu Sans Mono](http://dejavu-fonts.org) is a free public domain font and
    has the probably best Unicode support from all the monospaced fonts
    available.
- - Dejavu Sans Mono for Powerline is the same font adapted to use it with 
+ - Dejavu Sans Mono for Powerline is the same font adapted to use it with
    Powerline in Vim
 
 ### `/git`
@@ -129,4 +128,3 @@ Configuration of the __X__ session
 ### `/zathura`
 
 Configuration of [zathura](http://pwmt.org/projects/zathura/)
-

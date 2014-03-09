@@ -15,8 +15,8 @@ map -count -modes=n j -builtin <count>3j
 map -count -modes=n k -builtin <count>3k
 
 " Use duckduckgo to search by default
-map -builtin -modes=n s :open duckduckgo !g
-map -builtin -modes=n S :tabopen duckduckgo !g
+map -builtin -modes=n s :open duckduckgo !g 
+map -builtin -modes=n S :tabopen duckduckgo !g 
 
 " I never use marks, but always use quickmarks
 nmap -builtin "'" go
