@@ -153,7 +153,6 @@ NeoBundle 'Shougo/vinarise.vim'
 
 " Autocompletion
 NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'RyanPineo/neocomplete-ultisnips'
 " A Python plugin
 NeoBundleLazy 'klen/python-mode', {'autoload': {'filetypes': ['python']}}
 " Admin virtualenvs
