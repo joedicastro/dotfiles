@@ -170,6 +170,8 @@ NeoBundleLazy 'alfredodeza/coveragepy.vim', {'autoload': {'filetypes': ['python'
 
 " Powerful and advanced Snippets tool
 NeoBundle 'SirVer/ultisnips'
+" Snippets for Ultisnips
+NeoBundle 'honza/vim-snippets'
 
 " }}}
 

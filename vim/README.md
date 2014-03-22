@@ -952,13 +952,14 @@ __Unite__
   field to enter the desired text interactively, and so on. In the image you can
   see how it really works.
 
-    Ultisnips brings by default a bunch of snippets classified for languages and
-some globals. The best feature of Ultisnips is that allows us to define our
-custom snippets with a level of control and automation than any other one
-offers. To know all the details is essential to read carefully the plugin help.
-BTW certain features are remarkable, like: nested snippets, embed external
-commands (shell, vimscript and python) in the snippets, use the snippets over
-visual selections, and text transformations into the snippets.
+    Ultisnips brings by default a bunch of snippets (now are separated from the
+plugin, needing a separate plugin) classified for languages and some globals.
+The best feature of Ultisnips is that allows us to define our custom snippets
+with a level of control and automation than any other one offers. To know all
+the details is essential to read carefully the plugin help.  BTW certain
+features are remarkable, like: nested snippets, embed external commands (shell,
+vimscript and python) in the snippets, use the snippets over visual selections,
+and text transformations into the snippets.
 
     I save my custom snippets in the `./Ultisnips` directory
 
@@ -1720,7 +1721,6 @@ au FileType python setlocal foldlevel=1000
 - __molokai__ <https://github.com/tomasr/molokai>
 - __neobundle.vim__ <https://github.com/Shougo/neobundle.vim>
 - __neocomplete.vim__ <https://github.com/Shougo/neocomplete.vim>
-- __neocomplete-ultisnips__ <https://github.com/RyanPineo/neocomplete-ultisnips>
 - __po.vim--gray__ <https://github.com/vim-scripts/po.vim--gray>
 - __python-mode__ <https://github.com/klen/python-mode>
 - __riv.vim__ <https://github.com/Rykka/riv.vim>
@@ -1754,6 +1754,7 @@ au FileType python setlocal foldlevel=1000
 - __vim-pentadactyl__ <https://github.com/joedicastro/vim-pentadactyl>
 - __vim-repeat__ <https://github.com/tpope/vim-repeat>
 - __vim-signature__ <https://github.com/kshenoy/vim-signature>
+- __vim-snippets__ <https://github.com/honza/vim-snippets>
 - __vim-speeddating__ <https://github.com/tpope/vim-speeddating>
 - __vim-surround__ <https://github.com/tpope/vim-surround>
 - __vim-textobj-entire__ <https://github.com/kana/vim-textobj-entire>
