@@ -74,6 +74,7 @@ The ELPA repositories from where the packages are fetched.
     (setq package-archives '(("ELPA" . "http://tromey.com/elpa/")
                              ("gnu" . "http://elpa.gnu.org/packages/")
                              ("marmalade" . "http://marmalade-repo.org/packages/")
+                             ("org" . "http://orgmode.org/elpa/")
                              ("melpa" . "http://melpa.milkbox.net/packages/")))
 #+END_SRC
 
@@ -407,6 +408,7 @@ For those who came from Vim is more easy to use something alike
 ** Use evil
 
 #+BEGIN_SRC emacs-lisp
+    (setq evil-shift-width 4)
     (require 'evil)
     (evil-mode 1)
 #+END_SRC
@@ -606,6 +608,29 @@ Only works in GUI, but is a nice feature to have
 #+END_SRC
 
 * Batteries
+*** Calfw
+
+This program displays a calendar view in the Emacs buffer.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'calfw)
+    (require 'calfw-org)
+#+END_SRC
+
+**** Unicode chars for lines
+
+#+BEGIN_SRC emacs-lisp
+;; Unicode characters
+(setq cfw:fchar-junction ?╋
+      cfw:fchar-vertical-line ?┃
+      cfw:fchar-horizontal-line ?━
+      cfw:fchar-left-junction ?┣
+      cfw:fchar-right-junction ?┫
+      cfw:fchar-top-junction ?┯
+      cfw:fchar-top-left-corner ?┏
+      cfw:fchar-top-right-corner ?┓)
+#+END_SRC
+
 *** Smex
 
 Smex is a M-x enhancement for Emacs. Built on top of IDO, it provides
