@@ -6,6 +6,8 @@
 
 * Emacs Configuration using Org-Babel
 
+*This is a work in progress*
+
 This repository contains the setup I use to customize Emacs. The
 configuration uses [[http://orgmode.org/][Org-Mode]], [[http://orgmode.org/worg/org-contrib/babel/][Org-Babel]] and [[http://orgmode.org/worg/org-contrib/babel/intro.html#literate-programming][Literate Programming]] to
 manage all the settings in a unique Org Mode file.
@@ -115,6 +117,17 @@ Make sure that UTF-8 is used everywhere
     (prefer-coding-system 'utf-8)
 #+END_SRC emacs-lisp
 
+** Temporal directory
+
+I like to keep all of the temporal files and dirs (cache, backups,
+...) in an unique directory. If this directory does not exists, then create it
+
+
+#+BEGIN_SRC emacs-lisp
+     (unless (file-exists-p "~/.emacs.d/tmp")
+        (make-directory "~/.emacs.d/tmp"))
+#+END_SRC
+
 ** Disable auto-save files
 
 #+BEGIN_SRC emacs-lisp
@@ -129,7 +142,7 @@ them all
 
 #+BEGIN_SRC emacs-lisp
     (setq backup-directory-alist
-        '(("" . "~/.emacs.d/backup")))
+        '(("" . "~/.emacs.d/tmp/backup")))
 #+END_SRC emacs-lisp
 
 ** Show matching parenthesis
@@ -582,8 +595,7 @@ Only works in GUI, but is a nice feature to have
 #+END_SRC
 
 * Batteries
-
-** Smex
+*** Smex
 
 Smex is a M-x enhancement for Emacs. Built on top of IDO, it provides
 a convenient interface to your recently and most frequently used
@@ -593,7 +605,16 @@ commands. And to all the other commands, too.
     (require 'smex)
 #+END_SRC
 
-*** Useful bindings & Delayed Initation
+**** Set cache file
+
+Smex keeps a file to save its state betweens Emacs sessions.
+The default path is =~/.smex-items=
+
+#+BEGIN_SRC emacs-lisp
+    (setq smex-save-file "~/.emacs.d/tmp/smex-items")
+#+END_SRC
+
+**** Useful bindings & Delayed Initation
 
 #+BEGIN_QUOTE
 I install smex with the following code to make emacs startup a little
@@ -620,8 +641,13 @@ having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsW
                                    (smex-major-mode-commands)))
 #+END_SRC
 
-** Ido
+*** Ido
+**** set cache file
+#+BEGIN_SRC emacs-lisp
+    (setq ido-save-directory-list-file "~/.emacs.d/tmp/ido.last")
+#+END_SRC
 
+**** enable Ido
 #+BEGIN_SRC emacs-lisp
     (setq ido-enable-flex-matching t)
     (require 'ido)
@@ -629,7 +655,7 @@ having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsW
     (ido-everywhere t)
 #+END_SRC
 
-*** Ido-ubiquitous
+**** Ido-ubiquitous
 
 Gimme some ido... everywhere!
 
@@ -640,7 +666,7 @@ Does what you expected ido-everywhere to do.
     (ido-ubiquitous-mode t)
 #+END_SRC
 
-*** Ido-vertical-mode
+**** Ido-vertical-mode
 
 Makes ido-mode display vertically.
 
@@ -649,14 +675,14 @@ Makes ido-mode display vertically.
     (ido-vertical-mode t)
 #+END_SRC
 
-*** Ido for yes or no questions
+**** Ido for yes or no questions
 
 #+BEGIN_SRC emacs-lisp
     (require 'ido-yes-or-no)
     (ido-yes-or-no-mode t)
 #+END_SRC
 
-** Magit
+*** Magit
    :PROPERTIES:
    :ATTACH_DIR: /home/joedicastro/dotfiles/emacs/img/
    :END:
