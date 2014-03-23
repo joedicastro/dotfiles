@@ -44,6 +44,7 @@ The list of packages to install.
             evil-leader
             evil-matchit
             evil-nerdcommenter
+            flatland-theme
             ido-ubiquitous
             ido-vertical-mode
             ido-yes-or-no
@@ -114,21 +115,21 @@ Make sure that UTF-8 is used everywhere
     (prefer-coding-system 'utf-8)
 #+END_SRC emacs-lisp
 
+** Disable auto-save files
+
+#+BEGIN_SRC emacs-lisp
+    (setq auto-save-default nil)
+    (setq auto-save-list-file-prefix nil)
+#+END_SRC emacs-lisp
+
 ** Backup files directory
 
 Don't spread backup files all over the filesystem, one place to store
 them all
 
 #+BEGIN_SRC emacs-lisp
-(setq backup-directory-alist
-      `((".*" . "~/.emacs.d/backup-files")))
-#+END_SRC emacs-lisp
-
-** Auto-save files directory
-
-#+BEGIN_SRC emacs-lisp
-(setq auto-save-file-name-transforms
-      `((".*" "~/.emacs.d/auto-save-files" t)))
+    (setq backup-directory-alist
+        '(("" . "~/.emacs.d/backup")))
 #+END_SRC emacs-lisp
 
 ** Show matching parenthesis
@@ -139,9 +140,9 @@ them all
 
 ** Always show trailing white-spaces
 
-#+BEGIN_SRC emacs-lisp
-    (setq-default show-trailing-whitespace t)
-#+END_SRC emacs-lisp
+##+BEGIN_SRC emacs-lisp
+#    (setq-default show-trailing-whitespace t)
+##+END_SRC emacs-lisp
 
 ** Always indent with spaces
 
@@ -202,7 +203,13 @@ Sets the user's information properly
 ** Remove beep
 
 #+BEGIN_SRC emacs-lisp
-  (setq visible-bell t)
+    (setq visible-bell t)
+#+END_SRC
+
+** Use ibuffer by default
+
+#+BEGIN_SRC emacs-lisp
+    (defalias 'list-buffers 'ibuffer)
 #+END_SRC
 
 * Aesthetics
@@ -316,6 +323,21 @@ some programming languages
     (global-auto-complete-mode)
 #+END_SRC
 
+*** enable it globally
+
+#+BEGIN_SRC emacs-lisp
+(defun auto-complete-mode-maybe ()
+  "No maybe for you. Only AC!"
+  (unless (minibufferp (current-buffer))
+    (auto-complete-mode 1)))
+#+END_SRC
+
+*** auto-complete file
+#+BEGIN_SRC emacs-lisp
+(setq ac-comphist-file (concat user-emacs-directory
+             "temp/ac-comphist.dat"))
+#+END_SRC
+
 ** Delete after insertion over selection
 
 #+BEGIN_SRC emacs-lisp
@@ -328,9 +350,10 @@ some programming languages
     (setq-default c-basic-offset 4)
 #+END_SRC
 
-** Smartparens
+** Smartpaarens
 
 #+BEGIN_SRC emacs-lisp
+    (require 'smartparens-config)
     (smartparens-global-mode)
 #+END_SRC
 
@@ -369,6 +392,7 @@ For those who came from Vim is more easy to use something alike
 #+BEGIN_SRC emacs-lisp
     (require 'evil-leader)
 #+END_SRC
+
 
 ** evil-indent-textobject
 
@@ -495,27 +519,45 @@ Use the surround plugin, the equivalent to the Vim one.
     (setq org-default-notes-file (concat org-directory "/notes.org"))
 #+END_SRC
 
+*** Highlight code blocks syntax
+
+#+BEGIN_SRC emacs-lisp
+    (setq org-src-fontify-natively t)
+#+END_SRC
+
 *** Tasks management
 
-*** Agenda
+**** Record date and time when a task is marked as DONE
+
+#+BEGIN_SRC emacs-lisp
+    (setq org-log-done t)
+#+END_SRC
+
+**** Detect idle time when clock is running
+
+#+BEGIN_SRC emacs-lisp
+    (setq org-clock-idle-time 10)
+#+END_SRC
+
+*** Agenda & diary
+
+**** Include diary entries
+#+BEGIN_SRC emacs-lisp
+    (setq org-agenda-include-diary t)
+#+END_SRC
+
+**** Agenda files
+#+BEGIN_SRC emacs-lisp
+    (setq org-agenda-files '("~/org"))
+#+END_SRC
 
 *** Third Apps
+
+**** Configure the external apps to open files
 #+BEGIN_SRC emacs-lisp
-
-    ; record date and time when a task is marked as DONE
-    (setq org-log-done t)
-
-    ; detect idle time when clock is running
-    (setq org-clock-idle-time 10)
-
-     (eval-after-load "org"
-      '(progn
-         ;; Change .pdf association directly within the alist
-         (setcdr (assoc "\\.pdf\\'" org-file-apps) "zathura %s")))
-
-    ;; highlight code blocks syntax
-    (setq org-src-fontify-natively t)
-
+     (setq org-file-apps
+        '(("\\.pdf\\'" . "zathura %s")
+          ("\\.gnumeric\\'" . "gnumeric %s")))
 #+END_SRC
 
 *** Show images inline
@@ -524,6 +566,12 @@ Only works in GUI, but is a nice feature to have
 
 #+BEGIN_SRC emacs-lisp
     (setq org-startup-with-inline-images t)
+#+END_SRC
+
+**** Limit images width
+
+#+BEGIN_SRC emacs-lisp
+    (setq org-image-actual-width '(300))
 #+END_SRC
 
 * Browser
@@ -609,6 +657,9 @@ Makes ido-mode display vertically.
 #+END_SRC
 
 ** Magit
+   :PROPERTIES:
+   :ATTACH_DIR: /home/joedicastro/dotfiles/emacs/img/
+   :END:
 
 #+BEGIN_SRC emacs-lisp
     (require 'magit)

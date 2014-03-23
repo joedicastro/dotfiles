@@ -1005,6 +1005,13 @@ let g:neobundle#log_filename = $HOME.'/.vim/tmp/neobundle.log'
 
 " }}}
 
+" neomru {{{
+
+let g:neomru#file_mru_path = $HOME.'/.vim/tmp/neomru/file'
+let g:neomru#directory_mru_path = $HOME.'/.vim/tmp/neomru/directory'
+
+" }}}
+
 " Po.vim {{{ -----------------------------------------------------------------
 
 let g:po_translator = "joe di castro <joe@joedicastro.com>"
