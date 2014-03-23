@@ -95,6 +95,17 @@ already installed.
         (package-install pkg)))
 #+END_SRC
 
+** Updating Packages
+
+Requires to do it manually, but is a pretty easy task!
+
+1. execute the command =M-x list-packages= which will automatically refresh the package list
+2. press the key =U= to mark all upgradable packages to be upgraded
+3. finally press the =x= key to actually perform the new updates
+
+Emacs will then fetch and install all upgrades, and ask you to whether
+to remove the old, obsolete versions afterwards.
+
 * Bindings
 
 A relation of personal & standard bindings to remember.
