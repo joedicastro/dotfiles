@@ -214,6 +214,9 @@ These are the menu entries in detail:
 - *clean* deletes, upon confirmation, those plugin folders that are no longer
   needed because they are not still installed
 
+- *rollback* rollback a plugin version to previous updated version. It's a
+  fantastic functionality, but at the moment is experimental.
+
 - *list* lists all the installed plugins
 
 - *direct edit* edits the `~/.vim/bundle/.neobundle/extra_bundles.vim` file
@@ -351,6 +354,10 @@ These are the menu entries in detail:
 > By the way, you can remove all unused directories using the `NeoBundleClean`
 > command. So, that's it, is more simple that appears and save us a lot of
 > headaches.
+
+> **Great News: Now is available an experimental command to do this automatically
+> in a very easy way. The command is `:NeoBundleRollback`, but currently is still
+> an experimental feature. Thanks Shougo, you're amazing!**
 
 
 ## Colorschemes
