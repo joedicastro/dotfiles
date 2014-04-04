@@ -41,6 +41,8 @@ The list of packages to install.
     (setq my-packages
           '(
             auto-complete
+            calfw
+            elfeed
             evil
             evil-indent-textobject
             evil-leader
@@ -54,15 +56,16 @@ The list of packages to install.
             markdown-mode
             moe-theme
             monokai-theme
-            org
             pretty-mode
             smart-mode-line
             smartparens
             smex
+            sublime-themes
             surround
             ujelly-theme
             undo-tree
             w3m
+            win-switch
             ))
 #+END_SRC
 
@@ -107,18 +110,12 @@ Requires to do it manually, but is a pretty easy task!
 Emacs will then fetch and install all upgrades, and ask you to whether
 to remove the old, obsolete versions afterwards.
 
-* Bindings
-
-A relation of personal & standard bindings to remember.
+* General Behaviour
 
 | Binding | Call                     | Do                                                           |
 |---------+--------------------------+--------------------------------------------------------------|
 | C-w     | backward-kill-word       | Kill the entire previous (to the cursor) word                |
-| C-z     | evil-emacs-state         | Toggle evil-mode                                             |
-| M-x     | smex                     | Calls a interactive command using smex                       |
-| M-X     | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
 
-* General Behaviour
 ** Encoding
 Make sure that UTF-8 is used everywhere
 
@@ -155,6 +152,13 @@ them all
 #+BEGIN_SRC emacs-lisp
     (setq backup-directory-alist
         '(("" . "~/.emacs.d/tmp/backup")))
+#+END_SRC emacs-lisp
+
+** History
+
+#+BEGIN_SRC emacs-lisp
+    (setq-default history-length 1000)
+    (savehist-mode t)
 #+END_SRC emacs-lisp
 
 ** Show matching parenthesis
@@ -407,10 +411,22 @@ For those who came from Vim is more easy to use something alike
 
 ** Use evil
 
+
+| Binding | Call                     | Do                                                           |
+|---------+--------------------------+--------------------------------------------------------------|
+| C-z     | evil-emacs-state         | Toggle evil-mode                                             |
+
 #+BEGIN_SRC emacs-lisp
     (setq evil-shift-width 4)
     (require 'evil)
     (evil-mode 1)
+#+END_SRC
+
+*** Disable it in certain modes
+
+#+BEGIN_SRC emacs-lisp
+  (evil-set-initial-state 'elfeed-search-mode 'emacs)
+  (evil-set-initial-state 'elfeed-show-mode 'emacs)
 #+END_SRC
 
 ** evil-leader
@@ -418,7 +434,6 @@ For those who came from Vim is more easy to use something alike
 #+BEGIN_SRC emacs-lisp
     (require 'evil-leader)
 #+END_SRC
-
 
 ** evil-indent-textobject
 
@@ -529,6 +544,16 @@ Use the surround plugin, the equivalent to the Vim one.
     (global-surround-mode 1)
 #+END_SRC
 
+* Browser
+
+#+BEGIN_SRC emacs-lisp
+;    (setq browse-url-browser-function 'w3m-browse-url)
+;    (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+     (setq browse-url-browser-function 'browse-url-generic
+           browse-url-generic-program "firefox")
+     (setq w3m-default-display-inline-images t)
+#+END_SRC
+
 * Modes
 ** Org-mode settings
 
@@ -549,6 +574,7 @@ Use the surround plugin, the equivalent to the Vim one.
 
 #+BEGIN_SRC emacs-lisp
     (setq org-src-fontify-natively t)
+    (setq org-src-tab-acts-natively t)
 #+END_SRC
 
 *** Tasks management
@@ -600,13 +626,6 @@ Only works in GUI, but is a nice feature to have
     (setq org-image-actual-width '(300))
 #+END_SRC
 
-* Browser
-
-#+BEGIN_SRC emacs-lisp
-    (setq browse-url-browser-function 'w3m-browse-url)
-    (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
-#+END_SRC
-
 * Batteries
 *** Calfw
 
@@ -636,6 +655,11 @@ This program displays a calendar view in the Emacs buffer.
 Smex is a M-x enhancement for Emacs. Built on top of IDO, it provides
 a convenient interface to your recently and most frequently used
 commands. And to all the other commands, too.
+
+| Binding | Call                     | Do                                                           |
+|---------+--------------------------+--------------------------------------------------------------|
+| M-x     | smex                     | Calls a interactive command using smex                       |
+| M-X     | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
 
 #+BEGIN_SRC emacs-lisp
     (require 'smex)
@@ -686,6 +710,7 @@ having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsW
 **** enable Ido
 #+BEGIN_SRC emacs-lisp
     (setq ido-enable-flex-matching t)
+    (setq ido-use-virtual-buffers t)
     (require 'ido)
     (ido-mode t)
     (ido-everywhere t)
@@ -725,4 +750,113 @@ Makes ido-mode display vertically.
 
 #+BEGIN_SRC emacs-lisp
     (require 'magit)
+#+END_SRC
+
+*** Elfeed
+
+Elfeed is an extensible web feed reader for Emacs, supporting both
+Atom and RSS
+
+*Search mode*
+
+| Binding | Call                           | Do                                          |
+|---------+--------------------------------+---------------------------------------------|
+| q       | quit-window                    | exit                                        |
+| g       | elfeed-search-update--force    | refresh view of the feed listing            |
+| G       | elfeed-update                  | fetch feed updates from the servers         |
+| s       | elfeed-search-live-filter      | update the search filter (date & tags)      |
+| RET     | elfeed-search-show-entry       | view selected entry in a buffer             |
+| b       | elfeed-search-browse-url       | open selected entries in your browser       |
+| y       | elfeed-search-yank             | copy selected entries URL to the clipboard  |
+| r       | elfeed-search-untag-all-unread | mark selected entries as read               |
+| u       | elfeed-search-tag-all-unread   | mark selected entries as unread             |
+| n       | next-line                      | next line                                   |
+| p       | previous-line                  | previous line                               |
+| t       | beginning-of-buffer            | go to the top of buffer                     |
+| T       | end-of-buffer                  | go to the end of buffer                     |
+| +       | elfeed-search-tag-all          | add a specific tag to selected entries      |
+| -       | elfeed-search-untag-all        | remove a specific tag from selected entries |
+
+*Show mode*
+
+| Binding | Call                | Do                                  |
+|---------+---------------------+-------------------------------------|
+| q       | elfeed-kill-buffer  | exit the entry                      |
+| g       | elfeed-show-refresh | refresh the entry                   |
+| n       | elfeed-show-next    | go to the next entry                |
+| p       | elfeed-show-prev    | go to the previous entry            |
+| b       | elfeed-show-visit   | open the entry in your browser      |
+| y       | elfeed-show-yank    | copy the entry URL to the clipboard |
+| u       |                     | mark the entry as unread            |
+| +       | elfeed-show-tag     | add tag to the entry                |
+| -       | elfeed-show-untag   | remove tag from the entry           |
+| SPC     | scroll-up-command   | scroll up                           |
+| DEL     | scroll-down-command | scroll down                         |
+| tab     | shr-next-link       | go to the next link                 |
+| backtab | shr-previous-link   | go to the previous link             |
+
+
+#+BEGIN_SRC emacs-lisp
+  (require 'elfeed)
+  (global-set-key (kbd "C-x w") 'elfeed)
+
+  ; Load the feeds file
+  (load "~/.emacs.d/elfeed.el")
+
+  ; Entries older than 2 weeks are marked as read
+  (add-hook 'elfeed-new-entry-hook
+          (elfeed-make-tagger :before "2 weeks ago"
+                              :remove 'unread))
+
+  (setq elfeed-db-directory "~/.emacs.d/tmp/elfeed")
+  (setq elfeed-search-filter "@2-days-old +unread")
+  (define-key elfeed-search-mode-map "t" 'beginning-of-buffer)
+  (define-key elfeed-search-mode-map "T" 'end-of-buffer)
+#+END_SRC
+
+*** Win-Switch
+ 
+Navigating through Emacs windows easily with =win-switch=
+
+| Binding | Call                                 | Do                                                                    |
+|---------+--------------------------------------+-----------------------------------------------------------------------|
+| C-x o   | win-switch-dispatch                  | enter in win-switch mode                                              |
+| h       | win-switch-left                      | select the window left the current window                             |
+| l       | win-switch-right                     | select the window right the current window                            |
+| j       | win-switch-down                      | select the window below the current window                            |
+| k       | win-switch-up                        | select the window above the current window                            |
+| n       | win-switch-next-window               | cycles forward through the window list in the current frame           |
+| p       | win-switch-previous-window           | cycles backward through the window list in the current frame          |
+| f       | win-switch-other-frame               | cycles among existing frames                                          |
+| H       | win-switch-shrink-horizontally       | horizontally shrinks the current window                               |
+| L       | win-switch-enlarge-horizontally      | horizontally enlarges the current window                              |
+| J       | win-switch-shrink-vertically         | vertically shrinks the current window                                 |
+| K       | win-switch-enlarge-vertically        | vertically enlarges the current window                                |
+| s       | win-switch-split-window-horizontally | splits the current window into two equal windows, one above the other |
+| v       | win-switch-split-window-vertically   | splits the current window into two equal windows, side by side        |
+| d       | win-switch-delete-window             | delete the current window                                             |
+
+#+BEGIN_SRC emacs-lisp
+  (require 'win-switch)
+  (setq win-switch-window-threshold 1)
+#+END_SRC
+
+**** Bindings
+ 
+#+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "\C-xo") 'win-switch-dispatch)
+    (win-switch-set-keys '("h") 'left)
+    (win-switch-set-keys '("l") 'right)
+    (win-switch-set-keys '("j") 'down)
+    (win-switch-set-keys '("k") 'up)
+    (win-switch-set-keys '("n") 'next-window)
+    (win-switch-set-keys '("p") 'previous-window)
+    (win-switch-set-keys '("f") 'other-frame)
+    (win-switch-set-keys '("H") 'shrink-horizontally)
+    (win-switch-set-keys '("L") 'enlarge-horizontally)
+    (win-switch-set-keys '("J") 'shrink-vertically)
+    (win-switch-set-keys '("K") 'enlarge-vertically)
+    (win-switch-set-keys '("s") 'split-horizontally)
+    (win-switch-set-keys '("v") 'split-vertically)
+    (win-switch-set-keys '("d") 'delete-window)
 #+END_SRC
