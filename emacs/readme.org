@@ -786,7 +786,13 @@ terminal.
 #+BEGIN_SRC emacs-lisp
     (require 'elscreen)
     (setq elscreen-prefix-key "\C-\\")
+    (setq elscreen-tab-display-control nil)
+    (setq elscreen-tab-display-kill-screen nil)
     (elscreen-start)
+    (custom-set-faces
+        '(elscreen-tab-background-face ((t (:background "gray14"))))
+        '(elscreen-tab-current-screen-face ((t (:background "deep sky blue" :foreground "black" :weight bold))))
+        '(elscreen-tab-other-screen-face ((t (:background "dark gray" :foreground "white")))))
 #+END_SRC
 
 *** Elfeed
