@@ -43,6 +43,7 @@ The list of packages to install.
             auto-complete
             calfw
             elfeed
+            elscreen
             evil
             evil-indent-textobject
             evil-leader
@@ -62,6 +63,7 @@ The list of packages to install.
             smex
             sublime-themes
             surround
+            twittering-mode
             ujelly-theme
             undo-tree
             w3m
@@ -744,12 +746,20 @@ Makes ido-mode display vertically.
 #+END_SRC
 
 *** Magit
-   :PROPERTIES:
-   :ATTACH_DIR: /home/joedicastro/dotfiles/emacs/img/
-   :END:
 
 #+BEGIN_SRC emacs-lisp
     (require 'magit)
+#+END_SRC
+
+*** ElScreen
+ElScreen is an Emacs utility with which you can have multiple screens
+(window-configuration) on your GNU Emacs as well as GNU screen on
+terminal.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'elscreen)
+    (setq elscreen-prefix-key "\C-a")
+    (elscreen-start)
 #+END_SRC
 
 *** Elfeed
