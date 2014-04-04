@@ -756,9 +756,36 @@ ElScreen is an Emacs utility with which you can have multiple screens
 (window-configuration) on your GNU Emacs as well as GNU screen on
 terminal.
 
+| Binding  | Call | Do                                                                  |
+|----------+------+---------------------------------------------------------------------|
+| C-\ c    |      | Create a new screen and switch to it                                |
+| C-\ C    |      | Create a new screen with the window-configuration of current screen |
+| C-\ k    |      | Kill current screen                                                 |
+| C-\ M-k  |      | Kill current screen and buffers                                     |
+| C-\ K    |      | Kill other screens                                                  |
+| C-\ n    |      | Switch to the "next" screen in a cyclic order                       |
+| C-\ p    |      | Switch to the "previous" screen in a cyclic order                   |
+| C-\ a    |      | Toggle to the screen selected previously                            |
+| C-\ "    |      | Jump to the specified screen                                        |
+| C-\ 0..9 |      | Jump to the screen #                                                |
+| C-\ C-s  |      | Swap current screen with previous one                               |
+| C-\ w    |      | Show list of screens                                                |
+| C-\ A    |      | Name current screen                                                 |
+| C-\ m    |      | Show last message                                                   |
+| C-\ t    |      | Show time                                                           |
+| C-\ b    |      | Switch to the screen in which specified buffer is displayed         |
+| C-\ C-f  |      | Create new screen and open file                                     |
+| C-\ C-r  |      | Create new screen and open file but don't allow changes             |
+| C-\ d    |      | Create new screen and run dired                                     |
+| C-\ M-x  |      | Read function name, then call it with new screen                    |
+| C-\ i    |      | Show/hide the screen number in the mode line                        |
+| C-\ T    |      | Show/hide the tab at the top of screen                              |
+| C-\ v    |      | Show ElScreen version                                               |
+| C-\ ?    |      | Show this help                                                      |
+
 #+BEGIN_SRC emacs-lisp
     (require 'elscreen)
-    (setq elscreen-prefix-key "\C-a")
+    (setq elscreen-prefix-key "\C-\\")
     (elscreen-start)
 #+END_SRC
 
