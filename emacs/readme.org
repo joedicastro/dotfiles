@@ -68,6 +68,7 @@ The list of packages to install.
             ujelly-theme
             undo-tree
             w3m
+            workgroups2
             ))
 #+END_SRC
 
@@ -569,13 +570,16 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     "c" 'evilnc-comment-or-uncomment-lines
     "d" 'dired
     "ew" 'whitespace-cleanup
+    "f" 'find-file
     "g" 'magit-status
+    "i" 'wg-switch-to-workgroup
     "k" 'kill-buffer
     "l" 'linum-mode
     "m" 'smex
     "M" 'smex-major-mode-commands
     "n" 'elfeed
-    "o" 'find-file
+    "o" 'wg-kill-workgroup
+    "p" 'wg-clone-workgroup
     "``" 'save-buffers-kill-terminal
     "s" 'split-window-vertically
     "t" 'org-agenda
@@ -868,4 +872,19 @@ Atom and RSS
 
 #+BEGIN_SRC emacs-lisp
     (require 'ack-and-a-half)
+#+END_SRC
+*** Workgroups2
+
+Workgroups is a session manager for Emacs.
+
+- It saves all your opened buffers, their location and sizes on disk to restore later
+- You can create several workspaces
+
+You can also restore such buffers as: org-agenda, shell, magit-status, help.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'workgroups2)
+    (setq wg-default-session-file "~/.emacs.d/tmp/emacs_workgroups")
+    (workgroups-mode 1)        ; put this one at the bottom of .emacs
+    ;; Change workgroups session file
 #+END_SRC
