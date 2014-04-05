@@ -873,6 +873,23 @@ Atom and RSS
 #+BEGIN_SRC emacs-lisp
     (require 'ack-and-a-half)
 #+END_SRC
+*** Twittering-mode
+
+#+BEGIN_SRC emacs-lisp
+    (setq twittering-use-master-password t)
+    (setq twittering-icon-mode t)
+    (setq twittering-use-icon-storage t)
+    (setq twittering-icon-storage-file "~/.emacs.d/tmp/twittering-mode-icons.gz")
+    (setq twittering-initial-timeline-spec-string
+          '(
+            "(:direct_messages+@)"
+            "(joe_di_castro+@)"
+            "(:mentions+@)"
+            "(:home+@)"
+            ))
+    (setq twittering-edit-skeleton 'inherit-any)
+#+END_SRC
+
 *** Workgroups2
 
 Workgroups is a session manager for Emacs.
