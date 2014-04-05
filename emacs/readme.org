@@ -41,9 +41,10 @@ The list of packages to install.
     (setq my-packages
           '(
             auto-complete
+            ack-and-a-half
+            buffer-move
             calfw
             elfeed
-            elscreen
             evil
             evil-indent-textobject
             evil-leader
@@ -67,7 +68,6 @@ The list of packages to install.
             ujelly-theme
             undo-tree
             w3m
-            win-switch
             ))
 #+END_SRC
 
@@ -166,6 +166,7 @@ them all
 ** Show matching parenthesis
 
 #+BEGIN_SRC emacs-lisp
+    (setq show-paren-delay 0)
     (show-paren-mode t)
 #+END_SRC emacs-lisp
 
@@ -341,6 +342,26 @@ some programming languages
     (global-pretty-mode t)
 #+END_SRC
 
+** Better line numbers
+#+BEGIN_SRC emacs-lisp
+    ; 2014-04-04: Holy moly its effort to get line numbers like vim!
+    ; http://www.emacswiki.org/emacs/LineNumbers#toc6
+    (unless window-system
+      (add-hook 'linum-before-numbering-hook
+    (lambda ()
+    (setq-local linum-format-fmt
+    (let ((w (length (number-to-string
+    (count-lines (point-min) (point-max))))))
+    (concat "%" (number-to-string w) "d"))))))
+
+    (defun linum-format-func (line)
+      (concat
+       (propertize (format linum-format-fmt line) 'face 'linum)
+       (propertize " " 'face 'linum)))
+
+    (unless window-system
+      (setq linum-format 'linum-format-func))
+#+END_SRC
 ** More thinner window divisions
 #+BEGIN_SRC emacs-lisp
     (fringe-mode '(1 . 1))
@@ -353,7 +374,7 @@ some programming languages
     (require 'auto-complete)
     (global-auto-complete-mode)
 #+END_SRC
-
+   
 *** enable it globally
 
 #+BEGIN_SRC emacs-lisp
@@ -424,117 +445,151 @@ For those who came from Vim is more easy to use something alike
     (evil-mode 1)
 #+END_SRC
 
+*** ESC quits almost everywhere
+
+Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice][here]]
+
+#+BEGIN_SRC emacs-lisp
+    ;;; esc quits
+
+    (define-key evil-normal-state-map [escape] 'keyboard-quit)
+    (define-key evil-visual-state-map [escape] 'keyboard-quit)
+    (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+#+END_SRC
+
+*** Move along windows
+
+#+BEGIN_SRC emacs-lisp
+    (require 'windmove)
+    (define-key evil-normal-state-map "\C-j" 'windmove-down)
+    (define-key evil-normal-state-map "\C-k" 'windmove-up)
+    (define-key evil-normal-state-map "\C-h" 'windmove-left)
+    (define-key evil-normal-state-map "\C-l" 'windmove-right)
+    (define-key evil-motion-state-map "\C-j" 'windmove-down)
+    (define-key evil-motion-state-map "\C-k" 'windmove-up)
+    (define-key evil-motion-state-map "\C-h" 'windmove-left)
+    (define-key evil-motion-state-map "\C-l" 'windmove-right)
+#+END_SRC
+
+*** Buffer movements
+
+#+BEGIN_SRC emacs-lisp
+    (require 'buffer-move)
+    (define-key evil-normal-state-map (kbd "C-M-j") 'buf-move-down)
+    (define-key evil-normal-state-map (kbd "C-M-k") 'buf-move-up)
+    (define-key evil-normal-state-map (kbd "C-M-h") 'buf-move-left)
+    (define-key evil-normal-state-map (kbd "C-M-l") 'buf-move-right)
+    (define-key evil-motion-state-map (kbd "C-M-j") 'buf-move-down)
+    (define-key evil-motion-state-map (kbd "C-M-k") 'buf-move-up)
+    (define-key evil-motion-state-map (kbd "C-M-h") 'buf-move-left)
+    (define-key evil-motion-state-map (kbd "C-M-l") 'buf-move-right)
+#+END_SRC
+
+*** Window resize
+
+#+BEGIN_SRC emacs-lisp
+    (define-key evil-normal-state-map (kbd "C-S-j") 'shrink-window)
+    (define-key evil-normal-state-map (kbd "C-S-k") 'enlarge-window)
+    (define-key evil-normal-state-map (kbd "C-S-h") 'shrink-window-horizontally)
+    (define-key evil-normal-state-map (kbd "C-S-l") 'enlarge-window-horizontally)
+    (define-key evil-motion-state-map (kbd "C-S-j") 'shrink-window)
+    (define-key evil-motion-state-map (kbd "C-S-k") 'enlarge-window)
+    (define-key evil-motion-state-map (kbd "C-S-h") 'shrink-window-horizontally)
+    (define-key evil-motion-state-map (kbd "C-S-l") 'enlarge-window-horizontally)
+#+END_SRC
+
+*** Org-mode customization
+#+BEGIN_SRC emacs-lisp
+    (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
+    (evil-define-key 'normal org-mode-map (kbd "SPC") 'org-cycle)
+    (evil-define-key 'normal org-mode-map (kbd "H") 'org-metaleft)
+    (evil-define-key 'normal org-mode-map (kbd "L") 'org-metaright)
+    (evil-define-key 'normal org-mode-map (kbd "K") 'org-metaup)
+    (evil-define-key 'normal org-mode-map (kbd "J") 'org-metadown)
+    (evil-define-key 'normal org-mode-map (kbd "U") 'org-shiftmetaleft)
+    (evil-define-key 'normal org-mode-map (kbd "I") 'org-shiftmetaright)
+    (evil-define-key 'normal org-mode-map (kbd "O") 'org-shiftmetaup)
+    (evil-define-key 'normal org-mode-map (kbd "P") 'org-shiftmetadown)
+    (evil-define-key 'normal org-mode-map (kbd "t")   'org-todo)
+    (evil-define-key 'normal org-mode-map (kbd "-")   'org-cycle-list-bullet)
+
+    (evil-define-key 'insert org-mode-map (kbd "C-c .")
+      '(lambda () (interactive) (org-time-stamp-inactive t)))
+#+END_SRC
+
+*** Elfeed customization
+
+#+BEGIN_SRC emacs-lisp
+    ; elfeed-search
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "q") 'quit-window)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update-force)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "b") 'elfeed-search-browse-url)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "y") 'elfeed-search-yank)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "r") 'elfeed-search-untag-all-unread)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
+    ; elfeed-show
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "n") 'elfeed-show-next)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "p") 'elfeed-show-prev)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "b") 'elfeed-show-visit)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "y") 'elfeed-show-yank)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "-") 'elfeed-show-untag)
+#+END_SRC
+
 *** Disable it in certain modes
 
 #+BEGIN_SRC emacs-lisp
-  (evil-set-initial-state 'elfeed-search-mode 'emacs)
-  (evil-set-initial-state 'elfeed-show-mode 'emacs)
+;  (evil-set-initial-state 'elfeed-search-mode 'emacs)
+;  (evil-set-initial-state 'elfeed-show-mode 'emacs)
 #+END_SRC
 
 ** evil-leader
 
 #+BEGIN_SRC emacs-lisp
-    (require 'evil-leader)
+  (require 'evil-leader)
+  (global-evil-leader-mode)
+  (evil-leader/set-leader ",")
+  (evil-leader/set-key
+    "a" 'ack-and-a-half
+    "t" 'org-agenda
+    "B" 'ibuffer
+    "b" 'ido-switch-buffer
+    "c" 'cfw:open-org-calendar
+    "d" 'dired
+    "ew" 'whitespace-cleanup
+    "g" 'magit-status
+    "k" 'kill-buffer
+    "l" 'linum-mode
+    "m" 'smex
+    "M" 'smex-major-mode-commands
+    "n" 'elfeed
+    "o" 'find-file
+    "``" 'save-buffers-kill-terminal
+    "s" 'split-window-vertically
+    "u" 'undo-tree-visualize
+    "v" 'split-window-horizontally
+    "w" 'save-buffer
+    "x" 'delete-window
+    "z" 'delete-other-windows
+   )
 #+END_SRC
 
 ** evil-indent-textobject
 
 #+BEGIN_SRC emacs-lisp
     (require 'evil-indent-textobject)
-#+END_SRC
-
-** Use evil for Org Mode
-
-This was shameless stolen from https://github.com/edwtjo/evil-org-mode.git
-
-*** Define minor mode =evil-org-mode=
-
-#+BEGIN_SRC emacs-lisp
-    (define-minor-mode evil-org-mode
-      "Buffer local minor mode for evil-org"
-      :init-value nil
-      :lighter " EvilOrg"
-      :keymap (make-sparse-keymap) ; defines evil-org-mode-map
-      :group 'evil-org)
-#+END_SRC
-
-*** Hook to only load this mode with org-mode
-
-#+BEGIN_SRC emacs-lisp
-    (add-hook 'org-mode-hook 'evil-org-mode)
-#+END_SRC
-
-*** Aux functions
-
-#+BEGIN_SRC emacs-lisp
-    (defun always-insert-item ()
-      "Force insertion of org item"
-      (if (not (org-in-item-p))
-          (insert "\n- ")
-        (org-insert-item))
-      )
-
-    (defun evil-org-eol-call (fun)
-      "Go to end of line and call provided function"
-      (end-of-line)
-      (funcall fun)
-      (evil-append nil)
-      )
-#+END_SRC
-
-*** Normal state shorcuts
-
-#+BEGIN_SRC emacs-lisp
-    (evil-define-key 'normal evil-org-mode-map
-      "gh" 'outline-up-heading
-      "gj" (if (fboundp 'org-forward-same-level) ;to be backward compatible with older org version
-           'org-forward-same-level
-          'org-forward-heading-same-level)
-      "gk" (if (fboundp 'org-backward-same-level)
-           'org-backward-same-level
-          'org-backward-heading-same-level)
-      "gl" 'outline-next-visible-heading
-      "t" 'org-todo
-      "T" '(lambda () (interactive) (evil-org-eol-call '(org-insert-todo-heading nil)))
-      "H" 'org-beginning-of-line
-      "L" 'org-end-of-line
-      ";t" 'org-show-todo-tree
-      "o" '(lambda () (interactive) (evil-org-eol-call 'always-insert-item))
-      "O" '(lambda () (interactive) (evil-org-eol-call 'org-insert-heading))
-      "$" 'org-end-of-line
-      "^" 'org-beginning-of-line
-      "<" 'org-metaleft
-      ">" 'org-metaright
-      ";a" 'org-agenda
-      "-" 'org-cycle-list-bullet
-      (kbd "TAB") 'org-cycle)
-#+END_SRC
-
-*** Normal & Insert stats shorcuts
-
-#+BEGIN_SRC emacs-lisp
-    (mapc (lambda (state)
-            (evil-define-key state evil-org-mode-map
-              (kbd "M-l") 'org-metaright
-              (kbd "M-h") 'org-metaleft
-              (kbd "M-k") 'org-metaup
-              (kbd "M-j") 'org-metadown
-              (kbd "M-L") 'org-shiftmetaright
-              (kbd "M-H") 'org-shiftmetaleft
-              (kbd "M-K") 'org-shiftmetaup
-              (kbd "M-J") 'org-shiftmetadown
-              (kbd "M-o") '(lambda () (interactive)
-                             (evil-org-eol-call
-                              '(lambda()
-                                 (org-insert-heading)
-                                 (org-metaright))))
-              (kbd "M-t") '(lambda () (interactive)
-                             (evil-org-eol-call
-                              '(lambda()
-                                 (org-insert-todo-heading nil)
-                                 (org-metaright))))
-              ))
-          '(normal insert))
 #+END_SRC
 
 ** Surround
@@ -751,50 +806,6 @@ Makes ido-mode display vertically.
     (require 'magit)
 #+END_SRC
 
-*** ElScreen
-ElScreen is an Emacs utility with which you can have multiple screens
-(window-configuration) on your GNU Emacs as well as GNU screen on
-terminal.
-
-| Binding  | Call | Do                                                                  |
-|----------+------+---------------------------------------------------------------------|
-| C-\ c    |      | Create a new screen and switch to it                                |
-| C-\ C    |      | Create a new screen with the window-configuration of current screen |
-| C-\ k    |      | Kill current screen                                                 |
-| C-\ M-k  |      | Kill current screen and buffers                                     |
-| C-\ K    |      | Kill other screens                                                  |
-| C-\ n    |      | Switch to the "next" screen in a cyclic order                       |
-| C-\ p    |      | Switch to the "previous" screen in a cyclic order                   |
-| C-\ a    |      | Toggle to the screen selected previously                            |
-| C-\ "    |      | Jump to the specified screen                                        |
-| C-\ 0..9 |      | Jump to the screen #                                                |
-| C-\ C-s  |      | Swap current screen with previous one                               |
-| C-\ w    |      | Show list of screens                                                |
-| C-\ A    |      | Name current screen                                                 |
-| C-\ m    |      | Show last message                                                   |
-| C-\ t    |      | Show time                                                           |
-| C-\ b    |      | Switch to the screen in which specified buffer is displayed         |
-| C-\ C-f  |      | Create new screen and open file                                     |
-| C-\ C-r  |      | Create new screen and open file but don't allow changes             |
-| C-\ d    |      | Create new screen and run dired                                     |
-| C-\ M-x  |      | Read function name, then call it with new screen                    |
-| C-\ i    |      | Show/hide the screen number in the mode line                        |
-| C-\ T    |      | Show/hide the tab at the top of screen                              |
-| C-\ v    |      | Show ElScreen version                                               |
-| C-\ ?    |      | Show this help                                                      |
-
-#+BEGIN_SRC emacs-lisp
-    (require 'elscreen)
-    (setq elscreen-prefix-key "\C-\\")
-    (setq elscreen-tab-display-control nil)
-    (setq elscreen-tab-display-kill-screen nil)
-    (elscreen-start)
-    (custom-set-faces
-        '(elscreen-tab-background-face ((t (:background "gray14"))))
-        '(elscreen-tab-current-screen-face ((t (:background "deep sky blue" :foreground "black" :weight bold))))
-        '(elscreen-tab-other-screen-face ((t (:background "dark gray" :foreground "white")))))
-#+END_SRC
-
 *** Elfeed
 
 Elfeed is an extensible web feed reader for Emacs, supporting both
@@ -805,18 +816,14 @@ Atom and RSS
 | Binding | Call                           | Do                                          |
 |---------+--------------------------------+---------------------------------------------|
 | q       | quit-window                    | exit                                        |
-| g       | elfeed-search-update--force    | refresh view of the feed listing            |
-| G       | elfeed-update                  | fetch feed updates from the servers         |
+| a       | elfeed-search-update-force     | refresh view of the feed listing            |
+| A       | elfeed-update                  | fetch feed updates from the servers         |
 | s       | elfeed-search-live-filter      | update the search filter (date & tags)      |
 | RET     | elfeed-search-show-entry       | view selected entry in a buffer             |
 | b       | elfeed-search-browse-url       | open selected entries in your browser       |
 | y       | elfeed-search-yank             | copy selected entries URL to the clipboard  |
 | r       | elfeed-search-untag-all-unread | mark selected entries as read               |
 | u       | elfeed-search-tag-all-unread   | mark selected entries as unread             |
-| n       | next-line                      | next line                                   |
-| p       | previous-line                  | previous line                               |
-| t       | beginning-of-buffer            | go to the top of buffer                     |
-| T       | end-of-buffer                  | go to the end of buffer                     |
 | +       | elfeed-search-tag-all          | add a specific tag to selected entries      |
 | -       | elfeed-search-untag-all        | remove a specific tag from selected entries |
 
@@ -833,15 +840,10 @@ Atom and RSS
 | u       |                     | mark the entry as unread            |
 | +       | elfeed-show-tag     | add tag to the entry                |
 | -       | elfeed-show-untag   | remove tag from the entry           |
-| SPC     | scroll-up-command   | scroll up                           |
-| DEL     | scroll-down-command | scroll down                         |
-| tab     | shr-next-link       | go to the next link                 |
-| backtab | shr-previous-link   | go to the previous link             |
 
 
 #+BEGIN_SRC emacs-lisp
   (require 'elfeed)
-  (global-set-key (kbd "C-x w") 'elfeed)
 
   ; Load the feeds file
   (load "~/.emacs.d/elfeed.el")
@@ -853,53 +855,10 @@ Atom and RSS
 
   (setq elfeed-db-directory "~/.emacs.d/tmp/elfeed")
   (setq elfeed-search-filter "@2-days-old +unread")
-  (define-key elfeed-search-mode-map "t" 'beginning-of-buffer)
-  (define-key elfeed-search-mode-map "T" 'end-of-buffer)
 #+END_SRC
 
-*** Win-Switch
- 
-Navigating through Emacs windows easily with =win-switch=
-
-| Binding | Call                                 | Do                                                                    |
-|---------+--------------------------------------+-----------------------------------------------------------------------|
-| C-x o   | win-switch-dispatch                  | enter in win-switch mode                                              |
-| h       | win-switch-left                      | select the window left the current window                             |
-| l       | win-switch-right                     | select the window right the current window                            |
-| j       | win-switch-down                      | select the window below the current window                            |
-| k       | win-switch-up                        | select the window above the current window                            |
-| n       | win-switch-next-window               | cycles forward through the window list in the current frame           |
-| p       | win-switch-previous-window           | cycles backward through the window list in the current frame          |
-| f       | win-switch-other-frame               | cycles among existing frames                                          |
-| H       | win-switch-shrink-horizontally       | horizontally shrinks the current window                               |
-| L       | win-switch-enlarge-horizontally      | horizontally enlarges the current window                              |
-| J       | win-switch-shrink-vertically         | vertically shrinks the current window                                 |
-| K       | win-switch-enlarge-vertically        | vertically enlarges the current window                                |
-| s       | win-switch-split-window-horizontally | splits the current window into two equal windows, one above the other |
-| v       | win-switch-split-window-vertically   | splits the current window into two equal windows, side by side        |
-| d       | win-switch-delete-window             | delete the current window                                             |
+*** Ack and a half
 
 #+BEGIN_SRC emacs-lisp
-  (require 'win-switch)
-  (setq win-switch-window-threshold 1)
-#+END_SRC
-
-**** Bindings
- 
-#+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "\C-xo") 'win-switch-dispatch)
-    (win-switch-set-keys '("h") 'left)
-    (win-switch-set-keys '("l") 'right)
-    (win-switch-set-keys '("j") 'down)
-    (win-switch-set-keys '("k") 'up)
-    (win-switch-set-keys '("n") 'next-window)
-    (win-switch-set-keys '("p") 'previous-window)
-    (win-switch-set-keys '("f") 'other-frame)
-    (win-switch-set-keys '("H") 'shrink-horizontally)
-    (win-switch-set-keys '("L") 'enlarge-horizontally)
-    (win-switch-set-keys '("J") 'shrink-vertically)
-    (win-switch-set-keys '("K") 'enlarge-vertically)
-    (win-switch-set-keys '("s") 'split-horizontally)
-    (win-switch-set-keys '("v") 'split-vertically)
-    (win-switch-set-keys '("d") 'delete-window)
+    (require 'ack-and-a-half)
 #+END_SRC
