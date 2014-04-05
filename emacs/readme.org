@@ -527,7 +527,7 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
 #+BEGIN_SRC emacs-lisp
     ; elfeed-search
     (evil-define-key 'normal elfeed-search-mode-map (kbd "q") 'quit-window)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update-force)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update--force)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
@@ -827,7 +827,7 @@ Atom and RSS
 | Binding | Call                           | Do                                          |
 |---------+--------------------------------+---------------------------------------------|
 | q       | quit-window                    | exit                                        |
-| a       | elfeed-search-update-force     | refresh view of the feed listing            |
+| a       | elfeed-search-update--force    | refresh view of the feed listing            |
 | A       | elfeed-update                  | fetch feed updates from the servers         |
 | s       | elfeed-search-live-filter      | update the search filter (date & tags)      |
 | RET     | elfeed-search-show-entry       | view selected entry in a buffer             |
