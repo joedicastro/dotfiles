@@ -49,7 +49,7 @@ The list of packages to install.
             evil-indent-textobject
             evil-leader
             evil-matchit
-            evil-nerdcommenter
+            evil-nerd-commenter
             flatland-theme
             ido-ubiquitous
             ido-vertical-mode
@@ -563,10 +563,10 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
   (evil-leader/set-leader ",")
   (evil-leader/set-key
     "a" 'ack-and-a-half
-    "t" 'org-agenda
+    "A" 'cfw:open-org-calendar
     "B" 'ibuffer
     "b" 'ido-switch-buffer
-    "c" 'cfw:open-org-calendar
+    "c" 'evilnc-comment-or-uncomment-lines
     "d" 'dired
     "ew" 'whitespace-cleanup
     "g" 'magit-status
@@ -578,6 +578,7 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     "o" 'find-file
     "``" 'save-buffers-kill-terminal
     "s" 'split-window-vertically
+    "t" 'org-agenda
     "u" 'undo-tree-visualize
     "v" 'split-window-horizontally
     "w" 'save-buffer
@@ -590,6 +591,12 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
 
 #+BEGIN_SRC emacs-lisp
     (require 'evil-indent-textobject)
+#+END_SRC
+
+** evil-nerd-commenter
+
+#+BEGIN_SRC emacs-lisp
+    (require 'evil-nerd-commenter)
 #+END_SRC
 
 ** Surround
