@@ -41,7 +41,7 @@ The list of packages to install.
     (setq my-packages
           '(
             auto-complete
-            ack-and-a-half
+            ag
             buffer-move
             calfw
             elfeed
@@ -566,7 +566,7 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     "1" 'wg-switch-to-workgroup
     "2" 'wg-kill-workgroup
     "3" 'wg-clone-workgroup
-    "a" 'ack-and-a-half
+    "a" 'ag
     "A" 'cfw:open-org-calendar
     "B" 'ibuffer
     "b" 'ido-switch-buffer
@@ -869,11 +869,18 @@ Atom and RSS
   (setq elfeed-search-filter "@2-days-old +unread")
 #+END_SRC
 
-*** Ack and a half
+*** Ag
+
+A simple ag frontend, loosely based on ack-and-half.el.  
 
 #+BEGIN_SRC emacs-lisp
-    (require 'ack-and-a-half)
+    (require 'ag)
+    (setq ag-reuse-buffers 't)
+    (setq ag-highlight-search t)
+    (setq ag-arguments
+        (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--")) 
 #+END_SRC
+   
 *** Twittering-mode
 
 Twittering-mode enables you to twit on Emacsen.
@@ -1000,5 +1007,4 @@ You can also restore such buffers as: org-agenda, shell, magit-status, help.
     (require 'workgroups2)
     (setq wg-default-session-file "~/.emacs.d/tmp/emacs_workgroups")
     (workgroups-mode 1)        ; put this one at the bottom of .emacs
-    ;; Change workgroups session file
 #+END_SRC
