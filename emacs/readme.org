@@ -46,15 +46,23 @@ The list of packages to install.
             buffer-move
             calfw
             elfeed
+            elpy
             evil
             evil-indent-textobject
             evil-leader
             evil-matchit
             evil-nerd-commenter
             flatland-theme
+            git-commit-mode
+            git-rebase-mode
+            gitconfig-mode
+            gitignore-mode
+            helm
             ido-ubiquitous
             ido-vertical-mode
             ido-yes-or-no
+            ipython
+            load-theme-buffer-local
             magit
             markdown-mode
             moe-theme
@@ -72,6 +80,7 @@ The list of packages to install.
             undo-tree
             w3m
             workgroups2
+            yasnippet
             ))
 #+END_SRC
 
@@ -581,13 +590,14 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     "F" 'swoop-multi
     "g" 'magit-status
     "i" 'browse-kill-ring
-    "K" 'delete-window
-    "k" 'kill-buffer
+    "k" 'delete-window
+    "K" 'kill-buffer
     "l" 'linum-mode
     "m" 'smex
     "M" 'smex-major-mode-commands
     "n" 'elfeed
     "o" 'find-file
+    "q" 'helm-surfraw
     "``" 'save-buffers-kill-terminal
     "s" 'split-window-vertically
     "t" 'twit
@@ -631,7 +641,7 @@ Use the surround plugin, the equivalent to the Vim one.
      (setq w3m-default-display-inline-images t)
 #+END_SRC
 
-* Modes
+* Org-Mode
 ** Org-mode settings
 
 *** Enable Org Mode
@@ -895,6 +905,27 @@ Atom and RSS
 #+BEGIN_SRC emacs-lisp
     (require 'multi-term)
     (setq multi-term-program "/bin/bash")
+#+END_SRC
+
+*** Load theme buffer local
+
+#+BEGIN_SRC emacs-lisp
+    (require 'load-theme-buffer-local)
+#+END_SRC
+
+*** Yasnippet
+
+#+BEGIN_SRC emacs-lisp
+    (require 'yasnippet)
+    (yas-global-mode)
+#+END_SRC
+
+*** Elpy
+
+#+BEGIN_SRC emacs-lisp
+    (require 'elpy)
+    (elpy-enable)
+    (elpy-use-ipython)
 #+END_SRC
 
 *** Ag
