@@ -40,8 +40,9 @@ The list of packages to install.
 #+BEGIN_SRC emacs-lisp
     (setq my-packages
           '(
-            auto-complete
             ag
+            auto-complete
+            browse-kill-ring
             buffer-move
             calfw
             elfeed
@@ -58,12 +59,14 @@ The list of packages to install.
             markdown-mode
             moe-theme
             monokai-theme
+            multi-term
             pretty-mode
             smart-mode-line
             smartparens
             smex
             sublime-themes
             surround
+            swoop
             twittering-mode
             ujelly-theme
             undo-tree
@@ -563,6 +566,7 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
   (global-evil-leader-mode)
   (evil-leader/set-leader ",")
   (evil-leader/set-key
+    "0" 'org-agenda
     "1" 'wg-switch-to-workgroup
     "2" 'wg-kill-workgroup
     "3" 'wg-clone-workgroup
@@ -573,21 +577,25 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     "c" 'evilnc-comment-or-uncomment-lines
     "d" 'dired
     "ew" 'whitespace-cleanup
-    "f" 'find-file
+    "f" 'swoop
+    "F" 'swoop-multi
     "g" 'magit-status
+    "i" 'browse-kill-ring
+    "K" 'delete-window
     "k" 'kill-buffer
     "l" 'linum-mode
     "m" 'smex
     "M" 'smex-major-mode-commands
     "n" 'elfeed
-    "o" 'org-agenda
+    "o" 'find-file
     "``" 'save-buffers-kill-terminal
     "s" 'split-window-vertically
     "t" 'twit
     "u" 'undo-tree-visualize
     "v" 'split-window-horizontally
     "w" 'save-buffer
-    "x" 'delete-window
+    "X" 'multi-term-next
+    "x" 'multi-term
     "z" 'delete-other-windows
    )
 #+END_SRC
@@ -867,6 +875,26 @@ Atom and RSS
 
   (setq elfeed-db-directory "~/.emacs.d/tmp/elfeed")
   (setq elfeed-search-filter "@2-days-old +unread")
+#+END_SRC
+
+*** Browse Kill Ring
+
+#+BEGIN_SRC emacs-lisp
+    (require 'browse-kill-ring)
+#+END_SRC
+
+*** Swoop
+
+#+BEGIN_SRC emacs-lisp
+    (require 'swoop)
+    (setq swoop-font-size-change: nil)
+#+END_SRC
+
+*** Multi Term
+
+#+BEGIN_SRC emacs-lisp
+    (require 'multi-term)
+    (setq multi-term-program "/bin/bash")
 #+END_SRC
 
 *** Ag
