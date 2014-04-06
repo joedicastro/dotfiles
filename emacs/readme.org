@@ -563,6 +563,9 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
   (global-evil-leader-mode)
   (evil-leader/set-leader ",")
   (evil-leader/set-key
+    "1" 'wg-switch-to-workgroup
+    "2" 'wg-kill-workgroup
+    "3" 'wg-clone-workgroup
     "a" 'ack-and-a-half
     "A" 'cfw:open-org-calendar
     "B" 'ibuffer
@@ -572,17 +575,15 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     "ew" 'whitespace-cleanup
     "f" 'find-file
     "g" 'magit-status
-    "i" 'wg-switch-to-workgroup
     "k" 'kill-buffer
     "l" 'linum-mode
     "m" 'smex
     "M" 'smex-major-mode-commands
     "n" 'elfeed
-    "o" 'wg-kill-workgroup
-    "p" 'wg-clone-workgroup
+    "o" 'org-agenda
     "``" 'save-buffers-kill-terminal
     "s" 'split-window-vertically
-    "t" 'org-agenda
+    "t" 'twit
     "u" 'undo-tree-visualize
     "v" 'split-window-horizontally
     "w" 'save-buffer
@@ -818,7 +819,7 @@ Makes ido-mode display vertically.
 #+END_SRC
 
 *** Elfeed
-
+    
 Elfeed is an extensible web feed reader for Emacs, supporting both
 Atom and RSS
 
@@ -875,19 +876,115 @@ Atom and RSS
 #+END_SRC
 *** Twittering-mode
 
+Twittering-mode enables you to twit on Emacsen.
+
+| Binding   | Call                                           | Do                                    |
+|-----------+------------------------------------------------+---------------------------------------|
+| q         | twittering-kill-buffer                         | Kill buffer                           |
+| Q         | twittering-edit-mode                           | Edit mode                             |
+| j         | twittering-goto-next-status                    | Next Twitter                          |
+| k         | twittering-goto-previous-status                | Previous Twitter                      |
+| h         | twittering-switch-to-next-timeline             | Next Timeline                         |
+| l         | twittering-switch-to-previous-timeline         | Previous Timeline                     |
+| g         | beginning-of-buffer                            | Top of the Timeline                   |
+| G         | end-of-buffer                                  | Bottom of the Timeline                |
+| t         | twittering-update-status-interactive           | Post a tweet                          |
+| X         | twittering-delete-status                       | Delete a own tweet                    |
+| RET       | twittering-reply-to-user                       | Reply to user                         |
+| r         | twittering-native-retweet                      | Retweet                               |
+| R         | twittering-organic-retweet                     | Retweet & Edit                        |
+| k         | twittering-direct-message                      | Direct Message                        |
+| u         | twittering-current-timeline                    | Update Timeline                       |
+| b         | twittering-favorite                            | Mark as Favorite                      |
+| B         | twittering-unfavorite                          | Unmark as Favorite                    |
+| f         | twittering-follow                              | Follow current user                   |
+| F         | twittering-unfollow                            | Unfollow current user                 |
+| i         | twittering-view-user-page                      | View user profile (Browser)           |
+| /         | twittering-search                              | Search                                |
+| .         | twittering-visit-timeline                      | Open a new Timeline                   |
+| @         | twittering-other-user-timeline                 | Open the Timeline of the current user |
+| T         | twittering-toggle-or-retrieve-replied-statuses | Show Thread                           |
+| o         | twittering-click                               | Open item in a Browser                |
+| TAB       | twittering-goto-next-thing                     | Go to next item                       |
+| <backtab> | twittering-goto-previous-thing                 | Go to previous item                   |
+| n         | twittering-goto-next-status-of-user            | Go to next current user's tweet       |
+| p         | twittering-goto-previous-status-of-user        | Go to previous current user's tweet   |
+| SPC       | twittering-scroll-up                           | Timeline scroll up                    |
+| S-SPC     | twittering-scroll-down                         | Timeline scroll down                  |
+| y         | twittering-push-uri-onto-kill-ring             | Yank current url                      |
+| Y         | twittering-push-tweet-onto-kill-ring           | Yank current tweet                    |
+| a         | twittering-toggle-activate-buffer              | Toggle Active Timeline                |
+ 
 #+BEGIN_SRC emacs-lisp
     (setq twittering-use-master-password t)
     (setq twittering-icon-mode t)
     (setq twittering-use-icon-storage t)
     (setq twittering-icon-storage-file "~/.emacs.d/tmp/twittering-mode-icons.gz")
+    (setq twittering-convert-fix-size 52)
     (setq twittering-initial-timeline-spec-string
-          '(
-            "(:direct_messages+@)"
-            "(joe_di_castro+@)"
-            "(:mentions+@)"
-            "(:home+@)"
-            ))
+          '(":home"))
     (setq twittering-edit-skeleton 'inherit-any)
+    (setq twittering-display-remaining t)
+    (setq twittering-status-format
+        "%i  %S, %RT{%FACE[bold]{%S}} %@  %FACE[shadow]{%p%f%L%r}\n%FOLD[        ]{%T}\n")
+#+END_SRC
+ 
+**** Define my own bindings (based in [[https://github.com/alejandrogomez/turses][Turses]] style)
+
+#+BEGIN_SRC emacs-lisp
+    ; remove the current bindings
+    (eval-after-load "twittering-mode"  
+        '(setq twittering-mode-map (make-sparse-keymap)))
+    ; set the new bindings
+    (add-hook 'twittering-mode-hook
+             (lambda ()
+               (mapc (lambda (pair)
+                       (let ((key (car pair))
+                             (func (cdr pair)))
+                         (define-key twittering-mode-map
+                           (read-kbd-macro key) func)))
+                     '(
+                       ("q" . twittering-kill-buffer)
+                       ("Q" . twittering-edit-mode)
+                       ("j" . twittering-goto-next-status)
+                       ("k" . twittering-goto-previous-status)
+                       ("h" . twittering-switch-to-next-timeline)
+                       ("l" . twittering-switch-to-previous-timeline)
+                       ("g" . beginning-of-buffer)
+                       ("G" . end-of-buffer)
+                       ("t" . twittering-update-status-interactive)
+                       ("X" . twittering-delete-status)
+                       ("RET" . twittering-reply-to-user)
+                       ("r" . twittering-native-retweet)
+                       ("R" . twittering-organic-retweet)
+                       ("d" . twittering-direct-message)
+                       ("u" . twittering-current-timeline)
+                       ("b" . twittering-favorite)
+                       ("B" . twittering-unfavorite)
+                       ("f" . twittering-follow)
+                       ("F" . twittering-unfollow)
+                       ("i" . twittering-view-user-page)
+                       ("/" . twittering-search)
+                       ("." . twittering-visit-timeline)
+                       ("@" . twittering-other-user-timeline)
+                       ("T" . twittering-toggle-or-retrieve-replied-statuses)
+                       ("o" . twittering-click)
+                       ("TAB" . twittering-goto-next-thing)
+                       ("<backtab>" . twittering-goto-previous-thing)
+                       ("n" . twittering-goto-next-status-of-user)
+                       ("p" . twittering-goto-previous-status-of-user)
+                       ("SPC" . twittering-scroll-up)
+                       ("S-SPC" . twittering-scroll-down)
+                       ("y" . twittering-push-uri-onto-kill-ring)
+                       ("Y" . twittering-push-tweet-onto-kill-ring)
+                       ("a" . twittering-toggle-activate-buffer)
+                      ))))
+#+END_SRC
+
+**** Spell checking on tweets
+
+#+BEGIN_SRC emacs-lisp
+    (add-hook 'twittering-edit-mode-hook (lambda () (ispell-minor-mode) (flyspell-mode)))
 #+END_SRC
 
 *** Workgroups2
