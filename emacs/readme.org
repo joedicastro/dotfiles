@@ -549,6 +549,7 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     (evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el")))
     ; elfeed-show
     (evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
     (evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
@@ -559,6 +560,8 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     (evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
     (evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
     (evil-define-key 'normal elfeed-show-mode-map (kbd "-") 'elfeed-show-untag)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "SPC") 'scroll-up)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "S-SPC") 'scroll-down)
 #+END_SRC
 
 *** Disable it in certain modes
@@ -636,9 +639,9 @@ Use the surround plugin, the equivalent to the Vim one.
 #+BEGIN_SRC emacs-lisp
 ;    (setq browse-url-browser-function 'w3m-browse-url)
 ;    (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
-     (setq browse-url-browser-function 'browse-url-generic
+    (setq browse-url-browser-function 'browse-url-generic
            browse-url-generic-program "firefox")
-     (setq w3m-default-display-inline-images t)
+    (setq w3m-default-display-inline-images t)
 #+END_SRC
 
 * Org-Mode
@@ -704,7 +707,8 @@ Use the surround plugin, the equivalent to the Vim one.
 Only works in GUI, but is a nice feature to have
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-startup-with-inline-images t)
+    (when (window-system)
+        (setq org-startup-with-inline-images t))
 #+END_SRC
 
 **** Limit images width
@@ -856,6 +860,7 @@ Atom and RSS
 | u       | elfeed-search-tag-all-unread   | mark selected entries as unread             |
 | +       | elfeed-search-tag-all          | add a specific tag to selected entries      |
 | -       | elfeed-search-untag-all        | remove a specific tag from selected entries |
+| E       |                                | open the feed urls file                     |
 
 *Show mode*
 
@@ -870,6 +875,8 @@ Atom and RSS
 | u       |                     | mark the entry as unread            |
 | +       | elfeed-show-tag     | add tag to the entry                |
 | -       | elfeed-show-untag   | remove tag from the entry           |
+| SPC     | scroll-up           | scroll up the buffer                |
+| S-SPC   | scroll-down         | scroll down the buffer              |
 
 
 #+BEGIN_SRC emacs-lisp
