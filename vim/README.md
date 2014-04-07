@@ -233,132 +233,31 @@ These are the menu entries in detail:
 > A way to avoid this is by using symbolic links and backups of our vim folder.
 > If we made a backup of our vim config before an update, is easy to restore it
 > to a previous stable state without much effort. But this is tedious and
-> error-prone too.
+> error-prone too (and using git submodules or something similar is painful).
 
-> A better alternative is managing this via NeoBundle. We can use the "revision
-> lock" feature to specify what revision we want to install or even say to
-> NeoBundle that a plugin should not be updated. If we combine this feature with
-> the update log file we can manage this situation in a more properly way. Let
-> me show an example of how to do this:
+> A better alternative is managing this via NeoBundle. We can use the amazing
+> command `:NeoBundleRollback` to do a **Rollback** (return to a previous
+> version of the plugin) automatically in a very easy way. We execute this
+> command followed by a plugin name and a menu like this is showed:
 
-> Suppose that in the last update of a plugin (from the repository) it comes
-> with a nasty error as an "extra gift". And due this error we have now a not
-> working Vim configuration. If we did this update via the Neobundle `update`
-> command and we are using this configuration, we have a info file where this
-> actions are registered. Let's take a look to this file,
-> `~/.vim/bundle/.neobundle/install_info`:
+>     Select revision:
+>     1. 2014/03/25/14/03 18:59:50  0c557bfca62df13e65f5912cfd143db86232c1a0
+>     2. 2014/03/30/14/03 20:11:39  82bff20b0200c3ccb292a9261d565b5bbc609ac2
+>     3. 2014/04/06/14/04 19:01:45  21c7234bbd13ba79e83bcd5791514c7bdee770fd
+>     Type number and <Enter> or click with mouse (empty cancels):
 
-> *The format of the file is not very human readable, but is almost a JSON file,
-> so with a few transformations, we had a very nice document to look at.
-> There are the transformations that I'll apply to this document:*
-
->     dd                        " delete the first line
->     :%s/'/"/g                 " substitute `'` for `"` to obey the JSON standard
->     :%!python -m json.tool    " an easy way to prettify the format
->     :set ft=json              " set the vim filetype to json
->     zR                        " unfold all
-
->  So let's take a look to a plugin, the Syntastic one for instance:
-
->     ...
->      "syntastic": {
->          "checked_time": 1389635495,
->          "installed_path": "/home/joedicastro/.vim/bundle/syntastic",
->          "installed_uri": "https://github.com/scrooloose/syntastic.git",
->          "revisions": {
->              "1388823825": "2d9ff2457f57f4c43d7dd6d911003b7ce07588f6",
->              "1389610724": "f23ddae1a7982b40dbfbe55033c1817480f0a0ed"
->          },
->          "updated_time": "1389610724"
->      },
->     ...
-
-> In the `revisions` object we have two members in which the key is a date in
-> UNIX Time format and the value is a git SHA hash that matches to a unique
-> revision.  The Unix time can be very helpful to determine what revision is
-> more appropriate to restore if we know when approximately the plugin still
-> worked. To convert the UNIX time to a more human readable format, we can do
-> something like this:
-
->     # create a temporal mapping (ISO 8061 time)
->     :vnoremap <F3> "=strftime("%FT%T%z", @*)<CR>P
-
-> Then we only have to select the unix time which want to convert and press `<F3>`.
-> From `1389610724` we get `2014-01-13T11:58:44+0100`
-
-
-> What you can see there, in that file, is that two updates were made and the
-> last one is the current revision. So the current revision installed is the one
-> which `git SHA` begins with `f23ddae1a7` and a previous revision that was
-> `2d9ff2457f`.  If we are certain that the previous version didn't have that
-> error, we can use now the "revision lock" feature of NeoBundle to restore a
-> previous version.
-
-> If in the `~/.vimrc` file we have this line:
-
->     NeoBundle 'scrooloose/syntastic'
-
-> We can now lock the plugin revision with this:
-
->     NeoBundle 'scrooloose/syntastic' ,{ 'rev' : '2d9ff2457f'}
-
-> When we save the file, we are asked to install the plugins, if we say 'yes'
-> then we are using now a previous revision of the plugin. (This can be made too
-> at Vim startup time with this configuration or invoking the `NeoBundleCheck`
-> command). Before, we had this directory tree in the `bundle` directory:
-
->     ...
->     |-- summerfruit256.vim
->     |-- syntastic
->     |-- ultisnips
->     ...
-
-> Now, we have this current directory tree:
-
->     ...
->     |-- summerfruit256.vim
->     |-- syntastic
->     |-- syntastic_2d9ff2457f
->     |-- ultisnips
->     ...
-
-> With a new directory storing the plugin at the specified revision.  So we have
+> You only have to choose a previous revision and it's done. Amazing! So we have
 > now a working Vim configuration again, an we can keep working with that
-> plugin's revision all the time we want. That can be done in a few minutes, and
+> plugin's revision all the time we want. That can be done in a few seconds, and
 > we keep working as normally as before the update. And using this way we only
-> have to lock that plugin and still enjoying the new features that other
+> have to 'Rollback' that plugin and still enjoying the new features that other
 > plugins maybe have added in the same update.
 
-> If after certain time we want to go back to the master branch of the plugin
-> and see if there is a new revision that solve that error or/and add new
-> features, we can do it like this:
-
->      NeoBundle 'scrooloose/syntastic', { 'rev' : 'master'}
-
-> But this way have a minor inconvenient, that creates a new bundle directory
-> for this revision:
-
->     ...
->     |-- summerfruit256.vim
->     |-- syntastic
->     |-- syntastic_2d9ff2457f
->     |-- syntastic_master
->     |-- ultisnips
->     ...
-
-> So is better to do it like this, simply deleting the revision flag and
-> restoring the previous line, and not new directory is added:
-
->      NeoBundle 'scrooloose/syntastic'
-
-> By the way, you can remove all unused directories using the `NeoBundleClean`
-> command. So, that's it, is more simple that appears and save us a lot of
-> headaches.
-
-> **Great News: Now is available an experimental command to do this automatically
-> in a very easy way. The command is `:NeoBundleRollback`, but currently is still
-> an experimental feature. Thanks Shougo, you're amazing!**
-
+ > If after certain time we want to go back to the master branch of the plugin
+ > and see if there is a new revision that solve that error or/and add new
+ > features, we can do it simply by deleting the plugin's folder and then
+ > restarting Vim or use `:NeoBundleCheck` from Vim. That's it! Simply and
+ > clean! Enjoy it!
 
 ## Colorschemes
 
