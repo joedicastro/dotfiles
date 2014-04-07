@@ -73,13 +73,6 @@ Configuration of [mpd](http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki)
 
 Configuration of [ncmpcpp](http://ncmpcpp.rybczak.net/)
 
-### `/newsbeuter`
-
-Configuration of [Newsbeuter](http://newsbeuter.org/)
-
-+ `/newsbeuter/notify.py` a Python script that generate the popup notifications
-  that newsbeuter sends at the end of a news update
-
 ### `/pentadactyl`
 
 Configuration of [Pentadactyl](http://5digits.org/pentadactyl/)
@@ -99,10 +92,6 @@ Configuration of [tmux](http://tmux.sourceforge.net/)
 ### `/tmuxinator`
 
 Configuration of [Tmuxinator](https://github.com/aziz/tmuxinator)
-
-### `/turses`
-
-Configuration of [Turses](https://github.com/alejandrogomez/turses)
 
 ### `/urxvt`
 
