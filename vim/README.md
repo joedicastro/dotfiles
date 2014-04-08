@@ -255,9 +255,8 @@ These are the menu entries in detail:
 
  > If after certain time we want to go back to the master branch of the plugin
  > and see if there is a new revision that solve that error or/and add new
- > features, we can do it simply by deleting the plugin's folder and then
- > restarting Vim or use `:NeoBundleCheck` from Vim. That's it! Simply and
- > clean! Enjoy it!
+ > features, we can do it simply by using the command `:NeoBundleReinstall` to
+ > reinstall the plugin. That's it! Simply and clean! Enjoy it!
 
 ## Colorschemes
 
