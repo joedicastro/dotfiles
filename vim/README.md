@@ -1641,6 +1641,7 @@ au FileType python setlocal foldlevel=1000
 - __unite-mark__ <https://github.com/tacroe/unite-mark>
 - __unite-outline__ <https://github.com/Shougo/unite-outline>
 - __unite-quickfix__ <https://github.com/osyo-manga/unite-quickfix>
+- __unite-spell-suggest__ <https://github.com/osyo-manga/unite-quickfix>
 - __unite.vim__ <https://github.com/Shougo/unite.vim>
 - __utl.vim__ <https://github.com/vim-scripts/utl.vim>
 - __vim-airline__ <https://github.com/bling/vim-airline>

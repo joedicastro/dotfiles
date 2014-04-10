@@ -88,6 +88,8 @@ NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen',
 " Unite plugin that provides command line completition
 NeoBundle 'majkinetor/unite-cmdmatch'
 
+" Unite plugin that provides spell suggestions
+NeoBundle 'kopischke/unite-spell-suggest'
 " }}}
 
 " Colorschemes {{{
@@ -571,9 +573,11 @@ nmap <Leader>so :setlocal nospell <CR>
 " jump to the next bad spell word
 nmap <Leader>sn ]s
 " suggest words
-nmap <Leader>sp z=
+" nmap <Leader>sp z=
+nmap <Leader>sp :Unite spell_suggest<CR>
 " jump to the next bad spell word and suggests a correct one
-nmap <Leader>sc ]sz=
+" nmap <Leader>sc ]sz=
+nmap <Leader>sc ]s :Unite spell_suggest<CR>
 " add word to the dictionary
 nmap <Leader>sa zg
 " }}}
