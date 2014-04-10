@@ -764,6 +764,10 @@ actions without external dependencies. Only one protocol has to be
 configured with your external applications or the operating system, to
 trigger an arbitrary number of custom actions.
 
+To use it to capture web urls and notes from Firefox, install this
+[[http://chadok.info/firefox-org-capture/][Firefox extension]]
+
+
 #+BEGIN_SRC emacs-lisp
     (server-start)
     (require 'org-protocol)
