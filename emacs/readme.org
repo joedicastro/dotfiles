@@ -57,6 +57,7 @@ The list of packages to install.
             git-rebase-mode
             gitconfig-mode
             gitignore-mode
+            google-maps
             helm
             ido-ubiquitous
             ido-vertical-mode
@@ -68,7 +69,9 @@ The list of packages to install.
             moe-theme
             monokai-theme
             multi-term
+            org-plus-contrib
             pretty-mode
+            rainbow-mode
             smart-mode-line
             smartparens
             smex
@@ -113,6 +116,19 @@ already installed.
                (assoc pkg package-archive-contents))
         (package-install pkg)))
 #+END_SRC
+
+** Errors after compling in a fresh installation
+   Some packages (e.g. org-plus-contrib) can be broken after
+   automatic compilation via =package.el=
+
+   To solve this issue we can proceed as follow:
+
+   - Remove all the compiled files (=*.elc=) from the folder
+   - Recompile the directory again whith this:
+
+#+BEGIN_EXAMPLE
+    (byte-recompile-directory (expand-file-name "~/.emacs.d/elpa/org-plug-contrib") 0)
+#+END_EXAMPLE
 
 ** Updating Packages
 
@@ -387,7 +403,7 @@ some programming languages
     (require 'auto-complete)
     (global-auto-complete-mode)
 #+END_SRC
-   
+
 *** enable it globally
 
 #+BEGIN_SRC emacs-lisp
@@ -543,7 +559,7 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     (evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "b") 'elfeed-search-browse-url)
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "o") 'elfeed-search-browse-url)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "y") 'elfeed-search-yank)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "r") 'elfeed-search-untag-all-unread)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
@@ -555,7 +571,7 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     (evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
     (evil-define-key 'normal elfeed-show-mode-map (kbd "n") 'elfeed-show-next)
     (evil-define-key 'normal elfeed-show-mode-map (kbd "p") 'elfeed-show-prev)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "b") 'elfeed-show-visit)
+    (evil-define-key 'normal elfeed-show-mode-map (kbd "o") 'elfeed-show-visit)
     (evil-define-key 'normal elfeed-show-mode-map (kbd "y") 'elfeed-show-yank)
     (evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
     (evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
@@ -579,11 +595,12 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
   (evil-leader/set-leader ",")
   (evil-leader/set-key
     "0" 'org-agenda
+    "8" 'org-capture
+    "9" 'cfw:open-org-calendar
     "1" 'wg-switch-to-workgroup
     "2" 'wg-kill-workgroup
     "3" 'wg-clone-workgroup
     "a" 'ag
-    "A" 'cfw:open-org-calendar
     "B" 'ibuffer
     "b" 'ido-switch-buffer
     "c" 'evilnc-comment-or-uncomment-lines
@@ -645,6 +662,7 @@ Use the surround plugin, the equivalent to the Vim one.
 #+END_SRC
 
 * Org-Mode
+
 ** Org-mode settings
 
 *** Enable Org Mode
@@ -702,6 +720,13 @@ Use the surround plugin, the equivalent to the Vim one.
           ("\\.gnumeric\\'" . "gnumeric %s")))
 #+END_SRC
 
+*** Protect hidden trees for being inadvertily edited
+
+#+begin_src emacs-lisp
+    (setq org-catch-invisible-edits "error")
+    (setq org-ctrl-k-protect-subtree "error")
+#+end_src
+
 *** Show images inline
 
 Only works in GUI, but is a nice feature to have
@@ -716,7 +741,67 @@ Only works in GUI, but is a nice feature to have
 #+BEGIN_SRC emacs-lisp
     (setq org-image-actual-width '(300))
 #+END_SRC
+** Org-location-google-maps
 
+The google-maps Emacs extension allows to display Google Maps directly
+inside Emacs and integrate them in org-mode as addresses.
+
+#+begin_src emacs-lisp
+    (require 'google-maps)
+    (require 'org-location-google-maps)
+#+end_src
+
+** Org-capture
+
+Capture lets you quickly store notes with little interruption of your
+work flowCapture lets you quickly store notes with little interruption
+of your work flow
+
+*** Org-protocol
+
+org-protocol intercepts calls from emacsclient to trigger custom
+actions without external dependencies. Only one protocol has to be
+configured with your external applications or the operating system, to
+trigger an arbitrary number of custom actions.
+
+#+BEGIN_SRC emacs-lisp
+    (server-start)
+    (require 'org-protocol)
+
+    (setq org-protocol-default-template-key "w")
+    (setq org-capture-templates
+          (quote
+           (("w" "Web captures" entry (file+headline "~/org/urls.org" "Web")
+             "* %^{Title}\n\n  Source: %u, %c\n\n  %i"
+             :empty-lines 1))))
+#+END_SRC
+
+*** Org-contacts
+
+The org-contacts Emacs extension allows to manage your contacts using
+Org-mode.
+
+#+begin_src emacs-lisp
+    (require 'org-contacts)
+    (setq org-contacts-file "~/org/contacts.org")
+    (setq org-contacts-matcher "EMAIL<>\"\"|ALIAS<>\"\"|PHONE<>\"\"|ADDRESS<>\"\"|BIRTHDAY")
+
+    (add-to-list 'org-capture-templates
+      '("p" "Contacts" entry (file "~/org/contacts.org")
+         "** %(org-contacts-template-name)
+         :PROPERTIES:
+         :EMAIL: %(org-contacts-template-email)
+         :END:"))
+#+end_src
+
+*** Other captures
+
+#+BEGIN_SRC emacs-lisp
+ (add-to-list 'org-capture-templates
+    '("t" "TODO" entry (file+headline "~/org/tasks.org" "Tasks")
+       "* TODO %?\n  %i\n  %a"))
+#+END_SRC
+ 
 * Batteries
 *** Calfw
 
@@ -841,7 +926,7 @@ Makes ido-mode display vertically.
 #+END_SRC
 
 *** Elfeed
-    
+
 Elfeed is an extensible web feed reader for Emacs, supporting both
 Atom and RSS
 
@@ -854,7 +939,7 @@ Atom and RSS
 | A       | elfeed-update                  | fetch feed updates from the servers         |
 | s       | elfeed-search-live-filter      | update the search filter (date & tags)      |
 | RET     | elfeed-search-show-entry       | view selected entry in a buffer             |
-| b       | elfeed-search-browse-url       | open selected entries in your browser       |
+| o       | elfeed-search-browse-url       | open selected entries in your browser       |
 | y       | elfeed-search-yank             | copy selected entries URL to the clipboard  |
 | r       | elfeed-search-untag-all-unread | mark selected entries as read               |
 | u       | elfeed-search-tag-all-unread   | mark selected entries as unread             |
@@ -870,7 +955,7 @@ Atom and RSS
 | g       | elfeed-show-refresh | refresh the entry                   |
 | n       | elfeed-show-next    | go to the next entry                |
 | p       | elfeed-show-prev    | go to the previous entry            |
-| b       | elfeed-show-visit   | open the entry in your browser      |
+| o       | elfeed-show-visit   | open the entry in your browser      |
 | y       | elfeed-show-yank    | copy the entry URL to the clipboard |
 | u       |                     | mark the entry as unread            |
 | +       | elfeed-show-tag     | add tag to the entry                |
@@ -937,16 +1022,16 @@ Atom and RSS
 
 *** Ag
 
-A simple ag frontend, loosely based on ack-and-half.el.  
+A simple ag frontend, loosely based on ack-and-half.el.
 
 #+BEGIN_SRC emacs-lisp
     (require 'ag)
     (setq ag-reuse-buffers 't)
     (setq ag-highlight-search t)
     (setq ag-arguments
-        (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--")) 
+        (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))
 #+END_SRC
-   
+
 *** Twittering-mode
 
 Twittering-mode enables you to twit on Emacsen.
@@ -987,7 +1072,7 @@ Twittering-mode enables you to twit on Emacsen.
 | y         | twittering-push-uri-onto-kill-ring             | Yank current url                      |
 | Y         | twittering-push-tweet-onto-kill-ring           | Yank current tweet                    |
 | a         | twittering-toggle-activate-buffer              | Toggle Active Timeline                |
- 
+
 #+BEGIN_SRC emacs-lisp
     (setq twittering-use-master-password t)
     (setq twittering-icon-mode t)
@@ -1001,12 +1086,12 @@ Twittering-mode enables you to twit on Emacsen.
     (setq twittering-status-format
         "%i  %S, %RT{%FACE[bold]{%S}} %@  %FACE[shadow]{%p%f%L%r}\n%FOLD[        ]{%T}\n")
 #+END_SRC
- 
+
 **** Define my own bindings (based in [[https://github.com/alejandrogomez/turses][Turses]] style)
 
 #+BEGIN_SRC emacs-lisp
     ; remove the current bindings
-    (eval-after-load "twittering-mode"  
+    (eval-after-load "twittering-mode"
         '(setq twittering-mode-map (make-sparse-keymap)))
     ; set the new bindings
     (add-hook 'twittering-mode-hook

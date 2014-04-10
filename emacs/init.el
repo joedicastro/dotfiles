@@ -9,6 +9,7 @@
                  "lisp" (expand-file-name
                          "org-mode" (expand-file-name
                                 dotfiles-dir)))))
+  (package-initialize)
   (add-to-list 'load-path org-dir)
   (require 'org)
   (require 'ob))
