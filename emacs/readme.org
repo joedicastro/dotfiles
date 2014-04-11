@@ -41,10 +41,9 @@ maintain clean and updated this list for me is the following:
 - Install a package from the =package.el= built-in interface via =M-x list-packages=
 - Test it
   - If seems Ok and I want to use it regularly, add it to the list.
-  - If I don't like it, delete the plugin directory in the
-  =~/.emacs.d/elpa= tree. I don't care too much about other
-  dependecies that could be also installed, I'll get rid of them in
-  the next clean install.
+  - If I don't like it, delete the plugin directory in the =~/.emacs.d/elpa= tree.
+    I don't care too much about other dependecies that could be also
+    installed, I'll get rid of them in the next clean install.
 
 #+BEGIN_SRC emacs-lisp
     ; A package for line helps to mantain the list
@@ -355,31 +354,49 @@ You don't only want to have a beast to edit, you want a good looking
 one too!
 
 ** Remove the welcome screen
+
+The welcome screen is for guests only, I'm in home now!
+
 #+BEGIN_SRC emacs-lisp
     (setq inhibit-startup-screen t)
 #+END_SRC
 
 ** Remove the message in the scratch buffer
+
+Idem as above for the same reasons.
+
 #+BEGIN_SRC emacs-lisp
     (setq initial-scratch-message "")
 #+END_SRC
 
-** Hide the menu bar
+** A cleaner frame
+
+I prefer more screen space and less annoying menus, bars and scroll
+bars.
+
+*** Hide the menu bar
+
 #+BEGIN_SRC emacs-lisp
     (menu-bar-mode -1)
 #+END_SRC
 
-** Hide the tool bar
+*** Hide the tool bar
+
 #+BEGIN_SRC emacs-lisp
     (tool-bar-mode -1)
 #+END_SRC
 
-** Hide the scroll bar
+*** Hide the scroll bar
+
 #+BEGIN_SRC emacs-lisp
     (scroll-bar-mode -1)
 #+END_SRC
 
 ** Color Theme
+
+Here I define the default theme, a total subjective decision, of
+course.
+
 #+BEGIN_SRC emacs-lisp
     (load-theme 'monokai t)
 #+END_SRC
@@ -402,11 +419,16 @@ Settings for the mode line
 
 *** Show the current function
 
+This is very useful in programming and also to see the headers in
+outlines modes.
+
 #+BEGIN_SRC emacs-lisp
     (which-function-mode 1)
 #+END_SRC
 
 *** Smart mode line
+
+This package shows a very nice and very informativa mode line.
 
 #+BEGIN_SRC emacs-lisp
     ;;; smart-mode-line
@@ -417,11 +439,17 @@ Settings for the mode line
 #+END_SRC
 
 ** Font
+
+The font to use. I choose monospace and /Dejavu Sans Mono/ because is
+an open font and has the best Unicode support, and looks very fine to me too!
+
 #+BEGIN_SRC emacs-lisp
     (set-face-attribute 'default nil :family "Dejavu Sans Mono" :height 110)
 #+END_SRC
 
 ** Cursor not blinking
+
+The blinking cursor is pretty annoying, so disable it.
 
 #+BEGIN_SRC emacs-lisp
     (blink-cursor-mode -1)
@@ -429,12 +457,16 @@ Settings for the mode line
 
 ** Highlight the current line
 
+To help us to locate where the cursor is.
+
 #+BEGIN_SRC emacs-lisp
     (global-hl-line-mode 1)
 #+END_SRC
 
 ** Show empty lines
-This option show the empty lines at the end of the buffer
+
+This option show the empty lines at the end (bottom) of the buffer.
+
 #+BEGIN_SRC emacs-lisp
     (toggle-indicate-empty-lines)
 #+END_SRC
@@ -443,11 +475,15 @@ This option show the empty lines at the end of the buffer
 
 Use mathematical *Unicode* /symbols/ instead of expressions or keywords in
 some programming languages
+
 #+BEGIN_SRC emacs-lisp
     (global-pretty-mode t)
 #+END_SRC
 
 ** Better line numbers
+
+Display a more appealing line numbers.
+
 #+BEGIN_SRC emacs-lisp
     ; 2014-04-04: Holy moly its effort to get line numbers like vim!
     ; http://www.emacswiki.org/emacs/LineNumbers#toc6
@@ -467,20 +503,37 @@ some programming languages
     (unless window-system
       (setq linum-format 'linum-format-func))
 #+END_SRC
+
 ** More thinner window divisions
+
+The default windows divisions are more uglier than sin.
+
 #+BEGIN_SRC emacs-lisp
     (fringe-mode '(1 . 1))
 #+END_SRC
 
 * Edition
-** Auto-completion
+
+Some general edition improvements.
+
+** TODO Auto-completion
+
+Auto Complete Mode (aka =auto-complete.el=, =auto-complete-mode=) is a
+extension that automates and advances completion-system.
 
 #+BEGIN_SRC emacs-lisp
     (require 'auto-complete)
     (global-auto-complete-mode)
+    (setq ac-use-menu-map t)
+    ;; Default settings
+    (define-key ac-menu-map "\C-n" 'ac-next)
+    (define-key ac-menu-map "\C-p" 'ac-previous)
+    (setq ac-ignore-case 'smart)
 #+END_SRC
 
 *** enable it globally
+
+Make it available everywhere.
 
 #+BEGIN_SRC emacs-lisp
 (defun auto-complete-mode-maybe ()
@@ -490,6 +543,9 @@ some programming languages
 #+END_SRC
 
 *** auto-complete file
+
+The file where store the history of auto-complete.
+
 #+BEGIN_SRC emacs-lisp
 (setq ac-comphist-file (concat user-emacs-directory
              "temp/ac-comphist.dat"))
@@ -497,17 +553,22 @@ some programming languages
 
 ** Delete after insertion over selection
 
+Delete the previous selection when overrides it with a new insertion.
+
 #+BEGIN_SRC emacs-lisp
     (delete-selection-mode)
 #+END_SRC
 
-** Basic indentation
+** TODO Basic indentation
 
 #+BEGIN_SRC emacs-lisp
     (setq-default c-basic-offset 4)
 #+END_SRC
 
-** Smartpaarens
+** Smartparens
+
+Minor mode for Emacs that deals with parens pairs and tries to be
+smart about it.
 
 #+BEGIN_SRC emacs-lisp
     (require 'smartparens-config)
