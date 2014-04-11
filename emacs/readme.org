@@ -1,4 +1,4 @@
-#+TITLE:     joe di castro's Emacs Configuration
+#+TITLE:     My Emacs Configuration
 #+AUTHOR:    joe di castro
 #+EMAIL:     joe@joedicastro.com
 #+DATE:      2014-03-09
@@ -6,7 +6,7 @@
 
 * Emacs Configuration using Org-Babel
 
-*This is a work in progress*
+*This is a work in progress, and is far from being ended*
 
 This repository contains the setup I use to customize Emacs. The
 configuration uses [[http://orgmode.org/][Org-Mode]], [[http://orgmode.org/worg/org-contrib/babel/][Org-Babel]] and [[http://orgmode.org/worg/org-contrib/babel/intro.html#literate-programming][Literate Programming]] to
@@ -35,11 +35,21 @@ setting and organize them.
 * Packages setup
 ** Packages list
 
-The list of packages to install.
+The list of packages to install in a fresh installation. The way to
+maintain clean and updated this list for me is the following:
+
+- Install a package from the =package.el= built-in interface via =M-x list-packages=
+- Test it
+  - If seems Ok and I want to use it regularly, add it to the list.
+  - If I don't like it, delete the plugin directory in the
+  =~/.emacs.d/elpa= tree. I don't care too much about other
+  dependecies that could be also installed, I'll get rid of them in
+  the next clean install.
 
 #+BEGIN_SRC emacs-lisp
+    ; A package for line helps to mantain the list
     (setq my-packages
-          '(
+        '(
             ag
             auto-complete
             browse-kill-ring
@@ -82,9 +92,8 @@ The list of packages to install.
             ujelly-theme
             undo-tree
             w3m
-            workgroups2
             yasnippet
-            ))
+    ))
 #+END_SRC
 
 ** Repositories
@@ -102,7 +111,7 @@ The ELPA repositories from where the packages are fetched.
 ** Auto-installation
 
 The auto-installation process for all the packages that are not
-already installed.
+already installed. This is for bootstrap a fresh install.
 
 #+BEGIN_SRC emacs-lisp
     ;;; initialize the packages and create the packages list if not exists
@@ -117,8 +126,9 @@ already installed.
         (package-install pkg)))
 #+END_SRC
 
-** Errors after compling in a fresh installation
-   Some packages (e.g. org-plus-contrib) can be broken after
+*** Errors after compling in a fresh installation
+
+   Some packages (e.g. /org-plus-contrib/) can be broken after
    automatic compilation via =package.el=
 
    To solve this issue we can proceed as follow:
@@ -126,7 +136,7 @@ already installed.
    - Remove all the compiled files (=*.elc=) from the folder
    - Recompile the directory again whith this:
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE emacs-lisp
     (byte-recompile-directory (expand-file-name "~/.emacs.d/elpa/org-plug-contrib") 0)
 #+END_EXAMPLE
 
@@ -143,25 +153,26 @@ to remove the old, obsolete versions afterwards.
 
 * General Behaviour
 
-| Binding | Call                     | Do                                                           |
-|---------+--------------------------+--------------------------------------------------------------|
-| C-w     | backward-kill-word       | Kill the entire previous (to the cursor) word                |
+| Binding | Call               | Do                                            |
+|---------+--------------------+-----------------------------------------------|
+| C-w     | backward-kill-word | Kill the entire previous (to the cursor) word |
 
 ** Encoding
-Make sure that UTF-8 is used everywhere
+
+Make sure that UTF-8 is used everywhere.
 
 #+BEGIN_SRC emacs-lisp
     (set-terminal-coding-system 'utf-8)
     (set-keyboard-coding-system 'utf-8)
     (set-language-environment "UTF-8")
     (prefer-coding-system 'utf-8)
-#+END_SRC emacs-lisp
+#+END_SRC
 
 ** Temporal directory
 
 I like to keep all of the temporal files and dirs (cache, backups,
-...) in an unique directory. If this directory does not exists, then create it
-
+...) in an unique directory. If this directory does not exists, then
+create it
 
 #+BEGIN_SRC emacs-lisp
      (unless (file-exists-p "~/.emacs.d/tmp")
@@ -170,10 +181,12 @@ I like to keep all of the temporal files and dirs (cache, backups,
 
 ** Disable auto-save files
 
+I prefer to use a undo-tree with branches that store auto-save files.
+
 #+BEGIN_SRC emacs-lisp
     (setq auto-save-default nil)
     (setq auto-save-list-file-prefix nil)
-#+END_SRC emacs-lisp
+#+END_SRC
 
 ** Backup files directory
 
@@ -183,59 +196,103 @@ them all
 #+BEGIN_SRC emacs-lisp
     (setq backup-directory-alist
         '(("" . "~/.emacs.d/tmp/backup")))
-#+END_SRC emacs-lisp
+#+END_SRC
 
 ** History
 
+Maintain a history of past actions.
+
 #+BEGIN_SRC emacs-lisp
+    (setq savehist-file "~/.emacs.d/tmp/history")
     (setq-default history-length 1000)
     (savehist-mode t)
-#+END_SRC emacs-lisp
+    (setq savehist-save-minibuffer-history 1)
+    (setq savehist-additional-variables
+          '(kill-ring
+            search-ring
+            regexp-search-ring))
+#+END_SRC
 
 ** Show matching parenthesis
+
+Show the matching parenthesis when the cursor is above one of them.
 
 #+BEGIN_SRC emacs-lisp
     (setq show-paren-delay 0)
     (show-paren-mode t)
-#+END_SRC emacs-lisp
+#+END_SRC
 
 ** Always show trailing white-spaces
 
-##+BEGIN_SRC emacs-lisp
-#    (setq-default show-trailing-whitespace t)
-##+END_SRC emacs-lisp
+Show the trailing white-spaces in the buffer.
+
+#+BEGIN_SRC emacs-lisp
+    (setq-default show-trailing-whitespace t)
+
+    ; don't show them in the terminal, from http://stackoverflow.com/a/20126745/634816
+    (add-hook
+     'term-mode-hook
+     (lambda() (setq show-trailing-whitespace nil)))
+#+END_SRC
 
 ** Always indent with spaces
+
+No more tabs, please, use damn spaces, for God's sake!
 
 #+BEGIN_SRC emacs-lisp
     (setq-default indent-tabs-mode nil)
     (setq-default default-tab-width 4)
-#+END_SRC emacs-lisp
+#+END_SRC
 
 ** Replace yes/no questions with y/n
 
+Less keystrokes, I already press enough keys along the day.
+
 #+BEGIN_SRC emacs-lisp
     (fset 'yes-or-no-p 'y-or-n-p)
-#+END_SRC emacs-lisp
+#+END_SRC
 
 ** Mondays are the first day of the week (for M-x calendar)
 
+Set the calendar to my country's calendar standards
+
 #+BEGIN_SRC emacs-lisp
     (setq-default calendar-week-start-day 1)
-#+END_SRC emacs-lisp
+#+END_SRC
 
 ** Use undo-tree for better undo
 
+Emacs's undo system allows you to recover any past state of a buffer
+(the standard undo/redo system loses any "redoable" states whenever
+you make an edit). However, Emacs's solution, to treat "undo" itself
+as just another editing action that can be undone, can be confusing
+and difficult to use.
+
+Both the loss of data with standard undo/redo and the confusion of
+Emacs' undo stem from trying to treat undo history as a linear
+sequence of changes. =undo-tree-mode= instead treats undo history as
+what it is: a branching tree of changes (the same system that Vim has
+had for some time now). This makes it substantially easier to undo and
+redo any change, while preserving the entire history of past states.
+
 #+BEGIN_SRC emacs-lisp
     (require 'undo-tree)
+    (setq undo-tree-visualizer-diff t)
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/tmp/undo")))
+    (setq undo-tree-visualizer-timestamps t)
     (global-undo-tree-mode)
-#+END_SRC emacs-lisp
+#+END_SRC
 
-** keep session between emacs runs (~/.emacs.desktop)
+** Keep session between emacs runs (Desktop)
+
+Desktop Save Mode is a feature to save the state of Emacs from one
+session to another.
+
 #+BEGIN_SRC emacs-lisp
-
-    (setq desktop-save 'if-exists)
-    (desktop-save-mode 1)
+    (require 'desktop)
+    (setq desktop-path '("~/.emacs.d/tmp/"))
+    (setq desktop-dirname "~/.emacs.d/tmp/")
+    (setq desktop-base-file-name "emacs-desktop")
     (setq desktop-globals-to-save
           (append '((extended-command-history . 50)
                     (file-name-history . 200)
@@ -250,11 +307,12 @@ them all
                     (shell-command-history . 50)
                     tags-file-name
                     register-alist)))
+    (desktop-save-mode 1)
 #+END_SRC
 
 ** User information
 
-Sets the user's information properly
+Sets the user's information properly.
 
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "joe di castro"
@@ -263,11 +321,29 @@ Sets the user's information properly
 
 ** Remove beep
 
+Remove the annoying beep.
+
 #+BEGIN_SRC emacs-lisp
     (setq visible-bell t)
 #+END_SRC
 
-** Use ibuffer by default
+** Winner-mode
+
+Winner mode lets you revert to a previous windows configuration.
+
+| Binding | Call        | Do                                                                  |
+|---------+-------------+---------------------------------------------------------------------|
+| C-c ←   | winner-undo | Switch back to an earlier window configuration saved by Winner mode |
+| C-c →   | winner-redo | Restore a more recent window configuration saved by Winner mode     |
+
+#+BEGIN_SRC emacs-lisp
+    (winner-mode t)
+#+END_SRC
+
+** TODO Use ibuffer by default
+
+Ibuffer is an advanced replacement for BufferMenu, which lets you
+operate on buffers much in the same manner as Dired.
 
 #+BEGIN_SRC emacs-lisp
     (defalias 'list-buffers 'ibuffer)
@@ -597,9 +673,6 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     "0" 'org-agenda
     "8" 'org-capture
     "9" 'cfw:open-org-calendar
-    "1" 'wg-switch-to-workgroup
-    "2" 'wg-kill-workgroup
-    "3" 'wg-clone-workgroup
     "a" 'ag
     "B" 'ibuffer
     "b" 'ido-switch-buffer
@@ -722,10 +795,10 @@ Use the surround plugin, the equivalent to the Vim one.
 
 *** Protect hidden trees for being inadvertily edited
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
     (setq org-catch-invisible-edits "error")
     (setq org-ctrl-k-protect-subtree "error")
-#+end_src
+#+END_SRC
 
 *** Show images inline
 
@@ -746,10 +819,10 @@ Only works in GUI, but is a nice feature to have
 The google-maps Emacs extension allows to display Google Maps directly
 inside Emacs and integrate them in org-mode as addresses.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
     (require 'google-maps)
     (require 'org-location-google-maps)
-#+end_src
+#+END_SRC
 
 ** Org-capture
 
@@ -775,7 +848,7 @@ To use it to capture web urls and notes from Firefox, install this
     (setq org-protocol-default-template-key "w")
     (setq org-capture-templates
           (quote
-           (("w" "Web captures" entry (file+headline "~/org/urls.org" "Web")
+           (("w" "Web captures" entry (file+headline "~/org/notes.org" "Web")
              "* %^{Title}\n\n  Source: %u, %c\n\n  %i"
              :empty-lines 1))))
 #+END_SRC
@@ -785,18 +858,18 @@ To use it to capture web urls and notes from Firefox, install this
 The org-contacts Emacs extension allows to manage your contacts using
 Org-mode.
 
-#+begin_src emacs-lisp
-    (require 'org-contacts)
-    (setq org-contacts-file "~/org/contacts.org")
-    (setq org-contacts-matcher "EMAIL<>\"\"|ALIAS<>\"\"|PHONE<>\"\"|ADDRESS<>\"\"|BIRTHDAY")
+#+BEGIN_SRC emacs-lisp
+  (require 'org-contacts)
+  (setq org-contacts-file "~/org/contacts.org")
+  (setq org-contacts-matcher "EMAIL<>\"\"|ALIAS<>\"\"|PHONE<>\"\"|ADDRESS<>\"\"|BIRTHDAY")
 
-    (add-to-list 'org-capture-templates
-      '("p" "Contacts" entry (file "~/org/contacts.org")
-         "** %(org-contacts-template-name)
-         :PROPERTIES:
-         :EMAIL: %(org-contacts-template-email)
-         :END:"))
-#+end_src
+  (add-to-list 'org-capture-templates
+    '("p" "Contacts" entry (file "~/org/contacts.org")
+       "** %(org-contacts-template-name)
+       :PROPERTIES:
+       :EMAIL: %(org-contacts-template-email)
+       :END:"))
+#+END_SRC
 
 *** Other captures
 
@@ -805,7 +878,7 @@ Org-mode.
     '("t" "TODO" entry (file+headline "~/org/tasks.org" "Tasks")
        "* TODO %?\n  %i\n  %a"))
 #+END_SRC
- 
+
 * Batteries
 *** Calfw
 
@@ -1147,19 +1220,4 @@ Twittering-mode enables you to twit on Emacsen.
 
 #+BEGIN_SRC emacs-lisp
     (add-hook 'twittering-edit-mode-hook (lambda () (ispell-minor-mode) (flyspell-mode)))
-#+END_SRC
-
-*** Workgroups2
-
-Workgroups is a session manager for Emacs.
-
-- It saves all your opened buffers, their location and sizes on disk to restore later
-- You can create several workspaces
-
-You can also restore such buffers as: org-agenda, shell, magit-status, help.
-
-#+BEGIN_SRC emacs-lisp
-    (require 'workgroups2)
-    (setq wg-default-session-file "~/.emacs.d/tmp/emacs_workgroups")
-    (workgroups-mode 1)        ; put this one at the bottom of .emacs
 #+END_SRC
