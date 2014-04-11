@@ -805,6 +805,33 @@ Use the surround plugin, the equivalent to the Vim one.
     (require 'org)
 #+END_SRC
 
+*** TODO Org-mode modules
+
+Set the modules enabled by default
+
+#+BEGIN_SRC emacs-lisp
+    (setq org-modules '(
+        org-bbdb
+        org-bibtex
+        org-docview
+        org-mhe
+        org-rmail
+        org-w3m
+        org-crypt
+        org-protocol
+        org-gnus
+        org-info
+        org-habit
+        org-irc
+        org-annotate-file
+        org-eval
+        org-expiry
+        org-man
+        org-panel
+        org-toc
+    ))
+#+END_SRC
+
 *** Set default directories
 
 #+BEGIN_SRC emacs-lisp
@@ -910,7 +937,7 @@ To use it to capture web urls and notes from Firefox, install this
     (setq org-capture-templates
           (quote
            (("w" "Web captures" entry (file+headline "~/org/notes.org" "Web")
-             "* %^{Title}\n\n  Source: %u, %c\n\n  %i"
+             "* %^{Title}%^G\n\n  Source: %u, %c\n\n  %i"
              :empty-lines 1))))
 #+END_SRC
 
@@ -927,17 +954,19 @@ Org-mode.
   (add-to-list 'org-capture-templates
     '("p" "Contacts" entry (file "~/org/contacts.org")
        "** %(org-contacts-template-name)
-       :PROPERTIES:
-       :EMAIL: %(org-contacts-template-email)
+       :PROPERTIES:%(org-contacts-template-email)
        :END:"))
 #+END_SRC
 
-*** Other captures
+*** TODO Other captures
 
 #+BEGIN_SRC emacs-lisp
- (add-to-list 'org-capture-templates
-    '("t" "TODO" entry (file+headline "~/org/tasks.org" "Tasks")
-       "* TODO %?\n  %i\n  %a"))
+    (add-to-list 'org-capture-templates
+        '("t" "TODO" entry (file+headline "~/org/tasks.org" "Tasks")
+           "* TODO %^{Task}%^G\n   %?\n  %a"))
+    (add-to-list 'org-capture-templates
+        '("n" "Notes" entry (file+headline "~/org/notes.org" "Notes")
+           "* %^{Header} %^G\n  %u\n\n  %?"))
 #+END_SRC
 
 * Batteries
