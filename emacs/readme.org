@@ -100,8 +100,7 @@ maintain clean and updated this list for me is the following:
 The ELPA repositories from where the packages are fetched.
 
 #+BEGIN_SRC emacs-lisp
-    (setq package-archives '(("ELPA" . "http://tromey.com/elpa/")
-                             ("gnu" . "http://elpa.gnu.org/packages/")
+    (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                              ("marmalade" . "http://marmalade-repo.org/packages/")
                              ("org" . "http://orgmode.org/elpa/")
                              ("melpa" . "http://melpa.milkbox.net/packages/")))
@@ -937,7 +936,7 @@ To use it to capture web urls and notes from Firefox, install this
     (setq org-capture-templates
           (quote
            (("w" "Web captures" entry (file+headline "~/org/notes.org" "Web")
-             "* %^{Title}%^G\n\n  Source: %u, %c\n\n  %i"
+             "* %^{Title}    %^G\n\n  Source: %u, %c\n\n  %i"
              :empty-lines 1))))
 #+END_SRC
 
