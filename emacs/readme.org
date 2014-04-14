@@ -220,17 +220,16 @@ Show the matching parenthesis when the cursor is above one of them.
     (show-paren-mode t)
 #+END_SRC
 
-** Always show trailing white-spaces
+** Toggle show trailing white-spaces
 
-Show the trailing white-spaces in the buffer.
+Show/hide the trailing white-spaces in the buffer. 
 
 #+BEGIN_SRC emacs-lisp
-;    (setq-default show-trailing-whitespace t)
-
-    ; don't show them in the terminal, from http://stackoverflow.com/a/20126745/634816
-    (add-hook
-     'term-mode-hook
-     (lambda() (setq show-trailing-whitespace nil)))
+    ;; from http://stackoverflow.com/a/11701899/634816
+    (defun tf-toggle-show-trailing-whitespace ()
+      "Toggle show-trailing-whitespace between t and nil"
+      (interactive)
+      (setq show-trailing-whitespace (not show-trailing-whitespace)))
 #+END_SRC
 
 ** Always indent with spaces
@@ -599,6 +598,9 @@ For those who came from Vim is more easy to use something alike
 
 ** Use evil
 
+[[https://gitorious.org/evil/pages/Home][Evil]] is an extensible vi layer for Emacs. It emulates the main
+features of Vim, and provides facilities for writing custom
+extensions.
 
 | Binding | Call                     | Do                                                           |
 |---------+--------------------------+--------------------------------------------------------------|
@@ -612,11 +614,10 @@ For those who came from Vim is more easy to use something alike
 
 *** ESC quits almost everywhere
 
-Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice][here]]
+Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice][here]], trying to emulate the Vim behaviour
 
 #+BEGIN_SRC emacs-lisp
     ;;; esc quits
-
     (define-key evil-normal-state-map [escape] 'keyboard-quit)
     (define-key evil-visual-state-map [escape] 'keyboard-quit)
     (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
@@ -627,6 +628,8 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
 #+END_SRC
 
 *** Move along windows
+
+To move along windows more easily mimicking my Vim configuration
 
 #+BEGIN_SRC emacs-lisp
     (require 'windmove)
@@ -642,6 +645,8 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
 
 *** Buffer movements
 
+To move the buffers between windows easily.
+
 #+BEGIN_SRC emacs-lisp
     (require 'buffer-move)
     (define-key evil-normal-state-map (kbd "C-M-j") 'buf-move-down)
@@ -656,6 +661,8 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
 
 *** Window resize
 
+Resize windows in a easy way.
+
 #+BEGIN_SRC emacs-lisp
     (define-key evil-normal-state-map (kbd "C-S-j") 'shrink-window)
     (define-key evil-normal-state-map (kbd "C-S-k") 'enlarge-window)
@@ -667,7 +674,10 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     (define-key evil-motion-state-map (kbd "C-S-l") 'enlarge-window-horizontally)
 #+END_SRC
 
-*** Org-mode customization
+*** TODO Org-mode customization
+
+Custom bindings for /Org-mode/.
+
 #+BEGIN_SRC emacs-lisp
     (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
     (evil-define-key 'normal org-mode-map (kbd "SPC") 'org-cycle)
@@ -687,6 +697,8 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
 #+END_SRC
 
 *** Elfeed customization
+
+Custom bindings for Elfeed.
 
 #+BEGIN_SRC emacs-lisp
     ; elfeed-search
@@ -725,6 +737,47 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
 
 ** evil-leader
 
+[[https://github.com/cofi/evil-leader][Evil Leader]] provides the =<leader>= feature from Vim that provides an
+easy way to bind keys under a variable prefix key. For an experienced
+Emacs User it is nothing more than a convoluted key map, but for a
+Evil user coming from Vim it means an easier start.
+
+| Binding | Call                               | Do                                                              |
+|---------+------------------------------------+-----------------------------------------------------------------|
+| ,0      | org-agenda                         | Call the org-mode agenda                                        |
+| ,8      | org-capture                        | Call the org-mode capture                                       |
+| ,9      | cfw:open-org-calendar              | Open the month calendar for org-mode                            |
+| ,a      | ag                                 | Do a regex search using ag (The Silver Searcher)                |
+| ,b      | ido-switch-buffer                  | Switch buffer                                                   |
+| ,B      | ibuffer                            | Switch buffer using ibuffer                                     |
+| ,c      | evilnc-comment-or-uncomment-lines  | Comment/Uncomment lines                                         |
+| ,d      | dired                              | Call dired                                                      |
+| ,ef     | variable-pitch-mode                | Toggle variable/fixed space font                                |
+| ,eh     | whitespace-mode                    | Show/Hide hidden chars                                          |
+| ,et     | tf-toggle-show-trailing-whitespace | Show/Hide trailing whitespace                                   |
+| ,ew     | whitespace-cleanup                 | Remove trailing whitespaces                                     |
+| ,f      | swoop                              | Search through words within the current buffer                  |
+| ,F      | swoop-multi                        | Search words across currently opened multiple buffers           |
+| ,g      | magit-status                       | Call Magit                                                      |
+| ,i      | browse-kill-ring                   | Choose between previous yanked pieces of text                   |
+| ,k      | delete-window                      | Close a window                                                  |
+| ,K      | kill-buffer                        | Kill a buffer                                                   |
+| ,l      | linum-mode                         | Show/Hide line numbers                                          |
+| ,m      | smex                               | Call smex (to execute a command)                                |
+| ,M      | smex-major-mode-commands           | Idem as above but limited to the current major mode commands    |
+| ,n      | elfeed                             | Open Elfeed to read Atom/RSS entries                            |
+| ,o      | find-file                          | Open a file                                                     |
+| ,q      | helm-surfraw                       | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                                    |
+| ,``     | save-buffers-kill-terminal         | Exit Emacs                                                      |
+| ,s      | split-window-vertically            | Split the selected window into two windows, one above the other |
+| ,t      | twit                               | Open twittering-mode for an interface for twitter               |
+| ,u      | undo-tree-visualize                | Visualize the current buffer's undo tree                        |
+| ,v      | split-window-horizontally          | Split the selected window into two side-by-side windows         |
+| ,w      | save-buffer                        | Save current buffer in visited file if modified                 |
+| ,x      | multi-term                         | Create new term buffer                                          |
+| ,X      | multi-term-next                    | Go to the next term buffer                                      |
+| ,z      | delete-other-windows               | Make a Zoom (delete all the other windows)                      |
+
 #+BEGIN_SRC emacs-lisp
   (require 'evil-leader)
   (global-evil-leader-mode)
@@ -738,6 +791,9 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     "b" 'ido-switch-buffer
     "c" 'evilnc-comment-or-uncomment-lines
     "d" 'dired
+    "ef" 'variable-pitch-mode
+    "eh" 'whitespace-mode
+    "et" 'tf-toggle-show-trailing-whitespace
     "ew" 'whitespace-cleanup
     "f" 'swoop
     "F" 'swoop-multi
@@ -757,8 +813,8 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     "u" 'undo-tree-visualize
     "v" 'split-window-horizontally
     "w" 'save-buffer
-    "X" 'multi-term-next
     "x" 'multi-term
+    "X" 'multi-term-next
     "z" 'delete-other-windows
    )
 #+END_SRC
@@ -970,11 +1026,10 @@ Org-mode.
 
 * Batteries
 *** Calfw
-
+    
 [[https://github.com/kiwanami/emacs-calfw][Calfw]] program displays a calendar view in the Emacs buffer.
 
-
-
+[[file:img/cfw_calendar.png]]
 #+BEGIN_SRC emacs-lisp
     (require 'calfw)
     (require 'calfw-org)
@@ -996,7 +1051,7 @@ Org-mode.
 
 *** Smex
 
-Smex is a M-x enhancement for Emacs. Built on top of IDO, it provides
+[[https://github.com/nonsequitur/smex][Smex]] is a M-x enhancement for Emacs. Built on top of IDO, it provides
 a convenient interface to your recently and most frequently used
 commands. And to all the other commands, too.
 
@@ -1046,6 +1101,9 @@ having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsW
 #+END_SRC
 
 *** Ido
+
+
+
 **** set cache file
 #+BEGIN_SRC emacs-lisp
     (setq ido-save-directory-list-file "~/.emacs.d/tmp/ido.last")
@@ -1088,6 +1146,12 @@ Makes ido-mode display vertically.
 #+END_SRC
 
 *** Magit
+
+With [[https://github.com/magit/magit][Magit]], you can inspect and modify your Git repositories with
+Emacs. You can review and commit the changes you have made to the
+tracked files, for example, and you can browse the history of past
+changes. There is support for cherry picking, reverting, merging,
+rebasing, and other common Git operations.
 
 #+BEGIN_SRC emacs-lisp
     (require 'magit)
@@ -1158,6 +1222,8 @@ Atom and RSS
 
 *** Swoop
 
+
+
 #+BEGIN_SRC emacs-lisp
     (require 'swoop)
     (setq swoop-font-size-change: nil)
@@ -1177,6 +1243,9 @@ Atom and RSS
 #+END_SRC
 
 *** Yasnippet
+
+[[https://github.com/capitaomorte/yasnippet][YASnippet]] is a template system for Emacs. It allows you to type an
+abbreviation and automatically expand it into function templates.
 
 #+BEGIN_SRC emacs-lisp
     (require 'yasnippet)
