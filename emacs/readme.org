@@ -225,7 +225,7 @@ Show the matching parenthesis when the cursor is above one of them.
 Show the trailing white-spaces in the buffer.
 
 #+BEGIN_SRC emacs-lisp
-    (setq-default show-trailing-whitespace t)
+;    (setq-default show-trailing-whitespace t)
 
     ; don't show them in the terminal, from http://stackoverflow.com/a/20126745/634816
     (add-hook
@@ -899,7 +899,7 @@ Only works in GUI, but is a nice feature to have
 **** Limit images width
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-image-actual-width '(300))
+    (setq org-image-actual-width '(640))
 #+END_SRC
 ** Org-location-google-maps
 
@@ -962,16 +962,18 @@ Org-mode.
 #+BEGIN_SRC emacs-lisp
     (add-to-list 'org-capture-templates
         '("t" "TODO" entry (file+headline "~/org/tasks.org" "Tasks")
-           "* TODO %^{Task}%^G\n   %?\n  %a"))
+           "* TODO %^{Task}  %^G\n   %?\n  %a"))
     (add-to-list 'org-capture-templates
         '("n" "Notes" entry (file+headline "~/org/notes.org" "Notes")
-           "* %^{Header} %^G\n  %u\n\n  %?"))
+           "* %^{Header}  %^G\n  %u\n\n  %?"))
 #+END_SRC
 
 * Batteries
 *** Calfw
 
-This program displays a calendar view in the Emacs buffer.
+[[https://github.com/kiwanami/emacs-calfw][Calfw]] program displays a calendar view in the Emacs buffer.
+
+
 
 #+BEGIN_SRC emacs-lisp
     (require 'calfw)
@@ -1093,10 +1095,12 @@ Makes ido-mode display vertically.
 
 *** Elfeed
 
-Elfeed is an extensible web feed reader for Emacs, supporting both
+[[https://github.com/skeeto/elfeed][Elfeed]] is an extensible web feed reader for Emacs, supporting both
 Atom and RSS
 
 *Search mode*
+
+[[file:img/elfeed.png]]
 
 | Binding | Call                           | Do                                          |
 |---------+--------------------------------+---------------------------------------------|
@@ -1115,6 +1119,7 @@ Atom and RSS
 
 *Show mode*
 
+[[file:img/elfeed_show.png]]
 | Binding | Call                | Do                                  |
 |---------+---------------------+-------------------------------------|
 | q       | elfeed-kill-buffer  | exit the entry                      |
@@ -1200,7 +1205,9 @@ A simple ag frontend, loosely based on ack-and-half.el.
 
 *** Twittering-mode
 
-Twittering-mode enables you to twit on Emacsen.
+[[https://github.com/kiwanami/emacs-calfw][Twittering-mode]] enables you to twit on Emacsen.
+
+[[file:img/twittering_mode.png]]
 
 | Binding   | Call                                           | Do                                    |
 |-----------+------------------------------------------------+---------------------------------------|
