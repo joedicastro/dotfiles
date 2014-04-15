@@ -1,8 +1,0 @@
-# ~/.tmuxinator/scratch.yml
-# you can make as many tabs as you wish...
-
-project_name: org
-project_root: ~/
-tabs:
-  - mutt: mutt
-  - org: emacs

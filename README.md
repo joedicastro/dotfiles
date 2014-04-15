@@ -89,10 +89,6 @@ Configuration of [ranger](http://ranger.nongnu.org/)
 
 Configuration of [tmux](http://tmux.sourceforge.net/)
 
-### `/tmuxinator`
-
-Configuration of [Tmuxinator](https://github.com/aziz/tmuxinator)
-
 ### `/urxvt`
 
 Configuration of [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.html)
