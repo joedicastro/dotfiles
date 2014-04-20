@@ -32,6 +32,15 @@ options to produce HTML output. At the same time it makes the
 configuration management a delight, been pretty easy to find any
 setting and organize them.
 
+* TODO Prerequisites
+
+This is a list of applications that need to be installed previously to
+enjoy all the goodies of this configuration.
+
+- [[http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack][Ag (aka "The Silver Searcher")]]
+- [[http://www.mupdf.com/][MuPDF]]
+- [[http://git-scm.com/][git]]
+
 * Packages setup
 ** Packages list
 
@@ -255,6 +264,9 @@ Set the calendar to my country's calendar standards
 
 #+BEGIN_SRC emacs-lisp
     (setq-default calendar-week-start-day 1)
+    (setq calendar-latitude 43.36)
+    (setq calendar-longitude 8.38)
+    (setq calendar-location-name "A Coruña, Spain")
 #+END_SRC
 
 ** Use undo-tree for better undo
@@ -278,6 +290,19 @@ redo any change, while preserving the entire history of past states.
     (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/tmp/undo")))
     (setq undo-tree-visualizer-timestamps t)
     (global-undo-tree-mode)
+#+END_SRC
+
+** Recent files
+   
+Recentf is a minor mode that builds a list of recently opened
+files. This list is is automatically saved across Emacs sessions. You
+can then access this list through a menu.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'recentf)
+    (setq recentf-save-file "~/.emacs.d/tmp/recentf")
+    (recentf-mode t)
+    (setq recentf-max-saved-items 50)
 #+END_SRC
 
 ** Keep session between emacs runs (Desktop)
@@ -767,6 +792,7 @@ Evil user coming from Vim it means an easier start.
 | ,M      | smex-major-mode-commands           | Idem as above but limited to the current major mode commands    |
 | ,n      | elfeed                             | Open Elfeed to read Atom/RSS entries                            |
 | ,o      | find-file                          | Open a file                                                     |
+| ,O      | helm-recentf                       | Open a recent opened file                                       |
 | ,q      | helm-surfraw                       | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                                    |
 | ,``     | save-buffers-kill-terminal         | Exit Emacs                                                      |
 | ,s      | split-window-vertically            | Split the selected window into two windows, one above the other |
@@ -806,6 +832,7 @@ Evil user coming from Vim it means an easier start.
     "M" 'smex-major-mode-commands
     "n" 'elfeed
     "o" 'find-file
+    "O" 'helm-recentf
     "q" 'helm-surfraw
     "``" 'save-buffers-kill-terminal
     "s" 'split-window-vertically
@@ -821,19 +848,24 @@ Evil user coming from Vim it means an easier start.
 
 ** evil-indent-textobject
 
+Textobject for evil based on indentation, [[https://github.com/cofi/evil-indent-textobject][repository]]
+
 #+BEGIN_SRC emacs-lisp
     (require 'evil-indent-textobject)
 #+END_SRC
 
 ** evil-nerd-commenter
+ 
+Comment/uncomment lines efficiently. Like Nerd Commenter in Vim
+[[https://github.com/redguardtoo/evil-nerd-commenter][Repository]]
 
 #+BEGIN_SRC emacs-lisp
     (require 'evil-nerd-commenter)
 #+END_SRC
 
-** Surround
+** evil-surround
 
-Use the surround plugin, the equivalent to the Vim one.
+Use the [[https://github.com/timcharper/evil-surround][Surround]] plugin, the equivalent to the Vim one.
 
 #+BEGIN_SRC emacs-lisp
     (require 'surround)
