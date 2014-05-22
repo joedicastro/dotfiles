@@ -1,6 +1,7 @@
 [user]
 	name = joe di castro
 	email = joe@joedicastro.com
+	signingkey = E2F2AB73B71FC7FD
 [color]
     ui = true
 [push]
@@ -9,3 +10,5 @@
     ci = commit
     st = status
     co = checkout
+[commit]
+	gpgsign = true
