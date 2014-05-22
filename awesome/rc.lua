@@ -35,6 +35,7 @@
 --
 -- Win  +  r                        Launch a command line prompt into status bar
 -- Win  +  /                        Launch dmenu
+-- Win  +  .                        Launch passmenu (dmenu-based pass interface)
 --
 --------------------------------------------------------------------- Navigation
 --
@@ -446,6 +447,17 @@ globalkeys = awful.util.table.join(
                 "dmenu_run -b -i -fn " ..
                 "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' -p 'run:'")
         end),
+
+     -- dmenu
+    awful.key({ modkey }, ".",
+        function()
+            awful.util.spawn_with_shell(
+                "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" .. 
+                "passmenu -b -i -fn " ..
+                "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' -p 'run:'")
+        end),
+ 
+
 
     -- Standard program
     awful.key({ modkey,           }, "Return",
