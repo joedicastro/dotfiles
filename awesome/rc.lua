@@ -454,7 +454,8 @@ globalkeys = awful.util.table.join(
             awful.util.spawn_with_shell(
                 "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" .. 
                 "passmenu -b -i -fn " ..
-                "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' -p 'run:'")
+                "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' " .. 
+                "-sb darkred -p 'pass:'")
         end),
  
 
