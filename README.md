@@ -54,6 +54,10 @@ The fonts that I use in my terminal, vim, etc ...
 
 Configuration of [git](http://git-scm.com/)
 
+### `/gnupg`
+
+Configuration of [GnuPG](https://www.gnupg.org/)
+
 ### `/gtk`
 
 Configuration of the __Gtk__ theme to fix an error with the Gvim window
