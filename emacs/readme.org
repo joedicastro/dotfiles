@@ -1396,7 +1396,7 @@ the hell of annoying buffers such like *Help*, *Completions*,
 ;    (setq browse-url-browser-function 'popwin:w3m-browse-url)
 #+END_SRC
 
-*** TODO mu4e [92%]
+*** TODO mu4e
 
 [[http://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]] is an emacs-based e-mail client which uses mu as its back-end
 
@@ -1711,15 +1711,13 @@ There is an actual scheme of the current configuration
 + [ ] Reply only to the list (List-ID)
 + [ ] View Gravatars?
 
-**** DONE Enable mu4e
-     CLOSED: [2014-05-27 mar 20:59]
+**** Enable mu4e
 
 #+BEGIN_SRC emacs-lisp
     (require 'mu4e)
 #+END_SRC
 
-**** DONE Current keybindings
-     CLOSED: [2014-05-27 mar 19:13]
+**** Current keybindings
 ***** Main view
 
 [[file:img/mu4e_main.png]]
@@ -1932,8 +1930,7 @@ There is an actual scheme of the current configuration
 | C-S-u           | mu4e-update-mail-and-index                     | update mail & reindex                                       |
 | C-c ?           | describe-mode                                  | describe the current mode                                   |
 
-**** DONE Use encryption
-     CLOSED: [2014-05-27 mar 19:35]
+**** Use encryption
 
 Use encryption to protect the sensitive data like the servers configuration
 (stored in =authinfo.gpg=) and the sensitive user's infomation.
@@ -1944,8 +1941,7 @@ Use encryption to protect the sensitive data like the servers configuration
     (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 #+END_SRC
 
-**** DONE User information
-     CLOSED: [2014-05-27 mar 19:35]
+**** User information
 
 Sets the default user's information properly.
 
@@ -1954,8 +1950,7 @@ Sets the default user's information properly.
           user-mail-address "joe@joedicastro.com")
 #+END_SRC
 
-**** DONE SMTP configuration
-     CLOSED: [2014-05-27 mar 20:57]
+**** SMTP configuration
 
 This is the default smtp configuration to use with a default account
 and allowing to choose between another multiple additional accounts
@@ -2081,8 +2076,7 @@ the proper account in each moment (for new messages, replies, forwards
     (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 #+END_SRC
 
-**** DONE Queuing emails
-     CLOSED: [2014-05-27 mar 20:58]
+**** Queuing emails
 
 When offline or when you want do delay a message, you can go to the
 queuing mode and send them all turning it off.
@@ -2093,8 +2087,7 @@ queuing mode and send them all turning it off.
         smtpmail-queue-dir "~/org/mail/mails/Queue")
 #+END_SRC
 
-**** DONE Signature
-     CLOSED: [2014-05-27 mar 19:12]
+**** Signature
 
 Add the signature by default when a new email is composed.
 
@@ -2105,8 +2098,7 @@ Add the signature by default when a new email is composed.
             mu4e-compose-signature t)
 #+END_SRC
 
-**** DONE Sending emails asynchronous
-     CLOSED: [2014-05-27 mar 19:12]
+**** Sending emails asynchronous
 
 This is useful to send emails with attachments and do not block emacs
 until end the transmission.
@@ -2118,8 +2110,7 @@ until end the transmission.
         message-send-mail-function 'async-smtpmail-send-it)
 #+END_SRC
 
-**** DONE maildirs extension
-     CLOSED: [2014-05-27 mar 21:28]
+**** maildirs extension
 
 [[https://github.com/agpchil/mu4e-maildirs-extension][Mu4e maildirs extension]] adds a maildir summary in mu4e-main-view.
 
@@ -2131,8 +2122,7 @@ until end the transmission.
     (setq mu4e-maildirs-extension-action-text nil)
 #+END_SRC
 
-**** DONE Setup maildir & folders
-     CLOSED: [2014-05-27 mar 21:29]
+**** Setup maildir & folders
 
 The default Maildir path and subfolders.
 
@@ -2148,8 +2138,7 @@ The default Maildir path and subfolders.
     (setq mu4e-attachment-dir  "~/descargas")
 #+END_SRC
 
-**** DONE General Options
-     CLOSED: [2014-05-27 mar 23:49]
+**** General Options
 
 mu4e's general options.
 
@@ -2183,8 +2172,7 @@ mu4e's general options.
 
 #+END_SRC
 
-**** DONE org-mode integration
-     CLOSED: [2014-05-27 mar 23:14]
+**** org-mode integration
 
 Integrate with org-mode
 
@@ -2194,8 +2182,7 @@ Integrate with org-mode
     (defalias 'org-mail 'org-mu4e-compose-org-mode)
 #+END_SRC
 
-**** DONE Updating the email
-     CLOSED: [2014-05-27 mar 23:16]
+**** Updating the email
 
 Update the index every 2 minutes but don't retrieve the email via
 Emacs.
@@ -2206,8 +2193,7 @@ Emacs.
         mu4e-update-interval 120)    ;; update every 2 minutes
 #+END_SRC
 
-**** DONE Header's view config
-     CLOSED: [2014-05-27 mar 23:42]
+**** Header's view config
 
 The headers view configuration.
 
@@ -2228,8 +2214,7 @@ The headers view configuration.
           (:subject)))
 #+END_SRC
 
-**** DONE Message view config
-     CLOSED: [2014-05-27 mar 23:45]
+**** Message view config
 
 Config for view mode.
 
@@ -2268,8 +2253,7 @@ Config for view mode.
       (imagemagick-register-types))
 #+END_SRC
 
-**** DONE Editor view config
-     CLOSED: [2014-05-27 mar 23:47]
+**** Editor view config
 
 The editor view configuration.
 
@@ -2283,8 +2267,7 @@ The editor view configuration.
                                         (flyspell-mode)))
 #+END_SRC
 
-**** DONE Message view actions
-     CLOSED: [2014-05-27 mar 23:56]
+**** Message view actions
 
 Define actions for message view.
 
@@ -2338,8 +2321,7 @@ Define actions for message view.
 
 #+END_SRC
 
-**** DONE Deal with HTML messages
-     CLOSED: [2014-05-27 mar 23:58]
+**** Deal with HTML messages
 
 Try to visualize as best as possible the HTML messages in text mode.
 
@@ -2348,8 +2330,7 @@ Try to visualize as best as possible the HTML messages in text mode.
    (setq mu4e-html2text-command "w3m -dump -cols 110 -T text/html")
 #+END_SRC
 
-**** DONE Smileys (emoticons)
-     CLOSED: [2014-05-28 mié 00:03]
+**** Smileys (emoticons)
 
 Show emoticons when viewing and editing messages.
 
@@ -2447,8 +2428,7 @@ Seen [[https://github.com/ahilsend/dotfiles/blob/3b9756a4f544403b7013bff80245df1
     ;; Test smileys:  :-] :-o :-) ;-) :-\ :-| :-d :-P 8-| :-(
 #+END_SRC
 
-**** DONE Bookmarks
-     CLOSED: [2014-05-27 mar 23:39]
+**** Bookmarks
 
 My bookmarks
 
@@ -2467,8 +2447,7 @@ My bookmarks
                  '("size:3M..500M" "Big messages" ?b) t)
 #+END_SRC
 
-**** DONE Shortcuts
-     CLOSED: [2014-05-27 mar 23:39]
+**** Shortcuts
 
 My defined shortcuts
 
@@ -2493,8 +2472,7 @@ My defined shortcuts
         ("/mails/work" . ?w)))
 #+END_SRC
 
-**** DONE Dired integration
-     CLOSED: [2014-05-27 mar 23:28]
+**** Dired integration
 
 Integration with Dired, so we can attach a file to a new email
 directly from Dired.
@@ -2522,8 +2500,7 @@ directly from Dired.
     (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 #+END_SRC
 
-**** DONE Encrypt/Decrypt
-     CLOSED: [2014-05-27 mar 23:27]
+**** Encrypt/Decrypt
 
 Config for encrypt/decrypt emails
 
@@ -2540,8 +2517,7 @@ Config for encrypt/decrypt emails
 ;;     (insert "; name=\"signature.asc\"; description=\"Digital signature\"")))
 #+END_SRC
 
-**** DONE Attachment reminder
-     CLOSED: [2014-05-27 mar 23:21]
+**** Attachment reminder
 
 To avoid memory faults, as forget to attach a file after mention it
 in the message's body.
