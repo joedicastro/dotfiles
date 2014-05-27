@@ -4,6 +4,10 @@
 #+DATE:      2014-03-09
 #+LANGUAGE:  en
 
+
+#+ATTR_HTML: :width 110px
+[[file:img/emacs.png]][fn:1]
+
 * Emacs Configuration using Org-Babel
 
 *This is a work in progress, and is far from being ended*
@@ -40,6 +44,11 @@ enjoy all the goodies of this configuration.
 - [[http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack][Ag (aka "The Silver Searcher")]]
 - [[http://www.mupdf.com/][MuPDF]]
 - [[http://git-scm.com/][git]]
+- [[http://w3m.sourceforge.net/][w3m]]
+- [[https://github.com/djcb/mu][mu]] (also a tool to fetch mail like [[http://pyropus.ca/software/getmail/][getmail]] or [[http://offlineimap.org/][OfflineImap]])
+- [[http://surfraw.alioth.debian.org/][surfraw]]
+- [[http://www.zx2c4.com/projects/password-store/][pass]]
+- [[https://www.gnupg.org/][GnuPG]]
 
 * Packages setup
 ** Packages list
@@ -59,10 +68,12 @@ maintain clean and updated this list for me is the following:
     (setq my-packages
         '(
             ag
+            async
             auto-complete
             browse-kill-ring
             buffer-move
             calfw
+            charmap
             elfeed
             elpy
             evil
@@ -70,12 +81,14 @@ maintain clean and updated this list for me is the following:
             evil-leader
             evil-matchit
             evil-nerd-commenter
+            fill-column-indicator
             flatland-theme
             git-commit-mode
             git-rebase-mode
             gitconfig-mode
             gitignore-mode
             google-maps
+            graphviz-dot-mode
             helm
             ido-ubiquitous
             ido-vertical-mode
@@ -86,9 +99,14 @@ maintain clean and updated this list for me is the following:
             markdown-mode
             moe-theme
             monokai-theme
+            mu4e-maildirs-extension
             multi-term
             org-plus-contrib
+            paradox
+            password-store
+            perspective
             pretty-mode
+            popwin
             rainbow-mode
             smart-mode-line
             smartparens
@@ -171,8 +189,11 @@ Make sure that UTF-8 is used everywhere.
 #+BEGIN_SRC emacs-lisp
     (set-terminal-coding-system 'utf-8)
     (set-keyboard-coding-system 'utf-8)
-    (set-language-environment "UTF-8")
+    (set-language-environment 'utf-8)
     (prefer-coding-system 'utf-8)
+    (setq locale-coding-system 'utf-8)
+    (set-selection-coding-system 'utf-8)
+    (set-input-method nil)
 #+END_SRC
 
 ** Temporal directory
@@ -195,14 +216,14 @@ I prefer to use a undo-tree with branches that store auto-save files.
     (setq auto-save-list-file-prefix nil)
 #+END_SRC
 
-** Backup files directory
+** Disable Backups
 
-Don't spread backup files all over the filesystem, one place to store
-them all
+Because I'm using gpg to authetication and encrypt/sign files, is more
+secure don't have a plaint text backup of those files. Use a DVCS and
+backup your files regularly, for God's sake!
 
 #+BEGIN_SRC emacs-lisp
-    (setq backup-directory-alist
-        '(("" . "~/.emacs.d/tmp/backup")))
+    (setq make-backup-files nil)
 #+END_SRC
 
 ** History
@@ -231,7 +252,7 @@ Show the matching parenthesis when the cursor is above one of them.
 
 ** Toggle show trailing white-spaces
 
-Show/hide the trailing white-spaces in the buffer. 
+Show/hide the trailing white-spaces in the buffer.
 
 #+BEGIN_SRC emacs-lisp
     ;; from http://stackoverflow.com/a/11701899/634816
@@ -293,7 +314,7 @@ redo any change, while preserving the entire history of past states.
 #+END_SRC
 
 ** Recent files
-   
+
 Recentf is a minor mode that builds a list of recently opened
 files. This list is is automatically saved across Emacs sessions. You
 can then access this list through a menu.
@@ -332,15 +353,6 @@ session to another.
     (desktop-save-mode 1)
 #+END_SRC
 
-** User information
-
-Sets the user's information properly.
-
-#+BEGIN_SRC emacs-lisp
-  (setq user-full-name "joe di castro"
-        user-mail-address "joe@joedicastro.com")
-#+END_SRC
-
 ** Remove beep
 
 Remove the annoying beep.
@@ -360,6 +372,26 @@ Winner mode lets you revert to a previous windows configuration.
 
 #+BEGIN_SRC emacs-lisp
     (winner-mode t)
+#+END_SRC
+
+** Open large files
+
+Warn only when opening files bigger than 100MB
+
+#+BEGIN_SRC emacs-lisp
+    (setq large-file-warning-threshold 100000000)
+#+END_SRC
+
+** Save cursor position across sessions
+
+Save the cursor position for every file you opened. So, next
+time you open the file, the cursor will be at the position you last
+opened it.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'saveplace)
+    (setq save-place-file (concat user-emacs-directory "tmp/saveplace.el") )
+    (setq-default save-place t)
 #+END_SRC
 
 ** TODO Use ibuffer by default
@@ -525,6 +557,16 @@ Display a more appealing line numbers.
 
     (unless window-system
       (setq linum-format 'linum-format-func))
+#+END_SRC
+
+** Show fill column
+
+Toggle the vertical column that indicates the fill threshold.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'fill-column-indicator)
+    (fci-mode)
+    (setq fci-rule-column 79)
 #+END_SRC
 
 ** More thinner window divisions
@@ -738,7 +780,7 @@ Custom bindings for Elfeed.
     (evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
     (evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el")))
+    (evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
     ; elfeed-show
     (evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
     (evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
@@ -770,6 +812,7 @@ Evil user coming from Vim it means an easier start.
 | Binding | Call                               | Do                                                              |
 |---------+------------------------------------+-----------------------------------------------------------------|
 | ,0      | org-agenda                         | Call the org-mode agenda                                        |
+| ,7      | mu4e                               | Start mu4e (email client)                                       |
 | ,8      | org-capture                        | Call the org-mode capture                                       |
 | ,9      | cfw:open-org-calendar              | Open the month calendar for org-mode                            |
 | ,a      | ag                                 | Do a regex search using ag (The Silver Searcher)                |
@@ -781,6 +824,7 @@ Evil user coming from Vim it means an easier start.
 | ,eh     | whitespace-mode                    | Show/Hide hidden chars                                          |
 | ,et     | tf-toggle-show-trailing-whitespace | Show/Hide trailing whitespace                                   |
 | ,ew     | whitespace-cleanup                 | Remove trailing whitespaces                                     |
+| ,ec     | fci-mode                           | Show/hide fill column                                           |
 | ,f      | swoop                              | Search through words within the current buffer                  |
 | ,F      | swoop-multi                        | Search words across currently opened multiple buffers           |
 | ,g      | magit-status                       | Call Magit                                                      |
@@ -810,6 +854,7 @@ Evil user coming from Vim it means an easier start.
   (evil-leader/set-leader ",")
   (evil-leader/set-key
     "0" 'org-agenda
+    "7" 'mu4e
     "8" 'org-capture
     "9" 'cfw:open-org-calendar
     "a" 'ag
@@ -817,6 +862,7 @@ Evil user coming from Vim it means an easier start.
     "b" 'ido-switch-buffer
     "c" 'evilnc-comment-or-uncomment-lines
     "d" 'dired
+    "ec" 'fci-mode
     "ef" 'variable-pitch-mode
     "eh" 'whitespace-mode
     "et" 'tf-toggle-show-trailing-whitespace
@@ -855,7 +901,7 @@ Textobject for evil based on indentation, [[https://github.com/cofi/evil-indent-
 #+END_SRC
 
 ** evil-nerd-commenter
- 
+
 Comment/uncomment lines efficiently. Like Nerd Commenter in Vim
 [[https://github.com/redguardtoo/evil-nerd-commenter][Repository]]
 
@@ -931,6 +977,7 @@ Set the modules enabled by default
 #+BEGIN_SRC emacs-lisp
     (setq org-src-fontify-natively t)
     (setq org-src-tab-acts-natively t)
+    (add-to-list 'org-src-lang-modes (quote ("dot" . graphviz-dot)))
 #+END_SRC
 
 *** Tasks management
@@ -987,8 +1034,55 @@ Only works in GUI, but is a nice feature to have
 **** Limit images width
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-image-actual-width '(640))
+    (setq org-image-actual-width '(800))
 #+END_SRC
+** Org-Babel
+
+[[http://orgmode.org/worg/org-contrib/babel/][Babel]] is Org-mode's ability to execute source code within Org-mode documents.
+
+#+BEGIN_SRC emacs-lisp
+    ;; languages supported
+    (org-babel-do-load-languages
+     (quote org-babel-load-languages)
+     (quote (
+            (calc . t)
+            (clojure . t)
+            (ditaa . t)
+            (dot . t)
+            (emacs-lisp . t)
+            (gnuplot . t)
+            (latex . t)
+            (ledger . t)
+            (octave . t)
+            (org . t)
+            (makefile . t)
+            (plantuml . t)
+            (python . t)
+            (R . t)
+            (ruby . t)
+            (sh . t)
+            (sqlite . t)
+            (sql . nil))))
+#+END_SRC
+
+*** Refresh images after execution
+
+#+BEGIN_SRC emacs-lisp
+    (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+#+END_SRC
+
+*** Don't ask confirmation to execute "safe" languages
+
+#+BEGIN_SRC emacs-lisp
+    (defun my-org-confirm-babel-evaluate (lang body)
+                (and (not (string= lang "ditaa"))
+                     (not (string= lang "dot"))
+                     (not (string= lang "gnuplot"))
+                     (not (string= lang "ledger"))
+                     (not (string= lang "plantuml"))))
+    (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+#+END_SRC
+
 ** Org-location-google-maps
 
 The google-maps Emacs extension allows to display Google Maps directly
@@ -1058,7 +1152,7 @@ Org-mode.
 
 * Batteries
 *** Calfw
-    
+
 [[https://github.com/kiwanami/emacs-calfw][Calfw]] program displays a calendar view in the Emacs buffer.
 
 [[file:img/cfw_calendar.png]]
@@ -1189,6 +1283,1287 @@ rebasing, and other common Git operations.
     (require 'magit)
 #+END_SRC
 
+*** Browse Kill Ring
+
+#+BEGIN_SRC emacs-lisp
+    (require 'browse-kill-ring)
+#+END_SRC
+
+*** Async
+
+[[https://github.com/jwiegley/emacs-async][async.el]] is a module for doing asynchronous processing in Emacs.
+
+# #+BEGIN_SRC emacs-lisp
+#  (when (tv-require 'dired-aux)
+#    (require 'dired-async))
+# #+END_SRC
+
+*** TODO Charmap
+
+[[https://github.com/lateau/charmap][Charmap]] is unicode table viewer for Emacs. With CharMap you can see
+the unicode table based on The Unicode Standard 6.2.
+
+#+BEGIN_SRC emacs-lisp
+    (load-library "charmap")
+    (setq charmap-text-scale-adjust 2)
+#+END_SRC
+
+*** Swoop
+
+
+
+#+BEGIN_SRC emacs-lisp
+    (require 'swoop)
+    (setq swoop-font-size-change: nil)
+#+END_SRC
+
+*** Multi Term
+
+#+BEGIN_SRC emacs-lisp
+    (require 'multi-term)
+    (setq multi-term-program "/bin/bash")
+#+END_SRC
+
+*** Load theme buffer local
+
+#+BEGIN_SRC emacs-lisp
+    (require 'load-theme-buffer-local)
+#+END_SRC
+
+*** Yasnippet
+
+[[https://github.com/capitaomorte/yasnippet][YASnippet]] is a template system for Emacs. It allows you to type an
+abbreviation and automatically expand it into function templates.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'yasnippet)
+    (yas-global-mode)
+#+END_SRC
+
+**** Disable it in ansi-term
+
+#+BEGIN_SRC emacs-lisp
+    (add-hook 'after-change-major-mode-hook
+          (lambda ()
+            (when (find major-mode
+                '(term-mode ansi-term))
+              (yas-minor-mode 0))))
+#+END_SRC
+
+*** Elpy
+
+#+BEGIN_SRC emacs-lisp
+    (require 'elpy)
+    (elpy-enable)
+    (elpy-use-ipython)
+#+END_SRC
+
+*** Ag
+
+A simple ag frontend, loosely based on ack-and-half.el.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'ag)
+    (setq ag-reuse-buffers 't)
+    (setq ag-highlight-search t)
+    (setq ag-arguments
+        (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))
+#+END_SRC
+
+*** Paradox
+
+[[https://github.com/Bruce-Connor/paradox][Paradox]] is a Project for modernizing Emacs' Package Menu. With package
+ratings, usage statistics, customizability, and more.
+
+*** TODO password-store
+
+[[http://www.zx2c4.com/projects/password-store/][Password store (pass)]] support for Emacs.
+
+- [ ] make my own modifications
+
+*** TODO Popwin
+
+[[https://github.com/m2ym/popwin-el][Popwin]] is a popup window manager for Emacs which makes you free from
+the hell of annoying buffers such like *Help*, *Completions*,
+*compilation*, and etc.
+
++ [ ] Test integration with w3m
+
+#+BEGIN_SRC emacs-lisp
+    (require 'popwin)
+    (popwin-mode 1)
+;    (require 'popwin-w3m)
+;    (setq browse-url-browser-function 'popwin:w3m-browse-url)
+#+END_SRC
+
+*** TODO mu4e [92%]
+
+[[http://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]] is an emacs-based e-mail client which uses mu as its back-end
+
+Through mu, mu4e sits on top of your Maildir (which you update with
+e.g. offlineimap or fetchmail). mu4e is designed to enable
+super-efficient handling of e-mail; searching, reading, replying,
+moving, deleting. The overall 'feel' is a bit of a mix of dired and
+Wanderlust.
+
+Features include:
+
+ *  Fully search-based: there are no folders, only queries
+ *  Fully documented, with example configurations
+ *  User-interface optimized for speed, with quick key strokes for common actions
+ *  Support for non-English languages (so "angstrom" will match "Ångström")
+ *  Asynchronous; heavy actions don't block emacs3
+ *  Support for crypto
+ *  Writing rich-text e-mails using org-mode
+ *  Address auto-completion based on the contacts in your messages - no need for managing address books
+ *  Extendable with your own snippets of elisp
+
+**** TODO How it works
+
+There is an actual scheme of the current configuration
+
+#+BEGIN_SRC dot :file img/mu4e_scheme.png :cmdline -Kdot -Tpng
+  digraph G {
+      // General properties
+      size="6,5"
+      dpi=300
+      ratio=auto
+      rankdir="LR"
+      compound=true
+      labelloc=t
+      fontname="Ubuntu Bold"
+      fontsize=48
+      label="Emacs & mu4e email config"
+
+      // NODES
+      node [fontname="Ubuntu Bold"]
+
+      subgraph cluster_mailservers {
+          label="Mail Servers"
+          color=goldenrod4
+          style=dashed
+          penwidth=3
+          margin=30
+          fontsize=20
+          node [penwidth=2, margin=0.2]
+          imap [shape=house, color=blue, label="IMAP\naccount"]
+          pop3 [shape=egg, color=chartreus, label="POP3\naccounts"]
+      }
+
+      {
+          rank=same
+          node [penwidth=2, style=filled, margin=0.2]
+          notifications [
+              color=gold4
+              fillcolor=yellow
+              shape=note
+              margin=0.3
+              label="notifications"
+          ]
+          subgraph {
+              label=""
+              node [penwidth=2, style=filled, margin=0.2]
+              getmail [fillcolor=beige]
+              procmail [fillcolor=beige]
+              postfix [fillcolor=beige]
+              cleanup_maildir [label="cleanup-maildir", fillcolor=moccasin]
+          }
+      }
+
+      subgraph cluster_maildirs {
+          label=""
+          color=invis
+          fontsize=18
+          margin=20
+          subgraph cluster_maili {
+              label=" Maildir IMAP "
+              color=blue
+              fixedsize=true
+              rank=same
+              style=rounded
+              penwidth=2
+              node [shape=folder, color=blue, width=1.4, fontcolor=dimgrey]
+              inbox [label="Inbox"]
+              outbox [label="Outbox"]
+          }
+
+          subgraph cluster_mailp {
+              label=" Maildir Pop3 "
+              color=darkgreen
+              penwidth=2
+              style=rounded
+              node [
+                  shape=folder
+                  color=darkgreen
+                  width=1.4
+                  height=0.4
+                  fontcolor=dimgrey
+              ]
+              Archive [label="Archive"]
+              business [label="business"]
+              code [label="code"]
+              Drafts [label="Drafts"]
+              education [label="education"]
+              Inbox [label="Inbox"]
+              joedicastro [label="joedicastro"]
+              lists [label="lists"]
+              Local [label="Local"]
+              motley [label="motley"]
+              publicity [label="publicity"]
+              Outbox [label="Outbox"]
+              Sent [label="Sent"]
+              Spam [label="Spam"]
+              Trash [label="Trash"]
+            work [label="work"]
+          }
+      }
+
+     subgraph cluster_emacsauth {
+          color=invis
+          label=""
+          subgraph cluster_emacs {
+              label="Emacs"
+              color=darkgreen
+              fontsize=28
+              fontcolor=darkgreen
+              fillcolor=darkseagreen1
+              style="filled, rounded"
+              penwidth=3
+              margin=60
+              rank=same
+              node [style=filled, shape=square, fontcolor=white]
+              mu4e [fillcolor=purple, fontsize=30, margin=0.6, peripheries=2]
+              maildirs [fillcolor=maroon, margin=0.2, peripheries=2]
+              epa [fillcolor=green2, margin=0.5, fontcolor=black]
+              dired [fillcolor=aquamarine, margin=0.5, fontcolor=black]
+              flyspell [fillcolor=green2, margin=0.3, fontcolor=black]
+              org [fillcolor=seagreen, margin=0.7, label="org"]
+              contacts [fillcolor=olivedrab, label="org-contacts"]
+              smtp [
+                  label="SmtpMail"
+                  fillcolor=olivedrab1
+                  fontcolor=black
+                  margin=0.3
+              ]
+              gnus [
+                  color=darkblue
+                  fillcolor=palegreen1
+                  label="Gnus\n message-mode"
+                  margin=0.3
+                  fontcolor=black
+              ]
+          }
+          {
+              rank=sink
+              node [penwidth=2, margin=0.2]
+              authinfo [
+                  shape=signature
+                  label="authinfo.gpg"
+                  fontcolor=gold4
+              ]
+              mail_gpg [
+                  shape=signature
+                  label="mail.el.gpg"
+                  fontcolor=gold4
+             ]
+             gpg_agent [
+                  fillcolor=lightskyblue
+                  style=filled
+                  label="gpg-agent"
+             ]
+          }
+      }
+
+      node [fillcolor=beige, style=filled, penwidth=2]
+
+      localhost [shape=plaintext, fillcolor=grey, margin=0.2]
+      mu [margin=0.15, shape=doublecircle, fontsize=18]
+
+      // EDGES
+      edge [fontname="Ubuntu", fontsize=18, penwidth=2]
+
+      imap -> getmail [color=blue, label="retrieve email regularly", dir=both]
+      pop3 -> getmail [color=darkgreen]
+
+      getmail -> procmail [color=darkgreen, label="process mail"]
+      procmail -> notifications [
+          color=gold4
+          label="via notify-send"
+          style=dashed
+          constraint=none
+          minlen=3
+      ]
+
+      inbox -> mu [
+          ltail=cluster_maili
+          penwidth=3
+          color=blue
+          style=dashed
+          dir=back
+          label="index"
+      ]
+      Inbox -> mu [
+          ltail=cluster_mailp
+          penwidth=3
+          color=darkgreen
+          style=dashed
+          dir=back
+          label="index"
+      ]
+
+      getmail -> inbox  [
+          color=blue
+          dir=both
+          lhead=cluster_maili
+          label="update"
+      ]
+
+      localhost -> postfix [color=gold4]
+      postfix -> Local [color=gold4, taillabel="store"]
+      procmail -> code [color=darkgreen]
+      procmail -> education [color=darkgreen]
+      procmail -> Inbox [color=darkgreen, penwidth=3, label="store"]
+      procmail -> lists [color=darkgreen]
+      procmail -> publicity [color=darkgreen]
+      procmail -> Spam [color=darkgreen]
+
+      edge [fontname="Ubuntu", fontsize=18, penwidth=2]
+      lists    -> cleanup_maildir [color=crimson]
+      Trash    -> cleanup_maildir [color=crimson]
+      publicity-> cleanup_maildir [color=crimson, label="delete"]
+      Local    -> cleanup_maildir [color=crimson]
+      Spam     -> cleanup_maildir [color=crimson]
+
+      edge [fontname="Ubuntu", fontsize=18, penwidth=2]
+      mu4e -> gnus [label="compose, reply & forward", color=darkgreen]
+      contacts -> gnus [label="auto-complete\n contacts", style=dotted]
+      flyspell -> gnus [style=dotted, label="spell check"]
+      gnus -> smtp [label="send", color=darkgreen]
+      gnus -> epa [style=dashed, label="sign & encrypt", dir=both]
+      epa -> gpg_agent [
+          label="sign & encrypt"
+          color=darkgreen
+          style=dashed
+          dir=both
+      ]
+
+      gpg_agent -> epa [
+          label="decrypt & verify"
+          color=darkgreen
+          style=dashed
+      ]
+      epa -> mu4e [style=dashed, label="decrypt & verify"]
+      org -> gnus [
+          label="compose\n rich-text messages"
+          dir=both
+          style=dotted
+      ]
+
+      dired -> gnus [label="attach & compose", style=dotted]
+      smtp -> pop3 [label="send", color=darkgreen]
+      smtp -> Sent [label="store", color=darkgreen]
+      smtp -> imap [label="send", color=blue]
+
+      mu -> mu4e [
+          color=purple
+          penwidth=3
+          style=dashed
+          label="search & view"
+          fontcolor=purple
+          fontsize=18
+          fontname="Ubuntu Bold"
+      ]
+      maildirs -> mu4e [style=dotted, label="summarize"]
+
+      edge [style=dashed]
+      authinfo -> epa [label="server config"]
+      epa -> smtp [label="read server config"]
+      authinfo -> gpg_agent [dir=back, label="decrypt", minlen=2.0]
+      mail_gpg -> gpg_agent [dir=back, label="decrypt", minlen=2.0]
+      mail_gpg -> mu4e [label="read user's info"]
+  }
+#+END_SRC
+
+#+RESULTS:
+[[file:img/mu4e_scheme.png]]
+
+**** TODO ToDo List [70%]
+
++ [X] Enqueue messages
++ [X] Send messages asynchronously
++ [X] Add contact from mail
++ [X] Send local mails to Maildir (made via postfix)
++ [X] Spam management (via procmail)
++ [X] Notifications (via procmail)
++ [X] Rules/filters (via procmail)
++ [X] Fix signature
++ [X] Multiple identities
++ [X] Return Receipt (Disposition-Notification-To:)?
++ [X] Fix Edit Draft messages
++ [X] Attachment remember?
++ [X] View Emoticons?
++ [X] Three attempts when failed the passphrase (use gpg-agent)
++ [X] Encrypt/Decrypt messages and & signing
++ [X] Autoarchive/delete mails periodically (cleanup-maildir)
++ [X] Configuration scheme
++ [ ] Vim Keybindings?
++ [ ] complete the emoticons to cover more
++ [ ] Reply only to the list (List-ID)
++ [ ] View Gravatars?
+
+**** DONE Enable mu4e
+     CLOSED: [2014-05-27 mar 20:59]
+
+#+BEGIN_SRC emacs-lisp
+    (require 'mu4e)
+#+END_SRC
+
+**** DONE Current keybindings
+     CLOSED: [2014-05-27 mar 19:13]
+***** Main view
+
+[[file:img/mu4e_main.png]]
+
+| Binding | Call                                 | Do                                                  |
+|---------+--------------------------------------+-----------------------------------------------------|
+| j       | mu4e-headers-jump-to-maildir         | jump to some maildir (followed by a letter or =/=)  |
+| b       | mu4e-headers-search-bookmark         | run a bookmark (saved query) (followed by a letter) |
+| B       | mu4e-headers-search-bookmark-edit    | run & edit a bookmark                               |
+| s       | mu4e-headers-search                  | run a search query                                  |
+| C       | mu4e-compose-new                     | compose a news message                              |
+| u       | mu4e-maildirs-extension-force-update | update the cache & index of maildirs extension      |
+| U       | mu4e-update-mail-and-index           | update email & database                             |
+| m       | mu4e-main-toggle-mail-sending-mode   | toggles between sending mail directly & queuing it  |
+| f       | smtpmail-send-queued-mail            | send queued mail                                    |
+| H       | mu4e-display-manual                  | show the mu4e help about the main view              |
+| A       | mu4e-about                           | show the mu4e about buffer                          |
+| q       | mu4e-quit                            | exit mu4e                                           |
+| $       | mu4e-show-log                        | show the log (with logging enabled)                 |
+| ?       | describe-mode                        | describe the mode                                   |
+
+***** Headers view
+
+[[file:img/mu4e_headers.png]]
+
+| Binding     | Call                                | Do                                            |
+|-------------+-------------------------------------+-----------------------------------------------|
+| n           | mu4e-headers-next                   | go to next message                            |
+| p           | mu4e-headers-prev                   | go to previous message                        |
+| y           | mu4e-select-other-view              | select the message view (if it's visible)     |
+| RET         | mu4e-headers-view-message           | open the message at point in the message view |
+| s           | mu4e-headers-search                 | search                                        |
+| S           | mu4e-headers-search-edit            | edit last query                               |
+| /           | mu4e-headers-search-narrow          | narrow the search                             |
+| b           | mu4e-headers-search-bookmark        | search bookmark                               |
+| B           | mu4e-headers-search-bookmark-edit   | edit bookmark before search                   |
+| g           | mu4e-headers-rerun-search           | re-run previous search                        |
+| j           | mu4e-headers-jump-to-maildir        | jump to maildir                               |
+| \           | mu4e-headers-query-prev             | previous query                                |
+| M-left      | mu4e-headers-query-prev             | previous query                                |
+| M-right     | mu4e-headers-query-next             | next query                                    |
+| O           | mu4e-headers-change-sorting         | change sort order                             |
+| P           | mu4e-headers-toggle-threading       | toggle threading                              |
+| Q           | mu4e-headers-toggle-full-search     | toggle full-search                            |
+| V           | mu4e-headers-toggle-skip-duplicates | toggle skip-duplicates                        |
+| W           | mu4e-headers-toggle-include-related | toggle include-related                        |
+| d           | mu4e-headers-mark-for-trash         | mark for moving to the trash folder           |
+| <backspace> | mu4e-headers-mark-for-trash         | mark for moving to the trash folder           |
+| DEL         | mu4e-headers-mark-for-delete        | mark for complete deletion                    |
+| D           | mu4e-headers-mark-for-delete        | mark for complete deletion                    |
+| m           | mu4e-headers-mark-for-move          | mark for moving to another maildir folder     |
+| r           | mu4e-headers-makr-for-refile        | mark for refiling                             |
+| +           | mu4e-headers-mark-for-flag          | mark for flagging                             |
+| -           | mu4e-headers-mark-for-unflag        | mark for unflagging                           |
+| !           | mu4e-headers-mark-for-read          | mark message as read                          |
+| ?           | mu4e-headers-mark-for-unread        | mark message as unread                        |
+| u           | mu4e-headers-mark-unmark            | unmark message at point                       |
+| U           | mu4e-headers-mark-unmark-all        | unmark *all* messages                         |
+| %           | mu4e-headers-mark-pattern           | mark based on a regular expression            |
+| &           | mu4e-headers-mark-custom            | mark based on a custom user-provided function |
+| T           | mu4e-headers-mark-thread            | mark whole thread                             |
+| t           | mu4e-headers-mark-subthread         | mark whole subthread                          |
+| <insert>    | mu4e-headers-mark-for-something     | mark for 'something' (decide later)           |
+| #           | mu4e-mark-resolve-deferred-marks    | resolve deferred 'something' marks            |
+| x           | mu4e-mark-execute-all               | execute actions for the marked messages       |
+| A           | mu4e-headers-action                 | execute some custom action on a header        |
+| R           | mu4e-compose-reply                  | reply                                         |
+| F           | mu4e-compose-forward                | forward                                       |
+| C           | mu4e-compose-new                    | compose                                       |
+| E           | mu4e-compose-edit                   | edit (only allowed for draft messages)        |
+| C-+         | mu4e-headers-split-view-grow        | increase the number of headers shown          |
+| C--         | mu4e-headers-split-view-shrink      | decrease the number of headers shown          |
+| H           | mu4e-display-manual                 | get help                                      |
+| h           | describe-mode                       | describe the current mode                     |
+| C-S-u       | mu4e-update-mail-and-index          | update mail & reindex                         |
+| q           | mu4e-headers-quit-buffer            | leave the headers buffer                      |
+| z           | mu4e-headers-quit-buffer            | leave the headers buffer                      |
+| $           | mu4e-show-log                       | show the log (if enabled)                     |
+
+***** Message view
+
+[[file:img/mu4e_mail.png]]
+| Binding     | Call                                | Do                                               |
+|-------------+-------------------------------------+--------------------------------------------------|
+| n           | mu4e-view-headers-next              | go to next message                               |
+| p           | mu4e-view-headers-prev              | go to previous message                           |
+| y           | mu4e-select-other-view              | select the message view (if it's visible)        |
+| RET         | mu4e-scroll-up                      | scroll down                                      |
+| SPC         | mu4e-view-scroll-up-or-next         | scroll down, if at end, move to next message     |
+| s           | mu4e-headers-search                 | search                                           |
+| S           | mu4e-view-search-edit               | edit last query                                  |
+| /           | mu4e-view-search-narrow             | narrow the search                                |
+| O           | mu4e-headers-change-sorting         | change sort order                                |
+| P           | mu4e-headers-toggle-threading       | toggle threading                                 |
+| Q           | mu4e-headers-toggle-full-search     | toggle full-search                               |
+| W           | mu4e-headers-toggle-include-related | toggle include-related                           |
+| b           | mu4e-headers-search-bookmark        | search bookmark                                  |
+| B           | mu4e-headers-search-bookmark-edit   | edit bookmark before search                      |
+| j           | mu4e-headers-jump-to-maildir        | jump to maildir                                  |
+| M-left      | mu4e-headers-query-prev             | previous query                                   |
+| M-right     | mu4e-headers-query-next             | next query                                       |
+| d           | mu4e-view-mark-for-trash            | mark for moving to the trash folder              |
+| <backspace> | mu4e-view-mark-for-trash            | mark for moving to the trash folder              |
+| D           | mu4e-view-mark-for-delete           | mark for complete deletion                       |
+| DEL         | mu4e-view-mark-for-delete           | mark for complete deletion                       |
+| m           | mu4e-view-mark-for-move             | mark for moving to another maildir folder        |
+| r           | mu4e-view-mark-for-refile           | mark for refiling                                |
+| +           | mu4e-view-mark-for-flag             | mark for flagging                                |
+| -           | mu4e-view-mark-for-unflag           | mark for unflagging                              |
+| u           | mu4e-view-unmark                    | unmark message at point                          |
+| U           | mu4e-view-unmark-all                | unmark *all* messages                            |
+| %           | mu4e-view-mark-pattern              | mark based on a regular expression               |
+| &           | mu4e-view-mark-custom               | mark based on a custom user-provided function    |
+| T           | mu4e-view-mark-thread               | mark whole thread                                |
+| t           | mu4e-view-mark-subthread            | mark whole subthread                             |
+| <insert>    | mu4e-view-mark-for-something        | mark for 'something' (decide later)              |
+| #           | mu4e-mark-resolve-deferred-marks    | resolve deferred 'something' marks               |
+| x           | mu4e-view-marked-execute            | execute actions for the marked messages          |
+| \vert       | mu4e-view-pipe                      | pipe message through shell command               |
+| R           | mu4e-compose-reply                  | reply                                            |
+| F           | mu4e-compose-forward                | forward                                          |
+| C           | mu4e-compose-new                    | compose                                          |
+| E           | mu4e-compose-edit                   | edit (only allowed for draft messages)           |
+| g           | mu4e-view-go-to-url                 | go to (visit) numbered URL (using =browse-url=)  |
+| e           | mu4e-view-save-attachment           | extract (save) attachment (asks for number)      |
+| C-u e       | mu4e-view-save-attachment           | extracts multiple attachments                    |
+| o           | mu4e-view-open-attachment           | open attachment (asks for number)                |
+| a           | mu4e-view-action                    | execute some custom action on the message        |
+|-------------+-------------------------------------+--------------------------------------------------|
+| a b         |                                     | browse mail                                      |
+| a c         |                                     | capture message                                  |
+| a o         |                                     | add contact to org-contact                       |
+| a r         |                                     | retag email                                      |
+| a v         |                                     | view message as pdf                              |
+| a x         |                                     | search messages from the same sender             |
+|-------------+-------------------------------------+--------------------------------------------------|
+| A           |                                     | execute some custom action on an attachment      |
+|-------------+-------------------------------------+--------------------------------------------------|
+| A \vert     |                                     | pipe attachment through shell command            |
+| A e         |                                     | open the attachment in emacs                     |
+| A w         |                                     | open the attachment with an external application |
+|-------------+-------------------------------------+--------------------------------------------------|
+| w           | visual-line-mode                    | toggle line wrapping                             |
+| h           | mu4e-view-toggle-hide-cited         | toggle showing cited parts                       |
+| v           | mu4e-view-verify-msg-popup          | show details about the cryptographic signature   |
+| C-c RET v   | mml-validate                        | validate the email                               |
+| .           | mu4e-view-raw-message               | show the raw message view. =q= takes you back.   |
+| C-+         | mu4e-headers-split-view-grow        | increase the number of headers shown             |
+| C--         | mu4e-headers-split-view-shrink      | decrease the number of headers shown             |
+| H           | mu4e-display-manual                 | get help                                         |
+| C-S-u       | mu4e-update-mail-and-index          | update mail & reindex                            |
+| q           | mu4e-view-quit-buffer               | leave the message view                           |
+| z           | mu4e-view-quit-buffer               | leave the message view                           |
+| $           | mu4e-show-log                       | show the log (if enabled)                        |
+| ?           | describe-mode                       | describe the current mode                        |
+
+***** Editor view
+
+[[file:img/mu4e_editor.png]]
+
+| Binding         | Call                                           | Do                                                          |
+|-----------------+------------------------------------------------+-------------------------------------------------------------|
+| C-c C-c         | message-send-and-exit                          | send message and quit the buffer                            |
+| C-c C-s         | message-send                                   | send the message                                            |
+| C-c C-d         | message-dont-send                              | save to drafts and leave                                    |
+| C-c C-k         | message-kill-buffer                            | kill the message                                            |
+| C-c C-a         | mml-attach-file                                | attach a file (pro-tip: drag & drop works as well)          |
+| C-c RET f       | mml-attach-file                                | attach a file                                               |
+| C-c RET b       | mml-attach-buffer                              | attach a buffer                                             |
+|-----------------+------------------------------------------------+-------------------------------------------------------------|
+| TAB             | message-tab                                    | auto-complete email address                                 |
+| C-c C-f C-o     | message-goto-from                              | move to the *From:* header                                  |
+| C-c C-f C-t     | message-goto-to                                | insert/move to the *To:* header                             |
+| C-c C-f C-c     | message-goto-cc                                | insert/move to the *Cc:* header                             |
+| C-c C-f C-b     | message-goto-bcc                               | insert/move to the *Bcc:* header                            |
+| C-c C-f C-w     | message-goto-fcc                               | insert/move to the *Fcc:* header                            |
+| C-c C-f C-s     | message-goto-subject                           | insert/move to the *Subject:* header                        |
+| C-c C-f C-f     | message-goto-followup-to                       | insert/move to the *Followup-To:* header                    |
+| C-c C-f C-r     | message-goto-reply-to                          | insert/move to the *Reply-To:* header                       |
+| C-c C-f C-k     | message-goto-keywords                          | insert/move to the *Keywords:* header                       |
+| C-c C-f C-u     | message-goto-summary                           | insert/move to the *Summary:* header                        |
+| C-c C-u         | message-insert-or-toggle-importance            | insert or toggle *Importance:* header                       |
+| C-c C-f TAB     | message-insert-or-toggle-importance            | insert or toggle *Importance:* header                       |
+| C-c M-n         | message-insert-disposition-notification-to     | insert *Disposition-Notification-To:* (request receipt)     |
+| C-c C-f C-a     | message-generate-unsubscribed-mail-followup-to | insert a *Mail-Followup-To:* header                         |
+| C-c C-f RET     | message-goto-mail-followup-to                  | move to the *Mail-Followup-To:* header                      |
+| C-c C-f t       | message-reduce-to-to-cc                        |                                                             |
+| C-c C-w         | message-insert-signature                       | insert a signature                                          |
+| C-c C-o         | message-sort-headers                           | sort the message headers                                    |
+|-----------------+------------------------------------------------+-------------------------------------------------------------|
+| C-c C-b         | message-goto-body                              | move to the beginning of the message's body                 |
+| C-c TAB         | message-goto-signature                         | move to the signature                                       |
+|-----------------+------------------------------------------------+-------------------------------------------------------------|
+| C-c C-M-y       | message-yank-buffer                            | insert a buffer into the message and quote it               |
+| C-c M-f         | message-mark-insert-file                       | insert file at point, marking it with enclosing tags.       |
+| C-c M-m         | message-mark-inserted-region                   | mark some region in the current article with enclosing tags |
+| C-c C-e         | message-elide-region                           | replace a region with an ellipsis =[...]=                   |
+| M-RET           | message-newline-and-reformat                   | insert a newline & reformat quoted text                     |
+| C-c C-q         | message-fill-yanked-message                    | fill the body (and signature)                               |
+| C-c C-z         | message-kill-to-signature                      | kill all the text up the signature                          |
+| C-c C-v         | message-delete-not-region                      | delete all the rest of the body out of the current region   |
+| C-c C-r         | message-caesar-buffer-body                     | apply the Caesar cipher to the body (and signature)         |
+|-----------------+------------------------------------------------+-------------------------------------------------------------|
+| C-c RET C-c     | mml-secure-message-encrypt                     | encrypt the entire message                                  |
+| C-c RET C-e     | mml-secure-message-sign-encrypt                | encrypt & sign the entire message                           |
+| C-c RET C-s     | mml-secure-message-sign                        | sign the entire message                                     |
+| C-c RET C-n     | mml-unsecure-message                           | remove secure features                                      |
+| C-c RET v       | mml-validate                                   | validate the email                                          |
+|-----------------+------------------------------------------------+-------------------------------------------------------------|
+| C-S-u           | mu4e-update-mail-and-index                     | update mail & reindex                                       |
+| C-c ?           | describe-mode                                  | describe the current mode                                   |
+
+**** DONE Use encryption
+     CLOSED: [2014-05-27 mar 19:35]
+
+Use encryption to protect the sensitive data like the servers configuration
+(stored in =authinfo.gpg=) and the sensitive user's infomation.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'epa-file)
+    (epa-file-enable)
+    (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
+#+END_SRC
+
+**** DONE User information
+     CLOSED: [2014-05-27 mar 19:35]
+
+Sets the default user's information properly.
+
+#+BEGIN_SRC emacs-lisp
+    (setq user-full-name "joe di castro"
+          user-mail-address "joe@joedicastro.com")
+#+END_SRC
+
+**** DONE SMTP configuration
+     CLOSED: [2014-05-27 mar 20:57]
+
+This is the default smtp configuration to use with a default account
+and allowing to choose between another multiple additional accounts
+too.
+
+***** First load the user's sensitive information
+
+This load the =mail.el.gpg= file where I store the email information
+that I prefer to keep private (since I share this config in GitHub) to
+inquisitive eyes.
+
+#+BEGIN_SRC emacs-lisp
+    (add-hook 'mu4e-main-mode-hook (lambda ()
+        (load-library (concat user-emacs-directory "mail.el.gpg"))))
+#+END_SRC
+
+Even when I keep this information private, I still going to share with
+you the current code stored in that file with make up data.
+
+#+BEGIN_EXAMPLE emacs-lisp
+    ;; a list of current and past email accounts to display correctly
+    ;; the From/To field in view mode with sent emails.
+    (setq mu4e-user-mail-address-list (list "default_account@example.com"
+                                            "another_account@sample.com"
+                                            "another_one@fake.com"
+                                            "past_account@example.com" ))
+
+    ;; the smtp configuration for the default account
+    (setq message-send-mail-function   'smtpmail-send-it
+           smtpmail-default-smtp-server "smtp.example.com"
+           smtpmail-smtp-server "smtp.example.com"
+           smtpmail-local-domain "example.com"
+           smtpmail-stmp-user "default_user"
+           smtpmail-stream-type 'starttls
+           smtpmail-smtp-service 587
+           mu4e-sent-messages-behavior 'sent
+           message-signature
+                (concat "joe di castro\n"
+                        "http://joedicastro.com\n"))
+
+    ;; a list of stmp configurations for each additional account
+    (defvar my-mu4e-account-alist
+       '(
+         ;; a pop3 account
+         ("other"
+          (user-mail-address "another_account@sample.com")
+          (user-full-name "joey")
+          (smtpmail-default-smtp-server "smtp.sample.com")
+          (smtpmail-smtp-server "smtp.sample.com")
+          (smtpmail-stmp-user "joey")
+          (smtpmail-local-domain "sample.com")
+          (smtpmail-stream-type starttls)
+          (smtpmail-smtp-service 587)
+          (mu4e-sent-messages-behavior 'sent)
+          (message-signature
+                (concat "Joey\n"
+                        "It’s a moo point. "
+                        "It’s like a cow’s opinion; it doesn’t matter. "
+                        "It’s moo.")))
+         ;; an imap account
+         ("another_one"
+          (user-mail-address "another_one@fake.com")
+          (user-full-name "John Doe")
+          (smtpmail-default-smtp-server "mail.fake.com")
+          (smtpmail-smtp-server "mail.fake.com")
+          (smtpmail-stmp-user "john$doe")
+          (smtpmail-local-domain "fake.com")
+          (smtpmail-stream-type starttls)
+          (smtpmail-smtp-service 587)
+          (mu4e-sent-messages-behavior 'delete)
+          (message-signature "John Doe"))
+    ))
+#+END_EXAMPLE
+
+***** The rest of the SMTP configuration
+
+This is the config needed to choose the right smtp configuration for
+the proper account in each moment (for new messages, replies, forwards
+& drafts editing).
+
+#+BEGIN_SRC emacs-lisp
+    ;; set a stronger TLS configuration than the default to avoid nasty
+    ;; warnings and for a little more secure configuration
+    (setq gnutls-min-prime-bits 2048)
+
+    ;; the multiple functions that provide the multiple accounts selection functionality
+    (defun my-mu4e-choose-account ()
+        (completing-read (format "Compose with account: (%s) "
+          (mapconcat #'(lambda (var) (car var)) my-mu4e-account-alist "/"))
+              (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                                  nil t nil nil (caar my-mu4e-account-alist)))
+
+    (defun my-mu4e-get-field (a)
+        (let ((field (cdar (mu4e-message-field mu4e-compose-parent-message a))))
+            (string-match "@\\(.*\\)\\..*" field)
+            (match-string 1 field)))
+
+
+    (defun my-mu4e-is-not-draft ()
+        (let ((maildir (mu4e-message-field (mu4e-message-at-point) :maildir)))
+           (if (string-match "drafts*" maildir)
+                  nil
+                  t)))
+
+    (defun my-mu4e-set-account ()
+      "Set the account for composing a message."
+      (let* ((account
+              (if mu4e-compose-parent-message
+                (let ((field (if (my-mu4e-is-not-draft)
+                                (my-mu4e-get-field :to)
+                                (my-mu4e-get-field :from))))
+                    (if (assoc field my-mu4e-account-alist)
+                        field
+                        (my-mu4e-choose-account)))
+                (my-mu4e-choose-account)))
+             (account-vars (cdr (assoc account my-mu4e-account-alist))))
+        (if account-vars
+            (mapc #'(lambda (var)
+                      (set (car var) (cadr var)))
+                  account-vars)
+          (error "No email account found"))))
+
+    (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+#+END_SRC
+
+**** DONE Queuing emails
+     CLOSED: [2014-05-27 mar 20:58]
+
+When offline or when you want do delay a message, you can go to the
+queuing mode and send them all turning it off.
+
+#+BEGIN_SRC emacs-lisp
+    ;; Allow queuing mails
+    (setq smtpmail-queue-mail nil ;; start in non-queuing mode
+        smtpmail-queue-dir "~/org/mail/mails/Queue")
+#+END_SRC
+
+**** DONE Signature
+     CLOSED: [2014-05-27 mar 19:12]
+
+Add the signature by default when a new email is composed.
+
+#+BEGIN_SRC emacs-lisp
+    (setq mu4e-compose-signature-auto-include t)
+    (setq
+            message-signature t
+            mu4e-compose-signature t)
+#+END_SRC
+
+**** DONE Sending emails asynchronous
+     CLOSED: [2014-05-27 mar 19:12]
+
+This is useful to send emails with attachments and do not block emacs
+until end the transmission.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'smtpmail-async)
+    (setq
+        send-mail-function 'async-smtpmail-send-it
+        message-send-mail-function 'async-smtpmail-send-it)
+#+END_SRC
+
+**** DONE maildirs extension
+     CLOSED: [2014-05-27 mar 21:28]
+
+[[https://github.com/agpchil/mu4e-maildirs-extension][Mu4e maildirs extension]] adds a maildir summary in mu4e-main-view.
+
+#+BEGIN_SRC emacs-lisp
+    (require 'mu4e-maildirs-extension)
+    (mu4e-maildirs-extension)
+    (setq mu4e-maildirs-extension-maildir-separator "*")
+    (setq mu4e-maildirs-extension-submaildir-separator "✉")
+    (setq mu4e-maildirs-extension-action-text nil)
+#+END_SRC
+
+**** DONE Setup maildir & folders
+     CLOSED: [2014-05-27 mar 21:29]
+
+The default Maildir path and subfolders.
+
+#+BEGIN_SRC emacs-lisp
+    (setq
+        mu4e-maildir       "~/org/mail"        ;; top-level Maildir
+        mu4e-sent-folder   "/mails/Sent"       ;; folder for sent messages
+        mu4e-drafts-folder "/mails/Drafts"     ;; unfinished messages
+        mu4e-trash-folder  "/mails/Trash"      ;; trashed messages
+        mu4e-refile-folder "/mails/Archive")   ;; saved messages
+
+    ;; where store the saved attachments
+    (setq mu4e-attachment-dir  "~/descargas")
+#+END_SRC
+
+**** DONE General Options
+     CLOSED: [2014-05-27 mar 23:49]
+
+mu4e's general options.
+
+#+BEGIN_SRC emacs-lisp
+    ;; use 'fancy' non-ascii characters in various places in mu4e
+    (setq mu4e-use-fancy-chars t)
+
+    ;; do not ask for confirmation on exit
+    (setq mu4e-confirm-quit  nil)
+
+    ;; set mu4e as the default emacs email client
+    (setq mail-user-agent 'mu4e-user-agent)
+
+    ;; decorate mu main view
+    (defun mu4e-main-mode-font-lock-rules ()
+      (save-excursion
+        (goto-char (point-min))
+        (while (re-search-forward "\\[\\([a-zA-Z]\\{1,2\\}\\)\\]" nil t)
+          (add-text-properties (match-beginning 1) (match-end 1)
+          '(face font-lock-variable-name-face)))))
+    (add-hook 'mu4e-main-mode-hook 'mu4e-main-mode-font-lock-rules)
+
+    ;; attempt to automatically retrieve public keys when needed
+    (setq mu4e-auto-retrieve-keys t)
+
+    ;; don't reply to myself
+    (setq mu4e-compose-dont-reply-to-self t)
+
+    ;; only personal messages get in the address book
+    (setq mu4e-compose-complete-only-personal t)
+
+#+END_SRC
+
+**** DONE org-mode integration
+     CLOSED: [2014-05-27 mar 23:14]
+
+Integrate with org-mode
+
+#+BEGIN_SRC emacs-lisp
+    (require 'org-mu4e)
+    (setq org-mu4e-convert-to-html t)
+    (defalias 'org-mail 'org-mu4e-compose-org-mode)
+#+END_SRC
+
+**** DONE Updating the email
+     CLOSED: [2014-05-27 mar 23:16]
+
+Update the index every 2 minutes but don't retrieve the email via
+Emacs.
+
+#+BEGIN_SRC emacs-lisp
+      (setq
+        mu4e-get-mail-command "true" ;; or fetchmail, or ...
+        mu4e-update-interval 120)    ;; update every 2 minutes
+#+END_SRC
+
+**** DONE Header's view config
+     CLOSED: [2014-05-27 mar 23:42]
+
+The headers view configuration.
+
+#+BEGIN_SRC emacs-lisp
+    ;; more cool and practical than the default
+    (setq mu4e-headers-from-or-to-prefix '("" . "➜ "))
+    ;; to list a lot of mails, more than the default 500
+    ;; is reasonable fast, so why not?
+    (setq mu4e-headers-results-limit 750)
+    ;; columns to show
+    (setq mu4e-headers-fields
+        '(
+          (:human-date . 9)
+          (:flags . 6)
+          (:mailing-list . 10)
+          (:size . 6)
+          (:from-or-to . 22)
+          (:subject)))
+#+END_SRC
+
+**** DONE Message view config
+     CLOSED: [2014-05-27 mar 23:45]
+
+Config for view mode.
+
+#+BEGIN_SRC emacs-lisp
+    ;; visible fields
+    (setq mu4e-view-fields
+        '(
+            :from
+            :to
+            :cc
+            :bcc
+            :subject
+            :flags
+            :date
+            :maildir
+            :mailing-list
+            :tags
+            :attachments
+            :signature
+    ))
+
+    ;; program to convert to pdf
+    (setq mu4e-msg2pdf "/usr/bin/msg2pdf")
+
+    ;; view email addresses not only the name
+    (setq mu4e-view-show-addresses t)
+
+    ;; attempt to show images when viewing messages
+    (setq
+       mu4e-show-images t
+       mu4e-view-show-images t
+       mu4e-view-image-max-width 800)
+
+    ;; use imagemagick if available
+    (when (fboundp 'imagemagick-register-types)
+      (imagemagick-register-types))
+#+END_SRC
+
+**** DONE Editor view config
+     CLOSED: [2014-05-27 mar 23:47]
+
+The editor view configuration.
+
+#+BEGIN_SRC emacs-lisp
+    ;; kill the buffer when is no needed any more
+    (setq message-kill-buffer-on-exit t)
+
+    ;; set the text width and activate the spell checking
+    (add-hook 'mu4e-compose-mode-hook (lambda ()
+                                        (set-fill-column 80)
+                                        (flyspell-mode)))
+#+END_SRC
+
+**** DONE Message view actions
+     CLOSED: [2014-05-27 mar 23:56]
+
+Define actions for message view.
+
+#+BEGIN_SRC emacs-lisp
+    ;; add the action to open an HTML message in the browser
+    (add-to-list 'mu4e-view-actions
+      '("browse mail" . mu4e-action-view-in-browser) t)
+
+    ;; add the action to retag messages
+    (add-to-list 'mu4e-view-actions
+      '("retag mail" . mu4e-action-retag-message) t)
+
+    ;;Search for messages sent by the sender of the message at point
+    (defun search-for-sender (msg)
+        (mu4e-headers-search
+            (concat "from:" (cdar (mu4e-message-field msg :from)))))
+
+    ;; define 'x' as the shortcut
+    (add-to-list 'mu4e-view-actions
+        '("xsearch for sender" . search-for-sender) t)
+
+    ;; integration with org-contacts
+    (setq mu4e-org-contacts-file "~/org/contacts.org")
+
+    (add-to-list 'mu4e-headers-actions
+                 '("org-contact-add" . mu4e-action-add-org-contact) t)
+    (add-to-list 'mu4e-view-actions
+                 '("org-contact-add" . mu4e-action-add-org-contact) t)
+
+
+    ;; get a pgp key from a message
+    ;; from  http://hugoduncan.org/post/snarf-pgp-keys-in-emacs-mu4e/
+    (defun mu4e-view-snarf-pgp-key (&optional msg)
+      "get the pgp key for the specified message."
+      (interactive)
+      (let* ((msg (or msg (mu4e-message-at-point)))
+              (path (mu4e-message-field msg :path))
+              (cmd (format "%s verify --verbose %s"
+                     mu4e-mu-binary
+                     (shell-quote-argument path)))
+              (output (shell-command-to-string cmd)))
+        (let ((case-fold-search nil))
+          (when (string-match "key:\\([A-F0-9]+\\)" output)
+            (let* ((cmd (format "%s --recv %s"
+                                epg-gpg-program (match-string 1 output)))
+                   (output (shell-command-to-string cmd)))
+              (message output))))))
+
+    (add-to-list 'mu4e-view-actions
+                 '("get PGP keys" . mu4e-view-snarf-pgp-key) t)
+
+#+END_SRC
+
+**** DONE Deal with HTML messages
+     CLOSED: [2014-05-27 mar 23:58]
+
+Try to visualize as best as possible the HTML messages in text mode.
+
+#+BEGIN_SRC emacs-lisp
+   (setq mu4e-view-prefer-html t)
+   (setq mu4e-html2text-command "w3m -dump -cols 110 -T text/html")
+#+END_SRC
+
+**** DONE Smileys (emoticons)
+     CLOSED: [2014-05-28 mié 00:03]
+
+Show emoticons when viewing and editing messages.
+
+***** autosmiley.el
+
+[[http://www.emacswiki.org/emacs/autosmiley.el][autosmiley.el]] by Damyan Pepper
+
+#+BEGIN_SRC emacs-lisp
+    (require 'smiley)
+
+    (defun autosmiley-overlay-p (overlay)
+      "Return whether OVERLAY is an overlay of autosmiley mode."
+      (memq (overlay-get overlay 'category)
+            '(autosmiley)))
+
+    (defun autosmiley-remove-smileys (beg end)
+      (dolist (o (overlays-in beg end))
+        (when (autosmiley-overlay-p o)
+          (delete-overlay o))))
+
+    (defvar *autosmiley-counter* 0
+      "Each smiley needs to have a unique display string otherwise
+      adjacent smileys will be merged into a single image.  So we put
+      a counter on each one to make them unique")
+
+    (defun autosmiley-add-smiley (beg end image)
+      (let ((overlay (make-overlay beg end)))
+        (overlay-put overlay 'category 'autosmiley)
+        (overlay-put overlay 'display (append image (list :counter (incf *autosmiley-counter*))))))
+
+
+    (defun autosmiley-add-smileys (beg end)
+      (save-excursion
+        (dolist (entry smiley-cached-regexp-alist)
+          (let ((regexp (car entry))
+                (group (nth 1 entry))
+                (image (nth 2 entry)))
+            (when image
+              (goto-char beg)
+              (while (re-search-forward regexp end t)
+                (autosmiley-add-smiley (match-beginning group) (match-end group) image)))))))
+
+
+    (defun autosmiley-change (beg end &optional old-len)
+      (let ((beg-line (save-excursion (goto-char beg) (line-beginning-position)))
+            (end-line (save-excursion (goto-char end) (line-end-position))))
+        (autosmiley-remove-smileys beg-line end-line)
+        (autosmiley-add-smileys beg-line end-line)))
+
+
+    ;;;###autoload
+    (define-minor-mode autosmiley-mode
+      "Minor mode for automatically replacing smileys in text with
+    cute little graphical smileys."
+      :group 'autosmiley :lighter " :)"
+      (save-excursion
+        (save-restriction
+          (widen)
+          (autosmiley-remove-smileys (point-min) (point-max))
+          (if autosmiley-mode
+              (progn
+                (unless smiley-cached-regexp-alist
+                  (smiley-update-cache))
+                (jit-lock-register 'autosmiley-change))
+            (jit-lock-unregister 'autosmiley-change)))))
+#+END_SRC
+
+***** Use gnome emoticons
+
+Seen [[https://github.com/ahilsend/dotfiles/blob/3b9756a4f544403b7013bff80245df1b37feecec/.emacs.d/rc/rc-smiley.el][here]]
+
+#+BEGIN_SRC emacs-lisp
+    (setq
+        smiley-data-directory "/usr/share/icons/gnome/22x22/emotes/"
+        smiley-regexp-alist '(("\\(:-?)\\)\\W" 1 "face-smile")
+                              ("\\(;-?)\\)\\W" 1 "face-wink")
+                              ("\\(:-|\\)\\W" 1 "face-plain")
+                              ("\\(:-?/\\)[^/]\\W" 1 "face-uncertain")
+                              ("\\(;-?/\\)\\W" 1 "face-smirk")
+                              ("\\(:-?(\\)\\W" 1 "face-sad")
+                              ("\\(:,-?(\\)\\W" 1 "face-crying")
+                              ("\\(:-?D\\)\\W" 1 "face-laugh")
+                              ("\\(:-?P\\)\\W" 1 "face-raspberry")
+                              ("\\(8-)\\)\\W" 1 "face-cool")
+                              ("\\(:-?\\$\\)\\W" 1 "face-embarrassed")
+                              ("\\(:-?O\\)\\W" 1 "face-surprise")))
+    (add-to-list 'gnus-smiley-file-types "png")
+#+END_SRC
+
+***** View emoticons in mu4e
+
+#+BEGIN_SRC emacs-lisp
+    ;; Show Smileys
+    (add-hook 'mu4e-view-mode-hook 'autosmiley-mode)
+    ;; Test smileys:  :-] :-o :-) ;-) :-\ :-| :-d :-P 8-| :-(
+#+END_SRC
+
+**** DONE Bookmarks
+     CLOSED: [2014-05-27 mar 23:39]
+
+My bookmarks
+
+#+BEGIN_SRC emacs-lisp
+    (add-to-list 'mu4e-bookmarks
+                 '("flag:flagged" "Flagged" ?f))
+    (add-to-list 'mu4e-bookmarks
+                 '("date:48h..now" "Last 2 days" ?l))
+    (add-to-list 'mu4e-bookmarks
+                 '("date:1h..now" "Last hour" ?h))
+    (add-to-list 'mu4e-bookmarks
+                 '("flag:attach" "With attachments" ?a) t)
+    (add-to-list 'mu4e-bookmarks
+                 '("mime:application/pdf" "With documents" ?d) t)
+    (add-to-list 'mu4e-bookmarks
+                 '("size:3M..500M" "Big messages" ?b) t)
+#+END_SRC
+
+**** DONE Shortcuts
+     CLOSED: [2014-05-27 mar 23:39]
+
+My defined shortcuts
+
+#+BEGIN_SRC emacs-lisp
+    ;; Folder shortcuts
+    (setq mu4e-maildir-shortcuts
+      '(
+        ("/mails/Archive" . ?a)
+        ("/mails/business" . ?b)
+        ("/mails/code" . ?c)
+        ("/mails/Drafts" . ?d)
+        ("/mails/education" . ?e)
+        ("/mails/Inbox" . ?i)
+        ("/mails/joedicastro" . ?j)
+        ("/mails/lists" . ?l)
+        ("/mails/Local" . ?h)
+        ("/mails/motley" . ?m)
+        ("/mails/publicity" . ?p)
+        ("/mails/Sent" . ?s)
+        ("/mails/Spam" . ?x)
+        ("/mails/Trash" . ?t)
+        ("/mails/work" . ?w)))
+#+END_SRC
+
+**** DONE Dired integration
+     CLOSED: [2014-05-27 mar 23:28]
+
+Integration with Dired, so we can attach a file to a new email
+directly from Dired.
+
+| Binding     | Call              | Do                           |
+|-------------+-------------------+------------------------------|
+| C-c RET C-a | gnus-dired-attach | Attach a file to a new email |
+
+#+BEGIN_SRC emacs-lisp
+    (require 'gnus-dired)
+    ;; make the `gnus-dired-mail-buffers' function also work on
+    ;; message-mode derived modes, such as mu4e-compose-mode
+    (defun gnus-dired-mail-buffers ()
+      "Return a list of active message buffers."
+      (let (buffers)
+        (save-current-buffer
+          (dolist (buffer (buffer-list t))
+            (set-buffer buffer)
+            (when (and (derived-mode-p 'message-mode)
+                       (null message-sent-message-via))
+              (push (buffer-name buffer) buffers))))
+        (nreverse buffers)))
+
+    (setq gnus-dired-mail-mode 'mu4e-user-agent)
+    (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+#+END_SRC
+
+**** DONE Encrypt/Decrypt
+     CLOSED: [2014-05-27 mar 23:27]
+
+Config for encrypt/decrypt emails
+
+#+BEGIN_SRC emacs-lisp
+     (setq mu4e-decryption-policy t)
+
+;; ; Sign the messages by default
+;; (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign)
+;; ;rename to signature.asc
+;; (defadvice mml2015-sign (after mml2015-sign-rename (cont) act)
+;;   (save-excursion
+;;     (search-backward "Content-Type: application/pgp-signature")
+;;     (goto-char (point-at-eol))
+;;     (insert "; name=\"signature.asc\"; description=\"Digital signature\"")))
+#+END_SRC
+
+**** DONE Attachment reminder
+     CLOSED: [2014-05-27 mar 23:21]
+
+To avoid memory faults, as forget to attach a file after mention it
+in the message's body.
+
+#+BEGIN_SRC emacs-lisp
+  ;; simple regexp used to check the message. Tweak to your own need.
+  (defvar my-message-attachment-regexp "\\(adjunto\\|attach\\)")
+  ;; the function that checks the message
+  (defun my-message-check-attachment nil
+    "Check if there is an attachment in the message if I claim it."
+    (save-excursion
+      (message-goto-body)
+      (when (search-forward-regexp my-message-attachment-regexp nil t nil)
+        (message-goto-body)
+        (unless (or (search-forward "<#part" nil t nil)
+          (message-y-or-n-p
+     "No attachment. Send the message ?" nil nil))
+    (error "No message sent")))))
+    ;; check is done just before sending the message
+    (add-hook 'message-send-hook 'my-message-check-attachment)
+#+END_SRC
+
 *** Elfeed
 
 [[https://github.com/skeeto/elfeed][Elfeed]] is an extensible web feed reader for Emacs, supporting both
@@ -1235,7 +2610,7 @@ Atom and RSS
   (require 'elfeed)
 
   ; Load the feeds file
-  (load "~/.emacs.d/elfeed.el")
+  (load "~/.emacs.d/elfeed.el.gpg")
 
   ; Entries older than 2 weeks are marked as read
   (add-hook 'elfeed-new-entry-hook
@@ -1243,65 +2618,7 @@ Atom and RSS
                               :remove 'unread))
 
   (setq elfeed-db-directory "~/.emacs.d/tmp/elfeed")
-  (setq elfeed-search-filter "@2-days-old +unread")
-#+END_SRC
-
-*** Browse Kill Ring
-
-#+BEGIN_SRC emacs-lisp
-    (require 'browse-kill-ring)
-#+END_SRC
-
-*** Swoop
-
-
-
-#+BEGIN_SRC emacs-lisp
-    (require 'swoop)
-    (setq swoop-font-size-change: nil)
-#+END_SRC
-
-*** Multi Term
-
-#+BEGIN_SRC emacs-lisp
-    (require 'multi-term)
-    (setq multi-term-program "/bin/bash")
-#+END_SRC
-
-*** Load theme buffer local
-
-#+BEGIN_SRC emacs-lisp
-    (require 'load-theme-buffer-local)
-#+END_SRC
-
-*** Yasnippet
-
-[[https://github.com/capitaomorte/yasnippet][YASnippet]] is a template system for Emacs. It allows you to type an
-abbreviation and automatically expand it into function templates.
-
-#+BEGIN_SRC emacs-lisp
-    (require 'yasnippet)
-    (yas-global-mode)
-#+END_SRC
-
-*** Elpy
-
-#+BEGIN_SRC emacs-lisp
-    (require 'elpy)
-    (elpy-enable)
-    (elpy-use-ipython)
-#+END_SRC
-
-*** Ag
-
-A simple ag frontend, loosely based on ack-and-half.el.
-
-#+BEGIN_SRC emacs-lisp
-    (require 'ag)
-    (setq ag-reuse-buffers 't)
-    (setq ag-highlight-search t)
-    (setq ag-arguments
-        (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))
+  (setq elfeed-search-filter "@2-days-old +unread ")
 #+END_SRC
 
 *** Twittering-mode
@@ -1416,5 +2733,9 @@ A simple ag frontend, loosely based on ack-and-half.el.
 **** Spell checking on tweets
 
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'twittering-edit-mode-hook (lambda () (ispell-minor-mode) (flyspell-mode)))
+    (add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode)))
 #+END_SRC
+
+* Footnotes
+
+[fn:1] The Emacs logo is from the [[https://github.com/numixproject/numix-icon-theme-circle][Numix Circle icon theme]] and is Licensed under the GPL-3.0+
