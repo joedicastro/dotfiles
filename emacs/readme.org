@@ -1510,7 +1510,6 @@ There is an actual scheme of the current configuration
               Local [label="Local"]
               motley [label="motley"]
               publicity [label="publicity"]
-              Outbox [label="Outbox"]
               Sent [label="Sent"]
               Spam [label="Spam"]
               Trash [label="Trash"]
@@ -1534,7 +1533,7 @@ There is an actual scheme of the current configuration
               node [style=filled, shape=square, fontcolor=white]
               mu4e [fillcolor=purple, fontsize=30, margin=0.6, peripheries=2]
               maildirs [fillcolor=maroon, margin=0.2, peripheries=2]
-              epa [fillcolor=green2, margin=0.5, fontcolor=black]
+              epa [fillcolor=green2, margin=0.5, fontcolor=black, label="EasyPG"]
               dired [fillcolor=aquamarine, margin=0.5, fontcolor=black]
               flyspell [fillcolor=green2, margin=0.3, fontcolor=black]
               org [fillcolor=seagreen, margin=0.7, label="org"]
@@ -1679,13 +1678,66 @@ There is an actual scheme of the current configuration
       authinfo -> epa [label="server config"]
       epa -> smtp [label="read server config"]
       authinfo -> gpg_agent [dir=back, label="decrypt", minlen=2.0]
-      mail_gpg -> gpg_agent [dir=back, label="decrypt", minlen=2.0]
+      mail_gpg -> gpg_agent [dir=back, label="decrypt", minlen=3.0]
       mail_gpg -> mu4e [label="read user's info"]
   }
 #+END_SRC
 
 #+RESULTS:
 [[file:img/mu4e_scheme.png]]
+
+The complete process works like this:
+
++ The email is fetched each ~x~ minutes (via cron) by [[http://pyropus.ca/software/getmail/][getmail]]. The mail is fetched from an IMAP account and several POP3 accounts.
++ At the same time the local email (in =localhost=) is fetched by [[http://www.postfix.org/][postfix]] and stored directly in the =Local= folder of the POP3's Maildir.
++ The email that comes from the IMAP account via =getmail= is stored directly in a Maildir directory. In that case I only care about Inbox and Outbox (sent) folders.
++ The email that comes from the several POP3 accounts is processed by [[http://www.procmail.org/][procmail]].
+  Various rules filter the emails and stores them in their own sub-directory in the POP3's Maildir.
+  The SPAM messages are already checked by my account servers, so I only use the SPAM fields already present to filter them.
+  So, is as simple as that:
+
+    #+BEGIN_EXAMPLE
+        ## SPAM
+
+        :0:
+        * ^X-Spam-Status: Yes
+        Spam/
+
+        :0:
+        * ^X-Spam-Flag: YES
+        Spam/
+
+        :0:
+        * ^X-Spam-Level: \*\*\*\*\*
+        Spam/
+    #+END_EXAMPLE
+
+  I use a =procmail= rule to send ~notifications~ to the desktop via =notify-sed=. I'm using it for all of them and is like this:
+
+    #+BEGIN_EXAMPLE
+        ## Notification
+
+        :0 ic:
+        * ^Subject:.*\/.*
+        | echo $MATCH \
+        | python2 -c "import email,sys; print email.Header.decode_header(sys.stdin.read())[0][0]" \
+        | while read OUTPUT;do notify-send -a 'Tienes un correo nuevo: ' "$OUTPUT";done
+    #+END_EXAMPLE
+
++ Daily, a script, [[https://github.com/joedicastro/cleanup-maildir][cleanup-maildir]], deletes all mails older than 14 days from several folders in the POP3's Maildir.
++ Each two minutes, Emacs orders to [[http://www.djcbsoftware.nl/code/mu/][mu]] to index all emails in both Maildirs. *Mu* is the main key of all the configuration.
++ Into Emacs [[http://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]] allows us to search & view email. Also we can Reply, Forward an Compose new emails.
+  The sensitive user's info is stored in an encrypted file =mail.el.gpg= managed by [[http://epg.sourceforge.jp/][EasyPG (aka EPA)]] and =gpg-agent= (from [[https://www.gnupg.org/][GnuPG]]).
+  Also =EasyPG= is used to decrypt encrypted emails and verify signatures in mu4e's View mode.
++ The extension ~maildirs~ is used to summarize the Maildir folders and see how many mails read/unread are in each folder.
++ When a email is composed =mu4e= uses Gnus' message mode to do the task. I use =flyspell-mode= to do a spell check into the message.
+  The email address (in fields like To:, Cc:, ...) can be auto-completed using the addresses stored in the emails sent to us and at the same time from the contacts stored in [[https://julien.danjou.info/projects/emacs-packages#org-contacts][org-contacts]]
+  [[http://orgmode.org/][Org]] can be used to compose rich-text emails (HTML) easily.
+  The emails can be signed & encypted using =EasyPG=.
++ We can attach a file a compose a new email with it directly from [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html][Dired]]
++ Emacs' =SmtpMail= is used to send emails to the servers. The configuration of the servers is stored in an encrypted file =authinfo.gpg=.
+  The emails sent to a POP3 account are stored in the POP3's Maildir Sent folder, the ones sent to the IMAP account are no stored.
++ In View mode & Edit mode, if emoticons are present in the message's body, they are rendered as an image.
 
 **** TODO ToDo List [70%]
 
