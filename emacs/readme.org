@@ -2620,6 +2620,19 @@ in the message's body.
     ;; check is done just before sending the message
     (add-hook 'message-send-hook 'my-message-check-attachment)
 #+END_SRC
+**** Open a mu4e search in a new frame
+
+This is useful when you are composing a new email and need to do a
+search in your emails to get a little context in the conversation.
+
+#+BEGIN_SRC emacs-lisp
+    (defun mu4e-headers-search-in-new-frame
+        (&optional expr prompt edit ignore-history)
+            "Execute `mu4e-headers-search' in a new frame."
+            (interactive)
+            (select-frame (make-frame))
+            (mu4e-headers-search expr prompt edit ignore-history))
+#+END_SRC
 
 *** Elfeed
 
