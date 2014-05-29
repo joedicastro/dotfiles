@@ -394,6 +394,34 @@ opened it.
     (setq-default save-place t)
 #+END_SRC
 
+** Spell checking
+
+Activate Spell Checking by default. Also use [[http://hunspell.sourceforge.net/][hunspell]] instead of
+[[http://www.gnu.org/software/ispell/ispell.html][ispell]] as corrector.
+
+#+BEGIN_SRC emacs-lisp
+    ;; Use hunspell instead of ispell
+    (if (file-exists-p "/usr/bin/hunspell")
+        (progn
+          (setq ispell-program-name "hunspell")
+          (eval-after-load "ispell"
+            '(progn (defun ispell-get-coding-system () 'utf-8)))))
+
+    ;; (setq ispell-program-name "hunspell")
+    (setq ispell-local-dictionary "es_ES")
+    (setq ispell-local-dictionary-alist
+          '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
+            ("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
+
+    (defun turn-on-spell-check ()
+       (flyspell-mode 1))
+    ;; enable spell-check in certain modes
+    (add-hook 'markdown-mode-hook 'turn-on-spell-check)
+    (add-hook 'text-mode-hook 'turn-on-spell-check)
+    (add-hook 'org-mode-hook 'turn-on-spell-check)
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+#+END_SRC
+
 ** TODO Use ibuffer by default
 
 Ibuffer is an advanced replacement for BufferMenu, which lets you
@@ -1420,7 +1448,7 @@ Features include:
 
 **** TODO How it works
 
-There is an actual scheme of the current configuration
+There is an actual scheme of the current configuration (rendered by =graphviz=)
 
 #+BEGIN_SRC dot :file img/mu4e_scheme.png :cmdline -Kdot -Tpng
   digraph G {
@@ -1737,6 +1765,7 @@ The complete process works like this:
 + We can attach a file a compose a new email with it directly from [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Dired.html][Dired]]
 + Emacs' =SmtpMail= is used to send emails to the servers. The configuration of the servers is stored in an encrypted file =authinfo.gpg=.
   The emails sent to a POP3 account are stored in the POP3's Maildir Sent folder, the ones sent to the IMAP account are no stored.
+  The email can be sent immediately or queued (useful for offline situations). All the queued email is sent at the same time when this feature is turned off.
 + In View mode & Edit mode, if emoticons are present in the message's body, they are rendered as an image.
 
 **** TODO ToDo List [70%]
