@@ -7,6 +7,8 @@
 [push]
 	default = simple
 [alias]
-    ci = commit -S
+    ci = commit
     st = status
     co = checkout
+[commit]
+	gpgsign = true
