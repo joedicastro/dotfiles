@@ -36,6 +36,7 @@
 -- Win  +  r                        Launch a command line prompt into status bar
 -- Win  +  /                        Launch dmenu
 -- Win  +  .                        Launch passmenu (dmenu-based pass interface)
+-- Win  +  ,                        Launch passmenu for username
 --
 --------------------------------------------------------------------- Navigation
 --
@@ -443,7 +444,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "/",
         function()
             awful.util.spawn_with_shell(
-                "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" .. 
+                "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" ..
                 "dmenu_run -b -i -fn " ..
                 "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' -p 'run:'")
         end),
@@ -452,12 +453,22 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, ".",
         function()
             awful.util.spawn_with_shell(
-                "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" .. 
+                "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" ..
                 "passmenu -b -i -fn " ..
-                "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' " .. 
-                "-sb darkred -p 'pass:'")
+                "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' " ..
+                "-sb darkred -p 'pass (password):'")
         end),
- 
+
+      -- dmenu
+    awful.key({ modkey }, ",",
+        function()
+            awful.util.spawn_with_shell(
+                "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" ..
+                "passmenu_username -b -i -fn " ..
+                "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' " ..
+                "-sb darkgreen -p 'pass (username):'")
+        end),
+
 
 
     -- Standard program
