@@ -40,7 +40,7 @@
 --
 --------------------------------------------------------------------- Navigation
 --
--- Win  +  j/k                      Focus on next/previous client
+-- Alt  +  j/k                      Focus on next/previous client
 -- Alt  +  h                        Previous tag
 -- Alt  +  l                        Next tag
 -- Win  +  1-9                      Show tag 1-9
@@ -61,6 +61,7 @@
 -- Win  +  Shift    +  j/k          Swap clients
 -- Win  +  o                        Move client to next screen
 -- Win  +  l/h                      Change master width by 5%
+-- Win  +  j/k                      Change master height by 5%
 -- Win  +  Shift    +  l/h          Number of windows for master area +1/-1
 -- Win  +  Control  +  l/h          Number of columns for stack area +1/-1
 -- Win  +  Space                    Next layout
@@ -397,12 +398,12 @@ globalkeys = awful.util.table.join(
     awful.key({ "Mod1",           }, "h",  awful.tag.viewprev       ),
     awful.key({ "Mod1",           }, "l",  awful.tag.viewnext       ),
 
-    awful.key({ modkey,           }, "j",
+    awful.key({ "Mod1",           }, "j",
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "k",
+    awful.key({ "Mod1",           }, "k",
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
@@ -486,6 +487,14 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "h",
         function ()
             awful.tag.incmwfact(-0.05)
+        end),
+    awful.key({ modkey,           }, "j",
+        function ()
+            awful.client.incwfact( 0.02)
+        end),
+    awful.key({ modkey,           }, "k",
+        function ()
+            awful.client.incwfact(-0.02)
         end),
     awful.key({ modkey, "Shift"   }, "h",
         function ()
