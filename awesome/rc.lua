@@ -40,9 +40,9 @@
 --
 --------------------------------------------------------------------- Navigation
 --
--- Alt  +  j/k                      Focus on next/previous client
--- Alt  +  h                        Previous tag
--- Alt  +  l                        Next tag
+-- Win  +  j/k                      Focus on next/previous client
+-- Win  +  h                        Previous tag
+-- Win  +  l                        Next tag
 -- Win  +  1-9                      Show tag 1-9
 -- Win  +  Control  +  j/k          Focus next/previous Screen
 --
@@ -60,8 +60,8 @@
 --
 -- Win  +  Shift    +  j/k          Swap clients
 -- Win  +  o                        Move client to next screen
--- Win  +  l/h                      Change master width by 5%
--- Win  +  j/k                      Change master height by 5%
+-- Alt  +  l/h                      Change master width by 5%
+-- Alt  +  j/k                      Change master height by 5%
 -- Win  +  Shift    +  l/h          Number of windows for master area +1/-1
 -- Win  +  Control  +  l/h          Number of columns for stack area +1/-1
 -- Win  +  Space                    Next layout
@@ -395,15 +395,15 @@ end
 -- {{{ Key bindings
 -- {{{ Global Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ "Mod1",           }, "h",  awful.tag.viewprev       ),
-    awful.key({ "Mod1",           }, "l",  awful.tag.viewnext       ),
+    awful.key({ modkey,           }, "h",  awful.tag.viewprev       ),
+    awful.key({ modkey,           }, "l",  awful.tag.viewnext       ),
 
-    awful.key({ "Mod1",           }, "j",
+    awful.key({ modkey,           }, "j",
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ "Mod1",           }, "k",
+    awful.key({ modkey,           }, "k",
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
@@ -480,19 +480,19 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
-    awful.key({ modkey,           }, "l",
+    awful.key({ "Mod1",           }, "l",
         function ()
             awful.tag.incmwfact( 0.05)
         end),
-    awful.key({ modkey,           }, "h",
+    awful.key({ "Mod1",           }, "h",
         function ()
             awful.tag.incmwfact(-0.05)
         end),
-    awful.key({ modkey,           }, "j",
+    awful.key({ "Mod1",           }, "j",
         function ()
             awful.client.incwfact( 0.02)
         end),
-    awful.key({ modkey,           }, "k",
+    awful.key({ "Mod1",           }, "k",
         function ()
             awful.client.incwfact(-0.02)
         end),
