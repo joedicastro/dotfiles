@@ -4,7 +4,7 @@
 #+DATE:      2014-03-09
 #+LANGUAGE:  en
 #+OPTIONS: toc:nil
-
+#+PROPERTY: header-args :tangle init.el :comments org
 
 #+ATTR_HTML: :width 110px
 [[file:img/emacs.png]][fn:1]
@@ -19,16 +19,34 @@ manage all the settings in a unique Org Mode file.
 
 ** How it works
 
-It uses one of the standard Emacs init files, =init.el= to bootstrap
-all the configuration. This configuration is thought to be stored in
-the standard =~/.emacs.d= directory and to setup this configuration
-you need to symlink this =emacs= directory to that. Once made that, if
-you start Emacs the =~/.emacs.d/init.el= file loads the
-=~/emacs.d/readme.org= file into Emacs, and exports all the code
-blocks (this process is called "tangling") to
-=~/.emacs.d/readme.el=. If a block is marked with =:tangle no= it will
-be skipped. When the tangling is finished =readme.el= is loaded to
-initialize Emacs.
+It uses one of the standard Emacs init files, =init.el= to load all
+the configuration. This configuration is thought to be stored in the
+standard =~/.emacs.d= directory and to setup this configuration you
+need to symlink this =emacs= directory to that. The
+=~/.emacs.d/init.el= comes from all the code blocks of this file
+=~/emacs.d/readme.org= exported in a process that is called
+"tangling". If a block is marked with =:tangle no= it will be
+skipped. The tangling is made automatically each time that the
+=readme.el= changes, via a hook, to ensure that both files are synced.
+
+This is the hook to tangle a new =~/.emacs.d/init.el= each time that
+this file changes.
+
+#+BEGIN_SRC emacs-lisp
+    ;; originaly seen at https://github.com/larstvei/dot-emacs/blob/master/init.org
+    (defun my-tangle-init ()
+      "If the current buffer is 'readme.org' the code-blocks are
+       tangled, and the tangled file is compiled."
+      (when (or
+               (equal (buffer-file-name)
+                   (expand-file-name (concat user-emacs-directory "readme.org")))
+               (equal (buffer-file-name)
+                   (expand-file-name "~/dotfiles/emacs/readme.org")))
+        (org-babel-tangle)))
+        ;; (byte-compile-file (concat user-emacs-directory "init.el"))))
+
+    (add-hook 'after-save-hook 'my-tangle-init)
+#+END_SRC
 
 The cool thing about this setup is that you can export the same file
 as documentation to HTML or PDF or LaTeX quite easily, e.g. to do it
@@ -76,8 +94,8 @@ maintain clean and updated this list for me is the following:
             buffer-move
             calfw
             charmap
+            diff-hl
             elfeed
-            elpy
             evil
             evil-indent-textobject
             evil-leader
@@ -92,10 +110,12 @@ maintain clean and updated this list for me is the following:
             google-maps
             graphviz-dot-mode
             helm
+            haskell-mode
             ido-ubiquitous
             ido-vertical-mode
             ido-yes-or-no
             ipython
+            jedi
             load-theme-buffer-local
             magit
             markdown-mode
@@ -110,6 +130,9 @@ maintain clean and updated this list for me is the following:
             pretty-mode
             popwin
             rainbow-mode
+            rw-ispell
+            rw-hunspell
+            rw-language-and-country-codes
             smart-mode-line
             smartparens
             smex
@@ -395,32 +418,36 @@ opened it.
     (setq-default save-place t)
 #+END_SRC
 
-** Spell checking
+** Tramp
 
-Activate Spell Checking by default. Also use [[http://hunspell.sourceforge.net/][hunspell]] instead of
-[[http://www.gnu.org/software/ispell/ispell.html][ispell]] as corrector.
+Store the Tramp history in the temporal directory.
 
 #+BEGIN_SRC emacs-lisp
-    ;; Use hunspell instead of ispell
-    (if (file-exists-p "/usr/bin/hunspell")
-        (progn
-          (setq ispell-program-name "hunspell")
-          (eval-after-load "ispell"
-            '(progn (defun ispell-get-coding-system () 'utf-8)))))
+  (setq tramp-persistency-file-name (concat user-emacs-directory "tmp/tramp"))
+#+END_SRC
 
-    ;; (setq ispell-program-name "hunspell")
-    (setq ispell-local-dictionary "es_ES")
-    (setq ispell-local-dictionary-alist
-          '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)
-            ("es_ES" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil utf-8)))
+** Bookmarks
 
-    (defun turn-on-spell-check ()
-       (flyspell-mode 1))
-    ;; enable spell-check in certain modes
-    (add-hook 'markdown-mode-hook 'turn-on-spell-check)
-    (add-hook 'text-mode-hook 'turn-on-spell-check)
-    (add-hook 'org-mode-hook 'turn-on-spell-check)
-    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+Store the Bookmarks file in the temporal directory.
+
+#+BEGIN_SRC emacs-lisp
+  (setq bookmark-default-file (concat user-emacs-directory "tmp/bookmarks"))
+#+END_SRC
+
+** SemanticDB
+
+Store the SemanticDB files in the temporal directory.
+
+#+BEGIN_SRC emacs-lisp
+  (setq semanticdb-default-save-directory (concat user-emacs-directory "tmp/semanticdb"))
+#+END_SRC
+
+** Url
+
+Store the url files in the temporal directory.
+
+#+BEGIN_SRC emacs-lisp
+  (setq url-configuration-directory (concat user-emacs-directory "tmp/url"))
 #+END_SRC
 
 ** TODO Use ibuffer by default
@@ -481,6 +508,8 @@ bars.
 Here I define the default theme, a total subjective decision, of
 course.
 
+*Remember: when testing a new theme, disable before the current one*
+
 #+BEGIN_SRC emacs-lisp
     (load-theme 'monokai t)
 #+END_SRC
@@ -516,9 +545,10 @@ This package shows a very nice and very informativa mode line.
 
 #+BEGIN_SRC emacs-lisp
     ;;; smart-mode-line
-    (setq sml/theme 'dark)
+    (require 'smart-mode-line)
     (setq sml/mode-width 'full)
     (setq sml/name-width 30)
+    (setq sml/shorten-modes t)
     (sml/setup)
 #+END_SRC
 
@@ -686,6 +716,36 @@ Now we reasigne the original binding to that combination to a new one
 #+BEGIN_SRC emacs-lisp
     (global-set-key "\C-x\C-k" 'kill-region)
     (global-set-key "\C-c\C-k" 'kill-region)
+#+END_SRC
+
+** Spell checking
+
+Activate Spell Checking by default. Also use [[http://hunspell.sourceforge.net/][hunspell]] instead of
+[[http://www.gnu.org/software/ispell/ispell.html][ispell]] as corrector.
+
+#+BEGIN_SRC emacs-lisp
+    ;; ;; Use hunspell instead of ispell
+    (setq ispell-program-name "hunspell")
+    (require 'rw-language-and-country-codes)
+    (require 'rw-ispell)
+    (require 'rw-hunspell)
+    (setq ispell-dictionary "es_ES_hunspell")
+    ;; The following is set via custom
+    (custom-set-variables
+     '(rw-hunspell-default-dictionary "es_ES_hunspell")
+     '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
+     '(rw-hunspell-make-dictionary-menu t)
+     '(rw-hunspell-use-rw-ispell t)
+    )
+
+    (defun turn-on-spell-check ()
+           (flyspell-mode 1))
+
+    ;; enable spell-check in certain modes
+    (add-hook 'markdown-mode-hook 'turn-on-spell-check)
+    (add-hook 'text-mode-hook 'turn-on-spell-check)
+    (add-hook 'org-mode-hook 'turn-on-spell-check)
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 #+END_SRC
 
 * Vim-like Features
@@ -1090,6 +1150,7 @@ Only works in GUI, but is a nice feature to have
             (sh . t)
             (sqlite . t)
             (sql . nil))))
+    (setq org-babel-python-command "python2")
 #+END_SRC
 
 *** Refresh images after execution
@@ -1377,14 +1438,6 @@ abbreviation and automatically expand it into function templates.
               (yas-minor-mode 0))))
 #+END_SRC
 
-*** Elpy
-
-#+BEGIN_SRC emacs-lisp
-    (require 'elpy)
-    (elpy-enable)
-    (elpy-use-ipython)
-#+END_SRC
-
 *** Ag
 
 A simple ag frontend, loosely based on ack-and-half.el.
@@ -1401,6 +1454,29 @@ A simple ag frontend, loosely based on ack-and-half.el.
 
 [[https://github.com/Bruce-Connor/paradox][Paradox]] is a Project for modernizing Emacs' Package Menu. With package
 ratings, usage statistics, customizability, and more.
+
+*** Diff-hl
+
+[[https://github.com/dgutov/diff-hl][diff-hl]] highlights uncommitted changes on the left side of the
+window, allows you to jump between and revert them selectively.
+
+#+begin_src emacs-lisp
+    (require 'diff-hl)
+    (add-hook 'org-mode-hook 'turn-on-diff-hl-mode)
+    (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+    (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
+#+end_src
+
+*** Jedi
+
+[[https://github.com/tkf/emacs-jedi][Jedi]] offers very nice auto completion for python-mode.
+
+#+BEGIN_src emacs-lisp
+    (require 'jedi)
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (setq jedi:complete-on-dot t)
+    (add-hook 'python-mode-hook 'jedi:ac-setup)
+#+END_src
 
 *** TODO password-store
 
@@ -1449,7 +1525,7 @@ Features include:
 
 There is an actual scheme of the current configuration (rendered by =graphviz=)
 
-#+BEGIN_SRC dot :file img/mu4e_scheme.png :cmdline -Kdot -Tpng
+#+BEGIN_SRC dot :file img/mu4e_scheme.png :cmdline -Kdot -Tpng :tangle no
   digraph G {
       // General properties
       size="6,5"
@@ -1767,7 +1843,7 @@ The complete process works like this:
   The email can be sent immediately or queued (useful for offline situations). All the queued email is sent at the same time when this feature is turned off.
 + In View mode & Edit mode, if emoticons are present in the message's body, they are rendered as an image.
 
-**** TODO ToDo List [70%]
+**** TODO ToDo List [81%]
 
 + [X] Enqueue messages
 + [X] Send messages asynchronously
@@ -1786,8 +1862,9 @@ The complete process works like this:
 + [X] Encrypt/Decrypt messages and & signing
 + [X] Autoarchive/delete mails periodically (cleanup-maildir)
 + [X] Configuration scheme
-+ [ ] Vim Keybindings?
++ [X] +Vim Keybindings?+ Discarded: I'm used to the defaults now
 + [ ] complete the emoticons to cover more
++ [ ] HTML messages
 + [ ] Reply only to the list (List-ID)
 + [ ] +View Gravatars?+ Discarded: I didn't find a non-dirty solution to insert them in the header
 
@@ -2324,7 +2401,6 @@ Config for view mode.
 
     ;; attempt to show images when viewing messages
     (setq
-       mu4e-show-images t
        mu4e-view-show-images t
        mu4e-view-image-max-width 800)
 
