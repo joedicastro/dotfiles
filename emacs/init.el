@@ -15,7 +15,7 @@
 ;; this file changes.
 
 ;; originaly seen at https://github.com/larstvei/dot-emacs/blob/master/init.org
-(defun my-tangle-init ()
+(defun joe/tangle-init ()
   "If the current buffer is 'readme.org' the code-blocks are
    tangled, and the tangled file is compiled."
   (when (or
@@ -26,7 +26,7 @@
     (org-babel-tangle)))
     ;; (byte-compile-file (concat user-emacs-directory "init.el"))))
 
-(add-hook 'after-save-hook 'my-tangle-init)
+(add-hook 'after-save-hook 'joe/tangle-init)
 
 ;; Packages list
 
@@ -187,7 +187,7 @@
 ;; Show/hide the trailing white-spaces in the buffer.
 
 ;; from http://stackoverflow.com/a/11701899/634816
-(defun tf-toggle-show-trailing-whitespace ()
+(defun joe/toggle-show-trailing-whitespace ()
   "Toggle show-trailing-whitespace between t and nil"
   (interactive)
   (setq show-trailing-whitespace (not show-trailing-whitespace)))
@@ -328,6 +328,23 @@
 
 (setq url-configuration-directory (concat user-emacs-directory "tmp/url"))
 
+;; Kill internal processes via the `list process` buffer
+
+;; Add a functionality to be able to kill process directly in the `list process buffer`
+
+;; seen at http://stackoverflow.com/a/18034042
+    (define-key process-menu-mode-map (kbd "C-c k") 'joe/delete-process-at-point)
+
+    (defun joe/delete-process-at-point ()
+      (interactive)
+      (let ((process (get-text-property (point) 'tabulated-list-id)))
+        (cond ((and process
+                    (processp process))
+               (delete-process process)
+               (revert-buffer))
+              (t
+               (error "no process at point!")))))
+
 ;; TODO Use ibuffer by default
 
 ;; Ibuffer is an advanced replacement for BufferMenu, which lets you
@@ -440,13 +457,13 @@
 (count-lines (point-min) (point-max))))))
 (concat "%" (number-to-string w) "d"))))))
 
-(defun linum-format-func (line)
+(defun joe/linum-format-func (line)
   (concat
    (propertize (format linum-format-fmt line) 'face 'linum)
    (propertize " " 'face 'linum)))
 
 (unless window-system
-  (setq linum-format 'linum-format-func))
+  (setq linum-format 'joe/linum-format-func))
 
 ;; Show fill column
 
@@ -479,10 +496,11 @@
 
 ;; Make it available everywhere.
 
-(defun auto-complete-mode-maybe ()
+(defun joe/auto-complete-mode-maybe ()
   "No maybe for you. Only AC!"
   (unless (minibufferp (current-buffer))
     (auto-complete-mode 1)))
+(joe/auto-complete-mode-maybe)
 
 ;; auto-complete file
 
@@ -543,13 +561,13 @@
  '(rw-hunspell-use-rw-ispell t)
 )
 
-(defun turn-on-spell-check ()
+(defun joe/turn-on-spell-check ()
        (flyspell-mode 1))
 
 ;; enable spell-check in certain modes
-(add-hook 'markdown-mode-hook 'turn-on-spell-check)
-(add-hook 'text-mode-hook 'turn-on-spell-check)
-(add-hook 'org-mode-hook 'turn-on-spell-check)
+(add-hook 'markdown-mode-hook 'joe/turn-on-spell-check)
+(add-hook 'text-mode-hook 'joe/turn-on-spell-check)
+(add-hook 'org-mode-hook 'joe/turn-on-spell-check)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 ;; Use evil
@@ -682,43 +700,43 @@
 ;; Emacs User it is nothing more than a convoluted key map, but for a
 ;; Evil user coming from Vim it means an easier start.
 
-;; | Binding | Call                               | Do                                                              |
-;; |---------+------------------------------------+-----------------------------------------------------------------|
-;; | ,0      | org-agenda                         | Call the org-mode agenda                                        |
-;; | ,7      | mu4e                               | Start mu4e (email client)                                       |
-;; | ,8      | org-capture                        | Call the org-mode capture                                       |
-;; | ,9      | cfw:open-org-calendar              | Open the month calendar for org-mode                            |
-;; | ,a      | ag                                 | Do a regex search using ag (The Silver Searcher)                |
-;; | ,b      | ido-switch-buffer                  | Switch buffer                                                   |
-;; | ,B      | ibuffer                            | Switch buffer using ibuffer                                     |
-;; | ,c      | evilnc-comment-or-uncomment-lines  | Comment/Uncomment lines                                         |
-;; | ,d      | dired                              | Call dired                                                      |
-;; | ,ef     | variable-pitch-mode                | Toggle variable/fixed space font                                |
-;; | ,eh     | whitespace-mode                    | Show/Hide hidden chars                                          |
-;; | ,et     | tf-toggle-show-trailing-whitespace | Show/Hide trailing whitespace                                   |
-;; | ,ew     | whitespace-cleanup                 | Remove trailing whitespaces                                     |
-;; | ,ec     | fci-mode                           | Show/hide fill column                                           |
-;; | ,f      | swoop                              | Search through words within the current buffer                  |
-;; | ,F      | swoop-multi                        | Search words across currently opened multiple buffers           |
-;; | ,g      | magit-status                       | Call Magit                                                      |
-;; | ,i      | browse-kill-ring                   | Choose between previous yanked pieces of text                   |
-;; | ,k      | delete-window                      | Close a window                                                  |
-;; | ,K      | kill-buffer                        | Kill a buffer                                                   |
-;; | ,l      | linum-mode                         | Show/Hide line numbers                                          |
-;; | ,m      | smex                               | Call smex (to execute a command)                                |
-;; | ,M      | smex-major-mode-commands           | Idem as above but limited to the current major mode commands    |
-;; | ,n      | elfeed                             | Open Elfeed to read Atom/RSS entries                            |
-;; | ,o      | find-file                          | Open a file                                                     |
-;; | ,O      | helm-recentf                       | Open a recent opened file                                       |
-;; | ,q      | helm-surfraw                       | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                                    |
-;; | ,``     | save-buffers-kill-terminal         | Exit Emacs                                                      |
-;; | ,s      | split-window-vertically            | Split the selected window into two windows, one above the other |
-;; | ,u      | undo-tree-visualize                | Visualize the current buffer's undo tree                        |
-;; | ,v      | split-window-horizontally          | Split the selected window into two side-by-side windows         |
-;; | ,w      | save-buffer                        | Save current buffer in visited file if modified                 |
-;; | ,x      | multi-term                         | Create new term buffer                                          |
-;; | ,X      | multi-term-next                    | Go to the next term buffer                                      |
-;; | ,z      | delete-other-windows               | Make a Zoom (delete all the other windows)                      |
+;; | Binding | Call                                | Do                                                              |
+;; |---------+-------------------------------------+-----------------------------------------------------------------|
+;; | ,0      | org-agenda                          | Call the org-mode agenda                                        |
+;; | ,7      | mu4e                                | Start mu4e (email client)                                       |
+;; | ,8      | org-capture                         | Call the org-mode capture                                       |
+;; | ,9      | cfw:open-org-calendar               | Open the month calendar for org-mode                            |
+;; | ,a      | ag                                  | Do a regex search using ag (The Silver Searcher)                |
+;; | ,b      | ido-switch-buffer                   | Switch buffer                                                   |
+;; | ,B      | ibuffer                             | Switch buffer using ibuffer                                     |
+;; | ,c      | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                                         |
+;; | ,d      | dired                               | Call dired                                                      |
+;; | ,ef     | variable-pitch-mode                 | Toggle variable/fixed space font                                |
+;; | ,eh     | whitespace-mode                     | Show/Hide hidden chars                                          |
+;; | ,et     | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace                                   |
+;; | ,ew     | whitespace-cleanup                  | Remove trailing whitespaces                                     |
+;; | ,ec     | fci-mode                            | Show/hide fill column                                           |
+;; | ,f      | swoop                               | Search through words within the current buffer                  |
+;; | ,F      | swoop-multi                         | Search words across currently opened multiple buffers           |
+;; | ,g      | magit-status                        | Call Magit                                                      |
+;; | ,i      | browse-kill-ring                    | Choose between previous yanked pieces of text                   |
+;; | ,k      | delete-window                       | Close a window                                                  |
+;; | ,K      | kill-buffer                         | Kill a buffer                                                   |
+;; | ,l      | linum-mode                          | Show/Hide line numbers                                          |
+;; | ,m      | smex                                | Call smex (to execute a command)                                |
+;; | ,M      | smex-major-mode-commands            | Idem as above but limited to the current major mode commands    |
+;; | ,n      | elfeed                              | Open Elfeed to read Atom/RSS entries                            |
+;; | ,o      | find-file                           | Open a file                                                     |
+;; | ,O      | helm-recentf                        | Open a recent opened file                                       |
+;; | ,q      | helm-surfraw                        | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                                    |
+;; | ,``     | save-buffers-kill-terminal          | Exit Emacs                                                      |
+;; | ,s      | split-window-vertically             | Split the selected window into two windows, one above the other |
+;; | ,u      | undo-tree-visualize                 | Visualize the current buffer's undo tree                        |
+;; | ,v      | split-window-horizontally           | Split the selected window into two side-by-side windows         |
+;; | ,w      | save-buffer                         | Save current buffer in visited file if modified                 |
+;; | ,x      | multi-term                          | Create new term buffer                                          |
+;; | ,X      | multi-term-next                     | Go to the next term buffer                                      |
+;; | ,z      | delete-other-windows                | Make a Zoom (delete all the other windows)                      |
 
 (require 'evil-leader)
 (global-evil-leader-mode)
@@ -736,7 +754,7 @@
   "ec" 'fci-mode
   "ef" 'variable-pitch-mode
   "eh" 'whitespace-mode
-  "et" 'tf-toggle-show-trailing-whitespace
+  "et" 'joe/toggle-show-trailing-whitespace
   "ew" 'whitespace-cleanup
   "f" 'swoop
   "F" 'swoop-multi
@@ -901,13 +919,13 @@
 
 ;; Don't ask confirmation to execute "safe" languages
 
-(defun my-org-confirm-babel-evaluate (lang body)
+(defun joe/org-confirm-babel-evaluate (lang body)
             (and (not (string= lang "ditaa"))
                  (not (string= lang "dot"))
                  (not (string= lang "gnuplot"))
                  (not (string= lang "ledger"))
                  (not (string= lang "plantuml"))))
-(setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+(setq org-confirm-babel-evaluate 'joe/org-confirm-babel-evaluate)
 
 ;; Org-location-google-maps
 
@@ -1194,43 +1212,43 @@
 (setq gnutls-min-prime-bits 2048)
 
 ;; the multiple functions that provide the multiple accounts selection functionality
-(defun my-mu4e-choose-account ()
+(defun joe/mu4e-choose-account ()
     (completing-read (format "Compose with account: (%s) "
-      (mapconcat #'(lambda (var) (car var)) my-mu4e-account-alist "/"))
-          (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-                              nil t nil nil (caar my-mu4e-account-alist)))
+      (mapconcat #'(lambda (var) (car var)) joe/mu4e-account-alist "/"))
+          (mapcar #'(lambda (var) (car var)) joe/mu4e-account-alist)
+                              nil t nil nil (caar joe/mu4e-account-alist)))
 
-(defun my-mu4e-get-field (a)
+(defun joe/mu4e-get-field (a)
     (let ((field (cdar (mu4e-message-field mu4e-compose-parent-message a))))
         (string-match "@\\(.*\\)\\..*" field)
         (match-string 1 field)))
 
 
-(defun my-mu4e-is-not-draft ()
+(defun joe/mu4e-is-not-draft ()
     (let ((maildir (mu4e-message-field (mu4e-message-at-point) :maildir)))
        (if (string-match "drafts*" maildir)
               nil
               t)))
 
-(defun my-mu4e-set-account ()
+(defun joe/mu4e-set-account ()
   "Set the account for composing a message."
   (let* ((account
           (if mu4e-compose-parent-message
-            (let ((field (if (my-mu4e-is-not-draft)
-                            (my-mu4e-get-field :to)
-                            (my-mu4e-get-field :from))))
-                (if (assoc field my-mu4e-account-alist)
+            (let ((field (if (joe/mu4e-is-not-draft)
+                            (joe/mu4e-get-field :to)
+                            (joe/mu4e-get-field :from))))
+                (if (assoc field joe/mu4e-account-alist)
                     field
-                    (my-mu4e-choose-account)))
-            (my-mu4e-choose-account)))
-         (account-vars (cdr (assoc account my-mu4e-account-alist))))
+                    (joe/mu4e-choose-account)))
+            (joe/mu4e-choose-account)))
+         (account-vars (cdr (assoc account joe/mu4e-account-alist))))
     (if account-vars
         (mapc #'(lambda (var)
                   (set (car var) (cadr var)))
               account-vars)
       (error "No email account found"))))
 
-(add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
+(add-hook 'mu4e-compose-pre-hook 'joe/mu4e-set-account)
 
 ;; Queuing emails
 
@@ -1298,13 +1316,13 @@
 (setq mail-user-agent 'mu4e-user-agent)
 
 ;; decorate mu main view
-(defun mu4e-main-mode-font-lock-rules ()
+(defun joe/mu4e-main-mode-font-lock-rules ()
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward "\\[\\([a-zA-Z]\\{1,2\\}\\)\\]" nil t)
       (add-text-properties (match-beginning 1) (match-end 1)
       '(face font-lock-variable-name-face)))))
-(add-hook 'mu4e-main-mode-hook 'mu4e-main-mode-font-lock-rules)
+(add-hook 'mu4e-main-mode-hook 'joe/mu4e-main-mode-font-lock-rules)
 
 ;; attempt to automatically retrieve public keys when needed
 (setq mu4e-auto-retrieve-keys t)
@@ -1412,13 +1430,13 @@
   '("retag mail" . mu4e-action-retag-message) t)
 
 ;;Search for messages sent by the sender of the message at point
-(defun search-for-sender (msg)
+(defun joe/search-for-sender (msg)
     (mu4e-headers-search
         (concat "from:" (cdar (mu4e-message-field msg :from)))))
 
 ;; define 'x' as the shortcut
 (add-to-list 'mu4e-view-actions
-    '("xsearch for sender" . search-for-sender) t)
+    '("xsearch for sender" . joe/search-for-sender) t)
 
 ;; integration with org-contacts
 (setq mu4e-org-contacts-file "~/org/contacts.org")
@@ -1431,7 +1449,7 @@
 
 ;; get a pgp key from a message
 ;; from  http://hugoduncan.org/post/snarf-pgp-keys-in-emacs-mu4e/
-(defun mu4e-view-snarf-pgp-key (&optional msg)
+(defun joe/mu4e-view-snarf-pgp-key (&optional msg)
   "get the pgp key for the specified message."
   (interactive)
   (let* ((msg (or msg (mu4e-message-at-point)))
@@ -1448,7 +1466,7 @@
           (message output))))))
 
 (add-to-list 'mu4e-view-actions
-             '("get PGP keys" . mu4e-view-snarf-pgp-key) t)
+             '("get PGP keys" . joe/mu4e-view-snarf-pgp-key) t)
 
 ;; Deal with HTML messages
 
@@ -1632,27 +1650,27 @@ cute little graphical smileys."
 ;; in the message's body.
 
 ;; simple regexp used to check the message. Tweak to your own need.
-(defvar my-message-attachment-regexp "\\(adjunto\\|attach\\)")
+(defvar joe/message-attachment-regexp "\\(adjunto\\|attach\\)")
 ;; the function that checks the message
-(defun my-message-check-attachment nil
+(defun joe/message-check-attachment nil
   "Check if there is an attachment in the message if I claim it."
   (save-excursion
     (message-goto-body)
-    (when (search-forward-regexp my-message-attachment-regexp nil t nil)
+    (when (search-forward-regexp joe/message-attachment-regexp nil t nil)
       (message-goto-body)
       (unless (or (search-forward "<#part" nil t nil)
         (message-y-or-n-p
    "No attachment. Send the message ?" nil nil))
   (error "No message sent")))))
   ;; check is done just before sending the message
-  (add-hook 'message-send-hook 'my-message-check-attachment)
+  (add-hook 'message-send-hook 'joe/message-check-attachment)
 
 ;; Open a mu4e search in a new frame
 
 ;; This is useful when you are composing a new email and need to do a
 ;; search in your emails to get a little context in the conversation.
 
-(defun mu4e-headers-search-in-new-frame
+(defun joe/mu4e-headers-search-in-new-frame
     (&optional expr prompt edit ignore-history)
         "Execute `mu4e-headers-search' in a new frame."
         (interactive)
