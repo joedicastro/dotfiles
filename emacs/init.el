@@ -328,9 +328,9 @@
 
 (setq url-configuration-directory (concat user-emacs-directory "tmp/url"))
 
-;; Kill internal processes via the `list process` buffer
+;; Kill internal processes via the =list process= buffer
 
-;; Add a functionality to be able to kill process directly in the `list process buffer`
+;; Add a functionality to be able to kill process directly in the =list process'= buffer
 
 ;; seen at http://stackoverflow.com/a/18034042
     (define-key process-menu-mode-map (kbd "C-c k") 'joe/delete-process-at-point)
@@ -1214,9 +1214,9 @@
 ;; the multiple functions that provide the multiple accounts selection functionality
 (defun joe/mu4e-choose-account ()
     (completing-read (format "Compose with account: (%s) "
-      (mapconcat #'(lambda (var) (car var)) joe/mu4e-account-alist "/"))
-          (mapcar #'(lambda (var) (car var)) joe/mu4e-account-alist)
-                              nil t nil nil (caar joe/mu4e-account-alist)))
+      (mapconcat #'(lambda (var) (car var)) my-mu4e-account-alist "/"))
+          (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                              nil t nil nil (caar my-mu4e-account-alist)))
 
 (defun joe/mu4e-get-field (a)
     (let ((field (cdar (mu4e-message-field mu4e-compose-parent-message a))))
@@ -1237,11 +1237,11 @@
             (let ((field (if (joe/mu4e-is-not-draft)
                             (joe/mu4e-get-field :to)
                             (joe/mu4e-get-field :from))))
-                (if (assoc field joe/mu4e-account-alist)
+                (if (assoc field my-mu4e-account-alist)
                     field
                     (joe/mu4e-choose-account)))
             (joe/mu4e-choose-account)))
-         (account-vars (cdr (assoc account joe/mu4e-account-alist))))
+         (account-vars (cdr (assoc account my-mu4e-account-alist))))
     (if account-vars
         (mapc #'(lambda (var)
                   (set (car var) (cadr var)))
@@ -1650,13 +1650,13 @@ cute little graphical smileys."
 ;; in the message's body.
 
 ;; simple regexp used to check the message. Tweak to your own need.
-(defvar joe/message-attachment-regexp "\\(adjunto\\|attach\\)")
+(defvar joe-message-attachment-regexp "\\(adjunto\\|attach\\)")
 ;; the function that checks the message
 (defun joe/message-check-attachment nil
   "Check if there is an attachment in the message if I claim it."
   (save-excursion
     (message-goto-body)
-    (when (search-forward-regexp joe/message-attachment-regexp nil t nil)
+    (when (search-forward-regexp joe-message-attachment-regexp nil t nil)
       (message-goto-body)
       (unless (or (search-forward "<#part" nil t nil)
         (message-y-or-n-p
