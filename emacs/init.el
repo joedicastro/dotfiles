@@ -96,6 +96,7 @@
         sublime-themes
         surround
         swoop
+        twittering-mode
         ujelly-theme
         undo-tree
         w3m
@@ -431,9 +432,17 @@
 
 ;; to avoid the annoying confirmation question at the beginning
 (custom-set-variables
- '(custom-safe-themes
-    (quote
-      ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default)))
+ '(magit-use-overlays nil)
+ '(paradox-github-token t)
+ '(rw-hunspell-default-dictionary "es_ES_hunspell")
+ '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
+ '(rw-hunspell-make-dictionary-menu t)
+ '(rw-hunspell-use-rw-ispell t))
 
 ;;; smart-mode-line
 (require 'smart-mode-line)
@@ -594,12 +603,7 @@
 (require 'rw-hunspell)
 (setq ispell-dictionary "es_ES_hunspell")
 ;; The following is set via custom
-(custom-set-variables
- '(rw-hunspell-default-dictionary "es_ES_hunspell")
- '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
- '(rw-hunspell-make-dictionary-menu t)
- '(rw-hunspell-use-rw-ispell t)
-)
+
 
 (defun joe/turn-on-spell-check ()
        (flyspell-mode 1))
@@ -771,6 +775,7 @@
 ;; | ,q      | helm-surfraw                        | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                                    |
 ;; | ,``     | save-buffers-kill-terminal          | Exit Emacs                                                      |
 ;; | ,s      | split-window-vertically             | Split the selected window into two windows, one above the other |
+;; | ,t      | twit                                | Open twittering-mode for an interface for twitter               |
 ;; | ,u      | undo-tree-visualize                 | Visualize the current buffer's undo tree                        |
 ;; | ,v      | split-window-horizontally           | Split the selected window into two side-by-side windows         |
 ;; | ,w      | save-buffer                         | Save current buffer in visited file if modified                 |
@@ -811,6 +816,7 @@
   "q" 'helm-surfraw
   "``" 'save-buffers-kill-terminal
   "s" 'split-window-vertically
+  "t" 'twit
   "u" 'undo-tree-visualize
   "v" 'split-window-horizontally
   "w" 'save-buffer
@@ -1770,3 +1776,118 @@ cute little graphical smileys."
 
 (setq elfeed-db-directory "~/.emacs.d/tmp/elfeed")
 (setq elfeed-search-filter "@2-days-old +unread ")
+
+;; Twittering-mode
+
+;; [[https://github.com/kiwanami/emacs-calfw][Twittering-mode]] enables you to twit on Emacsen.
+
+;; [[file:img/twittering_mode.png]]
+
+;; | Binding   | Call                                           | Do                                    |
+;; |-----------+------------------------------------------------+---------------------------------------|
+;; | q         | twittering-kill-buffer                         | Kill buffer                           |
+;; | Q         | twittering-edit-mode                           | Edit mode                             |
+;; | j         | twittering-goto-next-status                    | Next Twitter                          |
+;; | k         | twittering-goto-previous-status                | Previous Twitter                      |
+;; | h         | twittering-switch-to-next-timeline             | Next Timeline                         |
+;; | l         | twittering-switch-to-previous-timeline         | Previous Timeline                     |
+;; | g         | beginning-of-buffer                            | Top of the Timeline                   |
+;; | G         | end-of-buffer                                  | Bottom of the Timeline                |
+;; | t         | twittering-update-status-interactive           | Post a tweet                          |
+;; | X         | twittering-delete-status                       | Delete a own tweet                    |
+;; | RET       | twittering-reply-to-user                       | Reply to user                         |
+;; | r         | twittering-native-retweet                      | Retweet                               |
+;; | R         | twittering-organic-retweet                     | Retweet & Edit                        |
+;; | k         | twittering-direct-message                      | Direct Message                        |
+;; | u         | twittering-current-timeline                    | Update Timeline                       |
+;; | b         | twittering-favorite                            | Mark as Favorite                      |
+;; | B         | twittering-unfavorite                          | Unmark as Favorite                    |
+;; | f         | twittering-follow                              | Follow current user                   |
+;; | F         | twittering-unfollow                            | Unfollow current user                 |
+;; | i         | twittering-view-user-page                      | View user profile (Browser)           |
+;; | /         | twittering-search                              | Search                                |
+;; | .         | twittering-visit-timeline                      | Open a new Timeline                   |
+;; | @         | twittering-other-user-timeline                 | Open the Timeline of the current user |
+;; | T         | twittering-toggle-or-retrieve-replied-statuses | Show Thread                           |
+;; | o         | twittering-click                               | Open item in a Browser                |
+;; | TAB       | twittering-goto-next-thing                     | Go to next item                       |
+;; | <backtab> | twittering-goto-previous-thing                 | Go to previous item                   |
+;; | n         | twittering-goto-next-status-of-user            | Go to next current user's tweet       |
+;; | p         | twittering-goto-previous-status-of-user        | Go to previous current user's tweet   |
+;; | SPC       | twittering-scroll-up                           | Timeline scroll up                    |
+;; | S-SPC     | twittering-scroll-down                         | Timeline scroll down                  |
+;; | y         | twittering-push-uri-onto-kill-ring             | Yank current url                      |
+;; | Y         | twittering-push-tweet-onto-kill-ring           | Yank current tweet                    |
+;; | a         | twittering-toggle-activate-buffer              | Toggle Active Timeline                |
+
+(setq twittering-use-master-password t)
+(setq twittering-icon-mode t)
+(setq twittering-use-icon-storage t)
+(setq twittering-icon-storage-file "~/.emacs.d/tmp/twittering-mode-icons.gz")
+(setq twittering-convert-fix-size 52)
+(setq twittering-initial-timeline-spec-string
+      '(":home"))
+(setq twittering-edit-skeleton 'inherit-any)
+(setq twittering-display-remaining t)
+(setq twittering-status-format
+    "%i  %S, %RT{%FACE[bold]{%S}} %@  %FACE[shadow]{%p%f%L%r}\n%FOLD[        ]{%T}\n")
+
+;; Define my own bindings (based in [[https://github.com/alejandrogomez/turses][Turses]] style)
+
+; remove the current bindings
+(eval-after-load "twittering-mode"
+    '(setq twittering-mode-map (make-sparse-keymap)))
+; set the new bindings
+(add-hook 'twittering-mode-hook
+         (lambda ()
+           (mapc (lambda (pair)
+                   (let ((key (car pair))
+                         (func (cdr pair)))
+                     (define-key twittering-mode-map
+                       (read-kbd-macro key) func)))
+                 '(
+                   ("q" . twittering-kill-buffer)
+                   ("Q" . twittering-edit-mode)
+                   ("j" . twittering-goto-next-status)
+                   ("k" . twittering-goto-previous-status)
+                   ("h" . twittering-switch-to-next-timeline)
+                   ("l" . twittering-switch-to-previous-timeline)
+                   ("g" . beginning-of-buffer)
+                   ("G" . end-of-buffer)
+                   ("t" . twittering-update-status-interactive)
+                   ("X" . twittering-delete-status)
+                   ("RET" . twittering-reply-to-user)
+                   ("r" . twittering-native-retweet)
+                   ("R" . twittering-organic-retweet)
+                   ("d" . twittering-direct-message)
+                   ("u" . twittering-current-timeline)
+                   ("b" . twittering-favorite)
+                   ("B" . twittering-unfavorite)
+                   ("f" . twittering-follow)
+                   ("F" . twittering-unfollow)
+                   ("i" . twittering-view-user-page)
+                   ("/" . twittering-search)
+                   ("." . twittering-visit-timeline)
+                   ("@" . twittering-other-user-timeline)
+                   ("T" . twittering-toggle-or-retrieve-replied-statuses)
+                   ("o" . twittering-click)
+                   ("TAB" . twittering-goto-next-thing)
+                   ("<backtab>" . twittering-goto-previous-thing)
+                   ("n" . twittering-goto-next-status-of-user)
+                   ("p" . twittering-goto-previous-status-of-user)
+                   ("SPC" . twittering-scroll-up)
+                   ("S-SPC" . twittering-scroll-down)
+                   ("y" . twittering-push-uri-onto-kill-ring)
+                   ("Y" . twittering-push-tweet-onto-kill-ring)
+                   ("a" . twittering-toggle-activate-buffer)
+                  ))))
+
+;; Spell checking on tweets
+
+(add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
