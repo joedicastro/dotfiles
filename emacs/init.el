@@ -67,6 +67,7 @@
         graphviz-dot-mode
         helm
         haskell-mode
+        ibuffer-vc
         ido-ubiquitous
         ido-vertical-mode
         ido-yes-or-no
@@ -352,6 +353,30 @@
 
 (defalias 'list-buffers 'ibuffer)
 
+;; User ibuffer-vc by default
+
+;; [[https://github.com/purcell/ibuffer-vc][ibuffer-vc]] show the buffers grouped by the associated version control
+;; project.
+
+(add-hook 'ibuffer-hook
+    (lambda ()
+        (ibuffer-vc-set-filter-groups-by-vc-root)
+        (unless (eq ibuffer-sorting-mode 'alphabetic)
+            (ibuffer-do-sort-by-alphabetic))))
+
+
+(setq ibuffer-formats
+    '((mark modified read-only vc-status-mini " "
+        (name 18 18 :left :elide)
+        " "
+        (size 9 -1 :right)
+        " "
+        (mode 16 16 :left :elide)
+        " "
+        (vc-status 16 16 :left)
+        " "
+        filename-and-process)))
+
 ;; Remove the welcome screen
 
 ;; The welcome screen is for guests only, I'm in home now!
@@ -404,6 +429,12 @@
 
 ;; This package shows a very nice and very informativa mode line.
 
+;; to avoid the annoying confirmation question at the beginning
+(custom-set-variables
+ '(custom-safe-themes
+    (quote
+      ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))))
+
 ;;; smart-mode-line
 (require 'smart-mode-line)
 (setq sml/mode-width 'full)
@@ -417,6 +448,15 @@
 ;; an open font and has the best Unicode support, and looks very fine to me too!
 
 (set-face-attribute 'default nil :family "Dejavu Sans Mono" :height 110)
+
+;; Font Fallback for Unicode
+
+;; Set a font with great support for Unicode Symbols
+;; to fallback in those case where certain Unicode glyphs are
+;; missing in the current font.
+
+(set-fontset-font "fontset-default" nil
+                  (font-spec :size 20 :name "Symbola"))
 
 ;; Cursor not blinking
 
