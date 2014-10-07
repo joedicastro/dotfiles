@@ -432,17 +432,9 @@
 
 ;; to avoid the annoying confirmation question at the beginning
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default)))
- '(magit-use-overlays nil)
- '(paradox-github-token t)
- '(rw-hunspell-default-dictionary "es_ES_hunspell")
- '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
- '(rw-hunspell-make-dictionary-menu t)
- '(rw-hunspell-use-rw-ispell t))
+ '(custom-safe-themes
+    (quote
+      ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))))
 
 ;;; smart-mode-line
 (require 'smart-mode-line)
@@ -603,7 +595,12 @@
 (require 'rw-hunspell)
 (setq ispell-dictionary "es_ES_hunspell")
 ;; The following is set via custom
-
+(custom-set-variables
+ '(rw-hunspell-default-dictionary "es_ES_hunspell")
+ '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
+ '(rw-hunspell-make-dictionary-menu t)
+ '(rw-hunspell-use-rw-ispell t)
+)
 
 (defun joe/turn-on-spell-check ()
        (flyspell-mode 1))
@@ -747,6 +744,8 @@
 ;; | Binding | Call                                | Do                                                              |
 ;; |---------+-------------------------------------+-----------------------------------------------------------------|
 ;; | ,0      | org-agenda                          | Call the org-mode agenda                                        |
+;; | ,5      | elfeed                              | Open Elfeed to read Atom/RSS entries                            |
+;; | ,6      | twit                                | Open twittering-mode for an interface for twitter               |
 ;; | ,7      | mu4e                                | Start mu4e (email client)                                       |
 ;; | ,8      | org-capture                         | Call the org-mode capture                                       |
 ;; | ,9      | cfw:open-org-calendar               | Open the month calendar for org-mode                            |
@@ -769,13 +768,12 @@
 ;; | ,l      | linum-mode                          | Show/Hide line numbers                                          |
 ;; | ,m      | smex                                | Call smex (to execute a command)                                |
 ;; | ,M      | smex-major-mode-commands            | Idem as above but limited to the current major mode commands    |
-;; | ,n      | elfeed                              | Open Elfeed to read Atom/RSS entries                            |
 ;; | ,o      | find-file                           | Open a file                                                     |
 ;; | ,O      | helm-recentf                        | Open a recent opened file                                       |
 ;; | ,q      | helm-surfraw                        | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                                    |
 ;; | ,``     | save-buffers-kill-terminal          | Exit Emacs                                                      |
 ;; | ,s      | split-window-vertically             | Split the selected window into two windows, one above the other |
-;; | ,t      | twit                                | Open twittering-mode for an interface for twitter               |
+;; | ,t      | helm-semantic-or-imenu              | See the file tags                                               |
 ;; | ,u      | undo-tree-visualize                 | Visualize the current buffer's undo tree                        |
 ;; | ,v      | split-window-horizontally           | Split the selected window into two side-by-side windows         |
 ;; | ,w      | save-buffer                         | Save current buffer in visited file if modified                 |
@@ -785,9 +783,12 @@
 
 (require 'evil-leader)
 (global-evil-leader-mode)
+(setq evil-leader/in-all-states 1)
 (evil-leader/set-leader ",")
 (evil-leader/set-key
   "0" 'org-agenda
+  "5" 'elfeed
+  "6" 'twit
   "7" 'mu4e
   "8" 'org-capture
   "9" 'cfw:open-org-calendar
@@ -810,13 +811,12 @@
   "l" 'linum-mode
   "m" 'smex
   "M" 'smex-major-mode-commands
-  "n" 'elfeed
   "o" 'find-file
   "O" 'helm-recentf
   "q" 'helm-surfraw
   "``" 'save-buffers-kill-terminal
   "s" 'split-window-vertically
-  "t" 'twit
+  "t" 'helm-semantic-or-imenu
   "u" 'undo-tree-visualize
   "v" 'split-window-horizontally
   "w" 'save-buffer
@@ -844,6 +844,15 @@
 
 (require 'surround)
 (global-surround-mode 1)
+
+;; change cursor color depending on mode
+
+(setq evil-emacs-state-cursor '("red" box))
+(setq evil-normal-state-cursor '("lawn green" box))
+(setq evil-visual-state-cursor '("orange" box))
+(setq evil-insert-state-cursor '("deep sky blue" bar))
+(setq evil-replace-state-cursor '("red" bar))
+(setq evil-operator-state-cursor '("red" hollow))
 
 ;; Browser
 
@@ -1635,7 +1644,6 @@ cute little graphical smileys."
   '(
     ("/mails/Archive" . ?a)
     ("/mails/business" . ?b)
-    ("/mails/code" . ?c)
     ("/mails/Drafts" . ?d)
     ("/mails/education" . ?e)
     ("/mails/Inbox" . ?i)
@@ -1885,9 +1893,3 @@ cute little graphical smileys."
 ;; Spell checking on tweets
 
 (add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
