@@ -292,15 +292,16 @@ NeoBundleLazy 'joedicastro/dbext.vim', { 'autoload' : { 'filetypes' : 'sql'}}
 
 " END BUNDLES }}}
 
-" Auto install the Plugins {{{
-
 call neobundle#end()
+
+" Auto install the Plugins {{{
 
 " First-time plugins installation
 if iCanHazNeoBundle == 0
     echo "Installing Bundles, please ignore key map error messages"
     echo ""
-    :NeoBundleInstall
+    set nomore
+    NeoBundleInstall
 endif
 
 " Check if all of the plugins are already installed, in other case ask if we
@@ -346,6 +347,7 @@ set autoread                    " update a open file edited outside of Vim
 set ttimeoutlen=0               " toggle between modes almost instantly
 set backspace=indent,eol,start  " defines the backspace key behavior
 set virtualedit=all             " to edit where there is no actual character
+set more                        " to show pages using `more` in command outpouts
 
 " }}}
 
