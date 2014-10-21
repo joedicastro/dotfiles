@@ -38,7 +38,7 @@ endif
 if has('vim_starting')
     set rtp+=$HOME/.vim/bundle/neobundle.vim/
 endif
-call neobundle#rc(expand($HOME.'/.vim/bundle/'))
+call neobundle#begin(expand($HOME.'/.vim/bundle/'))
 
 " is better if NeoBundle rules NeoBundle (needed!)
 NeoBundle 'Shougo/neobundle.vim'
@@ -86,7 +86,7 @@ NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen',
             \ 'unite_sources':['junkfile','junkfile/new']}}
 
 " Unite plugin that provides command line completition
-NeoBundle 'majkinetor/unite-cmdmatch'
+NeoBundle 'joedicastro/unite-cmdmatch'
 
 " Unite plugin that provides spell suggestions
 NeoBundle 'kopischke/unite-spell-suggest'
@@ -292,7 +292,9 @@ NeoBundleLazy 'joedicastro/dbext.vim', { 'autoload' : { 'filetypes' : 'sql'}}
 
 " END BUNDLES }}}
 
-" Auto install the plugins {{{
+" Auto install the Plugins {{{
+
+call neobundle#end()
 
 " First-time plugins installation
 if iCanHazNeoBundle == 0
@@ -1717,15 +1719,21 @@ call unite#filters#sorter_default#use(['sorter_rank'])
 call unite#custom#source('file_mru,file_rec,file_rec/async,grep,locate',
             \ 'ignore_pattern', join(['\.git/', 'tmp/', 'bundle/'], '\|'))
 
+let g:default_context = {
+    \ 'winheight' : 15,
+    \ 'update_time' : 200,
+    \ 'prompt' : '>>> ',
+    \ 'enable_start_insert' : 0,
+    \ 'enable_short_source_names' : 0,
+    \ 'marked_icon' : '✓',
+    \ 'ignorecase' : 1,
+    \ 'smartcase' : 1,
+\ }
+
+call unite#custom#profile('default', 'context', default_context)
+
 let g:unite_source_history_yank_enable = 1
-let g:unite_enable_start_insert = 0
-let g:unite_enable_short_source_mes = 0
 let g:unite_force_overwrite_statusline = 0
-let g:unite_prompt = '>>> '
-let g:unite_marked_icon = '✓'
-" let g:unite_candidate_icon = '∘'
-let g:unite_winheight = 15
-let g:unite_update_time = 200
 let g:unite_split_rule = 'botright'
 let g:unite_data_directory = $HOME.'/.vim/tmp/unite'
 let g:unite_source_buffer_time_format = '(%d-%m-%Y %H:%M:%S) '
