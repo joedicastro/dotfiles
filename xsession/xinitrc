@@ -28,6 +28,10 @@ unclutter &
 # start a compositor for X11
 compton -b --config ~/.compton.conf 
 
+# adjust the color temperature of the screen acording the daylight
+# A Coruña coordinates
+redshift -l 43.365:-8.41 &
+
 # start urxvt as a daemon
 urxvtd -q -o -f &
 
