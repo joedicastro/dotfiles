@@ -30,6 +30,7 @@
 -- Win  +  F6                       Stop gif screencast recording
 -- Win  +  F7                       Start mkv screencast recording
 -- Win  +  F8                       Stop mkv screencast recording
+-- Win  +  F9                       Toogle redshit (color temperature adjust)
 --
 ------------------------------------------------------------------ Shell prompts
 --
@@ -529,6 +530,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "y",
         function ()
             awful.util.spawn("python2 " .. cfg_dir .."/slimlock.py")
+        end),
+
+    -- Toogle Redshift (color temperature adjust)
+     awful.key({ modkey }, "F9",
+        function ()
+            awful.util.spawn("pkill -USR1 redshift")
         end),
 
    -- Multimedia keys
