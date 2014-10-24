@@ -51,6 +51,7 @@
         calfw
         charmap
         diff-hl
+        dired+
         elfeed
         evil
         evil-indent-textobject
@@ -66,6 +67,7 @@
         google-maps
         graphviz-dot-mode
         helm
+        helm-descbinds
         haskell-mode
         ibuffer-vc
         ido-ubiquitous
@@ -110,7 +112,7 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+                         ("melpa" . "http://melpa.org/packages/")))
 
 ;; Auto-installation
 
@@ -330,6 +332,12 @@
 
 (setq url-configuration-directory (concat user-emacs-directory "tmp/url"))
 
+;; eshell
+
+;; Store the eshell files in the temporal directory.
+
+(setq eshell-directory-name (concat user-emacs-directory "tmp/eshell" ))
+
 ;; Kill internal processes via the =list process= buffer
 
 ;; Add a functionality to be able to kill process directly in the =list process'= buffer
@@ -532,16 +540,20 @@
 (define-key ac-menu-map "\C-n" 'ac-next)
 (define-key ac-menu-map "\C-p" 'ac-previous)
 (setq ac-ignore-case 'smart)
+(setq ac-auto-start 2)
+(ac-flyspell-workaround)
 
 ;; enable it globally
 
 ;; Make it available everywhere.
 
-(defun joe/auto-complete-mode-maybe ()
-  "No maybe for you. Only AC!"
-  (unless (minibufferp (current-buffer))
-    (auto-complete-mode 1)))
-(joe/auto-complete-mode-maybe)
+;; dirty fix for having AC everywhere
+(define-globalized-minor-mode real-global-auto-complete-mode
+  auto-complete-mode (lambda ()
+                       (if (not (minibufferp (current-buffer)))
+                         (auto-complete-mode 1))
+                       ))
+(real-global-auto-complete-mode t)
 
 ;; auto-complete file
 
@@ -926,8 +938,8 @@
 
 ;; Protect hidden trees for being inadvertily edited
 
-(setq org-catch-invisible-edits "error")
-(setq org-ctrl-k-protect-subtree "error")
+(setq org-catch-invisible-edits 'error)
+(setq org-ctrl-k-protect-subtree 'error)
 
 ;; Show images inline
 
@@ -1893,3 +1905,9 @@ cute little graphical smileys."
 ;; Spell checking on tweets
 
 (add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode)))
+
+;; Dired+
+
+;; Reuse the same buffer for directories
+
+(diredp-toggle-find-file-reuse-dir 1)
