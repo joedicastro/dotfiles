@@ -112,6 +112,7 @@ maintain clean and updated this list for me is the following:
             graphviz-dot-mode
             helm
             helm-descbinds
+            helm-themes
             haskell-mode
             ibuffer-vc
             ido-ubiquitous
@@ -120,6 +121,7 @@ maintain clean and updated this list for me is the following:
             ipython
             jedi
             load-theme-buffer-local
+            lua-mode
             magit
             markdown-mode
             moe-theme
@@ -133,12 +135,14 @@ maintain clean and updated this list for me is the following:
             pretty-mode
             popwin
             rainbow-mode
+            racket-mode
             rw-ispell
             rw-hunspell
             rw-language-and-country-codes
             smart-mode-line
             smartparens
             smex
+            sml-mode
             sublime-themes
             surround
             swoop
@@ -605,7 +609,7 @@ This package shows a very nice and very informativa mode line.
     (custom-set-variables
      '(custom-safe-themes
         (quote
-          ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))))
+          ("756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" default))))
 
     ;;; smart-mode-line
     (require 'smart-mode-line)
@@ -1294,7 +1298,6 @@ To use it to capture web urls and notes from Firefox, install this
 
 
 #+BEGIN_SRC emacs-lisp
-    (server-start)
     (require 'org-protocol)
 
     (setq org-protocol-default-template-key "w")
@@ -1331,6 +1334,36 @@ Org-mode.
     (add-to-list 'org-capture-templates
         '("n" "Notes" entry (file+headline "~/org/notes.org" "Notes")
            "* %^{Header}  %^G\n  %u\n\n  %?"))
+#+END_SRC
+
+* Programming Languages
+  
+** Python
+*** Jedi
+
+[[https://github.com/tkf/emacs-jedi][Jedi]] offers very nice auto completion for python-mode.
+
+#+BEGIN_src emacs-lisp
+    (require 'jedi)
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (setq jedi:complete-on-dot t)
+    (add-hook 'python-mode-hook 'jedi:ac-setup)
+#+END_src
+
+** Haskell
+
+Haskell settings.   
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+#+END_SRC
+
+** Racket
+
+Racket settings.   
+
+#+BEGIN_SRC emacs-lisp
+  (setq racket-mode-pretty-lambda t)
 #+END_SRC
 
 * Batteries
@@ -1569,17 +1602,6 @@ window, allows you to jump between and revert them selectively.
     (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
     (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
 #+end_src
-
-*** Jedi
-
-[[https://github.com/tkf/emacs-jedi][Jedi]] offers very nice auto completion for python-mode.
-
-#+BEGIN_src emacs-lisp
-    (require 'jedi)
-    (add-hook 'python-mode-hook 'jedi:setup)
-    (setq jedi:complete-on-dot t)
-    (add-hook 'python-mode-hook 'jedi:ac-setup)
-#+END_src
 
 *** TODO password-store
 
@@ -2866,6 +2888,8 @@ Atom and RSS
 
   (setq elfeed-db-directory "~/.emacs.d/tmp/elfeed")
   (setq elfeed-search-filter "@2-days-old +unread ")
+
+  (setq elfeed-search-title-max-width 100)
 #+END_SRC
 
 *** Twittering-mode

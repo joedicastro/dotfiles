@@ -68,6 +68,7 @@
         graphviz-dot-mode
         helm
         helm-descbinds
+        helm-themes
         haskell-mode
         ibuffer-vc
         ido-ubiquitous
@@ -76,6 +77,7 @@
         ipython
         jedi
         load-theme-buffer-local
+        lua-mode
         magit
         markdown-mode
         moe-theme
@@ -89,12 +91,14 @@
         pretty-mode
         popwin
         rainbow-mode
+        racket-mode
         rw-ispell
         rw-hunspell
         rw-language-and-country-codes
         smart-mode-line
         smartparens
         smex
+        sml-mode
         sublime-themes
         surround
         swoop
@@ -442,7 +446,7 @@
 (custom-set-variables
  '(custom-safe-themes
     (quote
-      ("6a37be365d1d95fad2f4d185e51928c789ef7a4ccf17e7ca13ad63a8bf5b922f" default))))
+      ("756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" default))))
 
 ;;; smart-mode-line
 (require 'smart-mode-line)
@@ -1012,7 +1016,6 @@
 ;; To use it to capture web urls and notes from Firefox, install this
 ;; [[http://chadok.info/firefox-org-capture/][Firefox extension]]
 
-(server-start)
 (require 'org-protocol)
 
 (setq org-protocol-default-template-key "w")
@@ -1045,6 +1048,27 @@
 (add-to-list 'org-capture-templates
     '("n" "Notes" entry (file+headline "~/org/notes.org" "Notes")
        "* %^{Header}  %^G\n  %u\n\n  %?"))
+
+;; Jedi
+
+;; [[https://github.com/tkf/emacs-jedi][Jedi]] offers very nice auto completion for python-mode.
+
+(require 'jedi)
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+(add-hook 'python-mode-hook 'jedi:ac-setup)
+
+;; Haskell
+
+;; Haskell settings.
+
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+
+;; Racket
+
+;; Racket settings.
+
+(setq racket-mode-pretty-lambda t)
 
 ;; Calfw
 
@@ -1216,15 +1240,6 @@
 (add-hook 'org-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
-
-;; Jedi
-
-;; [[https://github.com/tkf/emacs-jedi][Jedi]] offers very nice auto completion for python-mode.
-
-(require 'jedi)
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-(add-hook 'python-mode-hook 'jedi:ac-setup)
 
 ;; TODO Popwin
 
@@ -1796,6 +1811,8 @@ cute little graphical smileys."
 
 (setq elfeed-db-directory "~/.emacs.d/tmp/elfeed")
 (setq elfeed-search-filter "@2-days-old +unread ")
+
+(setq elfeed-search-title-max-width 100)
 
 ;; Twittering-mode
 
