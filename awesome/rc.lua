@@ -22,6 +22,7 @@
 ------------------------------------------------------------ Launch Applications
 --
 -- Win  +  Enter                    Terminal
+-- Win  +  e                        Emacs
 -- Win  +  F1                       Start gif screencast recording LowRes
 -- Win  +  F2                       Start gif screencast recording HighRes
 -- Win  +  F3                       Start gif screencast recording FullRes
@@ -530,6 +531,12 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "y",
         function ()
             awful.util.spawn("python2 " .. cfg_dir .."/slimlock.py")
+        end),
+
+    -- Launch emacs
+    awful.key({ modkey }, "e",
+        function ()
+            awful.util.spawn("emacsclient -c -a ''")
         end),
 
     -- Toogle Redshift (color temperature adjust)
