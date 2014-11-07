@@ -19,6 +19,9 @@ udiskie &
 autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
 
+# start emacs as a daemon (if not already daemonized)
+emacsclient -c -a "" &
+
 # start the notification daemon dunst
 dunst &
 
@@ -30,7 +33,12 @@ compton -b --config ~/.compton.conf
 
 # adjust the color temperature of the screen acording the daylight
 # A Coruña coordinates
-redshift -l 43.365:-8.41 &
+redshift -l 43.365:-8.41 & -t 6500:2700
+
+# suspend after 10 min of inactivity (put the cursor on the right up
+# corner to avoid suspension, e.g. leaving alone the computer while a
+# background task is executed )
+xautolock -time 10 -locker "systemctl suspend" -detectsleep -corners 0-00 -notify 10 -notifier 'notify-send "Auto suspending..."' &
 
 # start urxvt as a daemon
 urxvtd -q -o -f &
