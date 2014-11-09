@@ -35,7 +35,8 @@ set showstatuslinks=command
 set guioptions=Cs
 
 " Set the external editor
-set editor='/usr/bin/gvim -f +<line> <file>'
+" set editor='/usr/bin/gvim -f +<line> <file>'
+set editor='emacsclient -c'
 
 " Set the default motor search
 set defsearch=duckduckgo
