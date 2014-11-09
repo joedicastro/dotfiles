@@ -124,7 +124,6 @@ maintain clean and updated this list for me is the following:
             lua-mode
             magit
             markdown-mode
-            moe-theme
             monokai-theme
             mu4e-maildirs-extension
             multi-term
@@ -564,17 +563,6 @@ bars.
     (scroll-bar-mode -1)
 #+END_SRC
 
-** Color Theme
-
-Here I define the default theme, a total subjective decision, of
-course.
-
-*Remember: when testing a new theme, disable before the current one*
-
-#+BEGIN_SRC emacs-lisp
-    (load-theme 'monokai t)
-#+END_SRC
-
 ** Mode Line
 
 Settings for the mode line
@@ -602,21 +590,47 @@ outlines modes.
 
 *** Smart mode line
 
-This package shows a very nice and very informativa mode line.
+This package shows a very nice and very informative mode line.
 
 #+BEGIN_SRC emacs-lisp
-    ;; to avoid the annoying confirmation question at the beginning
-    (custom-set-variables
-     '(custom-safe-themes
-        (quote
-          ("756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" default))))
+  ;; to avoid the annoying confirmation question at the beginning
+  (defvar sml-dark-theme
+    (substring
+     (shell-command-to-string
+      "sha256sum ~/.emacs.d/elpa/smart-mode-line-*/smart-mode-line-dark-theme.el | cut -d ' ' -f 1")
+     0 -1))
 
-    ;;; smart-mode-line
-    (require 'smart-mode-line)
-    (setq sml/mode-width 'full)
-    (setq sml/name-width 30)
-    (setq sml/shorten-modes t)
-    (sml/setup)
+  (add-to-list 'custom-safe-themes sml-dark-theme)
+
+  ;;; smart-mode-line
+  (require 'smart-mode-line)
+  (setq sml/mode-width 'full)
+  (setq sml/name-width 30)
+  (setq sml/shorten-modes t)
+  ;; since I'm using the emacs daemon, to work properly, I have to make
+  ;; the setup after the frame is made. So, I call this command in the
+  ;; "Color Theme" section.
+  ;; (sml/setup) 
+#+END_SRC
+
+** Color Theme
+
+Here I define the default theme, a total subjective decision, of
+course.
+
+*Remember: when testing a new theme, disable before the current one or
+use =helm-themes=.*
+
+#+BEGIN_SRC emacs-lisp
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+          (lambda (frame)
+              (select-frame frame)
+              (load-theme 'monokai t)
+              ;; setup the smart-mode-line and its theme
+              (sml/setup))) 
+      (progn (load-theme 'monokai t)
+             (sml/setup)))
 #+END_SRC
 
 ** Font
@@ -1295,7 +1309,6 @@ trigger an arbitrary number of custom actions.
 
 To use it to capture web urls and notes from Firefox, install this
 [[http://chadok.info/firefox-org-capture/][Firefox extension]]
-
 
 #+BEGIN_SRC emacs-lisp
     (require 'org-protocol)

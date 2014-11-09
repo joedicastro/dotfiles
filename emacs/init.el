@@ -80,7 +80,6 @@
         lua-mode
         magit
         markdown-mode
-        moe-theme
         monokai-theme
         mu4e-maildirs-extension
         multi-term
@@ -414,15 +413,6 @@
 
 (scroll-bar-mode -1)
 
-;; Color Theme
-
-;; Here I define the default theme, a total subjective decision, of
-;; course.
-
-;; *Remember: when testing a new theme, disable before the current one*
-
-(load-theme 'monokai t)
-
 ;; Show the column number
 
 (column-number-mode t)
@@ -440,20 +430,44 @@
 
 ;; Smart mode line
 
-;; This package shows a very nice and very informativa mode line.
+;; This package shows a very nice and very informative mode line.
 
 ;; to avoid the annoying confirmation question at the beginning
-(custom-set-variables
- '(custom-safe-themes
-    (quote
-      ("756597b162f1be60a12dbd52bab71d40d6a2845a3e3c2584c6573ee9c332a66e" default))))
+(defvar sml-dark-theme
+  (substring
+   (shell-command-to-string
+    "sha256sum ~/.emacs.d/elpa/smart-mode-line-*/smart-mode-line-dark-theme.el | cut -d ' ' -f 1")
+   0 -1))
+
+(add-to-list 'custom-safe-themes sml-dark-theme)
 
 ;;; smart-mode-line
 (require 'smart-mode-line)
 (setq sml/mode-width 'full)
 (setq sml/name-width 30)
 (setq sml/shorten-modes t)
-(sml/setup)
+;; since I'm using the emacs daemon, to work properly, I have to make
+;; the setup after the frame is made. So, I call this command in the
+;; "Color Theme" section.
+;; (sml/setup)
+
+;; Color Theme
+
+;; Here I define the default theme, a total subjective decision, of
+;; course.
+
+;; *Remember: when testing a new theme, disable before the current one or
+;; use =helm-themes=.*
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+        (lambda (frame)
+            (select-frame frame)
+            (load-theme 'monokai t)
+            ;; setup the smart-mode-line and its theme
+            (sml/setup))) 
+    (progn (load-theme 'monokai t)
+           (sml/setup)))
 
 ;; Font
 
