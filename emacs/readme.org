@@ -120,7 +120,6 @@ maintain clean and updated this list for me is the following:
             ido-yes-or-no
             ipython
             jedi
-            load-theme-buffer-local
             lua-mode
             magit
             markdown-mode
@@ -1562,12 +1561,6 @@ Reuse the same buffer for directories
 #+BEGIN_SRC emacs-lisp
     (require 'multi-term)
     (setq multi-term-program "/bin/bash")
-#+END_SRC
-
-*** Load theme buffer local
-
-#+BEGIN_SRC emacs-lisp
-    (require 'load-theme-buffer-local)
 #+END_SRC
 
 *** Yasnippet

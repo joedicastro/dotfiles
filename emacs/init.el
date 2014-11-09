@@ -76,7 +76,6 @@
         ido-yes-or-no
         ipython
         jedi
-        load-theme-buffer-local
         lua-mode
         magit
         markdown-mode
@@ -1217,10 +1216,6 @@
 
 (require 'multi-term)
 (setq multi-term-program "/bin/bash")
-
-;; Load theme buffer local
-
-(require 'load-theme-buffer-local)
 
 ;; Yasnippet
 
