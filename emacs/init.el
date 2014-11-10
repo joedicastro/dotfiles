@@ -458,18 +458,31 @@
 ;; *Remember: when testing a new theme, disable before the current one or
 ;; use =helm-themes=.*
 
+(setq myGraphicModeHash (make-hash-table :test 'equal :size 2))
+(puthash "gui" t myGraphicModeHash)
+(puthash "term" t myGraphicModeHash)
+
 (defun emacsclient-setup-theme-function (frame)
-  (progn
-    (select-frame frame)
-    (load-theme 'monokai t)
-    ;; setup the smart-mode-line and its theme
-    (sml/setup)
-    (remove-hook 'after-make-frame-functions 'emacsclient-setup-theme-function)))
+  (let ((gui (gethash "gui" myGraphicModeHash))
+        (ter (gethash "term" myGraphicModeHash)))
+    (progn
+      (select-frame frame)
+      (when (or gui ter)
+        (progn
+          (load-theme 'monokai t)
+          ;; setup the smart-mode-line and its theme
+          (sml/setup)
+          (sml/apply-theme 'dark)
+          (if (display-graphic-p)
+              (puthash "gui" nil myGraphicModeHash)
+            (puthash "term" nil myGraphicModeHash))))
+      (when (not (and gui ter))
+        (remove-hook 'after-make-frame-functions 'emacsclient-setup-theme-function)))))
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions 'emacsclient-setup-theme-function)
-    (progn (load-theme 'monokai t)
-           (sml/setup)))
+  (progn (load-theme 'monokai t)
+         (sml/setup)))
 
 ;; Font
 
@@ -876,6 +889,13 @@
 
 (require 'surround)
 (global-surround-mode 1)
+
+;; evil-matchit
+
+;; Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] plugin, the equivalent to the Vim one.
+
+(require 'evil-matchit)
+(global-evil-matchit-mode 1)
 
 ;; change cursor color depending on mode
 

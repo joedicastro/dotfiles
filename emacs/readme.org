@@ -609,7 +609,7 @@ This package shows a very nice and very informative mode line.
   ;; since I'm using the emacs daemon, to work properly, I have to make
   ;; the setup after the frame is made. So, I call this command in the
   ;; "Color Theme" section.
-  ;; (sml/setup) 
+  ;; (sml/setup)
 #+END_SRC
 
 ** Color Theme
@@ -621,18 +621,31 @@ course.
 use =helm-themes=.*
 
 #+BEGIN_SRC emacs-lisp
+  (setq myGraphicModeHash (make-hash-table :test 'equal :size 2))
+  (puthash "gui" t myGraphicModeHash)
+  (puthash "term" t myGraphicModeHash)
+
   (defun emacsclient-setup-theme-function (frame)
-    (progn
-      (select-frame frame)
-      (load-theme 'monokai t)
-      ;; setup the smart-mode-line and its theme
-      (sml/setup)
-      (remove-hook 'after-make-frame-functions 'emacsclient-setup-theme-function)))
+    (let ((gui (gethash "gui" myGraphicModeHash))
+          (ter (gethash "term" myGraphicModeHash)))
+      (progn
+        (select-frame frame)
+        (when (or gui ter)
+          (progn
+            (load-theme 'monokai t)
+            ;; setup the smart-mode-line and its theme
+            (sml/setup)
+            (sml/apply-theme 'dark)
+            (if (display-graphic-p)
+                (puthash "gui" nil myGraphicModeHash)
+              (puthash "term" nil myGraphicModeHash))))
+        (when (not (and gui ter))
+          (remove-hook 'after-make-frame-functions 'emacsclient-setup-theme-function)))))
 
   (if (daemonp)
       (add-hook 'after-make-frame-functions 'emacsclient-setup-theme-function)
-      (progn (load-theme 'monokai t)
-             (sml/setup)))
+    (progn (load-theme 'monokai t)
+           (sml/setup)))
 #+END_SRC
 
 ** Font
@@ -1109,8 +1122,17 @@ Use the [[https://github.com/timcharper/evil-surround][Surround]] plugin, the eq
     (global-surround-mode 1)
 #+END_SRC
 
+** evil-matchit
+
+Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] plugin, the equivalent to the Vim one.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-matchit)
+  (global-evil-matchit-mode 1)
+#+END_SRC
+
 ** change cursor color depending on mode
-   
+
 #+BEGIN_SRC emacs-lisp
   (setq evil-emacs-state-cursor '("red" box))
   (setq evil-normal-state-cursor '("lawn green" box))
@@ -1119,7 +1141,7 @@ Use the [[https://github.com/timcharper/evil-surround][Surround]] plugin, the eq
   (setq evil-replace-state-cursor '("red" bar))
   (setq evil-operator-state-cursor '("red" hollow))
 #+END_SRC
-   
+
 * Browser
 
 #+BEGIN_SRC emacs-lisp
@@ -1352,7 +1374,7 @@ Org-mode.
 #+END_SRC
 
 * Programming Languages
-  
+
 ** Python
 *** Jedi
 
@@ -1367,7 +1389,7 @@ Org-mode.
 
 ** Haskell
 
-Haskell settings.   
+Haskell settings.
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
@@ -1375,7 +1397,7 @@ Haskell settings.
 
 ** Racket
 
-Racket settings.   
+Racket settings.
 
 #+BEGIN_SRC emacs-lisp
   (setq racket-mode-pretty-lambda t)
