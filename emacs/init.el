@@ -453,7 +453,8 @@
 ;; Color Theme
 
 ;; Here I define the default theme, a total subjective decision, of
-;; course.
+;; course. This configuration works in terminal/graphic mode and in
+;; client/server or standalone frames.
 
 ;; *Remember: when testing a new theme, disable before the current one or
 ;; use =helm-themes=.*
@@ -1214,6 +1215,13 @@
 ;; rebasing, and other common Git operations.
 
 (require 'magit)
+
+;; Helm Surfraw (helm-net)
+
+;; Set the default engine as searching on DuckDuckGo with a bang =!= by
+;; default.
+
+(setq helm-surfraw-duckduckgo-url "https://duckduckgo.com/lite/?q=!%s&kp=1")
 
 ;; Browse Kill Ring
 
