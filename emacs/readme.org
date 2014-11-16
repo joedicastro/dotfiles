@@ -7,7 +7,7 @@
 #+PROPERTY: header-args :tangle init.el :comments org
 
 #+ATTR_HTML: :width 110px
-[[file:img/emacs.png]][fn:1]
+[[file:img/emacs_icon.png]][fn:1]
 
 * Emacs Configuration using Org-Babel
 
@@ -837,27 +837,27 @@ Activate Spell Checking by default. Also use [[http://hunspell.sourceforge.net/]
 [[http://www.gnu.org/software/ispell/ispell.html][ispell]] as corrector.
 
 #+BEGIN_SRC emacs-lisp
-      ;; Use hunspell instead of ispell
-      (setq ispell-program-name "hunspell")
-      (require 'rw-language-and-country-codes)
-      (require 'rw-ispell)
-      (require 'rw-hunspell)
-      (setq ispell-dictionary "es_ES_hunspell")
-      ;; The following is set via custom
-      (custom-set-variables
-       '(rw-hunspell-default-dictionary "es_ES_hunspell")
-       '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
-       '(rw-hunspell-make-dictionary-menu t)
-       '(rw-hunspell-use-rw-ispell t))
+  ;; Use hunspell instead of ispell
+  (setq ispell-program-name "hunspell")
+  (require 'rw-language-and-country-codes)
+  (require 'rw-ispell)
+  (require 'rw-hunspell)
+  (setq ispell-dictionary "es_ES_hunspell")
+  ;; The following is set via custom
+  (custom-set-variables
+   '(rw-hunspell-default-dictionary "es_ES_hunspell")
+   '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
+   '(rw-hunspell-make-dictionary-menu t)
+   '(rw-hunspell-use-rw-ispell t))
 
-      (defun joe/turn-on-spell-check ()
-             (flyspell-mode 1))
+  (defun joe/turn-on-spell-check ()
+         (flyspell-mode 1))
 
-      ;; enable spell-check in certain modes
-      (add-hook 'markdown-mode-hook 'joe/turn-on-spell-check)
-      (add-hook 'text-mode-hook 'joe/turn-on-spell-check)
-      (add-hook 'org-mode-hook 'joe/turn-on-spell-check)
-      (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  ;; enable spell-check in certain modes
+  (add-hook 'markdown-mode-hook 'joe/turn-on-spell-check)
+  (add-hook 'text-mode-hook 'joe/turn-on-spell-check)
+  (add-hook 'org-mode-hook 'joe/turn-on-spell-check)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 #+END_SRC
 
 * Vim-like Features
