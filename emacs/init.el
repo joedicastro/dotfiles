@@ -66,6 +66,7 @@
         gitignore-mode
         google-maps
         graphviz-dot-mode
+        guide-key-tip
         helm
         helm-descbinds
         helm-themes
@@ -776,6 +777,7 @@
 (global-evil-leader-mode)
 (setq evil-leader/in-all-states 1)
 (evil-leader/set-leader "<SPC>")
+(setq echo-keystrokes 0.02)
 
 ;; Buffer bindings
 
@@ -1454,6 +1456,22 @@
 (setq ag-highlight-search t)
 (setq ag-arguments
     (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))
+
+;; Guide key tip
+
+;; A guide to the available keybindings
+
+(require 'guide-key)
+(if (symbol-value guide-key-mode)
+    (guide-key-mode -1)
+  (guide-key-mode))
+(setq guide-key/guide-key-sequence '("C-x" "C-c" "SPC" "g" "z" "C-h")
+      guide-key/recursive-key-sequence-flag t
+      guide-key/popup-window-position 'right
+      guide-key/idle-delay 0.5
+      guide-key/text-scale-amount 0
+      guide-key-tip/enabled nil)
+(guide-key-mode)
 
 ;; Diff-hl
 
