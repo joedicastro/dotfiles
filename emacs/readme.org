@@ -353,7 +353,7 @@ can then access this list through a menu.
     (require 'recentf)
     (setq recentf-save-file "~/.emacs.d/tmp/recentf")
     (recentf-mode t)
-    (setq recentf-max-saved-items 50)
+    (setq recentf-max-saved-items 100)
 #+END_SRC
 
 ** Keep session between emacs runs (Desktop)
@@ -837,28 +837,27 @@ Activate Spell Checking by default. Also use [[http://hunspell.sourceforge.net/]
 [[http://www.gnu.org/software/ispell/ispell.html][ispell]] as corrector.
 
 #+BEGIN_SRC emacs-lisp
-    ;; ;; Use hunspell instead of ispell
-    (setq ispell-program-name "hunspell")
-    (require 'rw-language-and-country-codes)
-    (require 'rw-ispell)
-    (require 'rw-hunspell)
-    (setq ispell-dictionary "es_ES_hunspell")
-    ;; The following is set via custom
-    (custom-set-variables
-     '(rw-hunspell-default-dictionary "es_ES_hunspell")
-     '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
-     '(rw-hunspell-make-dictionary-menu t)
-     '(rw-hunspell-use-rw-ispell t)
-    )
+      ;; Use hunspell instead of ispell
+      (setq ispell-program-name "hunspell")
+      (require 'rw-language-and-country-codes)
+      (require 'rw-ispell)
+      (require 'rw-hunspell)
+      (setq ispell-dictionary "es_ES_hunspell")
+      ;; The following is set via custom
+      (custom-set-variables
+       '(rw-hunspell-default-dictionary "es_ES_hunspell")
+       '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
+       '(rw-hunspell-make-dictionary-menu t)
+       '(rw-hunspell-use-rw-ispell t))
 
-    (defun joe/turn-on-spell-check ()
-           (flyspell-mode 1))
+      (defun joe/turn-on-spell-check ()
+             (flyspell-mode 1))
 
-    ;; enable spell-check in certain modes
-    (add-hook 'markdown-mode-hook 'joe/turn-on-spell-check)
-    (add-hook 'text-mode-hook 'joe/turn-on-spell-check)
-    (add-hook 'org-mode-hook 'joe/turn-on-spell-check)
-    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+      ;; enable spell-check in certain modes
+      (add-hook 'markdown-mode-hook 'joe/turn-on-spell-check)
+      (add-hook 'text-mode-hook 'joe/turn-on-spell-check)
+      (add-hook 'org-mode-hook 'joe/turn-on-spell-check)
+      (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 #+END_SRC
 
 * Vim-like Features
@@ -1041,6 +1040,7 @@ Evil user coming from Vim it means an easier start.
 | ,o      | find-file                           | Open a file                                                     |
 | ,O      | helm-recentf                        | Open a recent opened file                                       |
 | ,q      | helm-surfraw                        | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                                    |
+| ,Q      | save-buffers-kill-emacs             | Shutdown the emacs daemon
 | ,``     | save-buffers-kill-terminal          | Exit Emacs                                                      |
 | ,s      | split-window-vertically             | Split the selected window into two windows, one above the other |
 | ,t      | helm-semantic-or-imenu              | See the file tags                                               |
@@ -1085,6 +1085,7 @@ Evil user coming from Vim it means an easier start.
     "o" 'find-file
     "O" 'helm-recentf
     "q" 'helm-surfraw
+    "Q" 'save-buffers-kill-emacs
     "``" 'save-buffers-kill-terminal
     "s" 'split-window-vertically
     "t" 'helm-semantic-or-imenu
@@ -1375,6 +1376,12 @@ Org-mode.
 #+END_SRC
 
 * Programming Languages
+
+** Generic
+
+#+BEGIN_SRC emacs-lisp
+    (add-hook 'prog-mode-hook 'flycheck-mode)
+#+END_SRC
 
 ** Python
 *** Jedi
@@ -3055,4 +3062,5 @@ Atom and RSS
 
 * Footnotes
 
-[fn:1] The Emacs logo is from the [[https://github.com/numixproject/numix-icon-theme-circle][Numix Circle icon theme]] and is Licensed under the GPL-3.0+
+[fn:1] The Emacs logo is from the [[http://th.nao.ac.jp/MEMBER/zenitani/emacs-e.html][Carbon Emacs Package]] and is Licensed
+under the GPL-3.0 and its original author is [[https://github.com/nanasess][Kentaro Ohkouchi]]

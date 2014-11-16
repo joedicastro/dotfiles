@@ -20,7 +20,7 @@ autocutsel -fork &
 autocutsel -selection PRIMARY -fork &
 
 # start emacs as a daemon (if not already daemonized)
-emacsclient -c -a "" &
+emacs --daemon &
 
 # start the notification daemon dunst
 dunst &

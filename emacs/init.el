@@ -250,7 +250,7 @@
 (require 'recentf)
 (setq recentf-save-file "~/.emacs.d/tmp/recentf")
 (recentf-mode t)
-(setq recentf-max-saved-items 50)
+(setq recentf-max-saved-items 100)
 
 ;; Keep session between emacs runs (Desktop)
 
@@ -634,7 +634,7 @@
 ;; Activate Spell Checking by default. Also use [[http://hunspell.sourceforge.net/][hunspell]] instead of
 ;; [[http://www.gnu.org/software/ispell/ispell.html][ispell]] as corrector.
 
-;; ;; Use hunspell instead of ispell
+;; Use hunspell instead of ispell
 (setq ispell-program-name "hunspell")
 (require 'rw-language-and-country-codes)
 (require 'rw-ispell)
@@ -645,8 +645,7 @@
  '(rw-hunspell-default-dictionary "es_ES_hunspell")
  '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
  '(rw-hunspell-make-dictionary-menu t)
- '(rw-hunspell-use-rw-ispell t)
-)
+ '(rw-hunspell-use-rw-ispell t))
 
 (defun joe/turn-on-spell-check ()
        (flyspell-mode 1))
@@ -817,6 +816,7 @@
 ;; | ,o      | find-file                           | Open a file                                                     |
 ;; | ,O      | helm-recentf                        | Open a recent opened file                                       |
 ;; | ,q      | helm-surfraw                        | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                                    |
+;; | ,Q      | save-buffers-kill-emacs             | Shutdown the emacs daemon
 ;; | ,``     | save-buffers-kill-terminal          | Exit Emacs                                                      |
 ;; | ,s      | split-window-vertically             | Split the selected window into two windows, one above the other |
 ;; | ,t      | helm-semantic-or-imenu              | See the file tags                                               |
@@ -860,6 +860,7 @@
   "o" 'find-file
   "O" 'helm-recentf
   "q" 'helm-surfraw
+  "Q" 'save-buffers-kill-emacs
   "``" 'save-buffers-kill-terminal
   "s" 'split-window-vertically
   "t" 'helm-semantic-or-imenu
@@ -1085,6 +1086,10 @@
 (add-to-list 'org-capture-templates
     '("n" "Notes" entry (file+headline "~/org/notes.org" "Notes")
        "* %^{Header}  %^G\n  %u\n\n  %?"))
+
+;; Generic
+
+(add-hook 'prog-mode-hook 'flycheck-mode)
 
 ;; Jedi
 
