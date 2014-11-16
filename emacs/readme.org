@@ -391,19 +391,6 @@ Remove the annoying beep.
     (setq visible-bell t)
 #+END_SRC
 
-** Winner-mode
-
-Winner mode lets you revert to a previous windows configuration.
-
-| Binding | Call        | Do                                                                  |
-|---------+-------------+---------------------------------------------------------------------|
-| C-c ←   | winner-undo | Switch back to an earlier window configuration saved by Winner mode |
-| C-c →   | winner-redo | Restore a more recent window configuration saved by Winner mode     |
-
-#+BEGIN_SRC emacs-lisp
-    (winner-mode t)
-#+END_SRC
-
 ** Open large files
 
 Warn only when opening files bigger than 100MB
@@ -870,9 +857,10 @@ For those who came from Vim is more easy to use something alike
 features of Vim, and provides facilities for writing custom
 extensions.
 
-| Binding | Call                     | Do                                                           |
-|---------+--------------------------+--------------------------------------------------------------|
-| C-z     | evil-emacs-state         | Toggle evil-mode                                             |
+| Binding | Call                        | Do                                      |
+|---------+-----------------------------+-----------------------------------------|
+| C-z     | evil-emacs-state            | Toggle evil-mode                        |
+| \       | evil-execute-in-emacs-state | Execute the next command in emacs state |
 
 #+BEGIN_SRC emacs-lisp
     (setq evil-shift-width 4)
@@ -893,53 +881,6 @@ Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-pr
     (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
     (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
     (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-#+END_SRC
-
-*** Move along windows
-
-To move along windows more easily mimicking my Vim configuration
-
-#+BEGIN_SRC emacs-lisp
-    (require 'windmove)
-    (define-key evil-normal-state-map "\C-j" 'windmove-down)
-    (define-key evil-normal-state-map "\C-k" 'windmove-up)
-    (define-key evil-normal-state-map "\C-h" 'windmove-left)
-    (define-key evil-normal-state-map "\C-l" 'windmove-right)
-    (define-key evil-motion-state-map "\C-j" 'windmove-down)
-    (define-key evil-motion-state-map "\C-k" 'windmove-up)
-    (define-key evil-motion-state-map "\C-h" 'windmove-left)
-    (define-key evil-motion-state-map "\C-l" 'windmove-right)
-#+END_SRC
-
-*** Buffer movements
-
-To move the buffers between windows easily.
-
-#+BEGIN_SRC emacs-lisp
-    (require 'buffer-move)
-    (define-key evil-normal-state-map (kbd "C-M-j") 'buf-move-down)
-    (define-key evil-normal-state-map (kbd "C-M-k") 'buf-move-up)
-    (define-key evil-normal-state-map (kbd "C-M-h") 'buf-move-left)
-    (define-key evil-normal-state-map (kbd "C-M-l") 'buf-move-right)
-    (define-key evil-motion-state-map (kbd "C-M-j") 'buf-move-down)
-    (define-key evil-motion-state-map (kbd "C-M-k") 'buf-move-up)
-    (define-key evil-motion-state-map (kbd "C-M-h") 'buf-move-left)
-    (define-key evil-motion-state-map (kbd "C-M-l") 'buf-move-right)
-#+END_SRC
-
-*** Window resize
-
-Resize windows in a easy way.
-
-#+BEGIN_SRC emacs-lisp
-    (define-key evil-normal-state-map (kbd "C-S-j") 'shrink-window)
-    (define-key evil-normal-state-map (kbd "C-S-k") 'enlarge-window)
-    (define-key evil-normal-state-map (kbd "C-S-h") 'shrink-window-horizontally)
-    (define-key evil-normal-state-map (kbd "C-S-l") 'enlarge-window-horizontally)
-    (define-key evil-motion-state-map (kbd "C-S-j") 'shrink-window)
-    (define-key evil-motion-state-map (kbd "C-S-k") 'enlarge-window)
-    (define-key evil-motion-state-map (kbd "C-S-h") 'shrink-window-horizontally)
-    (define-key evil-motion-state-map (kbd "C-S-l") 'enlarge-window-horizontally)
 #+END_SRC
 
 *** TODO Org-mode customization
@@ -1003,99 +944,359 @@ Custom bindings for Elfeed.
 ;  (evil-set-initial-state 'elfeed-show-mode 'emacs)
 #+END_SRC
 
-** evil-leader
+** TODO evil-leader
 
 [[https://github.com/cofi/evil-leader][Evil Leader]] provides the =<leader>= feature from Vim that provides an
 easy way to bind keys under a variable prefix key. For an experienced
 Emacs User it is nothing more than a convoluted key map, but for a
 Evil user coming from Vim it means an easier start.
 
-| Binding | Call                                | Do                                                              |
-|---------+-------------------------------------+-----------------------------------------------------------------|
-| ,0      | org-agenda                          | Call the org-mode agenda                                        |
-| ,5      | elfeed                              | Open Elfeed to read Atom/RSS entries                            |
-| ,6      | twit                                | Open twittering-mode for an interface for twitter               |
-| ,7      | mu4e                                | Start mu4e (email client)                                       |
-| ,8      | org-capture                         | Call the org-mode capture                                       |
-| ,9      | cfw:open-org-calendar               | Open the month calendar for org-mode                            |
-| ,a      | ag                                  | Do a regex search using ag (The Silver Searcher)                |
-| ,b      | ido-switch-buffer                   | Switch buffer                                                   |
-| ,B      | ibuffer                             | Switch buffer using ibuffer                                     |
-| ,c      | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                                         |
-| ,d      | dired                               | Call dired                                                      |
-| ,ef     | variable-pitch-mode                 | Toggle variable/fixed space font                                |
-| ,eh     | whitespace-mode                     | Show/Hide hidden chars                                          |
-| ,et     | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace                                   |
-| ,ew     | whitespace-cleanup                  | Remove trailing whitespaces                                     |
-| ,ec     | fci-mode                            | Show/hide fill column                                           |
-| ,f      | swoop                               | Search through words within the current buffer                  |
-| ,F      | swoop-multi                         | Search words across currently opened multiple buffers           |
-| ,g      | magit-status                        | Call Magit                                                      |
-| ,i      | browse-kill-ring                    | Choose between previous yanked pieces of text                   |
-| ,k      | delete-window                       | Close a window                                                  |
-| ,K      | kill-buffer                         | Kill a buffer                                                   |
-| ,l      | linum-mode                          | Show/Hide line numbers                                          |
-| ,m      | smex                                | Call smex (to execute a command)                                |
-| ,M      | smex-major-mode-commands            | Idem as above but limited to the current major mode commands    |
-| ,o      | find-file                           | Open a file                                                     |
-| ,O      | helm-recentf                        | Open a recent opened file                                       |
-| ,q      | helm-surfraw                        | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                                    |
-| ,Q      | save-buffers-kill-emacs             | Shutdown the emacs daemon
-| ,``     | save-buffers-kill-terminal          | Exit Emacs                                                      |
-| ,s      | split-window-vertically             | Split the selected window into two windows, one above the other |
-| ,t      | helm-semantic-or-imenu              | See the file tags                                               |
-| ,u      | undo-tree-visualize                 | Visualize the current buffer's undo tree                        |
-| ,v      | split-window-horizontally           | Split the selected window into two side-by-side windows         |
-| ,w      | save-buffer                         | Save current buffer in visited file if modified                 |
-| ,x      | multi-term                          | Create new term buffer                                          |
-| ,X      | multi-term-next                     | Go to the next term buffer                                      |
-| ,z      | delete-other-windows                | Make a Zoom (delete all the other windows)                      |
+The prefix =C-<leader>= allows to use it in those modes where evil is
+not in normal state (e.g. magit)
+
+| Binding    | Do                                           |
+|------------+----------------------------------------------|
+| <SPC>      | Leader key                                   |
+| C-<leader> | Prefix + Leader key when not in normal state |
+| .          | Repeat last leader command                   |
+|------------+----------------------------------------------|
+| <leader>-a |                                              |
+| <leader>-b | Buffer bindings                              |
+| <leader>-c | Flycheck bindings                            |
+| <leader>-d |                                              |
+| <leader>-e | Edition bindings                             |
+| <leader>-f | File bindings                                |
+| <leader>-g | Git bindings                                 |
+| <leader>-h |                                              |
+| <leader>-i | Internet bindings                            |
+| <leader>-j |                                              |
+| <leader>-k | Spell bindings                               |
+| <leader>-l | Lisp bindings                                |
+| <leader>-m | Menu bindings                                |
+| <leader>-n | Narrow bindings                              |
+| <leader>-o | Organization bindings                        |
+| <leader>-p | Project bindings                             |
+| <leader>-q | Exit bindings                                |
+| <leader>-r |                                              |
+| <leader>-s | Search bindings                              |
+| <leader>-t |                                              |
+| <leader>-u |                                              |
+| <leader>-v |                                              |
+| <leader>-w | Window bindings                              |
+| <leader>-x | Shell/System bindings                        |
+| <leader>-y |                                              |
+| <leader>-z | Emacs Bindings                               |
+|------------+----------------------------------------------|
 
 #+BEGIN_SRC emacs-lisp
   (require 'evil-leader)
   (global-evil-leader-mode)
   (setq evil-leader/in-all-states 1)
-  (evil-leader/set-leader ",")
+  (evil-leader/set-leader "<SPC>")
+#+END_SRC
+
+*** Buffer bindings
+
+| Binding      | Call              | Do                                              |
+|--------------+-------------------+-------------------------------------------------|
+| <leader>-TAB |                   | Switch the last two buffers                     |
+| <leader>-bb  | ido-switch-buffer | Switch buffer                                   |
+| <leader>-bi  | ibuffer           | Switch buffer using ibuffer                     |
+| <leader>-bj  | buf-move-up       | Move the buffer to the window above             |
+| <leader>-bk  | buf-move-down     | Move the buffer to the window below             |
+| <leader>-bh  | buf-move-left     | Move the buffer to the window at the left       |
+| <leader>-bl  | buf-move-right    | Move the buffer to the window at the right      |
+| <leader>-bd  | kill-buffer       | Kill a buffer                                   |
+| <leader>-bw  | save-buffer       | Save current buffer in visited file if modified |
+| <leader>-br  | read-only-mode    | Toggle between read & write and read-only mode  |
+| <leader>-bu  |                   | Revert the buffer changes                       |
+
+#+BEGIN_SRC emacs-lisp
+      ;; toggle between the last two buffers
+      (evil-leader/set-key "TAB"
+            (lambda ()
+              (interactive)
+              (switch-to-buffer (other-buffer (current-buffer) t))))
+
+      (evil-leader/set-key
+        "bb" 'ido-switch-buffer
+        "bd" 'kill-buffer
+        "bh" 'buf-move-left
+        "bi" 'ibuffer
+        "bj" 'buf-move-up
+        "bk" 'buf-move-down
+        "bl" 'buf-move-right
+        "br" 'read-only-mode
+        "bu" (lambda () (interactive) (revert-buffer nil t))
+        "bw" 'save-buffer
+        )
+#+END_SRC
+
+*** Window bindings
+
+| Binding     | Call                        | Do                                                                  |
+|-------------+-----------------------------+---------------------------------------------------------------------|
+| <leader>-wd | delete-window               | Close a window                                                      |
+| <leader>-wv | split-window-horizontally   | Split the selected window into two side-by-side windows             |
+| <leader>-ws | split-window-vertically     | Split the selected window into two windows, one above the other     |
+| <leader>-wz | delete-other-windows        | Make a Zoom (delete all the other windows)                          |
+| <leader>-wj | windmove-down               | Move the window to the below position                               |
+| <leader>-wk | windmove-up                 | Move the window to the above position                               |
+| <leader>-wh | windmove-left               | Move the window to the left position                                |
+| <leader>-wl | windmove-right              | Move the window to the right position                               |
+| <leader>-wJ | shrink-window               | Shrink the window                                                   |
+| <leader>-wK | enlarge-window              | Enlarge the window                                                  |
+| <leader>-wH | shrink-window-horizontally  | Shrink the window horizontally                                      |
+| <leader>-wL | enlarge-window-horizontally | Enlarge the window horizontally                                     |
+| <leader>-ww | other-window                | Select other window in cycling order                                |
+| <leader>-wr | winner-redo                 | Restore a more recent window configuration saved by Winner mode     |
+| <leader>-wu | winner-undo                 | Switch back to an earlier window configuration saved by Winner mode |
+
+#+BEGIN_SRC emacs-lisp
+    (require 'windmove)
+    (winner-mode t)
+    (evil-leader/set-key
+      "wd" 'delete-window
+      "wH" 'shrink-window-horizontally
+      "wh" 'windmove-left
+      "wJ" 'shrink-window
+      "wj" 'windmove-down
+      "wK" 'enlarge-window
+      "wk" 'windmove-up
+      "wL" 'enlarge-window-horizontally
+      "wl" 'windmove-right
+      "wr" 'winner-redo
+      "ws" 'split-window-vertically
+      "wu" 'winner-undo
+      "wv" 'split-window-horizontally
+      "ww" 'other-window
+      "wz" 'delete-other-windows
+      )
+#+END_SRC
+
+*** Menu bindings
+    
+| Binding     | Call                     | Do                                                           |
+|-------------+--------------------------+--------------------------------------------------------------|
+| <leader>-ms | smex                     | Call smex (to execute a command)                             |
+| <leader>-mm | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
+| <leader>-mh | helm-M-x                 | Call Helm M-x                                              |
+
+#+BEGIN_SRC emacs-lisp
   (evil-leader/set-key
-    "0" 'org-agenda
-    "5" 'elfeed
-    "6" 'twit
-    "7" 'mu4e
-    "8" 'org-capture
-    "9" 'cfw:open-org-calendar
-    "a" 'ag
-    "B" 'ibuffer
-    "b" 'ido-switch-buffer
-    "c" 'evilnc-comment-or-uncomment-lines
-    "d" 'dired
-    "ec" 'fci-mode
-    "ef" 'variable-pitch-mode
+    "mh" 'helm-M-x
+    "mm" 'smex-major-mode-commands
+    "ms" 'smex
+    )
+#+END_SRC
+
+*** File bindings
+
+| Binding     | Call            | Do                        |
+|-------------+-----------------+---------------------------|
+| <leader>-fo | find-file       | Open a file               |
+| <leader>-fr | helm-recentf    | Open a recent opened file |
+| <leader>-fh | helm-find-files | Open a file using helm    |
+| <leader>-fd | dired           | Call dired                |
+
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "fo" 'find-file
+    "fr" 'helm-recentf
+    "fh" 'helm-find-files
+    "fd" 'dired
+    )
+#+END_SRC
+
+*** Edition bindings
+
+| Binding     | Call                                | Do                                       |
+|-------------+-------------------------------------+------------------------------------------|
+| M-t         | transpose-words                     | Transpose two words                      |
+| <leader>-ea | align-regexp                        | Align a region using regex               |
+| <leader>-ec | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                  |
+| <leader>-ei | fci-mode                            | Show/hide fill column                    |
+| <leader>-ef | variable-pitch-mode                 | Toggle variable/fixed space font         |
+| <leader>-eh | whitespace-mode                     | Show/Hide hidden chars                   |
+| <leader>-ek | count-words                         | Count words in a region                  |
+| <leader>-el | linum-mode                          | Show/Hide line numbers                   |
+| <leader>-et | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace            |
+| <leader>-eu | undo-tree-visualize                 | Visualize the current buffer's undo tree |
+| <leader>-ew | whitespace-cleanup                  | Remove trailing whitespaces              |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "ea" 'align-regexp
+    "ec" 'evilnc-comment-or-uncomment-lines
+    "ef" 'fci-mode
     "eh" 'whitespace-mode
+    "el" 'linum-mode
     "et" 'joe/toggle-show-trailing-whitespace
+    "eu" 'undo-tree-visualize
+    "ev" 'variable-pitch-mode
     "ew" 'whitespace-cleanup
-    "f" 'swoop
-    "F" 'swoop-multi
-    "g" 'magit-status
-    "i" 'browse-kill-ring
-    "k" 'delete-window
-    "K" 'kill-buffer
-    "l" 'linum-mode
-    "m" 'smex
-    "M" 'smex-major-mode-commands
-    "o" 'find-file
-    "O" 'helm-recentf
-    "q" 'helm-surfraw
-    "Q" 'save-buffers-kill-emacs
-    "``" 'save-buffers-kill-terminal
-    "s" 'split-window-vertically
-    "t" 'helm-semantic-or-imenu
-    "u" 'undo-tree-visualize
-    "v" 'split-window-horizontally
-    "w" 'save-buffer
-    "x" 'multi-term
-    "X" 'multi-term-next
-    "z" 'delete-other-windows
-   )
+    )
+#+END_SRC
+
+*** Narrow bindings
+
+| Binding     | Call             | Do                                                    |
+|-------------+------------------+-------------------------------------------------------|
+| <leader>-nr | narrow-to-region | Restrict editing in this buffer to the current region |
+| <leader>-np | narrow-to-page   | Restrict editing to the visible page                  |
+| <leader>-nf | narrow-to-defun  | Restrict editing to the current defun                 |
+| <leader>-nw | widen            | Remove restrictions (narrowing) from current buffer   |
+T
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "nr" 'narrow-to-region
+    "np" 'narrow-to-page
+    "nf" 'narrow-to-defun
+    "nw" 'widen
+    )
+#+END_SRC
+
+*** Shell/System bindings
+
+| Binding     | Call            | Do                            |
+|-------------+-----------------+-------------------------------|
+| <leader>-xt | multi-term      | Create new term buffer        |
+| <leader>-xn | multi-term-next | Go to the next term buffer    |
+| <leader>-xe | eshell          | Call eshell                   |
+| <leader>-xp | proced          | Show a list of system process |
+| <leader>-xl | list-process    | Show a list of emacs process |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "xt" 'multi-term
+    "xn" 'multi-term-next
+    "xe" 'eshell
+    "xp" 'proced
+    "xl" 'list-process
+    )
+#+END_SRC
+
+*** Search bindings
+
+| Binding     | Call                   | Do                                                    |
+|-------------+------------------------+-------------------------------------------------------|
+| <leader>-sa | ag                     | Do a regex search using ag (The Silver Searcher)      |
+| <leader>-sg | rgrep                  | Do a regex search using grep                          |
+| <leader>-sf | swoop                  | Search through words within the current buffer        |
+| <leader>-sw | swoop-multi            | Search words across currently opened multiple buffers |
+| <leader>-st | helm-semantic-or-imenu | See the file tags                                     |
+| <leader>-sk | browse-kill-ring       | Choose between previous yanked pieces of text         |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "sa" 'ag
+    "sg" 'rgrep
+    "sf" 'swoop
+    "sw" 'swoop-multi
+    "st" 'helm-semantic-or-imenu
+    "sk" 'browse-kill-ring
+    )
+#+END_SRC
+
+*** Organization bindings
+
+| Binding     | Call                  | Do                                   |
+|-------------+-----------------------+--------------------------------------|
+| <leader>-oa | org-agenda            | Call the org-mode agenda             |
+| <leader>-oc | org-capture           | Call the org-mode capture            |
+| <leader>-om | mu4e                  | Start mu4e (email client)            |
+| <leader>-od | cfw:open-org-calendar | Open the month calendar for org-mode |
+| <leader>-op | org-contacts          | Search a contact                     |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "oa" 'org-agenda
+    "oc" 'org-capture
+    "om" 'mu4e
+    "od" 'cfw:open-org-calendar
+    "op" 'org-contacts
+    )
+#+END_SRC
+
+*** Exit bindings
+
+| Binding     | Call                       | Do                                |
+|-------------+----------------------------+-----------------------------------|
+| <leader>-qc | save-buffers-kill-terminal | Exit Emacs (standalone or client) |
+| <leader>-qs | save-buffers-kill-emacs    | Shutdown the emacs daemon         |
+
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "qc" 'save-buffers-kill-terminal
+    "qs" 'save-buffers-kill-emacs
+    )
+#+END_SRC
+
+*** Git bindings
+
+| Binding     | Call         | Do         |
+|-------------+--------------+------------|
+| <leader>-gs | magit-status | Call Magit |
+
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "gs" 'magit-status
+    )
+#+END_SRC
+
+*** Internet bindings
+
+| Binding     | Call         | Do                                                |
+|-------------+--------------+---------------------------------------------------|
+| <leader>-is | helm-surfraw | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                      |
+| <leader>-if | elfeed       | Open Elfeed to read Atom/RSS entries              |
+| <leader>-it | twit         | Open twittering-mode for an interface for twitter |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "is" 'helm-surfraw
+    "if" 'elfeed
+    "it" 'twit
+    )
+#+END_SRC
+
+*** Spell bindings
+
+| Binding     | Call                     | Do                          |
+|-------------+--------------------------+-----------------------------|
+| <leader>-ks | ispell-change-dictionary | Change the spell dictionary |
+|             |                          |                             |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "kd" 'ispell-change-dictionary
+    "kk" 'flyspell-auto-correct-word
+    "kc" 'ispell-word
+    "kn" 'flyspell-goto-next-error
+    )
+#+END_SRC
+
+*** Emacs bindings
+
+| Binding     | Call                | Do                                |
+|-------------+---------------------+-----------------------------------|
+| <leader>-zt | helm-themes         | Change the color theme using helm |
+| <leader>-zp | list-packages       | List all the available packages   |
+| <leader>-zi | package-install     | Install a package                 |
+| <leader>-zu | text-scale-increase | Increase the size of the text     |
+| <leader>-zd | text-scale-decrease | Decrease the size of the text     |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "zt" 'helm-themes
+    "zp" 'list-packages
+    "zi" 'package-install
+    "zu" 'text-scale-increase
+    "zd" 'text-scale-decrease
+    )
 #+END_SRC
 
 ** evil-indent-textobject
