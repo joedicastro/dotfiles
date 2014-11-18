@@ -69,6 +69,8 @@
         guide-key-tip
         helm
         helm-descbinds
+        helm-flycheck
+        helm-projectile
         helm-themes
         haskell-mode
         ibuffer-vc
@@ -78,6 +80,7 @@
         ipython
         jedi
         lua-mode
+        lorem-ipsum
         magit
         markdown-mode
         monokai-theme
@@ -88,6 +91,7 @@
         password-store
         perspective
         pretty-mode
+        projectile
         popwin
         rainbow-mode
         racket-mode
@@ -153,6 +157,22 @@
 
 (unless (file-exists-p "~/.emacs.d/tmp")
    (make-directory "~/.emacs.d/tmp"))
+
+;; Store all temporal files in a temporal directory instead of being
+;; disseminated in the $HOME directory
+
+;; Tramp history 
+(setq tramp-persistency-file-name (concat user-emacs-directory "tmp/tramp"))
+;; Bookmarks file 
+(setq bookmark-default-file (concat user-emacs-directory "tmp/bookmarks"))
+;;SemanticDB files 
+(setq semanticdb-default-save-directory (concat user-emacs-directory "tmp/semanticdb"))
+;; url files
+(setq url-configuration-directory (concat user-emacs-directory "tmp/url"))
+;; eshell files
+(setq eshell-directory-name (concat user-emacs-directory "tmp/eshell" ))
+;; pcache files
+(setq pcache-directory (concat user-emacs-directory "tmp/pcache" ))
 
 ;; Disable auto-save files
 
@@ -300,52 +320,22 @@
 (setq save-place-file (concat user-emacs-directory "tmp/saveplace.el") )
 (setq-default save-place t)
 
-;; Tramp
-
-;; Store the Tramp history in the temporal directory.
-
-(setq tramp-persistency-file-name (concat user-emacs-directory "tmp/tramp"))
-
-;; Bookmarks
-
-;; Store the Bookmarks file in the temporal directory.
-
-(setq bookmark-default-file (concat user-emacs-directory "tmp/bookmarks"))
-
-;; SemanticDB
-
-;; Store the SemanticDB files in the temporal directory.
-
-(setq semanticdb-default-save-directory (concat user-emacs-directory "tmp/semanticdb"))
-
-;; Url
-
-;; Store the url files in the temporal directory.
-
-(setq url-configuration-directory (concat user-emacs-directory "tmp/url"))
-
-;; eshell
-
-;; Store the eshell files in the temporal directory.
-
-(setq eshell-directory-name (concat user-emacs-directory "tmp/eshell" ))
-
 ;; Kill internal processes via the =list process= buffer
 
 ;; Add a functionality to be able to kill process directly in the =list process'= buffer
 
 ;; seen at http://stackoverflow.com/a/18034042
-    (define-key process-menu-mode-map (kbd "C-c k") 'joe/delete-process-at-point)
+(define-key process-menu-mode-map (kbd "C-c k") 'joe/delete-process-at-point)
 
-    (defun joe/delete-process-at-point ()
-      (interactive)
-      (let ((process (get-text-property (point) 'tabulated-list-id)))
-        (cond ((and process
-                    (processp process))
-               (delete-process process)
-               (revert-buffer))
-              (t
-               (error "no process at point!")))))
+(defun joe/delete-process-at-point ()
+  (interactive)
+  (let ((process (get-text-property (point) 'tabulated-list-id)))
+    (cond ((and process
+                (processp process))
+           (delete-process process)
+           (revert-buffer))
+          (t
+           (error "no process at point!")))))
 
 ;; TODO Use ibuffer by default
 
@@ -559,6 +549,15 @@
 
 (require 'auto-complete)
 (global-auto-complete-mode)
+(add-to-list 'ac-sources 'ac-source-abbrev)
+(add-to-list 'ac-sources 'ac-source-dictionary)
+(add-to-list 'ac-sources 'ac-source-filename)
+(add-to-list 'ac-sources 'ac-source-files-in-curren-dir)
+(add-to-list 'ac-sources 'ac-source-imenu)
+(add-to-list 'ac-sources 'ac-source-semantic)
+(add-to-list 'ac-sources 'ac-source-words-in-buffer)
+(add-to-list 'ac-sources 'ac-source-words-in-same-mode-buffers)
+(add-to-list 'ac-sources 'ac-source-yasnippet)
 (setq ac-use-menu-map t)
 ;; Default settings
 (define-key ac-menu-map "\C-n" 'ac-next)
@@ -754,7 +753,7 @@
 ;; | <leader>-g | Git bindings                                 |
 ;; | <leader>-h |                                              |
 ;; | <leader>-i | Internet bindings                            |
-;; | <leader>-j |                                              |
+;; | <leader>-j | Jump bindings                                |
 ;; | <leader>-k | Spell bindings                               |
 ;; | <leader>-l | Lisp bindings                                |
 ;; | <leader>-m | Menu bindings                                |
@@ -762,7 +761,7 @@
 ;; | <leader>-o | Organization bindings                        |
 ;; | <leader>-p | Project bindings                             |
 ;; | <leader>-q | Exit bindings                                |
-;; | <leader>-r |                                              |
+;; | <leader>-r | Registers bindings                           |
 ;; | <leader>-s | Search bindings                              |
 ;; | <leader>-t |                                              |
 ;; | <leader>-u |                                              |
@@ -796,48 +795,66 @@
 ;; | <leader>-bu  |                   | Revert the buffer changes                       |
 
 ;; toggle between the last two buffers
-(evil-leader/set-key "TAB"
-      (lambda ()
+(defun joe/alternate-buffers ()
         (interactive)
-        (switch-to-buffer (other-buffer (current-buffer) t))))
+        (switch-to-buffer (other-buffer (current-buffer) t)))
+
+(defun joe/revert-buffer ()
+  (interactive)
+  (revert-buffer nil t))
 
 (evil-leader/set-key
-  "bb" 'ido-switch-buffer
-  "bd" 'kill-buffer
-  "bh" 'buf-move-left
-  "bi" 'ibuffer
-  "bj" 'buf-move-up
-  "bk" 'buf-move-down
-  "bl" 'buf-move-right
-  "br" 'read-only-mode
-  "bu" (lambda () (interactive) (revert-buffer nil t))
-  "bw" 'save-buffer
+  "TAB" 'joe/alternate-buffers
+  "bb"  'ido-switch-buffer
+  "bd"  'kill-buffer
+  "bh"  'buf-move-left
+  "bi"  'ibuffer
+  "bj"  'buf-move-up
+  "bk"  'buf-move-down
+  "bl"  'buf-move-right
+  "br"  'read-only-mode
+  "bu"  'joe/revert-buffer
+  "bw"  'save-buffer
   )
 
 ;; Window bindings
 
-;; | Binding     | Call                        | Do                                                                  |
-;; |-------------+-----------------------------+---------------------------------------------------------------------|
-;; | <leader>-wd | delete-window               | Close a window                                                      |
-;; | <leader>-wv | split-window-horizontally   | Split the selected window into two side-by-side windows             |
-;; | <leader>-ws | split-window-vertically     | Split the selected window into two windows, one above the other     |
-;; | <leader>-wz | delete-other-windows        | Make a Zoom (delete all the other windows)                          |
-;; | <leader>-wj | windmove-down               | Move the window to the below position                               |
-;; | <leader>-wk | windmove-up                 | Move the window to the above position                               |
-;; | <leader>-wh | windmove-left               | Move the window to the left position                                |
-;; | <leader>-wl | windmove-right              | Move the window to the right position                               |
-;; | <leader>-wJ | shrink-window               | Shrink the window                                                   |
-;; | <leader>-wK | enlarge-window              | Enlarge the window                                                  |
-;; | <leader>-wH | shrink-window-horizontally  | Shrink the window horizontally                                      |
-;; | <leader>-wL | enlarge-window-horizontally | Enlarge the window horizontally                                     |
-;; | <leader>-ww | other-window                | Select other window in cycling order                                |
-;; | <leader>-wr | winner-redo                 | Restore a more recent window configuration saved by Winner mode     |
-;; | <leader>-wu | winner-undo                 | Switch back to an earlier window configuration saved by Winner mode |
+;; | Binding     | Call                         | Do                                                                  |
+;; |-------------+------------------------------+---------------------------------------------------------------------|
+;; | <leader>-J  | joe/scroll-other-window-down | Scroll the other window a line down                                 |
+;; | <leader>-K  | joe/scroll-other-window      | Scroll the other window a line up                                   |
+;; | <leader>-W  | delete-window                | Close a window                                                      |
+;; | <leader>-wb | balance-windows              | Balance the windows proportionally
+;; | <leader>-wv | split-window-horizontally    | Split the selected window into two side-by-side windows             |
+;; | <leader>-ws | split-window-vertically      | Split the selected window into two windows, one above the other     |
+;; | <leader>-wz | delete-other-windows         | Make a Zoom (delete all the other windows)                          |
+;; | <leader>-wj | windmove-down                | Move the window to the below position                               |
+;; | <leader>-wk | windmove-up                  | Move the window to the above position                               |
+;; | <leader>-wh | windmove-left                | Move the window to the left position                                |
+;; | <leader>-wl | windmove-right               | Move the window to the right position                               |
+;; | <leader>-wJ | shrink-window                | Shrink the window                                                   |
+;; | <leader>-wK | enlarge-window               | Enlarge the window                                                  |
+;; | <leader>-wH | shrink-window-horizontally   | Shrink the window horizontally                                      |
+;; | <leader>-wL | enlarge-window-horizontally  | Enlarge the window horizontally                                     |
+;; | <leader>-ww | other-window                 | Select other window in cycling order                                |
+;; | <leader>-wr | winner-redo                  | Restore a more recent window configuration saved by Winner mode     |
+;; | <leader>-wu | winner-undo                  | Switch back to an earlier window configuration saved by Winner mode |
+
+(defun joe/scroll-other-window()
+  (interactive)
+  (scroll-other-window 1))
+
+(defun joe/scroll-other-window-down ()
+  (interactive)
+  (scroll-other-window-down 1))
 
 (require 'windmove)
 (winner-mode t)
 (evil-leader/set-key
-  "wd" 'delete-window
+  "J"  'joe/scroll-other-window-down
+  "K"  'joe/scroll-other-window
+  "W"  'delete-window
+  "wb" 'balance-windows
   "wH" 'shrink-window-horizontally
   "wh" 'windmove-left
   "wJ" 'shrink-window
@@ -886,30 +903,56 @@
 
 ;; Edition bindings
 
-;; | Binding     | Call                                | Do                                       |
-;; |-------------+-------------------------------------+------------------------------------------|
-;; | M-t         | transpose-words                     | Transpose two words                      |
-;; | <leader>-ea | align-regexp                        | Align a region using regex               |
-;; | <leader>-ec | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                  |
-;; | <leader>-ei | fci-mode                            | Show/hide fill column                    |
-;; | <leader>-ef | variable-pitch-mode                 | Toggle variable/fixed space font         |
-;; | <leader>-eh | whitespace-mode                     | Show/Hide hidden chars                   |
-;; | <leader>-ek | count-words                         | Count words in a region                  |
-;; | <leader>-el | linum-mode                          | Show/Hide line numbers                   |
-;; | <leader>-et | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace            |
-;; | <leader>-eu | undo-tree-visualize                 | Visualize the current buffer's undo tree |
-;; | <leader>-ew | whitespace-cleanup                  | Remove trailing whitespaces              |
+;; | Binding     | Call                                | Do                                                  |
+;; |-------------+-------------------------------------+-----------------------------------------------------|
+;; | M-t         | transpose-words                     | Transpose two words                                 |
+;; | C-w         | backward-kill-word                  | Kill the entire previous (to the cursor) word       |
+;; | <leader>-ea | align-regexp                        | Align a region using regex                          |
+;; | <leader>-ec | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                             |
+;; | <leader>-ed | insert-char                         | Insert an Unicode character                         |
+;; | <leader>-ef | fci-mode                            | Show/hide fill column                               |
+;; | <leader>-eh | whitespace-mode                     | Show/Hide hidden chars                              |
+;; | <leader>-ei | lorem-ipsum-insert-paragraphs       | Insert a paragraph of [[http://www.wikiwand.com/en/Lorem_ipsum][Lorem ipsum]]                   |
+;; | <leader>-ek | count-words                         | Count words in a region                             |
+;; | <leader>-el | linum-mode                          | Show/Hide line numbers                              |
+;; | <leader>-em | charmap                             | Display a specific code block                       |
+;; | <leader>-ep | describe-char                       | Display the character code of character after point |
+;; | <leader>-et | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace                       |
+;; | <leader>-eu | helm-ucs                            | Choose a Unicode character with helm                |
+;; | <leader>-ev | variable-pitch-mode                 | Toggle variable/fixed space font                    |
+;; | <leader>-ew | whitespace-cleanup                  | Remove trailing whitespaces                         |
 
 (evil-leader/set-key
   "ea" 'align-regexp
   "ec" 'evilnc-comment-or-uncomment-lines
+  "ed" 'insert-char
   "ef" 'fci-mode
   "eh" 'whitespace-mode
+  "ei" 'lorem-ipsum-insert-paragraphs
+  "ek" 'count-words
   "el" 'linum-mode
+  "em" 'charmap
+  "ep" 'describe-char
   "et" 'joe/toggle-show-trailing-whitespace
-  "eu" 'undo-tree-visualize
+  "eu" 'helm-ucs
   "ev" 'variable-pitch-mode
-  "ew" 'whitespace-cleanup
+  "ew" 'whitespace-cleanup 
+  )
+
+;; Register bindings
+
+;; | Binding     | Call                | Do                                            |
+;; |-------------+---------------------+-----------------------------------------------|
+;; | <leader>-ru | undo-tree-visualize | Visualize the current buffer's undo tree      |
+;; | <leader>-rk | helm-show-kill-ring | Choose between previous yanked pieces of text |
+;; | <leader>-rr | evil-show-registers | Show Evil registers                           |
+;; | <leader>-re | list-registers      | Show Emacs registers                          |
+
+(evil-leader/set-key
+  "ru" 'undo-tree-visualize
+  "rk" 'helm-show-kill-ring
+  "rr" 'evil-show-registers
+  "re" 'list-registers
   )
 
 ;; Narrow bindings
@@ -920,31 +963,46 @@
 ;; | <leader>-np | narrow-to-page   | Restrict editing to the visible page                  |
 ;; | <leader>-nf | narrow-to-defun  | Restrict editing to the current defun                 |
 ;; | <leader>-nw | widen            | Remove restrictions (narrowing) from current buffer   |
-;; T
+
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+(evil-leader/set-key
+   "nr" 'narrow-to-region
+   "np" 'narrow-to-page
+   "nf" 'narrow-to-defun
+   "nw" 'widen
+   )
+
+;; Project bindings
+
+;; | Binding    | Call                 | Do                            |
+;; |------------+----------------------+-------------------------------|
+;; | <leader>-p | projectile-commander | Call the Projectile commander |
 
 (evil-leader/set-key
-  "nr" 'narrow-to-region
-  "np" 'narrow-to-page
-  "nf" 'narrow-to-defun
-  "nw" 'widen
+  "p" 'projectile-commander
   )
 
 ;; Shell/System bindings
 
-;; | Binding     | Call            | Do                            |
-;; |-------------+-----------------+-------------------------------|
-;; | <leader>-xt | multi-term      | Create new term buffer        |
-;; | <leader>-xn | multi-term-next | Go to the next term buffer    |
-;; | <leader>-xe | eshell          | Call eshell                   |
-;; | <leader>-xp | proced          | Show a list of system process |
-;; | <leader>-xl | list-process    | Show a list of emacs process |
+;; | Binding     | Call            | Do                              |
+;; |-------------+-----------------+---------------------------------|
+;; | <leader>-xs | multi-term      | Create new term buffer          |
+;; | <leader>-xn | multi-term-next | Go to the next term buffer      |
+;; | <leader>-xe | eshell          | Call eshell                     |
+;; | <leader>-xc | shell-command   | Run shell command               |
+;; | <leader>-xp | proced          | Show a list of system process   |
+;; | <leader>-xl | list-process    | Show a list of emacs process    |
+;; | <leader>-xt | helm-top        | Show the results of top command |
 
 (evil-leader/set-key
-  "xt" 'multi-term
+  "xs" 'multi-term
   "xn" 'multi-term-next
   "xe" 'eshell
+  "xc" 'shell-command
   "xp" 'proced
-  "xl" 'list-process
+  "xl" 'list-processes
+  "xt" 'helm-top
   )
 
 ;; Search bindings
@@ -953,18 +1011,18 @@
 ;; |-------------+------------------------+-------------------------------------------------------|
 ;; | <leader>-sa | ag                     | Do a regex search using ag (The Silver Searcher)      |
 ;; | <leader>-sg | rgrep                  | Do a regex search using grep                          |
+;; | <leader>-sl | helm-locate            | Do a search using locate                              |
 ;; | <leader>-sf | swoop                  | Search through words within the current buffer        |
 ;; | <leader>-sw | swoop-multi            | Search words across currently opened multiple buffers |
 ;; | <leader>-st | helm-semantic-or-imenu | See the file tags                                     |
-;; | <leader>-sk | browse-kill-ring       | Choose between previous yanked pieces of text         |
 
 (evil-leader/set-key
   "sa" 'ag
   "sg" 'rgrep
+  "sl" 'helm-locate
   "sf" 'swoop
   "sw" 'swoop-multi
   "st" 'helm-semantic-or-imenu
-  "sk" 'browse-kill-ring
   )
 
 ;; Organization bindings
@@ -1051,6 +1109,26 @@
   "zi" 'package-install
   "zu" 'text-scale-increase
   "zd" 'text-scale-decrease
+  )
+
+;; Lisp bindings
+
+;; | Binding     | Call       | Do                         |
+;; |-------------+------------+----------------------------|
+;; | <leader>-lr | eval-region | Eval the region with elisp |
+
+(evil-leader/set-key
+  "lr" 'eval-region
+  )
+
+;; Flycheck bindings
+
+;; | Binding    | Call       | Do                         |
+;; |------------+------------+----------------------------|
+;; | <leader>-c | eval-region | Eval the region with elisp |
+
+(evil-leader/set-key
+  "ce" 'helm-flycheck
   )
 
 ;; evil-indent-textobject
@@ -1379,6 +1457,7 @@
 
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode t)
+(setq ido-ubiquitous-max-items 50000)
 
 ;; Ido-vertical-mode
 
@@ -1401,6 +1480,8 @@
 ;; rebasing, and other common Git operations.
 
 (require 'magit)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
 
 ;; Helm Surfraw (helm-net)
 
@@ -1425,6 +1506,11 @@
 
 (require 'swoop)
 (setq swoop-font-size-change: nil)
+
+;; TODO Ace-jump-mode
+
+(require 'ace-jump-mode)
+(define-key evil-normal-state-map (kbd ",") 'ace-jump-mode)
 
 ;; Multi Term
 
@@ -1467,7 +1553,7 @@
   (guide-key-mode))
 (setq guide-key/guide-key-sequence '("C-x" "C-c" "SPC" "g" "z" "C-h")
       guide-key/recursive-key-sequence-flag t
-      guide-key/popup-window-position 'right
+      guide-key/popup-window-position 'bottom
       guide-key/idle-delay 0.5
       guide-key/text-scale-amount 0
       guide-key-tip/enabled nil)
@@ -1483,18 +1569,26 @@
 (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
 (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
 
-;; TODO Popwin
+;; Popwin
 
 ;; [[https://github.com/m2ym/popwin-el][Popwin]] is a popup window manager for Emacs which makes you free from
 ;; the hell of annoying buffers such like *Help*, *Completions*,
 ;; *compilation*, and etc.
 
-;; + [ ] Test integration with w3m
-
 (require 'popwin)
-    (popwin-mode 1)
-;    (require 'popwin-w3m)
-;    (setq browse-url-browser-function 'popwin:w3m-browse-url)
+(popwin-mode 1)
+(setq popwin:popup-window-height 35)
+
+;; Projectile
+
+;; [[https://github.com/bbatsov/projectile][Projectile]] is a project interaction library for Emacs. Its goal is to
+;; provide a nice set of features operating on a project level without
+;; introducing external dependencies(when feasible). For instance -
+;; finding project files has a portable implementation written in pure
+;; Emacs Lisp without the use of GNU find (but for performance sake an
+;; indexing mechanism backed by external commands exists as well).
+
+(projectile-global-mode)
 
 ;; Enable mu4e
 
