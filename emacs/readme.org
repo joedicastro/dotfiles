@@ -33,19 +33,19 @@ This is the hook to tangle a new =~/.emacs.d/init.el= each time that
 this file changes.
 
 #+BEGIN_SRC emacs-lisp
-    ;; originaly seen at https://github.com/larstvei/dot-emacs/blob/master/init.org
-    (defun joe/tangle-init ()
-      "If the current buffer is 'readme.org' the code-blocks are
-       tangled, and the tangled file is compiled."
-      (when (or
-               (equal (buffer-file-name)
-                   (expand-file-name (concat user-emacs-directory "readme.org")))
-               (equal (buffer-file-name)
-                   (expand-file-name "~/dotfiles/emacs/readme.org")))
-        (org-babel-tangle)))
-        ;; (byte-compile-file (concat user-emacs-directory "init.el"))))
+  ;; originaly seen at https://github.com/larstvei/dot-emacs/blob/master/init.org
+  (defun joe/tangle-init ()
+    "If the current buffer is 'readme.org' the code-blocks are
+     tangled, and the tangled file is compiled."
+    (when (or
+           (equal (buffer-file-name)
+                  (expand-file-name (concat user-emacs-directory "readme.org")))
+           (equal (buffer-file-name)
+                  (expand-file-name "~/dotfiles/emacs/readme.org")))
+      (org-babel-tangle)))
+      ;; (byte-compile-file (concat user-emacs-directory "init.el"))))
 
-    (add-hook 'after-save-hook 'joe/tangle-init)
+  (add-hook 'after-save-hook 'joe/tangle-init)
 #+END_SRC
 
 The cool thing about this setup is that you can export the same file
@@ -69,6 +69,7 @@ enjoy all the goodies of this configuration.
 - [[http://surfraw.alioth.debian.org/][surfraw]]
 - [[http://www.zx2c4.com/projects/password-store/][pass]]
 - [[https://www.gnupg.org/][GnuPG]]
+- [[http://zealdocs.org/][Zeal]]
 
 * Packages setup
 ** Packages list
@@ -84,77 +85,87 @@ maintain clean and updated this list for me is the following:
     installed, I'll get rid of them in the next clean install.
 
 #+BEGIN_SRC emacs-lisp
-    ; A package for line helps to mantain the list
-    (setq my-packages
-        '(
-            ag
-            async
-            auto-complete
-            browse-kill-ring
-            buffer-move
-            calfw
-            charmap
-            diff-hl
-            dired+
-            elfeed
-            evil
-            evil-indent-textobject
-            evil-leader
-            evil-matchit
-            evil-nerd-commenter
-            fill-column-indicator
-            flatland-theme
-            git-commit-mode
-            git-rebase-mode
-            gitconfig-mode
-            gitignore-mode
-            google-maps
-            graphviz-dot-mode
-            guide-key-tip
-            helm
-            helm-descbinds
-            helm-flycheck
-            helm-projectile
-            helm-themes
-            haskell-mode
-            ibuffer-vc
-            ido-ubiquitous
-            ido-vertical-mode
-            ido-yes-or-no
-            ipython
-            jedi
-            lua-mode
-            lorem-ipsum
-            magit
-            markdown-mode
-            monokai-theme
-            mu4e-maildirs-extension
-            multi-term
-            org-plus-contrib
-            paradox
-            password-store
-            perspective
-            pretty-mode
-            projectile
-            popwin
-            rainbow-mode
-            racket-mode
-            rw-ispell
-            rw-hunspell
-            rw-language-and-country-codes
-            smart-mode-line
-            smartparens
-            smex
-            sml-mode
-            sublime-themes
-            surround
-            swoop
-            twittering-mode
-            ujelly-theme
-            undo-tree
-            w3m
-            yasnippet
-    ))
+  ; A package for line helps to mantain the list
+  (setq my-packages
+     '(
+          ac-emmet
+          ag
+          async
+          auto-complete
+          browse-kill-ring
+          buffer-move
+          calfw
+          charmap
+          csv-mode
+          diff-hl
+          dired+
+          elfeed
+          emms
+          emmet-mode
+          evil
+          evil-exchange
+          evil-indent-textobject
+          evil-leader
+          evil-matchit
+          evil-nerd-commenter
+          fill-column-indicator
+          flatland-theme
+          fixmee
+          git-commit-mode
+          git-rebase-mode
+          gitconfig-mode
+          gitignore-mode
+          google-maps
+          google-this
+          graphviz-dot-mode
+          guide-key-tip
+          helm
+          helm-descbinds
+          helm-emmet
+          helm-flycheck
+          helm-projectile
+          helm-themes
+          haskell-mode
+          ibuffer-vc
+          ido-ubiquitous
+          ido-vertical-mode
+          ido-yes-or-no
+          ipython
+          jedi
+          know-your-http-well
+          lua-mode
+          lorem-ipsum
+          magit
+          markdown-mode
+          monokai-theme
+          mu4e-maildirs-extension
+          multi-term
+          org-plus-contrib
+          paradox
+          password-store
+          perspective
+          pretty-mode
+          projectile
+          popwin
+          rainbow-mode
+          racket-mode
+          rw-ispell
+          rw-hunspell
+          rw-language-and-country-codes
+          smart-mode-line
+          smartparens
+          smex
+          sml-mode
+          sublime-themes
+          surround
+          swoop
+          twittering-mode
+          ujelly-theme
+          undo-tree
+          w3m
+          yasnippet
+          zeal-at-point
+  ))
 #+END_SRC
 
 ** Repositories
@@ -162,10 +173,10 @@ maintain clean and updated this list for me is the following:
 The ELPA repositories from where the packages are fetched.
 
 #+BEGIN_SRC emacs-lisp
-    (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                             ("marmalade" . "http://marmalade-repo.org/packages/")
-                             ("org" . "http://orgmode.org/elpa/")
-                             ("melpa" . "http://melpa.org/packages/")))
+  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                           ("marmalade" . "http://marmalade-repo.org/packages/")
+                           ("org" . "http://orgmode.org/elpa/")
+                           ("melpa" . "http://melpa.org/packages/")))
 #+END_SRC
 
 ** Auto-installation
@@ -174,16 +185,16 @@ The auto-installation process for all the packages that are not
 already installed. This is for bootstrap a fresh install.
 
 #+BEGIN_SRC emacs-lisp
-    ;;; initialize the packages and create the packages list if not exists
-    (package-initialize)
-    (when (not package-archive-contents)
-      (package-refresh-contents))
+  ;;; initialize the packages and create the packages list if not exists
+  (package-initialize)
+  (when (not package-archive-contents)
+    (package-refresh-contents))
 
-    ;;; install packages if not exists
-    (dolist (pkg my-packages)
-      (when (and (not (package-installed-p pkg))
-               (assoc pkg package-archive-contents))
-        (package-install pkg)))
+  ;;; install packages if not exists
+  (dolist (pkg my-packages)
+    (when (and (not (package-installed-p pkg))
+             (assoc pkg package-archive-contents))
+      (package-install pkg)))
 #+END_SRC
 
 *** Errors after compling in a fresh installation
@@ -218,13 +229,13 @@ to remove the old, obsolete versions afterwards.
 Make sure that UTF-8 is used everywhere.
 
 #+BEGIN_SRC emacs-lisp
-    (set-terminal-coding-system 'utf-8)
-    (set-keyboard-coding-system 'utf-8)
-    (set-language-environment 'utf-8)
-    (prefer-coding-system 'utf-8)
-    (setq locale-coding-system 'utf-8)
-    (set-selection-coding-system 'utf-8)
-    (set-input-method nil)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-language-environment 'utf-8)
+  (prefer-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (set-input-method nil)
 #+END_SRC
 
 ** Temporal directory
@@ -234,19 +245,19 @@ I like to keep all of the temporal files and dirs (cache, backups,
 create it
 
 #+BEGIN_SRC emacs-lisp
-     (unless (file-exists-p "~/.emacs.d/tmp")
-        (make-directory "~/.emacs.d/tmp"))
+  (unless (file-exists-p "~/.emacs.d/tmp")
+    (make-directory "~/.emacs.d/tmp"))
 #+END_SRC
 
 Store all temporal files in a temporal directory instead of being
 disseminated in the $HOME directory
 
 #+BEGIN_SRC emacs-lisp
-  ;; Tramp history 
+  ;; Tramp history
   (setq tramp-persistency-file-name (concat user-emacs-directory "tmp/tramp"))
-  ;; Bookmarks file 
+  ;; Bookmarks file
   (setq bookmark-default-file (concat user-emacs-directory "tmp/bookmarks"))
-  ;;SemanticDB files 
+  ;;SemanticDB files
   (setq semanticdb-default-save-directory (concat user-emacs-directory "tmp/semanticdb"))
   ;; url files
   (setq url-configuration-directory (concat user-emacs-directory "tmp/url"))
@@ -261,8 +272,8 @@ disseminated in the $HOME directory
 I prefer to use a undo-tree with branches that store auto-save files.
 
 #+BEGIN_SRC emacs-lisp
-    (setq auto-save-default nil)
-    (setq auto-save-list-file-prefix nil)
+  (setq auto-save-default nil)
+  (setq auto-save-list-file-prefix nil)
 #+END_SRC
 
 ** Disable Backups
@@ -272,7 +283,7 @@ secure don't have a plaint text backup of those files. Use a DVCS and
 backup your files regularly, for God's sake!
 
 #+BEGIN_SRC emacs-lisp
-    (setq make-backup-files nil)
+  (setq make-backup-files nil)
 #+END_SRC
 
 ** History
@@ -280,14 +291,14 @@ backup your files regularly, for God's sake!
 Maintain a history of past actions.
 
 #+BEGIN_SRC emacs-lisp
-    (setq savehist-file "~/.emacs.d/tmp/history")
-    (setq-default history-length 1000)
-    (savehist-mode t)
-    (setq savehist-save-minibuffer-history 1)
-    (setq savehist-additional-variables
-          '(kill-ring
-            search-ring
-            regexp-search-ring))
+  (setq savehist-file "~/.emacs.d/tmp/history")
+  (setq-default history-length 1000)
+  (savehist-mode t)
+  (setq savehist-save-minibuffer-history 1)
+  (setq savehist-additional-variables
+        '(kill-ring
+          search-ring
+          regexp-search-ring))
 #+END_SRC
 
 ** Show matching parenthesis
@@ -295,8 +306,8 @@ Maintain a history of past actions.
 Show the matching parenthesis when the cursor is above one of them.
 
 #+BEGIN_SRC emacs-lisp
-    (setq show-paren-delay 0)
-    (show-paren-mode t)
+  (setq show-paren-delay 0)
+  (show-paren-mode t)
 #+END_SRC
 
 ** Toggle show trailing white-spaces
@@ -304,11 +315,11 @@ Show the matching parenthesis when the cursor is above one of them.
 Show/hide the trailing white-spaces in the buffer.
 
 #+BEGIN_SRC emacs-lisp
-    ;; from http://stackoverflow.com/a/11701899/634816
-    (defun joe/toggle-show-trailing-whitespace ()
-      "Toggle show-trailing-whitespace between t and nil"
-      (interactive)
-      (setq show-trailing-whitespace (not show-trailing-whitespace)))
+  ;; from http://stackoverflow.com/a/11701899/634816
+  (defun joe/toggle-show-trailing-whitespace ()
+    "Toggle show-trailing-whitespace between t and nil"
+    (interactive)
+    (setq show-trailing-whitespace (not show-trailing-whitespace)))
 #+END_SRC
 
 ** Always indent with spaces
@@ -316,8 +327,8 @@ Show/hide the trailing white-spaces in the buffer.
 No more tabs, please, use damn spaces, for God's sake!
 
 #+BEGIN_SRC emacs-lisp
-    (setq-default indent-tabs-mode nil)
-    (setq-default default-tab-width 4)
+  (setq-default indent-tabs-mode nil)
+  (setq-default default-tab-width 4)
 #+END_SRC
 
 ** Replace yes/no questions with y/n
@@ -325,7 +336,7 @@ No more tabs, please, use damn spaces, for God's sake!
 Less keystrokes, I already press enough keys along the day.
 
 #+BEGIN_SRC emacs-lisp
-    (fset 'yes-or-no-p 'y-or-n-p)
+  (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
 ** Mondays are the first day of the week (for M-x calendar)
@@ -333,10 +344,10 @@ Less keystrokes, I already press enough keys along the day.
 Set the calendar to my country's calendar standards
 
 #+BEGIN_SRC emacs-lisp
-    (setq-default calendar-week-start-day 1)
-    (setq calendar-latitude 43.36)
-    (setq calendar-longitude 8.38)
-    (setq calendar-location-name "A Coruña, Spain")
+  (setq-default calendar-week-start-day 1)
+  (setq calendar-latitude 43.36)
+  (setq calendar-longitude 8.38)
+  (setq calendar-location-name "A Coruña, Spain")
 #+END_SRC
 
 ** Use undo-tree for better undo
@@ -355,11 +366,11 @@ had for some time now). This makes it substantially easier to undo and
 redo any change, while preserving the entire history of past states.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'undo-tree)
-    (setq undo-tree-visualizer-diff t)
-    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/tmp/undo")))
-    (setq undo-tree-visualizer-timestamps t)
-    (global-undo-tree-mode)
+  (require 'undo-tree)
+  (setq undo-tree-visualizer-diff t)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/tmp/undo")))
+  (setq undo-tree-visualizer-timestamps t)
+  (global-undo-tree-mode)
 #+END_SRC
 
 ** Recent files
@@ -369,10 +380,10 @@ files. This list is is automatically saved across Emacs sessions. You
 can then access this list through a menu.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'recentf)
-    (setq recentf-save-file "~/.emacs.d/tmp/recentf")
-    (recentf-mode t)
-    (setq recentf-max-saved-items 100)
+  (require 'recentf)
+  (setq recentf-save-file "~/.emacs.d/tmp/recentf")
+  (recentf-mode t)
+  (setq recentf-max-saved-items 100)
 #+END_SRC
 
 ** Keep session between emacs runs (Desktop)
@@ -381,25 +392,25 @@ Desktop Save Mode is a feature to save the state of Emacs from one
 session to another.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'desktop)
-    (setq desktop-path '("~/.emacs.d/tmp/"))
-    (setq desktop-dirname "~/.emacs.d/tmp/")
-    (setq desktop-base-file-name "emacs-desktop")
-    (setq desktop-globals-to-save
-          (append '((extended-command-history . 50)
-                    (file-name-history . 200)
-                    (grep-history . 50)
-                    (compile-history . 50)
-                    (minibuffer-history . 100)
-                    (query-replace-history . 100)
-                    (read-expression-history . 100)
-                    (regexp-history . 100)
-                    (regexp-search-ring . 100)
-                    (search-ring . 50)
-                    (shell-command-history . 50)
-                    tags-file-name
-                    register-alist)))
-    (desktop-save-mode 1)
+  (require 'desktop)
+  (setq desktop-path '("~/.emacs.d/tmp/"))
+  (setq desktop-dirname "~/.emacs.d/tmp/")
+  (setq desktop-base-file-name "emacs-desktop")
+  (setq desktop-globals-to-save
+        (append '((extended-command-history . 50)
+                  (file-name-history . 200)
+                  (grep-history . 50)
+                  (compile-history . 50)
+                  (minibuffer-history . 100)
+                  (query-replace-history . 100)
+                  (read-expression-history . 100)
+                  (regexp-history . 100)
+                  (regexp-search-ring . 100)
+                  (search-ring . 50)
+                  (shell-command-history . 50)
+                  tags-file-name
+                  register-alist)))
+  (desktop-save-mode 1)
 #+END_SRC
 
 ** Remove beep
@@ -407,7 +418,7 @@ session to another.
 Remove the annoying beep.
 
 #+BEGIN_SRC emacs-lisp
-    (setq visible-bell t)
+  (setq visible-bell t)
 #+END_SRC
 
 ** Open large files
@@ -415,7 +426,7 @@ Remove the annoying beep.
 Warn only when opening files bigger than 100MB
 
 #+BEGIN_SRC emacs-lisp
-    (setq large-file-warning-threshold 100000000)
+  (setq large-file-warning-threshold 100000000)
 #+END_SRC
 
 ** Save cursor position across sessions
@@ -425,9 +436,9 @@ time you open the file, the cursor will be at the position you last
 opened it.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'saveplace)
-    (setq save-place-file (concat user-emacs-directory "tmp/saveplace.el") )
-    (setq-default save-place t)
+  (require 'saveplace)
+  (setq save-place-file (concat user-emacs-directory "tmp/saveplace.el") )
+  (setq-default save-place t)
 #+END_SRC
 
 ** Kill internal processes via the =list process= buffer
@@ -455,7 +466,7 @@ Ibuffer is an advanced replacement for BufferMenu, which lets you
 operate on buffers much in the same manner as Dired.
 
 #+BEGIN_SRC emacs-lisp
-    (defalias 'list-buffers 'ibuffer)
+  (defalias 'list-buffers 'ibuffer)
 #+END_SRC
 
 *** User ibuffer-vc by default
@@ -464,24 +475,31 @@ operate on buffers much in the same manner as Dired.
 project.
 
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'ibuffer-hook
-        (lambda ()
-            (ibuffer-vc-set-filter-groups-by-vc-root)
-            (unless (eq ibuffer-sorting-mode 'alphabetic)
+  (add-hook 'ibuffer-hook
+            (lambda ()
+              (ibuffer-vc-set-filter-groups-by-vc-root)
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
                 (ibuffer-do-sort-by-alphabetic))))
 
-
-    (setq ibuffer-formats
+  (setq ibuffer-formats
         '((mark modified read-only vc-status-mini " "
-            (name 18 18 :left :elide)
-            " "
-            (size 9 -1 :right)
-            " "
-            (mode 16 16 :left :elide)
-            " "
-            (vc-status 16 16 :left)
-            " "
-            filename-and-process)))
+                (name 18 18 :left :elide)
+                " "
+                (size 9 -1 :right)
+                " "
+                (mode 16 16 :left :elide)
+                " "
+                (vc-status 16 16 :left)
+                " "
+                filename-and-process)))
+#+END_SRC
+
+** Browser
+
+#+BEGIN_SRC emacs-lisp
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "firefox")
+  (setq w3m-default-display-inline-images t)
 #+END_SRC
 
 * Aesthetics
@@ -494,7 +512,7 @@ one too!
 The welcome screen is for guests only, I'm in home now!
 
 #+BEGIN_SRC emacs-lisp
-    (setq inhibit-startup-screen t)
+  (setq inhibit-startup-screen t)
 #+END_SRC
 
 ** Remove the message in the scratch buffer
@@ -502,7 +520,7 @@ The welcome screen is for guests only, I'm in home now!
 Idem as above for the same reasons.
 
 #+BEGIN_SRC emacs-lisp
-    (setq initial-scratch-message "")
+  (setq initial-scratch-message "")
 #+END_SRC
 
 ** A cleaner frame
@@ -513,19 +531,19 @@ bars.
 *** Hide the menu bar
 
 #+BEGIN_SRC emacs-lisp
-    (menu-bar-mode -1)
+  (menu-bar-mode -1)
 #+END_SRC
 
 *** Hide the tool bar
 
 #+BEGIN_SRC emacs-lisp
-    (tool-bar-mode -1)
+  (tool-bar-mode -1)
 #+END_SRC
 
 *** Hide the scroll bar
 
 #+BEGIN_SRC emacs-lisp
-    (scroll-bar-mode -1)
+  (scroll-bar-mode -1)
 #+END_SRC
 
 ** Mode Line
@@ -535,13 +553,13 @@ Settings for the mode line
 *** Show the column number
 
 #+BEGIN_SRC emacs-lisp
-     (column-number-mode t)
+  (column-number-mode t)
 #+END_SRC
 
 *** Show the buffer size (bytes)
 
 #+BEGIN_SRC emacs-lisp
-    (setq size-indication-mode t)
+  (setq size-indication-mode t)
 #+END_SRC
 
 *** Show the current function
@@ -550,7 +568,7 @@ This is very useful in programming and also to see the headers in
 outlines modes.
 
 #+BEGIN_SRC emacs-lisp
-    (which-function-mode 1)
+  (which-function-mode 1)
 #+END_SRC
 
 *** Smart mode line
@@ -621,7 +639,7 @@ The font to use. I choose monospace and /Dejavu Sans Mono/ because is
 an open font and has the best Unicode support, and looks very fine to me too!
 
 #+BEGIN_SRC emacs-lisp
-    (set-face-attribute 'default nil :family "Dejavu Sans Mono" :height 110)
+  (set-face-attribute 'default nil :family "Dejavu Sans Mono" :height 110)
 #+END_SRC
 
 *** Font Fallback for Unicode
@@ -631,8 +649,8 @@ to fallback in those case where certain Unicode glyphs are
 missing in the current font.
 
 #+BEGIN_SRC emacs-lisp
-    (set-fontset-font "fontset-default" nil
-                      (font-spec :size 20 :name "Symbola"))
+  (set-fontset-font "fontset-default" nil
+                    (font-spec :size 20 :name "Symbola"))
 #+END_SRC
 
 ** Cursor not blinking
@@ -640,7 +658,7 @@ missing in the current font.
 The blinking cursor is pretty annoying, so disable it.
 
 #+BEGIN_SRC emacs-lisp
-    (blink-cursor-mode -1)
+  (blink-cursor-mode -1)
 #+END_SRC
 
 ** Highlight the current line
@@ -648,15 +666,16 @@ The blinking cursor is pretty annoying, so disable it.
 To help us to locate where the cursor is.
 
 #+BEGIN_SRC emacs-lisp
-    (global-hl-line-mode 1)
+  (global-hl-line-mode 1)
 #+END_SRC
 
 ** Show empty lines
 
-This option show the empty lines at the end (bottom) of the buffer.
+This option show the empty lines at the end (bottom) of the buffer
+like in Vim.
 
 #+BEGIN_SRC emacs-lisp
-    (toggle-indicate-empty-lines)
+  (toggle-indicate-empty-lines)
 #+END_SRC
 
 ** Pretty mode
@@ -665,7 +684,7 @@ Use mathematical *Unicode* /symbols/ instead of expressions or keywords in
 some programming languages
 
 #+BEGIN_SRC emacs-lisp
-    (global-pretty-mode t)
+  (global-pretty-mode t)
 #+END_SRC
 
 ** Better line numbers
@@ -673,23 +692,23 @@ some programming languages
 Display a more appealing line numbers.
 
 #+BEGIN_SRC emacs-lisp
-    ; 2014-04-04: Holy moly its effort to get line numbers like vim!
-    ; http://www.emacswiki.org/emacs/LineNumbers#toc6
-    (unless window-system
-      (add-hook 'linum-before-numbering-hook
-    (lambda ()
-    (setq-local linum-format-fmt
-    (let ((w (length (number-to-string
-    (count-lines (point-min) (point-max))))))
-    (concat "%" (number-to-string w) "d"))))))
+  ; 2014-04-04: Holy moly its effort to get line numbers like vim!
+  ; http://www.emacswiki.org/emacs/LineNumbers#toc6
+  (unless window-system
+    (add-hook 'linum-before-numbering-hook
+              (lambda ()
+                (setq-local linum-format-fmt
+                            (let ((w (length (number-to-string
+                                              (count-lines (point-min) (point-max))))))
+                              (concat "%" (number-to-string w) "d"))))))
 
-    (defun joe/linum-format-func (line)
-      (concat
-       (propertize (format linum-format-fmt line) 'face 'linum)
-       (propertize " " 'face 'linum)))
+  (defun joe/linum-format-func (line)
+     (concat
+      (propertize (format linum-format-fmt line) 'face 'linum)
+      (propertize " " 'face 'linum)))
 
-    (unless window-system
-      (setq linum-format 'joe/linum-format-func))
+  (unless window-system
+    (setq linum-format 'joe/linum-format-func))
 #+END_SRC
 
 ** Show fill column
@@ -697,9 +716,9 @@ Display a more appealing line numbers.
 Toggle the vertical column that indicates the fill threshold.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'fill-column-indicator)
-    (fci-mode)
-    (setq fci-rule-column 79)
+  (require 'fill-column-indicator)
+  (fci-mode)
+  (setq fci-rule-column 79)
 #+END_SRC
 
 ** More thinner window divisions
@@ -707,7 +726,7 @@ Toggle the vertical column that indicates the fill threshold.
 The default windows divisions are more uglier than sin.
 
 #+BEGIN_SRC emacs-lisp
-    (fringe-mode '(1 . 1))
+  (fringe-mode '(1 . 1))
 #+END_SRC
 
 * Edition
@@ -783,8 +802,8 @@ Minor mode for Emacs that deals with parens pairs and tries to be
 smart about it.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'smartparens-config)
-    (smartparens-global-mode)
+  (require 'smartparens-config)
+  (smartparens-global-mode)
 #+END_SRC
 
 ** Backward-kill-word as alternative to Backspace
@@ -794,7 +813,7 @@ times. To do this will bind the =backward-kill-region= function to the
 =C-w= key combination
 
 #+BEGIN_SRC emacs-lisp
-    (global-set-key "\C-w" 'backward-kill-word)
+  (global-set-key "\C-w" 'backward-kill-word)
 #+END_SRC
 
 *** Rebind the original C-w binding
@@ -802,8 +821,8 @@ times. To do this will bind the =backward-kill-region= function to the
 Now we reasigne the original binding to that combination to a new one
 
 #+BEGIN_SRC emacs-lisp
-    (global-set-key "\C-x\C-k" 'kill-region)
-    (global-set-key "\C-c\C-k" 'kill-region)
+  (global-set-key "\C-x\C-k" 'kill-region)
+  (global-set-key "\C-c\C-k" 'kill-region)
 #+END_SRC
 
 ** Spell checking
@@ -826,610 +845,13 @@ Activate Spell Checking by default. Also use [[http://hunspell.sourceforge.net/]
    '(rw-hunspell-use-rw-ispell t))
 
   (defun joe/turn-on-spell-check ()
-         (flyspell-mode 1))
+    (flyspell-mode 1))
 
   ;; enable spell-check in certain modes
   (add-hook 'markdown-mode-hook 'joe/turn-on-spell-check)
   (add-hook 'text-mode-hook 'joe/turn-on-spell-check)
   (add-hook 'org-mode-hook 'joe/turn-on-spell-check)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-#+END_SRC
-
-* Vim-like Features
-
-For those who came from Vim is more easy to use something alike
-
-** Use evil
-
-[[https://gitorious.org/evil/pages/Home][Evil]] is an extensible vi layer for Emacs. It emulates the main
-features of Vim, and provides facilities for writing custom
-extensions.
-
-| Binding | Call                        | Do                                      |
-|---------+-----------------------------+-----------------------------------------|
-| C-z     | evil-emacs-state            | Toggle evil-mode                        |
-| \       | evil-execute-in-emacs-state | Execute the next command in emacs state |
-
-#+BEGIN_SRC emacs-lisp
-    (setq evil-shift-width 4)
-    (require 'evil)
-    (evil-mode 1)
-#+END_SRC
-
-*** ESC quits almost everywhere
-
-Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice][here]], trying to emulate the Vim behaviour
-
-#+BEGIN_SRC emacs-lisp
-    ;;; esc quits
-    (define-key evil-normal-state-map [escape] 'keyboard-quit)
-    (define-key evil-visual-state-map [escape] 'keyboard-quit)
-    (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-    (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-    (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-    (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-    (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-#+END_SRC
-
-*** TODO Org-mode customization
-
-Custom bindings for /Org-mode/.
-
-#+BEGIN_SRC emacs-lisp
-    (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
-    (evil-define-key 'normal org-mode-map (kbd "SPC") 'org-cycle)
-    (evil-define-key 'normal org-mode-map (kbd "H") 'org-metaleft)
-    (evil-define-key 'normal org-mode-map (kbd "L") 'org-metaright)
-    (evil-define-key 'normal org-mode-map (kbd "K") 'org-metaup)
-    (evil-define-key 'normal org-mode-map (kbd "J") 'org-metadown)
-    (evil-define-key 'normal org-mode-map (kbd "U") 'org-shiftmetaleft)
-    (evil-define-key 'normal org-mode-map (kbd "I") 'org-shiftmetaright)
-    (evil-define-key 'normal org-mode-map (kbd "O") 'org-shiftmetaup)
-    (evil-define-key 'normal org-mode-map (kbd "P") 'org-shiftmetadown)
-    (evil-define-key 'normal org-mode-map (kbd "t")   'org-todo)
-    (evil-define-key 'normal org-mode-map (kbd "-")   'org-cycle-list-bullet)
-
-    (evil-define-key 'insert org-mode-map (kbd "C-c .")
-      '(lambda () (interactive) (org-time-stamp-inactive t)))
-#+END_SRC
-
-*** Elfeed customization
-
-Custom bindings for Elfeed.
-
-#+BEGIN_SRC emacs-lisp
-    ; elfeed-search
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "q") 'quit-window)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update--force)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "o") 'elfeed-search-browse-url)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "y") 'elfeed-search-yank)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "r") 'elfeed-search-untag-all-unread)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
-    (evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
-    ; elfeed-show
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "n") 'elfeed-show-next)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "p") 'elfeed-show-prev)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "o") 'elfeed-show-visit)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "y") 'elfeed-show-yank)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "-") 'elfeed-show-untag)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "SPC") 'scroll-up)
-    (evil-define-key 'normal elfeed-show-mode-map (kbd "S-SPC") 'scroll-down)
-#+END_SRC
-
-*** Disable it in certain modes
-
-#+BEGIN_SRC emacs-lisp
-;  (evil-set-initial-state 'elfeed-search-mode 'emacs)
-;  (evil-set-initial-state 'elfeed-show-mode 'emacs)
-#+END_SRC
-
-** TODO evil-leader
-
-[[https://github.com/cofi/evil-leader][Evil Leader]] provides the =<leader>= feature from Vim that provides an
-easy way to bind keys under a variable prefix key. For an experienced
-Emacs User it is nothing more than a convoluted key map, but for a
-Evil user coming from Vim it means an easier start.
-
-The prefix =C-<leader>= allows to use it in those modes where evil is
-not in normal state (e.g. magit)
-
-| Binding    | Do                                           |
-|------------+----------------------------------------------|
-| <SPC>      | Leader key                                   |
-| C-<leader> | Prefix + Leader key when not in normal state |
-| .          | Repeat last leader command                   |
-|------------+----------------------------------------------|
-| <leader>-a |                                              |
-| <leader>-b | Buffer bindings                              |
-| <leader>-c | Flycheck bindings                            |
-| <leader>-d |                                              |
-| <leader>-e | Edition bindings                             |
-| <leader>-f | File bindings                                |
-| <leader>-g | Git bindings                                 |
-| <leader>-h |                                              |
-| <leader>-i | Internet bindings                            |
-| <leader>-j | Jump bindings                                |
-| <leader>-k | Spell bindings                               |
-| <leader>-l | Lisp bindings                                |
-| <leader>-m | Menu bindings                                |
-| <leader>-n | Narrow bindings                              |
-| <leader>-o | Organization bindings                        |
-| <leader>-p | Project bindings                             |
-| <leader>-q | Exit bindings                                |
-| <leader>-r | Registers bindings                           |
-| <leader>-s | Search bindings                              |
-| <leader>-t |                                              |
-| <leader>-u |                                              |
-| <leader>-v |                                              |
-| <leader>-w | Window bindings                              |
-| <leader>-x | Shell/System bindings                        |
-| <leader>-y |                                              |
-| <leader>-z | Emacs Bindings                               |
-|------------+----------------------------------------------|
-
-#+BEGIN_SRC emacs-lisp
-  (require 'evil-leader)
-  (global-evil-leader-mode)
-  (setq evil-leader/in-all-states 1)
-  (evil-leader/set-leader "<SPC>")
-  (setq echo-keystrokes 0.02)
-#+END_SRC
-
-*** Buffer bindings
-
-| Binding      | Call              | Do                                              |
-|--------------+-------------------+-------------------------------------------------|
-| <leader>-TAB |                   | Switch the last two buffers                     |
-| <leader>-bb  | ido-switch-buffer | Switch buffer                                   |
-| <leader>-bi  | ibuffer           | Switch buffer using ibuffer                     |
-| <leader>-bj  | buf-move-up       | Move the buffer to the window above             |
-| <leader>-bk  | buf-move-down     | Move the buffer to the window below             |
-| <leader>-bh  | buf-move-left     | Move the buffer to the window at the left       |
-| <leader>-bl  | buf-move-right    | Move the buffer to the window at the right      |
-| <leader>-bd  | kill-buffer       | Kill a buffer                                   |
-| <leader>-bw  | save-buffer       | Save current buffer in visited file if modified |
-| <leader>-br  | read-only-mode    | Toggle between read & write and read-only mode  |
-| <leader>-bu  |                   | Revert the buffer changes                       |
-
-#+BEGIN_SRC emacs-lisp
-  ;; toggle between the last two buffers
-  (defun joe/alternate-buffers ()
-          (interactive)
-          (switch-to-buffer (other-buffer (current-buffer) t)))
-
-  (defun joe/revert-buffer ()
-    (interactive)
-    (revert-buffer nil t))
-
-  (evil-leader/set-key
-    "TAB" 'joe/alternate-buffers
-    "bb"  'ido-switch-buffer
-    "bd"  'kill-buffer
-    "bh"  'buf-move-left
-    "bi"  'ibuffer
-    "bj"  'buf-move-up
-    "bk"  'buf-move-down
-    "bl"  'buf-move-right
-    "br"  'read-only-mode
-    "bu"  'joe/revert-buffer
-    "bw"  'save-buffer
-    )
-#+END_SRC
-
-*** Window bindings
-
-| Binding     | Call                         | Do                                                                  |
-|-------------+------------------------------+---------------------------------------------------------------------|
-| <leader>-J  | joe/scroll-other-window-down | Scroll the other window a line down                                 |
-| <leader>-K  | joe/scroll-other-window      | Scroll the other window a line up                                   |
-| <leader>-W  | delete-window                | Close a window                                                      |
-| <leader>-wb | balance-windows              | Balance the windows proportionally
-| <leader>-wv | split-window-horizontally    | Split the selected window into two side-by-side windows             |
-| <leader>-ws | split-window-vertically      | Split the selected window into two windows, one above the other     |
-| <leader>-wz | delete-other-windows         | Make a Zoom (delete all the other windows)                          |
-| <leader>-wj | windmove-down                | Move the window to the below position                               |
-| <leader>-wk | windmove-up                  | Move the window to the above position                               |
-| <leader>-wh | windmove-left                | Move the window to the left position                                |
-| <leader>-wl | windmove-right               | Move the window to the right position                               |
-| <leader>-wJ | shrink-window                | Shrink the window                                                   |
-| <leader>-wK | enlarge-window               | Enlarge the window                                                  |
-| <leader>-wH | shrink-window-horizontally   | Shrink the window horizontally                                      |
-| <leader>-wL | enlarge-window-horizontally  | Enlarge the window horizontally                                     |
-| <leader>-ww | other-window                 | Select other window in cycling order                                |
-| <leader>-wr | winner-redo                  | Restore a more recent window configuration saved by Winner mode     |
-| <leader>-wu | winner-undo                  | Switch back to an earlier window configuration saved by Winner mode |
-
-#+BEGIN_SRC emacs-lisp
-      (defun joe/scroll-other-window()
-        (interactive)
-        (scroll-other-window 1))
-
-      (defun joe/scroll-other-window-down ()
-        (interactive)
-        (scroll-other-window-down 1))
-
-      (require 'windmove)
-      (winner-mode t)
-      (evil-leader/set-key
-        "J"  'joe/scroll-other-window-down
-        "K"  'joe/scroll-other-window
-        "W"  'delete-window
-        "wb" 'balance-windows
-        "wH" 'shrink-window-horizontally
-        "wh" 'windmove-left
-        "wJ" 'shrink-window
-        "wj" 'windmove-down
-        "wK" 'enlarge-window
-        "wk" 'windmove-up
-        "wL" 'enlarge-window-horizontally
-        "wl" 'windmove-right
-        "wr" 'winner-redo
-        "ws" 'split-window-vertically
-        "wu" 'winner-undo
-        "wv" 'split-window-horizontally
-        "ww" 'other-window
-        "wz" 'delete-other-windows
-        )
-#+END_SRC
-
-*** Menu bindings
-    
-| Binding     | Call                     | Do                                                           |
-|-------------+--------------------------+--------------------------------------------------------------|
-| <leader>-ms | smex                     | Call smex (to execute a command)                             |
-| <leader>-mm | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
-| <leader>-mh | helm-M-x                 | Call Helm M-x                                              |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "mh" 'helm-M-x
-    "mm" 'smex-major-mode-commands
-    "ms" 'smex
-    )
-#+END_SRC
-
-*** File bindings
-
-| Binding     | Call            | Do                        |
-|-------------+-----------------+---------------------------|
-| <leader>-fo | find-file       | Open a file               |
-| <leader>-fr | helm-recentf    | Open a recent opened file |
-| <leader>-fh | helm-find-files | Open a file using helm    |
-| <leader>-fd | dired           | Call dired                |
-
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "fo" 'find-file
-    "fr" 'helm-recentf
-    "fh" 'helm-find-files
-    "fd" 'dired
-    )
-#+END_SRC
-
-*** Edition bindings
-
-| Binding     | Call                                | Do                                                  |
-|-------------+-------------------------------------+-----------------------------------------------------|
-| M-t         | transpose-words                     | Transpose two words                                 |
-| C-w         | backward-kill-word                  | Kill the entire previous (to the cursor) word       |
-| <leader>-ea | align-regexp                        | Align a region using regex                          |
-| <leader>-ec | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                             |
-| <leader>-ed | insert-char                         | Insert an Unicode character                         |
-| <leader>-ef | fci-mode                            | Show/hide fill column                               |
-| <leader>-eh | whitespace-mode                     | Show/Hide hidden chars                              |
-| <leader>-ei | lorem-ipsum-insert-paragraphs       | Insert a paragraph of [[http://www.wikiwand.com/en/Lorem_ipsum][Lorem ipsum]]                   |
-| <leader>-ek | count-words                         | Count words in a region                             |
-| <leader>-el | linum-mode                          | Show/Hide line numbers                              |
-| <leader>-em | charmap                             | Display a specific code block                       |
-| <leader>-ep | describe-char                       | Display the character code of character after point |
-| <leader>-et | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace                       |
-| <leader>-eu | helm-ucs                            | Choose a Unicode character with helm                |
-| <leader>-ev | variable-pitch-mode                 | Toggle variable/fixed space font                    |
-| <leader>-ew | whitespace-cleanup                  | Remove trailing whitespaces                         |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "ea" 'align-regexp
-    "ec" 'evilnc-comment-or-uncomment-lines
-    "ed" 'insert-char
-    "ef" 'fci-mode
-    "eh" 'whitespace-mode
-    "ei" 'lorem-ipsum-insert-paragraphs
-    "ek" 'count-words
-    "el" 'linum-mode
-    "em" 'charmap
-    "ep" 'describe-char
-    "et" 'joe/toggle-show-trailing-whitespace
-    "eu" 'helm-ucs
-    "ev" 'variable-pitch-mode
-    "ew" 'whitespace-cleanup 
-    )
-#+END_SRC
-
-*** Register bindings
-
-| Binding     | Call                | Do                                            |
-|-------------+---------------------+-----------------------------------------------|
-| <leader>-ru | undo-tree-visualize | Visualize the current buffer's undo tree      |
-| <leader>-rk | helm-show-kill-ring | Choose between previous yanked pieces of text |
-| <leader>-rr | evil-show-registers | Show Evil registers                           |
-| <leader>-re | list-registers      | Show Emacs registers                          |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "ru" 'undo-tree-visualize
-    "rk" 'helm-show-kill-ring
-    "rr" 'evil-show-registers
-    "re" 'list-registers
-    )
-#+END_SRC
-
-*** Narrow bindings
-
-| Binding     | Call             | Do                                                    |
-|-------------+------------------+-------------------------------------------------------|
-| <leader>-nr | narrow-to-region | Restrict editing in this buffer to the current region |
-| <leader>-np | narrow-to-page   | Restrict editing to the visible page                  |
-| <leader>-nf | narrow-to-defun  | Restrict editing to the current defun                 |
-| <leader>-nw | widen            | Remove restrictions (narrowing) from current buffer   |
- 
-#+BEGIN_SRC emacs-lisp
-  (put 'narrow-to-region 'disabled nil)
-  (put 'narrow-to-page 'disabled nil)
-  (evil-leader/set-key
-     "nr" 'narrow-to-region
-     "np" 'narrow-to-page
-     "nf" 'narrow-to-defun
-     "nw" 'widen
-     )
-#+END_SRC
-
-*** Project bindings
-
-| Binding    | Call                 | Do                            |
-|------------+----------------------+-------------------------------|
-| <leader>-p | projectile-commander | Call the Projectile commander |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "p" 'projectile-commander
-    )
-#+END_SRC
-
-*** Shell/System bindings
-
-| Binding     | Call            | Do                              |
-|-------------+-----------------+---------------------------------|
-| <leader>-xs | multi-term      | Create new term buffer          |
-| <leader>-xn | multi-term-next | Go to the next term buffer      |
-| <leader>-xe | eshell          | Call eshell                     |
-| <leader>-xc | shell-command   | Run shell command               |
-| <leader>-xp | proced          | Show a list of system process   |
-| <leader>-xl | list-process    | Show a list of emacs process    |
-| <leader>-xt | helm-top        | Show the results of top command |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "xs" 'multi-term
-    "xn" 'multi-term-next
-    "xe" 'eshell
-    "xc" 'shell-command
-    "xp" 'proced
-    "xl" 'list-processes
-    "xt" 'helm-top
-    )
-#+END_SRC
-
-*** Search bindings
-
-| Binding     | Call                   | Do                                                    |
-|-------------+------------------------+-------------------------------------------------------|
-| <leader>-sa | ag                     | Do a regex search using ag (The Silver Searcher)      |
-| <leader>-sg | rgrep                  | Do a regex search using grep                          |
-| <leader>-sl | helm-locate            | Do a search using locate                              |
-| <leader>-sf | swoop                  | Search through words within the current buffer        |
-| <leader>-sw | swoop-multi            | Search words across currently opened multiple buffers |
-| <leader>-st | helm-semantic-or-imenu | See the file tags                                     |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "sa" 'ag
-    "sg" 'rgrep
-    "sl" 'helm-locate
-    "sf" 'swoop
-    "sw" 'swoop-multi
-    "st" 'helm-semantic-or-imenu
-    )
-#+END_SRC
-
-*** Organization bindings
-
-| Binding     | Call                  | Do                                   |
-|-------------+-----------------------+--------------------------------------|
-| <leader>-oa | org-agenda            | Call the org-mode agenda             |
-| <leader>-oc | org-capture           | Call the org-mode capture            |
-| <leader>-om | mu4e                  | Start mu4e (email client)            |
-| <leader>-od | cfw:open-org-calendar | Open the month calendar for org-mode |
-| <leader>-op | org-contacts          | Search a contact                     |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "oa" 'org-agenda
-    "oc" 'org-capture
-    "om" 'mu4e
-    "od" 'cfw:open-org-calendar
-    "op" 'org-contacts
-    )
-#+END_SRC
-
-*** Exit bindings
-
-| Binding     | Call                       | Do                                |
-|-------------+----------------------------+-----------------------------------|
-| <leader>-qc | save-buffers-kill-terminal | Exit Emacs (standalone or client) |
-| <leader>-qs | save-buffers-kill-emacs    | Shutdown the emacs daemon         |
-
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "qc" 'save-buffers-kill-terminal
-    "qs" 'save-buffers-kill-emacs
-    )
-#+END_SRC
-
-*** Git bindings
-
-| Binding     | Call         | Do         |
-|-------------+--------------+------------|
-| <leader>-gs | magit-status | Call Magit |
-
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "gs" 'magit-status
-    )
-#+END_SRC
-
-*** Internet bindings
-
-| Binding     | Call         | Do                                                |
-|-------------+--------------+---------------------------------------------------|
-| <leader>-is | helm-surfraw | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                      |
-| <leader>-if | elfeed       | Open Elfeed to read Atom/RSS entries              |
-| <leader>-it | twit         | Open twittering-mode for an interface for twitter |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "is" 'helm-surfraw
-    "if" 'elfeed
-    "it" 'twit
-    )
-#+END_SRC
-
-*** Spell bindings
-
-| Binding     | Call                     | Do                          |
-|-------------+--------------------------+-----------------------------|
-| <leader>-ks | ispell-change-dictionary | Change the spell dictionary |
-|             |                          |                             |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "kd" 'ispell-change-dictionary
-    "kk" 'flyspell-auto-correct-word
-    "kc" 'ispell-word
-    "kn" 'flyspell-goto-next-error
-    )
-#+END_SRC
-
-*** Emacs bindings
-
-| Binding     | Call                | Do                                |
-|-------------+---------------------+-----------------------------------|
-| <leader>-zt | helm-themes         | Change the color theme using helm |
-| <leader>-zp | list-packages       | List all the available packages   |
-| <leader>-zi | package-install     | Install a package                 |
-| <leader>-zu | text-scale-increase | Increase the size of the text     |
-| <leader>-zd | text-scale-decrease | Decrease the size of the text     |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "zt" 'helm-themes
-    "zp" 'list-packages
-    "zi" 'package-install
-    "zu" 'text-scale-increase
-    "zd" 'text-scale-decrease
-    )
-#+END_SRC
-
-*** Lisp bindings
-
-| Binding     | Call       | Do                         |
-|-------------+------------+----------------------------|
-| <leader>-lr | eval-region | Eval the region with elisp |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "lr" 'eval-region
-    )
-#+END_SRC
-
-*** Flycheck bindings
-
-| Binding    | Call       | Do                         |
-|------------+------------+----------------------------|
-| <leader>-c | eval-region | Eval the region with elisp |
-
-#+BEGIN_SRC emacs-lisp
-  (evil-leader/set-key
-    "ce" 'helm-flycheck
-    )
-#+END_SRC
-
-** evil-indent-textobject
-
-Textobject for evil based on indentation, [[https://github.com/cofi/evil-indent-textobject][repository]]
-
-#+BEGIN_SRC emacs-lisp
-    (require 'evil-indent-textobject)
-#+END_SRC
-
-** evil-nerd-commenter
-
-Comment/uncomment lines efficiently. Like Nerd Commenter in Vim
-[[https://github.com/redguardtoo/evil-nerd-commenter][Repository]]
-
-#+BEGIN_SRC emacs-lisp
-    (require 'evil-nerd-commenter)
-#+END_SRC
-
-** evil-surround
-
-Use the [[https://github.com/timcharper/evil-surround][Surround]] plugin, the equivalent to the Vim one.
-
-#+BEGIN_SRC emacs-lisp
-    (require 'surround)
-    (global-surround-mode 1)
-#+END_SRC
-
-** evil-matchit
-
-Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] plugin, the equivalent to the Vim one.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'evil-matchit)
-  (global-evil-matchit-mode 1)
-#+END_SRC
-
-** change cursor color depending on mode
-
-#+BEGIN_SRC emacs-lisp
-  (setq evil-emacs-state-cursor '("red" box))
-  (setq evil-normal-state-cursor '("lawn green" box))
-  (setq evil-visual-state-cursor '("orange" box))
-  (setq evil-insert-state-cursor '("deep sky blue" bar))
-  (setq evil-replace-state-cursor '("red" bar))
-  (setq evil-operator-state-cursor '("red" hollow))
-#+END_SRC
-
-* Browser
-
-#+BEGIN_SRC emacs-lisp
-;    (setq browse-url-browser-function 'w3m-browse-url)
-;    (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
-    (setq browse-url-browser-function 'browse-url-generic
-           browse-url-generic-program "firefox")
-    (setq w3m-default-display-inline-images t)
 #+END_SRC
 
 * Org-Mode
@@ -1439,7 +861,7 @@ Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] plugin, the equ
 *** Enable Org Mode
 
 #+BEGIN_SRC emacs-lisp
-    (require 'org)
+  (require 'org)
 #+END_SRC
 
 *** TODO Org-mode modules
@@ -1447,41 +869,41 @@ Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] plugin, the equ
 Set the modules enabled by default
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-modules '(
-        org-bbdb
-        org-bibtex
-        org-docview
-        org-mhe
-        org-rmail
-        org-w3m
-        org-crypt
-        org-protocol
-        org-gnus
-        org-info
-        org-habit
-        org-irc
-        org-annotate-file
-        org-eval
-        org-expiry
-        org-man
-        org-panel
-        org-toc
-    ))
+  (setq org-modules '(
+      org-bbdb
+      org-bibtex
+      org-docview
+      org-mhe
+      org-rmail
+      org-w3m
+      org-crypt
+      org-protocol
+      org-gnus
+      org-info
+      org-habit
+      org-irc
+      org-annotate-file
+      org-eval
+      org-expiry
+      org-man
+      org-panel
+      org-toc
+  ))
 #+END_SRC
 
 *** Set default directories
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-directory "~/org")
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (setq org-directory "~/org")
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
 #+END_SRC
 
 *** Highlight code blocks syntax
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (add-to-list 'org-src-lang-modes (quote ("dot" . graphviz-dot)))
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (add-to-list 'org-src-lang-modes (quote ("dot" . graphviz-dot)))
 #+END_SRC
 
 *** Tasks management
@@ -1489,32 +911,32 @@ Set the modules enabled by default
 **** Record date and time when a task is marked as DONE
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-log-done t)
+  (setq org-log-done t)
 #+END_SRC
 
 **** Detect idle time when clock is running
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-clock-idle-time 10)
+  (setq org-clock-idle-time 10)
 #+END_SRC
 
 *** Agenda & diary
 
 **** Include diary entries
 #+BEGIN_SRC emacs-lisp
-    (setq org-agenda-include-diary t)
+  (setq org-agenda-include-diary t)
 #+END_SRC
 
 **** Agenda files
 #+BEGIN_SRC emacs-lisp
-    (setq org-agenda-files '("~/org"))
+  (setq org-agenda-files '("~/org"))
 #+END_SRC
 
 *** Third Apps
 
 **** Configure the external apps to open files
 #+BEGIN_SRC emacs-lisp
-     (setq org-file-apps
+  (setq org-file-apps
         '(("\\.pdf\\'" . "zathura %s")
           ("\\.gnumeric\\'" . "gnumeric %s")))
 #+END_SRC
@@ -1522,8 +944,8 @@ Set the modules enabled by default
 *** Protect hidden trees for being inadvertily edited
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-catch-invisible-edits 'error)
-    (setq org-ctrl-k-protect-subtree 'error)
+  (setq org-catch-invisible-edits 'error)
+  (setq org-ctrl-k-protect-subtree 'error)
 #+END_SRC
 
 *** Show images inline
@@ -1531,61 +953,61 @@ Set the modules enabled by default
 Only works in GUI, but is a nice feature to have
 
 #+BEGIN_SRC emacs-lisp
-    (when (window-system)
-        (setq org-startup-with-inline-images t))
+  (when (window-system)
+    (setq org-startup-with-inline-images t))
 #+END_SRC
 
 **** Limit images width
 
 #+BEGIN_SRC emacs-lisp
-    (setq org-image-actual-width '(800))
+  (setq org-image-actual-width '(800))
 #+END_SRC
 ** Org-Babel
 
 [[http://orgmode.org/worg/org-contrib/babel/][Babel]] is Org-mode's ability to execute source code within Org-mode documents.
 
 #+BEGIN_SRC emacs-lisp
-    ;; languages supported
-    (org-babel-do-load-languages
-     (quote org-babel-load-languages)
-     (quote (
-            (calc . t)
-            (clojure . t)
-            (ditaa . t)
-            (dot . t)
-            (emacs-lisp . t)
-            (gnuplot . t)
-            (latex . t)
-            (ledger . t)
-            (octave . t)
-            (org . t)
-            (makefile . t)
-            (plantuml . t)
-            (python . t)
-            (R . t)
-            (ruby . t)
-            (sh . t)
-            (sqlite . t)
-            (sql . nil))))
-    (setq org-babel-python-command "python2")
+  ;; languages supported
+  (org-babel-do-load-languages
+   (quote org-babel-load-languages)
+   (quote (
+           (calc . t)
+           (clojure . t)
+           (ditaa . t)
+           (dot . t)
+           (emacs-lisp . t)
+           (gnuplot . t)
+           (latex . t)
+           (ledger . t)
+           (octave . t)
+           (org . t)
+           (makefile . t)
+           (plantuml . t)
+           (python . t)
+           (R . t)
+           (ruby . t)
+           (sh . t)
+           (sqlite . t)
+           (sql . nil))))
+  (setq org-babel-python-command "python2")
 #+END_SRC
 
 *** Refresh images after execution
 
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+  (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 #+END_SRC
 
 *** Don't ask confirmation to execute "safe" languages
 
 #+BEGIN_SRC emacs-lisp
-    (defun joe/org-confirm-babel-evaluate (lang body)
-                (and (not (string= lang "ditaa"))
-                     (not (string= lang "dot"))
-                     (not (string= lang "gnuplot"))
-                     (not (string= lang "ledger"))
-                     (not (string= lang "plantuml"))))
-    (setq org-confirm-babel-evaluate 'joe/org-confirm-babel-evaluate)
+  (defun joe/org-confirm-babel-evaluate (lang body)
+    (and (not (string= lang "ditaa"))
+       (not (string= lang "dot"))
+       (not (string= lang "gnuplot"))
+       (not (string= lang "ledger"))
+       (not (string= lang "plantuml"))))
+  (setq org-confirm-babel-evaluate 'joe/org-confirm-babel-evaluate)
 #+END_SRC
 
 ** Org-location-google-maps
@@ -1594,8 +1016,8 @@ The google-maps Emacs extension allows to display Google Maps directly
 inside Emacs and integrate them in org-mode as addresses.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'google-maps)
-    (require 'org-location-google-maps)
+  (require 'google-maps)
+  (require 'org-location-google-maps)
 #+END_SRC
 
 ** Org-capture
@@ -1615,14 +1037,14 @@ To use it to capture web urls and notes from Firefox, install this
 [[http://chadok.info/firefox-org-capture/][Firefox extension]]
 
 #+BEGIN_SRC emacs-lisp
-    (require 'org-protocol)
+  (require 'org-protocol)
 
-    (setq org-protocol-default-template-key "w")
-    (setq org-capture-templates
-          (quote
-           (("w" "Web captures" entry (file+headline "~/org/notes.org" "Web")
-             "* %^{Title}    %^G\n\n  Source: %u, %c\n\n  %i"
-             :empty-lines 1))))
+  (setq org-protocol-default-template-key "w")
+  (setq org-capture-templates
+        (quote
+         (("w" "Web captures" entry (file+headline "~/org/notes.org" "Web")
+           "* %^{Title}    %^G\n\n  Source: %u, %c\n\n  %i"
+           :empty-lines 1))))
 #+END_SRC
 
 *** Org-contacts
@@ -1645,12 +1067,12 @@ Org-mode.
 *** TODO Other captures
 
 #+BEGIN_SRC emacs-lisp
-    (add-to-list 'org-capture-templates
-        '("t" "TODO" entry (file+headline "~/org/tasks.org" "Tasks")
-           "* TODO %^{Task}  %^G\n   %?\n  %a"))
-    (add-to-list 'org-capture-templates
-        '("n" "Notes" entry (file+headline "~/org/notes.org" "Notes")
-           "* %^{Header}  %^G\n  %u\n\n  %?"))
+  (add-to-list 'org-capture-templates
+      '("t" "TODO" entry (file+headline "~/org/tasks.org" "Tasks")
+         "* TODO %^{Task}  %^G\n   %?\n  %a"))
+  (add-to-list 'org-capture-templates
+      '("n" "Notes" entry (file+headline "~/org/notes.org" "Notes")
+         "* %^{Header}  %^G\n  %u\n\n  %?"))
 #+END_SRC
 
 * Programming Languages
@@ -1658,7 +1080,7 @@ Org-mode.
 ** Generic
 
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'prog-mode-hook 'flycheck-mode)
+  (add-hook 'prog-mode-hook 'flycheck-mode)
 #+END_SRC
 
 ** Python
@@ -1689,6 +1111,796 @@ Racket settings.
   (setq racket-mode-pretty-lambda t)
 #+END_SRC
 
+* Vim-like Features
+
+For those who came from Vim is more easy to use something alike
+
+** Use evil
+
+[[https://gitorious.org/evil/pages/Home][Evil]] is an extensible vi layer for Emacs. It emulates the main
+features of Vim, and provides facilities for writing custom
+extensions.
+
+| Binding | Call                        | Do                                      |
+|---------+-----------------------------+-----------------------------------------|
+| C-z     | evil-emacs-state            | Toggle evil-mode                        |
+| \       | evil-execute-in-emacs-state | Execute the next command in emacs state |
+
+#+BEGIN_SRC emacs-lisp
+  (setq evil-shift-width 4)
+  (require 'evil)
+  (evil-mode 1)
+#+END_SRC
+
+*** ESC quits almost everywhere
+
+Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice][here]], trying to emulate the Vim behaviour
+
+#+BEGIN_SRC emacs-lisp
+  ;;; esc quits
+  (define-key evil-normal-state-map [escape] 'keyboard-quit)
+  (define-key evil-visual-state-map [escape] 'keyboard-quit)
+  (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+  (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+#+END_SRC
+
+*** Change cursor color depending on mode
+
+#+BEGIN_SRC emacs-lisp
+  (setq evil-emacs-state-cursor '("red" box))
+  (setq evil-normal-state-cursor '("lawn green" box))
+  (setq evil-visual-state-cursor '("orange" box))
+  (setq evil-insert-state-cursor '("deep sky blue" bar))
+  (setq evil-replace-state-cursor '("red" bar))
+  (setq evil-operator-state-cursor '("red" hollow))
+#+END_SRC
+
+*** TODO Org-mode customization
+
+Custom bindings for /Org-mode/.
+
+#+BEGIN_SRC emacs-lisp
+  (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
+  (evil-define-key 'normal org-mode-map (kbd "SPC") 'org-cycle)
+  (evil-define-key 'normal org-mode-map (kbd "H") 'org-metaleft)
+  (evil-define-key 'normal org-mode-map (kbd "L") 'org-metaright)
+  (evil-define-key 'normal org-mode-map (kbd "K") 'org-metaup)
+  (evil-define-key 'normal org-mode-map (kbd "J") 'org-metadown)
+  (evil-define-key 'normal org-mode-map (kbd "U") 'org-shiftmetaleft)
+  (evil-define-key 'normal org-mode-map (kbd "I") 'org-shiftmetaright)
+  (evil-define-key 'normal org-mode-map (kbd "O") 'org-shiftmetaup)
+  (evil-define-key 'normal org-mode-map (kbd "P") 'org-shiftmetadown)
+  (evil-define-key 'normal org-mode-map (kbd "t")   'org-todo)
+  (evil-define-key 'normal org-mode-map (kbd "-")   'org-cycle-list-bullet)
+
+  (evil-define-key 'insert org-mode-map (kbd "C-c .")
+    '(lambda () (interactive) (org-time-stamp-inactive t)))
+#+END_SRC
+
+*** Elfeed customization
+
+Custom bindings for Elfeed.
+
+#+BEGIN_SRC emacs-lisp
+  ; elfeed-search
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "q") 'quit-window)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update--force)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "o") 'elfeed-search-browse-url)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "y") 'elfeed-search-yank)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "r") 'elfeed-search-untag-all-unread)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
+  (evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
+  ; elfeed-show
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "n") 'elfeed-show-next)
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "p") 'elfeed-show-prev)
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "o") 'elfeed-show-visit)
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "y") 'elfeed-show-yank)
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "-") 'elfeed-show-untag)
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "SPC") 'scroll-up)
+  (evil-define-key 'normal elfeed-show-mode-map (kbd "S-SPC") 'scroll-down)
+#+END_SRC
+
+*** Disable it in certain modes
+
+#+BEGIN_SRC emacs-lisp
+    (evil-set-initial-state 'eww-mode 'emacs)
+  ;  (evil-set-initial-state 'elfeed-search-mode 'emacs)
+  ;  (evil-set-initial-state 'elfeed-show-mode 'emacs)
+#+END_SRC
+
+*** Defining new text objects
+
+New Evil text objects that can be useful.
+
+#+BEGIN_SRC emacs-lisp
+; seen at http://stackoverflow.com/a/22418983/634816
+  (defmacro define-and-bind-text-object (key start-regex end-regex)
+    (let ((inner-name (make-symbol "inner-name"))
+          (outer-name (make-symbol "outer-name")))
+      `(progn
+        (evil-define-text-object ,inner-name (count &optional beg end type)
+          (evil-regexp-range count beg end type ,start-regex ,end-regex t))
+        (evil-define-text-object ,outer-name (count &optional beg end type)
+          (evil-regexp-range count beg end type ,start-regex ,end-regex nil))
+        (define-key evil-inner-text-objects-map ,key (quote ,inner-name))
+        (define-key evil-outer-text-objects-map ,key (quote ,outer-name)))))
+
+  ; between underscores:
+  (define-and-bind-text-object "_" "_" "_")
+  ; an entire line:
+  (define-and-bind-text-object "l" "^" "$")
+  ; between dollars sign:
+  (define-and-bind-text-object "$" "\\$" "\\$")
+  ; between pipe characters:
+  (define-and-bind-text-object "|" "|" "|")
+#+END_SRC
+
+*** Evil plugins
+
+**** evil-exchange
+
+[[https://github.com/Dewdrops/evil-exchange][Evil-exchange]] is an easy text exchange operator for Evil. This is the
+port of [[https://github.com/tommcdo/vim-exchange][vim-exchange]] by Tom McDonald.
+
+| Binding | Call                 | Do                                                    |
+|---------+----------------------+-------------------------------------------------------|
+| gx      | evil-exchange        | Define (and highlight) the first {motion} to exchange |
+| gX      | evil-exchange-cancel | Clear any {motion} pending for exchange.              |
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-exchange)
+  (evil-exchange-install)
+#+END_SRC
+
+**** evil-surround
+
+Use the [[https://github.com/timcharper/evil-surround][Surround]] plugin, the equivalent to the Vim one.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'surround)
+  (global-surround-mode 1)
+#+END_SRC
+
+**** evil-nerd-commenter
+
+Comment/uncomment lines efficiently. Like Nerd Commenter in Vim
+[[https://github.com/redguardtoo/evil-nerd-commenter][Repository]]
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-nerd-commenter)
+#+END_SRC
+
+**** evil-matchit
+
+Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] plugin, the equivalent to the Vim one.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-matchit)
+  (global-evil-matchit-mode 1)
+#+END_SRC
+
+**** evil-indent-textobject
+
+Textobject for evil based on indentation, [[https://github.com/cofi/evil-indent-textobject][repository]]
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-indent-textobject)
+#+END_SRC
+
+** evil-leader
+
+[[https://github.com/cofi/evil-leader][Evil Leader]] provides the =<leader>= feature from Vim that provides an
+easy way to bind keys under a variable prefix key. For an experienced
+Emacs User it is nothing more than a convoluted key map, but for a
+Evil user coming from Vim it means an easier start.
+
+The prefix =C-<leader>= allows to use it in those modes where evil is
+not in normal state (e.g. magit)
+
+| Binding    | Do                                           |
+|------------+----------------------------------------------|
+| ,          | Leader key                                   |
+| C-<leader> | Prefix + Leader key when not in normal state |
+| .          | Repeat last leader command                   |
+|------------+----------------------------------------------|
+
+#+BEGIN_SRC emacs-lisp
+  (require 'evil-leader)
+  (global-evil-leader-mode)
+  (setq evil-leader/in-all-states 1)
+  (evil-leader/set-leader ",")
+  (setq echo-keystrokes 0.02)
+#+END_SRC
+
+*** a - Bookmarks
+
+| Binding     | Call           | Do                                         |
+|-------------+----------------+--------------------------------------------|
+| <leader>-ah | helm-bookmarks | List all bookmarks with Helm               |
+| <leader>-aj | bookmark-jump  | Jump to a bookmark                         |
+| <leader>-al | list-bookmarks | List all bookmarks                         |
+| <leader>-am | bookmark-set   | Set the bookmark at point                  |
+| <leader>-as | bookmark-save  | Save all the bookmarks in the default file |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "ah"  'helm-bookmarks
+    "aj"  'bookmark-jump
+    "al"  'list-bookmarks
+    "am"  'bookmark-set
+    "as"  'bookmark-save
+    )
+#+END_SRC
+
+*** b - Buffers
+
+| Binding      | Call                  | Do                                              |
+|--------------+-----------------------+-------------------------------------------------|
+| <leader>-TAB | joe/alternate-buffers | Switch the last two buffers                     |
+| <leader>-bb  | ido-switch-buffer     | Switch buffer                                   |
+| <leader>-bd  | kill-buffer           | Kill a buffer                                   |
+| <leader>-bh  | buf-move-left         | Move the buffer to the window at the left       |
+| <leader>-bi  | ibuffer               | Switch buffer using ibuffer                     |
+| <leader>-bj  | buf-move-up           | Move the buffer to the window above             |
+| <leader>-bk  | buf-move-down         | Move the buffer to the window below             |
+| <leader>-bl  | buf-move-right        | Move the buffer to the window at the right      |
+| <leader>-br  | read-only-mode        | Toggle between read & write and read-only mode  |
+| <leader>-bu  | joe/revert-buffer     | Revert the buffer changes                       |
+| <leader>-bw  | save-buffer           | Save current buffer in visited file if modified |
+
+#+BEGIN_SRC emacs-lisp
+  (defun joe/alternate-buffers ()
+    "Toggle between the last two buffers"
+    (interactive)
+    (switch-to-buffer (other-buffer (current-buffer) t)))
+
+  (defun joe/revert-buffer ()
+    "Revert the buffer to the save disk file state"
+    (interactive)
+    (revert-buffer nil t))
+
+  (evil-leader/set-key
+    "TAB" 'joe/alternate-buffers
+    "bb"  'ido-switch-buffer
+    "bd"  'kill-buffer
+    "bh"  'buf-move-left
+    "bi"  'ibuffer
+    "bj"  'buf-move-up
+    "bk"  'buf-move-down
+    "bl"  'buf-move-right
+    "br"  'read-only-mode
+    "bu"  'joe/revert-buffer
+    "bw"  'save-buffer
+    )
+#+END_SRC
+
+*** c - Flycheck
+
+| Binding     | Call                     | Do                                    |
+|-------------+--------------------------+---------------------------------------|
+| <leader>-cc | flycheck-select-checker  | Select the checker that Flycheck runs |
+| <leader>-cd | flycheck-clear           | Clear all errors                      |
+| <leader>-ce | helm-flycheck            | Show Flycheck errors with Helm        |
+| <leader>-cf | flycheck-first-error     | Jump to the first error               |
+| <leader>-cg | flycheck-google-messages | Search in google the error message    |
+| <leader>-cl | flycheck-list-errors     | Show Flycheck errors                  |
+| <leader>-cn | flycheck-next-error      | Jump to the next error                |
+| <leader>-cp | flycheck-next-error      | Jump to the previous error            |
+| <leader>-cr | flycheck-compile         | Run the checker via compile           |
+| <leader>-ct | flycheck-mode            | Toogle Flycheck                       |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "cc" 'flycheck-select-checker
+    "cd" 'flycheck-clear
+    "ce" 'helm-flycheck
+    "cf" 'flycheck-first-error
+    "cg" 'flycheck-google-messages
+    "cl" 'flycheck-list-errors
+    "cn" 'flycheck-next-error
+    "cp" 'flycheck-previous-error
+    "cr" 'flycheck-compile
+    "ct" 'flycheck-mode
+    )
+#+END_SRC
+
+*** d - Development
+
+| Binding     | Call          | Do                                    |
+|-------------+---------------+---------------------------------------|
+| <leader>-dz | zeal-at-point | Search Documentation in [[http://zealdocs.org/][Zeal]] at point |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "dz" 'zeal-at-point
+    )
+#+END_SRC
+
+*** e - Edition
+
+| Binding     | Call                                | Do                                                  |
+|-------------+-------------------------------------+-----------------------------------------------------|
+| M-t         | transpose-words                     | Transpose two words                                 |
+| C-w         | backward-kill-word                  | Kill the entire previous (to the cursor) word       |
+| <leader>-ea | align-regexp                        | Align a region using regex                          |
+| <leader>-ec | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                             |
+| <leader>-ed | insert-char                         | Insert an Unicode character                         |
+| <leader>-ee | evil-ex-show-digraphs               | Show the Evil digraphs table                        |
+| <leader>-ef | fci-mode                            | Show/hide fill column                               |
+| <leader>-eh | whitespace-mode                     | Show/Hide hidden chars                              |
+| <leader>-ei | lorem-ipsum-insert-paragraphs       | Insert a paragraph of [[http://www.wikiwand.com/en/Lorem_ipsum][Lorem ipsum]]                   |
+| <leader>-ek | count-words                         | Count words in a region                             |
+| <leader>-el | linum-mode                          | Show/Hide line numbers                              |
+| <leader>-em | charmap                             | Display a specific code block                       |
+| <leader>-ep | describe-char                       | Display the character code of character after point |
+| <leader>-et | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace                       |
+| <leader>-eu | helm-ucs                            | Choose a Unicode character with helm                |
+| <leader>-ev | variable-pitch-mode                 | Toggle variable/fixed space font                    |
+| <leader>-ew | whitespace-cleanup                  | Remove trailing whitespaces                         |
+
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "ea" 'align-regexp
+    "ec" 'evilnc-comment-or-uncomment-lines
+    "ed" 'insert-char
+    "ee" 'evil-ex-show-digraphs
+    "ef" 'fci-mode
+    "eh" 'whitespace-mode
+    "ei" 'lorem-ipsum-insert-paragraphs
+    "ek" 'count-words
+    "el" 'linum-mode
+    "em" 'charmap
+    "ep" 'describe-char
+    "et" 'joe/toggle-show-trailing-whitespace
+    "eu" 'helm-ucs
+    "ev" 'variable-pitch-mode
+    "ew" 'whitespace-cleanup
+    )
+#+END_SRC
+
+*** f - File
+
+| Binding     | Call            | Do                        |
+|-------------+-----------------+---------------------------|
+| <leader>-fo | find-file       | Open a file               |
+| <leader>-fr | helm-recentf    | Open a recent opened file |
+| <leader>-fh | helm-find-files | Open a file using helm    |
+| <leader>-fd | dired           | Call Dired                |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "fo" 'find-file
+    "fr" 'helm-recentf
+    "fh" 'helm-find-files
+    "fd" 'dired
+    )
+#+END_SRC
+
+*** g - Git
+
+| Binding     | Call             | Do                                              |
+|-------------+------------------+-------------------------------------------------|
+| <leader>-gB | magit-blame-mode | Display the blame information inline            |
+| <leader>-gb | vc-annotate      | Display the edition history of the current file |
+| <leader>-gd | vc-diff          | Display diffs between file revisions            |
+| <leader>-gl | magit-file-log   | Display the git log for the current file        |
+| <leader>-gs | magit-status     | Call Magit                                      |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "gB" 'magit-blame-mode
+    "gb" 'vc-annotate
+    "gd" 'vc-diff
+    "gl" 'magit-file-log
+    "gs" 'magit-status
+    )
+#+END_SRC
+
+*** h - Web
+
+| Binding     | Call             | Do                                                   |
+|-------------+------------------+------------------------------------------------------|
+| <leader>-hc | helm-colors      | Show a Web Colors table with name and RGB values     |
+| <leader>-hh | http-header      | Display the meaning of an HTTP header                |
+| <leader>-hh | http-method      | Display the meaning of an HTTP method                |
+| <leader>-hr | http-relation    | Display the meaning of an HTTP relation              |
+| <leader>-hs | http-status-code | Display the meaning of an HTTP status code or phrase |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "hc" 'helm-colors
+    "hh" 'http-header
+    "hm" 'http-method
+    "hr" 'http-relation
+    "hs" 'http-status-code
+    )
+#+END_SRC
+
+*** i - Internet
+
+| Binding     | Call         | Do                                                |
+|-------------+--------------+---------------------------------------------------|
+| <leader>-is | helm-surfraw | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                      |
+| <leader>-if | elfeed       | Open Elfeed to read Atom/RSS entries              |
+| <leader>-it | twit         | Open twittering-mode for an interface for twitter |
+| <leader>-iw | eww          | Open a website inside Emacs with eww              |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "is" 'helm-surfraw
+    "if" 'elfeed
+    "it" 'twit
+    "iw" 'eww
+    )
+#+END_SRC
+
+*** j - Jump
+
+| Binding     | Call                    | Do                        |
+|-------------+-------------------------+---------------------------|
+| <leader>-jw | evil-ace-jump-word-mode | Call AceJump in word mode |
+| <leader>-jc | evil-ace-jump-char-mode | Call AceJump in char mode |
+| <leader>-jl | evil-ace-jump-line-mode | Call AceJump in line mode |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "jw" 'evil-ace-jump-word-mode
+    "jc" 'evil-ace-jump-char-mode
+    "jl" 'evil-ace-jump-line-mode
+    )
+#+END_SRC
+
+*** k - Spell
+
+| Binding     | Call                       | Do                                       |
+|-------------+----------------------------+------------------------------------------|
+| <leader>-kc | ispell-word                | Check the spelling of the word at point  |
+| <leader>-kd | ispell-change-dictionary   | Change the spell dictionary              |
+| <leader>-kf | flyspell-mpde              | Toggle FlySpell                          |
+| <leader>-kk | flyspell-auto-correct-word | Correct the current word                 |
+| <leader>-kn | flyspell-goto-next-error   | Go to the next error previously detected |
+|-------------+----------------------------+------------------------------------------|
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "kc" 'ispell-word
+    "kd" 'ispell-change-dictionary
+    "kf" 'flyspell-mode
+    "kk" 'flyspell-auto-correct-word
+    "kn" 'flyspell-goto-next-error
+    )
+
+#+END_SRC
+
+*** l - Lisp
+
+| Binding     | Call        | Do                         |
+|-------------+-------------+----------------------------|
+| <leader>-lr | eval-region | Eval the region with elisp |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "lr" 'eval-region
+    )
+#+END_SRC
+
+*** m - Menu
+
+| Binding     | Call                     | Do                                                           |
+|-------------+--------------------------+--------------------------------------------------------------|
+| <leader>-mh | helm-M-x                 | Call Helm M-x                                                |
+| <leader>-mm | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
+| <leader>-ms | smex                     | Call smex (to execute a command)                             |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "mh" 'helm-M-x
+    "mm" 'smex-major-mode-commands
+    "ms" 'smex
+    )
+#+END_SRC
+
+*** n - Narrow
+
+| Binding     | Call             | Do                                                    |
+|-------------+------------------+-------------------------------------------------------|
+| <leader>-nf | narrow-to-defun  | Restrict editing to the current defun                 |
+| <leader>-np | narrow-to-page   | Restrict editing to the visible page                  |
+| <leader>-nr | narrow-to-region | Restrict editing in this buffer to the current region |
+| <leader>-nw | widen            | Remove restrictions (narrowing) from current buffer   |
+
+#+BEGIN_SRC emacs-lisp
+  (put 'narrow-to-region 'disabled nil)
+  (put 'narrow-to-page 'disabled nil)
+  (evil-leader/set-key
+     "nf" 'narrow-to-defun
+     "np" 'narrow-to-page
+     "nr" 'narrow-to-region
+     "nw" 'widen
+     )
+#+END_SRC
+
+*** o - Organization
+
+| Binding     | Call                  | Do                                   |
+|-------------+-----------------------+--------------------------------------|
+| <leader>-oa | org-agenda            | Call the org-mode agenda             |
+| <leader>-oc | org-capture           | Call the org-mode capture            |
+| <leader>-od | cfw:open-org-calendar | Open the month calendar for org-mode |
+| <leader>-ol | org-agenda-list       | Daily/Week view of the agenda        |
+| <leader>-om | mu4e                  | Start mu4e (email client)            |
+| <leader>-op | org-contacts          | Search a contact                     |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "oa" 'org-agenda
+    "oc" 'org-capture
+    "od" 'cfw:open-org-calendar
+    "ol" 'org-agenda-list
+    "om" 'mu4e
+    "op" 'org-contacts
+    )
+#+END_SRC
+
+*** p - Project
+
+| Binding     | Call                 | Do                                |
+|-------------+----------------------+-----------------------------------|
+| <leader>-pf | fixmee-view-listing  | View TODO/FIXME entries in a list |
+| <leader>-pp | projectile-commander | Call the Projectile commander     |
+| <leader>-pt | fixmee-mode          | Toggle Fixmee mode                |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "pf" 'fixmee-view-listing
+    "pp" 'projectile-commander
+    "pt" 'fixmee-mode
+    )
+#+END_SRC
+
+*** q - Exit
+
+| Binding     | Call                       | Do                                |
+|-------------+----------------------------+-----------------------------------|
+| <leader>-qc | save-buffers-kill-terminal | Exit Emacs (standalone or client) |
+| <leader>-qs | save-buffers-kill-emacs    | Shutdown the emacs daemon         |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "qc" 'save-buffers-kill-terminal
+    "qs" 'save-buffers-kill-emacs
+    )
+#+END_SRC
+
+*** r - Register
+
+| Binding     | Call                         | Do                                                         |
+|-------------+------------------------------+------------------------------------------------------------|
+| <leader>-rc | helm-complex-command-history | Show the history of commands                               |
+| <leader>-rd | joe/diff-buffer-with-file    | Compare the current modified buffer with the saved version |
+| <leader>-re | list-registers               | Show Emacs registers                                       |
+| <leader>-rk | helm-show-kill-ring          | Choose between previous yanked pieces of text              |
+| <leader>-rl | popwin:messages              | Display *Messages* buffer in a popup window                |
+| <leader>-rm | evil-show-marks              | Show Evil marks                                            |
+| <leader>-ro | view-echo-area-messages      | View the log of recent echo-area messages                  |
+| <leader>-rr | evil-show-registers          | Show Evil registers                                        |
+| <leader>-ru | undo-tree-visualize          | Visualize the current buffer's undo tree                   |
+
+#+BEGIN_SRC emacs-lisp
+  (defun joe/diff-buffer-with-file ()
+    "Compare the current modified buffer with the saved version."
+    (interactive)
+    (let ((diff-switches "-u"))
+      (diff-buffer-with-file (current-buffer))))
+
+  (evil-leader/set-key
+    "rc" 'helm-complex-command-history
+    "rd" 'joe/diff-buffer-with-file
+    "re" 'list-registers
+    "rk" 'helm-show-kill-ring
+    "rl" 'popwin:messages
+    "rm" 'evil-show-marks
+    "ro" 'view-echo-area-messages
+    "rr" 'evil-show-registers
+    "ru" 'undo-tree-visualize
+    )
+#+END_SRC
+
+*** s - Search
+
+| Binding     | Call                   | Do                                                    |
+|-------------+------------------------+-------------------------------------------------------|
+| <leader>-sa | ag                     | Do a regex search using ag (The Silver Searcher)      |
+| <leader>-sf | swoop                  | Search through words within the current buffer        |
+| <leader>-sg | rgrep                  | Do a regex search using grep                          |
+| <leader>-sl | helm-locate            | Do a search using locate                              |
+| <leader>-st | helm-semantic-or-imenu | See the file tags                                     |
+| <leader>-sw | swoop-multi            | Search words across currently opened multiple buffers |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "sa" 'ag
+    "sf" 'swoop
+    "sg" 'rgrep
+    "sl" 'helm-locate
+    "st" 'helm-semantic-or-imenu
+    "sw" 'swoop-multi
+    )
+#+END_SRC
+
+*** t - (empty)
+
+| Binding    | Call | Do |
+|------------+------+----|
+| <leader>-t |      |    |
+
+#+BEGIN_SRC emacs-lisp
+  ;; (evil-leader/set-key
+  ;;   "t" '
+  ;;   )
+#+END_SRC
+
+*** u - (empty)
+
+| Binding    | Call | Do |
+|------------+------+----|
+| <leader>-u |      |    |
+
+#+BEGIN_SRC emacs-lisp
+  ;; (evil-leader/set-key
+  ;;   "u" '
+  ;;   )
+#+END_SRC
+
+*** v - (empty)
+
+| Binding    | Call | Do |
+|------------+------+----|
+| <leader>-v |      |    |
+
+#+BEGIN_SRC emacs-lisp
+  ;; (evil-leader/set-key
+  ;;   "v" '
+  ;;   )
+#+END_SRC
+
+*** w - Window
+
+| Binding     | Call                         | Do                                                                  |
+|-------------+------------------------------+---------------------------------------------------------------------|
+| <leader>-J  | joe/scroll-other-window-down | Scroll the other window a line down                                 |
+| <leader>-K  | joe/scroll-other-window      | Scroll the other window a line up                                   |
+| <leader>-wb | balance-windows              | Balance the windows proportionally
+| <leader>-wd | delete-window                | Close a window                                                      |
+| <leader>-wv | split-window-horizontally    | Split the selected window into two side-by-side windows             |
+| <leader>-ws | split-window-vertically      | Split the selected window into two windows, one above the other     |
+| <leader>-wz | delete-other-windows         | Make a Zoom (delete all the other windows)                          |
+| <leader>-wj | windmove-down                | Move the window to the below position                               |
+| <leader>-wk | windmove-up                  | Move the window to the above position                               |
+| <leader>-wh | windmove-left                | Move the window to the left position                                |
+| <leader>-wl | windmove-right               | Move the window to the right position                               |
+| <leader>-wJ | shrink-window                | Shrink the window                                                   |
+| <leader>-wK | enlarge-window               | Enlarge the window                                                  |
+| <leader>-wH | shrink-window-horizontally   | Shrink the window horizontally                                      |
+| <leader>-wL | enlarge-window-horizontally  | Enlarge the window horizontally                                     |
+| <leader>-ww | other-window                 | Select other window in cycling order                                |
+| <leader>-wr | winner-redo                  | Restore a more recent window configuration saved by Winner mode     |
+| <leader>-wu | winner-undo                  | Switch back to an earlier window configuration saved by Winner mode |
+
+#+BEGIN_SRC emacs-lisp
+  (defun joe/scroll-other-window()
+    (interactive)
+    (scroll-other-window 1))
+
+  (defun joe/scroll-other-window-down ()
+    (interactive)
+    (scroll-other-window-down 1))
+
+  (require 'windmove)
+  (winner-mode t)
+  (evil-leader/set-key
+    "J"  'joe/scroll-other-window-down
+    "K"  'joe/scroll-other-window
+    "wb" 'balance-windows
+    "wd"  'delete-window
+    "wH" 'shrink-window-horizontally
+    "wh" 'windmove-left
+    "wJ" 'shrink-window
+    "wj" 'windmove-down
+    "wK" 'enlarge-window
+    "wk" 'windmove-up
+    "wL" 'enlarge-window-horizontally
+    "wl" 'windmove-right
+    "wr" 'winner-redo
+    "ws" 'split-window-vertically
+    "wu" 'winner-undo
+    "wv" 'split-window-horizontally
+    "ww" 'other-window
+    "wz" 'delete-other-windows
+    )
+#+END_SRC
+
+*** x - Shell/System
+
+| Binding     | Call            | Do                              |
+|-------------+-----------------+---------------------------------|
+| <leader>-xc | shell-command   | Run shell command               |
+| <leader>-xe | eshell          | Call eshell                     |
+| <leader>-xl | list-process    | Show a list of emacs process    |
+| <leader>-xn | multi-term-next | Go to the next term buffer      |
+| <leader>-xp | proced          | Show a list of system process   |
+| <leader>-xs | multi-term      | Create new term buffer          |
+| <leader>-xt | helm-top        | Show the results of top command |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "xc" 'shell-command
+    "xe" 'eshell
+    "xl" 'list-processes
+    "xn" 'multi-term-next
+    "xp" 'proced
+    "xs" 'multi-term
+    "xt" 'helm-top
+    )
+#+END_SRC
+
+*** y - Emms
+
+| Binding     | Call                 | Do                          |
+|-------------+----------------------+-----------------------------|
+| <leader>-yn | emms-player-mpd-next | Next song in the mpd server |
+|             |                      |                             |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "ya" 'emms-player-mpd-connect
+    "yb" 'emms-smart-browse
+    "yc" 'emms-player-mpd-clear
+    "yn" 'emms-player-mpd-next
+    "yo" 'emms-player-mpd-show
+    "yP" 'emms-player-mpd-pause
+    "yp" 'emms-player-mpd-previous
+    "ys" 'emms-player-mpd-stop
+    "yy" 'emms-player-mpd-start-and-sync
+    "y-" 'emms-volume-lower
+    "y+" 'emms-volume-raise
+    )
+#+END_SRC
+*** z - Emacs
+
+| Binding     | Call                | Do                                |
+|-------------+---------------------+-----------------------------------|
+| <leader>-zd | text-scale-decrease | Decrease the size of the text     |
+| <leader>-zi | package-install     | Install a package                 |
+| <leader>-zm | info-display-manual | Display a Info Manual             |
+| <leader>-zp | list-packages       | List all the available packages   |
+| <leader>-zt | helm-themes         | Change the color theme using helm |
+| <leader>-zu | text-scale-increase | Increase the size of the text     |
+
+#+BEGIN_SRC emacs-lisp
+  (evil-leader/set-key
+    "zd" 'text-scale-decrease
+    "zi" 'package-install
+    "zm" 'info-display-manual
+    "zp" 'list-packages
+    "zt" 'helm-themes
+    "zu" 'text-scale-increase
+    )
+#+END_SRC
+
 * Batteries
 *** Calfw
 
@@ -1696,22 +1908,22 @@ Racket settings.
 
 [[file:img/cfw_calendar.png]]
 #+BEGIN_SRC emacs-lisp
-    (require 'calfw)
-    (require 'calfw-org)
+  (require 'calfw)
+  (require 'calfw-org)
 #+END_SRC
 
 **** Unicode chars for lines
 
 #+BEGIN_SRC emacs-lisp
-;; Unicode characters
-(setq cfw:fchar-junction ?╋
-      cfw:fchar-vertical-line ?┃
-      cfw:fchar-horizontal-line ?━
-      cfw:fchar-left-junction ?┣
-      cfw:fchar-right-junction ?┫
-      cfw:fchar-top-junction ?┯
-      cfw:fchar-top-left-corner ?┏
-      cfw:fchar-top-right-corner ?┓)
+  ;; Unicode characters
+  (setq cfw:fchar-junction ?╋
+        cfw:fchar-vertical-line ?┃
+        cfw:fchar-horizontal-line ?━
+        cfw:fchar-left-junction ?┣
+        cfw:fchar-right-junction ?┫
+        cfw:fchar-top-junction ?┯
+        cfw:fchar-top-left-corner ?┏
+        cfw:fchar-top-right-corner ?┓)
 #+END_SRC
 
 *** Smex
@@ -1726,7 +1938,7 @@ commands. And to all the other commands, too.
 | M-X     | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
 
 #+BEGIN_SRC emacs-lisp
-    (require 'smex)
+  (require 'smex)
 #+END_SRC
 
 **** Set cache file
@@ -1735,7 +1947,7 @@ Smex keeps a file to save its state betweens Emacs sessions.
 The default path is =~/.smex-items=
 
 #+BEGIN_SRC emacs-lisp
-    (setq smex-save-file "~/.emacs.d/tmp/smex-items")
+  (setq smex-save-file "~/.emacs.d/tmp/smex-items")
 #+END_SRC
 
 **** Useful bindings & Delayed Initation
@@ -1750,19 +1962,19 @@ having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsW
 #+END_QUOTE
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key [(meta x)] (lambda ()
-                             (interactive)
-                             (or (boundp 'smex-cache)
-                                 (smex-initialize))
-                             (global-set-key [(meta x)] 'smex)
-                             (smex)))
+  (global-set-key [(meta x)] (lambda ()
+                               (interactive)
+                               (or (boundp 'smex-cache)
+                                  (smex-initialize))
+                               (global-set-key [(meta x)] 'smex)
+                               (smex)))
 
-(global-set-key [(shift meta x)] (lambda ()
-                                   (interactive)
-                                   (or (boundp 'smex-cache)
-                                       (smex-initialize))
-                                   (global-set-key [(shift meta x)] 'smex-major-mode-commands)
-                                   (smex-major-mode-commands)))
+  (global-set-key [(shift meta x)] (lambda ()
+                                     (interactive)
+                                     (or (boundp 'smex-cache)
+                                        (smex-initialize))
+                                     (global-set-key [(shift meta x)] 'smex-major-mode-commands)
+                                     (smex-major-mode-commands)))
 #+END_SRC
 
 *** Ido
@@ -1771,16 +1983,16 @@ having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsW
 
 **** set cache file
 #+BEGIN_SRC emacs-lisp
-    (setq ido-save-directory-list-file "~/.emacs.d/tmp/ido.last")
+  (setq ido-save-directory-list-file "~/.emacs.d/tmp/ido.last")
 #+END_SRC
 
 **** enable Ido
 #+BEGIN_SRC emacs-lisp
-    (setq ido-enable-flex-matching t)
-    (setq ido-use-virtual-buffers t)
-    (require 'ido)
-    (ido-mode t)
-    (ido-everywhere t)
+  (setq ido-enable-flex-matching t)
+  (setq ido-use-virtual-buffers t)
+  (require 'ido)
+  (ido-mode t)
+  (ido-everywhere t)
 #+END_SRC
 
 **** Ido-ubiquitous
@@ -1793,7 +2005,6 @@ Does what you expected ido-everywhere to do.
   (require 'ido-ubiquitous)
   (ido-ubiquitous-mode t)
   (setq ido-ubiquitous-max-items 50000)
-
 #+END_SRC
 
 **** Ido-vertical-mode
@@ -1801,15 +2012,15 @@ Does what you expected ido-everywhere to do.
 Makes ido-mode display vertically.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'ido-vertical-mode)
-    (ido-vertical-mode t)
+  (require 'ido-vertical-mode)
+  (ido-vertical-mode t)
 #+END_SRC
 
 **** Ido for yes or no questions
 
 #+BEGIN_SRC emacs-lisp
-    (require 'ido-yes-or-no)
-    (ido-yes-or-no-mode t)
+  (require 'ido-yes-or-no)
+  (ido-yes-or-no-mode t)
 #+END_SRC
 
 *** Magit
@@ -1821,9 +2032,9 @@ changes. There is support for cherry picking, reverting, merging,
 rebasing, and other common Git operations.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'magit)
-    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-    (setq ediff-split-window-function 'split-window-horizontally)
+  (require 'magit)
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  (setq ediff-split-window-function 'split-window-horizontally)
 #+END_SRC
 
 *** Helm
@@ -1843,7 +2054,7 @@ default.
 *** Browse Kill Ring
 
 #+BEGIN_SRC emacs-lisp
-    (require 'browse-kill-ring)
+  (require 'browse-kill-ring)
 #+END_SRC
 
 *** Async
@@ -1861,8 +2072,8 @@ default.
 the unicode table based on The Unicode Standard 6.2.
 
 #+BEGIN_SRC emacs-lisp
-    (load-library "charmap")
-    (setq charmap-text-scale-adjust 2)
+  (load-library "charmap")
+  (setq charmap-text-scale-adjust 2)
 #+END_SRC
 
 *** Dired+
@@ -1878,22 +2089,22 @@ Reuse the same buffer for directories
 
 
 #+BEGIN_SRC emacs-lisp
-    (require 'swoop)
-    (setq swoop-font-size-change: nil)
+  (require 'swoop)
+  (setq swoop-font-size-change: nil)
 #+END_SRC
 
 *** TODO Ace-jump-mode
 
 #+BEGIN_SRC emacs-lisp
-    (require 'ace-jump-mode)
-    (define-key evil-normal-state-map (kbd ",") 'ace-jump-mode)
+  (require 'ace-jump-mode)
+  (define-key evil-normal-state-map (kbd "<SPC>") 'ace-jump-mode)
 #+END_SRC
 
 *** Multi Term
 
 #+BEGIN_SRC emacs-lisp
-    (require 'multi-term)
-    (setq multi-term-program "/bin/bash")
+  (require 'multi-term)
+  (setq multi-term-program "/bin/bash")
 #+END_SRC
 
 *** Yasnippet
@@ -1902,18 +2113,18 @@ Reuse the same buffer for directories
 abbreviation and automatically expand it into function templates.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'yasnippet)
-    (yas-global-mode)
+  (require 'yasnippet)
+  (yas-global-mode)
 #+END_SRC
 
 **** Disable it in ansi-term
 
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'after-change-major-mode-hook
-          (lambda ()
-            (when (find major-mode
-                '(term-mode ansi-term))
-              (yas-minor-mode 0))))
+  (add-hook 'after-change-major-mode-hook
+            (lambda ()
+              (when (find major-mode
+                          '(term-mode ansi-term))
+                (yas-minor-mode 0))))
 #+END_SRC
 
 *** Ag
@@ -1921,10 +2132,10 @@ abbreviation and automatically expand it into function templates.
 A simple ag frontend, loosely based on ack-and-half.el.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'ag)
-    (setq ag-reuse-buffers 't)
-    (setq ag-highlight-search t)
-    (setq ag-arguments
+  (require 'ag)
+  (setq ag-reuse-buffers 't)
+  (setq ag-highlight-search t)
+  (setq ag-arguments
         (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))
 #+END_SRC
 
@@ -1942,7 +2153,7 @@ A guide to the available keybindings
   (if (symbol-value guide-key-mode)
       (guide-key-mode -1)
     (guide-key-mode))
-  (setq guide-key/guide-key-sequence '("C-x" "C-c" "SPC" "g" "z" "C-h")
+  (setq guide-key/guide-key-sequence '("C-x" "C-c" "," "g" "z" "C-h")
         guide-key/recursive-key-sequence-flag t
         guide-key/popup-window-position 'bottom
         guide-key/idle-delay 0.5
@@ -1991,8 +2202,34 @@ Emacs Lisp without the use of GNU find (but for performance sake an
 indexing mechanism backed by external commands exists as well).
 
 #+BEGIN_SRC emacs-lisp
-   (projectile-global-mode)
+  (projectile-global-mode)
 #+END_SRC
+
+*** emms
+
+
+#+BEGIN_SRC emacs-lisp
+  (require 'emms-setup)
+  (emms-all)
+  (emms-default-players)
+  (setq emms-directory (concat user-emacs-directory "tmp/emms"))
+  (setq emms-cache-file (concat user-emacs-directory "tmp/emms/cache"))
+  (setq emms-source-file-default-directory "~/musica/")
+
+  (require 'emms-player-mpd)
+  (setq emms-player-mpd-server-name "localhost")
+  (setq emms-player-mpd-server-port "6600")
+  (setq emms-player-mpd-music-directory emms-source-file-default-directory)
+  (add-to-list 'emms-info-functions 'emms-info-mpd)
+  (add-to-list 'emms-player-list 'emms-player-mpd)
+
+  (require 'emms-volume)
+  (setq emms-volume-change-function 'emms-volume-mpd-change)
+  (require 'emms-browser)
+  (emms-browser-make-filter "all" 'ignore)
+
+#+END_SRC
+
 
 *** TODO mu4e
 
@@ -2366,7 +2603,7 @@ The complete process works like this:
 **** Enable mu4e
 
 #+BEGIN_SRC emacs-lisp
-    (require 'mu4e)
+  (require 'mu4e)
 #+END_SRC
 
 **** Current keybindings
@@ -2588,9 +2825,9 @@ Use encryption to protect the sensitive data like the servers configuration
 (stored in =authinfo.gpg=) and the sensitive user's infomation.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'epa-file)
-    (epa-file-enable)
-    (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
+  (require 'epa-file)
+  (epa-file-enable)
+  (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 #+END_SRC
 
 **** User information
@@ -2598,8 +2835,8 @@ Use encryption to protect the sensitive data like the servers configuration
 Sets the default user's information properly.
 
 #+BEGIN_SRC emacs-lisp
-    (setq user-full-name "joe di castro"
-          user-mail-address "joe@joedicastro.com")
+  (setq user-full-name "joe di castro"
+        user-mail-address "joe@joedicastro.com")
 #+END_SRC
 
 **** SMTP configuration
@@ -2615,8 +2852,8 @@ that I prefer to keep private (since I share this config in GitHub) to
 inquisitive eyes.
 
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'mu4e-main-mode-hook (lambda ()
-        (load-library (concat user-emacs-directory "mail.el.gpg"))))
+  (add-hook 'mu4e-main-mode-hook (lambda ()
+      (load-library (concat user-emacs-directory "mail.el.gpg"))))
 #+END_SRC
 
 Even when I keep this information private, I still going to share with
@@ -2684,48 +2921,48 @@ the proper account in each moment (for new messages, replies, forwards
 & drafts editing).
 
 #+BEGIN_SRC emacs-lisp
-    ;; set a stronger TLS configuration than the default to avoid nasty
-    ;; warnings and for a little more secure configuration
-    (setq gnutls-min-prime-bits 2048)
+  ;; set a stronger TLS configuration than the default to avoid nasty
+  ;; warnings and for a little more secure configuration
+  (setq gnutls-min-prime-bits 2048)
 
-    ;; the multiple functions that provide the multiple accounts selection functionality
-    (defun joe/mu4e-choose-account ()
-        (completing-read (format "Compose with account: (%s) "
-          (mapconcat #'(lambda (var) (car var)) my-mu4e-account-alist "/"))
-              (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
-                                  nil t nil nil (caar my-mu4e-account-alist)))
+  ;; the multiple functions that provide the multiple accounts selection functionality
+  (defun joe/mu4e-choose-account ()
+      (completing-read (format "Compose with account: (%s) "
+        (mapconcat #'(lambda (var) (car var)) my-mu4e-account-alist "/"))
+            (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                                nil t nil nil (caar my-mu4e-account-alist)))
 
-    (defun joe/mu4e-get-field (a)
-        (let ((field (cdar (mu4e-message-field mu4e-compose-parent-message a))))
-            (string-match "@\\(.*\\)\\..*" field)
-            (match-string 1 field)))
+  (defun joe/mu4e-get-field (a)
+      (let ((field (cdar (mu4e-message-field mu4e-compose-parent-message a))))
+          (string-match "@\\(.*\\)\\..*" field)
+          (match-string 1 field)))
 
 
-    (defun joe/mu4e-is-not-draft ()
-        (let ((maildir (mu4e-message-field (mu4e-message-at-point) :maildir)))
-           (if (string-match "drafts*" maildir)
-                  nil
-                  t)))
+  (defun joe/mu4e-is-not-draft ()
+      (let ((maildir (mu4e-message-field (mu4e-message-at-point) :maildir)))
+         (if (string-match "drafts*" maildir)
+                nil
+                t)))
 
-    (defun joe/mu4e-set-account ()
-      "Set the account for composing a message."
-      (let* ((account
-              (if mu4e-compose-parent-message
-                (let ((field (if (joe/mu4e-is-not-draft)
-                                (joe/mu4e-get-field :to)
-                                (joe/mu4e-get-field :from))))
-                    (if (assoc field my-mu4e-account-alist)
-                        field
-                        (joe/mu4e-choose-account)))
-                (joe/mu4e-choose-account)))
-             (account-vars (cdr (assoc account my-mu4e-account-alist))))
-        (if account-vars
-            (mapc #'(lambda (var)
-                      (set (car var) (cadr var)))
-                  account-vars)
-          (error "No email account found"))))
+  (defun joe/mu4e-set-account ()
+    "Set the account for composing a message."
+    (let* ((account
+            (if mu4e-compose-parent-message
+              (let ((field (if (joe/mu4e-is-not-draft)
+                              (joe/mu4e-get-field :to)
+                              (joe/mu4e-get-field :from))))
+                  (if (assoc field my-mu4e-account-alist)
+                      field
+                      (joe/mu4e-choose-account)))
+              (joe/mu4e-choose-account)))
+           (account-vars (cdr (assoc account my-mu4e-account-alist))))
+      (if account-vars
+          (mapc #'(lambda (var)
+                    (set (car var) (cadr var)))
+                account-vars)
+        (error "No email account found"))))
 
-    (add-hook 'mu4e-compose-pre-hook 'joe/mu4e-set-account)
+  (add-hook 'mu4e-compose-pre-hook 'joe/mu4e-set-account)
 #+END_SRC
 
 **** Queuing emails
@@ -2734,9 +2971,9 @@ When offline or when you want do delay a message, you can go to the
 queuing mode and send them all turning it off.
 
 #+BEGIN_SRC emacs-lisp
-    ;; Allow queuing mails
-    (setq smtpmail-queue-mail nil ;; start in non-queuing mode
-        smtpmail-queue-dir "~/org/mail/mails/Queue")
+  ;; Allow queuing mails
+  (setq smtpmail-queue-mail nil ;; start in non-queuing mode
+      smtpmail-queue-dir "~/org/mail/mails/Queue")
 #+END_SRC
 
 **** Signature
@@ -2744,10 +2981,10 @@ queuing mode and send them all turning it off.
 Add the signature by default when a new email is composed.
 
 #+BEGIN_SRC emacs-lisp
-    (setq mu4e-compose-signature-auto-include t)
-    (setq
-            message-signature t
-            mu4e-compose-signature t)
+  (setq mu4e-compose-signature-auto-include t)
+  (setq
+          message-signature t
+          mu4e-compose-signature t)
 #+END_SRC
 
 **** Sending emails asynchronous
@@ -2756,10 +2993,10 @@ This is useful to send emails with attachments and do not block emacs
 until end the transmission.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'smtpmail-async)
-    (setq
-        send-mail-function 'async-smtpmail-send-it
-        message-send-mail-function 'async-smtpmail-send-it)
+  (require 'smtpmail-async)
+  (setq
+      send-mail-function 'async-smtpmail-send-it
+      message-send-mail-function 'async-smtpmail-send-it)
 #+END_SRC
 
 **** maildirs extension
@@ -2767,11 +3004,11 @@ until end the transmission.
 [[https://github.com/agpchil/mu4e-maildirs-extension][Mu4e maildirs extension]] adds a maildir summary in mu4e-main-view.
 
 #+BEGIN_SRC emacs-lisp
-    (require 'mu4e-maildirs-extension)
-    (mu4e-maildirs-extension)
-    (setq mu4e-maildirs-extension-maildir-separator "*")
-    (setq mu4e-maildirs-extension-submaildir-separator "✉")
-    (setq mu4e-maildirs-extension-action-text nil)
+  (require 'mu4e-maildirs-extension)
+  (mu4e-maildirs-extension)
+  (setq mu4e-maildirs-extension-maildir-separator "*")
+  (setq mu4e-maildirs-extension-submaildir-separator "✉")
+  (setq mu4e-maildirs-extension-action-text nil)
 #+END_SRC
 
 **** Setup maildir & folders
@@ -2779,15 +3016,15 @@ until end the transmission.
 The default Maildir path and subfolders.
 
 #+BEGIN_SRC emacs-lisp
-    (setq
-        mu4e-maildir       "~/org/mail"        ;; top-level Maildir
-        mu4e-sent-folder   "/mails/Sent"       ;; folder for sent messages
-        mu4e-drafts-folder "/mails/Drafts"     ;; unfinished messages
-        mu4e-trash-folder  "/mails/Trash"      ;; trashed messages
-        mu4e-refile-folder "/mails/Archive")   ;; saved messages
+  (setq
+      mu4e-maildir       "~/org/mail"        ;; top-level Maildir
+      mu4e-sent-folder   "/mails/Sent"       ;; folder for sent messages
+      mu4e-drafts-folder "/mails/Drafts"     ;; unfinished messages
+      mu4e-trash-folder  "/mails/Trash"      ;; trashed messages
+      mu4e-refile-folder "/mails/Archive")   ;; saved messages
 
-    ;; where store the saved attachments
-    (setq mu4e-attachment-dir  "~/descargas")
+  ;; where store the saved attachments
+  (setq mu4e-attachment-dir  "~/descargas")
 #+END_SRC
 
 **** General Options
@@ -2795,32 +3032,32 @@ The default Maildir path and subfolders.
 mu4e's general options.
 
 #+BEGIN_SRC emacs-lisp
-    ;; use 'fancy' non-ascii characters in various places in mu4e
-    (setq mu4e-use-fancy-chars t)
+  ;; use 'fancy' non-ascii characters in various places in mu4e
+  (setq mu4e-use-fancy-chars t)
 
-    ;; do not ask for confirmation on exit
-    (setq mu4e-confirm-quit  nil)
+  ;; do not ask for confirmation on exit
+  (setq mu4e-confirm-quit  nil)
 
-    ;; set mu4e as the default emacs email client
-    (setq mail-user-agent 'mu4e-user-agent)
+  ;; set mu4e as the default emacs email client
+  (setq mail-user-agent 'mu4e-user-agent)
 
-    ;; decorate mu main view
-    (defun joe/mu4e-main-mode-font-lock-rules ()
-      (save-excursion
-        (goto-char (point-min))
-        (while (re-search-forward "\\[\\([a-zA-Z]\\{1,2\\}\\)\\]" nil t)
-          (add-text-properties (match-beginning 1) (match-end 1)
-          '(face font-lock-variable-name-face)))))
-    (add-hook 'mu4e-main-mode-hook 'joe/mu4e-main-mode-font-lock-rules)
+  ;; decorate mu main view
+  (defun joe/mu4e-main-mode-font-lock-rules ()
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "\\[\\([a-zA-Z]\\{1,2\\}\\)\\]" nil t)
+        (add-text-properties (match-beginning 1) (match-end 1)
+        '(face font-lock-variable-name-face)))))
+  (add-hook 'mu4e-main-mode-hook 'joe/mu4e-main-mode-font-lock-rules)
 
-    ;; attempt to automatically retrieve public keys when needed
-    (setq mu4e-auto-retrieve-keys t)
+  ;; attempt to automatically retrieve public keys when needed
+  (setq mu4e-auto-retrieve-keys t)
 
-    ;; don't reply to myself
-    (setq mu4e-compose-dont-reply-to-self t)
+  ;; don't reply to myself
+  (setq mu4e-compose-dont-reply-to-self t)
 
-    ;; only personal messages get in the address book
-    (setq mu4e-compose-complete-only-personal t)
+  ;; only personal messages get in the address book
+  (setq mu4e-compose-complete-only-personal t)
 
 #+END_SRC
 
@@ -2829,9 +3066,9 @@ mu4e's general options.
 Integrate with org-mode
 
 #+BEGIN_SRC emacs-lisp
-    (require 'org-mu4e)
-    (setq org-mu4e-convert-to-html t)
-    (defalias 'org-mail 'org-mu4e-compose-org-mode)
+  (require 'org-mu4e)
+  (setq org-mu4e-convert-to-html t)
+  (defalias 'org-mail 'org-mu4e-compose-org-mode)
 #+END_SRC
 
 **** Updating the email
@@ -2840,9 +3077,9 @@ Update the index every 2 minutes but don't retrieve the email via
 Emacs.
 
 #+BEGIN_SRC emacs-lisp
-      (setq
-        mu4e-get-mail-command "true" ;; or fetchmail, or ...
-        mu4e-update-interval 120)    ;; update every 2 minutes
+  (setq
+    mu4e-get-mail-command "true" ;; or fetchmail, or ...
+    mu4e-update-interval 120)    ;; update every 2 minutes
 #+END_SRC
 
 **** Header's view config
@@ -2850,20 +3087,20 @@ Emacs.
 The headers view configuration.
 
 #+BEGIN_SRC emacs-lisp
-    ;; more cool and practical than the default
-    (setq mu4e-headers-from-or-to-prefix '("" . "➜ "))
-    ;; to list a lot of mails, more than the default 500
-    ;; is reasonable fast, so why not?
-    (setq mu4e-headers-results-limit 750)
-    ;; columns to show
-    (setq mu4e-headers-fields
-        '(
-          (:human-date . 9)
-          (:flags . 6)
-          (:mailing-list . 10)
-          (:size . 6)
-          (:from-or-to . 22)
-          (:subject)))
+  ;; more cool and practical than the default
+  (setq mu4e-headers-from-or-to-prefix '("" . "➜ "))
+  ;; to list a lot of mails, more than the default 500
+  ;; is reasonable fast, so why not?
+  (setq mu4e-headers-results-limit 750)
+  ;; columns to show
+  (setq mu4e-headers-fields
+      '(
+        (:human-date . 9)
+        (:flags . 6)
+        (:mailing-list . 10)
+        (:size . 6)
+        (:from-or-to . 22)
+        (:subject)))
 #+END_SRC
 
 **** Message view config
@@ -2871,37 +3108,37 @@ The headers view configuration.
 Config for view mode.
 
 #+BEGIN_SRC emacs-lisp
-    ;; visible fields
-    (setq mu4e-view-fields
-        '(
-            :from
-            :to
-            :cc
-            :bcc
-            :subject
-            :flags
-            :date
-            :maildir
-            :mailing-list
-            :tags
-            :attachments
-            :signature
-    ))
+  ;; visible fields
+  (setq mu4e-view-fields
+      '(
+          :from
+          :to
+          :cc
+          :bcc
+          :subject
+          :flags
+          :date
+          :maildir
+          :mailing-list
+          :tags
+          :attachments
+          :signature
+  ))
 
-    ;; program to convert to pdf
-    (setq mu4e-msg2pdf "/usr/bin/msg2pdf")
+  ;; program to convert to pdf
+  (setq mu4e-msg2pdf "/usr/bin/msg2pdf")
 
-    ;; view email addresses not only the name
-    (setq mu4e-view-show-addresses t)
+  ;; view email addresses not only the name
+  (setq mu4e-view-show-addresses t)
 
-    ;; attempt to show images when viewing messages
-    (setq
-       mu4e-view-show-images t
-       mu4e-view-image-max-width 800)
+  ;; attempt to show images when viewing messages
+  (setq
+     mu4e-view-show-images t
+     mu4e-view-image-max-width 800)
 
-    ;; use imagemagick if available
-    (when (fboundp 'imagemagick-register-types)
-      (imagemagick-register-types))
+  ;; use imagemagick if available
+  (when (fboundp 'imagemagick-register-types)
+    (imagemagick-register-types))
 #+END_SRC
 
 **** Editor view config
@@ -2909,13 +3146,13 @@ Config for view mode.
 The editor view configuration.
 
 #+BEGIN_SRC emacs-lisp
-    ;; kill the buffer when is no needed any more
-    (setq message-kill-buffer-on-exit t)
+  ;; kill the buffer when is no needed any more
+  (setq message-kill-buffer-on-exit t)
 
-    ;; set the text width and activate the spell checking
-    (add-hook 'mu4e-compose-mode-hook (lambda ()
-                                        (set-fill-column 80)
-                                        (flyspell-mode)))
+  ;; set the text width and activate the spell checking
+  (add-hook 'mu4e-compose-mode-hook (lambda ()
+                                      (set-fill-column 80)
+                                      (flyspell-mode)))
 #+END_SRC
 
 **** Message view actions
@@ -2923,52 +3160,52 @@ The editor view configuration.
 Define actions for message view.
 
 #+BEGIN_SRC emacs-lisp
-    ;; add the action to open an HTML message in the browser
-    (add-to-list 'mu4e-view-actions
-      '("browse mail" . mu4e-action-view-in-browser) t)
+  ;; add the action to open an HTML message in the browser
+  (add-to-list 'mu4e-view-actions
+    '("browse mail" . mu4e-action-view-in-browser) t)
 
-    ;; add the action to retag messages
-    (add-to-list 'mu4e-view-actions
-      '("retag mail" . mu4e-action-retag-message) t)
+  ;; add the action to retag messages
+  (add-to-list 'mu4e-view-actions
+    '("retag mail" . mu4e-action-retag-message) t)
 
-    ;;Search for messages sent by the sender of the message at point
-    (defun joe/search-for-sender (msg)
-        (mu4e-headers-search
-            (concat "from:" (cdar (mu4e-message-field msg :from)))))
+  ;;Search for messages sent by the sender of the message at point
+  (defun joe/search-for-sender (msg)
+      (mu4e-headers-search
+          (concat "from:" (cdar (mu4e-message-field msg :from)))))
 
-    ;; define 'x' as the shortcut
-    (add-to-list 'mu4e-view-actions
-        '("xsearch for sender" . joe/search-for-sender) t)
+  ;; define 'x' as the shortcut
+  (add-to-list 'mu4e-view-actions
+      '("xsearch for sender" . joe/search-for-sender) t)
 
-    ;; integration with org-contacts
-    (setq mu4e-org-contacts-file "~/org/contacts.org")
+  ;; integration with org-contacts
+  (setq mu4e-org-contacts-file "~/org/contacts.org")
 
-    (add-to-list 'mu4e-headers-actions
-                 '("org-contact-add" . mu4e-action-add-org-contact) t)
-    (add-to-list 'mu4e-view-actions
-                 '("org-contact-add" . mu4e-action-add-org-contact) t)
+  (add-to-list 'mu4e-headers-actions
+               '("org-contact-add" . mu4e-action-add-org-contact) t)
+  (add-to-list 'mu4e-view-actions
+               '("org-contact-add" . mu4e-action-add-org-contact) t)
 
 
-    ;; get a pgp key from a message
-    ;; from  http://hugoduncan.org/post/snarf-pgp-keys-in-emacs-mu4e/
-    (defun joe/mu4e-view-snarf-pgp-key (&optional msg)
-      "get the pgp key for the specified message."
-      (interactive)
-      (let* ((msg (or msg (mu4e-message-at-point)))
-              (path (mu4e-message-field msg :path))
-              (cmd (format "%s verify --verbose %s"
-                     mu4e-mu-binary
-                     (shell-quote-argument path)))
-              (output (shell-command-to-string cmd)))
-        (let ((case-fold-search nil))
-          (when (string-match "key:\\([A-F0-9]+\\)" output)
-            (let* ((cmd (format "%s --recv %s"
-                                epg-gpg-program (match-string 1 output)))
-                   (output (shell-command-to-string cmd)))
-              (message output))))))
+  ;; get a pgp key from a message
+  ;; from  http://hugoduncan.org/post/snarf-pgp-keys-in-emacs-mu4e/
+  (defun joe/mu4e-view-snarf-pgp-key (&optional msg)
+    "get the pgp key for the specified message."
+    (interactive)
+    (let* ((msg (or msg (mu4e-message-at-point)))
+            (path (mu4e-message-field msg :path))
+            (cmd (format "%s verify --verbose %s"
+                   mu4e-mu-binary
+                   (shell-quote-argument path)))
+            (output (shell-command-to-string cmd)))
+      (let ((case-fold-search nil))
+        (when (string-match "key:\\([A-F0-9]+\\)" output)
+          (let* ((cmd (format "%s --recv %s"
+                              epg-gpg-program (match-string 1 output)))
+                 (output (shell-command-to-string cmd)))
+            (message output))))))
 
-    (add-to-list 'mu4e-view-actions
-                 '("get PGP keys" . joe/mu4e-view-snarf-pgp-key) t)
+  (add-to-list 'mu4e-view-actions
+               '("get PGP keys" . joe/mu4e-view-snarf-pgp-key) t)
 
 #+END_SRC
 
@@ -2977,8 +3214,8 @@ Define actions for message view.
 Try to visualize as best as possible the HTML messages in text mode.
 
 #+BEGIN_SRC emacs-lisp
-   (setq mu4e-view-prefer-html t)
-   (setq mu4e-html2text-command "w3m -dump -cols 110 -T text/html")
+  (setq mu4e-view-prefer-html t)
+  (setq mu4e-html2text-command "w3m -dump -cols 110 -T text/html")
 #+END_SRC
 
 **** Smileys (emoticons)
@@ -2990,63 +3227,63 @@ Show emoticons when viewing and editing messages.
 [[http://www.emacswiki.org/emacs/autosmiley.el][autosmiley.el]] by Damyan Pepper
 
 #+BEGIN_SRC emacs-lisp
-    (require 'smiley)
+  (require 'smiley)
 
-    (defun autosmiley-overlay-p (overlay)
-      "Return whether OVERLAY is an overlay of autosmiley mode."
-      (memq (overlay-get overlay 'category)
-            '(autosmiley)))
+  (defun autosmiley-overlay-p (overlay)
+    "Return whether OVERLAY is an overlay of autosmiley mode."
+    (memq (overlay-get overlay 'category)
+          '(autosmiley)))
 
-    (defun autosmiley-remove-smileys (beg end)
-      (dolist (o (overlays-in beg end))
-        (when (autosmiley-overlay-p o)
-          (delete-overlay o))))
+  (defun autosmiley-remove-smileys (beg end)
+    (dolist (o (overlays-in beg end))
+      (when (autosmiley-overlay-p o)
+        (delete-overlay o))))
 
-    (defvar *autosmiley-counter* 0
-      "Each smiley needs to have a unique display string otherwise
-      adjacent smileys will be merged into a single image.  So we put
-      a counter on each one to make them unique")
+  (defvar *autosmiley-counter* 0
+    "Each smiley needs to have a unique display string otherwise
+    adjacent smileys will be merged into a single image.  So we put
+    a counter on each one to make them unique")
 
-    (defun autosmiley-add-smiley (beg end image)
-      (let ((overlay (make-overlay beg end)))
-        (overlay-put overlay 'category 'autosmiley)
-        (overlay-put overlay 'display (append image (list :counter (incf *autosmiley-counter*))))))
-
-
-    (defun autosmiley-add-smileys (beg end)
-      (save-excursion
-        (dolist (entry smiley-cached-regexp-alist)
-          (let ((regexp (car entry))
-                (group (nth 1 entry))
-                (image (nth 2 entry)))
-            (when image
-              (goto-char beg)
-              (while (re-search-forward regexp end t)
-                (autosmiley-add-smiley (match-beginning group) (match-end group) image)))))))
+  (defun autosmiley-add-smiley (beg end image)
+    (let ((overlay (make-overlay beg end)))
+      (overlay-put overlay 'category 'autosmiley)
+      (overlay-put overlay 'display (append image (list :counter (incf *autosmiley-counter*))))))
 
 
-    (defun autosmiley-change (beg end &optional old-len)
-      (let ((beg-line (save-excursion (goto-char beg) (line-beginning-position)))
-            (end-line (save-excursion (goto-char end) (line-end-position))))
-        (autosmiley-remove-smileys beg-line end-line)
-        (autosmiley-add-smileys beg-line end-line)))
+  (defun autosmiley-add-smileys (beg end)
+    (save-excursion
+      (dolist (entry smiley-cached-regexp-alist)
+        (let ((regexp (car entry))
+              (group (nth 1 entry))
+              (image (nth 2 entry)))
+          (when image
+            (goto-char beg)
+            (while (re-search-forward regexp end t)
+              (autosmiley-add-smiley (match-beginning group) (match-end group) image)))))))
 
 
-    ;;;###autoload
-    (define-minor-mode autosmiley-mode
-      "Minor mode for automatically replacing smileys in text with
-    cute little graphical smileys."
-      :group 'autosmiley :lighter " :)"
-      (save-excursion
-        (save-restriction
-          (widen)
-          (autosmiley-remove-smileys (point-min) (point-max))
-          (if autosmiley-mode
-              (progn
-                (unless smiley-cached-regexp-alist
-                  (smiley-update-cache))
-                (jit-lock-register 'autosmiley-change))
-            (jit-lock-unregister 'autosmiley-change)))))
+  (defun autosmiley-change (beg end &optional old-len)
+    (let ((beg-line (save-excursion (goto-char beg) (line-beginning-position)))
+          (end-line (save-excursion (goto-char end) (line-end-position))))
+      (autosmiley-remove-smileys beg-line end-line)
+      (autosmiley-add-smileys beg-line end-line)))
+
+
+  ;;;###autoload
+  (define-minor-mode autosmiley-mode
+    "Minor mode for automatically replacing smileys in text with
+  cute little graphical smileys."
+    :group 'autosmiley :lighter " :)"
+    (save-excursion
+      (save-restriction
+        (widen)
+        (autosmiley-remove-smileys (point-min) (point-max))
+        (if autosmiley-mode
+            (progn
+              (unless smiley-cached-regexp-alist
+                (smiley-update-cache))
+              (jit-lock-register 'autosmiley-change))
+          (jit-lock-unregister 'autosmiley-change)))))
 #+END_SRC
 
 ***** Use gnome emoticons
@@ -3054,29 +3291,29 @@ Show emoticons when viewing and editing messages.
 Seen [[https://github.com/ahilsend/dotfiles/blob/3b9756a4f544403b7013bff80245df1b37feecec/.emacs.d/rc/rc-smiley.el][here]]
 
 #+BEGIN_SRC emacs-lisp
-    (setq
-        smiley-data-directory "/usr/share/icons/gnome/22x22/emotes/"
-        smiley-regexp-alist '(("\\(:-?)\\)\\W" 1 "face-smile")
-                              ("\\(;-?)\\)\\W" 1 "face-wink")
-                              ("\\(:-|\\)\\W" 1 "face-plain")
-                              ("\\(:-?/\\)[^/]\\W" 1 "face-uncertain")
-                              ("\\(;-?/\\)\\W" 1 "face-smirk")
-                              ("\\(:-?(\\)\\W" 1 "face-sad")
-                              ("\\(:,-?(\\)\\W" 1 "face-crying")
-                              ("\\(:-?D\\)\\W" 1 "face-laugh")
-                              ("\\(:-?P\\)\\W" 1 "face-raspberry")
-                              ("\\(8-)\\)\\W" 1 "face-cool")
-                              ("\\(:-?\\$\\)\\W" 1 "face-embarrassed")
-                              ("\\(:-?O\\)\\W" 1 "face-surprise")))
-    (add-to-list 'gnus-smiley-file-types "png")
+  (setq
+      smiley-data-directory "/usr/share/icons/gnome/22x22/emotes/"
+      smiley-regexp-alist '(("\\(:-?)\\)\\W" 1 "face-smile")
+                            ("\\(;-?)\\)\\W" 1 "face-wink")
+                            ("\\(:-|\\)\\W" 1 "face-plain")
+                            ("\\(:-?/\\)[^/]\\W" 1 "face-uncertain")
+                            ("\\(;-?/\\)\\W" 1 "face-smirk")
+                            ("\\(:-?(\\)\\W" 1 "face-sad")
+                            ("\\(:,-?(\\)\\W" 1 "face-crying")
+                            ("\\(:-?D\\)\\W" 1 "face-laugh")
+                            ("\\(:-?P\\)\\W" 1 "face-raspberry")
+                            ("\\(8-)\\)\\W" 1 "face-cool")
+                            ("\\(:-?\\$\\)\\W" 1 "face-embarrassed")
+                            ("\\(:-?O\\)\\W" 1 "face-surprise")))
+  (add-to-list 'gnus-smiley-file-types "png")
 #+END_SRC
 
 ***** View emoticons in mu4e
 
 #+BEGIN_SRC emacs-lisp
-    ;; Show Smileys
-    (add-hook 'mu4e-view-mode-hook 'autosmiley-mode)
-    ;; Test smileys:  :-] :-o :-) ;-) :-\ :-| :-d :-P 8-| :-(
+  ;; Show Smileys
+  (add-hook 'mu4e-view-mode-hook 'autosmiley-mode)
+  ;; Test smileys:  :-] :-o :-) ;-) :-\ :-| :-d :-P 8-| :-(
 #+END_SRC
 
 **** Bookmarks
@@ -3084,18 +3321,18 @@ Seen [[https://github.com/ahilsend/dotfiles/blob/3b9756a4f544403b7013bff80245df1
 My bookmarks
 
 #+BEGIN_SRC emacs-lisp
-    (add-to-list 'mu4e-bookmarks
-                 '("flag:flagged" "Flagged" ?f))
-    (add-to-list 'mu4e-bookmarks
-                 '("date:48h..now" "Last 2 days" ?l))
-    (add-to-list 'mu4e-bookmarks
-                 '("date:1h..now" "Last hour" ?h))
-    (add-to-list 'mu4e-bookmarks
-                 '("flag:attach" "With attachments" ?a) t)
-    (add-to-list 'mu4e-bookmarks
-                 '("mime:application/pdf" "With documents" ?d) t)
-    (add-to-list 'mu4e-bookmarks
-                 '("size:3M..500M" "Big messages" ?b) t)
+  (add-to-list 'mu4e-bookmarks
+               '("flag:flagged" "Flagged" ?f))
+  (add-to-list 'mu4e-bookmarks
+               '("date:48h..now" "Last 2 days" ?l))
+  (add-to-list 'mu4e-bookmarks
+               '("date:1h..now" "Last hour" ?h))
+  (add-to-list 'mu4e-bookmarks
+               '("flag:attach" "With attachments" ?a) t)
+  (add-to-list 'mu4e-bookmarks
+               '("mime:application/pdf" "With documents" ?d) t)
+  (add-to-list 'mu4e-bookmarks
+               '("size:3M..500M" "Big messages" ?b) t)
 #+END_SRC
 
 **** Shortcuts
@@ -3103,23 +3340,23 @@ My bookmarks
 My defined shortcuts
 
 #+BEGIN_SRC emacs-lisp
-    ;; Folder shortcuts
-    (setq mu4e-maildir-shortcuts
-      '(
-        ("/mails/Archive" . ?a)
-        ("/mails/business" . ?b)
-        ("/mails/Drafts" . ?d)
-        ("/mails/education" . ?e)
-        ("/mails/Inbox" . ?i)
-        ("/mails/joedicastro" . ?j)
-        ("/mails/lists" . ?l)
-        ("/mails/Local" . ?h)
-        ("/mails/motley" . ?m)
-        ("/mails/publicity" . ?p)
-        ("/mails/Sent" . ?s)
-        ("/mails/Spam" . ?x)
-        ("/mails/Trash" . ?t)
-        ("/mails/work" . ?w)))
+  ;; Folder shortcuts
+  (setq mu4e-maildir-shortcuts
+    '(
+      ("/mails/Archive" . ?a)
+      ("/mails/business" . ?b)
+      ("/mails/Drafts" . ?d)
+      ("/mails/education" . ?e)
+      ("/mails/Inbox" . ?i)
+      ("/mails/joedicastro" . ?j)
+      ("/mails/lists" . ?l)
+      ("/mails/Local" . ?h)
+      ("/mails/motley" . ?m)
+      ("/mails/publicity" . ?p)
+      ("/mails/Sent" . ?s)
+      ("/mails/Spam" . ?x)
+      ("/mails/Trash" . ?t)
+      ("/mails/work" . ?w)))
 #+END_SRC
 
 **** Dired integration
@@ -3132,22 +3369,22 @@ directly from Dired.
 | C-c RET C-a | gnus-dired-attach | Attach a file to a new email |
 
 #+BEGIN_SRC emacs-lisp
-    (require 'gnus-dired)
-    ;; make the `gnus-dired-mail-buffers' function also work on
-    ;; message-mode derived modes, such as mu4e-compose-mode
-    (defun gnus-dired-mail-buffers ()
-      "Return a list of active message buffers."
-      (let (buffers)
-        (save-current-buffer
-          (dolist (buffer (buffer-list t))
-            (set-buffer buffer)
-            (when (and (derived-mode-p 'message-mode)
-                       (null message-sent-message-via))
-              (push (buffer-name buffer) buffers))))
-        (nreverse buffers)))
+  (require 'gnus-dired)
+  ;; make the `gnus-dired-mail-buffers' function also work on
+  ;; message-mode derived modes, such as mu4e-compose-mode
+  (defun gnus-dired-mail-buffers ()
+    "Return a list of active message buffers."
+    (let (buffers)
+      (save-current-buffer
+        (dolist (buffer (buffer-list t))
+          (set-buffer buffer)
+          (when (and (derived-mode-p 'message-mode)
+                     (null message-sent-message-via))
+            (push (buffer-name buffer) buffers))))
+      (nreverse buffers)))
 
-    (setq gnus-dired-mail-mode 'mu4e-user-agent)
-    (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+  (setq gnus-dired-mail-mode 'mu4e-user-agent)
+  (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 #+END_SRC
 
 **** Encrypt/Decrypt
@@ -3155,7 +3392,7 @@ directly from Dired.
 Config for encrypt/decrypt emails
 
 #+BEGIN_SRC emacs-lisp
-     (setq mu4e-decryption-policy t)
+  (setq mu4e-decryption-policy t)
 
 ;; ; Sign the messages by default
 ;; (add-hook 'mu4e-compose-mode-hook 'mml-secure-message-sign)
@@ -3195,12 +3432,12 @@ This is useful when you are composing a new email and need to do a
 search in your emails to get a little context in the conversation.
 
 #+BEGIN_SRC emacs-lisp
-    (defun joe/mu4e-headers-search-in-new-frame
-        (&optional expr prompt edit ignore-history)
-            "Execute `mu4e-headers-search' in a new frame."
-            (interactive)
-            (select-frame (make-frame))
-            (mu4e-headers-search expr prompt edit ignore-history))
+  (defun joe/mu4e-headers-search-in-new-frame
+      (&optional expr prompt edit ignore-history)
+          "Execute `mu4e-headers-search' in a new frame."
+          (interactive)
+          (select-frame (make-frame))
+          (mu4e-headers-search expr prompt edit ignore-history))
 #+END_SRC
 
 *** Elfeed
@@ -3306,75 +3543,75 @@ Atom and RSS
 | a         | twittering-toggle-activate-buffer              | Toggle Active Timeline                |
 
 #+BEGIN_SRC emacs-lisp
-    (setq twittering-use-master-password t)
-    (setq twittering-icon-mode t)
-    (setq twittering-use-icon-storage t)
-    (setq twittering-icon-storage-file "~/.emacs.d/tmp/twittering-mode-icons.gz")
-    (setq twittering-convert-fix-size 52)
-    (setq twittering-initial-timeline-spec-string
-          '(":home"))
-    (setq twittering-edit-skeleton 'inherit-any)
-    (setq twittering-display-remaining t)
-    (setq twittering-status-format
-        "%i  %S, %RT{%FACE[bold]{%S}} %@  %FACE[shadow]{%p%f%L%r}\n%FOLD[        ]{%T}\n")
+  (setq twittering-use-master-password t)
+  (setq twittering-icon-mode t)
+  (setq twittering-use-icon-storage t)
+  (setq twittering-icon-storage-file "~/.emacs.d/tmp/twittering-mode-icons.gz")
+  (setq twittering-convert-fix-size 52)
+  (setq twittering-initial-timeline-spec-string
+        '(":home"))
+  (setq twittering-edit-skeleton 'inherit-any)
+  (setq twittering-display-remaining t)
+  (setq twittering-status-format
+      "%i  %S, %RT{%FACE[bold]{%S}} %@  %FACE[shadow]{%p%f%L%r}\n%FOLD[        ]{%T}\n")
 #+END_SRC
 
 **** Define my own bindings (based in [[https://github.com/alejandrogomez/turses][Turses]] style)
 
 #+BEGIN_SRC emacs-lisp
-    ; remove the current bindings
-    (eval-after-load "twittering-mode"
-        '(setq twittering-mode-map (make-sparse-keymap)))
-    ; set the new bindings
-    (add-hook 'twittering-mode-hook
-             (lambda ()
-               (mapc (lambda (pair)
-                       (let ((key (car pair))
-                             (func (cdr pair)))
-                         (define-key twittering-mode-map
-                           (read-kbd-macro key) func)))
-                     '(
-                       ("q" . twittering-kill-buffer)
-                       ("Q" . twittering-edit-mode)
-                       ("j" . twittering-goto-next-status)
-                       ("k" . twittering-goto-previous-status)
-                       ("h" . twittering-switch-to-next-timeline)
-                       ("l" . twittering-switch-to-previous-timeline)
-                       ("g" . beginning-of-buffer)
-                       ("G" . end-of-buffer)
-                       ("t" . twittering-update-status-interactive)
-                       ("X" . twittering-delete-status)
-                       ("RET" . twittering-reply-to-user)
-                       ("r" . twittering-native-retweet)
-                       ("R" . twittering-organic-retweet)
-                       ("d" . twittering-direct-message)
-                       ("u" . twittering-current-timeline)
-                       ("b" . twittering-favorite)
-                       ("B" . twittering-unfavorite)
-                       ("f" . twittering-follow)
-                       ("F" . twittering-unfollow)
-                       ("i" . twittering-view-user-page)
-                       ("/" . twittering-search)
-                       ("." . twittering-visit-timeline)
-                       ("@" . twittering-other-user-timeline)
-                       ("T" . twittering-toggle-or-retrieve-replied-statuses)
-                       ("o" . twittering-click)
-                       ("TAB" . twittering-goto-next-thing)
-                       ("<backtab>" . twittering-goto-previous-thing)
-                       ("n" . twittering-goto-next-status-of-user)
-                       ("p" . twittering-goto-previous-status-of-user)
-                       ("SPC" . twittering-scroll-up)
-                       ("S-SPC" . twittering-scroll-down)
-                       ("y" . twittering-push-uri-onto-kill-ring)
-                       ("Y" . twittering-push-tweet-onto-kill-ring)
-                       ("a" . twittering-toggle-activate-buffer)
-                      ))))
+  ; remove the current bindings
+  (eval-after-load "twittering-mode"
+      '(setq twittering-mode-map (make-sparse-keymap)))
+  ; set the new bindings
+  (add-hook 'twittering-mode-hook
+           (lambda ()
+             (mapc (lambda (pair)
+                     (let ((key (car pair))
+                           (func (cdr pair)))
+                       (define-key twittering-mode-map
+                         (read-kbd-macro key) func)))
+                   '(
+                     ("q" . twittering-kill-buffer)
+                     ("Q" . twittering-edit-mode)
+                     ("j" . twittering-goto-next-status)
+                     ("k" . twittering-goto-previous-status)
+                     ("h" . twittering-switch-to-next-timeline)
+                     ("l" . twittering-switch-to-previous-timeline)
+                     ("g" . beginning-of-buffer)
+                     ("G" . end-of-buffer)
+                     ("t" . twittering-update-status-interactive)
+                     ("X" . twittering-delete-status)
+                     ("RET" . twittering-reply-to-user)
+                     ("r" . twittering-native-retweet)
+                     ("R" . twittering-organic-retweet)
+                     ("d" . twittering-direct-message)
+                     ("u" . twittering-current-timeline)
+                     ("b" . twittering-favorite)
+                     ("B" . twittering-unfavorite)
+                     ("f" . twittering-follow)
+                     ("F" . twittering-unfollow)
+                     ("i" . twittering-view-user-page)
+                     ("/" . twittering-search)
+                     ("." . twittering-visit-timeline)
+                     ("@" . twittering-other-user-timeline)
+                     ("T" . twittering-toggle-or-retrieve-replied-statuses)
+                     ("o" . twittering-click)
+                     ("TAB" . twittering-goto-next-thing)
+                     ("<backtab>" . twittering-goto-previous-thing)
+                     ("n" . twittering-goto-next-status-of-user)
+                     ("p" . twittering-goto-previous-status-of-user)
+                     ("SPC" . twittering-scroll-up)
+                     ("S-SPC" . twittering-scroll-down)
+                     ("y" . twittering-push-uri-onto-kill-ring)
+                     ("Y" . twittering-push-tweet-onto-kill-ring)
+                     ("a" . twittering-toggle-activate-buffer)
+                    ))))
 #+END_SRC
 
 **** Spell checking on tweets
 
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode)))
+  (add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode)))
 #+END_SRC
 
 * Footnotes

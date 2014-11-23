@@ -19,10 +19,10 @@
   "If the current buffer is 'readme.org' the code-blocks are
    tangled, and the tangled file is compiled."
   (when (or
-           (equal (buffer-file-name)
-               (expand-file-name (concat user-emacs-directory "readme.org")))
-           (equal (buffer-file-name)
-               (expand-file-name "~/dotfiles/emacs/readme.org")))
+         (equal (buffer-file-name)
+                (expand-file-name (concat user-emacs-directory "readme.org")))
+         (equal (buffer-file-name)
+                (expand-file-name "~/dotfiles/emacs/readme.org")))
     (org-babel-tangle)))
     ;; (byte-compile-file (concat user-emacs-directory "init.el"))))
 
@@ -42,7 +42,8 @@
 
 ; A package for line helps to mantain the list
 (setq my-packages
-    '(
+   '(
+        ac-emmet
         ag
         async
         auto-complete
@@ -50,25 +51,32 @@
         buffer-move
         calfw
         charmap
+        csv-mode
         diff-hl
         dired+
         elfeed
+        emms
+        emmet-mode
         evil
+        evil-exchange
         evil-indent-textobject
         evil-leader
         evil-matchit
         evil-nerd-commenter
         fill-column-indicator
         flatland-theme
+        fixmee
         git-commit-mode
         git-rebase-mode
         gitconfig-mode
         gitignore-mode
         google-maps
+        google-this
         graphviz-dot-mode
         guide-key-tip
         helm
         helm-descbinds
+        helm-emmet
         helm-flycheck
         helm-projectile
         helm-themes
@@ -79,6 +87,7 @@
         ido-yes-or-no
         ipython
         jedi
+        know-your-http-well
         lua-mode
         lorem-ipsum
         magit
@@ -110,6 +119,7 @@
         undo-tree
         w3m
         yasnippet
+        zeal-at-point
 ))
 
 ;; Repositories
@@ -156,16 +166,16 @@
 ;; create it
 
 (unless (file-exists-p "~/.emacs.d/tmp")
-   (make-directory "~/.emacs.d/tmp"))
+  (make-directory "~/.emacs.d/tmp"))
 
 ;; Store all temporal files in a temporal directory instead of being
 ;; disseminated in the $HOME directory
 
-;; Tramp history 
+;; Tramp history
 (setq tramp-persistency-file-name (concat user-emacs-directory "tmp/tramp"))
-;; Bookmarks file 
+;; Bookmarks file
 (setq bookmark-default-file (concat user-emacs-directory "tmp/bookmarks"))
-;;SemanticDB files 
+;;SemanticDB files
 (setq semanticdb-default-save-directory (concat user-emacs-directory "tmp/semanticdb"))
 ;; url files
 (setq url-configuration-directory (concat user-emacs-directory "tmp/url"))
@@ -350,23 +360,28 @@
 ;; project.
 
 (add-hook 'ibuffer-hook
-    (lambda ()
-        (ibuffer-vc-set-filter-groups-by-vc-root)
-        (unless (eq ibuffer-sorting-mode 'alphabetic)
-            (ibuffer-do-sort-by-alphabetic))))
-
+          (lambda ()
+            (ibuffer-vc-set-filter-groups-by-vc-root)
+            (unless (eq ibuffer-sorting-mode 'alphabetic)
+              (ibuffer-do-sort-by-alphabetic))))
 
 (setq ibuffer-formats
-    '((mark modified read-only vc-status-mini " "
-        (name 18 18 :left :elide)
-        " "
-        (size 9 -1 :right)
-        " "
-        (mode 16 16 :left :elide)
-        " "
-        (vc-status 16 16 :left)
-        " "
-        filename-and-process)))
+      '((mark modified read-only vc-status-mini " "
+              (name 18 18 :left :elide)
+              " "
+              (size 9 -1 :right)
+              " "
+              (mode 16 16 :left :elide)
+              " "
+              (vc-status 16 16 :left)
+              " "
+              filename-and-process)))
+
+;; Browser
+
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "firefox")
+(setq w3m-default-display-inline-images t)
 
 ;; Remove the welcome screen
 
@@ -495,7 +510,8 @@
 
 ;; Show empty lines
 
-;; This option show the empty lines at the end (bottom) of the buffer.
+;; This option show the empty lines at the end (bottom) of the buffer
+;; like in Vim.
 
 (toggle-indicate-empty-lines)
 
@@ -514,16 +530,16 @@
 ; http://www.emacswiki.org/emacs/LineNumbers#toc6
 (unless window-system
   (add-hook 'linum-before-numbering-hook
-(lambda ()
-(setq-local linum-format-fmt
-(let ((w (length (number-to-string
-(count-lines (point-min) (point-max))))))
-(concat "%" (number-to-string w) "d"))))))
+            (lambda ()
+              (setq-local linum-format-fmt
+                          (let ((w (length (number-to-string
+                                            (count-lines (point-min) (point-max))))))
+                            (concat "%" (number-to-string w) "d"))))))
 
 (defun joe/linum-format-func (line)
-  (concat
-   (propertize (format linum-format-fmt line) 'face 'linum)
-   (propertize " " 'face 'linum)))
+   (concat
+    (propertize (format linum-format-fmt line) 'face 'linum)
+    (propertize " " 'face 'linum)))
 
 (unless window-system
   (setq linum-format 'joe/linum-format-func))
@@ -637,543 +653,13 @@
  '(rw-hunspell-use-rw-ispell t))
 
 (defun joe/turn-on-spell-check ()
-       (flyspell-mode 1))
+  (flyspell-mode 1))
 
 ;; enable spell-check in certain modes
 (add-hook 'markdown-mode-hook 'joe/turn-on-spell-check)
 (add-hook 'text-mode-hook 'joe/turn-on-spell-check)
 (add-hook 'org-mode-hook 'joe/turn-on-spell-check)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-
-;; Use evil
-
-;; [[https://gitorious.org/evil/pages/Home][Evil]] is an extensible vi layer for Emacs. It emulates the main
-;; features of Vim, and provides facilities for writing custom
-;; extensions.
-
-;; | Binding | Call                        | Do                                      |
-;; |---------+-----------------------------+-----------------------------------------|
-;; | C-z     | evil-emacs-state            | Toggle evil-mode                        |
-;; | \       | evil-execute-in-emacs-state | Execute the next command in emacs state |
-
-(setq evil-shift-width 4)
-(require 'evil)
-(evil-mode 1)
-
-;; ESC quits almost everywhere
-
-;; Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice][here]], trying to emulate the Vim behaviour
-
-;;; esc quits
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
-(define-key evil-visual-state-map [escape] 'keyboard-quit)
-(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
-;; TODO Org-mode customization
-
-;; Custom bindings for /Org-mode/.
-
-(evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
-(evil-define-key 'normal org-mode-map (kbd "SPC") 'org-cycle)
-(evil-define-key 'normal org-mode-map (kbd "H") 'org-metaleft)
-(evil-define-key 'normal org-mode-map (kbd "L") 'org-metaright)
-(evil-define-key 'normal org-mode-map (kbd "K") 'org-metaup)
-(evil-define-key 'normal org-mode-map (kbd "J") 'org-metadown)
-(evil-define-key 'normal org-mode-map (kbd "U") 'org-shiftmetaleft)
-(evil-define-key 'normal org-mode-map (kbd "I") 'org-shiftmetaright)
-(evil-define-key 'normal org-mode-map (kbd "O") 'org-shiftmetaup)
-(evil-define-key 'normal org-mode-map (kbd "P") 'org-shiftmetadown)
-(evil-define-key 'normal org-mode-map (kbd "t")   'org-todo)
-(evil-define-key 'normal org-mode-map (kbd "-")   'org-cycle-list-bullet)
-
-(evil-define-key 'insert org-mode-map (kbd "C-c .")
-  '(lambda () (interactive) (org-time-stamp-inactive t)))
-
-;; Elfeed customization
-
-;; Custom bindings for Elfeed.
-
-; elfeed-search
-(evil-define-key 'normal elfeed-search-mode-map (kbd "q") 'quit-window)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update--force)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "o") 'elfeed-search-browse-url)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "y") 'elfeed-search-yank)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "r") 'elfeed-search-untag-all-unread)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
-; elfeed-show
-(evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "n") 'elfeed-show-next)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "p") 'elfeed-show-prev)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "o") 'elfeed-show-visit)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "y") 'elfeed-show-yank)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
-(evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "-") 'elfeed-show-untag)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "SPC") 'scroll-up)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "S-SPC") 'scroll-down)
-
-;; Disable it in certain modes
-
-;  (evil-set-initial-state 'elfeed-search-mode 'emacs)
-;  (evil-set-initial-state 'elfeed-show-mode 'emacs)
-
-;; TODO evil-leader
-
-;; [[https://github.com/cofi/evil-leader][Evil Leader]] provides the =<leader>= feature from Vim that provides an
-;; easy way to bind keys under a variable prefix key. For an experienced
-;; Emacs User it is nothing more than a convoluted key map, but for a
-;; Evil user coming from Vim it means an easier start.
-
-;; The prefix =C-<leader>= allows to use it in those modes where evil is
-;; not in normal state (e.g. magit)
-
-;; | Binding    | Do                                           |
-;; |------------+----------------------------------------------|
-;; | <SPC>      | Leader key                                   |
-;; | C-<leader> | Prefix + Leader key when not in normal state |
-;; | .          | Repeat last leader command                   |
-;; |------------+----------------------------------------------|
-;; | <leader>-a |                                              |
-;; | <leader>-b | Buffer bindings                              |
-;; | <leader>-c | Flycheck bindings                            |
-;; | <leader>-d |                                              |
-;; | <leader>-e | Edition bindings                             |
-;; | <leader>-f | File bindings                                |
-;; | <leader>-g | Git bindings                                 |
-;; | <leader>-h |                                              |
-;; | <leader>-i | Internet bindings                            |
-;; | <leader>-j | Jump bindings                                |
-;; | <leader>-k | Spell bindings                               |
-;; | <leader>-l | Lisp bindings                                |
-;; | <leader>-m | Menu bindings                                |
-;; | <leader>-n | Narrow bindings                              |
-;; | <leader>-o | Organization bindings                        |
-;; | <leader>-p | Project bindings                             |
-;; | <leader>-q | Exit bindings                                |
-;; | <leader>-r | Registers bindings                           |
-;; | <leader>-s | Search bindings                              |
-;; | <leader>-t |                                              |
-;; | <leader>-u |                                              |
-;; | <leader>-v |                                              |
-;; | <leader>-w | Window bindings                              |
-;; | <leader>-x | Shell/System bindings                        |
-;; | <leader>-y |                                              |
-;; | <leader>-z | Emacs Bindings                               |
-;; |------------+----------------------------------------------|
-
-(require 'evil-leader)
-(global-evil-leader-mode)
-(setq evil-leader/in-all-states 1)
-(evil-leader/set-leader "<SPC>")
-(setq echo-keystrokes 0.02)
-
-;; Buffer bindings
-
-;; | Binding      | Call              | Do                                              |
-;; |--------------+-------------------+-------------------------------------------------|
-;; | <leader>-TAB |                   | Switch the last two buffers                     |
-;; | <leader>-bb  | ido-switch-buffer | Switch buffer                                   |
-;; | <leader>-bi  | ibuffer           | Switch buffer using ibuffer                     |
-;; | <leader>-bj  | buf-move-up       | Move the buffer to the window above             |
-;; | <leader>-bk  | buf-move-down     | Move the buffer to the window below             |
-;; | <leader>-bh  | buf-move-left     | Move the buffer to the window at the left       |
-;; | <leader>-bl  | buf-move-right    | Move the buffer to the window at the right      |
-;; | <leader>-bd  | kill-buffer       | Kill a buffer                                   |
-;; | <leader>-bw  | save-buffer       | Save current buffer in visited file if modified |
-;; | <leader>-br  | read-only-mode    | Toggle between read & write and read-only mode  |
-;; | <leader>-bu  |                   | Revert the buffer changes                       |
-
-;; toggle between the last two buffers
-(defun joe/alternate-buffers ()
-        (interactive)
-        (switch-to-buffer (other-buffer (current-buffer) t)))
-
-(defun joe/revert-buffer ()
-  (interactive)
-  (revert-buffer nil t))
-
-(evil-leader/set-key
-  "TAB" 'joe/alternate-buffers
-  "bb"  'ido-switch-buffer
-  "bd"  'kill-buffer
-  "bh"  'buf-move-left
-  "bi"  'ibuffer
-  "bj"  'buf-move-up
-  "bk"  'buf-move-down
-  "bl"  'buf-move-right
-  "br"  'read-only-mode
-  "bu"  'joe/revert-buffer
-  "bw"  'save-buffer
-  )
-
-;; Window bindings
-
-;; | Binding     | Call                         | Do                                                                  |
-;; |-------------+------------------------------+---------------------------------------------------------------------|
-;; | <leader>-J  | joe/scroll-other-window-down | Scroll the other window a line down                                 |
-;; | <leader>-K  | joe/scroll-other-window      | Scroll the other window a line up                                   |
-;; | <leader>-W  | delete-window                | Close a window                                                      |
-;; | <leader>-wb | balance-windows              | Balance the windows proportionally
-;; | <leader>-wv | split-window-horizontally    | Split the selected window into two side-by-side windows             |
-;; | <leader>-ws | split-window-vertically      | Split the selected window into two windows, one above the other     |
-;; | <leader>-wz | delete-other-windows         | Make a Zoom (delete all the other windows)                          |
-;; | <leader>-wj | windmove-down                | Move the window to the below position                               |
-;; | <leader>-wk | windmove-up                  | Move the window to the above position                               |
-;; | <leader>-wh | windmove-left                | Move the window to the left position                                |
-;; | <leader>-wl | windmove-right               | Move the window to the right position                               |
-;; | <leader>-wJ | shrink-window                | Shrink the window                                                   |
-;; | <leader>-wK | enlarge-window               | Enlarge the window                                                  |
-;; | <leader>-wH | shrink-window-horizontally   | Shrink the window horizontally                                      |
-;; | <leader>-wL | enlarge-window-horizontally  | Enlarge the window horizontally                                     |
-;; | <leader>-ww | other-window                 | Select other window in cycling order                                |
-;; | <leader>-wr | winner-redo                  | Restore a more recent window configuration saved by Winner mode     |
-;; | <leader>-wu | winner-undo                  | Switch back to an earlier window configuration saved by Winner mode |
-
-(defun joe/scroll-other-window()
-  (interactive)
-  (scroll-other-window 1))
-
-(defun joe/scroll-other-window-down ()
-  (interactive)
-  (scroll-other-window-down 1))
-
-(require 'windmove)
-(winner-mode t)
-(evil-leader/set-key
-  "J"  'joe/scroll-other-window-down
-  "K"  'joe/scroll-other-window
-  "W"  'delete-window
-  "wb" 'balance-windows
-  "wH" 'shrink-window-horizontally
-  "wh" 'windmove-left
-  "wJ" 'shrink-window
-  "wj" 'windmove-down
-  "wK" 'enlarge-window
-  "wk" 'windmove-up
-  "wL" 'enlarge-window-horizontally
-  "wl" 'windmove-right
-  "wr" 'winner-redo
-  "ws" 'split-window-vertically
-  "wu" 'winner-undo
-  "wv" 'split-window-horizontally
-  "ww" 'other-window
-  "wz" 'delete-other-windows
-  )
-
-;; Menu bindings
-    
-;; | Binding     | Call                     | Do                                                           |
-;; |-------------+--------------------------+--------------------------------------------------------------|
-;; | <leader>-ms | smex                     | Call smex (to execute a command)                             |
-;; | <leader>-mm | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
-;; | <leader>-mh | helm-M-x                 | Call Helm M-x                                              |
-
-(evil-leader/set-key
-  "mh" 'helm-M-x
-  "mm" 'smex-major-mode-commands
-  "ms" 'smex
-  )
-
-;; File bindings
-
-;; | Binding     | Call            | Do                        |
-;; |-------------+-----------------+---------------------------|
-;; | <leader>-fo | find-file       | Open a file               |
-;; | <leader>-fr | helm-recentf    | Open a recent opened file |
-;; | <leader>-fh | helm-find-files | Open a file using helm    |
-;; | <leader>-fd | dired           | Call dired                |
-
-(evil-leader/set-key
-  "fo" 'find-file
-  "fr" 'helm-recentf
-  "fh" 'helm-find-files
-  "fd" 'dired
-  )
-
-;; Edition bindings
-
-;; | Binding     | Call                                | Do                                                  |
-;; |-------------+-------------------------------------+-----------------------------------------------------|
-;; | M-t         | transpose-words                     | Transpose two words                                 |
-;; | C-w         | backward-kill-word                  | Kill the entire previous (to the cursor) word       |
-;; | <leader>-ea | align-regexp                        | Align a region using regex                          |
-;; | <leader>-ec | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                             |
-;; | <leader>-ed | insert-char                         | Insert an Unicode character                         |
-;; | <leader>-ef | fci-mode                            | Show/hide fill column                               |
-;; | <leader>-eh | whitespace-mode                     | Show/Hide hidden chars                              |
-;; | <leader>-ei | lorem-ipsum-insert-paragraphs       | Insert a paragraph of [[http://www.wikiwand.com/en/Lorem_ipsum][Lorem ipsum]]                   |
-;; | <leader>-ek | count-words                         | Count words in a region                             |
-;; | <leader>-el | linum-mode                          | Show/Hide line numbers                              |
-;; | <leader>-em | charmap                             | Display a specific code block                       |
-;; | <leader>-ep | describe-char                       | Display the character code of character after point |
-;; | <leader>-et | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace                       |
-;; | <leader>-eu | helm-ucs                            | Choose a Unicode character with helm                |
-;; | <leader>-ev | variable-pitch-mode                 | Toggle variable/fixed space font                    |
-;; | <leader>-ew | whitespace-cleanup                  | Remove trailing whitespaces                         |
-
-(evil-leader/set-key
-  "ea" 'align-regexp
-  "ec" 'evilnc-comment-or-uncomment-lines
-  "ed" 'insert-char
-  "ef" 'fci-mode
-  "eh" 'whitespace-mode
-  "ei" 'lorem-ipsum-insert-paragraphs
-  "ek" 'count-words
-  "el" 'linum-mode
-  "em" 'charmap
-  "ep" 'describe-char
-  "et" 'joe/toggle-show-trailing-whitespace
-  "eu" 'helm-ucs
-  "ev" 'variable-pitch-mode
-  "ew" 'whitespace-cleanup 
-  )
-
-;; Register bindings
-
-;; | Binding     | Call                | Do                                            |
-;; |-------------+---------------------+-----------------------------------------------|
-;; | <leader>-ru | undo-tree-visualize | Visualize the current buffer's undo tree      |
-;; | <leader>-rk | helm-show-kill-ring | Choose between previous yanked pieces of text |
-;; | <leader>-rr | evil-show-registers | Show Evil registers                           |
-;; | <leader>-re | list-registers      | Show Emacs registers                          |
-
-(evil-leader/set-key
-  "ru" 'undo-tree-visualize
-  "rk" 'helm-show-kill-ring
-  "rr" 'evil-show-registers
-  "re" 'list-registers
-  )
-
-;; Narrow bindings
-
-;; | Binding     | Call             | Do                                                    |
-;; |-------------+------------------+-------------------------------------------------------|
-;; | <leader>-nr | narrow-to-region | Restrict editing in this buffer to the current region |
-;; | <leader>-np | narrow-to-page   | Restrict editing to the visible page                  |
-;; | <leader>-nf | narrow-to-defun  | Restrict editing to the current defun                 |
-;; | <leader>-nw | widen            | Remove restrictions (narrowing) from current buffer   |
-
-(put 'narrow-to-region 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
-(evil-leader/set-key
-   "nr" 'narrow-to-region
-   "np" 'narrow-to-page
-   "nf" 'narrow-to-defun
-   "nw" 'widen
-   )
-
-;; Project bindings
-
-;; | Binding    | Call                 | Do                            |
-;; |------------+----------------------+-------------------------------|
-;; | <leader>-p | projectile-commander | Call the Projectile commander |
-
-(evil-leader/set-key
-  "p" 'projectile-commander
-  )
-
-;; Shell/System bindings
-
-;; | Binding     | Call            | Do                              |
-;; |-------------+-----------------+---------------------------------|
-;; | <leader>-xs | multi-term      | Create new term buffer          |
-;; | <leader>-xn | multi-term-next | Go to the next term buffer      |
-;; | <leader>-xe | eshell          | Call eshell                     |
-;; | <leader>-xc | shell-command   | Run shell command               |
-;; | <leader>-xp | proced          | Show a list of system process   |
-;; | <leader>-xl | list-process    | Show a list of emacs process    |
-;; | <leader>-xt | helm-top        | Show the results of top command |
-
-(evil-leader/set-key
-  "xs" 'multi-term
-  "xn" 'multi-term-next
-  "xe" 'eshell
-  "xc" 'shell-command
-  "xp" 'proced
-  "xl" 'list-processes
-  "xt" 'helm-top
-  )
-
-;; Search bindings
-
-;; | Binding     | Call                   | Do                                                    |
-;; |-------------+------------------------+-------------------------------------------------------|
-;; | <leader>-sa | ag                     | Do a regex search using ag (The Silver Searcher)      |
-;; | <leader>-sg | rgrep                  | Do a regex search using grep                          |
-;; | <leader>-sl | helm-locate            | Do a search using locate                              |
-;; | <leader>-sf | swoop                  | Search through words within the current buffer        |
-;; | <leader>-sw | swoop-multi            | Search words across currently opened multiple buffers |
-;; | <leader>-st | helm-semantic-or-imenu | See the file tags                                     |
-
-(evil-leader/set-key
-  "sa" 'ag
-  "sg" 'rgrep
-  "sl" 'helm-locate
-  "sf" 'swoop
-  "sw" 'swoop-multi
-  "st" 'helm-semantic-or-imenu
-  )
-
-;; Organization bindings
-
-;; | Binding     | Call                  | Do                                   |
-;; |-------------+-----------------------+--------------------------------------|
-;; | <leader>-oa | org-agenda            | Call the org-mode agenda             |
-;; | <leader>-oc | org-capture           | Call the org-mode capture            |
-;; | <leader>-om | mu4e                  | Start mu4e (email client)            |
-;; | <leader>-od | cfw:open-org-calendar | Open the month calendar for org-mode |
-;; | <leader>-op | org-contacts          | Search a contact                     |
-
-(evil-leader/set-key
-  "oa" 'org-agenda
-  "oc" 'org-capture
-  "om" 'mu4e
-  "od" 'cfw:open-org-calendar
-  "op" 'org-contacts
-  )
-
-;; Exit bindings
-
-;; | Binding     | Call                       | Do                                |
-;; |-------------+----------------------------+-----------------------------------|
-;; | <leader>-qc | save-buffers-kill-terminal | Exit Emacs (standalone or client) |
-;; | <leader>-qs | save-buffers-kill-emacs    | Shutdown the emacs daemon         |
-
-(evil-leader/set-key
-  "qc" 'save-buffers-kill-terminal
-  "qs" 'save-buffers-kill-emacs
-  )
-
-;; Git bindings
-
-;; | Binding     | Call         | Do         |
-;; |-------------+--------------+------------|
-;; | <leader>-gs | magit-status | Call Magit |
-
-(evil-leader/set-key
-  "gs" 'magit-status
-  )
-
-;; Internet bindings
-
-;; | Binding     | Call         | Do                                                |
-;; |-------------+--------------+---------------------------------------------------|
-;; | <leader>-is | helm-surfraw | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                      |
-;; | <leader>-if | elfeed       | Open Elfeed to read Atom/RSS entries              |
-;; | <leader>-it | twit         | Open twittering-mode for an interface for twitter |
-
-(evil-leader/set-key
-  "is" 'helm-surfraw
-  "if" 'elfeed
-  "it" 'twit
-  )
-
-;; Spell bindings
-
-;; | Binding     | Call                     | Do                          |
-;; |-------------+--------------------------+-----------------------------|
-;; | <leader>-ks | ispell-change-dictionary | Change the spell dictionary |
-;; |             |                          |                             |
-
-(evil-leader/set-key
-  "kd" 'ispell-change-dictionary
-  "kk" 'flyspell-auto-correct-word
-  "kc" 'ispell-word
-  "kn" 'flyspell-goto-next-error
-  )
-
-;; Emacs bindings
-
-;; | Binding     | Call                | Do                                |
-;; |-------------+---------------------+-----------------------------------|
-;; | <leader>-zt | helm-themes         | Change the color theme using helm |
-;; | <leader>-zp | list-packages       | List all the available packages   |
-;; | <leader>-zi | package-install     | Install a package                 |
-;; | <leader>-zu | text-scale-increase | Increase the size of the text     |
-;; | <leader>-zd | text-scale-decrease | Decrease the size of the text     |
-
-(evil-leader/set-key
-  "zt" 'helm-themes
-  "zp" 'list-packages
-  "zi" 'package-install
-  "zu" 'text-scale-increase
-  "zd" 'text-scale-decrease
-  )
-
-;; Lisp bindings
-
-;; | Binding     | Call       | Do                         |
-;; |-------------+------------+----------------------------|
-;; | <leader>-lr | eval-region | Eval the region with elisp |
-
-(evil-leader/set-key
-  "lr" 'eval-region
-  )
-
-;; Flycheck bindings
-
-;; | Binding    | Call       | Do                         |
-;; |------------+------------+----------------------------|
-;; | <leader>-c | eval-region | Eval the region with elisp |
-
-(evil-leader/set-key
-  "ce" 'helm-flycheck
-  )
-
-;; evil-indent-textobject
-
-;; Textobject for evil based on indentation, [[https://github.com/cofi/evil-indent-textobject][repository]]
-
-(require 'evil-indent-textobject)
-
-;; evil-nerd-commenter
-
-;; Comment/uncomment lines efficiently. Like Nerd Commenter in Vim
-;; [[https://github.com/redguardtoo/evil-nerd-commenter][Repository]]
-
-(require 'evil-nerd-commenter)
-
-;; evil-surround
-
-;; Use the [[https://github.com/timcharper/evil-surround][Surround]] plugin, the equivalent to the Vim one.
-
-(require 'surround)
-(global-surround-mode 1)
-
-;; evil-matchit
-
-;; Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] plugin, the equivalent to the Vim one.
-
-(require 'evil-matchit)
-(global-evil-matchit-mode 1)
-
-;; change cursor color depending on mode
-
-(setq evil-emacs-state-cursor '("red" box))
-(setq evil-normal-state-cursor '("lawn green" box))
-(setq evil-visual-state-cursor '("orange" box))
-(setq evil-insert-state-cursor '("deep sky blue" bar))
-(setq evil-replace-state-cursor '("red" bar))
-(setq evil-operator-state-cursor '("red" hollow))
-
-;; Browser
-
-;    (setq browse-url-browser-function 'w3m-browse-url)
-;    (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
-    (setq browse-url-browser-function 'browse-url-generic
-           browse-url-generic-program "firefox")
-    (setq w3m-default-display-inline-images t)
 
 ;; Enable Org Mode
 
@@ -1234,8 +720,8 @@
 ;; Configure the external apps to open files
 
 (setq org-file-apps
-   '(("\\.pdf\\'" . "zathura %s")
-     ("\\.gnumeric\\'" . "gnumeric %s")))
+      '(("\\.pdf\\'" . "zathura %s")
+        ("\\.gnumeric\\'" . "gnumeric %s")))
 
 ;; Protect hidden trees for being inadvertily edited
 
@@ -1247,7 +733,7 @@
 ;; Only works in GUI, but is a nice feature to have
 
 (when (window-system)
-    (setq org-startup-with-inline-images t))
+  (setq org-startup-with-inline-images t))
 
 ;; Limit images width
 
@@ -1261,24 +747,24 @@
 (org-babel-do-load-languages
  (quote org-babel-load-languages)
  (quote (
-        (calc . t)
-        (clojure . t)
-        (ditaa . t)
-        (dot . t)
-        (emacs-lisp . t)
-        (gnuplot . t)
-        (latex . t)
-        (ledger . t)
-        (octave . t)
-        (org . t)
-        (makefile . t)
-        (plantuml . t)
-        (python . t)
-        (R . t)
-        (ruby . t)
-        (sh . t)
-        (sqlite . t)
-        (sql . nil))))
+         (calc . t)
+         (clojure . t)
+         (ditaa . t)
+         (dot . t)
+         (emacs-lisp . t)
+         (gnuplot . t)
+         (latex . t)
+         (ledger . t)
+         (octave . t)
+         (org . t)
+         (makefile . t)
+         (plantuml . t)
+         (python . t)
+         (R . t)
+         (ruby . t)
+         (sh . t)
+         (sqlite . t)
+         (sql . nil))))
 (setq org-babel-python-command "python2")
 
 ;; Refresh images after execution
@@ -1288,11 +774,11 @@
 ;; Don't ask confirmation to execute "safe" languages
 
 (defun joe/org-confirm-babel-evaluate (lang body)
-            (and (not (string= lang "ditaa"))
-                 (not (string= lang "dot"))
-                 (not (string= lang "gnuplot"))
-                 (not (string= lang "ledger"))
-                 (not (string= lang "plantuml"))))
+  (and (not (string= lang "ditaa"))
+     (not (string= lang "dot"))
+     (not (string= lang "gnuplot"))
+     (not (string= lang "ledger"))
+     (not (string= lang "plantuml"))))
 (setq org-confirm-babel-evaluate 'joe/org-confirm-babel-evaluate)
 
 ;; Org-location-google-maps
@@ -1371,6 +857,711 @@
 
 (setq racket-mode-pretty-lambda t)
 
+;; Use evil
+
+;; [[https://gitorious.org/evil/pages/Home][Evil]] is an extensible vi layer for Emacs. It emulates the main
+;; features of Vim, and provides facilities for writing custom
+;; extensions.
+
+;; | Binding | Call                        | Do                                      |
+;; |---------+-----------------------------+-----------------------------------------|
+;; | C-z     | evil-emacs-state            | Toggle evil-mode                        |
+;; | \       | evil-execute-in-emacs-state | Execute the next command in emacs state |
+
+(setq evil-shift-width 4)
+(require 'evil)
+(evil-mode 1)
+
+;; ESC quits almost everywhere
+
+;; Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice][here]], trying to emulate the Vim behaviour
+
+;;; esc quits
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+;; Change cursor color depending on mode
+
+(setq evil-emacs-state-cursor '("red" box))
+(setq evil-normal-state-cursor '("lawn green" box))
+(setq evil-visual-state-cursor '("orange" box))
+(setq evil-insert-state-cursor '("deep sky blue" bar))
+(setq evil-replace-state-cursor '("red" bar))
+(setq evil-operator-state-cursor '("red" hollow))
+
+;; TODO Org-mode customization
+
+;; Custom bindings for /Org-mode/.
+
+(evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
+(evil-define-key 'normal org-mode-map (kbd "SPC") 'org-cycle)
+(evil-define-key 'normal org-mode-map (kbd "H") 'org-metaleft)
+(evil-define-key 'normal org-mode-map (kbd "L") 'org-metaright)
+(evil-define-key 'normal org-mode-map (kbd "K") 'org-metaup)
+(evil-define-key 'normal org-mode-map (kbd "J") 'org-metadown)
+(evil-define-key 'normal org-mode-map (kbd "U") 'org-shiftmetaleft)
+(evil-define-key 'normal org-mode-map (kbd "I") 'org-shiftmetaright)
+(evil-define-key 'normal org-mode-map (kbd "O") 'org-shiftmetaup)
+(evil-define-key 'normal org-mode-map (kbd "P") 'org-shiftmetadown)
+(evil-define-key 'normal org-mode-map (kbd "t")   'org-todo)
+(evil-define-key 'normal org-mode-map (kbd "-")   'org-cycle-list-bullet)
+
+(evil-define-key 'insert org-mode-map (kbd "C-c .")
+  '(lambda () (interactive) (org-time-stamp-inactive t)))
+
+;; Elfeed customization
+
+;; Custom bindings for Elfeed.
+
+; elfeed-search
+(evil-define-key 'normal elfeed-search-mode-map (kbd "q") 'quit-window)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update--force)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "o") 'elfeed-search-browse-url)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "y") 'elfeed-search-yank)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "r") 'elfeed-search-untag-all-unread)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
+; elfeed-show
+(evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "n") 'elfeed-show-next)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "p") 'elfeed-show-prev)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "o") 'elfeed-show-visit)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "y") 'elfeed-show-yank)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
+(evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "-") 'elfeed-show-untag)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "SPC") 'scroll-up)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "S-SPC") 'scroll-down)
+
+;; Disable it in certain modes
+
+(evil-set-initial-state 'eww-mode 'emacs)
+;  (evil-set-initial-state 'elfeed-search-mode 'emacs)
+;  (evil-set-initial-state 'elfeed-show-mode 'emacs)
+
+;; Defining new text objects
+
+;; New Evil text objects that can be useful.
+
+; seen at http://stackoverflow.com/a/22418983/634816
+  (defmacro define-and-bind-text-object (key start-regex end-regex)
+    (let ((inner-name (make-symbol "inner-name"))
+          (outer-name (make-symbol "outer-name")))
+      `(progn
+        (evil-define-text-object ,inner-name (count &optional beg end type)
+          (evil-regexp-range count beg end type ,start-regex ,end-regex t))
+        (evil-define-text-object ,outer-name (count &optional beg end type)
+          (evil-regexp-range count beg end type ,start-regex ,end-regex nil))
+        (define-key evil-inner-text-objects-map ,key (quote ,inner-name))
+        (define-key evil-outer-text-objects-map ,key (quote ,outer-name)))))
+
+  ; between underscores:
+  (define-and-bind-text-object "_" "_" "_")
+  ; an entire line:
+  (define-and-bind-text-object "l" "^" "$")
+  ; between dollars sign:
+  (define-and-bind-text-object "$" "\\$" "\\$")
+  ; between pipe characters:
+  (define-and-bind-text-object "|" "|" "|")
+
+;; evil-exchange
+
+;; [[https://github.com/Dewdrops/evil-exchange][Evil-exchange]] is an easy text exchange operator for Evil. This is the
+;; port of [[https://github.com/tommcdo/vim-exchange][vim-exchange]] by Tom McDonald.
+
+;; | Binding | Call                 | Do                                                    |
+;; |---------+----------------------+-------------------------------------------------------|
+;; | gx      | evil-exchange        | Define (and highlight) the first {motion} to exchange |
+;; | gX      | evil-exchange-cancel | Clear any {motion} pending for exchange.              |
+
+(require 'evil-exchange)
+(evil-exchange-install)
+
+;; evil-surround
+
+;; Use the [[https://github.com/timcharper/evil-surround][Surround]] plugin, the equivalent to the Vim one.
+
+(require 'surround)
+(global-surround-mode 1)
+
+;; evil-nerd-commenter
+
+;; Comment/uncomment lines efficiently. Like Nerd Commenter in Vim
+;; [[https://github.com/redguardtoo/evil-nerd-commenter][Repository]]
+
+(require 'evil-nerd-commenter)
+
+;; evil-matchit
+
+;; Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] plugin, the equivalent to the Vim one.
+
+(require 'evil-matchit)
+(global-evil-matchit-mode 1)
+
+;; evil-indent-textobject
+
+;; Textobject for evil based on indentation, [[https://github.com/cofi/evil-indent-textobject][repository]]
+
+(require 'evil-indent-textobject)
+
+;; evil-leader
+
+;; [[https://github.com/cofi/evil-leader][Evil Leader]] provides the =<leader>= feature from Vim that provides an
+;; easy way to bind keys under a variable prefix key. For an experienced
+;; Emacs User it is nothing more than a convoluted key map, but for a
+;; Evil user coming from Vim it means an easier start.
+
+;; The prefix =C-<leader>= allows to use it in those modes where evil is
+;; not in normal state (e.g. magit)
+
+;; | Binding    | Do                                           |
+;; |------------+----------------------------------------------|
+;; | ,          | Leader key                                   |
+;; | C-<leader> | Prefix + Leader key when not in normal state |
+;; | .          | Repeat last leader command                   |
+;; |------------+----------------------------------------------|
+
+(require 'evil-leader)
+(global-evil-leader-mode)
+(setq evil-leader/in-all-states 1)
+(evil-leader/set-leader ",")
+(setq echo-keystrokes 0.02)
+
+;; a - Bookmarks
+
+;; | Binding     | Call           | Do                                         |
+;; |-------------+----------------+--------------------------------------------|
+;; | <leader>-ah | helm-bookmarks | List all bookmarks with Helm               |
+;; | <leader>-aj | bookmark-jump  | Jump to a bookmark                         |
+;; | <leader>-al | list-bookmarks | List all bookmarks                         |
+;; | <leader>-am | bookmark-set   | Set the bookmark at point                  |
+;; | <leader>-as | bookmark-save  | Save all the bookmarks in the default file |
+
+(evil-leader/set-key
+  "ah"  'helm-bookmarks
+  "aj"  'bookmark-jump
+  "al"  'list-bookmarks
+  "am"  'bookmark-set
+  "as"  'bookmark-save
+  )
+
+;; b - Buffers
+
+;; | Binding      | Call                  | Do                                              |
+;; |--------------+-----------------------+-------------------------------------------------|
+;; | <leader>-TAB | joe/alternate-buffers | Switch the last two buffers                     |
+;; | <leader>-bb  | ido-switch-buffer     | Switch buffer                                   |
+;; | <leader>-bd  | kill-buffer           | Kill a buffer                                   |
+;; | <leader>-bh  | buf-move-left         | Move the buffer to the window at the left       |
+;; | <leader>-bi  | ibuffer               | Switch buffer using ibuffer                     |
+;; | <leader>-bj  | buf-move-up           | Move the buffer to the window above             |
+;; | <leader>-bk  | buf-move-down         | Move the buffer to the window below             |
+;; | <leader>-bl  | buf-move-right        | Move the buffer to the window at the right      |
+;; | <leader>-br  | read-only-mode        | Toggle between read & write and read-only mode  |
+;; | <leader>-bu  | joe/revert-buffer     | Revert the buffer changes                       |
+;; | <leader>-bw  | save-buffer           | Save current buffer in visited file if modified |
+
+(defun joe/alternate-buffers ()
+  "Toggle between the last two buffers"
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) t)))
+
+(defun joe/revert-buffer ()
+  "Revert the buffer to the save disk file state"
+  (interactive)
+  (revert-buffer nil t))
+
+(evil-leader/set-key
+  "TAB" 'joe/alternate-buffers
+  "bb"  'ido-switch-buffer
+  "bd"  'kill-buffer
+  "bh"  'buf-move-left
+  "bi"  'ibuffer
+  "bj"  'buf-move-up
+  "bk"  'buf-move-down
+  "bl"  'buf-move-right
+  "br"  'read-only-mode
+  "bu"  'joe/revert-buffer
+  "bw"  'save-buffer
+  )
+
+;; c - Flycheck
+
+;; | Binding     | Call                     | Do                                    |
+;; |-------------+--------------------------+---------------------------------------|
+;; | <leader>-cc | flycheck-select-checker  | Select the checker that Flycheck runs |
+;; | <leader>-cd | flycheck-clear           | Clear all errors                      |
+;; | <leader>-ce | helm-flycheck            | Show Flycheck errors with Helm        |
+;; | <leader>-cf | flycheck-first-error     | Jump to the first error               |
+;; | <leader>-cg | flycheck-google-messages | Search in google the error message    |
+;; | <leader>-cl | flycheck-list-errors     | Show Flycheck errors                  |
+;; | <leader>-cn | flycheck-next-error      | Jump to the next error                |
+;; | <leader>-cp | flycheck-next-error      | Jump to the previous error            |
+;; | <leader>-cr | flycheck-compile         | Run the checker via compile           |
+;; | <leader>-ct | flycheck-mode            | Toogle Flycheck                       |
+
+(evil-leader/set-key
+  "cc" 'flycheck-select-checker
+  "cd" 'flycheck-clear
+  "ce" 'helm-flycheck
+  "cf" 'flycheck-first-error
+  "cg" 'flycheck-google-messages
+  "cl" 'flycheck-list-errors
+  "cn" 'flycheck-next-error
+  "cp" 'flycheck-previous-error
+  "cr" 'flycheck-compile
+  "ct" 'flycheck-mode
+  )
+
+;; d - Development
+
+;; | Binding     | Call          | Do                                    |
+;; |-------------+---------------+---------------------------------------|
+;; | <leader>-dz | zeal-at-point | Search Documentation in [[http://zealdocs.org/][Zeal]] at point |
+
+(evil-leader/set-key
+  "dz" 'zeal-at-point
+  )
+
+;; e - Edition
+
+;; | Binding     | Call                                | Do                                                  |
+;; |-------------+-------------------------------------+-----------------------------------------------------|
+;; | M-t         | transpose-words                     | Transpose two words                                 |
+;; | C-w         | backward-kill-word                  | Kill the entire previous (to the cursor) word       |
+;; | <leader>-ea | align-regexp                        | Align a region using regex                          |
+;; | <leader>-ec | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                             |
+;; | <leader>-ed | insert-char                         | Insert an Unicode character                         |
+;; | <leader>-ee | evil-ex-show-digraphs               | Show the Evil digraphs table                        |
+;; | <leader>-ef | fci-mode                            | Show/hide fill column                               |
+;; | <leader>-eh | whitespace-mode                     | Show/Hide hidden chars                              |
+;; | <leader>-ei | lorem-ipsum-insert-paragraphs       | Insert a paragraph of [[http://www.wikiwand.com/en/Lorem_ipsum][Lorem ipsum]]                   |
+;; | <leader>-ek | count-words                         | Count words in a region                             |
+;; | <leader>-el | linum-mode                          | Show/Hide line numbers                              |
+;; | <leader>-em | charmap                             | Display a specific code block                       |
+;; | <leader>-ep | describe-char                       | Display the character code of character after point |
+;; | <leader>-et | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace                       |
+;; | <leader>-eu | helm-ucs                            | Choose a Unicode character with helm                |
+;; | <leader>-ev | variable-pitch-mode                 | Toggle variable/fixed space font                    |
+;; | <leader>-ew | whitespace-cleanup                  | Remove trailing whitespaces                         |
+
+(evil-leader/set-key
+  "ea" 'align-regexp
+  "ec" 'evilnc-comment-or-uncomment-lines
+  "ed" 'insert-char
+  "ee" 'evil-ex-show-digraphs
+  "ef" 'fci-mode
+  "eh" 'whitespace-mode
+  "ei" 'lorem-ipsum-insert-paragraphs
+  "ek" 'count-words
+  "el" 'linum-mode
+  "em" 'charmap
+  "ep" 'describe-char
+  "et" 'joe/toggle-show-trailing-whitespace
+  "eu" 'helm-ucs
+  "ev" 'variable-pitch-mode
+  "ew" 'whitespace-cleanup
+  )
+
+;; f - File
+
+;; | Binding     | Call            | Do                        |
+;; |-------------+-----------------+---------------------------|
+;; | <leader>-fo | find-file       | Open a file               |
+;; | <leader>-fr | helm-recentf    | Open a recent opened file |
+;; | <leader>-fh | helm-find-files | Open a file using helm    |
+;; | <leader>-fd | dired           | Call Dired                |
+
+(evil-leader/set-key
+  "fo" 'find-file
+  "fr" 'helm-recentf
+  "fh" 'helm-find-files
+  "fd" 'dired
+  )
+
+;; g - Git
+
+;; | Binding     | Call             | Do                                              |
+;; |-------------+------------------+-------------------------------------------------|
+;; | <leader>-gB | magit-blame-mode | Display the blame information inline            |
+;; | <leader>-gb | vc-annotate      | Display the edition history of the current file |
+;; | <leader>-gd | vc-diff          | Display diffs between file revisions            |
+;; | <leader>-gl | magit-file-log   | Display the git log for the current file        |
+;; | <leader>-gs | magit-status     | Call Magit                                      |
+
+(evil-leader/set-key
+  "gB" 'magit-blame-mode
+  "gb" 'vc-annotate
+  "gd" 'vc-diff
+  "gl" 'magit-file-log
+  "gs" 'magit-status
+  )
+
+;; h - Web
+
+;; | Binding     | Call             | Do                                                   |
+;; |-------------+------------------+------------------------------------------------------|
+;; | <leader>-hc | helm-colors      | Show a Web Colors table with name and RGB values     |
+;; | <leader>-hh | http-header      | Display the meaning of an HTTP header                |
+;; | <leader>-hh | http-method      | Display the meaning of an HTTP method                |
+;; | <leader>-hr | http-relation    | Display the meaning of an HTTP relation              |
+;; | <leader>-hs | http-status-code | Display the meaning of an HTTP status code or phrase |
+
+(evil-leader/set-key
+  "hc" 'helm-colors
+  "hh" 'http-header
+  "hm" 'http-method
+  "hr" 'http-relation
+  "hs" 'http-status-code
+  )
+
+;; i - Internet
+
+;; | Binding     | Call         | Do                                                |
+;; |-------------+--------------+---------------------------------------------------|
+;; | <leader>-is | helm-surfraw | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                      |
+;; | <leader>-if | elfeed       | Open Elfeed to read Atom/RSS entries              |
+;; | <leader>-it | twit         | Open twittering-mode for an interface for twitter |
+;; | <leader>-iw | eww          | Open a website inside Emacs with eww              |
+
+(evil-leader/set-key
+  "is" 'helm-surfraw
+  "if" 'elfeed
+  "it" 'twit
+  "iw" 'eww
+  )
+
+;; j - Jump
+
+;; | Binding     | Call                    | Do                        |
+;; |-------------+-------------------------+---------------------------|
+;; | <leader>-jw | evil-ace-jump-word-mode | Call AceJump in word mode |
+;; | <leader>-jc | evil-ace-jump-char-mode | Call AceJump in char mode |
+;; | <leader>-jl | evil-ace-jump-line-mode | Call AceJump in line mode |
+
+(evil-leader/set-key
+  "jw" 'evil-ace-jump-word-mode
+  "jc" 'evil-ace-jump-char-mode
+  "jl" 'evil-ace-jump-line-mode
+  )
+
+;; k - Spell
+
+;; | Binding     | Call                       | Do                                       |
+;; |-------------+----------------------------+------------------------------------------|
+;; | <leader>-kc | ispell-word                | Check the spelling of the word at point  |
+;; | <leader>-kd | ispell-change-dictionary   | Change the spell dictionary              |
+;; | <leader>-kf | flyspell-mpde              | Toggle FlySpell                          |
+;; | <leader>-kk | flyspell-auto-correct-word | Correct the current word                 |
+;; | <leader>-kn | flyspell-goto-next-error   | Go to the next error previously detected |
+;; |-------------+----------------------------+------------------------------------------|
+
+(evil-leader/set-key
+  "kc" 'ispell-word
+  "kd" 'ispell-change-dictionary
+  "kf" 'flyspell-mode
+  "kk" 'flyspell-auto-correct-word
+  "kn" 'flyspell-goto-next-error
+  )
+
+;; l - Lisp
+
+;; | Binding     | Call        | Do                         |
+;; |-------------+-------------+----------------------------|
+;; | <leader>-lr | eval-region | Eval the region with elisp |
+
+(evil-leader/set-key
+  "lr" 'eval-region
+  )
+
+;; m - Menu
+
+;; | Binding     | Call                     | Do                                                           |
+;; |-------------+--------------------------+--------------------------------------------------------------|
+;; | <leader>-mh | helm-M-x                 | Call Helm M-x                                                |
+;; | <leader>-mm | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
+;; | <leader>-ms | smex                     | Call smex (to execute a command)                             |
+
+(evil-leader/set-key
+  "mh" 'helm-M-x
+  "mm" 'smex-major-mode-commands
+  "ms" 'smex
+  )
+
+;; n - Narrow
+
+;; | Binding     | Call             | Do                                                    |
+;; |-------------+------------------+-------------------------------------------------------|
+;; | <leader>-nf | narrow-to-defun  | Restrict editing to the current defun                 |
+;; | <leader>-np | narrow-to-page   | Restrict editing to the visible page                  |
+;; | <leader>-nr | narrow-to-region | Restrict editing in this buffer to the current region |
+;; | <leader>-nw | widen            | Remove restrictions (narrowing) from current buffer   |
+
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+(evil-leader/set-key
+   "nf" 'narrow-to-defun
+   "np" 'narrow-to-page
+   "nr" 'narrow-to-region
+   "nw" 'widen
+   )
+
+;; o - Organization
+
+;; | Binding     | Call                  | Do                                   |
+;; |-------------+-----------------------+--------------------------------------|
+;; | <leader>-oa | org-agenda            | Call the org-mode agenda             |
+;; | <leader>-oc | org-capture           | Call the org-mode capture            |
+;; | <leader>-od | cfw:open-org-calendar | Open the month calendar for org-mode |
+;; | <leader>-ol | org-agenda-list       | Daily/Week view of the agenda        |
+;; | <leader>-om | mu4e                  | Start mu4e (email client)            |
+;; | <leader>-op | org-contacts          | Search a contact                     |
+
+(evil-leader/set-key
+  "oa" 'org-agenda
+  "oc" 'org-capture
+  "od" 'cfw:open-org-calendar
+  "ol" 'org-agenda-list
+  "om" 'mu4e
+  "op" 'org-contacts
+  )
+
+;; p - Project
+
+;; | Binding     | Call                 | Do                                |
+;; |-------------+----------------------+-----------------------------------|
+;; | <leader>-pf | fixmee-view-listing  | View TODO/FIXME entries in a list |
+;; | <leader>-pp | projectile-commander | Call the Projectile commander     |
+;; | <leader>-pt | fixmee-mode          | Toggle Fixmee mode                |
+
+(evil-leader/set-key
+  "pf" 'fixmee-view-listing
+  "pp" 'projectile-commander
+  "pt" 'fixmee-mode
+  )
+
+;; q - Exit
+
+;; | Binding     | Call                       | Do                                |
+;; |-------------+----------------------------+-----------------------------------|
+;; | <leader>-qc | save-buffers-kill-terminal | Exit Emacs (standalone or client) |
+;; | <leader>-qs | save-buffers-kill-emacs    | Shutdown the emacs daemon         |
+
+(evil-leader/set-key
+  "qc" 'save-buffers-kill-terminal
+  "qs" 'save-buffers-kill-emacs
+  )
+
+;; r - Register
+
+;; | Binding     | Call                         | Do                                                         |
+;; |-------------+------------------------------+------------------------------------------------------------|
+;; | <leader>-rc | helm-complex-command-history | Show the history of commands                               |
+;; | <leader>-rd | joe/diff-buffer-with-file    | Compare the current modified buffer with the saved version |
+;; | <leader>-re | list-registers               | Show Emacs registers                                       |
+;; | <leader>-rk | helm-show-kill-ring          | Choose between previous yanked pieces of text              |
+;; | <leader>-rl | popwin:messages              | Display *Messages* buffer in a popup window                |
+;; | <leader>-rm | evil-show-marks              | Show Evil marks                                            |
+;; | <leader>-ro | view-echo-area-messages      | View the log of recent echo-area messages                  |
+;; | <leader>-rr | evil-show-registers          | Show Evil registers                                        |
+;; | <leader>-ru | undo-tree-visualize          | Visualize the current buffer's undo tree                   |
+
+(defun joe/diff-buffer-with-file ()
+  "Compare the current modified buffer with the saved version."
+  (interactive)
+  (let ((diff-switches "-u"))
+    (diff-buffer-with-file (current-buffer))))
+
+(evil-leader/set-key
+  "rc" 'helm-complex-command-history
+  "rd" 'joe/diff-buffer-with-file
+  "re" 'list-registers
+  "rk" 'helm-show-kill-ring
+  "rl" 'popwin:messages
+  "rm" 'evil-show-marks
+  "ro" 'view-echo-area-messages
+  "rr" 'evil-show-registers
+  "ru" 'undo-tree-visualize
+  )
+
+;; s - Search
+
+;; | Binding     | Call                   | Do                                                    |
+;; |-------------+------------------------+-------------------------------------------------------|
+;; | <leader>-sa | ag                     | Do a regex search using ag (The Silver Searcher)      |
+;; | <leader>-sf | swoop                  | Search through words within the current buffer        |
+;; | <leader>-sg | rgrep                  | Do a regex search using grep                          |
+;; | <leader>-sl | helm-locate            | Do a search using locate                              |
+;; | <leader>-st | helm-semantic-or-imenu | See the file tags                                     |
+;; | <leader>-sw | swoop-multi            | Search words across currently opened multiple buffers |
+
+(evil-leader/set-key
+  "sa" 'ag
+  "sf" 'swoop
+  "sg" 'rgrep
+  "sl" 'helm-locate
+  "st" 'helm-semantic-or-imenu
+  "sw" 'swoop-multi
+  )
+
+;; t - (empty)
+
+;; | Binding    | Call | Do |
+;; |------------+------+----|
+;; | <leader>-t |      |    |
+
+;; (evil-leader/set-key
+;;   "t" '
+;;   )
+
+;; u - (empty)
+
+;; | Binding    | Call | Do |
+;; |------------+------+----|
+;; | <leader>-u |      |    |
+
+;; (evil-leader/set-key
+;;   "u" '
+;;   )
+
+;; v - (empty)
+
+;; | Binding    | Call | Do |
+;; |------------+------+----|
+;; | <leader>-v |      |    |
+
+;; (evil-leader/set-key
+;;   "v" '
+;;   )
+
+;; w - Window
+
+;; | Binding     | Call                         | Do                                                                  |
+;; |-------------+------------------------------+---------------------------------------------------------------------|
+;; | <leader>-J  | joe/scroll-other-window-down | Scroll the other window a line down                                 |
+;; | <leader>-K  | joe/scroll-other-window      | Scroll the other window a line up                                   |
+;; | <leader>-wb | balance-windows              | Balance the windows proportionally
+;; | <leader>-wd | delete-window                | Close a window                                                      |
+;; | <leader>-wv | split-window-horizontally    | Split the selected window into two side-by-side windows             |
+;; | <leader>-ws | split-window-vertically      | Split the selected window into two windows, one above the other     |
+;; | <leader>-wz | delete-other-windows         | Make a Zoom (delete all the other windows)                          |
+;; | <leader>-wj | windmove-down                | Move the window to the below position                               |
+;; | <leader>-wk | windmove-up                  | Move the window to the above position                               |
+;; | <leader>-wh | windmove-left                | Move the window to the left position                                |
+;; | <leader>-wl | windmove-right               | Move the window to the right position                               |
+;; | <leader>-wJ | shrink-window                | Shrink the window                                                   |
+;; | <leader>-wK | enlarge-window               | Enlarge the window                                                  |
+;; | <leader>-wH | shrink-window-horizontally   | Shrink the window horizontally                                      |
+;; | <leader>-wL | enlarge-window-horizontally  | Enlarge the window horizontally                                     |
+;; | <leader>-ww | other-window                 | Select other window in cycling order                                |
+;; | <leader>-wr | winner-redo                  | Restore a more recent window configuration saved by Winner mode     |
+;; | <leader>-wu | winner-undo                  | Switch back to an earlier window configuration saved by Winner mode |
+
+(defun joe/scroll-other-window()
+  (interactive)
+  (scroll-other-window 1))
+
+(defun joe/scroll-other-window-down ()
+  (interactive)
+  (scroll-other-window-down 1))
+
+(require 'windmove)
+(winner-mode t)
+(evil-leader/set-key
+  "J"  'joe/scroll-other-window-down
+  "K"  'joe/scroll-other-window
+  "wb" 'balance-windows
+  "wd"  'delete-window
+  "wH" 'shrink-window-horizontally
+  "wh" 'windmove-left
+  "wJ" 'shrink-window
+  "wj" 'windmove-down
+  "wK" 'enlarge-window
+  "wk" 'windmove-up
+  "wL" 'enlarge-window-horizontally
+  "wl" 'windmove-right
+  "wr" 'winner-redo
+  "ws" 'split-window-vertically
+  "wu" 'winner-undo
+  "wv" 'split-window-horizontally
+  "ww" 'other-window
+  "wz" 'delete-other-windows
+  )
+
+;; x - Shell/System
+
+;; | Binding     | Call            | Do                              |
+;; |-------------+-----------------+---------------------------------|
+;; | <leader>-xc | shell-command   | Run shell command               |
+;; | <leader>-xe | eshell          | Call eshell                     |
+;; | <leader>-xl | list-process    | Show a list of emacs process    |
+;; | <leader>-xn | multi-term-next | Go to the next term buffer      |
+;; | <leader>-xp | proced          | Show a list of system process   |
+;; | <leader>-xs | multi-term      | Create new term buffer          |
+;; | <leader>-xt | helm-top        | Show the results of top command |
+
+(evil-leader/set-key
+  "xc" 'shell-command
+  "xe" 'eshell
+  "xl" 'list-processes
+  "xn" 'multi-term-next
+  "xp" 'proced
+  "xs" 'multi-term
+  "xt" 'helm-top
+  )
+
+;; y - Emms
+
+;; | Binding     | Call                 | Do                          |
+;; |-------------+----------------------+-----------------------------|
+;; | <leader>-yn | emms-player-mpd-next | Next song in the mpd server |
+;; |             |                      |                             |
+
+(evil-leader/set-key
+  "ya" 'emms-player-mpd-connect
+  "yb" 'emms-smart-browse
+  "yc" 'emms-player-mpd-clear
+  "yn" 'emms-player-mpd-next
+  "yo" 'emms-player-mpd-show
+  "yP" 'emms-player-mpd-pause
+  "yp" 'emms-player-mpd-previous
+  "ys" 'emms-player-mpd-stop
+  "yy" 'emms-player-mpd-start-and-sync
+  "y-" 'emms-volume-lower
+  "y+" 'emms-volume-raise
+  )
+
+;; z - Emacs
+
+;; | Binding     | Call                | Do                                |
+;; |-------------+---------------------+-----------------------------------|
+;; | <leader>-zd | text-scale-decrease | Decrease the size of the text     |
+;; | <leader>-zi | package-install     | Install a package                 |
+;; | <leader>-zm | info-display-manual | Display a Info Manual             |
+;; | <leader>-zp | list-packages       | List all the available packages   |
+;; | <leader>-zt | helm-themes         | Change the color theme using helm |
+;; | <leader>-zu | text-scale-increase | Increase the size of the text     |
+
+(evil-leader/set-key
+  "zd" 'text-scale-decrease
+  "zi" 'package-install
+  "zm" 'info-display-manual
+  "zp" 'list-packages
+  "zt" 'helm-themes
+  "zu" 'text-scale-increase
+  )
+
 ;; Calfw
 
 ;; [[https://github.com/kiwanami/emacs-calfw][Calfw]] program displays a calendar view in the Emacs buffer.
@@ -1426,14 +1617,14 @@
 (global-set-key [(meta x)] (lambda ()
                              (interactive)
                              (or (boundp 'smex-cache)
-                                 (smex-initialize))
+                                (smex-initialize))
                              (global-set-key [(meta x)] 'smex)
                              (smex)))
 
 (global-set-key [(shift meta x)] (lambda ()
                                    (interactive)
                                    (or (boundp 'smex-cache)
-                                       (smex-initialize))
+                                      (smex-initialize))
                                    (global-set-key [(shift meta x)] 'smex-major-mode-commands)
                                    (smex-major-mode-commands)))
 
@@ -1510,7 +1701,7 @@
 ;; TODO Ace-jump-mode
 
 (require 'ace-jump-mode)
-(define-key evil-normal-state-map (kbd ",") 'ace-jump-mode)
+(define-key evil-normal-state-map (kbd "<SPC>") 'ace-jump-mode)
 
 ;; Multi Term
 
@@ -1528,10 +1719,10 @@
 ;; Disable it in ansi-term
 
 (add-hook 'after-change-major-mode-hook
-      (lambda ()
-        (when (find major-mode
-            '(term-mode ansi-term))
-          (yas-minor-mode 0))))
+          (lambda ()
+            (when (find major-mode
+                        '(term-mode ansi-term))
+              (yas-minor-mode 0))))
 
 ;; Ag
 
@@ -1541,7 +1732,7 @@
 (setq ag-reuse-buffers 't)
 (setq ag-highlight-search t)
 (setq ag-arguments
-    (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))
+      (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))
 
 ;; Guide key tip
 
@@ -1551,7 +1742,7 @@
 (if (symbol-value guide-key-mode)
     (guide-key-mode -1)
   (guide-key-mode))
-(setq guide-key/guide-key-sequence '("C-x" "C-c" "SPC" "g" "z" "C-h")
+(setq guide-key/guide-key-sequence '("C-x" "C-c" "," "g" "z" "C-h")
       guide-key/recursive-key-sequence-flag t
       guide-key/popup-window-position 'bottom
       guide-key/idle-delay 0.5
@@ -1589,6 +1780,27 @@
 ;; indexing mechanism backed by external commands exists as well).
 
 (projectile-global-mode)
+
+;; emms
+
+(require 'emms-setup)
+(emms-all)
+(emms-default-players)
+(setq emms-directory (concat user-emacs-directory "tmp/emms"))
+(setq emms-cache-file (concat user-emacs-directory "tmp/emms/cache"))
+(setq emms-source-file-default-directory "~/musica/")
+
+(require 'emms-player-mpd)
+(setq emms-player-mpd-server-name "localhost")
+(setq emms-player-mpd-server-port "6600")
+(setq emms-player-mpd-music-directory emms-source-file-default-directory)
+(add-to-list 'emms-info-functions 'emms-info-mpd)
+(add-to-list 'emms-player-list 'emms-player-mpd)
+
+(require 'emms-volume)
+(setq emms-volume-change-function 'emms-volume-mpd-change)
+(require 'emms-browser)
+(emms-browser-make-filter "all" 'ignore)
 
 ;; Enable mu4e
 

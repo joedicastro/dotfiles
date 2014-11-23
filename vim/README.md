@@ -957,7 +957,7 @@ __Unite__
   over its particular interface. The author, Tim Pope, says that about it: "A
   Git wrapper so awesome, it should be illegal" and is almost true.
 
-      ![fugitive](http://joedicastro.com/static/pictures/fugitive_en.png "fugitive")
+   ![fugitive](http://joedicastro.com/static/pictures/fugitive_en.png "fugitive")
 
     - *status* show the repository status and from this window we can access to
       multiple options. In this window this mappings are available:
