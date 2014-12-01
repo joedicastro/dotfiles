@@ -47,7 +47,6 @@
         ag
         async
         auto-complete
-        browse-kill-ring
         buffer-move
         calfw
         charmap
@@ -57,12 +56,14 @@
         elfeed
         emms
         emmet-mode
+        epresent
         evil
         evil-exchange
         evil-indent-textobject
         evil-leader
         evil-matchit
         evil-nerd-commenter
+        evil-surround
         fill-column-indicator
         flatland-theme
         fixmee
@@ -84,7 +85,6 @@
         ibuffer-vc
         ido-ubiquitous
         ido-vertical-mode
-        ido-yes-or-no
         ipython
         jedi
         know-your-http-well
@@ -98,11 +98,9 @@
         org-plus-contrib
         paradox
         password-store
-        perspective
         pretty-mode
         projectile
         popwin
-        rainbow-mode
         racket-mode
         rw-ispell
         rw-hunspell
@@ -112,7 +110,6 @@
         smex
         sml-mode
         sublime-themes
-        surround
         swoop
         twittering-mode
         ujelly-theme
@@ -127,9 +124,9 @@
 ;; The ELPA repositories from where the packages are fetched.
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
-                         ("melpa" . "http://melpa.org/packages/")))
+                         ("marmalade" . "http://marmalade-repo.org/packages/")))
 
 ;; Auto-installation
 
@@ -167,22 +164,23 @@
 
 (unless (file-exists-p "~/.emacs.d/tmp")
   (make-directory "~/.emacs.d/tmp"))
+(defvar joe-emacs-temporal-directory (concat user-emacs-directory "tmp/"))
 
 ;; Store all temporal files in a temporal directory instead of being
 ;; disseminated in the $HOME directory
 
 ;; Tramp history
-(setq tramp-persistency-file-name (concat user-emacs-directory "tmp/tramp"))
+(setq tramp-persistency-file-name (concat joe-emacs-temporal-directory "tramp"))
 ;; Bookmarks file
-(setq bookmark-default-file (concat user-emacs-directory "tmp/bookmarks"))
+(setq bookmark-default-file (concat joe-emacs-temporal-directory "bookmarks"))
 ;;SemanticDB files
-(setq semanticdb-default-save-directory (concat user-emacs-directory "tmp/semanticdb"))
+(setq semanticdb-default-save-directory (concat joe-emacs-temporal-directory "semanticdb"))
 ;; url files
-(setq url-configuration-directory (concat user-emacs-directory "tmp/url"))
+(setq url-configuration-directory (concat joe-emacs-temporal-directory "url"))
 ;; eshell files
-(setq eshell-directory-name (concat user-emacs-directory "tmp/eshell" ))
+(setq eshell-directory-name (concat joe-emacs-temporal-directory "eshell" ))
 ;; pcache files
-(setq pcache-directory (concat user-emacs-directory "tmp/pcache" ))
+(setq pcache-directory (concat joe-emacs-temporal-directory "pcache" ))
 
 ;; Disable auto-save files
 
@@ -899,7 +897,6 @@
 ;; Custom bindings for /Org-mode/.
 
 (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
-(evil-define-key 'normal org-mode-map (kbd "SPC") 'org-cycle)
 (evil-define-key 'normal org-mode-map (kbd "H") 'org-metaleft)
 (evil-define-key 'normal org-mode-map (kbd "L") 'org-metaright)
 (evil-define-key 'normal org-mode-map (kbd "K") 'org-metaup)
@@ -914,39 +911,10 @@
 (evil-define-key 'insert org-mode-map (kbd "C-c .")
   '(lambda () (interactive) (org-time-stamp-inactive t)))
 
-;; Elfeed customization
-
-;; Custom bindings for Elfeed.
-
-; elfeed-search
-(evil-define-key 'normal elfeed-search-mode-map (kbd "q") 'quit-window)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update--force)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "o") 'elfeed-search-browse-url)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "y") 'elfeed-search-yank)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "r") 'elfeed-search-untag-all-unread)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
-; elfeed-show
-(evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "n") 'elfeed-show-next)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "p") 'elfeed-show-prev)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "o") 'elfeed-show-visit)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "y") 'elfeed-show-yank)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
-(evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "-") 'elfeed-show-untag)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "SPC") 'scroll-up)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "S-SPC") 'scroll-down)
-
 ;; Disable it in certain modes
 
 (evil-set-initial-state 'eww-mode 'emacs)
+  (evil-set-initial-state 'epresent-mode 'emacs)
 ;  (evil-set-initial-state 'elfeed-search-mode 'emacs)
 ;  (evil-set-initial-state 'elfeed-show-mode 'emacs)
 
@@ -990,10 +958,10 @@
 
 ;; evil-surround
 
-;; Use the [[https://github.com/timcharper/evil-surround][Surround]] plugin, the equivalent to the Vim one.
+;; Use the [[https://github.com/timcharper/evil-surround][evil-surround]] plugin, the equivalent to the Vim one.
 
-(require 'surround)
-(global-surround-mode 1)
+(require 'evil-surround)
+(global-evil-surround-mode 1)
 
 ;; evil-nerd-commenter
 
@@ -1277,12 +1245,14 @@
 
 ;; l - Lisp
 
-;; | Binding     | Call        | Do                         |
-;; |-------------+-------------+----------------------------|
-;; | <leader>-lr | eval-region | Eval the region with elisp |
+;; | Binding     | Call           | Do                                                        |
+;; |-------------+----------------+-----------------------------------------------------------|
+;; | <leader>-lr | eval-region    | Eval the region with elisp                                |
+;; | <leader>-ls | eval-last-sexp | Evaluate sexp before point; print value in the echo area. |
 
 (evil-leader/set-key
   "lr" 'eval-region
+  "ls" 'eval-last-sexp
   )
 
 ;; m - Menu
@@ -1505,7 +1475,7 @@
 ;; |-------------+-----------------+---------------------------------|
 ;; | <leader>-xc | shell-command   | Run shell command               |
 ;; | <leader>-xe | eshell          | Call eshell                     |
-;; | <leader>-xl | list-process    | Show a list of emacs process    |
+;; | <leader>-xm | helm-man-woman  | See a man page 
 ;; | <leader>-xn | multi-term-next | Go to the next term buffer      |
 ;; | <leader>-xp | proced          | Show a list of system process   |
 ;; | <leader>-xs | multi-term      | Create new term buffer          |
@@ -1514,7 +1484,7 @@
 (evil-leader/set-key
   "xc" 'shell-command
   "xe" 'eshell
-  "xl" 'list-processes
+  "xm" 'helm-man-woman
   "xn" 'multi-term-next
   "xp" 'proced
   "xs" 'multi-term
@@ -1548,6 +1518,7 @@
 ;; |-------------+---------------------+-----------------------------------|
 ;; | <leader>-zd | text-scale-decrease | Decrease the size of the text     |
 ;; | <leader>-zi | package-install     | Install a package                 |
+;; | <leader>-zl | list-process        | Show a list of emacs process      |
 ;; | <leader>-zm | info-display-manual | Display a Info Manual             |
 ;; | <leader>-zp | list-packages       | List all the available packages   |
 ;; | <leader>-zt | helm-themes         | Change the color theme using helm |
@@ -1556,6 +1527,7 @@
 (evil-leader/set-key
   "zd" 'text-scale-decrease
   "zi" 'package-install
+  "zl" 'list-processes
   "zm" 'info-display-manual
   "zp" 'list-packages
   "zt" 'helm-themes
@@ -1657,11 +1629,6 @@
 (require 'ido-vertical-mode)
 (ido-vertical-mode t)
 
-;; Ido for yes or no questions
-
-(require 'ido-yes-or-no)
-(ido-yes-or-no-mode t)
-
 ;; Magit
 
 ;; With [[https://github.com/magit/magit][Magit]], you can inspect and modify your Git repositories with
@@ -1681,10 +1648,6 @@
 
 (setq helm-surfraw-duckduckgo-url "https://duckduckgo.com/lite/?q=!%s&kp=1")
 
-;; Browse Kill Ring
-
-(require 'browse-kill-ring)
-
 ;; TODO Charmap
 
 ;; [[https://github.com/lateau/charmap][Charmap]] is unicode table viewer for Emacs. With CharMap you can see
@@ -1701,7 +1664,6 @@
 ;; TODO Ace-jump-mode
 
 (require 'ace-jump-mode)
-(define-key evil-normal-state-map (kbd "<SPC>") 'ace-jump-mode)
 
 ;; Multi Term
 
@@ -1780,6 +1742,9 @@
 ;; indexing mechanism backed by external commands exists as well).
 
 (projectile-global-mode)
+(setq projectile-cache-file (concat joe-emacs-temporal-directory "projectile.cache"))
+(setq projectile-known-projects-file (concat joe-emacs-temporal-directory "projectile-bookmarks.eld"))
+(setq projectile-enable-caching t)
 
 ;; emms
 
@@ -2361,6 +2326,36 @@ cute little graphical smileys."
 (setq elfeed-search-filter "@2-days-old +unread ")
 
 (setq elfeed-search-title-max-width 100)
+
+;; Evil customization
+
+;; Custom bindings for Elfeed.
+
+; elfeed-search
+(evil-define-key 'normal elfeed-search-mode-map (kbd "q") 'quit-window)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update--force)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "o") 'elfeed-search-browse-url)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "y") 'elfeed-search-yank)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "r") 'elfeed-search-untag-all-unread)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
+(evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
+; elfeed-show
+(evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "n") 'elfeed-show-next)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "p") 'elfeed-show-prev)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "o") 'elfeed-show-visit)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "y") 'elfeed-show-yank)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
+(evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "-") 'elfeed-show-untag)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "SPC") 'scroll-up)
+(evil-define-key 'normal elfeed-show-mode-map (kbd "S-SPC") 'scroll-down)
 
 ;; Twittering-mode
 
