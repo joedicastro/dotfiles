@@ -69,6 +69,10 @@ Configuration of [Mercurial](http://mercurial.selenic.com/)
 + `/hg/bb_gh.py` a Python Mercurial hook to do `hg push` simultaneously to the
   same repository in both GitHub and Bitbucket sites
 
+### `/livestreamer`
+
+Configuration of [Livestreamer](https://github.com/chrippa/livestreamer)
+
 ### `/mpd`
 
 Configuration of [mpd](http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki)

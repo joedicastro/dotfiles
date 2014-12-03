@@ -1,0 +1,3 @@
+player=mplayer -fs -cache 8192
+default-stream=best
+loglevel=none
