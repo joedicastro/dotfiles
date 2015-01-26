@@ -1,9 +1,10 @@
 #!/bin/sh
 
-# setup the keyboard in two layouts at the same time: english (ANSI US) and
-# spanish (ALT-GR international) and maps the Capslock key as another Ctrl Key.
-# The menu key is used to toggle between the layouts
-setxkbmap -layout us,es -variant altgr-intl, -option grp:menu_toggle -option grp_led:scroll -option ctrl:nocaps
+# setup the keyboard to use the layout US with the variant ALT-GR
+# international (that allows you to introduce most of the
+# international chars needed in other layouts using the ALT-GR key)
+# and maps the Capslock key as another Ctrl Key.
+setxkbmap -layout us -variant altgr-intl -option ctrl:nocaps
 
 # load the X11 configuration for urxvt and xterm
 xrdb -merge ~/.Xresources
@@ -38,7 +39,7 @@ redshift -l 43.365:-8.41 & -t 6500:2700
 # suspend after 10 min of inactivity (put the cursor on the right up
 # corner to avoid suspension, e.g. leaving alone the computer while a
 # background task is executed )
-xautolock -time 5 -locker "systemctl suspend" -detectsleep -corners 0-00 -notify 10 -notifier 'notify-send "Auto suspending..."' &
+xautolock -time 5 -locker "systemctl suspend" -detectsleep -corners 0-00 -notify 10 -notifier 'notify-send "Auto suspend in 5 minutes..."' &
 
 # start urxvt as a daemon
 urxvtd -q -o -f &
