@@ -343,8 +343,8 @@ Set the calendar to my country's calendar standards
 
 #+BEGIN_SRC emacs-lisp
   (setq-default calendar-week-start-day 1)
-  (setq calendar-latitude 43.36)
-  (setq calendar-longitude 8.38)
+  (setq calendar-latitude 43.4)
+  (setq calendar-longitude -8.4)
   (setq calendar-location-name "A Coruña, Spain")
 #+END_SRC
 

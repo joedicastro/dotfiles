@@ -245,8 +245,8 @@
 ;; Set the calendar to my country's calendar standards
 
 (setq-default calendar-week-start-day 1)
-(setq calendar-latitude 43.36)
-(setq calendar-longitude 8.38)
+(setq calendar-latitude 43.4)
+(setq calendar-longitude -8.4)
 (setq calendar-location-name "A Coruña, Spain")
 
 ;; Use undo-tree for better undo
