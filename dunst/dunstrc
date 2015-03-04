@@ -1,6 +1,6 @@
 [global]
     # font = xft:Ubuntu:bold:size=8
-    font = Ubuntu 9
+    font = Dejavu Sans Mono 10
 
     # allow a small subset of html markup:
     # <b>bold</b>

@@ -87,13 +87,13 @@
 --
 ---------------------------------------------------------------- Multimedia keys
 --
--- Play media key              Play mpd song in playlist
--- Stop media key              Stop mpd reproduction
--- Prev media key              Previous song in mpd playlist
--- Next media key              Next song in mpd playlist
--- Raise volume media key      Raise Volume 2dB
--- Lower volume media key      Lower Volume 2dB
--- Mute media key              Mute volume
+-- Play media key                   Play mpd song in playlist
+-- Stop media key                   Stop mpd reproduction
+-- Prev media key                   Previous song in mpd playlist
+-- Next media key                   Next song in mpd playlist
+-- Raise volume media key           Raise Volume 2dB
+-- Lower volume media key           Lower Volume 2dB
+-- Mute media key                   Mute volume
 --
 -- }}}
 
@@ -251,6 +251,7 @@ myawesomemenu = {
 mymainmenu = awful.menu({
     items = {
         { "awesome", myawesomemenu, beautiful.awesome_icon },
+        { "keybindings", cfg_dir .. "/shortcuts.sh"},
         { "abrir terminal", terminal }
     }
 })
