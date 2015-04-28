@@ -1,21 +1,21 @@
 
 ;; How it works
 
-;; It uses one of the standard Emacs init files, =init.el= to load all
-;; the configuration. This configuration is thought to be stored in the
-;; standard =~/.emacs.d= directory and to setup this configuration you
-;; need to symlink this =emacs= directory to that. The
-;; =~/.emacs.d/init.el= comes from all the code blocks of this file
-;; =~/emacs.d/readme.org= exported in a process that is called
-;; "tangling". If a block is marked with =:tangle no= it will be
-;; skipped. The tangling is made automatically each time that the
-;; =readme.el= changes, via a hook, to ensure that both files are synced.
+;; It uses one of the standard Emacs init files, =init.el= to load all the
+;; configuration. This configuration is thought to be stored in the standard
+;; =~/.emacs.d= directory and to setup this configuration you need to symlink this
+;; =emacs= directory to that. The =~/.emacs.d/init.el= comes from all the code
+;; blocks of this file =~/emacs.d/readme.org= exported in a process that is called
+;; "tangling". If a block is marked with =:tangle no= it will be skipped. The
+;; tangling is made automatically each time that the =readme.el= changes, via a
+;; hook, to ensure that both files are synced.
 
-;; This is the hook to tangle a new =~/.emacs.d/init.el= each time that
-;; this file changes.
+;; This is the hook to tangle a new =~/.emacs.d/init.el= each time that this file
+;; changes.
 
-;; originaly seen at https://github.com/larstvei/dot-emacs/blob/master/init.org
-(defun joe/tangle-init ()
+;; originaly seen at
+;; https://github.com/larstvei/dot-emacs/blob/master/init.org
+(defun joe-tangle-init ()
   "If the current buffer is 'readme.org' the code-blocks are
    tangled, and the tangled file is compiled."
   (when (or
@@ -23,101 +23,11 @@
                 (expand-file-name (concat user-emacs-directory "readme.org")))
          (equal (buffer-file-name)
                 (expand-file-name "~/dotfiles/emacs/readme.org")))
-    (org-babel-tangle)))
-    ;; (byte-compile-file (concat user-emacs-directory "init.el"))))
+    (call-process-shell-command
+     "emacs ~/.emacs.d/readme.org --batch --eval='(org-babel-tangle)' && notify-send -a 'Emacs' 'init file tangled'" nil 0)))
+    ;; (byte-compile-file (concat user-emacs-directory "init.el")))
 
-(add-hook 'after-save-hook 'joe/tangle-init)
-
-;; Packages list
-
-;; The list of packages to install in a fresh installation. The way to
-;; maintain clean and updated this list for me is the following:
-
-;; - Install a package from the =package.el= built-in interface via =M-x list-packages=
-;; - Test it
-;;   - If seems Ok and I want to use it regularly, add it to the list.
-;;   - If I don't like it, delete the plugin directory in the =~/.emacs.d/elpa= tree.
-;;     I don't care too much about other dependecies that could be also
-;;     installed, I'll get rid of them in the next clean install.
-
-; A package for line helps to mantain the list
-(setq my-packages
-   '(
-        ac-emmet
-        ag
-        async
-        auto-complete
-        buffer-move
-        calfw
-        charmap
-        csv-mode
-        diff-hl
-        dired+
-        elfeed
-        emms
-        emmet-mode
-        epresent
-        evil
-        evil-exchange
-        evil-indent-textobject
-        evil-leader
-        evil-matchit
-        evil-nerd-commenter
-        evil-surround
-        fill-column-indicator
-        flatland-theme
-        fixmee
-        git-commit-mode
-        git-rebase-mode
-        gitconfig-mode
-        gitignore-mode
-        google-maps
-        google-this
-        graphviz-dot-mode
-        guide-key-tip
-        helm
-        helm-descbinds
-        helm-emmet
-        helm-flycheck
-        helm-projectile
-        helm-themes
-        haskell-mode
-        ibuffer-vc
-        ido-ubiquitous
-        ido-vertical-mode
-        ipython
-        jedi
-        know-your-http-well
-        lua-mode
-        lorem-ipsum
-        magit
-        markdown-mode
-        monokai-theme
-        mu4e-maildirs-extension
-        multi-term
-        org-plus-contrib
-        paradox
-        password-store
-        pretty-mode
-        projectile
-        popwin
-        racket-mode
-        rw-ispell
-        rw-hunspell
-        rw-language-and-country-codes
-        smart-mode-line
-        smartparens
-        smex
-        sml-mode
-        sublime-themes
-        swoop
-        twittering-mode
-        ujelly-theme
-        undo-tree
-        w3m
-        yasnippet
-        zeal-at-point
-))
+(add-hook 'after-save-hook 'joe-tangle-init)
 
 ;; Repositories
 
@@ -125,46 +35,143 @@
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")
+                         ("melpa-stable" . "http://stable.melpa.org/packages/")
                          ("org" . "http://orgmode.org/elpa/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")))
 
-;; Auto-installation
+;; use-package & bind-key
 
-;; The auto-installation process for all the packages that are not
-;; already installed. This is for bootstrap a fresh install.
+;; The [[https://github.com/jwiegley/use-package][use-package]] declaration macro allows us to isolate package configuration in
+;; our emacs setup in a way that is performance-oriented and, well, just tidy. As
+;; well it allows us to install automatically those packages that are not already
+;; installed (using the =:ensure t= keyword) and freeing us to use a custom
+;; bootstrap process.
 
-;;; initialize the packages and create the packages list if not exists
+;; It comes also with a module =bind-key= that helps us to manage the key bindings
+;; in a more easy way. With those two utilities working in conjunction, we can
+;; setup the packages atomically, like islands, being able to add/disable/delete
+;; packages without interfere the others.
+
+;; initialize the packages and create the packages list if not exists
 (package-initialize)
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;;; install packages if not exists
-(dolist (pkg my-packages)
-  (when (and (not (package-installed-p pkg))
-           (assoc pkg package-archive-contents))
-    (package-install pkg)))
+;; install use-package if not exists
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 
-;; Encoding
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)                ;; if you use :diminish
+(require 'bind-key)                ;; if you use any :bind variant
 
-;; Make sure that UTF-8 is used everywhere.
+;; Some default settings
 
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-language-environment 'utf-8)
-(prefer-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
+;; These are some defaults that I consider a good start.
+
+(setq inhibit-startup-screen t                ;; the welcome screen is for guests only, I'm at home now!
+      initial-scratch-message nil             ;; remove the message in the scratch buffer
+      visible-bell t                          ;; remove the annoying beep
+      apropos-do-all t                        ;; apropos commands perform more extensive searches than default
+      large-file-warning-threshold 100000000) ;; warn only when opening files bigger than 100MB
+;; no bars, no gui menus
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+;; replace yes/no questions with y/n
+(fset 'yes-or-no-p 'y-or-n-p)
+;; show the empty lines at the end (bottom) of the buffer
+(toggle-indicate-empty-lines)
+;; delete the previous selection when overrides it with a new insertion.
+(delete-selection-mode)
+;; the blinking cursor is pretty annoying, so disable it.
+(blink-cursor-mode -1)
+;; more thinner window divisions
+(fringe-mode '(1 . 1))
+
+;; use ibuffer by default
+(defalias 'list-buffers 'ibuffer)
+
+ ;; make sure that UTF-8 is used everywhere.
+(set-terminal-coding-system  'utf-8)
+(set-keyboard-coding-system  'utf-8)
+(set-language-environment    'utf-8)
 (set-selection-coding-system 'utf-8)
+(setq locale-coding-system   'utf-8)
+(prefer-coding-system        'utf-8)
 (set-input-method nil)
+
+;; disable auto-save files & backups
+;; I prefer to use a undo-tree with branches instead of store auto-save
+;; files. Because I'm using gpg to authetication and encrypt/sign files,
+;; is more secure don't have a plaint text backup of those files. Use a
+;; DVCS and backup your files regularly, for God's sake!
+(setq auto-save-default nil
+      auto-save-list-file-prefix nil
+      make-backup-files nil)
+
+ ;; always indent with spaces
+(setq-default indent-tabs-mode  nil
+              default-tab-width 4
+              c-basic-offset 4)
+
+;; show the matching parenthesis when the cursor is above one of them.
+(setq show-paren-delay 0)
+(show-paren-mode t)
+
+;; highlight the current line
+(global-hl-line-mode 1)
+
+ ;; settings for the mode line
+(column-number-mode t)
+(setq size-indication-mode t)
+(which-function-mode 1)
+
+;; backward-kill-word as alternative to Backspace:
+;; Kill the entire word instead of hitting Backspace key several
+;; times. To do this will bind the =backward-kill-region= function to the
+;; =C-w= key combination
+(global-set-key "\C-w" 'backward-kill-word)
+ ;; now we reasigne the original binding to that combination to a new one
+(global-set-key "\C-x\C-k" 'kill-region)
+(global-set-key "\C-c\C-k" 'kill-region)
+
+;; text wrapping at 80 columns by default (only text)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook
+          '(lambda() (set-fill-column 80)))
+
+;; browser settings
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "firefox")
+
+;; disable these warnings about narrow
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+
+;; set the calendar to my country and city's calendar standards
+(setq-default calendar-week-start-day  1
+              calendar-latitude        43.3
+              calendar-longitude       -8.3
+              calendar-location-name   "A Coruña, Spain")
+
+ ;; sets the default user's information properly.
+(setq user-full-name    "joe di castro"
+      user-mail-address "joe@joedicastro.com")
 
 ;; Temporal directory
 
 ;; I like to keep all of the temporal files and dirs (cache, backups,
-;; ...) in an unique directory. If this directory does not exists, then
-;; create it
+;; ...) in an unique directory. It's more clean, less error-prone and
+;; more easy to maintain.
 
-(unless (file-exists-p "~/.emacs.d/tmp")
-  (make-directory "~/.emacs.d/tmp"))
+;; First, create a variable to point to that temporal directory and if
+;; that directory does not exists, create it.
+
 (defvar joe-emacs-temporal-directory (concat user-emacs-directory "tmp/"))
+(unless (file-exists-p joe-emacs-temporal-directory)
+  (make-directory joe-emacs-temporal-directory))
 
 ;; Store all temporal files in a temporal directory instead of being
 ;; disseminated in the $HOME directory
@@ -179,96 +186,20 @@
 (setq url-configuration-directory (concat joe-emacs-temporal-directory "url"))
 ;; eshell files
 (setq eshell-directory-name (concat joe-emacs-temporal-directory "eshell" ))
-;; pcache files
-(setq pcache-directory (concat joe-emacs-temporal-directory "pcache" ))
-
-;; Disable auto-save files
-
-;; I prefer to use a undo-tree with branches that store auto-save files.
-
-(setq auto-save-default nil)
-(setq auto-save-list-file-prefix nil)
-
-;; Disable Backups
-
-;; Because I'm using gpg to authetication and encrypt/sign files, is more
-;; secure don't have a plaint text backup of those files. Use a DVCS and
-;; backup your files regularly, for God's sake!
-
-(setq make-backup-files nil)
 
 ;; History
 
-;; Maintain a history of past actions.
+;; Maintain a history of past actions and a reasonable number of lists.
 
-(setq savehist-file "~/.emacs.d/tmp/history")
 (setq-default history-length 1000)
-(savehist-mode t)
-(setq savehist-save-minibuffer-history 1)
-(setq savehist-additional-variables
+(setq savehist-file (concat joe-emacs-temporal-directory "history")
+      history-delete-duplicates t
+      savehist-save-minibuffer-history 1
+      savehist-additional-variables
       '(kill-ring
         search-ring
         regexp-search-ring))
-
-;; Show matching parenthesis
-
-;; Show the matching parenthesis when the cursor is above one of them.
-
-(setq show-paren-delay 0)
-(show-paren-mode t)
-
-;; Toggle show trailing white-spaces
-
-;; Show/hide the trailing white-spaces in the buffer.
-
-;; from http://stackoverflow.com/a/11701899/634816
-(defun joe/toggle-show-trailing-whitespace ()
-  "Toggle show-trailing-whitespace between t and nil"
-  (interactive)
-  (setq show-trailing-whitespace (not show-trailing-whitespace)))
-
-;; Always indent with spaces
-
-;; No more tabs, please, use damn spaces, for God's sake!
-
-(setq-default indent-tabs-mode nil)
-(setq-default default-tab-width 4)
-
-;; Replace yes/no questions with y/n
-
-;; Less keystrokes, I already press enough keys along the day.
-
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; Mondays are the first day of the week (for M-x calendar)
-
-;; Set the calendar to my country's calendar standards
-
-(setq-default calendar-week-start-day 1)
-(setq calendar-latitude 43.3)
-(setq calendar-longitude -8.3)
-(setq calendar-location-name "A Coruña, Spain")
-
-;; Use undo-tree for better undo
-
-;; Emacs's undo system allows you to recover any past state of a buffer
-;; (the standard undo/redo system loses any "redoable" states whenever
-;; you make an edit). However, Emacs's solution, to treat "undo" itself
-;; as just another editing action that can be undone, can be confusing
-;; and difficult to use.
-
-;; Both the loss of data with standard undo/redo and the confusion of
-;; Emacs' undo stem from trying to treat undo history as a linear
-;; sequence of changes. =undo-tree-mode= instead treats undo history as
-;; what it is: a branching tree of changes (the same system that Vim has
-;; had for some time now). This makes it substantially easier to undo and
-;; redo any change, while preserving the entire history of past states.
-
-(require 'undo-tree)
-(setq undo-tree-visualizer-diff t)
-(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/tmp/undo")))
-(setq undo-tree-visualizer-timestamps t)
-(global-undo-tree-mode)
+(savehist-mode t)
 
 ;; Recent files
 
@@ -276,47 +207,42 @@
 ;; files. This list is is automatically saved across Emacs sessions. You
 ;; can then access this list through a menu.
 
-(require 'recentf)
-(setq recentf-save-file "~/.emacs.d/tmp/recentf")
-(recentf-mode t)
-(setq recentf-max-saved-items 100)
+(use-package recentf
+  :config
+  (progn
+    (setq recentf-save-file (concat joe-emacs-temporal-directory "recentf")
+          recentf-max-saved-items 100)
+    (recentf-mode t)))
 
 ;; Keep session between emacs runs (Desktop)
 
 ;; Desktop Save Mode is a feature to save the state of Emacs from one
 ;; session to another.
 
-(require 'desktop)
-(setq desktop-path '("~/.emacs.d/tmp/"))
-(setq desktop-dirname "~/.emacs.d/tmp/")
-(setq desktop-base-file-name "emacs-desktop")
-(setq desktop-globals-to-save
-      (append '((extended-command-history . 50)
-                (file-name-history . 200)
-                (grep-history . 50)
-                (compile-history . 50)
-                (minibuffer-history . 100)
-                (query-replace-history . 100)
-                (read-expression-history . 100)
-                (regexp-history . 100)
-                (regexp-search-ring . 100)
-                (search-ring . 50)
-                (shell-command-history . 50)
-                tags-file-name
-                register-alist)))
-(desktop-save-mode 1)
-
-;; Remove beep
-
-;; Remove the annoying beep.
-
-(setq visible-bell t)
-
-;; Open large files
-
-;; Warn only when opening files bigger than 100MB
-
-(setq large-file-warning-threshold 100000000)
+;; I have this disabled until this config is stable and stop to make so
+;; many tests with it
+(use-package desktop
+  :config
+  :disabled t
+  (progn
+    (setq desktop-path '("~/.emacs.d/tmp/"))
+    (setq desktop-dirname "~/.emacs.d/tmp/")
+    (setq desktop-base-file-name "emacs-desktop")
+    (setq desktop-globals-to-save
+          (append '((extended-command-history . 50)
+                    (file-name-history . 200)
+                    (grep-history . 50)
+                    (compile-history . 50)
+                    (minibuffer-history . 100)
+                    (query-replace-history . 100)
+                    (read-expression-history . 100)
+                    (regexp-history . 100)
+                    (regexp-search-ring . 100)
+                    (search-ring . 50)
+                    (shell-command-history . 50)
+                    tags-file-name
+                    register-alist)))
+    (desktop-save-mode 1)))
 
 ;; Save cursor position across sessions
 
@@ -324,133 +250,27 @@
 ;; time you open the file, the cursor will be at the position you last
 ;; opened it.
 
-(require 'saveplace)
-(setq save-place-file (concat user-emacs-directory "tmp/saveplace.el") )
-(setq-default save-place t)
-
-;; Kill internal processes via the =list process= buffer
-
-;; Add a functionality to be able to kill process directly in the =list process'= buffer
-
-;; seen at http://stackoverflow.com/a/18034042
-(define-key process-menu-mode-map (kbd "C-c k") 'joe/delete-process-at-point)
-
-(defun joe/delete-process-at-point ()
-  (interactive)
-  (let ((process (get-text-property (point) 'tabulated-list-id)))
-    (cond ((and process
-                (processp process))
-           (delete-process process)
-           (revert-buffer))
-          (t
-           (error "no process at point!")))))
-
-;; TODO Use ibuffer by default
-
-;; Ibuffer is an advanced replacement for BufferMenu, which lets you
-;; operate on buffers much in the same manner as Dired.
-
-(defalias 'list-buffers 'ibuffer)
-
-;; User ibuffer-vc by default
-
-;; [[https://github.com/purcell/ibuffer-vc][ibuffer-vc]] show the buffers grouped by the associated version control
-;; project.
-
-(add-hook 'ibuffer-hook
-          (lambda ()
-            (ibuffer-vc-set-filter-groups-by-vc-root)
-            (unless (eq ibuffer-sorting-mode 'alphabetic)
-              (ibuffer-do-sort-by-alphabetic))))
-
-(setq ibuffer-formats
-      '((mark modified read-only vc-status-mini " "
-              (name 18 18 :left :elide)
-              " "
-              (size 9 -1 :right)
-              " "
-              (mode 16 16 :left :elide)
-              " "
-              (vc-status 16 16 :left)
-              " "
-              filename-and-process)))
-
-;; Browser
-
-(setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "firefox")
-(setq w3m-default-display-inline-images t)
-
-;; Remove the welcome screen
-
-;; The welcome screen is for guests only, I'm in home now!
-
-(setq inhibit-startup-screen t)
-
-;; Remove the message in the scratch buffer
-
-;; Idem as above for the same reasons.
-
-(setq initial-scratch-message "")
-
-;; Hide the menu bar
-
-(menu-bar-mode -1)
-
-;; Hide the tool bar
-
-(tool-bar-mode -1)
-
-;; Hide the scroll bar
-
-(scroll-bar-mode -1)
-
-;; Show the column number
-
-(column-number-mode t)
-
-;; Show the buffer size (bytes)
-
-(setq size-indication-mode t)
-
-;; Show the current function
-
-;; This is very useful in programming and also to see the headers in
-;; outlines modes.
-
-(which-function-mode 1)
-
-;; Smart mode line
-
-;; This package shows a very nice and very informative mode line.
-
-;; to avoid the annoying confirmation question at the beginning
-(defvar sml-dark-theme
-  (substring
-   (shell-command-to-string
-    "sha256sum ~/.emacs.d/elpa/smart-mode-line-*/smart-mode-line-dark-theme.el | cut -d ' ' -f 1")
-   0 -1))
-
-(add-to-list 'custom-safe-themes sml-dark-theme)
-
-;;; smart-mode-line
-(require 'smart-mode-line)
-(setq sml/mode-width 'full)
-(setq sml/name-width 30)
-(setq sml/shorten-modes t)
-;; since I'm using the emacs daemon, to work properly, I have to make
-;; the setup after the frame is made. So, I call this command in the
-;; "Color Theme" section.
-;; (sml/setup)
+(use-package saveplace
+  :config
+  (progn
+    (setq save-place-file (concat joe-emacs-temporal-directory "saveplace.el") )
+    (setq-default save-place t)))
 
 ;; Color Theme
 
-;; Here I define the default theme, a total subjective decision, of
-;; course. This configuration works in terminal/graphic mode and in
-;; client/server or standalone frames.
+;; Here I define the default theme, a total subjective decision, of course. This
+;; configuration works in terminal/graphic mode and in client/server or standalone
+;; frames.
 
 ;; *Remember: when testing a new theme, disable before the current one or
 ;; use =helm-themes=.*
+
+;; This code is to avoid to reload the theme every time that you open a new client
+;; in server mode (from GUI or from terminal)
+
+(defvar joe-color-theme (if (package-installed-p 'monokai-theme)
+                            'monokai
+                          'tango))
 
 (setq myGraphicModeHash (make-hash-table :test 'equal :size 2))
 (puthash "gui" t myGraphicModeHash)
@@ -463,10 +283,7 @@
       (select-frame frame)
       (when (or gui ter)
         (progn
-          (load-theme 'monokai t)
-          ;; setup the smart-mode-line and its theme
-          (sml/setup)
-          (sml/apply-theme 'dark)
+          (load-theme joe-color-theme t)
           (if (display-graphic-p)
               (puthash "gui" nil myGraphicModeHash)
             (puthash "term" nil myGraphicModeHash))))
@@ -475,8 +292,7 @@
 
 (if (daemonp)
     (add-hook 'after-make-frame-functions 'emacsclient-setup-theme-function)
-  (progn (load-theme 'monokai t)
-         (sml/setup)))
+  (progn (load-theme joe-color-theme t)))
 
 ;; Font
 
@@ -485,44 +301,16 @@
 
 (set-face-attribute 'default nil :family "Dejavu Sans Mono" :height 110)
 
-;; Font Fallback for Unicode
-
-;; Set a font with great support for Unicode Symbols
-;; to fallback in those case where certain Unicode glyphs are
-;; missing in the current font.
-
+;; Set a font with great support for Unicode Symbols to fallback in
+;; those case where certain Unicode glyphs are missing in the current
+;; font.
 (set-fontset-font "fontset-default" nil
                   (font-spec :size 20 :name "Symbola"))
 
-;; Cursor not blinking
-
-;; The blinking cursor is pretty annoying, so disable it.
-
-(blink-cursor-mode -1)
-
-;; Highlight the current line
-
-;; To help us to locate where the cursor is.
-
-(global-hl-line-mode 1)
-
-;; Show empty lines
-
-;; This option show the empty lines at the end (bottom) of the buffer
-;; like in Vim.
-
-(toggle-indicate-empty-lines)
-
-;; Pretty mode
-
-;; Use mathematical *Unicode* /symbols/ instead of expressions or keywords in
-;; some programming languages
-
-(global-pretty-mode t)
-
 ;; Better line numbers
 
-;; Display a more appealing line numbers.
+;; Display a more appealing line numbers. I don't use them too much because is a
+;; very slow feature, but sometimes it comes handy.
 
 ; 2014-04-04: Holy moly its effort to get line numbers like vim!
 ; http://www.emacswiki.org/emacs/LineNumbers#toc6
@@ -534,328 +322,681 @@
                                             (count-lines (point-min) (point-max))))))
                             (concat "%" (number-to-string w) "d"))))))
 
-(defun joe/linum-format-func (line)
+(defun joe-linum-format-func (line)
    (concat
     (propertize (format linum-format-fmt line) 'face 'linum)
     (propertize " " 'face 'linum)))
 
 (unless window-system
-  (setq linum-format 'joe/linum-format-func))
+  (setq linum-format 'joe-linum-format-func))
 
-;; Show fill column
+;; Toggle show trailing white-spaces
 
-;; Toggle the vertical column that indicates the fill threshold.
+;; Show/hide the trailing white-spaces in the buffer.
 
-(require 'fill-column-indicator)
-(fci-mode)
-(setq fci-rule-column 79)
+;; from http://stackoverflow.com/a/11701899/634816
+(defun joe-toggle-show-trailing-whitespace ()
+  "Toggle show-trailing-whitespace between t and nil"
+  (interactive)
+  (setq show-trailing-whitespace (not show-trailing-whitespace)))
 
-;; More thinner window divisions
+;; Kill internal processes via the =list process= buffer
 
-;; The default windows divisions are more uglier than sin.
+;; Add a functionality to be able to kill process directly in the =list
+;; process'= buffer
 
-(fringe-mode '(1 . 1))
+;; seen at http://stackoverflow.com/a/18034042
+(defun joe-delete-process-at-point ()
+  (interactive)
+  (let ((process (get-text-property (point) 'tabulated-list-id)))
+    (cond ((and process
+                (processp process))
+           (delete-process process)
+           (revert-buffer))
+          (t
+           (error "no process at point!")))))
 
-;; TODO Auto-completion
+(define-key process-menu-mode-map (kbd "C-c k") 'joe-delete-process-at-point)
 
-;; Auto Complete Mode (aka =auto-complete.el=, =auto-complete-mode=) is a
-;; extension that automates and advances completion-system.
+;; Window movements
 
-(require 'auto-complete)
-(global-auto-complete-mode)
-(add-to-list 'ac-sources 'ac-source-abbrev)
-(add-to-list 'ac-sources 'ac-source-dictionary)
-(add-to-list 'ac-sources 'ac-source-filename)
-(add-to-list 'ac-sources 'ac-source-files-in-curren-dir)
-(add-to-list 'ac-sources 'ac-source-imenu)
-(add-to-list 'ac-sources 'ac-source-semantic)
-(add-to-list 'ac-sources 'ac-source-words-in-buffer)
-(add-to-list 'ac-sources 'ac-source-words-in-same-mode-buffers)
-(add-to-list 'ac-sources 'ac-source-yasnippet)
-(setq ac-use-menu-map t)
-;; Default settings
-(define-key ac-menu-map "\C-n" 'ac-next)
-(define-key ac-menu-map "\C-p" 'ac-previous)
-(setq ac-ignore-case 'smart)
-(setq ac-auto-start 2)
-(ac-flyspell-workaround)
+;; Provide a more intuitive window movements.
 
-;; enable it globally
+(defun joe-scroll-other-window()
+  (interactive)
+  (scroll-other-window 1))
 
-;; Make it available everywhere.
+(defun joe-scroll-other-window-down ()
+  (interactive)
+  (scroll-other-window-down 1))
 
-;; dirty fix for having AC everywhere
-(define-globalized-minor-mode real-global-auto-complete-mode
-  auto-complete-mode (lambda ()
-                       (if (not (minibufferp (current-buffer)))
-                         (auto-complete-mode 1))
-                       ))
-(real-global-auto-complete-mode t)
+(use-package windmove)
+(use-package winner
+  :config
+  (winner-mode t))
 
-;; auto-complete file
+;; Auxiliary functions for buffers management
+   
+;; Some custom functions to manage buffers.
 
-;; The file where store the history of auto-complete.
+(defun joe-alternate-buffers ()
+  "Toggle between the last two buffers"
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) t)))
 
-(setq ac-comphist-file (concat user-emacs-directory
-             "temp/ac-comphist.dat"))
+(defun joe-revert-buffer ()
+  "Revert the buffer to the save disk file state"
+  (interactive)
+  (revert-buffer nil t))
 
-;; Delete after insertion over selection
+(defun joe-kill-this-buffer ()
+  "Kill the current buffer"
+  (interactive)
+  (kill-buffer (current-buffer)))
 
-;; Delete the previous selection when overrides it with a new insertion.
+(defun joe-diff-buffer-with-file ()
+  "Compare the current modified buffer with the saved version."
+  (interactive)
+  (let ((diff-switches "-u"))
+    (diff-buffer-with-file (current-buffer))))
 
-(delete-selection-mode)
+;; Use encryption
 
-;; TODO Basic indentation
+;; Use encryption to protect the sensitive data like the mail servers
+;; configuration (stored in =authinfo.gpg=) and the sensitive user's
+;; information.
 
-(setq-default c-basic-offset 4)
+(use-package epa-file
+  :config
+  (progn
+    (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))))
 
-;; Smartparens
-
-;; Minor mode for Emacs that deals with parens pairs and tries to be
-;; smart about it.
-
-(require 'smartparens-config)
-(smartparens-global-mode)
-
-;; Backward-kill-word as alternative to Backspace
-
-;; Kill the entire word instead of hitting Backspace key several
-;; times. To do this will bind the =backward-kill-region= function to the
-;; =C-w= key combination
-
-(global-set-key "\C-w" 'backward-kill-word)
-
-;; Rebind the original C-w binding
-
-;; Now we reasigne the original binding to that combination to a new one
-
-(global-set-key "\C-x\C-k" 'kill-region)
-(global-set-key "\C-c\C-k" 'kill-region)
-
-;; Spell checking
+;; Spelling
 
 ;; Activate Spell Checking by default. Also use [[http://hunspell.sourceforge.net/][hunspell]] instead of
 ;; [[http://www.gnu.org/software/ispell/ispell.html][ispell]] as corrector.
 
-;; Use hunspell instead of ispell
-(setq ispell-program-name "hunspell")
-(require 'rw-language-and-country-codes)
-(require 'rw-ispell)
-(require 'rw-hunspell)
-(setq ispell-dictionary "es_ES_hunspell")
-;; The following is set via custom
-(custom-set-variables
- '(rw-hunspell-default-dictionary "es_ES_hunspell")
- '(rw-hunspell-dicpath-list (quote ("/usr/share/hunspell")))
- '(rw-hunspell-make-dictionary-menu t)
- '(rw-hunspell-use-rw-ispell t))
+(setq-default ispell-program-name    "hunspell"
+              ispell-really-hunspell t
+              ispell-check-comments  t
+              ispell-extra-args      '("-i" "utf-8") ;; produce a lot of noise, disable?
+              ispell-dictionary      "en_US")
 
-(defun joe/turn-on-spell-check ()
+;; switch between the most used dictionaries in my case
+(defun joe-switch-dictionary ()
+  (interactive)
+  (let* ((dic ispell-current-dictionary)
+         (change (if (string= dic "en_US") "es_ES" "en_US")))
+    (ispell-change-dictionary change)
+    (message "Dictionary switched from %s to %s" dic change)))
+
+(defun joe-turn-on-spell-check ()
   (flyspell-mode 1))
 
 ;; enable spell-check in certain modes
-(add-hook 'markdown-mode-hook 'joe/turn-on-spell-check)
-(add-hook 'text-mode-hook 'joe/turn-on-spell-check)
-(add-hook 'org-mode-hook 'joe/turn-on-spell-check)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(add-hook 'markdown-mode-hook 'joe-turn-on-spell-check)
+(add-hook 'text-mode-hook     'joe-turn-on-spell-check)
+(add-hook 'org-mode-hook      'joe-turn-on-spell-check)
+(add-hook 'prog-mode-hook     'flyspell-prog-mode)
 
-;; Enable Org Mode
+;; Ido
 
-(require 'org)
+;; Use ido to deal with files and buffers in a more pleasant way.
 
-;; TODO Org-mode modules
+(use-package ido
+  :config
+  (progn
+    (setq ido-save-directory-list-file (concat joe-emacs-temporal-directory "ido.last")
+          ido-enable-flex-matching t
+          ido-use-virtual-buffers t)
+    (ido-mode t)
+    (ido-everywhere t)))
 
-;; Set the modules enabled by default
+;; ediff
 
-(setq org-modules '(
-    org-bbdb
-    org-bibtex
-    org-docview
-    org-mhe
-    org-rmail
-    org-w3m
-    org-crypt
-    org-protocol
-    org-gnus
-    org-info
-    org-habit
-    org-irc
-    org-annotate-file
-    org-eval
-    org-expiry
-    org-man
-    org-panel
-    org-toc
-))
+;; A more sane default configuration to ediff.
 
-;; Set default directories
+(use-package ediff
+  :init
+  (add-hook 'ediff-after-quit-hook-internal 'winner-undo)
+  :config
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain
+        ediff-split-window-function 'split-window-horizontally))
 
-(setq org-directory "~/org")
-(setq org-default-notes-file (concat org-directory "/notes.org"))
+;; eww
 
-;; Highlight code blocks syntax
+;; Settings for the Emacs Web Browser.
 
-(setq org-src-fontify-natively t)
-(setq org-src-tab-acts-natively t)
-(add-to-list 'org-src-lang-modes (quote ("dot" . graphviz-dot)))
+(use-package eww
+  :init
+  (setq eww-download-directory "~/temporal")
+  :config
+  (bind-keys :map eww-mode-map
+             ("s" . eww-view-source)))
 
-;; Record date and time when a task is marked as DONE
+;; Org-mode settings
 
-(setq org-log-done t)
+(use-package org
+  :defer 1
+  :config
+  (progn
+    ;; set the modules enabled by default
+    (setq org-modules '(
+        org-bbdb
+        org-bibtex
+        org-docview
+        org-mhe
+        org-rmail
+        org-crypt
+        org-protocol
+        org-gnus
+        org-info
+        org-habit
+        org-irc
+        org-annotate-file
+        org-eval
+        org-expiry
+        org-man
+        org-panel
+        org-toc))
 
-;; Detect idle time when clock is running
+    ;; set default directories
+    (setq org-directory "~/org"
+          org-default-notes-file (concat org-directory "/notes.org"))
 
-(setq org-clock-idle-time 10)
+    ;; highlight code blocks syntax
+    (setq org-src-fontify-natively  t
+          org-src-tab-acts-natively t)
+    (add-to-list 'org-src-lang-modes (quote ("dot" . graphviz-dot)))
 
-;; Include diary entries
+    ;; highlight code blocks syntax in PDF export
+    ;; Include the latex-exporter
+    (use-package ox-latex)
+    ;; Add minted to the defaults packages to include when exporting.
+    (add-to-list 'org-latex-packages-alist '("" "minted"))
+    (add-to-list 'org-latex-packages-alist '("" "xunicode"))
+    ;; Tell the latex export to use the minted package for source
+    ;; code coloration.
+    (setq org-latex-listings 'minted)
+    ;; Let the exporter use the -shell-escape option to let latex
+    ;; execute external programs.
+    ;; This obviously and can be dangerous to activate!
+    (setq org-latex-pdf-process
+          '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
-(setq org-agenda-include-diary t)
+    ;; tasks management
+    (setq org-log-done t)
+    (setq org-clock-idle-time nil)
 
-;; Agenda files
+    ;; agenda & diary
+    (setq org-agenda-include-diary t)
+    (setq org-agenda-files '("~/org"))
+    (setq org-agenda-inhibit-startup t)
 
-(setq org-agenda-files '("~/org"))
+    ;; configure the external apps to open files
+    (setq org-file-apps
+          '(("\\.pdf\\'" . "zathura %s")
+            ("\\.gnumeric\\'" . "gnumeric %s")))
 
-;; Configure the external apps to open files
+    ;; protect hidden trees for being inadvertily edited (do not work with evil)
+    (setq-default org-catch-invisible-edits  'error
+                  org-ctrl-k-protect-subtree 'error)
 
-(setq org-file-apps
-      '(("\\.pdf\\'" . "zathura %s")
-        ("\\.gnumeric\\'" . "gnumeric %s")))
+    ;; show images inline
+    ;; only works in GUI, but is a nice feature to have
+    (when (window-system)
+      (setq org-startup-with-inline-images t))
+    ;; limit images width
+    (setq org-image-actual-width '(800))
 
-;; Protect hidden trees for being inadvertily edited
+    ;; :::::: Org-Babel ::::::
 
-(setq org-catch-invisible-edits 'error)
-(setq org-ctrl-k-protect-subtree 'error)
+    ;; languages supported
+    (org-babel-do-load-languages
+     (quote org-babel-load-languages)
+     (quote (
+             (calc . t)
+             (clojure . t)
+             (ditaa . t)
+             (dot . t)
+             (emacs-lisp . t)
+             (gnuplot . t)
+             (latex . t)
+             (ledger . t)
+             (octave . t)
+             (org . t)
+             (makefile . t)
+             (plantuml . t)
+             (python . t)
+             (R . t)
+             (ruby . t)
+             (sh . t)
+             (sqlite . t)
+             (sql . nil))))
+    (setq org-babel-python-command "python2")
 
-;; Show images inline
+    ;; refresh images after execution
+    (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 
-;; Only works in GUI, but is a nice feature to have
+    ;; don't ask confirmation to execute "safe" languages
+    (defun joe-org-confirm-babel-evaluate (lang body)
+      (and (not (string= lang "ditaa"))
+         (not (string= lang "dot"))
+         (not (string= lang "gnuplot"))
+         (not (string= lang "ledger"))
+         (not (string= lang "plantuml"))))
 
-(when (window-system)
-  (setq org-startup-with-inline-images t))
+    (setq org-confirm-babel-evaluate 'joe-org-confirm-babel-evaluate)))
 
-;; Limit images width
+;; 2048-game
 
-(setq org-image-actual-width '(800))
+;; [[https://bitbucket.org/zck/2048.el][2048-game]] is a very effective procrastination tool, one of the best ways to lose
+;; your time. Also is a simple and enjoying game.
 
-;; Org-Babel
+(use-package 2048-game
+  :ensure t
+  :commands 2048-game
+  :config
+  (bind-keys :map 2048-mode-map
+             ("h" . 2048-left)
+             ("j" . 2048-down)
+             ("k" . 2048-up)
+             ("l" . 2048-right)))
 
-;; [[http://orgmode.org/worg/org-contrib/babel/][Babel]] is Org-mode's ability to execute source code within Org-mode documents.
+;; ac-emmet
 
-;; languages supported
-(org-babel-do-load-languages
- (quote org-babel-load-languages)
- (quote (
-         (calc . t)
-         (clojure . t)
-         (ditaa . t)
-         (dot . t)
-         (emacs-lisp . t)
-         (gnuplot . t)
-         (latex . t)
-         (ledger . t)
-         (octave . t)
-         (org . t)
-         (makefile . t)
-         (plantuml . t)
-         (python . t)
-         (R . t)
-         (ruby . t)
-         (sh . t)
-         (sqlite . t)
-         (sql . nil))))
-(setq org-babel-python-command "python2")
+;; [[https://github.com/yasuyk/ac-emmet][ac-emmet]] are auto-complete sources for emmet-mode's snippets
 
-;; Refresh images after execution
+(use-package ac-emmet
+  :ensure t
+  :requires emmet
+  :defer 2
+  :config
+  (add-hook 'sgml-mode-hook 'ac-emmet-html-setup)
+  (add-hook 'css-mode-hook  'ac-emmet-css-setup))
 
-(add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+;; ace-jump-mode
 
-;; Don't ask confirmation to execute "safe" languages
+;; [[https://github.com/winterTTr/ace-jump-mode][Ace jump mode]] is a minor mode of emacs, which help you to move the cursor within
+;; Emacs
 
-(defun joe/org-confirm-babel-evaluate (lang body)
-  (and (not (string= lang "ditaa"))
-     (not (string= lang "dot"))
-     (not (string= lang "gnuplot"))
-     (not (string= lang "ledger"))
-     (not (string= lang "plantuml"))))
-(setq org-confirm-babel-evaluate 'joe/org-confirm-babel-evaluate)
+(use-package ace-jump-mode
+  :defer 5
+  :ensure t)
 
-;; Org-location-google-maps
+;; ace-link
 
-;; The google-maps Emacs extension allows to display Google Maps directly
-;; inside Emacs and integrate them in org-mode as addresses.
+;; [[https://github.com/abo-abo/ace-link][ace-link]] is a Emacs package for selecting a link to jump to.
+;; Works in org-mode, info, help and eww.
 
-(require 'google-maps)
-(require 'org-location-google-maps)
+;; | Binding | Call       | Do           |
+;; |---------+------------+--------------|
+;; | o       | ace-link-* | jump to link |
+;; |---------+------------+--------------|
 
-;; Org-protocol
+(use-package ace-link
+  :ensure t
+  :defer 3
+  :config
+  (ace-link-setup-default))
 
-;; org-protocol intercepts calls from emacsclient to trigger custom
-;; actions without external dependencies. Only one protocol has to be
-;; configured with your external applications or the operating system, to
-;; trigger an arbitrary number of custom actions.
+;; ag
 
-;; To use it to capture web urls and notes from Firefox, install this
-;; [[http://chadok.info/firefox-org-capture/][Firefox extension]]
+;; [[https://github.com/Wilfred/ag.el][ag.el]] is a simple Emacs frontend to ag, ("the silver searcher" ack replacement).
 
-(require 'org-protocol)
+(use-package ag
+  :ensure t
+  :defer 1
+  :config
+  (progn
+    (setq ag-reuse-buffers 't
+          ag-highlight-search t
+          ag-arguments (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))))
 
-(setq org-protocol-default-template-key "w")
-(setq org-capture-templates
-      (quote
-       (("w" "Web captures" entry (file+headline "~/org/notes.org" "Web")
-         "* %^{Title}    %^G\n\n  Source: %u, %c\n\n  %i"
-         :empty-lines 1))))
+;; async
 
-;; Org-contacts
+;; [[https://github.com/jwiegley/emacs-async][async.el]] is a module for doing asynchronous processing in Emacs.
 
-;; The org-contacts Emacs extension allows to manage your contacts using
-;; Org-mode.
+(use-package async
+  :defer t
+  :ensure t)
 
-(require 'org-contacts)
-(setq org-contacts-file "~/org/contacts.org")
-(setq org-contacts-matcher "EMAIL<>\"\"|ALIAS<>\"\"|PHONE<>\"\"|ADDRESS<>\"\"|BIRTHDAY")
+;; auto-complete
 
-(add-to-list 'org-capture-templates
-  '("p" "Contacts" entry (file "~/org/contacts.org")
-     "** %(org-contacts-template-name)
-     :PROPERTIES:%(org-contacts-template-email)
-     :END:"))
+;; [[https://github.com/auto-complete/auto-complete][Auto Complete Mode]] (aka =auto-complete.el=, =auto-complete-mode=) is a extension
+;; that automates and advances completion-system.
 
-;; TODO Other captures
+(use-package auto-complete
+  :ensure t
+  :diminish auto-complete-mode
+  :config
+  (progn
+    (global-auto-complete-mode)
+    (add-to-list 'ac-sources 'ac-source-abbrev)
+    (add-to-list 'ac-sources 'ac-source-dictionary)
+    (add-to-list 'ac-sources 'ac-source-filename)
+    (add-to-list 'ac-sources 'ac-source-imenu)
+    (add-to-list 'ac-sources 'ac-source-semantic)
+    (add-to-list 'ac-sources 'ac-source-words-in-buffer)
+    (add-to-list 'ac-sources 'ac-source-yasnippet)
+    (bind-keys :map ac-menu-map
+               ("\C-n" . ac-next)
+               ("\C-p" . ac-previous))
+    (setq ac-use-menu-map t
+          ac-ignore-case 'smart
+          ac-auto-start 2)
+    (ac-flyspell-workaround))
 
-(add-to-list 'org-capture-templates
-    '("t" "TODO" entry (file+headline "~/org/tasks.org" "Tasks")
-       "* TODO %^{Task}  %^G\n   %?\n  %a"))
-(add-to-list 'org-capture-templates
-    '("n" "Notes" entry (file+headline "~/org/notes.org" "Notes")
-       "* %^{Header}  %^G\n  %u\n\n  %?"))
+  ;; the file where store the history of auto-complete.
+  (setq ac-comphist-file (concat user-emacs-directory
+                                 "temp/ac-comphist.dat"))
 
-;; Generic
+  ;; dirty fix for having AC everywhere
+  (define-globalized-minor-mode real-global-auto-complete-mode
+    auto-complete-mode (lambda ()
+                         (if (not (minibufferp (current-buffer)))
+                           (auto-complete-mode 1))
+                         ))
+  (real-global-auto-complete-mode t))
 
-(add-hook 'prog-mode-hook 'flycheck-mode)
+;; TODO boxquote
 
-;; Jedi
+;; [[https://github.com/davep/boxquote.el/blob/master/boxquote.el][boxquote.el]] provides a set of functions for using a text quoting style that
+;; partially boxes in the left hand side of an area of text, such a marking style
+;; might be used to show externally included text or example code.
 
-;; [[https://github.com/tkf/emacs-jedi][Jedi]] offers very nice auto completion for python-mode.
+(use-package boxquote
+  :ensure t
+  :defer t)
 
-(require 'jedi)
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-(add-hook 'python-mode-hook 'jedi:ac-setup)
+;; buffer-move
 
-;; Haskell
+;; [[https://github.com/lukhas/buffer-move][buffer-move]] is for lazy people
+;; wanting to swap buffers without typing C-x b on each window.
 
-;; Haskell settings.
+(use-package buffer-move
+  :defer t
+  :ensure t)
 
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+;; TODO bug-hunter
+   
+;; [[https://github.com/Malabarba/elisp-bug-hunter][The Bug Hunter]] is an Emacs library that finds the source of an error or
+;; unexpected behavior inside an elisp configuration file (typically =init.el= or
+;; =.emacs=).
 
-;; Racket
+(use-package bug-hunter
+  :ensure t
+  :defer t)
 
-;; Racket settings.
+;; calfw
 
-(setq racket-mode-pretty-lambda t)
+;; [[https://github.com/kiwanami/emacs-calfw][Calfw]] program displays a calendar view in the Emacs buffer.
 
-;; Use evil
+;; [[file:img/cfw_calendar.png]]
+
+(use-package calfw
+  :commands cfw:open-org-calendar
+  :defer 0.5
+  :ensure t
+  :config
+  (progn
+    (use-package calfw-org)
+    ;; Unicode characters
+    (setq cfw:fchar-junction ?╋
+          cfw:fchar-vertical-line ?┃
+          cfw:fchar-horizontal-line ?━
+          cfw:fchar-left-junction ?┣
+          cfw:fchar-right-junction ?┫
+          cfw:fchar-top-junction ?┯
+          cfw:fchar-top-left-corner ?┏
+          cfw:fchar-top-right-corner ?┓)))
+
+;; charmap
+
+;; [[https://github.com/lateau/charmap][Charmap]] is Unicode table viewer for Emacs. With CharMap you can see the Unicode
+;; table based on The Unicode Standard 6.2.
+
+(use-package charmap
+  :commands charmap
+  :defer t
+  :ensure t
+  :config
+  (setq charmap-text-scale-adjust 2))
+
+;; chess
+
+;; [[https://github.com/jwiegley/emacs-chess][Chess.el]] is an Emacs chess client and library, designed to be used for
+;; writing chess-related programs, or for playing games of chess against
+;; various chess engines, including Internet servers.  The library can be
+;; used for analyzing variations, browsing historical games, or a multitude
+;; of other purposes.
+
+(use-package chess
+  :ensure t
+  :commands chess
+  :config
+  (setq chess-images-default-size 70
+        chess-images-separate-frame nil))
+
+;; csv-mode
+
+;; [[https://github.com/emacsmirror/csv-mode][csv-mode]] is a major mode for editing comma/char separated values.
+
+;; | Binding | Call                    | Do                                                                     |
+;; |---------+-------------------------+------------------------------------------------------------------------|
+;; | C-c C-v | csv-toggle-invisibility | Toggle invisibility of field separators when aligned                   |
+;; | C-c C-t | csv-transpose           | Rewrite rows (which may have different lengths) as columns             |
+;; | C-c C-c | csv-set-comment-start   | Set comment start for this CSV mode buffer to STRING                   |
+;; | C-c C-u | csv-unalign-fields      | Undo soft alignment and optionally remove redundant white space        |
+;; | C-c C-a | csv-align-fields        | Align all the fields in the region to form columns                     |
+;; | C-c C-z | csv-yank-as-new-table   | Yank fields as a new table starting at point                           |
+;; | C-c C-y | csv-yank-fields         | Yank fields as the ARGth field of each line in the region              |
+;; | C-c C-k | csv-kill-fields         | Kill specified fields of each line in the region                       |
+;; | C-c C-d | csv-toggle-descending   | Toggle csv descending sort ordering                                    |
+;; | C-c C-r | csv-reverse-region      | Reverse the order of the lines in the region                           |
+;; | C-c C-n | csv-sort-numeric-fields | Sort lines in region numerically by the ARGth field of each line       |
+;; | C-c C-s | csv-sort-fields         | Sort lines in region lexicographically by the ARGth field of each line |
+;; |---------+-------------------------+------------------------------------------------------------------------|
+
+(use-package csv-mode
+  :ensure t
+  :mode "\\.csv\\'")
+
+;; diff-hl
+
+;; [[https://github.com/dgutov/diff-hl][diff-hl]] highlights uncommitted changes on the left side of the window, allows
+;; you to jump between and revert them selectively.
+
+;; | Bind    | Call                   | Do                                                                  |
+;; |---------+------------------------+---------------------------------------------------------------------|
+;; | C-x v = | diff-hl-diff-goto-hunk | Run VC diff command and go to the line corresponding to the current |
+;; | C-x v n | diff-hl-revert-hunk    | Revert the diff hunk with changes at or above the point             |
+;; | C-x v [ | diff-hl-previous-hunk  | Go to the beginning of the previous hunk in the current buffer      |
+;; | C-x v ] | diff-hl-next-hunk      | Go to the beginning of the next hunk in the current buffer          |
+;; |---------+------------------------+---------------------------------------------------------------------|
+
+(use-package diff-hl
+  :ensure t
+  :defer t
+  :init
+  (progn
+    (add-hook 'dired-mode-hook  'diff-hl-dired-mode)
+    (add-hook 'org-mode-hook    'turn-on-diff-hl-mode)
+    (add-hook 'prog-mode-hook   'turn-on-diff-hl-mode)
+    (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)))
+
+;; elfeed
+
+;; [[https://github.com/skeeto/elfeed][Elfeed]] is an extensible web feed reader for Emacs, supporting both Atom and RSS
+
+;; *Search mode*
+
+;; [[file:img/elfeed.png]]
+
+;; *Show mode*
+
+;; [[file:img/elfeed_show.png]]
+
+(use-package elfeed
+  :ensure t
+  :commands elfeed
+  :config
+  (load (concat user-emacs-directory "elfeed.el.gpg"))
+  (add-hook 'elfeed-new-entry-hook
+            (elfeed-make-tagger :before "2 weeks ago"
+                                :remove 'unread))
+  (setq elfeed-db-directory  (concat joe-emacs-temporal-directory "elfeed")
+        elfeed-search-filter "@2-days-old +unread "
+        elfeed-search-title-max-width 100)
+  (bind-keys :map elfeed-search-mode-map
+             ("a"   .  elfeed-search-update--force)
+             ("A"   .  elfeed-update)
+             ("d"   .  elfeed-unjam)
+             ("o"   .  elfeed-search-browse-url)
+             ("j"   .  next-line)
+             ("k"   .  previous-line)
+             ("g"   .  beginning-of-buffer)
+             ("G"   .  end-of-buffer)
+             ("v"   .  set-mark-command)
+             ("<escape>" .  keyboard-quit)
+             ("E"   .  (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg"))))
+  (bind-keys :map elfeed-show-mode-map
+             ("j"     . elfeed-show-next)
+             ("k"     . elfeed-show-prev)
+             ("o"     . elfeed-show-visit)
+             ("<escape>" .  keyboard-quit)
+             ("SPC"   . scroll-up)
+             ("S-SPC" . scroll-down)
+             ("TAB"   . shr-next-link)
+             ("S-TAB" . shr-previous-link))
+
+  (when (package-installed-p 'hydra)
+      (bind-keys :map elfeed-search-mode-map
+             ("\\"   . hydra-elfeed-search/body))
+      (bind-keys :map elfeed-show-mode-map
+             ("\\"   . hydra-elfeed-show/body))
+      (eval-and-compile
+        (defhydra hydra-elfeed-common (:color blue)
+          ("\\" hydra-master/body "back")
+          ("<ESC>" nil "quit")))
+
+      (defhydra hydra-elfeed-search (:hint nil :color blue :inherit (hydra-elfeed-common/heads))
+        "
+                                                                      ╭────────┐
+  Move   Filter     Entries        Tags          Do                   │ Elfeed │
+╭─────────────────────────────────────────────────────────────────────┴────────╯
+  _p_/_k_    [_s_] live   [_RET_] view     [_r_] read      [_a_] refresh
+  ^ ^↑^ ^    [_S_] set    [_o_] browse     [_u_] unread    [_A_] fetch
+  ^ ^ ^ ^     ^ ^         [_y_] yank url   [_+_] add       [_d_] unjam
+  ^ ^↓^ ^     ^ ^         [_v_] mark       [_-_] remove    [_E_] edit feeds
+  _n_/_j_     ^ ^          ^ ^              ^ ^            [_q_] exit        
+--------------------------------------------------------------------------------
+        "
+        ("q"    quit-window)
+        ("a"    elfeed-search-update--force)
+        ("A"    elfeed-update)
+        ("d"    elfeed-unjam)
+        ("s"    elfeed-search-live-filter)
+        ("S"    elfeed-search-set-filter)
+        ("RET"  elfeed-search-show-entry)
+        ("o"    elfeed-search-browse-url)
+        ("y"    elfeed-search-yank)
+        ("v"    set-mark-command)
+        ("n"    next-line :color red)
+        ("j"    next-line :color red)
+        ("p"    previous-line :color red)
+        ("k"    previous-line :color red)
+        ("r"    elfeed-search-untag-all-unread)
+        ("u"    elfeed-search-tag-all-unread)
+        ("E"    (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
+        ("+"    elfeed-search-tag-all)
+        ("-"    elfeed-search-untag-all))
+
+    (defhydra hydra-elfeed-show (:hint nil :color blue)
+        "
+                                                                      ╭────────┐
+  Scroll       Entries        Tags          Links                     │ Elfeed │
+╭─────────────────────────────────────────────────────────────────────┴────────╯
+  _S-SPC_    _p_/_k_  [_g_] refresh   [_u_] unread    _S-TAB_
+  ^  ↑  ^    ^ ^↑^ ^  [_o_] browse    [_+_] add       ^  ↑  ^
+  ^     ^    ^ ^ ^ ^  [_y_] yank url  [_-_] remove    ^     ^ 
+  ^  ↓  ^    ^ ^↓^ ^  [_q_] quit       ^ ^            ^  ↓  ^
+   _SPC_     _n_/_j_  [_s_] quit & search^^            _TAB_  
+--------------------------------------------------------------------------------
+        "
+        ("q"     elfeed-kill-buffer)
+        ("g"     elfeed-show-refresh)
+        ("n"     elfeed-show-next :color red)
+        ("j"     elfeed-show-next :color red)
+        ("p"     elfeed-show-prev :color red)
+        ("k"     elfeed-show-prev :color red)
+        ("s"     elfeed-show-new-live-search)
+        ("o"     elfeed-show-visit)
+        ("y"     elfeed-show-yank)
+        ("u"     (elfeed-show-tag 'unread))
+        ("+"     elfeed-show-tag)
+        ("-"     elfeed-show-untag)
+        ("SPC"   scroll-up :color red)
+        ("S-SPC" scroll-down :color red)
+        ("TAB"   shr-next-link :color red)
+        ("S-TAB" shr-previous-link :color red))))
+
+;; TODO emms
+
+(use-package emms
+    :ensure t
+    :defer t
+    :config
+    (progn
+      (use-package emms-setup)
+      (use-package emms-player-vlc)
+      (use-package emms-player-mpd)
+      (use-package emms-volume)
+      (use-package emms-browser)
+      (emms-all)
+      (emms-default-players)
+      (setq emms-directory (concat joe-emacs-temporal-directory "emms")
+            emms-cache-file (concat joe-emacs-temporal-directory  "emms/cache")
+            emms-source-file-default-directory "~/musica/"
+            emms-player-mpd-server-name "localhost"
+            emms-player-mpd-server-port "6600"
+            emms-player-mpd-music-directory emms-source-file-default-directory
+            emms-volume-change-function 'emms-volume-mpd-change)
+      (add-to-list 'emms-info-functions 'emms-info-mpd)
+      (add-to-list 'emms-player-list 'emms-player-mpd)
+      (emms-browser-make-filter "all" 'ignore)))
+
+;; seen at http://howardism.org/Technical/Emacs/lists-and-key-sequences.html
+;; (defun play-jazz ()
+;;   "Start up some nice Jazz"
+;;   (interactive)
+;;   (emms-play-streamlist "http://thejazzgroove.com/itunes.pls"))
+
+
+;; (define-prefix-command 'personal-music-map)
+;; (global-set-key (kbd "<f9> m") 'personal-music-map)
+
+;; (dolist (station
+;;          '(("a" . "http://stereoscenic.com/pls/pill-hi-mp3.pls") ;; Ambient
+;;            ("t" . "http://www.1.fm/tunein/trance64k.pls")        ;; Trance
+;;            ("j" . "http://thejazzgroove.com/itunes.pls")))       ;; Jazz
+;;   (lexical-let ((keystroke (car station))
+;;                 (stream    (cdr station)))
+;;     (define-key personal-music-map (kbd keystroke)
+;;       (lambda ()
+;;         (interactive)
+;;         (emms-play-streamlist stream)))))
+
+;; TODO esup
+
+;; [[https://github.com/jschaf/esup][Esup]] is a package for benchmark Emacs startup time without ever leaving your
+;; Emacs.
+
+(use-package esup
+  :ensure t
+  :commands esup)
+
+;; evil
 
 ;; [[https://gitorious.org/evil/pages/Home][Evil]] is an extensible vi layer for Emacs. It emulates the main
 ;; features of Vim, and provides facilities for writing custom
@@ -866,84 +1007,6 @@
 ;; | C-z     | evil-emacs-state            | Toggle evil-mode                        |
 ;; | \       | evil-execute-in-emacs-state | Execute the next command in emacs state |
 
-(setq evil-shift-width 4)
-(require 'evil)
-(evil-mode 1)
-
-;; ESC quits almost everywhere
-
-;; Gotten from [[http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice][here]], trying to emulate the Vim behaviour
-
-;;; esc quits
-(define-key evil-normal-state-map [escape] 'keyboard-quit)
-(define-key evil-visual-state-map [escape] 'keyboard-quit)
-(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
-;; Change cursor color depending on mode
-
-(setq evil-emacs-state-cursor '("red" box))
-(setq evil-normal-state-cursor '("lawn green" box))
-(setq evil-visual-state-cursor '("orange" box))
-(setq evil-insert-state-cursor '("deep sky blue" bar))
-(setq evil-replace-state-cursor '("red" bar))
-(setq evil-operator-state-cursor '("red" hollow))
-
-;; TODO Org-mode customization
-
-;; Custom bindings for /Org-mode/.
-
-(evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
-(evil-define-key 'normal org-mode-map (kbd "H") 'org-metaleft)
-(evil-define-key 'normal org-mode-map (kbd "L") 'org-metaright)
-(evil-define-key 'normal org-mode-map (kbd "K") 'org-metaup)
-(evil-define-key 'normal org-mode-map (kbd "J") 'org-metadown)
-(evil-define-key 'normal org-mode-map (kbd "U") 'org-shiftmetaleft)
-(evil-define-key 'normal org-mode-map (kbd "I") 'org-shiftmetaright)
-(evil-define-key 'normal org-mode-map (kbd "O") 'org-shiftmetaup)
-(evil-define-key 'normal org-mode-map (kbd "P") 'org-shiftmetadown)
-(evil-define-key 'normal org-mode-map (kbd "t")   'org-todo)
-(evil-define-key 'normal org-mode-map (kbd "-")   'org-cycle-list-bullet)
-
-(evil-define-key 'insert org-mode-map (kbd "C-c .")
-  '(lambda () (interactive) (org-time-stamp-inactive t)))
-
-;; Disable it in certain modes
-
-(evil-set-initial-state 'eww-mode 'emacs)
-  (evil-set-initial-state 'epresent-mode 'emacs)
-;  (evil-set-initial-state 'elfeed-search-mode 'emacs)
-;  (evil-set-initial-state 'elfeed-show-mode 'emacs)
-
-;; Defining new text objects
-
-;; New Evil text objects that can be useful.
-
-; seen at http://stackoverflow.com/a/22418983/634816
-  (defmacro define-and-bind-text-object (key start-regex end-regex)
-    (let ((inner-name (make-symbol "inner-name"))
-          (outer-name (make-symbol "outer-name")))
-      `(progn
-        (evil-define-text-object ,inner-name (count &optional beg end type)
-          (evil-regexp-range count beg end type ,start-regex ,end-regex t))
-        (evil-define-text-object ,outer-name (count &optional beg end type)
-          (evil-regexp-range count beg end type ,start-regex ,end-regex nil))
-        (define-key evil-inner-text-objects-map ,key (quote ,inner-name))
-        (define-key evil-outer-text-objects-map ,key (quote ,outer-name)))))
-
-  ; between underscores:
-  (define-and-bind-text-object "_" "_" "_")
-  ; an entire line:
-  (define-and-bind-text-object "l" "^" "$")
-  ; between dollars sign:
-  (define-and-bind-text-object "$" "\\$" "\\$")
-  ; between pipe characters:
-  (define-and-bind-text-object "|" "|" "|")
-
-;; evil-exchange
 
 ;; [[https://github.com/Dewdrops/evil-exchange][Evil-exchange]] is an easy text exchange operator for Evil. This is the
 ;; port of [[https://github.com/tommcdo/vim-exchange][vim-exchange]] by Tom McDonald.
@@ -953,683 +1016,1177 @@
 ;; | gx      | evil-exchange        | Define (and highlight) the first {motion} to exchange |
 ;; | gX      | evil-exchange-cancel | Clear any {motion} pending for exchange.              |
 
-(require 'evil-exchange)
-(evil-exchange-install)
-
-;; evil-surround
-
-;; Use the [[https://github.com/timcharper/evil-surround][evil-surround]] plugin, the equivalent to the Vim one.
-
-(require 'evil-surround)
-(global-evil-surround-mode 1)
-
-;; evil-nerd-commenter
-
-;; Comment/uncomment lines efficiently. Like Nerd Commenter in Vim
-;; [[https://github.com/redguardtoo/evil-nerd-commenter][Repository]]
-
-(require 'evil-nerd-commenter)
-
-;; evil-matchit
-
-;; Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] plugin, the equivalent to the Vim one.
-
-(require 'evil-matchit)
-(global-evil-matchit-mode 1)
-
-;; evil-indent-textobject
-
-;; Textobject for evil based on indentation, [[https://github.com/cofi/evil-indent-textobject][repository]]
-
-(require 'evil-indent-textobject)
-
-;; evil-leader
-
-;; [[https://github.com/cofi/evil-leader][Evil Leader]] provides the =<leader>= feature from Vim that provides an
-;; easy way to bind keys under a variable prefix key. For an experienced
-;; Emacs User it is nothing more than a convoluted key map, but for a
-;; Evil user coming from Vim it means an easier start.
-
-;; The prefix =C-<leader>= allows to use it in those modes where evil is
-;; not in normal state (e.g. magit)
-
-;; | Binding    | Do                                           |
-;; |------------+----------------------------------------------|
-;; | ,          | Leader key                                   |
-;; | C-<leader> | Prefix + Leader key when not in normal state |
-;; | .          | Repeat last leader command                   |
-;; |------------+----------------------------------------------|
-
-(require 'evil-leader)
-(global-evil-leader-mode)
-(setq evil-leader/in-all-states 1)
-(evil-leader/set-leader ",")
-(setq echo-keystrokes 0.02)
-
-;; a - Bookmarks
-
-;; | Binding     | Call           | Do                                         |
-;; |-------------+----------------+--------------------------------------------|
-;; | <leader>-ah | helm-bookmarks | List all bookmarks with Helm               |
-;; | <leader>-aj | bookmark-jump  | Jump to a bookmark                         |
-;; | <leader>-al | list-bookmarks | List all bookmarks                         |
-;; | <leader>-am | bookmark-set   | Set the bookmark at point                  |
-;; | <leader>-as | bookmark-save  | Save all the bookmarks in the default file |
-
-(evil-leader/set-key
-  "ah"  'helm-bookmarks
-  "aj"  'bookmark-jump
-  "al"  'list-bookmarks
-  "am"  'bookmark-set
-  "as"  'bookmark-save
-  )
-
-;; b - Buffers
-
-;; | Binding      | Call                  | Do                                              |
-;; |--------------+-----------------------+-------------------------------------------------|
-;; | <leader>-TAB | joe/alternate-buffers | Switch the last two buffers                     |
-;; | <leader>-bb  | ido-switch-buffer     | Switch buffer                                   |
-;; | <leader>-bd  | kill-buffer           | Kill a buffer                                   |
-;; | <leader>-bh  | buf-move-left         | Move the buffer to the window at the left       |
-;; | <leader>-bi  | ibuffer               | Switch buffer using ibuffer                     |
-;; | <leader>-bj  | buf-move-up           | Move the buffer to the window above             |
-;; | <leader>-bk  | buf-move-down         | Move the buffer to the window below             |
-;; | <leader>-bl  | buf-move-right        | Move the buffer to the window at the right      |
-;; | <leader>-br  | read-only-mode        | Toggle between read & write and read-only mode  |
-;; | <leader>-bu  | joe/revert-buffer     | Revert the buffer changes                       |
-;; | <leader>-bw  | save-buffer           | Save current buffer in visited file if modified |
-
-(defun joe/alternate-buffers ()
-  "Toggle between the last two buffers"
-  (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) t)))
-
-(defun joe/revert-buffer ()
-  "Revert the buffer to the save disk file state"
-  (interactive)
-  (revert-buffer nil t))
-
-(evil-leader/set-key
-  "TAB" 'joe/alternate-buffers
-  "bb"  'ido-switch-buffer
-  "bd"  'kill-buffer
-  "bh"  'buf-move-left
-  "bi"  'ibuffer
-  "bj"  'buf-move-up
-  "bk"  'buf-move-down
-  "bl"  'buf-move-right
-  "br"  'read-only-mode
-  "bu"  'joe/revert-buffer
-  "bw"  'save-buffer
-  )
-
-;; c - Flycheck
-
-;; | Binding     | Call                     | Do                                    |
-;; |-------------+--------------------------+---------------------------------------|
-;; | <leader>-cc | flycheck-select-checker  | Select the checker that Flycheck runs |
-;; | <leader>-cd | flycheck-clear           | Clear all errors                      |
-;; | <leader>-ce | helm-flycheck            | Show Flycheck errors with Helm        |
-;; | <leader>-cf | flycheck-first-error     | Jump to the first error               |
-;; | <leader>-cg | flycheck-google-messages | Search in google the error message    |
-;; | <leader>-cl | flycheck-list-errors     | Show Flycheck errors                  |
-;; | <leader>-cn | flycheck-next-error      | Jump to the next error                |
-;; | <leader>-cp | flycheck-next-error      | Jump to the previous error            |
-;; | <leader>-cr | flycheck-compile         | Run the checker via compile           |
-;; | <leader>-ct | flycheck-mode            | Toogle Flycheck                       |
-
-(evil-leader/set-key
-  "cc" 'flycheck-select-checker
-  "cd" 'flycheck-clear
-  "ce" 'helm-flycheck
-  "cf" 'flycheck-first-error
-  "cg" 'flycheck-google-messages
-  "cl" 'flycheck-list-errors
-  "cn" 'flycheck-next-error
-  "cp" 'flycheck-previous-error
-  "cr" 'flycheck-compile
-  "ct" 'flycheck-mode
-  )
-
-;; d - Development
-
-;; | Binding     | Call          | Do                                    |
-;; |-------------+---------------+---------------------------------------|
-;; | <leader>-dz | zeal-at-point | Search Documentation in [[http://zealdocs.org/][Zeal]] at point |
-
-(evil-leader/set-key
-  "dz" 'zeal-at-point
-  )
-
-;; e - Edition
-
-;; | Binding     | Call                                | Do                                                  |
-;; |-------------+-------------------------------------+-----------------------------------------------------|
-;; | M-t         | transpose-words                     | Transpose two words                                 |
-;; | C-w         | backward-kill-word                  | Kill the entire previous (to the cursor) word       |
-;; | <leader>-ea | align-regexp                        | Align a region using regex                          |
-;; | <leader>-ec | evilnc-comment-or-uncomment-lines   | Comment/Uncomment lines                             |
-;; | <leader>-ed | insert-char                         | Insert an Unicode character                         |
-;; | <leader>-ee | evil-ex-show-digraphs               | Show the Evil digraphs table                        |
-;; | <leader>-ef | fci-mode                            | Show/hide fill column                               |
-;; | <leader>-eh | whitespace-mode                     | Show/Hide hidden chars                              |
-;; | <leader>-ei | lorem-ipsum-insert-paragraphs       | Insert a paragraph of [[http://www.wikiwand.com/en/Lorem_ipsum][Lorem ipsum]]                   |
-;; | <leader>-ek | count-words                         | Count words in a region                             |
-;; | <leader>-el | linum-mode                          | Show/Hide line numbers                              |
-;; | <leader>-em | charmap                             | Display a specific code block                       |
-;; | <leader>-ep | describe-char                       | Display the character code of character after point |
-;; | <leader>-et | joe/toggle-show-trailing-whitespace | Show/Hide trailing whitespace                       |
-;; | <leader>-eu | helm-ucs                            | Choose a Unicode character with helm                |
-;; | <leader>-ev | variable-pitch-mode                 | Toggle variable/fixed space font                    |
-;; | <leader>-ew | whitespace-cleanup                  | Remove trailing whitespaces                         |
-
-(evil-leader/set-key
-  "ea" 'align-regexp
-  "ec" 'evilnc-comment-or-uncomment-lines
-  "ed" 'insert-char
-  "ee" 'evil-ex-show-digraphs
-  "ef" 'fci-mode
-  "eh" 'whitespace-mode
-  "ei" 'lorem-ipsum-insert-paragraphs
-  "ek" 'count-words
-  "el" 'linum-mode
-  "em" 'charmap
-  "ep" 'describe-char
-  "et" 'joe/toggle-show-trailing-whitespace
-  "eu" 'helm-ucs
-  "ev" 'variable-pitch-mode
-  "ew" 'whitespace-cleanup
-  )
-
-;; f - File
-
-;; | Binding     | Call            | Do                        |
-;; |-------------+-----------------+---------------------------|
-;; | <leader>-fo | find-file       | Open a file               |
-;; | <leader>-fr | helm-recentf    | Open a recent opened file |
-;; | <leader>-fh | helm-find-files | Open a file using helm    |
-;; | <leader>-fd | dired           | Call Dired                |
-
-(evil-leader/set-key
-  "fo" 'find-file
-  "fr" 'helm-recentf
-  "fh" 'helm-find-files
-  "fd" 'dired
-  )
-
-;; g - Git
-
-;; | Binding     | Call             | Do                                              |
-;; |-------------+------------------+-------------------------------------------------|
-;; | <leader>-gB | magit-blame-mode | Display the blame information inline            |
-;; | <leader>-gb | vc-annotate      | Display the edition history of the current file |
-;; | <leader>-gd | vc-diff          | Display diffs between file revisions            |
-;; | <leader>-gl | magit-file-log   | Display the git log for the current file        |
-;; | <leader>-gs | magit-status     | Call Magit                                      |
-
-(evil-leader/set-key
-  "gB" 'magit-blame-mode
-  "gb" 'vc-annotate
-  "gd" 'vc-diff
-  "gl" 'magit-file-log
-  "gs" 'magit-status
-  )
-
-;; h - Web
-
-;; | Binding     | Call             | Do                                                   |
-;; |-------------+------------------+------------------------------------------------------|
-;; | <leader>-hc | helm-colors      | Show a Web Colors table with name and RGB values     |
-;; | <leader>-hh | http-header      | Display the meaning of an HTTP header                |
-;; | <leader>-hh | http-method      | Display the meaning of an HTTP method                |
-;; | <leader>-hr | http-relation    | Display the meaning of an HTTP relation              |
-;; | <leader>-hs | http-status-code | Display the meaning of an HTTP status code or phrase |
-
-(evil-leader/set-key
-  "hc" 'helm-colors
-  "hh" 'http-header
-  "hm" 'http-method
-  "hr" 'http-relation
-  "hs" 'http-status-code
-  )
-
-;; i - Internet
-
-;; | Binding     | Call         | Do                                                |
-;; |-------------+--------------+---------------------------------------------------|
-;; | <leader>-is | helm-surfraw | Search the web using [[http://surfraw.alioth.debian.org/][Surfraw]]                      |
-;; | <leader>-if | elfeed       | Open Elfeed to read Atom/RSS entries              |
-;; | <leader>-it | twit         | Open twittering-mode for an interface for twitter |
-;; | <leader>-iw | eww          | Open a website inside Emacs with eww              |
-
-(evil-leader/set-key
-  "is" 'helm-surfraw
-  "if" 'elfeed
-  "it" 'twit
-  "iw" 'eww
-  )
-
-;; j - Jump
-
-;; | Binding     | Call                    | Do                        |
-;; |-------------+-------------------------+---------------------------|
-;; | <leader>-jw | evil-ace-jump-word-mode | Call AceJump in word mode |
-;; | <leader>-jc | evil-ace-jump-char-mode | Call AceJump in char mode |
-;; | <leader>-jl | evil-ace-jump-line-mode | Call AceJump in line mode |
-
-(evil-leader/set-key
-  "jw" 'evil-ace-jump-word-mode
-  "jc" 'evil-ace-jump-char-mode
-  "jl" 'evil-ace-jump-line-mode
-  )
-
-;; k - Spell
-
-;; | Binding     | Call                       | Do                                       |
-;; |-------------+----------------------------+------------------------------------------|
-;; | <leader>-kc | ispell-word                | Check the spelling of the word at point  |
-;; | <leader>-kd | ispell-change-dictionary   | Change the spell dictionary              |
-;; | <leader>-kf | flyspell-mpde              | Toggle FlySpell                          |
-;; | <leader>-kk | flyspell-auto-correct-word | Correct the current word                 |
-;; | <leader>-kn | flyspell-goto-next-error   | Go to the next error previously detected |
-;; |-------------+----------------------------+------------------------------------------|
-
-(evil-leader/set-key
-  "kc" 'ispell-word
-  "kd" 'ispell-change-dictionary
-  "kf" 'flyspell-mode
-  "kk" 'flyspell-auto-correct-word
-  "kn" 'flyspell-goto-next-error
-  )
-
-;; l - Lisp
-
-;; | Binding     | Call           | Do                                                        |
-;; |-------------+----------------+-----------------------------------------------------------|
-;; | <leader>-lr | eval-region    | Eval the region with elisp                                |
-;; | <leader>-ls | eval-last-sexp | Evaluate sexp before point; print value in the echo area. |
-
-(evil-leader/set-key
-  "lr" 'eval-region
-  "ls" 'eval-last-sexp
-  )
-
-;; m - Menu
-
-;; | Binding     | Call                     | Do                                                           |
-;; |-------------+--------------------------+--------------------------------------------------------------|
-;; | <leader>-mh | helm-M-x                 | Call Helm M-x                                                |
-;; | <leader>-mm | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
-;; | <leader>-ms | smex                     | Call smex (to execute a command)                             |
-
-(evil-leader/set-key
-  "mh" 'helm-M-x
-  "mm" 'smex-major-mode-commands
-  "ms" 'smex
-  )
-
-;; n - Narrow
-
-;; | Binding     | Call             | Do                                                    |
-;; |-------------+------------------+-------------------------------------------------------|
-;; | <leader>-nf | narrow-to-defun  | Restrict editing to the current defun                 |
-;; | <leader>-np | narrow-to-page   | Restrict editing to the visible page                  |
-;; | <leader>-nr | narrow-to-region | Restrict editing in this buffer to the current region |
-;; | <leader>-nw | widen            | Remove restrictions (narrowing) from current buffer   |
-
-(put 'narrow-to-region 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
-(evil-leader/set-key
-   "nf" 'narrow-to-defun
-   "np" 'narrow-to-page
-   "nr" 'narrow-to-region
-   "nw" 'widen
-   )
-
-;; o - Organization
-
-;; | Binding     | Call                  | Do                                   |
-;; |-------------+-----------------------+--------------------------------------|
-;; | <leader>-oa | org-agenda            | Call the org-mode agenda             |
-;; | <leader>-oc | org-capture           | Call the org-mode capture            |
-;; | <leader>-od | cfw:open-org-calendar | Open the month calendar for org-mode |
-;; | <leader>-ol | org-agenda-list       | Daily/Week view of the agenda        |
-;; | <leader>-om | mu4e                  | Start mu4e (email client)            |
-;; | <leader>-op | org-contacts          | Search a contact                     |
-
-(evil-leader/set-key
-  "oa" 'org-agenda
-  "oc" 'org-capture
-  "od" 'cfw:open-org-calendar
-  "ol" 'org-agenda-list
-  "om" 'mu4e
-  "op" 'org-contacts
-  )
-
-;; p - Project
-
-;; | Binding     | Call                 | Do                                |
-;; |-------------+----------------------+-----------------------------------|
-;; | <leader>-pf | fixmee-view-listing  | View TODO/FIXME entries in a list |
-;; | <leader>-pp | projectile-commander | Call the Projectile commander     |
-;; | <leader>-pt | fixmee-mode          | Toggle Fixmee mode                |
-
-(evil-leader/set-key
-  "pf" 'fixmee-view-listing
-  "pp" 'projectile-commander
-  "pt" 'fixmee-mode
-  )
-
-;; q - Exit
-
-;; | Binding     | Call                       | Do                                |
-;; |-------------+----------------------------+-----------------------------------|
-;; | <leader>-qc | save-buffers-kill-terminal | Exit Emacs (standalone or client) |
-;; | <leader>-qs | save-buffers-kill-emacs    | Shutdown the emacs daemon         |
-
-(evil-leader/set-key
-  "qc" 'save-buffers-kill-terminal
-  "qs" 'save-buffers-kill-emacs
-  )
-
-;; r - Register
-
-;; | Binding     | Call                         | Do                                                         |
-;; |-------------+------------------------------+------------------------------------------------------------|
-;; | <leader>-rc | helm-complex-command-history | Show the history of commands                               |
-;; | <leader>-rd | joe/diff-buffer-with-file    | Compare the current modified buffer with the saved version |
-;; | <leader>-re | list-registers               | Show Emacs registers                                       |
-;; | <leader>-rk | helm-show-kill-ring          | Choose between previous yanked pieces of text              |
-;; | <leader>-rl | popwin:messages              | Display *Messages* buffer in a popup window                |
-;; | <leader>-rm | evil-show-marks              | Show Evil marks                                            |
-;; | <leader>-ro | view-echo-area-messages      | View the log of recent echo-area messages                  |
-;; | <leader>-rr | evil-show-registers          | Show Evil registers                                        |
-;; | <leader>-ru | undo-tree-visualize          | Visualize the current buffer's undo tree                   |
-
-(defun joe/diff-buffer-with-file ()
-  "Compare the current modified buffer with the saved version."
-  (interactive)
-  (let ((diff-switches "-u"))
-    (diff-buffer-with-file (current-buffer))))
-
-(evil-leader/set-key
-  "rc" 'helm-complex-command-history
-  "rd" 'joe/diff-buffer-with-file
-  "re" 'list-registers
-  "rk" 'helm-show-kill-ring
-  "rl" 'popwin:messages
-  "rm" 'evil-show-marks
-  "ro" 'view-echo-area-messages
-  "rr" 'evil-show-registers
-  "ru" 'undo-tree-visualize
-  )
-
-;; s - Search
-
-;; | Binding     | Call                   | Do                                                    |
-;; |-------------+------------------------+-------------------------------------------------------|
-;; | <leader>-sa | ag                     | Do a regex search using ag (The Silver Searcher)      |
-;; | <leader>-sf | swoop                  | Search through words within the current buffer        |
-;; | <leader>-sg | rgrep                  | Do a regex search using grep                          |
-;; | <leader>-sl | helm-locate            | Do a search using locate                              |
-;; | <leader>-st | helm-semantic-or-imenu | See the file tags                                     |
-;; | <leader>-sw | swoop-multi            | Search words across currently opened multiple buffers |
-
-(evil-leader/set-key
-  "sa" 'ag
-  "sf" 'swoop
-  "sg" 'rgrep
-  "sl" 'helm-locate
-  "st" 'helm-semantic-or-imenu
-  "sw" 'swoop-multi
-  )
-
-;; t - (empty)
-
-;; | Binding    | Call | Do |
-;; |------------+------+----|
-;; | <leader>-t |      |    |
-
-;; (evil-leader/set-key
-;;   "t" '
-;;   )
-
-;; u - (empty)
-
-;; | Binding    | Call | Do |
-;; |------------+------+----|
-;; | <leader>-u |      |    |
-
-;; (evil-leader/set-key
-;;   "u" '
-;;   )
-
-;; v - (empty)
-
-;; | Binding    | Call | Do |
-;; |------------+------+----|
-;; | <leader>-v |      |    |
-
-;; (evil-leader/set-key
-;;   "v" '
-;;   )
-
-;; w - Window
-
-;; | Binding     | Call                         | Do                                                                  |
-;; |-------------+------------------------------+---------------------------------------------------------------------|
-;; | <leader>-J  | joe/scroll-other-window-down | Scroll the other window a line down                                 |
-;; | <leader>-K  | joe/scroll-other-window      | Scroll the other window a line up                                   |
-;; | <leader>-wb | balance-windows              | Balance the windows proportionally
-;; | <leader>-wd | delete-window                | Close a window                                                      |
-;; | <leader>-wv | split-window-horizontally    | Split the selected window into two side-by-side windows             |
-;; | <leader>-ws | split-window-vertically      | Split the selected window into two windows, one above the other     |
-;; | <leader>-wz | delete-other-windows         | Make a Zoom (delete all the other windows)                          |
-;; | <leader>-wj | windmove-down                | Move the window to the below position                               |
-;; | <leader>-wk | windmove-up                  | Move the window to the above position                               |
-;; | <leader>-wh | windmove-left                | Move the window to the left position                                |
-;; | <leader>-wl | windmove-right               | Move the window to the right position                               |
-;; | <leader>-wJ | shrink-window                | Shrink the window                                                   |
-;; | <leader>-wK | enlarge-window               | Enlarge the window                                                  |
-;; | <leader>-wH | shrink-window-horizontally   | Shrink the window horizontally                                      |
-;; | <leader>-wL | enlarge-window-horizontally  | Enlarge the window horizontally                                     |
-;; | <leader>-ww | other-window                 | Select other window in cycling order                                |
-;; | <leader>-wr | winner-redo                  | Restore a more recent window configuration saved by Winner mode     |
-;; | <leader>-wu | winner-undo                  | Switch back to an earlier window configuration saved by Winner mode |
-
-(defun joe/scroll-other-window()
-  (interactive)
-  (scroll-other-window 1))
-
-(defun joe/scroll-other-window-down ()
-  (interactive)
-  (scroll-other-window-down 1))
-
-(require 'windmove)
-(winner-mode t)
-(evil-leader/set-key
-  "J"  'joe/scroll-other-window-down
-  "K"  'joe/scroll-other-window
-  "wb" 'balance-windows
-  "wd"  'delete-window
-  "wH" 'shrink-window-horizontally
-  "wh" 'windmove-left
-  "wJ" 'shrink-window
-  "wj" 'windmove-down
-  "wK" 'enlarge-window
-  "wk" 'windmove-up
-  "wL" 'enlarge-window-horizontally
-  "wl" 'windmove-right
-  "wr" 'winner-redo
-  "ws" 'split-window-vertically
-  "wu" 'winner-undo
-  "wv" 'split-window-horizontally
-  "ww" 'other-window
-  "wz" 'delete-other-windows
-  )
-
-;; x - Shell/System
-
-;; | Binding     | Call            | Do                              |
-;; |-------------+-----------------+---------------------------------|
-;; | <leader>-xc | shell-command   | Run shell command               |
-;; | <leader>-xe | eshell          | Call eshell                     |
-;; | <leader>-xm | helm-man-woman  | See a man page 
-;; | <leader>-xn | multi-term-next | Go to the next term buffer      |
-;; | <leader>-xp | proced          | Show a list of system process   |
-;; | <leader>-xs | multi-term      | Create new term buffer          |
-;; | <leader>-xt | helm-top        | Show the results of top command |
-
-(evil-leader/set-key
-  "xc" 'shell-command
-  "xe" 'eshell
-  "xm" 'helm-man-woman
-  "xn" 'multi-term-next
-  "xp" 'proced
-  "xs" 'multi-term
-  "xt" 'helm-top
-  )
-
-;; y - Emms
-
-;; | Binding     | Call                 | Do                          |
-;; |-------------+----------------------+-----------------------------|
-;; | <leader>-yn | emms-player-mpd-next | Next song in the mpd server |
-;; |             |                      |                             |
-
-(evil-leader/set-key
-  "ya" 'emms-player-mpd-connect
-  "yb" 'emms-smart-browse
-  "yc" 'emms-player-mpd-clear
-  "yn" 'emms-player-mpd-next
-  "yo" 'emms-player-mpd-show
-  "yP" 'emms-player-mpd-pause
-  "yp" 'emms-player-mpd-previous
-  "ys" 'emms-player-mpd-stop
-  "yy" 'emms-player-mpd-start-and-sync
-  "y-" 'emms-volume-lower
-  "y+" 'emms-volume-raise
-  )
-
-;; z - Emacs
-
-;; | Binding     | Call                | Do                                |
-;; |-------------+---------------------+-----------------------------------|
-;; | <leader>-zd | text-scale-decrease | Decrease the size of the text     |
-;; | <leader>-zi | package-install     | Install a package                 |
-;; | <leader>-zl | list-process        | Show a list of emacs process      |
-;; | <leader>-zm | info-display-manual | Display a Info Manual             |
-;; | <leader>-zp | list-packages       | List all the available packages   |
-;; | <leader>-zt | helm-themes         | Change the color theme using helm |
-;; | <leader>-zu | text-scale-increase | Increase the size of the text     |
-
-(evil-leader/set-key
-  "zd" 'text-scale-decrease
-  "zi" 'package-install
-  "zl" 'list-processes
-  "zm" 'info-display-manual
-  "zp" 'list-packages
-  "zt" 'helm-themes
-  "zu" 'text-scale-increase
-  )
-
-;; Calfw
-
-;; [[https://github.com/kiwanami/emacs-calfw][Calfw]] program displays a calendar view in the Emacs buffer.
-
-;; [[file:img/cfw_calendar.png]]
-
-(require 'calfw)
-(require 'calfw-org)
-
-;; Unicode chars for lines
-
-;; Unicode characters
-(setq cfw:fchar-junction ?╋
-      cfw:fchar-vertical-line ?┃
-      cfw:fchar-horizontal-line ?━
-      cfw:fchar-left-junction ?┣
-      cfw:fchar-right-junction ?┫
-      cfw:fchar-top-junction ?┯
-      cfw:fchar-top-left-corner ?┏
-      cfw:fchar-top-right-corner ?┓)
-
-;; Smex
-
-;; [[https://github.com/nonsequitur/smex][Smex]] is a M-x enhancement for Emacs. Built on top of IDO, it provides
-;; a convenient interface to your recently and most frequently used
-;; commands. And to all the other commands, too.
-
-;; | Binding | Call                     | Do                                                           |
-;; |---------+--------------------------+--------------------------------------------------------------|
-;; | M-x     | smex                     | Calls a interactive command using smex                       |
-;; | M-X     | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
-
-(require 'smex)
-
-;; Set cache file
-
-;; Smex keeps a file to save its state betweens Emacs sessions.
-;; The default path is =~/.smex-items=
-
-(setq smex-save-file "~/.emacs.d/tmp/smex-items")
-
-;; Useful bindings & Delayed Initation
-
-;; #+BEGIN_QUOTE
-;; I install smex with the following code to make emacs startup a little
-;; faster.  This delays initializing smex until it's needed. IMO, smex
-;; should load without this hack.
-
-;; Just have smex call =smex-initialize= when it's needed instead of
-;; having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsWiki]]
-;; #+END_QUOTE
-
-(global-set-key [(meta x)] (lambda ()
-                             (interactive)
-                             (or (boundp 'smex-cache)
-                                (smex-initialize))
-                             (global-set-key [(meta x)] 'smex)
-                             (smex)))
-
-(global-set-key [(shift meta x)] (lambda ()
-                                   (interactive)
-                                   (or (boundp 'smex-cache)
-                                      (smex-initialize))
-                                   (global-set-key [(shift meta x)] 'smex-major-mode-commands)
-                                   (smex-major-mode-commands)))
-
-;; set cache file
-
-(setq ido-save-directory-list-file "~/.emacs.d/tmp/ido.last")
-
-;; enable Ido
-
-(setq ido-enable-flex-matching t)
-(setq ido-use-virtual-buffers t)
-(require 'ido)
-(ido-mode t)
-(ido-everywhere t)
-
-;; Ido-ubiquitous
+;; [[https://github.com/cofi/evil-indent-textobject][evil-indent-textobject]] is a textobject for evil based on indentation.
+
+;; | textobject | Do                                                                     |
+;; |------------+------------------------------------------------------------------------|
+;; | ii         | Inner Indentation: the surrounding textblock with the same indentation |
+;; | ai         | Above & Indentation: ii + the line above with a different indentation  |
+;; | aI         | Above & Indentation+: ai + the line below with a different indentation |
+
+;; Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] package, the equivalent to the Vim one.
+
+;; | Binding | Call              | Do                        |
+;; |---------+-------------------+---------------------------|
+;; | %       | evilmi-jump-items | jumps between item/tag(s) |
+;; |---------+-------------------+---------------------------|
+
+;; [[https://github.com/redguardtoo/evil-nerd-commenter][evil-nerd-commenter]] comment/uncomment lines efficiently. Like Nerd Commenter in
+;; Vim
+
+;; Use the [[https://github.com/timcharper/evil-surround][evil-surround]] package, the equivalent to the Vim one.
+
+;; | Binding | Do                                  |
+;; |---------+-------------------------------------|
+;; | ys      | create surround ('your surround')   |
+;; | cs      | change surround                     |
+;; | ds      | delete surround                     |
+;; | S       | for create surrounds in visual mode |
+
+(use-package evil
+  :ensure t
+  :config
+  (progn
+    (defcustom joe-evil-state-modes
+    '(fundamental-mode
+      text-mode
+      prog-mode
+      term-mode
+      twittering-edit-mode)
+    "List of modes that should start up in Evil state."
+    :type '(repeat (symbol)))
+
+    (defcustom joe-emacs-state-modes
+    '(debugger-mode
+      process-menu-mode
+      pdf-view-mode
+      doc-view-mode
+      eww-mode
+      epresent-mode
+      elfeed-show-mode
+      elfeed-search-mode
+      sx-question-mode
+      sx-question-list-mode
+      paradox-menu-mode
+      package-menu-mode
+      chess-mode
+      2048-mode
+      git-commit-mode
+      git-rebase-mode)
+    "List of modes that should start up in Evil Emacs state."
+    :type '(repeat (symbol)))
+
+    ;; esc quits almost everywhere, Gotten from ;;
+    ;; http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice,;;
+    ;; trying to emulate the Vim behaviour
+    ;; (define-key evil-normal-state-map [escape] 'keyboard-quit)
+    (define-key evil-visual-state-map [escape] 'keyboard-quit)
+    (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+    (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+    ;; change cursor color depending on mode
+    (setq evil-emacs-state-cursor    '("red" box)
+          evil-normal-state-cursor   '("lawn green" box)
+          evil-visual-state-cursor   '("orange" box)
+          evil-insert-state-cursor   '("deep sky blue" bar)
+          evil-replace-state-cursor  '("red" bar)
+          evil-operator-state-cursor '("red" hollow))
+
+    (defun joe-major-mode-evil-state-adjust ()
+    (if (apply 'derived-mode-p joe-evil-state-modes)
+        (turn-on-evil-mode)
+    (when (apply 'derived-mode-p joe-emacs-state-modes)
+        (turn-off-evil-mode))))
+    (add-hook 'after-change-major-mode-hook #'joe-major-mode-evil-state-adjust)
+
+    ;; defining new text objects
+    ;; seen at http://stackoverflow.com/a/22418983/634816
+    (defmacro define-and-bind-text-object (key start-regex end-regex)
+      (let ((inner-name (make-symbol "inner-name"))
+            (outer-name (make-symbol "outer-name")))
+        `(progn
+          (evil-define-text-object ,inner-name (count &optional beg end type)
+            (evil-regexp-range count beg end type ,start-regex ,end-regex t))
+          (evil-define-text-object ,outer-name (count &optional beg end type)
+            (evil-regexp-range count beg end type ,start-regex ,end-regex nil))
+          (define-key evil-inner-text-objects-map ,key (quote ,inner-name))
+          (define-key evil-outer-text-objects-map ,key (quote ,outer-name)))))
+
+    ;; between underscores:
+    (define-and-bind-text-object "_" "_" "_")
+    ;; an entire line:
+    (define-and-bind-text-object "l" "^" "$")
+    ;; between dollars sign:
+    (define-and-bind-text-object "$" "\\$" "\\$")
+    ;; between pipe characters:
+    (define-and-bind-text-object "|" "|" "|")
+
+    ;; custom bindings for /Org-mode/.
+    (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
+    (evil-define-key 'normal org-mode-map (kbd "H") 'org-metaleft)
+    (evil-define-key 'normal org-mode-map (kbd "L") 'org-metaright)
+    (evil-define-key 'normal org-mode-map (kbd "K") 'org-metaup)
+    (evil-define-key 'normal org-mode-map (kbd "J") 'org-metadown)
+    (evil-define-key 'normal org-mode-map (kbd "U") 'org-shiftmetaleft)
+    (evil-define-key 'normal org-mode-map (kbd "I") 'org-shiftmetaright)
+    (evil-define-key 'normal org-mode-map (kbd "O") 'org-shiftmetaup)
+    (evil-define-key 'normal org-mode-map (kbd "P") 'org-shiftmetadown)
+    (evil-define-key 'normal org-mode-map (kbd "t")   'org-todo)
+    (evil-define-key 'normal org-mode-map (kbd "-")   'org-cycle-list-bullet)
+
+    (evil-define-key 'insert org-mode-map (kbd "C-c .")
+      '(lambda () (interactive) (org-time-stamp-inactive t))))
+
+    ;; bindings to use with hydra package
+    (when (package-installed-p 'hydra)
+      (define-key evil-motion-state-map "\\" 'hydra-master/body)
+      (define-key evil-normal-state-map ","  'hydra-leader/body)
+      (define-key evil-visual-state-map ","  'hydra-leader/body))
+
+    (use-package evil-exchange
+      :ensure t
+      :config
+      (evil-exchange-install))
+
+    (use-package evil-indent-textobject
+      :ensure t)
+
+    (use-package evil-matchit
+      :ensure t
+      :config
+      (global-evil-matchit-mode t))
+
+    (use-package evil-nerd-commenter
+      :ensure t
+      :init
+      (setq evilnc-hotkey-comment-operator ""))
+
+    (use-package evil-surround
+      :ensure t
+      :config
+      (global-evil-surround-mode 1)))
+
+;; fill-column-indicator
+
+;; [[https://github.com/alpaker/Fill-Column-Indicator][fill-column-indicator]] toggle the vertical column that indicates the fill
+;; threshold.
+
+(use-package fill-column-indicator
+  :ensure t
+  :commands fci-mode
+  :config
+  (fci-mode)
+  (setq fci-rule-column 79))
+
+;; fixmee
+
+;; [[https://github.com/rolandwalker/fixmee][fixmee]] is for quickly navigate to FIXME and TODO notices in Emacs.
+
+;; | Binding | Call                             | Do                                       |
+;; |---------+----------------------------------+------------------------------------------|
+;; | C-c f   | fixmee-goto-nextmost-urgent      | Go to the next TODO/FIXME                |
+;; | C-c F   | fixmee-goto-prevmost-urgent      | Go to the previous TODO/FIXME            |
+;; | C-c v   | fixmee-view-listing              | View the list of TODOs                   |
+;; | M-n     | fixmee-goto-next-by-position     | Go to the next TODO/FIXME (above a TODO) |
+;; | M-p     | fixmee-goto-previous-by-position | Go to the next TODO/FIXME (above a TODO) |
+
+(use-package fixmee
+  :ensure t
+  :diminish fixmee-mode
+  :commands (fixmee-mode fixmee-view-listing)
+  :init
+  (add-hook 'prog-mode-hook 'fixmee-mode))
+
+(use-package button-lock
+  :diminish button-lock-mode)
+
+;; flatland-theme
+
+;; [[https://github.com/gchp/flatland-emacs][Flatland]] for Emacs is a direct port of the popular Flatland theme for Sublime
+;; Text developed by Pixel Lab.
+
+(use-package flatland-theme
+  :ensure t
+  :defer t)
+
+;; TODO flycheck
+
+;; [[https://github.com/yasuyk/helm-flycheck][helm-flycheck]] show flycheck errors with helm.
+
+(use-package flycheck
+  :ensure t
+  :defer t
+  :config
+  (add-hook 'prog-mode-hook 'flycheck-mode)
+  (add-hook 'sgml-mode 'flycheck-mode)
+  (use-package helm-flycheck
+    :ensure t
+    :requires helm
+    :commands helm-flycheck))
+
+;; git-modes
+
+;; [[https://github.com/magit/git-modes][Git modes]] are GNU Emacs modes for Git-related files. There are in a common
+;; repository in GitHub but available as independent packages in Melpa.
+
+(use-package git-commit-mode
+  :ensure t
+  :defer t)
+(use-package git-rebase-mode
+  :ensure t
+  :defer t)
+(use-package gitconfig-mode
+  :ensure t
+  :defer t)
+(use-package gitignore-mode
+  :ensure t
+  :defer t)
+(use-package gitattributes-mode
+  :ensure t
+  :defer t)
+
+;; git-timemachine
+
+;; Use [[https://github.com/pidu/git-timemachine][git-timemachine]] to browse historic versions of a file with =p=
+;; (previous) and =n= (next).
+
+(use-package git-timemachine
+  :ensure t
+  :commands git-timemachine
+  :config
+  (defadvice git-timemachine-mode (after toggle-evil activate)
+    "Turn off `evil-local-mode' when enabling `git-timemachine-mode',
+    and turn it back on when disabling `git-timemachine-mode'."
+    (evil-local-mode (if git-timemachine-mode -1 1))))
+
+;; google-maps
+
+;; [[https://julien.danjou.info/projects/emacs-packages#google-maps][google-maps]] provides support for Google Maps in Emacs. Works as an independent
+;; command and also integrated in org-mode.
+
+;; | Binding | Call                               | Do                                                    |
+;; |---------+------------------------------------+-------------------------------------------------------|
+;; | C-c M-c | org-coordinates-google-geocode-set | Set Coordinates Properties from a Location (org-mode) |
+;; | C-c M-L | org-address-google-geocode-set     | Set Address Properties from a Location (org-mode)     |
+;; | C-c M-A | org-address-google-geocode-set     | Set Address Properties from a Location (org-mode)     |
+;; | C-c M-l | org-location-google-maps           | Open Map from Address Properties (org-mode)           |
+;; |---------+------------------------------------+-------------------------------------------------------|
+
+(use-package google-maps
+  :ensure t
+  :defer 5
+  :config
+  (bind-keys :map google-maps-static-mode-map
+             ("H" . google-maps-static-add-home-marker)
+             ("k" . google-maps-static-move-north)
+             ("j" . google-maps-static-move-south)
+             ("h" . google-maps-static-move-west)
+             ("l" . google-maps-static-move-east)
+             ("y" . google-maps-static-copy-url)
+             ("q" . quit-window))
+
+  (when (package-installed-p 'hydra)
+    (bind-keys :map google-maps-static-mode-map
+               ("\\" . hydra-gmaps/body))
+    (defhydra hydra-gmaps (:hint nil :color blue)
+        "
+                                                                   ╭─────────────┐
+    Move       Zoom        Do                                      │ Google maps │
+  ╭────────────────────────────────────────────────────────────────┴─────────────╯
+   ^ ^   ^ _k_ ^    ^ ^   _<_/_+_/_._    [_t_] map type
+   ^ ^   ^ ^↑^ ^    ^ ^   ^ ^ ^↑^ ^ ^    [_g_] refresh  
+   _h_ ← _c_|_C_ → _l_    ^ _z_|_Z_ ^    [_y_] yank url
+   ^ ^   ^ ^↓^ ^    ^ ^   ^ ^ ^↓^ ^ ^    [_q_] quit  
+   ^ ^   ^ _j_ ^    ^ ^   _>_/_-_/_,_    
+  --------------------------------------------------------------------------------
+        "
+        ("\\" hydra-master/body "back")
+        ("<ESC>" nil "quit")
+        ("q"       google-maps-static-quit)
+        ("+"       google-maps-static-zoom-in)
+        (">"       google-maps-static-zoom-in)
+        ("."       google-maps-static-zoom-in)
+        ("-"       google-maps-static-zoom-out)
+        ("<"       google-maps-static-zoom-out)
+        (","       google-maps-static-zoom-out)
+        ("z"       google-maps-static-zoom)
+        ("Z"       google-maps-static-zoom-remove)
+        ("y"       google-maps-static-copy-url)
+        ("c"       google-maps-static-center)
+        ("C"       google-maps-static-center-remove)
+        ("t"       google-maps-static-set-maptype)
+        ("g"       google-maps-static-refresh)
+        ("k"       google-maps-static-move-north)
+        ("j"       google-maps-static-move-south)
+        ("h"       google-maps-static-move-west)
+        ("l"       google-maps-static-move-east)))
+  
+  (use-package org-location-google-maps))
+
+;; google-this
+
+;; [[https://github.com/Bruce-Connor/emacs-google-this][google-this]] is a package that provides a set of functions and keybindings for
+;; launching google searches from within emacs.
+
+(use-package google-this
+  :ensure t
+  :defer t)
+
+;; graphviz-dot-mode
+
+;; [[https://github.com/ppareit/graphviz-dot-mode][graphviz-dot-mode]] is a mode for the DOT language, used by graphviz.
+
+(use-package graphviz-dot-mode
+  :ensure t
+  :defer t)
+
+;; haskell-mode
+
+;; [[https://github.com/haskell/haskell-mode][haskell-mode]] is the Haskell mode package for Emacs.
+
+(use-package haskell-mode
+  :ensure t
+  :mode "\\.hs\\'"
+  :init
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-indent))
+
+;; TODO helm
+
+;; [[https://github.com/emacs-helm/helm][Helm]] is an Emacs incremental completion and selection narrowing framework.
+
+;; [[https://github.com/emacs-helm/helm-descbinds][Helm descbinds]] provides an interface to emacs’ =describe-bindings= making the
+;; currently active key bindings interactively searchable with helm.
+
+;; | Binding | Call              | Do                  |
+;; |---------+-------------------+---------------------|
+;; | C-h b   | describe-bindings | Show helm-descbinds |
+;; | C-x C-h | describe-bindings | Show heml-descbinds |
+;; |---------+-------------------+---------------------|
+
+;; [[https://github.com/ShingoFukuyama/helm-swoop][helm-swoop]] list match lines to another buffer, which is able to squeeze by any
+;; words you input. At the same time, the original buffer's cursor is jumping line
+;; to line according to moving up and down the line list.
+
+;; [[https://github.com/syohex/emacs-helm-themes][helm-themes]] provides theme selection with Helm.
+
+(use-package helm
+  :ensure t
+  :config
+  (progn
+  (setq helm-surfraw-duckduckgo-url "https://duckduckgo.com/lite/?q=!%s&kp=1"
+        helm-idle-delay 0.0
+        helm-input-idle-delay 0.01
+        helm-quick-update t
+        helm-M-x-requires-pattern nil
+        helm-M-x-fuzzy-match t
+        helm-buffers-fuzzy-matching t
+        helm-recentf-fuzzy-match t
+        helm-semantic-fuzzy-match t
+        helm-imenu-fuzzy-match t
+        helm-locate-fuzzy-match t
+        helm-ff-skip-boring-files t
+        helm-autoresize-max-height 50
+        helm-autoresize-min-height 50)
+  (when (package-installed-p 'hydra)
+      (define-key helm-map (kbd "\\") 'hydra-helm/body)
+      (defhydra hydra-helm (:hint nil :color pink)
+        "
+                                                                          ╭──────┐
+   Navigation   Other  Sources     Mark             Do             Help   │ Helm │
+  ╭───────────────────────────────────────────────────────────────────────┴──────╯
+        ^_k_^         _K_       _p_   [_m_] mark         [_v_] view         [_H_] helm help
+        ^^↑^^         ^↑^       ^↑^   [_t_] toggle all   [_d_] delete       [_s_] source help
+    _h_ ←   → _l_     _c_       ^ ^   [_u_] unmark all   [_f_] follow: %(helm-attr 'follow)
+        ^^↓^^         ^↓^       ^↓^    ^ ^               [_y_] yank selection
+        ^_j_^         _J_       _n_    ^ ^               [_w_] toggle windows
+  --------------------------------------------------------------------------------
+        "
+        ("<tab>" helm-keyboard-quit "back" :exit t)
+        ("<escape>" nil "quit")
+        ("\\" (insert "\\") "\\" :color blue)
+        ("h" helm-beginning-of-buffer)
+        ("j" helm-next-line)
+        ("k" helm-previous-line)
+        ("l" helm-end-of-buffer)
+        ("g" helm-beginning-of-buffer)
+        ("G" helm-end-of-buffer)
+        ("n" helm-next-source)
+        ("p" helm-previous-source)
+        ("K" helm-scroll-other-window-down)
+        ("J" helm-scroll-other-window)
+        ("c" helm-recenter-top-bottom-other-window)
+        ("m" helm-toggle-visible-mark)
+        ("t" helm-toggle-all-marks)
+        ("u" helm-unmark-all)
+        ("H" helm-help)
+        ("s" helm-buffer-help)
+        ("v" helm-execute-persistent-action)
+        ("d" helm-persistent-delete-marked)
+        ("y" helm-yank-selection)
+        ("w" helm-toggle-resplit-and-swap-windows)
+        ("f" helm-follow-mode)))
+  (helm-autoresize-mode 1))
+  (use-package helm-descbinds
+    :ensure t
+    :config
+    (helm-descbinds-mode t))
+  (use-package helm-swoop
+    :ensure t
+    :commands (helm-swoop helm-multi-swoop))
+  (use-package helm-themes
+    :ensure t
+    :commands helm-themes))
+
+;; TODO hydra
+
+;; [[https://github.com/abo-abo/hydra][Hydra]] is a package for GNU Emacs that can be used to tie related commands into a
+;; family of short bindings with a common prefix - a Hydra.
+
+;; I use it as a general interface for the most common used commands by me in my
+;; workflow. It is based in a previous idea that I implemented in Vim with Unite to
+;; generate menus where the most useful commands are shown with a key binding to
+;; activate it, at the same time Unite worked as a interface for several of that
+;; commands.
+
+;; In Emacs the way of doing this is different because we have, thanks to many
+;; developers, the two roles that Unite performed in my Vim configuration divided
+;; in two separate ways:
+
+;; + Interface for commands:
+;;   I use the most suited package for this job, Helm, that is the quasi-equivalent
+;;   of Vim's Unite. It works as a completion and selection framework for a lot of
+;;   Emacs commands and tasks. I don't use it yet a lot, but I have in mind to
+;;   adopt it in a lot of tasks.
+
+;; + Menus:
+;;   At the beginning, mimicking the [[https://github.com/syl20bnr/spacemacs][Spacemacs]] project, I was using a combination
+;;   of =evil-leader= and =guide-key= packages to generate those menus. But this
+;;   have a few glitches and I didn't want to have Evil activated in all the
+;;   buffers. Then Hydra showed up and at from the first moment I realized that it
+;;   solved almost every problem that the previous setup had. It can be used
+;;   through all Emacs and it's more customizable, and better oriented for my
+;;   original purpose.
+
+;; I use Hydra in two ways:
+
+;; + Activating through the "\" key to call all of the general and by-package
+;;   menus. Using this, and occasionally the =helm-descbinds= command (C-h b), I
+;;   can see and remember all the most useful commands and key-bindings that I have
+;;   at my disposal in a very easy way. Not more time lost due to memory laps.
+
+;; + Activating through the "," key to work as the Evil leader key (only when Evil
+;;   is activated) to access to a menu to the more common tasks that I need when
+;;   I'm editing text, e.g. comment a region.
+
+;; I still prefer the Evil "language", so many hydras & packages are configured in
+;; that way.
+
+(use-package hydra
+  :ensure t
+  :defer 0.1
+  :init
+  (bind-key "\\" 'hydra-master/body)
+  :config
+  (setq lv-use-separator t)
+  (custom-set-faces
+   '(hydra-face-blue ((t (:foreground "deep sky blue" :weight bold)))))
+
+  (eval-and-compile
+    (defhydra hydra-common (:color blue)
+      ("<ESC>" nil "quit")))
+
+  (defhydra hydra-master (:color blue :idle 0.4)
+    "
+                                                                       ╭───────┐
+                                                                       │ Index │
+╭──────────────────────────────────────────────────────────────────────┴───────╯
+  [_a_] bookmarks    [^h^]               [_o_] organization  [_v_] games
+  [_b_] buffers      [_i_] internet      [_p_] project       [_w_] window
+  [_c_] flycheck     [_j_] jump          [_q_] exit          [_x_] shell
+  [_d_] development  [_k_] spell         [_r_] register      [^y^]
+  [_e_] emacs        [_l_] lisp          [_s_] search        [^z^]
+  [_f_] file         [_m_] media         [_t_] text
+  [_g_] git          [_n_] narrow        [^u^]
+--------------------------------------------------------------------------------
+    "
+    ("<SPC>" joe-alternate-buffers "alternate buffers")
+    ("<ESC>" nil "quit")
+    ("\\" (insert "\\") "\\")
+    ("a"     hydra-bookmarks/body nil)
+    ("b"     hydra-buffers/body nil)
+    ("c"     hydra-flycheck/body nil)
+    ("d"     hydra-development/body nil)
+    ("e"     hydra-emacs/body nil)
+    ("f"     hydra-file/body nil)
+    ("g"     hydra-git/body nil)
+    ("i"     hydra-internet/body nil)
+    ("j"     hydra-jump/body nil)
+    ("k"     hydra-spell/body nil)
+    ("l"     hydra-lisp/body nil)
+    ("m"     hydra-media/body nil)
+    ("n"     hydra-narrow/body nil)
+    ("o"     hydra-organization/body nil)
+    ("p"     hydra-project/body nil)
+    ("q"     hydra-exit/body nil)
+    ("r"     hydra-register/body nil)
+    ("s"     hydra-search/body nil)
+    ("t"     hydra-text/body nil)
+    ("v"     hydra-games/body nil)
+    ("w"     hydra-window/body nil)
+    ("x"     hydra-system/body nil))
+
+  (defhydra hydra-bookmarks (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+    "
+                                                                   ╭───────────┐
+       List                          Do                            │ Bookmarks │
+╭──────────────────────────────────────────────────────────────────┴───────────╯
+  [_h_] list bookmarks (helm)     [_j_] jump to a bookmark
+  [_l_] list bookmarks            [_m_] set bookmark at point
+  ^ ^                             [_s_] save bookmarks
+--------------------------------------------------------------------------------
+    "
+    ("h" helm-bookmarks)
+    ("j" bookmark-jump)
+    ("l" list-bookmarks)
+    ("m" bookmark-set)
+    ("s" bookmark-save))
+
+  (defhydra hydra-buffers (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+    "
+                                                                     ╭─────────┐
+   Move to Window         Switch                  Do                 │ Buffers │
+╭────────────────────────────────────────────────────────────────────┴─────────╯
+         ^_k_^          [_b_] switch (ido)       [_d_] kill the buffer
+         ^^↑^^          [_i_] ibuffer            [_r_] toggle read-only mode
+
+         ^^↓^^          [_s_] switch (helm)      [_w_] save buffer
+         ^_j_^
+--------------------------------------------------------------------------------
+    "
+    ("a" joe-alternate-buffers)
+    ("b" ido-switch-buffer)
+    ("d" joe-kill-this-buffer)
+    ("i" ibuffer)
+    ("h" buf-move-left  :color red)
+    ("k" buf-move-up    :color red)
+    ("j" buf-move-down  :color red)
+    ("l" buf-move-right :color red)
+    ("r" read-only-mode)
+    ("s" helm-buffers-list)
+    ("u" joe-revert-buffer)
+    ("w" save-buffer))
+
+    (defhydra hydra-flycheck (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                    ╭──────────┐
+   Navigate          Show Errors                  Do                │ Flycheck │
+╭───────────────────────────────────────────────────────────────────┴──────────╯
+   ^_p_^revious     [_l_] list errors           [_t_] toggle Flycheck
+      ^^↑^^         [_e_] list errors (helm)    [_c_] select checker
+    ^_f_^irst       [_d_] clear all errors      [_r_] run via compile
+      ^^↓^^          ^ ^                        [_h_] describe checker
+    ^_n_^ext
+--------------------------------------------------------------------------------
+      "
+      ("c" flycheck-select-checker)
+      ("h" flycheck-describe-checker)
+      ("d" flycheck-clear)
+      ("e" helm-flycheck)
+      ("f" flycheck-first-error)
+      ("l" flycheck-list-errors)
+      ("n" flycheck-next-error :color red)
+      ("p" flycheck-previous-error :color red)
+      ("r" flycheck-compile)
+      ("t" flycheck-mode))
+
+    (defhydra hydra-development (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                 ╭─────────────┐
+     Zeal                   Web                 Quickrun         │ Development │
+╭────────────────────────────────────────────────────────────────┴─────────────╯
+  [_z_] search docs   [_c_] Web Colors          [_q_] buffer
+  [_d_] set docset    [_h_] HTTP header         [_v_] region
+   ^ ^                [_m_] HTTP method         [_x_] shell
+   ^ ^                [_r_] HTTP relation       [_p_] with arg
+   ^ ^                [_s_] HTTP status code    [_k_] buffer (helm)
+   ^ ^                [_f_] RESTclient          [_o_] only compile
+   ^ ^                 ^ ^                      [_R_] replace             
+   ^ ^                 ^ ^                      [_e_] eval/print                 
+--------------------------------------------------------------------------------
+      "
+      ("z" zeal-at-point)
+      ("d" zeal-at-pont-set-docset)
+      ("c" helm-colors)
+      ("f" restclient-mode)
+      ("q" quickrun)
+      ("v" quickrun-region)
+      ("x" quickrun-shell)
+      ("p" quickrun-with-arg)
+      ("o" quickrun-compile-only)
+      ("R" quickrun-replace-region)
+      ("e" quickrun-eval-print)
+      ("k" helm-quickrun)
+      ("h" http-header)
+      ("m" http-method)
+      ("r" http-relation)
+      ("s" http-status-code))
+
+  (defhydra hydra-emacs (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                       ╭───────┐
+   Execute       Packages         Help                     Misc        │ Emacs │
+╭──────────────────────────────────────────────────────────────────────┴───────╯
+  [_s_] smex       [_p_] list      [_a_] apropos (helm)    [_t_] change theme (helm)
+  [_m_] smex mode  [_i_] install   [_f_] info manual       [_l_] list emacs process
+  [_h_] helm M-x   [_u_] upgrade   [_k_] bindings (helm)   [_c_] init time
+   ^ ^              ^ ^            [_b_] personal bindings [_o_] unbound commands
+--------------------------------------------------------------------------------
+      "
+      ("C-h b" helm-descbinds "bindings")
+      ("a" helm-apropos)
+      ("b" describe-personal-keybindings)
+      ("c" emacs-init-time)
+      ("i" package-install)
+      ("k" helm-descbinds)
+      ("l" list-processes)
+      ("f" info-display-manual)
+      ("p" paradox-list-packages)
+      ("t" helm-themes)
+      ("u" paradox-upgrade-packages)
+      ("m" smex-major-mode-commands)
+      ("s" smex)
+      ("h" helm-M-x)
+      ("o" smex-show-unbound-commands))
+
+  (defhydra hydra-file (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                        ╭──────┐
+     Ido               Helm                 Dired                       │ File │
+╭───────────────────────────────────────────────────────────────────────┴──────╯
+  [_o_] open file   [_f_] find file      [_d_] dired
+   ^ ^              [_m_] mini
+--------------------------------------------------------------------------------
+      "
+      ("o" find-file)
+      ("f" helm-find-files)
+      ("m" helm-mini)
+      ("d" ido-dired))
+
+
+  (defhydra hydra-text (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                        ╭──────┐
+ Size  Toggle              Unicode                        Do            │ Text │
+╭───────────────────────────────────────────────────────────────────────┴──────╯
+  _k_  [_f_] fill column     [_d_] unicode character           [_a_] align with regex
+  ^↑^  [_h_] hidden chars    [_e_] evil digraphs table         [_w_] remove trailing ' '
+  ^ ^  [_l_] line numbers    [_m_] specific code block         [_n_] count words
+  ^↓^  [_t_] trailing ' '    [_u_] unicode character (helm)    [_i_] lorem ipsum
+  _j_  [_v_] font space      [_p_] character code
+  ^ ^  [_c_] comment
+  ^ ^  [_b_] multibyte chars
+--------------------------------------------------------------------------------
+      "
+      ("a" align-regexp)
+      ("b" toggle-enable-multibyte-characters)
+      ("c" evilnc-comment-or-uncomment-lines)
+      ("d" insert-char)
+      ("e" evil-ex-show-digraphs)
+      ("f" fci-mode)
+      ("h" whitespace-mode)
+      ("i" lorem-ipsum-insert-paragraphs)
+      ("k" text-scale-increase :color red)
+      ("j" text-scale-decrease :color red)
+      ("n" count-words)
+      ("l" linum-mode)
+      ("m" charmap)
+      ("p" describe-char)
+      ("t" joe-toggle-show-trailing-whitespace)
+      ("u" helm-ucs)
+      ("v" variable-pitch-mode)
+      ("w" whitespace-cleanup))
+
+  (defhydra hydra-git (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                         ╭─────┐
+   Magit                          VC                    Timemachine      │ Git │
+╭────────────────────────────────────────────────────────────────────────┴─────╯
+  [_s_] status              [_d_] diffs between revisions  [_t_] timemachine
+  [_B_] blame mode          [_b_] edition history
+  [_l_] file log
+--------------------------------------------------------------------------------
+      "
+      ("B" magit-blame-mode)
+      ("b" vc-annotate)
+      ("d" vc-diff)
+      ("l" magit-file-log)
+      ("s" magit-status)
+      ("t" git-timemachine))
+
+  (defhydra hydra-internet (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                    ╭──────────┐
+    Browse       Search             Social               Post       │ Internet │
+╭───────────────────────────────────────────────────────────────────┴──────────╯
+  [_w_] eww      [_g_] google          [_f_] elfeed            [_i_] imgur
+   ^ ^           [_m_] google maps     [_t_] twitter
+   ^ ^           [_s_] surfraw         [_x_] stack overflow
+--------------------------------------------------------------------------------
+      "
+      ("f" elfeed)
+      ("g" google-this)
+      ("i" imgur-post)
+      ("m" google-maps)
+      ("s" helm-surfraw)
+      ("t" twit)
+      ("w" eww)
+      ("x" sx-tab-newest))
+
+  (defhydra hydra-jump (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                        ╭──────┐
+    AceJump                                                             │ Jump │
+╭───────────────────────────────────────────────────────────────────────┴──────╯
+  [_w_] acejump word mode
+  [_c_] acejump char mode
+  [_l_] acejump line mode
+--------------------------------------------------------------------------------
+      "
+      ("w" evil-ace-jump-word-mode)
+      ("c" evil-ace-jump-char-mode)
+      ("l" evil-ace-jump-line-mode))
+
+  (defhydra hydra-spell (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                       ╭───────┐
+    Flyspell               Ispell                                      │ Spell │
+╭──────────────────────────────────────────────────────────────────────┴───────╯
+  [_k_] correct word       [_w_] check word
+  [_n_] next error         [_t_] toggle dictionary
+  [_f_] toggle flyspell    [_d_] change dictionary
+  [_p_] toggle prog mode
+--------------------------------------------------------------------------------
+      "
+      ("w" ispell-word)
+      ("d" ispell-change-dictionary)
+      ("t" joe-switch-dictionary)
+      ("f" flyspell-mode)
+      ("p" flyspell-prog-mode)
+      ("k" flyspell-auto-correct-word)
+      ("n" flyspell-goto-next-error))
+
+  (defhydra hydra-lisp (:color blue :hint nil :idle 0.4)
+      "
+                                                                        ╭──────┐
+    Elisp                                                               │ Lisp │
+╭───────────────────────────────────────────────────────────────────────┴──────╯
+  [_r_] eval region
+  [_s_] eval sexp
+--------------------------------------------------------------------------------
+      "
+      ("r" eval-region)
+      ("s" eval-last-sexp))
+
+  (defhydra hydra-narrow (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                      ╭────────┐
+    Narrow                                                            │ Narrow │
+╭─────────────────────────────────────────────────────────────────────┴────────╯
+  [_f_] narrow to defun
+  [_p_] narrow to page
+  [_r_] narrow to region
+  [_w_] widen
+--------------------------------------------------------------------------------
+      "
+      ("f" narrow-to-defun)
+      ("p" narrow-to-page)
+      ("r" narrow-to-region)
+      ("w" widen))
+
+  (defhydra hydra-project (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                  ╭────────────┐
+  Files             Search          Buffer             Do         │ Projectile │
+╭─────────────────────────────────────────────────────────────────┴────────────╯
+  [_f_] file          [_a_] ag          [_b_] switch         [_g_] magit
+  [_l_] file dwim     [_A_] grep        [_v_] show all       [_p_] commander
+  [_r_] recent file   [_s_] occur       [_V_] ibuffer        [_i_] info
+  [_d_] dir           [_S_] replace     [_K_] kill all
+  [_o_] other         [_t_] find tag
+  [_u_] test file     [_T_] make tags
+  [_h_] root
+                                                                      ╭────────┐
+  Other Window      Run             Cache              Do             │ Fixmee │
+╭──────────────────────────────────────────────────╯ ╭────────────────┴────────╯
+  [_F_] file          [_U_] test        [_kc_] clear         [_x_] TODO & FIXME
+  [_L_] dwim          [_m_] compile     [_kk_] add current   [_X_] toggle
+  [_D_] dir           [_c_] shell       [_ks_] cleanup
+  [_O_] other         [_C_] command     [_kd_] remove
+  [_B_] buffer
+--------------------------------------------------------------------------------
+      "
+      ("a"   projectile-ag)
+      ("A"   projectile-grep)
+      ("b"   projectile-switch-to-buffer)
+      ("B"   projectile-switch-to-buffer-other-window)
+      ("c"   projectile-run-async-shell-command-in-root)
+      ("C"   projectile-run-command-in-root)
+      ("d"   projectile-find-dir)
+      ("D"   projectile-find-dir-other-window)
+      ("f"   projectile-find-file)
+      ("F"   projectile-find-file-other-window)
+      ("g"   projectile-vc)
+      ("h"   projectile-dired)
+      ("i"   projectile-project-info)
+      ("kc"  projectile-invalidate-cache)
+      ("kd"  projectile-remove-known-project)
+      ("kk"  projectile-cache-current-file)
+      ("K"   projectile-kill-buffers)
+      ("ks"  projectile-cleanup-known-projects)
+      ("l"   projectile-find-file-dwim)
+      ("L"   projectile-find-file-dwim-other-window)
+      ("m"   projectile-compile-project)
+      ("o"   projectile-find-other-file)
+      ("O"   projectile-find-other-file-other-window)
+      ("p"   projectile-commander)
+      ("r"   projectile-recentf)
+      ("s"   projectile-multi-occur)
+      ("S"   projectile-replace)
+      ("t"   projectile-find-tag)
+      ("T"   projectile-regenerate-tags)
+      ("u"   projectile-find-test-file)
+      ("U"   projectile-test-project)
+      ("v"   projectile-display-buffer)
+      ("V"   projectile-ibuffer)
+      ("X"   fixmee-mode)
+      ("x"   fixmee-view-listing))
+
+  (defhydra hydra-exit (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                        ╭──────┐
+   Quit                                                                 │ Exit │
+╭───────────────────────────────────────────────────────────────────────┴──────╯
+  [_c_] exit emacs (standalone or client)
+  [_s_] shutdown the emacs daemon
+--------------------------------------------------------------------------------
+      "
+      ("c" save-buffers-kill-terminal)
+      ("s" save-buffers-kill-emacs))
+
+  (defhydra hydra-register (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                    ╭──────────┐
+   Logs                        Registers                Undo        │ Register │
+╭───────────────────────────────────────────────────────────────────┴──────────╯
+  [_c_] commands history       [_e_] emacs registers    [_u_] undo tree
+  [_o_] echo-area messages     [_r_] evil registers
+  [_b_] minibuffer             [_m_] evil marks
+  [_l_] messages               [_k_] kill ring
+  [_d_] diff buffer with file
+--------------------------------------------------------------------------------
+      "
+      ("c" helm-complex-command-history)
+      ("d" joe-diff-buffer-with-file)
+      ("e" helm-register)
+      ("k" helm-show-kill-ring)
+      ("a" helm-all-mark-rings)
+      ("l" popwin:messages)
+      ("m" evil-show-marks)
+      ("o" view-echo-area-messages)
+      ("r" evil-show-registers)
+      ("b" helm-minibuffer-history)
+      ("u" undo-tree-visualize))
+
+  (defhydra hydra-search (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                      ╭────────┐
+   Files                             Buffer                           │ Search │
+╭─────────────────────────────────────────────────────────────────────┴────────╯
+  [_a_] regex search (Ag)           [_b_] by word
+  [_A_] regex by filetype (Ag)      [_o_] by word (occur)
+  [_h_] regex search (grep & helm)  [_w_] by word (multi)
+  [_g_] regex search (grep)         [_t_] tags & titles
+  [_f_] find
+  [_l_] locate
+--------------------------------------------------------------------------------
+      "
+      ("A" ag-files)
+      ("a" ag)
+      ("b" helm-swoop)
+      ("f" helm-find)
+      ("g" rgrep)
+      ("h" helm-do-grep)
+      ("l" helm-locate)
+      ("o" helm-occur)
+      ("t" helm-semantic-or-imenu)
+      ("w" helm-multi-swoop))
+
+  (defhydra hydra-games (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                       ╭───────┐
+   Game                                                                │ Games │
+╭──────────────────────────────────────────────────────────────────────┴───────╯
+  [_p_] 2048-game      [_c_] chess (computer)
+  [_b_] bubbles        [_a_] chess (internet)
+  [_t_] tetris
+  [_g_] gomoku
+--------------------------------------------------------------------------------
+      "
+      ("p" 2048-game)
+      ("b" bubbles-set-game-hard)
+      ("c" chess)
+      ("a" chess-ics)
+      ("g" gomoku)
+      ("t" tetris))
+
+  (defhydra hydra-window (:color blue :hint nil :idle 0.4 :timeout 5 :inherit (hydra-common/heads))
+      "
+                                                                     ╭─────────┐
+   Move to      Size    Scroll        Split                    Do    │ Windows │
+╭────────────────────────────────────────────────────────────────────┴─────────╯
+      ^_k_^           ^_K_^       ^_p_^    ╭─┬─┐^ ^        ╭─┬─┐^ ^         ↺ [_u_] undo layout
+      ^^↑^^           ^^↑^^       ^^↑^^    │ │ │_v_ertical ├─┼─┤_b_alance   ↻ [_r_] restore layout
+  _h_ ←   → _l_   _H_ ←   → _L_   ^^ ^^    ╰─┴─╯^ ^        ╰─┴─╯^ ^         ✗ [_d_] close window
+      ^^↓^^           ^^↓^^       ^^↓^^    ╭───┐^ ^        ╭───┐^ ^         ⇋ [_w_] cycle window
+      ^_j_^           ^_J_^       ^_n_^    ├───┤_s_tack    │   │_z_oom      ⇱ [_f_] new frame
+      ^^ ^^           ^^ ^^       ^^ ^^    ╰───╯^ ^        ╰───╯^ ^         ⇲ [_x_] delete frame
+--------------------------------------------------------------------------------
+      "
+      ("n" joe-scroll-other-window :color red)
+      ("p" joe-scroll-other-window-down :color red)
+      ("b" balance-windows)
+      ("d" delete-window)
+      ("f" make-frame)
+      ("H" shrink-window-horizontally :color red)
+      ("h" windmove-left :color red)
+      ("J" shrink-window :color red)
+      ("j" windmove-down :color red)
+      ("K" enlarge-window :color red)
+      ("k" windmove-up :color red)
+      ("L" enlarge-window-horizontally :color red)
+      ("l" windmove-right :color red)
+      ("r" winner-redo :color red)
+      ("s" split-window-vertically :color red)
+      ("u" winner-undo :color red)
+      ("v" split-window-horizontally :color red)
+      ("w" other-window)
+      ("x" delete-frame)
+      ("z" delete-other-windows))
+
+  (defhydra hydra-system (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                      ╭────────┐
+   Terminals                     System                               │ System │
+╭─────────────────────────────────────────────────────────────────────┴────────╯
+  [_s_] new multi-term           [_c_] shell command
+  [_n_] next multi-term          [_a_] aync shell command
+  [_p_] previous multi-term      [_m_] man page
+  [_d_] dedicated multi-term     [_l_] list system process
+  [_e_] eshell                   [_t_] top command
+--------------------------------------------------------------------------------
+      "
+      ("a" async-shell-command)
+      ("c" shell-command)
+      ("e" eshell)
+      ("m" helm-man-woman)
+      ("l" proced)
+      ("s" multi-term)
+      ("n" multi-term-next)
+      ("p" multi-term-previous)
+      ("d" multi-term-dedicated-toggle)
+      ("t" helm-top))
+
+  (defhydra hydra-media (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                       ╭───────┐
+   Emms                Mpd                  Volume                     │ Media │
+╭──────────────────────────────────────────────────────────────────────┴───────╯
+ [_b_] browse         [_n_] next song          [_-_] volume down
+ [_f_] play file      [_p_] previous song      [_+_] volume up
+  ^ ^                 [_c_] clear playlist
+  ^ ^                 [_o_] show song
+  ^ ^                 [_P_] pause
+  ^ ^                 [_s_] stop
+  ^ ^                 [_y_] start & sync
+--------------------------------------------------------------------------------
+      "
+      ("a" emms-start)
+      ("x" emms-stop)
+      ("b" emms-smart-browse)
+      ("f" emms-play-file)
+      ("m" emms-player-mpd-connect)
+      ("c" emms-player-mpd-clear)
+      ("n" emms-player-mpd-next)
+      ("o" emms-player-mpd-show)
+      ("P" emms-player-mpd-pause)
+      ("p" emms-player-mpd-previous)
+      ("s" emms-player-mpd-stop)
+      ("y" emms-player-mpd-start)
+      ("-" emms-volume-lower)
+      ("\+" emms-volume-raise))
+
+  (defhydra hydra-organization (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
+      "
+                                                                ╭──────────────┐
+     Tasks            Org mode               Comms      Others  │ Organization │
+╭───────────────────────────────────────────────────────────────┴──────────────╯
+  [_a_] agenda      [_c_] capture             [_m_] mail      [_x_] speed type
+  [_l_] agenda list [_p_] pomodoro            [_t_] contacts
+  [_d_] calendar    [_s_] search headings
+   ^ ^              [_g_] open location gmaps
+--------------------------------------------------------------------------------
+      "
+      ("a" org-agenda)
+      ("c" org-capture)
+      ("d" cfw:open-org-calendar)
+      ("g" org-location-google-maps)
+      ("h" org-address-google-geocode-set)
+      ("l" org-agenda-list)
+      ("m" mu4e)
+      ("p" org-pomodoro)
+      ("s" helm-org-agenda-files-headings)
+      ("t" org-contacts)
+      ("x" speed-type-text))
+
+   (defhydra hydra-leader ( :color blue :hint nil :idle 0.4)
+       "
+                                                                      ╭────────┐
+   Toggle                        Do                                   │ Leader │
+╭─────────────────────────────────────────────────────────────────────┴────────╯
+  [_c_] comment                  [_a_] align with regex
+  [_f_] fill column              [_p_] show character code
+  [_h_] hidden chars             [_i_] insert unicode character (helm)
+  [_t_] trailing whitespace      [_w_] remove trailing whitespaces
+  [_v_] font space               [_u_] undo tree
+   ^ ^                           [_j_] jump word
+--------------------------------------------------------------------------------
+      "
+      ("<escape>" nil "quit")
+      ("a" align-regexp)
+      ("c" evilnc-comment-or-uncomment-lines)
+      ("f" fci-mode)
+      ("h" whitespace-mode)
+      ("i" helm-ucs)
+      ("j" evil-ace-jump-word-mode)
+      ("n" count-words)
+      ("p" describe-char)
+      ("t" joe-toggle-show-trailing-whitespace)
+      ("u" undo-tree-visualize)
+      ("v" variable-pitch-mode)
+      ("w" whitespace-cleanup)))
+
+;; ibuffer-vc
+
+;; [[https://github.com/purcell/ibuffer-vc][ibuffer-vc]] show the buffers grouped by the associated version control
+;; project.
+
+(use-package ibuffer-vc
+  :ensure t
+  :commands ibuffer
+  :init
+  (add-hook 'ibuffer-hook
+            (lambda ()
+              (ibuffer-vc-set-filter-groups-by-vc-root)
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
+                (ibuffer-do-sort-by-alphabetic))))
+  :config
+  (setq ibuffer-formats
+        '((mark modified read-only vc-status-mini " "
+                (name 18 18 :left :elide)
+                " "
+                (size 9 -1 :right)
+                " "
+                (mode 16 16 :left :elide)
+                " "
+                (vc-status 16 16 :left)
+                " "
+                filename-and-process))))
+
+;; ido-ubiquitous
 
 ;; Gimme some ido... everywhere!
 
-;; Does what you expected ido-everywhere to do.
+;; [[https://github.com/DarwinAwardWinner/ido-ubiquitous][ido-ubiquitous]] does what you were really hoping for when you did =(setq ido-everywhere
+;; t)=. Replaces stock emacs completion with ido completion wherever it is possible
+;; to do so without breaking things.
 
-(require 'ido-ubiquitous)
-(ido-ubiquitous-mode t)
-(setq ido-ubiquitous-max-items 50000)
+;; s
 
-;; Ido-vertical-mode
+(use-package ido-ubiquitous
+  :ensure t
+  :requires ido
+  :config
+  (ido-ubiquitous-mode t)
+  (setq ido-ubiquitous-max-items 50000))
 
-;; Makes ido-mode display vertically.
+;; ido-vertical-mode
 
-(require 'ido-vertical-mode)
-(ido-vertical-mode t)
+;; [[https://github.com/gempesaw/ido-vertical-mode.el][ido-vertical-mode]] makes =ido-mode= display vertically.
 
-;; Magit
+(use-package ido-vertical-mode
+  :ensure t
+  :requires ido
+  :config
+  (ido-vertical-mode t))
+
+;; TODO impatient-mode
+
+;; Thanks to [[https://github.com/skeeto/impatient-mode][impatient-mode]] you can see the effect of your HTML as you type it.
+
+(use-package impatient-mode
+  :ensure t)
+
+;; imgur
+
+;; [[https://github.com/myuhe/imgur.el][imgur]] is an imgur client for Emacs
+
+(use-package imgur
+  :ensure t
+  :commands imgur-post)
+
+;; TODO jedi
+
+;; [[https://github.com/tkf/emacs-jedi][Jedi]] offers very nice auto completion for python-mode.
+
+(use-package jedi
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (add-hook 'python-mode-hook 'jedi:ac-setup)
+  :config
+  (setq jedi:complete-on-dot t))
+
+;; know-your-http-well
+
+;; This [[https://github.com/for-GET/know-your-http-well][package]] provides HTTP headers, media types, methods, relations and status
+;; codes, all summarized and linking to their specification.
+
+(use-package know-your-http-well
+  :ensure t
+  :commands (http-header http-method http-relation http-status-code))
+
+;; lorem-ipsum
+
+;; [[https://github.com/jschaf/emacs-lorem-ipsum][lorem-ipsum]] add filler lorem ipsum text for Emacs.
+
+(use-package lorem-ipsum
+  :ensure t
+  :commands lorem-ipsum-insert-paragraphs)
+
+;; lua-mode
+
+;; [[https://github.com/immerrr/lua-mode][lua-mode]] is a major mode for editing Lua sources in Emacs.
+
+(use-package lua-mode
+  :ensure t
+  :mode ("\\.lua\\'" . lua-mode)
+  :interpreter ("lua" . lua-mode))
+
+;; TODO magit
 
 ;; With [[https://github.com/magit/magit][Magit]], you can inspect and modify your Git repositories with
 ;; Emacs. You can review and commit the changes you have made to the
@@ -1637,155 +2194,34 @@
 ;; changes. There is support for cherry picking, reverting, merging,
 ;; rebasing, and other common Git operations.
 
-(require 'magit)
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-(setq ediff-split-window-function 'split-window-horizontally)
+(use-package magit
+  :ensure t
+  :pin melpa-stable
+  :diminish magit-auto-revert-mode
+  :commands magit-status)
 
-;; Helm Surfraw (helm-net)
+;; TODO markdown-mode
 
-;; Set the default engine as searching on DuckDuckGo with a bang =!= by
-;; default.
+;; [[http://jblevins.org/projects/markdown-mode/][markdown-mode]] is a major mode for editing Markdown-formatted text files in GNU
+;; Emacs.
 
-(setq helm-surfraw-duckduckgo-url "https://duckduckgo.com/lite/?q=!%s&kp=1")
+(use-package markdown-mode
+  :ensure t
+  :mode (("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
 
-;; TODO Charmap
+;; monokai-theme
 
-;; [[https://github.com/lateau/charmap][Charmap]] is unicode table viewer for Emacs. With CharMap you can see
-;; the unicode table based on The Unicode Standard 6.2.
+;; [[https://github.com/oneKelvinSmith/monokai-emacs][Monokai for Emacs]] is a port of the popular TextMate theme Monokai by Wimer
+;; Hazenberg.
 
-(load-library "charmap")
-(setq charmap-text-scale-adjust 2)
-
-;; Swoop
-
-(require 'swoop)
-(setq swoop-font-size-change: nil)
-
-;; TODO Ace-jump-mode
-
-(require 'ace-jump-mode)
-
-;; Multi Term
-
-(require 'multi-term)
-(setq multi-term-program "/bin/bash")
-
-;; Yasnippet
-
-;; [[https://github.com/capitaomorte/yasnippet][YASnippet]] is a template system for Emacs. It allows you to type an
-;; abbreviation and automatically expand it into function templates.
-
-(require 'yasnippet)
-(yas-global-mode)
-
-;; Disable it in ansi-term
-
-(add-hook 'after-change-major-mode-hook
-          (lambda ()
-            (when (find major-mode
-                        '(term-mode ansi-term))
-              (yas-minor-mode 0))))
-
-;; Ag
-
-;; A simple ag frontend, loosely based on ack-and-half.el.
-
-(require 'ag)
-(setq ag-reuse-buffers 't)
-(setq ag-highlight-search t)
-(setq ag-arguments
-      (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))
-
-;; Guide key tip
-
-;; A guide to the available keybindings
-
-(require 'guide-key)
-(if (symbol-value guide-key-mode)
-    (guide-key-mode -1)
-  (guide-key-mode))
-(setq guide-key/guide-key-sequence '("C-x" "C-c" "," "g" "z" "C-h")
-      guide-key/recursive-key-sequence-flag t
-      guide-key/popup-window-position 'bottom
-      guide-key/idle-delay 0.5
-      guide-key/text-scale-amount 0
-      guide-key-tip/enabled nil)
-(guide-key-mode)
-
-;; Diff-hl
-
-;; [[https://github.com/dgutov/diff-hl][diff-hl]] highlights uncommitted changes on the left side of the
-;; window, allows you to jump between and revert them selectively.
-
-(require 'diff-hl)
-(add-hook 'org-mode-hook 'turn-on-diff-hl-mode)
-(add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-(add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode)
-
-;; Popwin
-
-;; [[https://github.com/m2ym/popwin-el][Popwin]] is a popup window manager for Emacs which makes you free from
-;; the hell of annoying buffers such like *Help*, *Completions*,
-;; *compilation*, and etc.
-
-(require 'popwin)
-(popwin-mode 1)
-(setq popwin:popup-window-height 35)
-
-;; Projectile
-
-;; [[https://github.com/bbatsov/projectile][Projectile]] is a project interaction library for Emacs. Its goal is to
-;; provide a nice set of features operating on a project level without
-;; introducing external dependencies(when feasible). For instance -
-;; finding project files has a portable implementation written in pure
-;; Emacs Lisp without the use of GNU find (but for performance sake an
-;; indexing mechanism backed by external commands exists as well).
-
-(projectile-global-mode)
-(setq projectile-cache-file (concat joe-emacs-temporal-directory "projectile.cache"))
-(setq projectile-known-projects-file (concat joe-emacs-temporal-directory "projectile-bookmarks.eld"))
-(setq projectile-enable-caching t)
-
-;; emms
-
-(require 'emms-setup)
-(emms-all)
-(emms-default-players)
-(setq emms-directory (concat user-emacs-directory "tmp/emms"))
-(setq emms-cache-file (concat user-emacs-directory "tmp/emms/cache"))
-(setq emms-source-file-default-directory "~/musica/")
-
-(require 'emms-player-mpd)
-(setq emms-player-mpd-server-name "localhost")
-(setq emms-player-mpd-server-port "6600")
-(setq emms-player-mpd-music-directory emms-source-file-default-directory)
-(add-to-list 'emms-info-functions 'emms-info-mpd)
-(add-to-list 'emms-player-list 'emms-player-mpd)
-
-(require 'emms-volume)
-(setq emms-volume-change-function 'emms-volume-mpd-change)
-(require 'emms-browser)
-(emms-browser-make-filter "all" 'ignore)
+(use-package monokai-theme
+  :ensure t)
 
 ;; Enable mu4e
 
-(require 'mu4e)
-
-;; Use encryption
-
-;; Use encryption to protect the sensitive data like the servers configuration
-;; (stored in =authinfo.gpg=) and the sensitive user's infomation.
-
-(require 'epa-file)
-(epa-file-enable)
-(setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
-
-;; User information
-
-;; Sets the default user's information properly.
-
-(setq user-full-name "joe di castro"
-      user-mail-address "joe@joedicastro.com")
+(use-package mu4e
+  :commands mu4e)
 
 ;; First load the user's sensitive information
 
@@ -1807,35 +2243,35 @@
 (setq gnutls-min-prime-bits 2048)
 
 ;; the multiple functions that provide the multiple accounts selection functionality
-(defun joe/mu4e-choose-account ()
+(defun joe-mu4e-choose-account ()
     (completing-read (format "Compose with account: (%s) "
       (mapconcat #'(lambda (var) (car var)) my-mu4e-account-alist "/"))
           (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
                               nil t nil nil (caar my-mu4e-account-alist)))
 
-(defun joe/mu4e-get-field (a)
+(defun joe-mu4e-get-field (a)
     (let ((field (cdar (mu4e-message-field mu4e-compose-parent-message a))))
         (string-match "@\\(.*\\)\\..*" field)
         (match-string 1 field)))
 
 
-(defun joe/mu4e-is-not-draft ()
+(defun joe-mu4e-is-not-draft ()
     (let ((maildir (mu4e-message-field (mu4e-message-at-point) :maildir)))
        (if (string-match "drafts*" maildir)
               nil
               t)))
 
-(defun joe/mu4e-set-account ()
+(defun joe-mu4e-set-account ()
   "Set the account for composing a message."
   (let* ((account
           (if mu4e-compose-parent-message
-            (let ((field (if (joe/mu4e-is-not-draft)
-                            (joe/mu4e-get-field :to)
-                            (joe/mu4e-get-field :from))))
+            (let ((field (if (joe-mu4e-is-not-draft)
+                            (joe-mu4e-get-field :to)
+                            (joe-mu4e-get-field :from))))
                 (if (assoc field my-mu4e-account-alist)
                     field
-                    (joe/mu4e-choose-account)))
-            (joe/mu4e-choose-account)))
+                    (joe-mu4e-choose-account)))
+            (joe-mu4e-choose-account)))
          (account-vars (cdr (assoc account my-mu4e-account-alist))))
     (if account-vars
         (mapc #'(lambda (var)
@@ -1843,7 +2279,7 @@
               account-vars)
       (error "No email account found"))))
 
-(add-hook 'mu4e-compose-pre-hook 'joe/mu4e-set-account)
+(add-hook 'mu4e-compose-pre-hook 'joe-mu4e-set-account)
 
 ;; Queuing emails
 
@@ -1868,20 +2304,11 @@
 ;; This is useful to send emails with attachments and do not block emacs
 ;; until end the transmission.
 
-(require 'smtpmail-async)
-(setq
-    send-mail-function 'async-smtpmail-send-it
-    message-send-mail-function 'async-smtpmail-send-it)
-
-;; maildirs extension
-
-;; [[https://github.com/agpchil/mu4e-maildirs-extension][Mu4e maildirs extension]] adds a maildir summary in mu4e-main-view.
-
-(require 'mu4e-maildirs-extension)
-(mu4e-maildirs-extension)
-(setq mu4e-maildirs-extension-maildir-separator "*")
-(setq mu4e-maildirs-extension-submaildir-separator "✉")
-(setq mu4e-maildirs-extension-action-text nil)
+(use-package smtpmail-async
+  :config
+  (setq
+   send-mail-function 'async-smtpmail-send-it
+   message-send-mail-function 'async-smtpmail-send-it))
 
 ;; Setup maildir & folders
 
@@ -1895,7 +2322,7 @@
     mu4e-refile-folder "/mails/Archive")   ;; saved messages
 
 ;; where store the saved attachments
-(setq mu4e-attachment-dir  "~/descargas")
+(setq mu4e-attachment-dir  "~/temporal")
 
 ;; General Options
 
@@ -1911,13 +2338,13 @@
 (setq mail-user-agent 'mu4e-user-agent)
 
 ;; decorate mu main view
-(defun joe/mu4e-main-mode-font-lock-rules ()
+(defun joe-mu4e-main-mode-font-lock-rules ()
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward "\\[\\([a-zA-Z]\\{1,2\\}\\)\\]" nil t)
       (add-text-properties (match-beginning 1) (match-end 1)
       '(face font-lock-variable-name-face)))))
-(add-hook 'mu4e-main-mode-hook 'joe/mu4e-main-mode-font-lock-rules)
+(add-hook 'mu4e-main-mode-hook 'joe-mu4e-main-mode-font-lock-rules)
 
 ;; attempt to automatically retrieve public keys when needed
 (setq mu4e-auto-retrieve-keys t)
@@ -1932,9 +2359,11 @@
 
 ;; Integrate with org-mode
 
-(require 'org-mu4e)
-(setq org-mu4e-convert-to-html t)
-(defalias 'org-mail 'org-mu4e-compose-org-mode)
+(use-package org-mu4e
+  :config
+  (progn
+    (setq org-mu4e-convert-to-html t)
+    (defalias 'org-mail 'org-mu4e-compose-org-mode)))
 
 ;; Updating the email
 
@@ -2025,13 +2454,13 @@
   '("retag mail" . mu4e-action-retag-message) t)
 
 ;;Search for messages sent by the sender of the message at point
-(defun joe/search-for-sender (msg)
+(defun joe-search-for-sender (msg)
     (mu4e-headers-search
         (concat "from:" (cdar (mu4e-message-field msg :from)))))
 
 ;; define 'x' as the shortcut
 (add-to-list 'mu4e-view-actions
-    '("xsearch for sender" . joe/search-for-sender) t)
+    '("xsearch for sender" . joe-search-for-sender) t)
 
 ;; integration with org-contacts
 (setq mu4e-org-contacts-file "~/org/contacts.org")
@@ -2044,7 +2473,7 @@
 
 ;; get a pgp key from a message
 ;; from  http://hugoduncan.org/post/snarf-pgp-keys-in-emacs-mu4e/
-(defun joe/mu4e-view-snarf-pgp-key (&optional msg)
+(defun joe-mu4e-view-snarf-pgp-key (&optional msg)
   "get the pgp key for the specified message."
   (interactive)
   (let* ((msg (or msg (mu4e-message-at-point)))
@@ -2061,7 +2490,7 @@
           (message output))))))
 
 (add-to-list 'mu4e-view-actions
-             '("get PGP keys" . joe/mu4e-view-snarf-pgp-key) t)
+             '("get PGP keys" . joe-mu4e-view-snarf-pgp-key) t)
 
 ;; Deal with HTML messages
 
@@ -2074,83 +2503,81 @@
 
 ;; [[http://www.emacswiki.org/emacs/autosmiley.el][autosmiley.el]] by Damyan Pepper
 
-(require 'smiley)
+(use-package smiley
+    :config
+    (progn
+      (defun autosmiley-overlay-p (overlay)
+        "Return whether OVERLAY is an overlay of autosmiley mode."
+        (memq (overlay-get overlay 'category)
+              '(autosmiley)))
 
-(defun autosmiley-overlay-p (overlay)
-  "Return whether OVERLAY is an overlay of autosmiley mode."
-  (memq (overlay-get overlay 'category)
-        '(autosmiley)))
+      (defun autosmiley-remove-smileys (beg end)
+        (dolist (o (overlays-in beg end))
+          (when (autosmiley-overlay-p o)
+            (delete-overlay o))))
 
-(defun autosmiley-remove-smileys (beg end)
-  (dolist (o (overlays-in beg end))
-    (when (autosmiley-overlay-p o)
-      (delete-overlay o))))
+      (defvar *autosmiley-counter* 0
+        "Each smiley needs to have a unique display string otherwise
+        adjacent smileys will be merged into a single image.  So we put
+        a counter on each one to make them unique")
 
-(defvar *autosmiley-counter* 0
-  "Each smiley needs to have a unique display string otherwise
-  adjacent smileys will be merged into a single image.  So we put
-  a counter on each one to make them unique")
+      (defun autosmiley-add-smiley (beg end image)
+        (let ((overlay (make-overlay beg end)))
+          (overlay-put overlay 'category 'autosmiley)
+          (overlay-put overlay 'display (append image (list :counter (incf *autosmiley-counter*))))))
 
-(defun autosmiley-add-smiley (beg end image)
-  (let ((overlay (make-overlay beg end)))
-    (overlay-put overlay 'category 'autosmiley)
-    (overlay-put overlay 'display (append image (list :counter (incf *autosmiley-counter*))))))
+      (defun autosmiley-add-smileys (beg end)
+        (save-excursion
+          (dolist (entry smiley-cached-regexp-alist)
+            (let ((regexp (car entry))
+                  (group (nth 1 entry))
+                  (image (nth 2 entry)))
+              (when image
+                (goto-char beg)
+                (while (re-search-forward regexp end t)
+                  (autosmiley-add-smiley (match-beginning group) (match-end group) image)))))))
 
+      (defun autosmiley-change (beg end &optional old-len)
+        (let ((beg-line (save-excursion (goto-char beg) (line-beginning-position)))
+              (end-line (save-excursion (goto-char end) (line-end-position))))
+          (autosmiley-remove-smileys beg-line end-line)
+          (autosmiley-add-smileys beg-line end-line)))
 
-(defun autosmiley-add-smileys (beg end)
-  (save-excursion
-    (dolist (entry smiley-cached-regexp-alist)
-      (let ((regexp (car entry))
-            (group (nth 1 entry))
-            (image (nth 2 entry)))
-        (when image
-          (goto-char beg)
-          (while (re-search-forward regexp end t)
-            (autosmiley-add-smiley (match-beginning group) (match-end group) image)))))))
+      ;;;###autoload
+      (define-minor-mode autosmiley-mode
+        "Minor mode for automatically replacing smileys in text with
+        cute little graphical smileys."
+        :group 'autosmiley :lighter " :)"
+        (save-excursion
+          (save-restriction
+            (widen)
+            (autosmiley-remove-smileys (point-min) (point-max))
+            (if autosmiley-mode
+                (progn
+                  (unless smiley-cached-regexp-alist
+                    (smiley-update-cache))
+                  (jit-lock-register 'autosmiley-change))
+              (jit-lock-unregister 'autosmiley-change))))))
 
+;;**** Use gnome emoticons
 
-(defun autosmiley-change (beg end &optional old-len)
-  (let ((beg-line (save-excursion (goto-char beg) (line-beginning-position)))
-        (end-line (save-excursion (goto-char end) (line-end-position))))
-    (autosmiley-remove-smileys beg-line end-line)
-    (autosmiley-add-smileys beg-line end-line)))
+;;Seen [[https://github.com/ahilsend/dotfiles/blob/3b9756a4f544403b7013bff80245df1b37feecec/.emacs.d/rc/rc-smiley.el][here]]
 
-
-;;;###autoload
-(define-minor-mode autosmiley-mode
-  "Minor mode for automatically replacing smileys in text with
-cute little graphical smileys."
-  :group 'autosmiley :lighter " :)"
-  (save-excursion
-    (save-restriction
-      (widen)
-      (autosmiley-remove-smileys (point-min) (point-max))
-      (if autosmiley-mode
-          (progn
-            (unless smiley-cached-regexp-alist
-              (smiley-update-cache))
-            (jit-lock-register 'autosmiley-change))
-        (jit-lock-unregister 'autosmiley-change)))))
-
-;; Use gnome emoticons
-
-;; Seen [[https://github.com/ahilsend/dotfiles/blob/3b9756a4f544403b7013bff80245df1b37feecec/.emacs.d/rc/rc-smiley.el][here]]
-
-(setq
-    smiley-data-directory "/usr/share/icons/gnome/22x22/emotes/"
-    smiley-regexp-alist '(("\\(:-?)\\)\\W" 1 "face-smile")
-                          ("\\(;-?)\\)\\W" 1 "face-wink")
-                          ("\\(:-|\\)\\W" 1 "face-plain")
-                          ("\\(:-?/\\)[^/]\\W" 1 "face-uncertain")
-                          ("\\(;-?/\\)\\W" 1 "face-smirk")
-                          ("\\(:-?(\\)\\W" 1 "face-sad")
-                          ("\\(:,-?(\\)\\W" 1 "face-crying")
-                          ("\\(:-?D\\)\\W" 1 "face-laugh")
-                          ("\\(:-?P\\)\\W" 1 "face-raspberry")
-                          ("\\(8-)\\)\\W" 1 "face-cool")
-                          ("\\(:-?\\$\\)\\W" 1 "face-embarrassed")
-                          ("\\(:-?O\\)\\W" 1 "face-surprise")))
-(add-to-list 'gnus-smiley-file-types "png")
+  (setq
+      smiley-data-directory "/usr/share/icons/gnome/22x22/emotes/"
+      smiley-regexp-alist '(("\\(:-?)\\)\\W" 1 "face-smile")
+                            ("\\(;-?)\\)\\W" 1 "face-wink")
+                            ("\\(:-|\\)\\W" 1 "face-plain")
+                            ("\\(:-?/\\)[^/]\\W" 1 "face-uncertain")
+                            ("\\(;-?/\\)\\W" 1 "face-smirk")
+                            ("\\(:-?(\\)\\W" 1 "face-sad")
+                            ("\\(:,-?(\\)\\W" 1 "face-crying")
+                            ("\\(:-?D\\)\\W" 1 "face-laugh")
+                            ("\\(:-?P\\)\\W" 1 "face-raspberry")
+                            ("\\(8-)\\)\\W" 1 "face-cool")
+                            ("\\(:-?\\$\\)\\W" 1 "face-embarrassed")
+                            ("\\(:-?O\\)\\W" 1 "face-surprise")))
+  (add-to-list 'gnus-smiley-file-types "png"))
 
 ;; View emoticons in mu4e
 
@@ -2206,22 +2633,24 @@ cute little graphical smileys."
 ;; |-------------+-------------------+------------------------------|
 ;; | C-c RET C-a | gnus-dired-attach | Attach a file to a new email |
 
-(require 'gnus-dired)
-;; make the `gnus-dired-mail-buffers' function also work on
-;; message-mode derived modes, such as mu4e-compose-mode
-(defun gnus-dired-mail-buffers ()
-  "Return a list of active message buffers."
-  (let (buffers)
-    (save-current-buffer
-      (dolist (buffer (buffer-list t))
-        (set-buffer buffer)
-        (when (and (derived-mode-p 'message-mode)
-                   (null message-sent-message-via))
-          (push (buffer-name buffer) buffers))))
-    (nreverse buffers)))
+(use-package gnus-dired
+  :config
+  (progn
+    ;; make the `gnus-dired-mail-buffers' function also work on
+    ;; message-mode derived modes, such as mu4e-compose-mode
+    (defun gnus-dired-mail-buffers ()
+      "Return a list of active message buffers."
+      (let (buffers)
+        (save-current-buffer
+          (dolist (buffer (buffer-list t))
+            (set-buffer buffer)
+            (when (and (derived-mode-p 'message-mode)
+                     (null message-sent-message-via))
+              (push (buffer-name buffer) buffers))))
+        (nreverse buffers)))
 
-(setq gnus-dired-mail-mode 'mu4e-user-agent)
-(add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
+    (setq gnus-dired-mail-mode 'mu4e-user-agent)
+    (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)))
 
 ;; Encrypt/Decrypt
 
@@ -2246,7 +2675,7 @@ cute little graphical smileys."
 ;; simple regexp used to check the message. Tweak to your own need.
 (defvar joe-message-attachment-regexp "\\(adjunto\\|attach\\)")
 ;; the function that checks the message
-(defun joe/message-check-attachment nil
+(defun joe-message-check-attachment nil
   "Check if there is an attachment in the message if I claim it."
   (save-excursion
     (message-goto-body)
@@ -2257,217 +2686,768 @@ cute little graphical smileys."
    "No attachment. Send the message ?" nil nil))
   (error "No message sent")))))
   ;; check is done just before sending the message
-  (add-hook 'message-send-hook 'joe/message-check-attachment)
+  (add-hook 'message-send-hook 'joe-message-check-attachment)
 
 ;; Open a mu4e search in a new frame
 
 ;; This is useful when you are composing a new email and need to do a
 ;; search in your emails to get a little context in the conversation.
 
-(defun joe/mu4e-headers-search-in-new-frame
+(defun joe-mu4e-headers-search-in-new-frame
     (&optional expr prompt edit ignore-history)
         "Execute `mu4e-headers-search' in a new frame."
         (interactive)
         (select-frame (make-frame))
         (mu4e-headers-search expr prompt edit ignore-history))
 
-;; Elfeed
+;; mu4e-maildirs-extension
 
-;; [[https://github.com/skeeto/elfeed][Elfeed]] is an extensible web feed reader for Emacs, supporting both
-;; Atom and RSS
+;; [[https://github.com/agpchil/mu4e-maildirs-extension][Mu4e maildirs extension]] adds a maildir summary in mu4e-main-view.
 
-;; *Search mode*
+(use-package mu4e-maildirs-extension
+  :ensure t
+  :defer 0.8
+  :config
+  (progn
+    (mu4e-maildirs-extension)
+    (setq mu4e-maildirs-extension-maildir-separator    "*"
+          mu4e-maildirs-extension-submaildir-separator "✉"
+          mu4e-maildirs-extension-action-text          nil)))
 
-;; [[file:img/elfeed.png]]
+;; multi-term
 
-;; | Binding | Call                           | Do                                          |
-;; |---------+--------------------------------+---------------------------------------------|
-;; | q       | quit-window                    | exit                                        |
-;; | a       | elfeed-search-update--force    | refresh view of the feed listing            |
-;; | A       | elfeed-update                  | fetch feed updates from the servers         |
-;; | s       | elfeed-search-live-filter      | update the search filter (date & tags)      |
-;; | RET     | elfeed-search-show-entry       | view selected entry in a buffer             |
-;; | o       | elfeed-search-browse-url       | open selected entries in your browser       |
-;; | y       | elfeed-search-yank             | copy selected entries URL to the clipboard  |
-;; | r       | elfeed-search-untag-all-unread | mark selected entries as read               |
-;; | u       | elfeed-search-tag-all-unread   | mark selected entries as unread             |
-;; | +       | elfeed-search-tag-all          | add a specific tag to selected entries      |
-;; | -       | elfeed-search-untag-all        | remove a specific tag from selected entries |
-;; | E       |                                | open the feed urls file                     |
+;; [[http://www.emacswiki.org/emacs/multi-term.el][multi-term]] is for creating and managing multiple terminal buffers in Emacs.
 
-;; *Show mode*
+(use-package multi-term
+  :ensure t
+  :commands (multi-term multi-term-next)
+  :config
+  (setq multi-term-program "/bin/bash"))
 
-;; [[file:img/elfeed_show.png]]
-;; | Binding | Call                | Do                                  |
-;; |---------+---------------------+-------------------------------------|
-;; | q       | elfeed-kill-buffer  | exit the entry                      |
-;; | g       | elfeed-show-refresh | refresh the entry                   |
-;; | n       | elfeed-show-next    | go to the next entry                |
-;; | p       | elfeed-show-prev    | go to the previous entry            |
-;; | o       | elfeed-show-visit   | open the entry in your browser      |
-;; | y       | elfeed-show-yank    | copy the entry URL to the clipboard |
-;; | u       |                     | mark the entry as unread            |
-;; | +       | elfeed-show-tag     | add tag to the entry                |
-;; | -       | elfeed-show-untag   | remove tag from the entry           |
-;; | SPC     | scroll-up           | scroll up the buffer                |
-;; | S-SPC   | scroll-down         | scroll down the buffer              |
+;; TODO org-plus-contrib
 
-(require 'elfeed)
+(use-package org-plus-contrib
+  :ensure t)
 
-; Load the feeds file
-(load "~/.emacs.d/elfeed.el.gpg")
+;; org-protocol intercepts calls from emacsclient to trigger
+;; custom actions without external dependencies. Only one protocol
+;; has to be configured with your external applications or the
+;; operating system, to trigger an arbitrary number of custom
+;; actions.
+;; to use it to capture web urls and notes from Firefox, install
+;; this Firefox plugin, http://chadok.info/firefox-org-capture/
+(use-package org-protocol
+  :config
+  (progn
+  (setq org-protocol-default-template-key "w")
+  (setq org-capture-templates
+        (quote
+         (("w" "Web captures" entry (file+headline "~/org/notes.org" "Web")
+           "* %^{Title}    %^G\n\n  Source: %u, %c\n\n  %i"
+           :empty-lines 1))))))
 
-; Entries older than 2 weeks are marked as read
-(add-hook 'elfeed-new-entry-hook
-        (elfeed-make-tagger :before "2 weeks ago"
-                            :remove 'unread))
+;; the org-contacts Emacs extension allows to manage your contacts
+;; using Org-mode.
 
-(setq elfeed-db-directory "~/.emacs.d/tmp/elfeed")
-(setq elfeed-search-filter "@2-days-old +unread ")
+(use-package org-contacts
+  :config
+  (progn
+    (setq org-contacts-file (concat org-directory "/contacts.org"))
+    (setq org-contacts-matcher "EMAIL<>\"\"|ALIAS<>\"\"|PHONE<>\"\"|ADDRESS<>\"\"|BIRTHDAY")
 
-(setq elfeed-search-title-max-width 100)
+    (add-to-list 'org-capture-templates
+      '("p" "Contacts" entry (file org-contacts-file)
+         "** %(org-contacts-template-name)
+         :PROPERTIES:%(org-contacts-template-email)
+         :END:"))))
 
-;; Evil customization
+;; org-capture
+(add-to-list 'org-capture-templates
+    '("t" "TODO" entry (file+headline "~/org/tasks.org" "Tasks")
+       "* TODO %^{Task}  %^G\n   %?\n  %a"))
+(add-to-list 'org-capture-templates
+    '("n" "Notes" entry (file+headline "~/org/notes.org" "Notes")
+       "* %^{Header}  %^G\n  %u\n\n  %?"))
 
-;; Custom bindings for Elfeed.
+;; org-pomodoro
 
-; elfeed-search
-(evil-define-key 'normal elfeed-search-mode-map (kbd "q") 'quit-window)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "a") 'elfeed-search-update--force)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "A") 'elfeed-update)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "s") 'elfeed-search-live-filter)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "RET") 'elfeed-search-show-entry)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "o") 'elfeed-search-browse-url)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "y") 'elfeed-search-yank)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "r") 'elfeed-search-untag-all-unread)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "u") 'elfeed-search-tag-all-unread)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "+") 'elfeed-search-tag-all)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "-") 'elfeed-search-untag-all)
-(evil-define-key 'normal elfeed-search-mode-map (kbd "E") (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
-; elfeed-show
-(evil-define-key 'normal elfeed-show-mode-map (kbd "q") 'elfeed-kill-buffer)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "g") 'elfeed-show-refresh)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "n") 'elfeed-show-next)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "p") 'elfeed-show-prev)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "o") 'elfeed-show-visit)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "y") 'elfeed-show-yank)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "u") (elfeed-expose #'elfeed-show-tag 'unread))
-(evil-define-key 'normal elfeed-show-mode-map (kbd "+") 'elfeed-show-tag)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "-") 'elfeed-show-untag)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "SPC") 'scroll-up)
-(evil-define-key 'normal elfeed-show-mode-map (kbd "S-SPC") 'scroll-down)
+;; [[https://github.com/lolownia/org-pomodoro][org-pomodoro]] adds very basic support for Pomodoro technique in Emacs' org-mode.
 
-;; Twittering-mode
+(use-package org-pomodoro
+  :ensure t
+  :commands org-pomodoro
+  :pin melpa-stable)
 
-;; [[https://github.com/kiwanami/emacs-calfw][Twittering-mode]] enables you to twit on Emacsen.
+;; TODO ox-pandoc
+
+(use-package ox-pandoc
+  :ensure t)
+
+;; paradox
+
+;; [[https://github.com/Bruce-Connor/paradox][Paradox]] is a Project for modernizing Emacs' Package Menu. With package
+;; ratings, usage statistics, customizability, and more.
+
+(use-package paradox
+  :ensure t
+  :commands paradox-list-packages
+  :config
+  (setq paradox-github-token t
+        paradox-automatically-star nil
+        paradox-execute-asynchronously t))
+
+;; TODO password-store
+
+;; [[http://www.zx2c4.com/projects/password-store/][Password store (pass)]] support for Emacs.
+
+;; - [ ] make my own modifications
+
+(use-package password-store
+  :ensure t
+  :defer t)
+
+;; pcache
+
+;; [[https://github.com/sigma/pcache][pcache]] is a persistent caching for Emacs. Is need for other packages like =fixmee=.
+
+(use-package pcache
+  :ensure t
+  :init
+  (setq pcache-directory (concat joe-emacs-temporal-directory "pcache" )))
+
+;; pdf-tools
+
+;; [[https://github.com/politza/pdf-tools][PDF Tools]] is, among other things, a replacement of DocView for PDF files. The
+;; key difference is, that pages are not prerendered by e.g. ghostscript and stored
+;; in the file-system, but rather created on-demand and stored in memory.
+
+;; [[https://github.com/markus1189/org-pdfview][org-pdfview]] add support for org links from pdfview buffers like docview.
+
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install)
+  (setq-default pdf-view-display-size 'fit-page)
+  (bind-keys :map pdf-view-mode-map
+      ("\\" . hydra-pdftools/body)
+      ("<s-spc>" .  pdf-view-scroll-down-or-next-page)
+      ("g"  . pdf-view-first-page)
+      ("G"  . pdf-view-last-page)
+      ("l"  . image-forward-hscroll)
+      ("h"  . image-backward-hscroll)
+      ("j"  . pdf-view-next-line-or-next-page)
+      ("k"  . pdf-view-previous-line-or-previous-page)
+      ("e"  . pdf-view-goto-page)
+      ("u"  . pdf-view-revert-buffer)
+      ("al" . pdf-annot-list-annotations)
+      ("ad" . pdf-annot-delete)
+      ("aa" . pdf-annot-attachment-dired)
+      ("am" . pdf-annot-add-markup-annotation)
+      ("at" . pdf-annot-add-text-annotation)
+      ("y"  . pdf-view-kill-ring-save)
+      ("i"  . pdf-misc-display-metadata)
+      ("s"  . pdf-occur)
+      ("b"  . pdf-view-set-slice-from-bounding-box)
+      ("r"  . pdf-view-reset-slice))
+
+  (when (package-installed-p 'hydra)
+    (bind-keys :map pdf-view-mode-map
+               ("\\" . hydra-pdftools/body))
+    (defhydra hydra-pdftools (:color blue :hint nil)
+        "
+                                                                      ╭───────────┐
+       Move  History   Scale/Fit     Annotations  Search/Link    Do   │ PDF Tools │
+   ╭──────────────────────────────────────────────────────────────────┴───────────╯
+         ^^_g_^^      _B_    ^↧^    _+_    ^ ^     [_al_] list    [_s_] search    [_u_] revert buffer
+         ^^^↑^^^      ^↑^    _H_    ^↑^  ↦ _W_ ↤   [_am_] markup  [_o_] outline   [_i_] info
+         ^^_p_^^      ^ ^    ^↥^    _0_    ^ ^     [_at_] text    [_F_] link      [_d_] dark mode
+         ^^^↑^^^      ^↓^  ╭─^─^─┐  ^↓^  ╭─^ ^─┐   [_ad_] delete  [_f_] search link
+    _h_ ←pag_e_→ _l_  _N_  │ _P_ │  _-_    _b_     [_aa_] dired
+         ^^^↓^^^      ^ ^  ╰─^─^─╯  ^ ^  ╰─^ ^─╯   [_y_]  yank
+         ^^_n_^^      ^ ^  _r_eset slice box
+         ^^^↓^^^
+         ^^_G_^^
+   --------------------------------------------------------------------------------
+        "
+        ("\\" hydra-master/body "back")
+        ("<ESC>" nil "quit")
+        ("al" pdf-annot-list-annotations)
+        ("ad" pdf-annot-delete)
+        ("aa" pdf-annot-attachment-dired)
+        ("am" pdf-annot-add-markup-annotation)
+        ("at" pdf-annot-add-text-annotation)
+        ("y"  pdf-view-kill-ring-save)
+        ("+" pdf-view-enlarge :color red)
+        ("-" pdf-view-shrink :color red)
+        ("0" pdf-view-scale-reset)
+        ("H" pdf-view-fit-height-to-window)
+        ("W" pdf-view-fit-width-to-window)
+        ("P" pdf-view-fit-page-to-window)
+        ("n" pdf-view-next-page-command :color red)
+        ("p" pdf-view-previous-page-command :color red)
+        ("d" pdf-view-dark-minor-mode)
+        ("b" pdf-view-set-slice-from-bounding-box)
+        ("r" pdf-view-reset-slice)
+        ("g" pdf-view-first-page)
+        ("G" pdf-view-last-page)
+        ("e" pdf-view-goto-page)
+        ("o" pdf-outline)
+        ("s" pdf-occur)
+        ("i" pdf-misc-display-metadata)
+        ("u" pdf-view-revert-buffer)
+        ("F" pdf-links-action-perfom)
+        ("f" pdf-links-isearch-link)
+        ("B" pdf-history-backward :color red)
+        ("N" pdf-history-forward :color red)
+        ("l" image-forward-hscroll :color red)
+        ("h" image-backward-hscroll :color red)))
+
+   (use-package org-pdfview
+     :ensure t))
+
+;; popwin
+
+;; [[https://github.com/m2ym/popwin-el][Popwin]] is a popup window manager for Emacs which makes you free from
+;; the hell of annoying buffers such like *Help*, *Completions*,
+;; *compilation*, and etc.
+
+(use-package popwin
+  :ensure t
+  :config
+  (popwin-mode 1)
+  (setq popwin:popup-window-height 35
+        popwin:special-display-config
+        '(("*Miniedit Help*" :noselect t)
+          (help-mode)
+          (completion-list-mode :noselect t)
+          (compilation-mode :noselect t)
+          (grep-mode :noselect t)
+          (occur-mode :noselect t)
+          ("*Pp Macroexpand Output*" :noselect t)
+          ("*Shell Command Output*")
+          ("*Async Shell Command*")
+          ("*vc-diff*")
+          ("*vc-change-log*")
+          (" *undo-tree*" :width 60 :position right)
+          ("^\\*anything.*\\*$" :regexp t)
+          ("*slime-apropos*")
+          ("*slime-macroexpansion*")
+          ("*slime-description*")
+          ("*slime-compilation*" :noselect t)
+          ("*slime-xref*")
+          ("*Flycheck errors*")
+          ("*Warnings*")
+          ("*Process List*")
+          ("*Smex: Unbound Commands*")
+          ("*Paradox Report*" :noselect nil)
+          ("*Diff*" :noselect nil)
+          ("*Messages*" :noselect nil)
+          ("*Google Maps*" :noselect nil)
+          ("*ag search*" :noselect nil)
+          ("*PDF-Occur*" :noselect nil)
+          ("*PDF-Metadata*" :noselect nil)
+          ("^\\*Outline .*\\.pdf\\*$" :regexp t :noselect nil)
+          ("*MULTI-TERM-DEDICATED*" :noselect nil :stick t)
+          (sldb-mode :stick t)
+          (slime-repl-mode)
+          (slime-connection-list-mode)))
+
+  (add-hook 'popwin:after-popup-hook 'turn-off-evil-mode)
+  (bind-keys :map popwin:window-map
+             ((kbd "<escape>") . popwin:close-popup-window)))
+
+;; pretty-mode
+
+;; [[https://github.com/akatov/pretty-mode][pretty-mode]] use mathematical *Unicode* /symbols/ instead of expressions or
+;; keywords in some programming languages
+
+(use-package pretty-mode
+  :ensure t
+  :defer t
+  :config
+  (add-hook 'prog-mode-hook 'turn-on-pretty-mode))
+
+;; projectile
+
+;; [[https://github.com/bbatsov/projectile][Projectile]] is a project interaction library for Emacs. Its goal is to
+;; provide a nice set of features operating on a project level without
+;; introducing external dependencies(when feasible). For instance -
+;; finding project files has a portable implementation written in pure
+;; Emacs Lisp without the use of GNU find (but for performance sake an
+;; indexing mechanism backed by external commands exists as well).
+
+(use-package projectile
+  :ensure projectile
+  :diminish projectile-mode
+  :config
+  (progn
+    (setq projectile-cache-file (concat joe-emacs-temporal-directory "projectile.cache"))
+    (setq projectile-known-projects-file (concat joe-emacs-temporal-directory "projectile-bookmarks.eld"))
+    (setq projectile-enable-caching t)
+    (projectile-global-mode)))
+
+;; TODO quickrun
+
+;; [[https://github.com/syohex/emacs-quickrun][quickrun.el]] is a extension to execute editing buffer. quickrun.el is similar to
+;; executable-interpret, but quickrun.el provides more convenient
+;; commands. quickrun.el execute not only script languages(Perl, Ruby, Python etc),
+;; but also compiling languages(C, C++, Go, Java etc) and markup language.
+
+(use-package quickrun
+   :ensure t
+   :defer t)
+
+;; TODO racket-mode
+
+;; Racket settings.
+
+(use-package racket-mode
+  :ensure t
+  :defer t
+  :config
+  (setq racket-mode-pretty-lambda t))
+
+;; restclient
+
+;; [[file:img/restclient.png]]
+
+;; [[https://github.com/pashky/restclient.el][restclient]] is a tool to manually explore and test HTTP REST webservices. Runs
+;; queries from a plain-text query sheet, displays results as a pretty-printed XML,
+;; JSON and even images.
+
+(use-package restclient
+  :ensure t
+  :defer t)
+
+;; smart-mode-line
+
+;; This package shows a very nice and very informative mode line.
+
+(use-package smart-mode-line
+  :ensure t
+  :defer 0.2
+  :config
+  (progn
+    ;; (defvar sml-dark-theme
+    ;;   (substring
+    ;;    (shell-command-to-string
+    ;;     "sha256sum ~/.emacs.d/elpa/smart-mode-line-*/smart-mode-line-dark-theme.el | cut -d ' ' -f 1")
+    ;;    0 -1))
+
+    ;; (add-to-list 'custom-safe-themes sml-dark-theme)
+    (setq sml/no-confirm-load-theme t
+          sml/theme 'dark
+          sml/mode-width 'full
+          sml/name-width 30
+          sml/shorten-modes t)
+    (sml/setup)))
+
+;; smartparens
+
+;; [[https://github.com/Fuco1/smartparens][smartparens]] is a minor mode for Emacs that deals with parens pairs and tries to
+;; be smart about it.
+
+(use-package smartparens
+  :ensure t
+  :diminish smartparens-mode
+  :config
+  (smartparens-global-mode))
+
+;; smex
+
+;; [[https://github.com/nonsequitur/smex][Smex]] is a M-x enhancement for Emacs. Built on top of IDO, it provides
+;; a convenient interface to your recently and most frequently used
+;; commands. And to all the other commands, too.
+
+;; | Binding | Call                     | Do                                                           |
+;; |---------+--------------------------+--------------------------------------------------------------|
+;; | M-x     | smex                     | Calls a interactive command using smex                       |
+;; | M-X     | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
+
+(use-package smex
+  :ensure t
+  :init
+  (bind-key "<menu>" 'smex)
+  :config
+  (setq smex-save-file (concat joe-emacs-temporal-directory "smex-items")))
+
+;; Useful bindings & Delayed Initation
+
+;; #+BEGIN_QUOTE
+;; I install smex with the following code to make emacs startup a little
+;; faster.  This delays initializing smex until it's needed. IMO, smex
+;; should load without this hack.
+
+;; Just have smex call =smex-initialize= when it's needed instead of
+;; having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsWiki]]
+;; #+END_QUOTE
+
+(global-set-key [(meta x)] (lambda ()
+                             (interactive)
+                             (or (boundp 'smex-cache)
+                                (smex-initialize))
+                             (global-set-key [(meta x)] 'smex)
+                             (smex)))
+
+(global-set-key [(shift meta x)] (lambda ()
+                                   (interactive)
+                                   (or (boundp 'smex-cache)
+                                      (smex-initialize))
+                                   (global-set-key [(shift meta x)] 'smex-major-mode-commands)
+                                   (smex-major-mode-commands)))
+
+;; TODO sml-mode
+
+;; [[http://www.smlnj.org/doc/Emacs/sml-mode.html][SML mode]] is a major mode for Emacs for editing Standard ML.
+;; It provides syntax highlighting and automatic indentation and
+;; comes with sml-proc which allows interaction with an inferior SML
+;; interactive lo
+
+(use-package sml-mode
+  :ensure t
+  :defer t)
+
+;; speed-type
+
+;; [[file:img/speed-type.png]]
+
+;; [[https://github.com/hagleitn/speed-type][speed-type]] is for practice touch/speed typing in Emacs.
+
+(use-package speed-type
+  :ensure t
+  :defer t)
+
+;; sublime-themes
+
+;; [[https://github.com/owainlewis/emacs-color-themes][sublime-themes]] is a collection of color themes for Emacs24 +
+
+;; The themes are named after important/influential programmers.
+
+(use-package sublime-themes
+  :ensure t
+  :defer t)
+
+;; sx
+
+;; [[file:img/sx.png]]
+
+;; [[https://github.com/vermiculus/sx.el][sx]] is Stack Exchange for Emacs.
+
+(use-package sx
+  :ensure t
+  :defer t
+  :config
+  (setq sx-cache-directory (concat joe-emacs-temporal-directory "sx")))
+
+;; twittering-mode
+
+;; [[https://github.com/hayamiz/twittering-mode][Twittering-mode]] enables you to twit on Emacsen.
 
 ;; [[file:img/twittering_mode.png]]
 
-;; | Binding   | Call                                           | Do                                    |
-;; |-----------+------------------------------------------------+---------------------------------------|
-;; | q         | twittering-kill-buffer                         | Kill buffer                           |
-;; | Q         | twittering-edit-mode                           | Edit mode                             |
-;; | j         | twittering-goto-next-status                    | Next Twitter                          |
-;; | k         | twittering-goto-previous-status                | Previous Twitter                      |
-;; | h         | twittering-switch-to-next-timeline             | Next Timeline                         |
-;; | l         | twittering-switch-to-previous-timeline         | Previous Timeline                     |
-;; | g         | beginning-of-buffer                            | Top of the Timeline                   |
-;; | G         | end-of-buffer                                  | Bottom of the Timeline                |
-;; | t         | twittering-update-status-interactive           | Post a tweet                          |
-;; | X         | twittering-delete-status                       | Delete a own tweet                    |
-;; | RET       | twittering-reply-to-user                       | Reply to user                         |
-;; | r         | twittering-native-retweet                      | Retweet                               |
-;; | R         | twittering-organic-retweet                     | Retweet & Edit                        |
-;; | k         | twittering-direct-message                      | Direct Message                        |
-;; | u         | twittering-current-timeline                    | Update Timeline                       |
-;; | b         | twittering-favorite                            | Mark as Favorite                      |
-;; | B         | twittering-unfavorite                          | Unmark as Favorite                    |
-;; | f         | twittering-follow                              | Follow current user                   |
-;; | F         | twittering-unfollow                            | Unfollow current user                 |
-;; | i         | twittering-view-user-page                      | View user profile (Browser)           |
-;; | /         | twittering-search                              | Search                                |
-;; | .         | twittering-visit-timeline                      | Open a new Timeline                   |
-;; | @         | twittering-other-user-timeline                 | Open the Timeline of the current user |
-;; | T         | twittering-toggle-or-retrieve-replied-statuses | Show Thread                           |
-;; | o         | twittering-click                               | Open item in a Browser                |
-;; | TAB       | twittering-goto-next-thing                     | Go to next item                       |
-;; | <backtab> | twittering-goto-previous-thing                 | Go to previous item                   |
-;; | n         | twittering-goto-next-status-of-user            | Go to next current user's tweet       |
-;; | p         | twittering-goto-previous-status-of-user        | Go to previous current user's tweet   |
-;; | SPC       | twittering-scroll-up                           | Timeline scroll up                    |
-;; | S-SPC     | twittering-scroll-down                         | Timeline scroll down                  |
-;; | y         | twittering-push-uri-onto-kill-ring             | Yank current url                      |
-;; | Y         | twittering-push-tweet-onto-kill-ring           | Yank current tweet                    |
-;; | a         | twittering-toggle-activate-buffer              | Toggle Active Timeline                |
+(use-package twittering-mode
+  :ensure t
+  :commands twit
+  :init
+  (add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode)))
+  :config
+  (setq twittering-use-master-password t
+        twittering-icon-mode t
+        twittering-use-icon-storage t
+        twittering-icon-storage-file (concat joe-emacs-temporal-directory "twittering-mode-icons.gz")
+        twittering-convert-fix-size 52
+        twittering-initial-timeline-spec-string '(":home")
+        twittering-edit-skeleton 'inherit-any
+        twittering-display-remaining t
+        twittering-timeline-header  "─────────────────────────────────────────────────────────────────────────────\n"
+        twittering-timeline-footer  "-----------------------------------------------------------------------------\n"
+        twittering-status-format
+        "%i  %S, %RT{%FACE[bold]{%S}} %@  %FACE[shadow]{%p%f%L%r}\n%FOLD[        ]{%T}\n")
 
-(setq twittering-use-master-password t)
-(setq twittering-icon-mode t)
-(setq twittering-use-icon-storage t)
-(setq twittering-icon-storage-file "~/.emacs.d/tmp/twittering-mode-icons.gz")
-(setq twittering-convert-fix-size 52)
-(setq twittering-initial-timeline-spec-string
-      '(":home"))
-(setq twittering-edit-skeleton 'inherit-any)
-(setq twittering-display-remaining t)
-(setq twittering-status-format
-    "%i  %S, %RT{%FACE[bold]{%S}} %@  %FACE[shadow]{%p%f%L%r}\n%FOLD[        ]{%T}\n")
+    ;; set the new bindings
+    (bind-keys :map twittering-mode-map
+               ("q" . twittering-kill-buffer)
+               ("Q" . twittering-edit-mode)
+               ("j" . twittering-goto-next-status)
+               ("k" . twittering-goto-previous-status)
+               ("h" . twittering-switch-to-next-timeline)
+               ("l" . twittering-switch-to-previous-timeline)
+               ("g" . beginning-of-buffer)
+               ("G" . end-of-buffer)
+               ("t" . twittering-update-status-interactive)
+               ("X" . twittering-delete-status)
+               ("RET" . twittering-reply-to-user)
+               ("r" . twittering-native-retweet)
+               ("R" . twittering-organic-retweet)
+               ("d" . twittering-direct-message)
+               ("u" . twittering-current-timeline)
+               ("b" . twittering-favorite)
+               ("B" . twittering-unfavorite)
+               ("f" . twittering-follow)
+               ("F" . twittering-unfollow)
+               ("i" . twittering-view-user-page)
+               ("/" . twittering-search)
+               ("." . twittering-visit-timeline)
+               ("@" . twittering-other-user-timeline)
+               ("T" . twittering-toggle-or-retrieve-replied-statuses)
+               ("o" . twittering-click)
+               ("TAB" . twittering-goto-next-thing)
+               ("<backtab>" . twittering-goto-previous-thing)
+               ("n" . twittering-goto-next-status-of-user)
+               ("p" . twittering-goto-previous-status-of-user)
+               ("SPC" . twittering-scroll-up)
+               ("S-SPC" . twittering-scroll-down)
+               ("y" . twittering-push-uri-onto-kill-ring)
+               ("Y" . twittering-push-tweet-onto-kill-ring)
+               ("a" . twittering-toggle-activate-buffer))
+    (when (package-installed-p 'hydra)
+      (bind-keys :map twittering-mode-map
+               ("\\" . hydra-twittering/body))
+      (defhydra hydra-twittering (:color blue :hint nil)
+        "
+                                                                    ╭────────────┐
+     tweets                user                        timeline     │ twittering │
+  ╭─────────────────────────────────────────────────────────────────┴────────────╯
+    _k_  [_t_] post tweet      _p_  [_f_] follow                  ^_g_^      [_u_] update
+    ^↑^  [_X_] delete tweet    ^↑^  [_F_] unfollow              ^_S-SPC_^    [_._] new
+    ^ ^  [_r_] retweet         ^ ^  [_d_] direct message          ^^↑^^      [^@^] current user
+    ^↓^  [_R_] retweet & edit  ^↓^  [_i_] profile (browser)   _h_ ←   → _l_  [_a_] toggle
+    _j_  [_b_] favorite        _n_   ^ ^                          ^^↓^^
+    ^ ^  [_B_] unfavorite      ^ ^   ^ ^                         ^_SPC_^
+    ^ ^  [_RET_] reply         ^ ^   ^ ^                          ^_G_^
+    ^ ^  [_t_] show thread
+    ^ ^  [_y_] yank url          items                     do
+    ^ ^  [_Y_] yank tweet     ╭───────────────────────────────────────────────────────
+    ^ ^  [_e_] edit mode        _<backtab>_ ← _o_pen → _<tab>_    [_q_] exit
+    ^ ^   ^ ^                   ^         ^   ^ ^      ^     ^    [_/_] search
+  --------------------------------------------------------------------------------
+        "
+       ("\\" hydra-master/body "back")
+       ("<ESC>" nil "quit")
+       ("q"          twittering-kill-buffer)
+       ("e"          twittering-edit-mode)
+       ("j"          twittering-goto-next-status :color red)
+       ("k"          twittering-goto-previous-status :color red)
+       ("h"          twittering-switch-to-next-timeline :color red)
+       ("l"          twittering-switch-to-previous-timeline :color red)
+       ("g"          beginning-of-buffer)
+       ("G"          end-of-buffer)
+       ("t"          twittering-update-status-interactive)
+       ("X"          twittering-delete-status)
+       ("RET"        twittering-reply-to-user)
+       ("r"          twittering-native-retweet)
+       ("R"          twittering-organic-retweet)
+       ("d"          twittering-direct-message)
+       ("u"          twittering-current-timeline)
+       ("B"          twittering-favorite)
+       ("b"          twittering-unfavorite)
+       ("f"          twittering-follow)
+       ("F"          twittering-unfollow)
+       ("i"          twittering-view-user-page)
+       ("/"          twittering-search)
+       ("."          twittering-visit-timeline)
+       ("@"          twittering-other-user-timeline)
+       ("T"          twittering-toggle-or-retrieve-replied-statuses)
+       ("o"          twittering-click)
+       ("<tab>"      twittering-goto-next-thing :color red)
+       ("<backtab>"  twittering-goto-previous-thing :color red)
+       ("n"          twittering-goto-next-status-of-user :color red)
+       ("p"          twittering-goto-previous-status-of-user :color red)
+       ("SPC"        twittering-scroll-up :color red)
+       ("S-SPC"      twittering-scroll-down :color red)
+       ("y"          twittering-push-uri-onto-kill-ring)
+       ("Y"          twittering-push-tweet-onto-kill-ring)
+       ("a"          twittering-toggle-activate-buffer))))
 
-;; Define my own bindings (based in [[https://github.com/alejandrogomez/turses][Turses]] style)
+;; ujelly-theme
 
-; remove the current bindings
-(eval-after-load "twittering-mode"
-    '(setq twittering-mode-map (make-sparse-keymap)))
-; set the new bindings
-(add-hook 'twittering-mode-hook
-         (lambda ()
-           (mapc (lambda (pair)
-                   (let ((key (car pair))
-                         (func (cdr pair)))
-                     (define-key twittering-mode-map
-                       (read-kbd-macro key) func)))
-                 '(
-                   ("q" . twittering-kill-buffer)
-                   ("Q" . twittering-edit-mode)
-                   ("j" . twittering-goto-next-status)
-                   ("k" . twittering-goto-previous-status)
-                   ("h" . twittering-switch-to-next-timeline)
-                   ("l" . twittering-switch-to-previous-timeline)
-                   ("g" . beginning-of-buffer)
-                   ("G" . end-of-buffer)
-                   ("t" . twittering-update-status-interactive)
-                   ("X" . twittering-delete-status)
-                   ("RET" . twittering-reply-to-user)
-                   ("r" . twittering-native-retweet)
-                   ("R" . twittering-organic-retweet)
-                   ("d" . twittering-direct-message)
-                   ("u" . twittering-current-timeline)
-                   ("b" . twittering-favorite)
-                   ("B" . twittering-unfavorite)
-                   ("f" . twittering-follow)
-                   ("F" . twittering-unfollow)
-                   ("i" . twittering-view-user-page)
-                   ("/" . twittering-search)
-                   ("." . twittering-visit-timeline)
-                   ("@" . twittering-other-user-timeline)
-                   ("T" . twittering-toggle-or-retrieve-replied-statuses)
-                   ("o" . twittering-click)
-                   ("TAB" . twittering-goto-next-thing)
-                   ("<backtab>" . twittering-goto-previous-thing)
-                   ("n" . twittering-goto-next-status-of-user)
-                   ("p" . twittering-goto-previous-status-of-user)
-                   ("SPC" . twittering-scroll-up)
-                   ("S-SPC" . twittering-scroll-down)
-                   ("y" . twittering-push-uri-onto-kill-ring)
-                   ("Y" . twittering-push-tweet-onto-kill-ring)
-                   ("a" . twittering-toggle-activate-buffer)
-                  ))))
+;; [[https://github.com/marktran/color-theme-ujelly][ujelly-theme]] is a Emacs theme inspired by the [[https://github.com/nanotech/jellybeans.vim][jellybeans]] theme for Vim.
 
-;; Spell checking on tweets
+(use-package ujelly-theme
+  :ensure t
+  :defer t)
 
-(add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode)))
+;; undo-tree
 
-;; Dired+
+;; [[http://www.dr-qubit.org/emacs.php#undo-tree][undo-tree]] is a version of the same Vim's feature for Emacs
 
-;; Reuse the same buffer for directories
+;; Emacs's undo system allows you to recover any past state of a buffer
+;; (the standard undo/redo system loses any "redoable" states whenever
+;; you make an edit). However, Emacs's solution, to treat "undo" itself
+;; as just another editing action that can be undone, can be confusing
+;; and difficult to use.
 
-(diredp-toggle-find-file-reuse-dir 1)
+;; Both the loss of data with standard undo/redo and the confusion of
+;; Emacs' undo stem from trying to treat undo history as a linear
+;; sequence of changes. =undo-tree-mode= instead treats undo history as
+;; what it is: a branching tree of changes (the same system that Vim has
+;; had for some time now). This makes it substantially easier to undo and
+;; redo any change, while preserving the entire history of past states.
+
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :init
+  (progn
+    (global-undo-tree-mode)
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/tmp/undo"))
+          undo-tree-visualizer-timestamps t
+          undo-tree-visualizer-diff t)))
+
+;; TODO yasnippet
+
+;; [[https://github.com/capitaomorte/yasnippet][YASnippet]] is a template system for Emacs. It allows you to type an
+;; abbreviation and automatically expand it into function templates.
+
+(use-package yasnippet
+  :ensure t
+  :defer 5
+  :diminish yas-minor-mode
+  :config
+  (yas-global-mode))
+
+;; Disable it in ansi-term
+
+(add-hook 'after-change-major-mode-hook
+          (lambda ()
+            (when (find major-mode
+                        '(term-mode ansi-term))
+              (yas-minor-mode 0))))
+
+;; zeal-at-point
+
+;; [[file:img/zeal.png]]
+
+;; [[https://github.com/jinzhu/zeal-at-point][zeal-at-point]] search the word at point with Zeal. [[http://zealdocs.org/][Zeal]] is a simple offline API
+;; documentation browser inspired by Dash (OS X app), available for Linux and
+;; Windows.
+
+(use-package zeal-at-point
+  :ensure t
+  :commands (zeal-at-point zeal-at-point-set-docset)
+  :config
+  (setq zeal-at-point-mode-alist
+        '((actionscript-mode . "actionscript")
+          (arduino-mode . "arduino")
+          (c++-mode . "c++")
+          (c-mode . "c")
+          (clojure-mode . "clojure")
+          (coffee-mode . "coffee")
+          (common-lisp-mode . "lisp")
+          (cperl-mode . "perl")
+          (css-mode . "css")
+          (elixir-mode . "elixir")
+          (emacs-lisp-mode . "emacs")
+          (enh-ruby-mode . "ruby")
+          (erlang-mode . "erlang")
+          (gfm-mode . "markdown")
+          (go-mode . "go")
+          (groovy-mode . "groovy")
+          (haskell-mode . "haskell")
+          (html-mode . "html")
+          (java-mode . "java")
+          (js2-mode . "javascript")
+          (js3-mode . "nodejs")
+          (less-css-mode . "less")
+          (lua-mode . "lua")
+          (markdown-mode . "markdown")
+          (objc-mode . "iphoneos")
+          (perl-mode . "perl")
+          (php-mode . "php")
+          (processing-mode . "processing")
+          (puppet-mode . "puppet")
+          (python-mode . "python 2")
+          (ruby-mode . "ruby")
+          (sass-mode . "sass")
+          (scala-mode . "scala")
+          (tcl-mode . "tcl")
+          (vim-mode . "vim"))))
+
+;; TODO dired+
+
+;; [[http://www.emacswiki.org/DiredPlus][Dired+]] extends functionalities provided by standard GNU Emacs libraries
+;; =dired.el=, =dired-aux.el= and =dired-x.el=. The standard functions are all
+;; available, plus many more.
+
+(use-package dired+
+  :ensure t
+  :defer t
+  :config
+  ;; reuse the same buffer for directories
+  (diredp-toggle-find-file-reuse-dir 1))
+
+;; emmet-mode
+
+;; [[https://github.com/smihica/emmet-mode][emmet-mode]] is a minor mode providing support for [[http://emmet.io/][Emmet]], that produces HTML and
+;; CSS from CSS-like selectors.
+
+;; Here is an example, typing
+;;      : a#q.x>b#q.x*2
+;; produces this HTML:
+;; #+BEGIN_EXAMPLE
+;; <a id="q" class="x" href="">
+;;     <b id="q" class="x"></b>
+;;     <b id="q" class="x"></b>
+;; </a>
+;; #+END_EXAMPLE
+
+;; | Binding  | Call                   | Do                        |
+;; |----------+------------------------+---------------------------|
+;; | C-j      | emmet-expand-line      | expand the emmet snippet  |
+;; | C-return | emmet-expand-line      | expand the emmet snippet  |
+;; | C-n      | emmet-next-edit-point  | go to the next edit point |
+;; | C-p      | emmet-prev-edit-point  | go to the next edit point |
+;; | C-c w    | emmet-wrap-with-markup | Wrap region with markup   |
+;; |----------+------------------------+---------------------------|
+
+;; [[https://github.com/yasuyk/helm-emmet][helm-emmet]] provides helm sources for emmet-mode's snippets.
+
+(use-package emmet-mode
+  :ensure t
+  :config
+  (add-hook 'sgml-mode-hook 'emmet-mode)
+  (add-hook 'css-mode-hook  'emmet-mode)
+  (bind-keys :map emmet-mode-keymap
+             ("C-n" . emmet-next-edit-point)
+             ("C-p" . emmet-prev-edit-point))
+  (use-package helm-emmet
+    :ensure t
+    :requires helm
+    :commands helm-emmet))
+
+;; epresent
+
+;; [[https://github.com/eschulte/epresent][epresent]] is a simple presentation mode for Emacs Org-mode
+
+;; | Binding   | Call                        | Do                                         |
+;; |-----------+-----------------------------+--------------------------------------------|
+;; | j         | scroll-up                   | scroll up one "line" of the same "slide"   |
+;; | ↓         | scroll-up                   | scroll up one "line" of the same "slide"   |
+;; | k         | scroll-down                 | scroll down one "line" of the same "slide" |
+;; | ↑         | scroll-down                 | scroll down one "line" of the same "slide" |
+;; |-----------+-----------------------------+--------------------------------------------|
+;; | 1         | epresent-top                | top level of the presentation              |
+;; | t         | epresent-top                | top level of the presentation              |
+;; | q         | epresent-quit               | quit                                       |
+;; |-----------+-----------------------------+--------------------------------------------|
+;; | SPC       | epresent-next-page          | next "slide"                               |
+;; | n         | epresent-next-page          | next "slide"                               |
+;; | f         | epresent-next-page          | next "slide"                               |
+;; | →         | epresent-next-page          | next "slide"                               |
+;; | BACKSPACE | epresent-previous-page      | previous "slide"                           |
+;; | p         | epresent-previous-page      | previous "slide"                           |
+;; | b         | epresent-previous-page      | previous "slide"                           |
+;; | ←         | epresent-previous-page      | previous "slide"                           |
+;; |-----------+-----------------------------+--------------------------------------------|
+;; | c         | epresent-next-src-block     | move to the next code block                |
+;; | C         | epresent-previous-src-block | move to the previous code block            |
+;; | e         | org-edit-src-code           | edit the source block                      |
+;; | x         | org-babel-execute-src-block | execute the source block                   |
+;; | r         | epresent-refresh            | refresh the page to show the results       |
+;; | g         | epresent-refresh            | refresh the page to show the results       |
+;; | C-c C-c   |                             | refresh the page to show the results       |
+;; |-----------+-----------------------------+--------------------------------------------|
+
+(use-package epresent
+  :ensure t
+  :defer t)
