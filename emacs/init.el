@@ -176,16 +176,17 @@
 ;; Store all temporal files in a temporal directory instead of being
 ;; disseminated in the $HOME directory
 
-;; Tramp history
-(setq tramp-persistency-file-name (concat joe-emacs-temporal-directory "tramp"))
-;; Bookmarks file
-(setq bookmark-default-file (concat joe-emacs-temporal-directory "bookmarks"))
-;;SemanticDB files
-(setq semanticdb-default-save-directory (concat joe-emacs-temporal-directory "semanticdb"))
-;; url files
-(setq url-configuration-directory (concat joe-emacs-temporal-directory "url"))
-;; eshell files
-(setq eshell-directory-name (concat joe-emacs-temporal-directory "eshell" ))
+(setq-default
+ ;; Tramp history
+ tramp-persistency-file-name (concat joe-emacs-temporal-directory "tramp")
+ ;; Bookmarks file
+ bookmark-default-file (concat joe-emacs-temporal-directory "bookmarks")
+ ;;SemanticDB files
+ semanticdb-default-save-directory (concat joe-emacs-temporal-directory "semanticdb")
+ ;; url files
+ url-configuration-directory (concat joe-emacs-temporal-directory "url")
+ ;; eshell files
+ eshell-directory-name (concat joe-emacs-temporal-directory "eshell" ))
 
 ;; History
 
@@ -376,7 +377,7 @@
   (winner-mode t))
 
 ;; Auxiliary functions for buffers management
-   
+
 ;; Some custom functions to manage buffers.
 
 (defun joe-alternate-buffers ()
@@ -687,15 +688,68 @@
                          ))
   (real-global-auto-complete-mode t))
 
-;; TODO boxquote
+;; boxquote
 
 ;; [[https://github.com/davep/boxquote.el/blob/master/boxquote.el][boxquote.el]] provides a set of functions for using a text quoting style that
 ;; partially boxes in the left hand side of an area of text, such a marking style
 ;; might be used to show externally included text or example code.
 
+;; This is how a boxquote looks:
+;; #+BEGIN_EXAMPLE
+;; ╭────[ Lorem ipsum ]
+;; │ Nullam eu ante vel est convallis dignissim.  Fusce suscipit, wisi nec facilisis
+;; │ facilisis, est dui fermentum leo, quis tempor ligula erat quis odio.  Nunc porta
+;; │ vulputate tellus.  Nunc rutrum turpis sed pede.  Sed bibendum.  Aliquam posuere.
+;; │ Nunc aliquet, augue nec adipiscing interdum, lacus tellus malesuada massa, quis
+;; │ varius mi purus non odio.  Pellentesque condimentum, magna ut suscipit
+;; │ hendrerit, ipsum augue ornare nulla, non luctus diam neque sit amet urna.
+;; ╰────
+;; #+END_EXAMPLE
+
 (use-package boxquote
   :ensure t
-  :defer t)
+  :defer 3
+  :config
+  (setq-default  boxquote-bottom-corner "╰"      ; U+2570
+                 boxquote-side          "│ "     ; U+2572 + space
+                 boxquote-top-and-tail  "────"   ; U+2500 (×4)
+                 boxquote-top-corner    "╭")     ; U+256F
+  (when (package-installed-p 'hydra)
+    (defhydra hydra-boxquote (:color blue :hint nil)
+       "
+                                                                    ╭──────────┐
+  Text           External           Apropos         Do              │ Boxquote │
+╭───────────────────────────────────────────────────────────────────┴──────────╯
+  [_r_] region        [_f_] file      [_K_] describe-key        [_t_] title
+  [_p_] paragraph     [_b_] buffer    [_F_] describe-function   [_u_] unbox
+  [_a_] buffer        [_s_] shell     [_V_] describe-variable   [_w_] fill-paragraph
+  [_e_] text           ^ ^            [_W_] where-is            [_n_] narrow
+  [_d_] defun         [_y_] yank       ^ ^                      [_c_] narrow to content
+  [_q_] boxquote      [_Y_] yanked     ^ ^                      [_x_] kill
+--------------------------------------------------------------------------------
+       "
+      ("<esc>" nil "quit")
+      ("x" boxquote-kill)
+      ("Y" boxquote-yank)
+      ("e" boxquote-text)
+      ("u" boxquote-unbox)
+      ("d" boxquote-defun)
+      ("t" boxquote-title)
+      ("r" boxquote-region)
+      ("a" boxquote-buffer)
+      ("q" boxquote-boxquote)
+      ("W" boxquote-where-is)
+      ("p" boxquote-paragraph)
+      ("f" boxquote-insert-file)
+      ("K" boxquote-describe-key)
+      ("s" boxquote-shell-command)
+      ("b" boxquote-insert-buffer)
+      ("y" boxquote-kill-ring-save)
+      ("w" boxquote-fill-paragraph)
+      ("F" boxquote-describe-function)
+      ("V" boxquote-describe-variable)
+      ("n" boxquote-narrow-to-boxquote)
+      ("c" boxquote-narrow-to-boxquote-content))))
 
 ;; buffer-move
 
@@ -707,7 +761,7 @@
   :ensure t)
 
 ;; TODO bug-hunter
-   
+
 ;; [[https://github.com/Malabarba/elisp-bug-hunter][The Bug Hunter]] is an Emacs library that finds the source of an error or
 ;; unexpected behavior inside an elisp configuration file (typically =init.el= or
 ;; =.emacs=).
@@ -877,7 +931,7 @@
   ^ ^↑^ ^    [_S_] set    [_o_] browse     [_u_] unread    [_A_] fetch
   ^ ^ ^ ^     ^ ^         [_y_] yank url   [_+_] add       [_d_] unjam
   ^ ^↓^ ^     ^ ^         [_v_] mark       [_-_] remove    [_E_] edit feeds
-  _n_/_j_     ^ ^          ^ ^              ^ ^            [_q_] exit        
+  _n_/_j_     ^ ^          ^ ^              ^ ^            [_q_] exit
 --------------------------------------------------------------------------------
         "
         ("q"    quit-window)
@@ -907,9 +961,9 @@
 ╭─────────────────────────────────────────────────────────────────────┴────────╯
   _S-SPC_    _p_/_k_  [_g_] refresh   [_u_] unread    _S-TAB_
   ^  ↑  ^    ^ ^↑^ ^  [_o_] browse    [_+_] add       ^  ↑  ^
-  ^     ^    ^ ^ ^ ^  [_y_] yank url  [_-_] remove    ^     ^ 
+  ^     ^    ^ ^ ^ ^  [_y_] yank url  [_-_] remove    ^     ^
   ^  ↓  ^    ^ ^↓^ ^  [_q_] quit       ^ ^            ^  ↓  ^
-   _SPC_     _n_/_j_  [_s_] quit & search^^            _TAB_  
+   _SPC_     _n_/_j_  [_s_] quit & search^^            _TAB_
 --------------------------------------------------------------------------------
         "
         ("q"     elfeed-kill-buffer)
@@ -1285,10 +1339,10 @@
     Move       Zoom        Do                                      │ Google maps │
   ╭────────────────────────────────────────────────────────────────┴─────────────╯
    ^ ^   ^ _k_ ^    ^ ^   _<_/_+_/_._    [_t_] map type
-   ^ ^   ^ ^↑^ ^    ^ ^   ^ ^ ^↑^ ^ ^    [_g_] refresh  
+   ^ ^   ^ ^↑^ ^    ^ ^   ^ ^ ^↑^ ^ ^    [_g_] refresh
    _h_ ← _c_|_C_ → _l_    ^ _z_|_Z_ ^    [_y_] yank url
-   ^ ^   ^ ^↓^ ^    ^ ^   ^ ^ ^↓^ ^ ^    [_q_] quit  
-   ^ ^   ^ _j_ ^    ^ ^   _>_/_-_/_,_    
+   ^ ^   ^ ^↓^ ^    ^ ^   ^ ^ ^↓^ ^ ^    [_q_] quit
+   ^ ^   ^ _j_ ^    ^ ^   _>_/_-_/_,_
   --------------------------------------------------------------------------------
         "
         ("\\" hydra-master/body "back")
@@ -1311,7 +1365,7 @@
         ("j"       google-maps-static-move-south)
         ("h"       google-maps-static-move-west)
         ("l"       google-maps-static-move-east)))
-  
+
   (use-package org-location-google-maps))
 
 ;; google-this
@@ -1601,8 +1655,8 @@
    ^ ^                [_r_] HTTP relation       [_p_] with arg
    ^ ^                [_s_] HTTP status code    [_k_] buffer (helm)
    ^ ^                [_f_] RESTclient          [_o_] only compile
-   ^ ^                 ^ ^                      [_R_] replace             
-   ^ ^                 ^ ^                      [_e_] eval/print                 
+   ^ ^                 ^ ^                      [_R_] replace
+   ^ ^                 ^ ^                      [_e_] eval/print
 --------------------------------------------------------------------------------
       "
       ("z" zeal-at-point)
@@ -1674,7 +1728,7 @@
   ^ ^  [_l_] line numbers    [_m_] specific code block         [_n_] count words
   ^↓^  [_t_] trailing ' '    [_u_] unicode character (helm)    [_i_] lorem ipsum
   _j_  [_v_] font space      [_p_] character code              [_x_] comment box
-  ^ ^  [_c_] comment
+  ^ ^  [_c_] comment          ^ ^                              [_q_] boxquote
   ^ ^  [_b_] multibyte chars
 --------------------------------------------------------------------------------
       "
@@ -1696,6 +1750,7 @@
       ("u" helm-ucs)
       ("v" variable-pitch-mode)
       ("w" whitespace-cleanup)
+      ("q" hydra-boxquote/body)
       ("x" comment-box))
 
   (defhydra hydra-git (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
