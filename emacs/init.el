@@ -603,18 +603,6 @@
              ("k" . 2048-up)
              ("l" . 2048-right)))
 
-;; ac-emmet
-
-;; [[https://github.com/yasuyk/ac-emmet][ac-emmet]] are auto-complete sources for emmet-mode's snippets
-
-(use-package ac-emmet
-  :ensure t
-  :requires emmet
-  :defer 2
-  :config
-  (add-hook 'sgml-mode-hook 'ac-emmet-html-setup)
-  (add-hook 'css-mode-hook  'ac-emmet-css-setup))
-
 ;; ace-jump-mode
 
 ;; [[https://github.com/winterTTr/ace-jump-mode][Ace jump mode]] is a minor mode of emacs, which help you to move the cursor within
@@ -732,7 +720,7 @@
 
 ;; [[https://github.com/kiwanami/emacs-calfw][Calfw]] program displays a calendar view in the Emacs buffer.
 
-;; [[file:img/cfw_calendar.png]]
+;; [[./img/cfw_calendar.png]]
 
 (use-package calfw
   :commands cfw:open-org-calendar
@@ -763,7 +751,7 @@
   :config
   (setq charmap-text-scale-adjust 2))
 
-;; chess
+;; TODO chess
 
 ;; [[https://github.com/jwiegley/emacs-chess][Chess.el]] is an Emacs chess client and library, designed to be used for
 ;; writing chess-related programs, or for playing games of chess against
@@ -831,11 +819,11 @@
 
 ;; *Search mode*
 
-;; [[file:img/elfeed.png]]
+;; [[./img/elfeed.png]]
 
 ;; *Show mode*
 
-;; [[file:img/elfeed_show.png]]
+;; [[./img/elfeed_show.png]]
 
 (use-package elfeed
   :ensure t
@@ -1685,7 +1673,7 @@
   ^↑^  [_h_] hidden chars    [_e_] evil digraphs table         [_w_] remove trailing ' '
   ^ ^  [_l_] line numbers    [_m_] specific code block         [_n_] count words
   ^↓^  [_t_] trailing ' '    [_u_] unicode character (helm)    [_i_] lorem ipsum
-  _j_  [_v_] font space      [_p_] character code
+  _j_  [_v_] font space      [_p_] character code              [_x_] comment box
   ^ ^  [_c_] comment
   ^ ^  [_b_] multibyte chars
 --------------------------------------------------------------------------------
@@ -1707,7 +1695,8 @@
       ("t" joe-toggle-show-trailing-whitespace)
       ("u" helm-ucs)
       ("v" variable-pitch-mode)
-      ("w" whitespace-cleanup))
+      ("w" whitespace-cleanup)
+      ("x" comment-box))
 
   (defhydra hydra-git (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
@@ -2061,7 +2050,7 @@
   [_h_] hidden chars             [_i_] insert unicode character (helm)
   [_t_] trailing whitespace      [_w_] remove trailing whitespaces
   [_v_] font space               [_u_] undo tree
-   ^ ^                           [_j_] jump word
+  [_x_] comment box              [_j_] jump word
 --------------------------------------------------------------------------------
       "
       ("<escape>" nil "quit")
@@ -2076,7 +2065,8 @@
       ("t" joe-toggle-show-trailing-whitespace)
       ("u" undo-tree-visualize)
       ("v" variable-pitch-mode)
-      ("w" whitespace-cleanup)))
+      ("w" whitespace-cleanup)
+      ("x" comment-box)))
 
 ;; ibuffer-vc
 
@@ -3009,7 +2999,7 @@
 
 ;; restclient
 
-;; [[file:img/restclient.png]]
+;; [[./img/restclient.png]]
 
 ;; [[https://github.com/pashky/restclient.el][restclient]] is a tool to manually explore and test HTTP REST webservices. Runs
 ;; queries from a plain-text query sheet, displays results as a pretty-printed XML,
@@ -3109,7 +3099,7 @@
 
 ;; speed-type
 
-;; [[file:img/speed-type.png]]
+;; [[./img/speed-type.png]]
 
 ;; [[https://github.com/hagleitn/speed-type][speed-type]] is for practice touch/speed typing in Emacs.
 
@@ -3129,7 +3119,7 @@
 
 ;; sx
 
-;; [[file:img/sx.png]]
+;; [[./img/sx.png]]
 
 ;; [[https://github.com/vermiculus/sx.el][sx]] is Stack Exchange for Emacs.
 
@@ -3143,7 +3133,7 @@
 
 ;; [[https://github.com/hayamiz/twittering-mode][Twittering-mode]] enables you to twit on Emacsen.
 
-;; [[file:img/twittering_mode.png]]
+;; [[./img/twittering_mode.png]]
 
 (use-package twittering-mode
   :ensure t
@@ -3316,7 +3306,7 @@
 
 ;; zeal-at-point
 
-;; [[file:img/zeal.png]]
+;; [[./img/zeal.png]]
 
 ;; [[https://github.com/jinzhu/zeal-at-point][zeal-at-point]] search the word at point with Zeal. [[http://zealdocs.org/][Zeal]] is a simple offline API
 ;; documentation browser inspired by Dash (OS X app), available for Linux and
@@ -3402,6 +3392,8 @@
 
 ;; [[https://github.com/yasuyk/helm-emmet][helm-emmet]] provides helm sources for emmet-mode's snippets.
 
+;; [[https://github.com/yasuyk/ac-emmet][ac-emmet]] are auto-complete sources for emmet-mode's snippets
+
 (use-package emmet-mode
   :ensure t
   :config
@@ -3410,10 +3402,18 @@
   (bind-keys :map emmet-mode-keymap
              ("C-n" . emmet-next-edit-point)
              ("C-p" . emmet-prev-edit-point))
+
   (use-package helm-emmet
     :ensure t
     :requires helm
-    :commands helm-emmet))
+    :commands helm-emmet)
+
+  (use-package ac-emmet
+    :ensure t
+    :requires auto-complete
+    :config
+    (add-hook 'sgml-mode-hook 'ac-emmet-html-setup)
+    (add-hook 'css-mode-hook  'ac-emmet-css-setup)))
 
 ;; epresent
 
