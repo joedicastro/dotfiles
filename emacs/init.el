@@ -1085,6 +1085,13 @@
 ;; | ds      | delete surround                     |
 ;; | S       | for create surrounds in visual mode |
 
+;; [[https://github.com/victorhge/iedit][iedit]] allows you to edit one occurrence of some text in a buffer (possibly
+;; narrowed) or region, and simultaneously have other occurrences edited in the
+;; same way, with visual feedback as you type.
+;; [[https://github.com/magnars/expand-region.el][Expand region]] increases the selected region by semantic units. Just keep
+;; pressing the key until it selects what you want.
+;; [[https://github.com/syl20bnr/evil-iedit-state][evil-iedit-state]] slick Evil states for iedit and expand region.
+
 (use-package evil
   :ensure t
   :config
@@ -1130,7 +1137,7 @@
     (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
     ;; change cursor color depending on mode
-    (setq evil-emacs-state-cursor    '("red" box)
+    (setq evil-emacs-state-cursor    '("red" hbar)
           evil-normal-state-cursor   '("lawn green" box)
           evil-visual-state-cursor   '("orange" box)
           evil-insert-state-cursor   '("deep sky blue" bar)
@@ -1146,25 +1153,25 @@
 
     ;; defining new text objects
     ;; seen at http://stackoverflow.com/a/22418983/634816
-    (defmacro define-and-bind-text-object (key start-regex end-regex)
+    (defmacro joe-define-and-bind-text-object (key start-regex end-regex)
       (let ((inner-name (make-symbol "inner-name"))
             (outer-name (make-symbol "outer-name")))
         `(progn
-          (evil-define-text-object ,inner-name (count &optional beg end type)
-            (evil-regexp-range count beg end type ,start-regex ,end-regex t))
-          (evil-define-text-object ,outer-name (count &optional beg end type)
-            (evil-regexp-range count beg end type ,start-regex ,end-regex nil))
-          (define-key evil-inner-text-objects-map ,key (quote ,inner-name))
-          (define-key evil-outer-text-objects-map ,key (quote ,outer-name)))))
+           (evil-define-text-object ,inner-name (count &optional beg end type)
+             (evil-select-paren ,start-regex ,end-regex beg end type count nil))
+           (evil-define-text-object ,outer-name (count &optional beg end type)
+             (evil-select-paren ,start-regex ,end-regex beg end type count t))
+           (define-key evil-inner-text-objects-map ,key (quote ,inner-name))
+           (define-key evil-outer-text-objects-map ,key (quote ,outer-name)))))
 
     ;; between underscores:
-    (define-and-bind-text-object "_" "_" "_")
+    (joe-define-and-bind-text-object "_" "_" "_")
     ;; an entire line:
-    (define-and-bind-text-object "l" "^" "$")
+    (joe-define-and-bind-text-object "l" "^" "$")
     ;; between dollars sign:
-    (define-and-bind-text-object "$" "\\$" "\\$")
+    (joe-define-and-bind-text-object "$" "\\$" "\\$")
     ;; between pipe characters:
-    (define-and-bind-text-object "|" "|" "|")
+    (joe-define-and-bind-text-object "|" "|" "|")
 
     ;; custom bindings for /Org-mode/.
     (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
@@ -1205,6 +1212,74 @@
       :ensure t
       :init
       (setq evilnc-hotkey-comment-operator ""))
+
+    (use-package evil-iedit-state
+      :ensure t
+      :config
+      (add-hook 'iedit-mode-hook 'evil-iedit-state)
+      (use-package expand-region
+        :ensure t)
+      (when (package-installed-p 'hydra)
+        (bind-keys :map evil-iedit-state-map
+                   ("\\" . hydra-iedit/body))
+        (bind-keys :map evil-iedit-insert-state-map
+                   ("\\" . hydra-iedit-insert/body))
+        (defhydra hydra-iedit (:color blue :hint nil)
+          "
+                                                                         ╭───────┐
+    Occurrences                            Scope                         │ iedit │
+  ╭──────────────────────────────────────────────────────────────────────┴───────╯
+     ^ ^  _gg_        [_tab_]^ toggle                         _J_
+     ^ ^  ^ ↑ ^       [_\#_]   number all                     ^↑^
+     ^ ^   _N_        [_D_]  ^ delete all                 _L_ine|_F_unction
+     ^ ^  ^ ↑ ^       [_S_]  ^ substitute all                 ^↓^
+     _0_ ←^   ^→ $    [_I_]  ^ insert at beginning            _K_
+     ^ ^  ^ ↓ ^       [_A_]  ^ append at the end
+     ^ ^   _n_        [_p_]  ^ replace with yank
+     ^ ^  ^ ↓ ^       [_U_]  ^ up-case all
+     ^ ^   _G_        [_C-U_]^ down-case all
+     ^ ^   ^ ^        [_V_]  ^ toggle lines
+  --------------------------------------------------------------------------------
+          "
+          ("<esc>" nil "quit")
+          ( "#"         iedit-number-occurrences)
+          ( "\$"         evil-iedit-state/evil-end-of-line)
+          ( "0"         evil-iedit-state/evil-beginning-of-line)
+          ( "a"         evil-iedit-state/evil-append)
+          ( "A"         evil-iedit-state/evil-append-line)
+          ( "c"         evil-iedit-state/evil-change)
+          ( "D"         iedit-delete-occurrences)
+          ( "F"         iedit-restrict-function)
+          ( "gg"        iedit-goto-first-occurrence)
+          ( "G"         iedit-goto-last-occurrence)
+          ( "i"         evil-iedit-insert-state)
+          ( "I"         evil-iedit-state/evil-insert-line)
+          ( "J"         iedit-expand-down-a-line)
+          ( "K"         iedit-expand-up-a-line)
+          ( "L"         iedit-restrict-current-line)
+          ( "n"         iedit-next-occurrence)
+          ( "N"         iedit-prev-occurrence)
+          ( "o"         evil-iedit-state/evil-open-below)
+          ( "O"         evil-iedit-state/evil-open-above)
+          ( "p"         evil-iedit-state/paste-replace)
+          ( "s"         evil-iedit-state/evil-substitute)
+          ( "S"         evil-iedit-state/substitute)
+          ( "V"         iedit-toggle-unmatched-lines-visible)
+          ( "U"         iedit-upcase-occurrences)
+          ( "C-U"       iedit-downcase-occurrences)
+          ( "C-g"       evil-iedit-state/quit-iedit-mode)
+          ( "tab"       iedit-toggle-selection)
+          ( "backspace" iedit-blank-occurrences)
+          ( "escape"    evil-iedit-state/quit-iedit-mode))
+
+        (defhydra hydra-iedit-insert (:color blue :hint nil)
+          "
+                                                                         ╭───────┐
+                                                                         │ iedit │
+  ╭──────────────────────────────────────────────────────────────────────┴───────╯
+  --------------------------------------------------------------------------------
+          "
+          ("<esc>" nil "quit"))))
 
     (use-package evil-surround
       :ensure t
@@ -1725,11 +1800,12 @@
 ╭───────────────────────────────────────────────────────────────────────┴──────╯
   _k_  [_f_] fill column     [_d_] unicode character           [_a_] align with regex
   ^↑^  [_h_] hidden chars    [_e_] evil digraphs table         [_w_] remove trailing ' '
-  ^ ^  [_l_] line numbers    [_m_] specific code block         [_n_] count words
+  ^ ^  [_l_] line numbers    [_s_] specific code block         [_n_] count words
   ^↓^  [_t_] trailing ' '    [_u_] unicode character (helm)    [_i_] lorem ipsum
   _j_  [_v_] font space      [_p_] character code              [_x_] comment box
   ^ ^  [_c_] comment          ^ ^                              [_q_] boxquote
-  ^ ^  [_b_] multibyte chars
+  ^ ^  [_b_] multibyte chars  ^ ^                              [_m_] iedit
+  ^ ^   ^ ^                   ^ ^                              [_r_] expand region
 --------------------------------------------------------------------------------
       "
       ("a" align-regexp)
@@ -1742,10 +1818,12 @@
       ("i" lorem-ipsum-insert-paragraphs)
       ("k" text-scale-increase :color red)
       ("j" text-scale-decrease :color red)
-      ("n" count-words)
       ("l" linum-mode)
-      ("m" charmap)
+      ("n" count-words)
+      ("m" iedit)
       ("p" describe-char)
+      ("r" er/expand-region)
+      ("s" charmap)
       ("t" joe-toggle-show-trailing-whitespace)
       ("u" helm-ucs)
       ("v" variable-pitch-mode)
@@ -2105,16 +2183,21 @@
   [_h_] hidden chars             [_i_] insert unicode character (helm)
   [_t_] trailing whitespace      [_w_] remove trailing whitespaces
   [_v_] font space               [_u_] undo tree
-  [_x_] comment box              [_j_] jump word
+   ^ ^                           [_j_] jump word
+   ^ ^                           [_x_] comment box
+   ^ ^                           [_r_] expand region
+   ^ ^                           [_m_] iedit (multiple edit)
 --------------------------------------------------------------------------------
       "
       ("<escape>" nil "quit")
       ("a" align-regexp)
       ("c" evilnc-comment-or-uncomment-lines)
+      ("r" er/expand-region)
       ("f" fci-mode)
       ("h" whitespace-mode)
       ("i" helm-ucs)
       ("j" evil-ace-jump-word-mode)
+      ("m" iedit-mode)
       ("n" count-words)
       ("p" describe-char)
       ("t" joe-toggle-show-trailing-whitespace)
@@ -2965,7 +3048,7 @@
         '(("*Miniedit Help*" :noselect t)
           (help-mode)
           (completion-list-mode :noselect t)
-          (compilation-mode :noselect t)
+          (compilation-mode :noselect nil)
           (grep-mode :noselect t)
           (occur-mode :noselect t)
           ("*Pp Macroexpand Output*" :noselect t)
