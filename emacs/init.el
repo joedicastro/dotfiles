@@ -808,6 +808,8 @@
           cfw:fchar-top-right-corner ?┓)))
 
 ;; charmap
+   
+;; [[./img/charmap.png]]
 
 ;; [[https://github.com/lateau/charmap][Charmap]] is Unicode table viewer for Emacs. With CharMap you can see the Unicode
 ;; table based on The Unicode Standard 6.2.
@@ -820,6 +822,8 @@
   (setq charmap-text-scale-adjust 2))
 
 ;; TODO chess
+
+;; [[./img/chess.png]]
 
 ;; [[https://github.com/jwiegley/emacs-chess][Chess.el]] is an Emacs chess client and library, designed to be used for
 ;; writing chess-related programs, or for playing games of chess against
@@ -2960,6 +2964,8 @@
   (setq pcache-directory (concat joe-emacs-temporal-directory "pcache" )))
 
 ;; pdf-tools
+   
+;; [[./img/pdf_tools.png]]
 
 ;; [[https://github.com/politza/pdf-tools][PDF Tools]] is, among other things, a replacement of DocView for PDF files. The
 ;; key difference is, that pages are not prerendered by e.g. ghostscript and stored
