@@ -590,6 +590,8 @@
     (setq org-confirm-babel-evaluate 'joe-org-confirm-babel-evaluate)))
 
 ;; 2048-game
+   
+;; [[./img/2048.png]]
 
 ;; [[https://bitbucket.org/zck/2048.el][2048-game]] is a very effective procrastination tool, one of the best ways to lose
 ;; your time. Also is a simple and enjoying game.
@@ -606,6 +608,8 @@
 
 ;; ace-jump-mode
 
+;; [[./img/ace_jump.png]]   
+
 ;; [[https://github.com/winterTTr/ace-jump-mode][Ace jump mode]] is a minor mode of emacs, which help you to move the cursor within
 ;; Emacs
 
@@ -614,6 +618,8 @@
   :ensure t)
 
 ;; ace-link
+   
+;; [[./img/ace_link.png]]
 
 ;; [[https://github.com/abo-abo/ace-link][ace-link]] is a Emacs package for selecting a link to jump to.
 ;; Works in org-mode, info, help and eww.
@@ -630,6 +636,8 @@
   (ace-link-setup-default))
 
 ;; ag
+   
+;; [[./img/ag.png]]
 
 ;; [[https://github.com/Wilfred/ag.el][ag.el]] is a simple Emacs frontend to ag, ("the silver searcher" ack replacement).
 
@@ -651,6 +659,8 @@
   :ensure t)
 
 ;; auto-complete
+
+;; [[./img/auto_complete.png]]   
 
 ;; [[https://github.com/auto-complete/auto-complete][Auto Complete Mode]] (aka =auto-complete.el=, =auto-complete-mode=) is a extension
 ;; that automates and advances completion-system.
@@ -689,6 +699,8 @@
   (real-global-auto-complete-mode t))
 
 ;; boxquote
+
+;; [[./img/boxquote.png]]   
 
 ;; [[https://github.com/davep/boxquote.el/blob/master/boxquote.el][boxquote.el]] provides a set of functions for using a text quoting style that
 ;; partially boxes in the left hand side of an area of text, such a marking style
@@ -760,7 +772,9 @@
   :defer t
   :ensure t)
 
-;; TODO bug-hunter
+;; bug-hunter
+
+;; [[./img/bug_hunter.png]]
 
 ;; [[https://github.com/Malabarba/elisp-bug-hunter][The Bug Hunter]] is an Emacs library that finds the source of an error or
 ;; unexpected behavior inside an elisp configuration file (typically =init.el= or
@@ -768,13 +782,13 @@
 
 (use-package bug-hunter
   :ensure t
-  :defer t)
+  :commands (bug-hunter-file bug-hunter-init-file))
 
 ;; calfw
 
-;; [[https://github.com/kiwanami/emacs-calfw][Calfw]] program displays a calendar view in the Emacs buffer.
-
 ;; [[./img/cfw_calendar.png]]
+
+;; [[https://github.com/kiwanami/emacs-calfw][Calfw]] program displays a calendar view in the Emacs buffer.
 
 (use-package calfw
   :commands cfw:open-org-calendar
@@ -1678,7 +1692,7 @@
 ╭────────────────────────────────────────────────────────────────────┴─────────╯
          ^_k_^          [_b_] switch (ido)       [_d_] kill the buffer
          ^^↑^^          [_i_] ibuffer            [_r_] toggle read-only mode
-
+     _h_ ←   → _l_      [_a_] alternate          [_u_] revert buffer changes
          ^^↓^^          [_s_] switch (helm)      [_w_] save buffer
          ^_j_^
 --------------------------------------------------------------------------------
@@ -1804,7 +1818,7 @@
   ^↓^  [_t_] trailing ' '    [_u_] unicode character (helm)    [_i_] lorem ipsum
   _j_  [_v_] font space      [_p_] character code              [_x_] comment box
   ^ ^  [_c_] comment          ^ ^                              [_q_] boxquote
-  ^ ^  [_b_] multibyte chars  ^ ^                              [_m_] iedit
+  ^ ^  [_b_] multibyte chars  ^ ^                              [_m_] iedit (multiple)
   ^ ^   ^ ^                   ^ ^                              [_r_] expand region
 --------------------------------------------------------------------------------
       "
@@ -1900,15 +1914,17 @@
       ("k" flyspell-auto-correct-word)
       ("n" flyspell-goto-next-error))
 
-  (defhydra hydra-lisp (:color blue :hint nil :idle 0.4)
+  (defhydra hydra-lisp (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
                                                                         ╭──────┐
-    Elisp                                                               │ Lisp │
+    Elisp              Bug hunter                                       │ Lisp │
 ╭───────────────────────────────────────────────────────────────────────┴──────╯
-  [_r_] eval region
-  [_s_] eval sexp
+  [_r_] eval region    [_f_] file
+  [_s_] eval sexp      [_i_] init-file
 --------------------------------------------------------------------------------
       "
+      ("f" bug-hunter-file)
+      ("i" bug-hunter-init-file)
       ("r" eval-region)
       ("s" eval-last-sexp))
 
