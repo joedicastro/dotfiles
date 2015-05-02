@@ -3113,7 +3113,7 @@
 
   (add-hook 'popwin:after-popup-hook 'turn-off-evil-mode)
   (bind-keys :map popwin:window-map
-             ((kbd "<escape>") popwin:close-popup-window)))
+             ((kbd "<escape>") . popwin:close-popup-window)))
 
 ;; pretty-mode
 
