@@ -838,6 +838,14 @@
   (setq chess-images-default-size 70
         chess-images-separate-frame nil))
 
+;; cloc
+   
+;; [[https://github.com/cosmicexplorer/cloc-emacs][cloc]] count the lines of code in a buffer
+
+(use-package cloc
+  :ensure t
+  :commands cloc)
+
 ;; csv-mode
 
 ;; [[https://github.com/emacsmirror/csv-mode][csv-mode]] is a major mode for editing comma/char separated values.
@@ -1136,6 +1144,7 @@
       sx-question-list-mode
       paradox-menu-mode
       package-menu-mode
+      archive-mode
       chess-mode
       2048-mode
       git-commit-mode
@@ -1232,11 +1241,9 @@
       (setq evilnc-hotkey-comment-operator ""))
 
     (use-package evil-iedit-state
-      :ensure t
+      :ensure expand-region
       :config
       (add-hook 'iedit-mode-hook 'evil-iedit-state)
-      (use-package expand-region
-        :ensure t)
       (when (package-installed-p 'hydra)
         (bind-keys :map evil-iedit-state-map
                    ("\\" . hydra-iedit/body))
@@ -1567,7 +1574,8 @@
   (use-package helm-descbinds
     :ensure t
     :config
-    (helm-descbinds-mode t))
+    (helm-descbinds-mode t)
+    (setq helm-descbinds-window-sytle 'split-window))
   (use-package helm-swoop
     :ensure t
     :commands (helm-swoop helm-multi-swoop))
@@ -1626,8 +1634,7 @@
   (bind-key "\\" 'hydra-master/body)
   :config
   (setq lv-use-separator t)
-  (custom-set-faces
-   '(hydra-face-blue ((t (:foreground "deep sky blue" :weight bold)))))
+  (set-face-attribute 'hydra-face-blue nil :foreground "deep sky blue" :weight 'bold)
 
   (eval-and-compile
     (defhydra hydra-common (:color blue)
@@ -1749,7 +1756,7 @@
    ^ ^                [_s_] HTTP status code    [_k_] buffer (helm)
    ^ ^                [_f_] RESTclient          [_o_] only compile
    ^ ^                 ^ ^                      [_R_] replace
-   ^ ^                 ^ ^                      [_e_] eval/print
+  [_l_] lines of code  ^ ^                      [_e_] eval/print
 --------------------------------------------------------------------------------
       "
       ("z" zeal-at-point)
@@ -1767,7 +1774,8 @@
       ("h" http-header)
       ("m" http-method)
       ("r" http-relation)
-      ("s" http-status-code))
+      ("s" http-status-code)
+      ("l" cloc))
 
   (defhydra hydra-emacs (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
@@ -1799,15 +1807,16 @@
   (defhydra hydra-file (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
                                                                         ╭──────┐
-     Ido               Helm                 Dired                       │ File │
+     Ido               Helm                 Dired        Ztree          │ File │
 ╭───────────────────────────────────────────────────────────────────────┴──────╯
-  [_o_] open file   [_f_] find file      [_d_] dired
+  [_o_] open file   [_f_] find file      [_d_] dired    [_z_] diff dirs
    ^ ^              [_m_] mini
 --------------------------------------------------------------------------------
       "
       ("o" find-file)
       ("f" helm-find-files)
       ("m" helm-mini)
+      ("z" ztree-diff)
       ("d" ido-dired))
 
 
@@ -3068,7 +3077,7 @@
   (setq popwin:popup-window-height 35
         popwin:special-display-config
         '(("*Miniedit Help*" :noselect t)
-          (help-mode)
+          (help-mode :noselect nil)
           (completion-list-mode :noselect t)
           (compilation-mode :noselect nil)
           (grep-mode :noselect t)
@@ -3104,7 +3113,7 @@
 
   (add-hook 'popwin:after-popup-hook 'turn-off-evil-mode)
   (bind-keys :map popwin:window-map
-             ((kbd "<escape>") . popwin:close-popup-window)))
+             ((kbd "<escape>") popwin:close-popup-window)))
 
 ;; pretty-mode
 
@@ -3512,6 +3521,63 @@
           (scala-mode . "scala")
           (tcl-mode . "tcl")
           (vim-mode . "vim"))))
+
+;; ztree
+
+;; [[./img/ztree.png]]
+   
+;; [[https://github.com/fourier/ztree][Ztree]] is a project dedicated to implementation of several text-tree applications
+;; inside Emacs. It consists of 2 subprojects: ztree-diff and ztree-dir.
+;; *ztree-diff* is a directory-diff tool for Emacs inspired by commercial tools like
+;; Beyond Compare or Araxis Merge. It supports showing the difference between two
+;; directories; calling Ediff for not matching files, copying between directories,
+;; deleting file/directories, hiding/showing equal files/directories.
+;; *ztree-dir* is a simple text-mode directory tree for Emacs.
+
+(use-package ztree-diff
+  :ensure ztree
+  :config
+  (set-face-attribute 'ztreep-diff-model-add-face  nil :foreground "deep sky blue")
+  (bind-keys :map ztreediff-mode-map
+                 ("p" . previous-line)
+                 ("k" . previous-line)
+                 ("j" . next-line)
+                 ("n" . next-line))
+   
+  (when (package-installed-p 'hydra)
+      (bind-keys :map ztreediff-mode-map
+                 ("\\" . hydra-ztree/body))
+      (defhydra hydra-ztree (:color blue :hint nil)
+          "
+                                                                      ╭────────────┐
+       Move      File                 Do                              │ Ztree diff │
+    ╭─────────────────────────────────────────────────────────────────┴────────────╯
+      _k_/_p_   [_C_] copy                  [_h_] toggle equal files
+      ^ ^↑^ ^   [_D_] delete                [_x_] toggle subtree
+      ^_TAB_^   [_v_] view                  [_r_] partial rescan
+      ^ ^↓^ ^   [_d_] simple diff           [_R_] full rescan
+      _j_/_n_   [_RET_] diff/expand         [_g_] refresh
+      ^ ^ ^ ^   [_SPC_] simple diff/expand
+    --------------------------------------------------------------------------------
+          "
+         ("\\" hydra-master/body "back")
+         ("<ESC>" nil "quit")
+         ("p" previous-line)
+         ("k" previous-line)
+         ("j" next-line)
+         ("n" next-line)
+         ("C" ztree-diff-copy)
+         ("h" ztree-diff-toggle-show-equal-files)
+         ("D" ztree-diff-delete-file)
+         ("v" ztree-diff-view-file)
+         ("d" ztree-diff-simple-diff-files)
+         ("r" ztree-diff-partial-rescan)
+         ("R" ztree-diff-full-rescan)
+         ("RET" ztree-perform-action)
+         ("SPC" ztree-perform-soft-action)
+         ("TAB" ztree-jump-side)
+         ("g" ztree-refresh-buffer)
+         ("x" ztree-toggle-expand-subtree))))
 
 ;; TODO dired+
 
