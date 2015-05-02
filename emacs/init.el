@@ -1477,6 +1477,21 @@
   :ensure t
   :defer t)
 
+;; google-translate
+
+;; [[./img/google_translate.png]]   
+
+;; [[https://github.com/atykhonov/google-translate][google-translate]] package allows to translate the strings using Google Translate
+;; service directly from GNU Emacs.
+
+(use-package google-translate
+  :ensure t
+  :commands google-translate-smooth-translate
+  :init
+  (setq-default google-translate-translation-directions-alist
+                '(("es" . "en") ("en" . "es"))
+                google-translate-show-phonetic t))
+
 ;; graphviz-dot-mode
 
 ;; [[https://github.com/ppareit/graphviz-dot-mode][graphviz-dot-mode]] is a mode for the DOT language, used by graphviz.
@@ -1911,10 +1926,10 @@
   (defhydra hydra-spell (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
                                                                        ╭───────┐
-    Flyspell               Ispell                                      │ Spell │
+    Flyspell               Ispell                      Gtranslate      │ Spell │
 ╭──────────────────────────────────────────────────────────────────────┴───────╯
-  [_k_] correct word       [_w_] check word
-  [_n_] next error         [_t_] toggle dictionary
+  [_k_] correct word       [_w_] check word            [_g_] en ⇆ es
+  [_n_] next error         [_t_] toggle dictionary     [_G_] any lang
   [_f_] toggle flyspell    [_d_] change dictionary
   [_p_] toggle prog mode
 --------------------------------------------------------------------------------
@@ -1922,6 +1937,8 @@
       ("w" ispell-word)
       ("d" ispell-change-dictionary)
       ("t" joe-switch-dictionary)
+      ("g" google-translate-smooth-translate)
+      ("G" google-translate-query-translate)
       ("f" flyspell-mode)
       ("p" flyspell-prog-mode)
       ("k" flyspell-auto-correct-word)
@@ -2216,6 +2233,7 @@
    ^ ^                           [_x_] comment box
    ^ ^                           [_r_] expand region
    ^ ^                           [_m_] iedit (multiple edit)
+   ^ ^                           [_g_] google translate
 --------------------------------------------------------------------------------
       "
       ("<escape>" nil "quit")
@@ -2223,6 +2241,7 @@
       ("c" evilnc-comment-or-uncomment-lines)
       ("r" er/expand-region)
       ("f" fci-mode)
+      ("g" google-translate-smooth-translate)
       ("h" whitespace-mode)
       ("i" helm-ucs)
       ("j" evil-ace-jump-word-mode)
