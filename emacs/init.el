@@ -590,7 +590,7 @@
     (setq org-confirm-babel-evaluate 'joe-org-confirm-babel-evaluate)))
 
 ;; 2048-game
-   
+
 ;; [[./img/2048.png]]
 
 ;; [[https://bitbucket.org/zck/2048.el][2048-game]] is a very effective procrastination tool, one of the best ways to lose
@@ -608,7 +608,7 @@
 
 ;; ace-jump-mode
 
-;; [[./img/ace_jump.png]]   
+;; [[./img/ace_jump.png]]
 
 ;; [[https://github.com/winterTTr/ace-jump-mode][Ace jump mode]] is a minor mode of emacs, which help you to move the cursor within
 ;; Emacs
@@ -618,7 +618,7 @@
   :ensure t)
 
 ;; ace-link
-   
+
 ;; [[./img/ace_link.png]]
 
 ;; [[https://github.com/abo-abo/ace-link][ace-link]] is a Emacs package for selecting a link to jump to.
@@ -636,7 +636,7 @@
   (ace-link-setup-default))
 
 ;; ag
-   
+
 ;; [[./img/ag.png]]
 
 ;; [[https://github.com/Wilfred/ag.el][ag.el]] is a simple Emacs frontend to ag, ("the silver searcher" ack replacement).
@@ -660,7 +660,7 @@
 
 ;; auto-complete
 
-;; [[./img/auto_complete.png]]   
+;; [[./img/auto_complete.png]]
 
 ;; [[https://github.com/auto-complete/auto-complete][Auto Complete Mode]] (aka =auto-complete.el=, =auto-complete-mode=) is a extension
 ;; that automates and advances completion-system.
@@ -700,7 +700,7 @@
 
 ;; boxquote
 
-;; [[./img/boxquote.png]]   
+;; [[./img/boxquote.png]]
 
 ;; [[https://github.com/davep/boxquote.el/blob/master/boxquote.el][boxquote.el]] provides a set of functions for using a text quoting style that
 ;; partially boxes in the left hand side of an area of text, such a marking style
@@ -808,7 +808,7 @@
           cfw:fchar-top-right-corner ?┓)))
 
 ;; charmap
-   
+
 ;; [[./img/charmap.png]]
 
 ;; [[https://github.com/lateau/charmap][Charmap]] is Unicode table viewer for Emacs. With CharMap you can see the Unicode
@@ -839,7 +839,9 @@
         chess-images-separate-frame nil))
 
 ;; cloc
-   
+
+;; [[./img/cloc.png]]
+
 ;; [[https://github.com/cosmicexplorer/cloc-emacs][cloc]] count the lines of code in a buffer
 
 (use-package cloc
@@ -1129,7 +1131,7 @@
       term-mode
       twittering-edit-mode)
     "List of modes that should start up in Evil state."
-    :type '(repeat (symbol)))
+    :type '(symbol))
 
     (defcustom joe-emacs-state-modes
     '(debugger-mode
@@ -1145,12 +1147,13 @@
       paradox-menu-mode
       package-menu-mode
       archive-mode
+      irfc-mode
       chess-mode
       2048-mode
       git-commit-mode
       git-rebase-mode)
     "List of modes that should start up in Evil Emacs state."
-    :type '(repeat (symbol)))
+    :type '(symbol))
 
     ;; esc quits almost everywhere, Gotten from ;;
     ;; http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice,;;
@@ -1172,10 +1175,15 @@
           evil-operator-state-cursor '("red" hollow))
 
     (defun joe-major-mode-evil-state-adjust ()
-    (if (apply 'derived-mode-p joe-evil-state-modes)
-        (turn-on-evil-mode)
-    (when (apply 'derived-mode-p joe-emacs-state-modes)
-        (turn-off-evil-mode))))
+      (if (member major-mode joe-evil-state-modes)
+          (turn-on-evil-mode)
+        (if (member major-mode joe-emacs-state-modes)
+            (turn-off-evil-mode)
+          (if (apply 'derived-mode-p joe-evil-state-modes)
+              (turn-on-evil-mode)
+            (when (apply 'derived-mode-p joe-emacs-state-modes))
+            (turn-off-evil-mode)))))
+
     (add-hook 'after-change-major-mode-hook #'joe-major-mode-evil-state-adjust)
 
     ;; defining new text objects
@@ -1479,7 +1487,7 @@
 
 ;; google-translate
 
-;; [[./img/google_translate.png]]   
+;; [[./img/google_translate.png]]
 
 ;; [[https://github.com/atykhonov/google-translate][google-translate]] package allows to translate the strings using Google Translate
 ;; service directly from GNU Emacs.
@@ -1769,15 +1777,17 @@
    ^ ^                [_m_] HTTP method         [_x_] shell
    ^ ^                [_r_] HTTP relation       [_p_] with arg
    ^ ^                [_s_] HTTP status code    [_k_] buffer (helm)
-   ^ ^                [_f_] RESTclient          [_o_] only compile
-   ^ ^                 ^ ^                      [_R_] replace
-  [_l_] lines of code  ^ ^                      [_e_] eval/print
+   ^ ^                [_g_] RESTclient          [_o_] only compile
+   ^ ^                [_f_] RFC doc             [_R_] replace
+  [_l_] lines of code [_F_] RFC index           [_e_] eval/print
 --------------------------------------------------------------------------------
       "
       ("z" zeal-at-point)
       ("d" zeal-at-pont-set-docset)
       ("c" helm-colors)
-      ("f" restclient-mode)
+      ("g" restclient-mode)
+      ("f" irfc-visit)
+      ("F" irfc-index)
       ("q" quickrun)
       ("v" quickrun-region)
       ("x" quickrun-shell)
@@ -2322,6 +2332,106 @@
 (use-package imgur
   :ensure t
   :commands imgur-post)
+
+;; irfc
+
+;; [[./img/irfc.png]]
+
+;; [[http://www.emacswiki.org/emacs/irfc.el][irfc]] is an Interface for IETF RFC document.
+
+(use-package irfc
+  :ensure t
+  :init
+  (setq-default irfc-directory (concat joe-emacs-temporal-directory "RFC")
+                irfc-assoc-mode t)
+  (defun irfc-index ()
+    (interactive)
+    (defvar joe-rfc-index-file (concat irfc-directory "/rfc0000.txt" ))
+    (defvar joe-rfc-index-url "https://www.ietf.org/download/rfc-index.txt")
+    (unless (file-exists-p joe-rfc-index-file)
+      (url-copy-file joe-rfc-index-url joe-rfc-index-file))
+    (find-file joe-rfc-index-file))
+  :config
+  (bind-keys :map irfc-mode-map
+             ("SPC" . scroll-up)
+             ("S-SPC" . scroll-down)
+             ("j" . next-line)
+             ("k" . previous-line)
+             ("h" . backward-char)
+             ("l" . forward-char)
+             ("J" . irfc-scroll-up-one-line)
+             ("K" . irfc-scroll-down-one-line)
+             ("G" . end-of-buffer)
+             ("g" . beginning-of-buffer)
+             ("T" . irfc-render-toggle)
+             ("q" . irfc-quit)
+             ("o" . irfc-follow)
+             ("v" . irfc-visit)
+             ("i" . irfc-index)
+             ("r" . irfc-reference-goto)
+             ("f" . irfc-head-goto)
+             ("F" . irfc-head-number-goto)
+             ("e" . irfc-page-goto)
+             ("n" . irfc-page-next)
+             ("p" . irfc-page-prev)
+             (">" . irfc-page-last)
+             ("<" . irfc-page-first)
+             ("t" . irfc-page-table)
+             ("H" . irfc-head-next)
+             ("L" . irfc-head-prev)
+             ("RET" . irfc-table-jump)
+             ("<tab>" . irfc-rfc-link-next)
+             ("<backtab>" . irfc-rfc-link-prev))
+  (when (package-installed-p 'hydra)
+    (bind-keys :map irfc-mode-map
+             ("\\" . hydra-irfc/body))
+    (defhydra hydra-irfc (:hint nil :color blue)
+          "
+                                                                            ╭──────┐
+      Move     Scroll   Page  Heads    Links      TOC           Do          │ iRFC │
+    ╭───────────────────────────────────────────────────────────────────────┴──────╯
+          ^_g_^     _S-SPC_    _<_     ^ ^ ^ ^        ^ ^       [_t_] TOC       [_v_] visit RFC
+          ^^↑^^       ^↑^      ^↑^     ^ ^ ^ ^        ^ ^       [_RET_] node    [_i_] index
+          ^_k_^       _K_      _p_     ^ _L_ ^    _<backtab>_    ^ ^            [_r_] reference
+          ^^↑^^       ^↑^      ^↑^     ^ ^↑^ ^        ^↑^        ^ ^            [_T_] toggle
+      _h_ ←   → _l_   ^ ^      _e_     _f_/_F_        _o_                       [_q_] quit
+          ^^↓^^       ^↓^      ^↓^     ^ ^↓^ ^        ^↓^
+          ^_j_^       _J_      _n_     ^ _H_ ^      _<tab>_
+          ^^↓^^       ^↓^      ^↓^     ^ ^ ^ ^        ^ ^
+          ^_G_^      _SPC_     _>_     ^ ^ ^ ^        ^ ^
+    --------------------------------------------------------------------------------
+          "
+          ("\\" hydra-master/body "back")
+          ("<escape>" nil "quit")
+             ("SPC" scroll-up)
+             ("S-SPC" scroll-down)
+             ("j" next-line)
+             ("k" previous-line)
+             ("h" backward-char)
+             ("l" forward-char)
+             ("J" irfc-scroll-up-one-line)
+             ("K" irfc-scroll-down-one-line)
+             ("G" end-of-buffer)
+             ("g" beginning-of-buffer)
+             ("T" irfc-render-toggle)
+             ("q" irfc-quit)
+             ("o" irfc-follow)
+             ("v" irfc-visit)
+             ("i" irfc-index)
+             ("r" irfc-reference-goto)
+             ("f" irfc-head-goto)
+             ("F" irfc-head-number-goto)
+             ("e" irfc-page-goto)
+             ("n" irfc-page-next)
+             ("p" irfc-page-prev)
+             (">" irfc-page-last)
+             ("<" irfc-page-first)
+             ("t" irfc-page-table)
+             ("H" irfc-head-next)
+             ("L" irfc-head-prev)
+             ("RET" irfc-table-jump)
+             ("<tab>" irfc-rfc-link-next)
+             ("<backtab>" irfc-rfc-link-prev))))
 
 ;; TODO jedi
 
@@ -2992,7 +3102,7 @@
   (setq pcache-directory (concat joe-emacs-temporal-directory "pcache" )))
 
 ;; pdf-tools
-   
+
 ;; [[./img/pdf_tools.png]]
 
 ;; [[https://github.com/politza/pdf-tools][PDF Tools]] is, among other things, a replacement of DocView for PDF files. The
@@ -3544,7 +3654,7 @@
 ;; ztree
 
 ;; [[./img/ztree.png]]
-   
+
 ;; [[https://github.com/fourier/ztree][Ztree]] is a project dedicated to implementation of several text-tree applications
 ;; inside Emacs. It consists of 2 subprojects: ztree-diff and ztree-dir.
 ;; *ztree-diff* is a directory-diff tool for Emacs inspired by commercial tools like
@@ -3562,7 +3672,7 @@
                  ("k" . previous-line)
                  ("j" . next-line)
                  ("n" . next-line))
-   
+
   (when (package-installed-p 'hydra)
       (bind-keys :map ztreediff-mode-map
                  ("\\" . hydra-ztree/body))
