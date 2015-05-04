@@ -606,17 +606,6 @@
              ("k" . 2048-up)
              ("l" . 2048-right)))
 
-;; ace-jump-mode
-
-;; [[./img/ace_jump.png]]
-
-;; [[https://github.com/winterTTr/ace-jump-mode][Ace jump mode]] is a minor mode of emacs, which help you to move the cursor within
-;; Emacs
-
-(use-package ace-jump-mode
-  :defer 5
-  :ensure t)
-
 ;; ace-link
 
 ;; [[./img/ace_link.png]]
@@ -630,10 +619,34 @@
 ;; |---------+------------+--------------|
 
 (use-package ace-link
-  :ensure t
+  :ensure ace-jump-mode
   :defer 3
   :config
   (ace-link-setup-default))
+
+;; ace-window
+
+;; [[./img/ace_window.png]]
+
+;; [[https://github.com/abo-abo/ace-window][ace-window]] is package for selecting a window to switch to. Also can be used to
+;; jump to words, lines, chars, subwords, move/delete/copy lines and other some
+;; nice features.
+
+(use-package ace-window
+  :ensure t
+  :defer 1
+  :config
+  (setq avi-keys       '(?a ?s ?d ?e ?f ?g ?r ?v ?h ?j ?k ?l ?n ?m ?u)
+        avi-background t
+        avi-all-windows t
+        aw-keys        '(?a ?s ?d ?f ?j ?k ?l)
+        aw-flip-keys   '("w" "n"))
+  ;; FIXME: to change, for some reason failed with set-face-attribute, look later
+  (custom-set-faces
+   '(avi-lead-face ((t (:foreground "gold" :weight bold))))
+   '(aw-leading-char-face ((t (:foreground "deep sky blue" :weight bold))))
+   '(aw-mode-line-face ((t (:inherit mode-line-buffer-id :foreground "lawn green")))))
+  (ace-window-display-mode t))
 
 ;; ag
 
@@ -1724,21 +1737,22 @@
                                                                      ╭─────────┐
    Move to Window         Switch                  Do                 │ Buffers │
 ╭────────────────────────────────────────────────────────────────────┴─────────╯
-         ^_k_^          [_b_] switch (ido)       [_d_] kill the buffer
-         ^^↑^^          [_i_] ibuffer            [_r_] toggle read-only mode
-     _h_ ←   → _l_      [_a_] alternate          [_u_] revert buffer changes
-         ^^↓^^          [_s_] switch (helm)      [_w_] save buffer
-         ^_j_^
+    ^ ^   _k_   ^ ^     [_b_] switch (ido)       [_d_] kill the buffer
+    ^ ^  ^ ↑ ^  ^ ^     [_i_] ibuffer            [_r_] toggle read-only mode
+    _h_ ← _m_ → _l_     [_a_] alternate          [_u_] revert buffer changes
+    ^ ^  ^ ↓ ^  ^ ^     [_s_] switch (helm)      [_w_] save buffer
+    ^ ^   _j_   ^ ^
 --------------------------------------------------------------------------------
     "
     ("a" joe-alternate-buffers)
     ("b" ido-switch-buffer)
     ("d" joe-kill-this-buffer)
     ("i" ibuffer)
-    ("h" buf-move-left  :color red)
-    ("k" buf-move-up    :color red)
-    ("j" buf-move-down  :color red)
-    ("l" buf-move-right :color red)
+    ("m" ace-swap-window)
+    ("h" buf-move-lef)
+    ("k" buf-move-u)
+    ("j" buf-move-dow)
+    ("l" buf-move-righ)
     ("r" read-only-mode)
     ("s" helm-buffers-list)
     ("u" joe-revert-buffer)
@@ -1922,16 +1936,29 @@
   (defhydra hydra-jump (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
                                                                         ╭──────┐
-    AceJump                                                             │ Jump │
+  Window          Word/Char        Line         iSearch                 │ Jump │
 ╭───────────────────────────────────────────────────────────────────────┴──────╯
-  [_w_] acejump word mode
-  [_c_] acejump char mode
-  [_l_] acejump line mode
+  [_w_] jump        [_j_] word         [_l_] jump     [_i_] jump
+  [_d_] close       [_p_] all words    [_y_] copy
+  [_z_] maximize    [_b_] subword      [_m_] move
+  [_s_] swap        [_c_] char         [_v_] copy region
+   ^ ^              [_a_] two chars
 --------------------------------------------------------------------------------
       "
-      ("w" evil-ace-jump-word-mode)
-      ("c" evil-ace-jump-char-mode)
-      ("l" evil-ace-jump-line-mode))
+      ("w" ace-window)
+      ("d" ace-delete-window)
+      ("z" ace-maximize-window)
+      ("s" ace-swap-window)
+      ("j" avi-goto-word-1)
+      ("p" avi-goto-word-0)
+      ("b" avi-goto-subword-0)
+      ("c" avi-goto-char)
+      ("a" avi-goto-char-2)
+      ("l" avi-goto-line)
+      ("y" avi-copy-line)
+      ("m" avi-move-line)
+      ("v" avi-copy-region)
+      ("i" avi-isearch))
 
   (defhydra hydra-spell (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
@@ -2128,7 +2155,7 @@
       ^_k_^           ^_K_^       ^_p_^    ╭─┬─┐^ ^        ╭─┬─┐^ ^         ↺ [_u_] undo layout
       ^^↑^^           ^^↑^^       ^^↑^^    │ │ │_v_ertical ├─┼─┤_b_alance   ↻ [_r_] restore layout
   _h_ ←   → _l_   _H_ ←   → _L_   ^^ ^^    ╰─┴─╯^ ^        ╰─┴─╯^ ^         ✗ [_d_] close window
-      ^^↓^^           ^^↓^^       ^^↓^^    ╭───┐^ ^        ╭───┐^ ^         ⇋ [_w_] cycle window
+      ^^↓^^           ^^↓^^       ^^↓^^    ╭───┐^ ^        ╭───┐^ ^         ⇋ [_w_] jump window
       ^_j_^           ^_J_^       ^_n_^    ├───┤_s_tack    │   │_z_oom      ⇱ [_f_] new frame
       ^^ ^^           ^^ ^^       ^^ ^^    ╰───╯^ ^        ╰───╯^ ^         ⇲ [_x_] delete frame
 --------------------------------------------------------------------------------
@@ -2136,23 +2163,23 @@
       ("n" joe-scroll-other-window :color red)
       ("p" joe-scroll-other-window-down :color red)
       ("b" balance-windows)
-      ("d" delete-window)
+      ("d" ace-delete-window)
       ("f" make-frame)
       ("H" shrink-window-horizontally :color red)
-      ("h" windmove-left :color red)
+      ("h" windmove-left)
       ("J" shrink-window :color red)
-      ("j" windmove-down :color red)
+      ("j" windmove-down)
       ("K" enlarge-window :color red)
-      ("k" windmove-up :color red)
+      ("k" windmove-up)
       ("L" enlarge-window-horizontally :color red)
-      ("l" windmove-right :color red)
+      ("l" windmove-righ)
       ("r" winner-redo :color red)
-      ("s" split-window-vertically :color red)
+      ("s" split-window-vertically)
       ("u" winner-undo :color red)
-      ("v" split-window-horizontally :color red)
-      ("w" other-window)
+      ("v" split-window-horizontally)
+      ("w" ace-window)
       ("x" delete-frame)
-      ("z" delete-other-windows))
+      ("z" ace-maximize-window))
 
   (defhydra hydra-system (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
@@ -2237,9 +2264,10 @@
   [_c_] comment                  [_a_] align with regex
   [_f_] fill column              [_p_] show character code
   [_h_] hidden chars             [_i_] insert unicode character (helm)
-  [_t_] trailing whitespace      [_w_] remove trailing whitespaces
+  [_t_] trailing whitespace      [_s_] remove trailing whitespaces
   [_v_] font space               [_u_] undo tree
    ^ ^                           [_j_] jump word
+   ^ ^                           [_w_] jump window
    ^ ^                           [_x_] comment box
    ^ ^                           [_r_] expand region
    ^ ^                           [_m_] iedit (multiple edit)
@@ -2254,14 +2282,15 @@
       ("g" google-translate-smooth-translate)
       ("h" whitespace-mode)
       ("i" helm-ucs)
-      ("j" evil-ace-jump-word-mode)
+      ("j" avi-goto-word-1)
+      ("w" ace-window)
       ("m" iedit-mode)
       ("n" count-words)
       ("p" describe-char)
       ("t" joe-toggle-show-trailing-whitespace)
       ("u" undo-tree-visualize)
       ("v" variable-pitch-mode)
-      ("w" whitespace-cleanup)
+      ("s" whitespace-cleanup)
       ("x" comment-box)))
 
 ;; ibuffer-vc
