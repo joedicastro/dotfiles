@@ -628,7 +628,7 @@
 
 ;; [[./img/ace_window.png]]
 
-;; [[https://github.com/abo-abo/ace-window][ace-window]] is package for selecting a window to switch to. Also can be used to
+;; [[https://github.com/abo-abo/ace-window][ace-window]] is a package for selecting a window to switch to. Also can be used to
 ;; jump to words, lines, chars, subwords, move/delete/copy lines and other some
 ;; nice features.
 
@@ -3155,6 +3155,7 @@
       ("j"  . pdf-view-next-line-or-next-page)
       ("k"  . pdf-view-previous-line-or-previous-page)
       ("e"  . pdf-view-goto-page)
+      ("t"  . pdf-view-goto-label)
       ("u"  . pdf-view-revert-buffer)
       ("al" . pdf-annot-list-annotations)
       ("ad" . pdf-annot-delete)
@@ -3175,15 +3176,15 @@
                                                                       ╭───────────┐
        Move  History   Scale/Fit     Annotations  Search/Link    Do   │ PDF Tools │
    ╭──────────────────────────────────────────────────────────────────┴───────────╯
-         ^^_g_^^      _B_    ^↧^    _+_    ^ ^     [_al_] list    [_s_] search    [_u_] revert buffer
-         ^^^↑^^^      ^↑^    _H_    ^↑^  ↦ _W_ ↤   [_am_] markup  [_o_] outline   [_i_] info
-         ^^_p_^^      ^ ^    ^↥^    _0_    ^ ^     [_at_] text    [_F_] link      [_d_] dark mode
-         ^^^↑^^^      ^↓^  ╭─^─^─┐  ^↓^  ╭─^ ^─┐   [_ad_] delete  [_f_] search link
-    _h_ ←pag_e_→ _l_  _N_  │ _P_ │  _-_    _b_     [_aa_] dired
-         ^^^↓^^^      ^ ^  ╰─^─^─╯  ^ ^  ╰─^ ^─╯   [_y_]  yank
-         ^^_n_^^      ^ ^  _r_eset slice box
-         ^^^↓^^^
-         ^^_G_^^
+      ^^^_g_^^^       _B_    ^↧^    _+_    ^ ^     [_al_] list    [_s_] search    [_u_] revert buffer
+      ^^^^↑^^^^       ^↑^    _H_    ^↑^  ↦ _W_ ↤   [_am_] markup  [_o_] outline   [_i_] info
+      ^^^_p_^^^       ^ ^    ^↥^    _0_    ^ ^     [_at_] text    [_F_] link      [_d_] dark mode
+      ^^^^↑^^^^       ^↓^  ╭─^─^─┐  ^↓^  ╭─^ ^─┐   [_ad_] delete  [_f_] search link
+ _h_ ← _e_/_t_ → _l_  _N_  │ _P_ │  _-_    _b_     [_aa_] dired
+      ^^^^↓^^^^       ^ ^  ╰─^─^─╯  ^ ^  ╰─^ ^─╯   [_y_]  yank
+      ^^^_n_^^^       ^ ^  _r_eset slice box
+      ^^^^↓^^^^
+      ^^^_G_^^^
    --------------------------------------------------------------------------------
         "
         ("\\" hydra-master/body "back")
@@ -3208,6 +3209,7 @@
         ("g" pdf-view-first-page)
         ("G" pdf-view-last-page)
         ("e" pdf-view-goto-page)
+        ("t" pdf-view-goto-label)
         ("o" pdf-outline)
         ("s" pdf-occur)
         ("i" pdf-misc-display-metadata)
