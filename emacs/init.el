@@ -450,7 +450,7 @@
     (setq ido-save-directory-list-file (concat joe-emacs-temporal-directory "ido.last")
           ido-enable-flex-matching t
           ido-use-virtual-buffers t)
-    (ido-mode t)
+    ;; (ido-mode t)
     (ido-everywhere t)))
 
 ;; ediff
@@ -733,7 +733,7 @@
 
 (use-package boxquote
   :ensure t
-  :defer 3
+  :defer t
   :config
   (setq-default  boxquote-bottom-corner "╰"      ; U+2570
                  boxquote-side          "│ "     ; U+2572 + space
@@ -2264,7 +2264,7 @@
   [_c_] comment                  [_a_] align with regex
   [_f_] fill column              [_p_] show character code
   [_h_] hidden chars             [_i_] insert unicode character (helm)
-  [_t_] trailing whitespace      [_s_] remove trailing whitespaces
+  [_t_] trailing whitespace      [_e_] remove trailing whitespaces
   [_v_] font space               [_u_] undo tree
    ^ ^                           [_j_] jump word
    ^ ^                           [_w_] jump window
@@ -2272,6 +2272,7 @@
    ^ ^                           [_r_] expand region
    ^ ^                           [_m_] iedit (multiple edit)
    ^ ^                           [_g_] google translate
+   ^ ^                           [_s_] swiper
 --------------------------------------------------------------------------------
       "
       ("<escape>" nil "quit")
@@ -2290,7 +2291,8 @@
       ("t" joe-toggle-show-trailing-whitespace)
       ("u" undo-tree-visualize)
       ("v" variable-pitch-mode)
-      ("s" whitespace-cleanup)
+      ("e" whitespace-cleanup)
+      ("s" swiper)
       ("x" comment-box)))
 
 ;; ibuffer-vc
@@ -2328,10 +2330,9 @@
 ;; t)=. Replaces stock emacs completion with ido completion wherever it is possible
 ;; to do so without breaking things.
 
-;; s
-
 (use-package ido-ubiquitous
   :ensure t
+  :disabled t
   :requires ido
   :config
   (ido-ubiquitous-mode t)
@@ -3461,6 +3462,20 @@
   :defer t
   :config
   (setq sx-cache-directory (concat joe-emacs-temporal-directory "sx")))
+
+;; TODO swiper
+
+;; [[https://github.com/abo-abo/swiper][swiper]] is a package for GNU Emacs that gives you an overview as you search for a
+;; regex.
+
+(use-package swiper
+  :ensure t
+  :config
+  (bind-keys :map swiper-map
+             ("<escape>" . minibuffer-keyboard-quit))
+  (bind-keys :map ivy-minibuffer-map
+             ("<escape>" . minibuffer-keyboard-quit))
+  (ivy-mode t))
 
 ;; twittering-mode
 
