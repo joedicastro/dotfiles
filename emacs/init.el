@@ -3473,6 +3473,7 @@
   :commands twit
   :init
   (add-hook 'twittering-edit-mode-hook (lambda () (flyspell-mode)))
+  (add-hook 'twittering-mode-hook (lambda () (variable-pitch-mode)))
   :config
   (setq twittering-use-master-password t
         twittering-icon-mode t
@@ -3483,9 +3484,9 @@
         twittering-edit-skeleton 'inherit-any
         twittering-display-remaining t
         twittering-timeline-header  "─────────────────────────────────────────────────────────────────────────────\n"
-        twittering-timeline-footer  "-----------------------------------------------------------------------------\n"
+        twittering-timeline-footer  "------------------------------------------------------------------------------------------------------------------------------------------\n"
         twittering-status-format
-        "%i  %S, %RT{%FACE[bold]{%S}} %@  %FACE[shadow]{%p%f%L%r}\n%FOLD[        ]{%T}\n")
+        "%i  %S, %RT{%FACE[bold]{%S}} %@  %FACE[shadow]{%p%f%L%r}\n%FOLD[             ]{%T}\n")
 
     ;; set the new bindings
     (bind-keys :map twittering-mode-map
