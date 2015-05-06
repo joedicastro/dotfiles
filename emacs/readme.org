@@ -78,11 +78,12 @@ the goodies of this configuration.
 - [[http://surfraw.alioth.debian.org/][surfraw]]
 - [[https://www.gnupg.org/][GnuPG]]
 - [[http://www.latex-project.org/][LaTeX]] and [[http://pygments.org/][Pygments]] to PDF export with syntax highlighting
-- [[http://www.mupdf.com/][MuPDF]] for DocView
+- [[http://www.mupdf.com/][MuPDF]] for DocView, [[http://poppler.freedesktop.org/][poppler]] for pdf-tools
+- [[http://pandoc.org/][pandoc]] for ox-pandoc
 - [[http://www.zx2c4.com/projects/password-store/][pass]]
 - [[http://zealdocs.org/][Zeal]]
 - [[http://curl.haxx.se/][curl]], [[http://www.gnu.org/software/wget/][wget]], [[http://www.openssl.org/][OpenSSL]] or [[http://www.gnu.org/software/gnutls/][GnuTLS]] for twittering-mode
-- [[http://www.imagemagick.org/][ImageMagick]] or [[http://www.graphicsmagick.org/][GraphicsMagick]] for twittering-mode
+- [[http://www.imagemagick.org/][ImageMagick]] or [[http://www.graphicsmagick.org/][GraphicsMagick]] for twittering-mode (and pdf-tools)
 - [[http://www.gzip.org/][gzip]]
 - [[https://stockfishchess.org/][Stockfish]] for Chess
 
@@ -692,7 +693,7 @@ Settings for the Emacs Web Browser.
       (setq org-confirm-babel-evaluate 'joe-org-confirm-babel-evaluate)))
 #+END_SRC
 
-* TODO Packages [0/19]
+* TODO Packages [0/18]
 
 What I try here is to config each package as atomic as possible, so to ensure
 that to add or remove a package does not broke the configuration of others.
@@ -4102,11 +4103,13 @@ search in your emails to get a little context in the conversation.
     :pin melpa-stable)
 #+END_SRC
 
-** TODO ox-pandoc
+** ox-pandoc
 
+[[https://github.com/kawabata/ox-pandoc][ox-pandoc]] translates org-mode files to various other formats via Pandoc.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ox-pandoc
+    :defer 1
     :ensure t)
 #+END_SRC
 
@@ -4160,89 +4163,90 @@ in the file-system, but rather created on-demand and stored in memory.
 [[https://github.com/markus1189/org-pdfview][org-pdfview]] add support for org links from pdfview buffers like docview.
 
 #+BEGIN_SRC emacs-lisp
-    (use-package pdf-tools
-      :ensure t
-      :config
-      (pdf-tools-install)
-      (setq-default pdf-view-display-size 'fit-page)
+  (use-package pdf-tools
+    :ensure t
+    :config
+    (pdf-tools-install)
+    (setq-default pdf-view-display-size 'fit-page
+                  pdf-view-use-imagemagick t)
+    (bind-keys :map pdf-view-mode-map
+        ("\\" . hydra-pdftools/body)
+        ("<s-spc>" .  pdf-view-scroll-down-or-next-page)
+        ("g"  . pdf-view-first-page)
+        ("G"  . pdf-view-last-page)
+        ("l"  . image-forward-hscroll)
+        ("h"  . image-backward-hscroll)
+        ("j"  . pdf-view-next-line-or-next-page)
+        ("k"  . pdf-view-previous-line-or-previous-page)
+        ("e"  . pdf-view-goto-page)
+        ("t"  . pdf-view-goto-label)
+        ("u"  . pdf-view-revert-buffer)
+        ("al" . pdf-annot-list-annotations)
+        ("ad" . pdf-annot-delete)
+        ("aa" . pdf-annot-attachment-dired)
+        ("am" . pdf-annot-add-markup-annotation)
+        ("at" . pdf-annot-add-text-annotation)
+        ("y"  . pdf-view-kill-ring-save)
+        ("i"  . pdf-misc-display-metadata)
+        ("s"  . pdf-occur)
+        ("b"  . pdf-view-set-slice-from-bounding-box)
+        ("r"  . pdf-view-reset-slice))
+
+    (when (package-installed-p 'hydra)
       (bind-keys :map pdf-view-mode-map
-          ("\\" . hydra-pdftools/body)
-          ("<s-spc>" .  pdf-view-scroll-down-or-next-page)
-          ("g"  . pdf-view-first-page)
-          ("G"  . pdf-view-last-page)
-          ("l"  . image-forward-hscroll)
-          ("h"  . image-backward-hscroll)
-          ("j"  . pdf-view-next-line-or-next-page)
-          ("k"  . pdf-view-previous-line-or-previous-page)
-          ("e"  . pdf-view-goto-page)
-          ("t"  . pdf-view-goto-label)
-          ("u"  . pdf-view-revert-buffer)
-          ("al" . pdf-annot-list-annotations)
-          ("ad" . pdf-annot-delete)
-          ("aa" . pdf-annot-attachment-dired)
-          ("am" . pdf-annot-add-markup-annotation)
-          ("at" . pdf-annot-add-text-annotation)
-          ("y"  . pdf-view-kill-ring-save)
-          ("i"  . pdf-misc-display-metadata)
-          ("s"  . pdf-occur)
-          ("b"  . pdf-view-set-slice-from-bounding-box)
-          ("r"  . pdf-view-reset-slice))
+                 ("\\" . hydra-pdftools/body))
+      (defhydra hydra-pdftools (:color blue :hint nil)
+          "
+                                                                        ╭───────────┐
+         Move  History   Scale/Fit     Annotations  Search/Link    Do   │ PDF Tools │
+     ╭──────────────────────────────────────────────────────────────────┴───────────╯
+        ^^^_g_^^^       _B_    ^↧^    _+_    ^ ^     [_al_] list    [_s_] search    [_u_] revert buffer
+        ^^^^↑^^^^       ^↑^    _H_    ^↑^  ↦ _W_ ↤   [_am_] markup  [_o_] outline   [_i_] info
+        ^^^_p_^^^       ^ ^    ^↥^    _0_    ^ ^     [_at_] text    [_F_] link      [_d_] dark mode
+        ^^^^↑^^^^       ^↓^  ╭─^─^─┐  ^↓^  ╭─^ ^─┐   [_ad_] delete  [_f_] search link
+   _h_ ← _e_/_t_ → _l_  _N_  │ _P_ │  _-_    _b_     [_aa_] dired
+        ^^^^↓^^^^       ^ ^  ╰─^─^─╯  ^ ^  ╰─^ ^─╯   [_y_]  yank
+        ^^^_n_^^^       ^ ^  _r_eset slice box
+        ^^^^↓^^^^
+        ^^^_G_^^^
+     --------------------------------------------------------------------------------
+          "
+          ("\\" hydra-master/body "back")
+          ("<ESC>" nil "quit")
+          ("al" pdf-annot-list-annotations)
+          ("ad" pdf-annot-delete)
+          ("aa" pdf-annot-attachment-dired)
+          ("am" pdf-annot-add-markup-annotation)
+          ("at" pdf-annot-add-text-annotation)
+          ("y"  pdf-view-kill-ring-save)
+          ("+" pdf-view-enlarge :color red)
+          ("-" pdf-view-shrink :color red)
+          ("0" pdf-view-scale-reset)
+          ("H" pdf-view-fit-height-to-window)
+          ("W" pdf-view-fit-width-to-window)
+          ("P" pdf-view-fit-page-to-window)
+          ("n" pdf-view-next-page-command :color red)
+          ("p" pdf-view-previous-page-command :color red)
+          ("d" pdf-view-dark-minor-mode)
+          ("b" pdf-view-set-slice-from-bounding-box)
+          ("r" pdf-view-reset-slice)
+          ("g" pdf-view-first-page)
+          ("G" pdf-view-last-page)
+          ("e" pdf-view-goto-page)
+          ("t" pdf-view-goto-label)
+          ("o" pdf-outline)
+          ("s" pdf-occur)
+          ("i" pdf-misc-display-metadata)
+          ("u" pdf-view-revert-buffer)
+          ("F" pdf-links-action-perfom)
+          ("f" pdf-links-isearch-link)
+          ("B" pdf-history-backward :color red)
+          ("N" pdf-history-forward :color red)
+          ("l" image-forward-hscroll :color red)
+          ("h" image-backward-hscroll :color red)))
 
-      (when (package-installed-p 'hydra)
-        (bind-keys :map pdf-view-mode-map
-                   ("\\" . hydra-pdftools/body))
-        (defhydra hydra-pdftools (:color blue :hint nil)
-            "
-                                                                          ╭───────────┐
-           Move  History   Scale/Fit     Annotations  Search/Link    Do   │ PDF Tools │
-       ╭──────────────────────────────────────────────────────────────────┴───────────╯
-          ^^^_g_^^^       _B_    ^↧^    _+_    ^ ^     [_al_] list    [_s_] search    [_u_] revert buffer
-          ^^^^↑^^^^       ^↑^    _H_    ^↑^  ↦ _W_ ↤   [_am_] markup  [_o_] outline   [_i_] info
-          ^^^_p_^^^       ^ ^    ^↥^    _0_    ^ ^     [_at_] text    [_F_] link      [_d_] dark mode
-          ^^^^↑^^^^       ^↓^  ╭─^─^─┐  ^↓^  ╭─^ ^─┐   [_ad_] delete  [_f_] search link
-     _h_ ← _e_/_t_ → _l_  _N_  │ _P_ │  _-_    _b_     [_aa_] dired
-          ^^^^↓^^^^       ^ ^  ╰─^─^─╯  ^ ^  ╰─^ ^─╯   [_y_]  yank
-          ^^^_n_^^^       ^ ^  _r_eset slice box
-          ^^^^↓^^^^
-          ^^^_G_^^^
-       --------------------------------------------------------------------------------
-            "
-            ("\\" hydra-master/body "back")
-            ("<ESC>" nil "quit")
-            ("al" pdf-annot-list-annotations)
-            ("ad" pdf-annot-delete)
-            ("aa" pdf-annot-attachment-dired)
-            ("am" pdf-annot-add-markup-annotation)
-            ("at" pdf-annot-add-text-annotation)
-            ("y"  pdf-view-kill-ring-save)
-            ("+" pdf-view-enlarge :color red)
-            ("-" pdf-view-shrink :color red)
-            ("0" pdf-view-scale-reset)
-            ("H" pdf-view-fit-height-to-window)
-            ("W" pdf-view-fit-width-to-window)
-            ("P" pdf-view-fit-page-to-window)
-            ("n" pdf-view-next-page-command :color red)
-            ("p" pdf-view-previous-page-command :color red)
-            ("d" pdf-view-dark-minor-mode)
-            ("b" pdf-view-set-slice-from-bounding-box)
-            ("r" pdf-view-reset-slice)
-            ("g" pdf-view-first-page)
-            ("G" pdf-view-last-page)
-            ("e" pdf-view-goto-page)
-            ("t" pdf-view-goto-label)
-            ("o" pdf-outline)
-            ("s" pdf-occur)
-            ("i" pdf-misc-display-metadata)
-            ("u" pdf-view-revert-buffer)
-            ("F" pdf-links-action-perfom)
-            ("f" pdf-links-isearch-link)
-            ("B" pdf-history-backward :color red)
-            ("N" pdf-history-forward :color red)
-            ("l" image-forward-hscroll :color red)
-            ("h" image-backward-hscroll :color red)))
-
-       (use-package org-pdfview
-         :ensure t))
+     (use-package org-pdfview
+       :ensure t))
 #+END_SRC
 
 ** popwin

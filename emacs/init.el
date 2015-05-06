@@ -3093,9 +3093,12 @@
   :commands org-pomodoro
   :pin melpa-stable)
 
-;; TODO ox-pandoc
+;; ox-pandoc
+
+;; [[https://github.com/kawabata/ox-pandoc][ox-pandoc]] translates org-mode files to various other formats via Pandoc.
 
 (use-package ox-pandoc
+  :defer 1
   :ensure t)
 
 ;; paradox
@@ -3144,7 +3147,8 @@
   :ensure t
   :config
   (pdf-tools-install)
-  (setq-default pdf-view-display-size 'fit-page)
+  (setq-default pdf-view-display-size 'fit-page
+                pdf-view-use-imagemagick t)
   (bind-keys :map pdf-view-mode-map
       ("\\" . hydra-pdftools/body)
       ("<s-spc>" .  pdf-view-scroll-down-or-next-page)
