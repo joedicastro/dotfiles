@@ -693,7 +693,7 @@ Settings for the Emacs Web Browser.
       (setq org-confirm-babel-evaluate 'joe-org-confirm-babel-evaluate)))
 #+END_SRC
 
-* TODO Packages [0/19]
+* TODO Packages [0/18]
 
 What I try here is to config each package as atomic as possible, so to ensure
 that to add or remove a package does not broke the configuration of others.
@@ -1897,7 +1897,7 @@ to line according to moving up and down the line list.
       :commands helm-themes))
 #+END_SRC
 
-** TODO hydra
+** hydra
 
 [[https://github.com/abo-abo/hydra][Hydra]] is a package for GNU Emacs that can be used to tie related commands into a
 family of short bindings with a common prefix - a Hydra.
@@ -4115,6 +4115,18 @@ search in your emails to get a little context in the conversation.
     :ensure t)
 #+END_SRC
 
+** page-break-lines
+
+[[https://github.com/purcell/page-break-lines][page-break-lines]] provides a global mode which displays ugly form feed characters
+=^L= as tidy horizontal rules.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package page-break-lines
+    :ensure t
+    :config
+    (global-page-break-lines-mode t))
+#+END_SRC
+
 ** paradox
 
 [[https://github.com/Bruce-Connor/paradox][Paradox]] is a Project for modernizing Emacs' Package Menu. With package
@@ -4525,7 +4537,8 @@ regex.
     (bind-keys :map swiper-map
                ("<escape>" . minibuffer-keyboard-quit))
     (bind-keys :map ivy-minibuffer-map
-               ("<escape>" . minibuffer-keyboard-quit))
+               ("<escape>" . minibuffer-keyboard-quit)
+               ("C-k"      . delete-minibuffer-contents)) 
     (ivy-mode t))
 #+END_SRC
 

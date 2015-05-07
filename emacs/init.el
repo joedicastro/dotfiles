@@ -1619,7 +1619,7 @@
     :ensure t
     :commands helm-themes))
 
-;; TODO hydra
+;; hydra
 
 ;; [[https://github.com/abo-abo/hydra][Hydra]] is a package for GNU Emacs that can be used to tie related commands into a
 ;; family of short bindings with a common prefix - a Hydra.
@@ -3102,6 +3102,16 @@
   :defer 1
   :ensure t)
 
+;; page-break-lines
+
+;; [[https://github.com/purcell/page-break-lines][page-break-lines]] provides a global mode which displays ugly form feed characters
+;; =^L= as tidy horizontal rules.
+
+(use-package page-break-lines
+  :ensure t
+  :config
+  (global-page-break-lines-mode t))
+
 ;; paradox
 
 ;; [[https://github.com/Bruce-Connor/paradox][Paradox]] is a Project for modernizing Emacs' Package Menu. With package
@@ -3474,7 +3484,8 @@
   (bind-keys :map swiper-map
              ("<escape>" . minibuffer-keyboard-quit))
   (bind-keys :map ivy-minibuffer-map
-             ("<escape>" . minibuffer-keyboard-quit))
+             ("<escape>" . minibuffer-keyboard-quit)
+             ("C-k"      . delete-minibuffer-contents)) 
   (ivy-mode t))
 
 ;; twittering-mode
