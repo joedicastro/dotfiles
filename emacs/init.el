@@ -619,14 +619,13 @@
 ;; |---------+------------+--------------|
 
 (use-package ace-link
-  :ensure ace-jump-mode
+  :ensure t
+  :ensure avy
   :defer 3
   :config
   (ace-link-setup-default))
 
 ;; ace-window
-
-;; [[./img/ace_window.png]]
 
 ;; [[https://github.com/abo-abo/ace-window][ace-window]] is a package for selecting a window to switch to. Also can be used to
 ;; jump to words, lines, chars, subwords, move/delete/copy lines and other some
@@ -634,18 +633,12 @@
 
 (use-package ace-window
   :ensure t
-  :defer 1
+  :ensure avy
   :config
-  (setq avi-keys       '(?a ?s ?d ?e ?f ?g ?r ?v ?h ?j ?k ?l ?n ?m ?u)
-        avi-background t
-        avi-all-windows t
-        aw-keys        '(?a ?s ?d ?f ?j ?k ?l)
+  (set-face-attribute 'aw-leading-char-face nil :foreground "deep sky blue" :weight 'bold)
+  (set-face-attribute 'aw-mode-line-face nil :inherit 'mode-line-buffer-id :foreground "lawn green")
+  (setq aw-keys        '(?a ?s ?d ?f ?j ?k ?l)
         aw-flip-keys   '("w" "n"))
-  ;; FIXME: to change, for some reason failed with set-face-attribute, look later
-  (custom-set-faces
-   '(avi-lead-face ((t (:foreground "gold" :weight bold))))
-   '(aw-leading-char-face ((t (:foreground "deep sky blue" :weight bold))))
-   '(aw-mode-line-face ((t (:inherit mode-line-buffer-id :foreground "lawn green")))))
   (ace-window-display-mode t))
 
 ;; ag
@@ -710,6 +703,23 @@
                            (auto-complete-mode 1))
                          ))
   (real-global-auto-complete-mode t))
+
+;; avy
+
+;; [[./img/avy.png]]
+
+;; [[https://github.com/abo-abo/avy][avy]] is a GNU Emacs package for jumping to visible text using a char-based
+;; decision tree.
+
+(use-package avy
+      :ensure t
+      :config
+      (setq avy-keys       '(?a ?s ?d ?e ?f ?g ?r ?v ?h ?j ?k ?l ?n ?m ?u)
+            avy-background t
+            avy-all-windows t)
+      (use-package avy-jump
+        :config
+        (set-face-attribute 'avy-lead-face nil :foreground "gold" :weight 'bold :background nil)))
 
 ;; boxquote
 
@@ -1142,6 +1152,7 @@
       text-mode
       prog-mode
       term-mode
+      conf-mode
       twittering-edit-mode)
     "List of modes that should start up in Evil state."
     :type '(symbol))
@@ -1262,6 +1273,7 @@
       (setq evilnc-hotkey-comment-operator ""))
 
     (use-package evil-iedit-state
+      :ensure t
       :ensure expand-region
       :config
       (add-hook 'iedit-mode-hook 'evil-iedit-state)
@@ -1387,7 +1399,7 @@
   (add-hook 'sgml-mode 'flycheck-mode)
   (use-package helm-flycheck
     :ensure t
-    :requires helm
+    :ensure helm
     :commands helm-flycheck))
 
 ;; git-modes
@@ -1752,7 +1764,7 @@
     ("h" buf-move-lef)
     ("k" buf-move-u)
     ("j" buf-move-dow)
-    ("l" buf-move-righ)
+    ("l" buf-move-right)
     ("r" read-only-mode)
     ("s" helm-buffers-list)
     ("u" joe-revert-buffer)
@@ -1949,16 +1961,16 @@
       ("d" ace-delete-window)
       ("z" ace-maximize-window)
       ("s" ace-swap-window)
-      ("j" avi-goto-word-1)
-      ("p" avi-goto-word-0)
-      ("b" avi-goto-subword-0)
-      ("c" avi-goto-char)
-      ("a" avi-goto-char-2)
-      ("l" avi-goto-line)
-      ("y" avi-copy-line)
-      ("m" avi-move-line)
-      ("v" avi-copy-region)
-      ("i" avi-isearch))
+      ("j" avy-goto-word-1)
+      ("p" avy-goto-word-0)
+      ("b" avy-goto-subword-0)
+      ("c" avy-goto-char)
+      ("a" avy-goto-char-2)
+      ("l" avy-goto-line)
+      ("y" avy-copy-line)
+      ("m" avy-move-line)
+      ("v" avy-copy-region)
+      ("i" avy-isearch))
 
   (defhydra hydra-spell (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
@@ -2172,7 +2184,7 @@
       ("K" enlarge-window :color red)
       ("k" windmove-up)
       ("L" enlarge-window-horizontally :color red)
-      ("l" windmove-righ)
+      ("l" windmove-right)
       ("r" winner-redo :color red)
       ("s" split-window-vertically)
       ("u" winner-undo :color red)
@@ -2283,7 +2295,7 @@
       ("g" google-translate-smooth-translate)
       ("h" whitespace-mode)
       ("i" helm-ucs)
-      ("j" avi-goto-word-1)
+      ("j" avy-goto-word-1)
       ("w" ace-window)
       ("m" iedit-mode)
       ("n" count-words)
@@ -2333,7 +2345,7 @@
 (use-package ido-ubiquitous
   :ensure t
   :disabled t
-  :requires ido
+  :ensure ido
   :config
   (ido-ubiquitous-mode t)
   (setq ido-ubiquitous-max-items 50000))
@@ -2344,7 +2356,7 @@
 
 (use-package ido-vertical-mode
   :ensure t
-  :requires ido
+  :ensure ido
   :config
   (ido-vertical-mode t))
 
@@ -3485,7 +3497,7 @@
              ("<escape>" . minibuffer-keyboard-quit))
   (bind-keys :map ivy-minibuffer-map
              ("<escape>" . minibuffer-keyboard-quit)
-             ("C-k"      . delete-minibuffer-contents)) 
+             ("C-k"      . delete-minibuffer-contents))
   (ivy-mode t))
 
 ;; twittering-mode
@@ -3822,12 +3834,12 @@
 
   (use-package helm-emmet
     :ensure t
-    :requires helm
+    :ensure helm
     :commands helm-emmet)
 
   (use-package ac-emmet
     :ensure t
-    :requires auto-complete
+    :ensure auto-complete
     :config
     (add-hook 'sgml-mode-hook 'ac-emmet-html-setup)
     (add-hook 'css-mode-hook  'ac-emmet-css-setup)))
