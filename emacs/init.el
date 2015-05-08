@@ -1757,7 +1757,7 @@
 --------------------------------------------------------------------------------
     "
     ("a" joe-alternate-buffers)
-    ("b" ido-switch-buffer)
+    ("b" ivy-switch-buffer)
     ("d" joe-kill-this-buffer)
     ("i" ibuffer)
     ("m" ace-swap-window)
@@ -1868,7 +1868,7 @@
       ("f" helm-find-files)
       ("m" helm-mini)
       ("z" ztree-diff)
-      ("d" ido-dired))
+      ("d" dired))
 
 
   (defhydra hydra-text (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
@@ -2276,7 +2276,7 @@
   [_c_] comment                  [_a_] align with regex
   [_f_] fill column              [_p_] show character code
   [_h_] hidden chars             [_i_] insert unicode character (helm)
-  [_t_] trailing whitespace      [_e_] remove trailing whitespaces
+  [_e_] trailing whitespace      [_<SPC>_] remove trailing whitespaces
   [_v_] font space               [_u_] undo tree
    ^ ^                           [_j_] jump word
    ^ ^                           [_w_] jump window
@@ -2285,6 +2285,7 @@
    ^ ^                           [_m_] iedit (multiple edit)
    ^ ^                           [_g_] google translate
    ^ ^                           [_s_] swiper
+   ^ ^                           [_t_] helm-semantic-or-imenu
 --------------------------------------------------------------------------------
       "
       ("<escape>" nil "quit")
@@ -2300,11 +2301,12 @@
       ("m" iedit-mode)
       ("n" count-words)
       ("p" describe-char)
-      ("t" joe-toggle-show-trailing-whitespace)
+      ("e" joe-toggle-show-trailing-whitespace)
       ("u" undo-tree-visualize)
       ("v" variable-pitch-mode)
-      ("e" whitespace-cleanup)
-      ("s" swiper)
+      ("<SPC>" whitespace-cleanup)
+      ("s" joe-swiper)
+      ("t" helm-semantic-or-imenu)
       ("x" comment-box)))
 
 ;; ibuffer-vc
@@ -3493,11 +3495,16 @@
 (use-package swiper
   :ensure t
   :config
+  (setq ivy-use-virtual-buffers t)
   (bind-keys :map swiper-map
              ("<escape>" . minibuffer-keyboard-quit))
   (bind-keys :map ivy-minibuffer-map
              ("<escape>" . minibuffer-keyboard-quit)
              ("C-k"      . delete-minibuffer-contents))
+  (defun joe-swiper ()
+     (interactive)
+     (swiper)
+     (add-to-list 'regexp-search-ring ivy-text))
   (ivy-mode t))
 
 ;; twittering-mode
