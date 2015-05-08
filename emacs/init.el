@@ -716,7 +716,9 @@
       :config
       (setq avy-keys       '(?a ?s ?d ?e ?f ?g ?r ?v ?h ?j ?k ?l ?n ?m ?u)
             avy-background t
-            avy-all-windows t)
+            avy-all-windows t
+            avy-goto-char-style 'at
+            avy-goto-word-style 'at)
       (use-package avy-jump
         :config
         (set-face-attribute 'avy-lead-face nil :foreground "gold" :weight 'bold :background nil)))
@@ -3504,7 +3506,7 @@
   (defun joe-swiper ()
      (interactive)
      (swiper)
-     (add-to-list 'regexp-search-ring ivy-text))
+     (add-to-list 'regexp-search-ring (ivy--regex ivy-text)))
   (ivy-mode t))
 
 ;; twittering-mode
