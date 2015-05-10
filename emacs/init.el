@@ -3056,6 +3056,16 @@
   :config
   (setq multi-term-program "/bin/bash"))
 
+;; org-bullets
+
+;; [[https://github.com/sabof/org-bullets][org-bullets]] show org-mode bullets as UTF-8 characters.
+
+(use-package org-bullets
+  :ensure t
+  :config
+  (setq org-bullets-bullet-list '("◉" "○" "✸" "✿" "☼" "⚬"))
+  (org-bullets-mode t))
+
 ;; TODO org-plus-contrib
 
 (use-package org-plus-contrib
