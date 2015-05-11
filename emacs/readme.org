@@ -2450,39 +2450,28 @@ that way.
         ("g" gomoku)
         ("t" tetris))
 
-    (defhydra hydra-window (:color blue :hint nil :idle 0.4 :timeout 5 :inherit (hydra-common/heads))
+    (defhydra hydra-window (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
                                                                        ╭─────────┐
-     Move to      Size    Scroll        Split                    Do    │ Windows │
+     Size    Scroll other window        Do                             │ Windows │
   ╭────────────────────────────────────────────────────────────────────┴─────────╯
-        ^_k_^           ^_K_^       ^_p_^    ╭─┬─┐^ ^        ╭─┬─┐^ ^         ↺ [_u_] undo layout
-        ^^↑^^           ^^↑^^       ^^↑^^    │ │ │_v_ertical ├─┼─┤_b_alance   ↻ [_r_] restore layout
-    _h_ ←   → _l_   _H_ ←   → _L_   ^^ ^^    ╰─┴─╯^ ^        ╰─┴─╯^ ^         ✗ [_d_] close window
-        ^^↓^^           ^^↓^^       ^^↓^^    ╭───┐^ ^        ╭───┐^ ^         ⇋ [_w_] jump window
-        ^_j_^           ^_J_^       ^_n_^    ├───┤_s_tack    │   │_z_oom      ⇱ [_f_] new frame
-        ^^ ^^           ^^ ^^       ^^ ^^    ╰───╯^ ^        ╰───╯^ ^         ⇲ [_x_] delete frame
+        ^_k_^          ^_p_^       [_w_] ace window
+        ^^↑^^          ^^↑^^       [_f_] new frame
+    _h_ ←   → _l_      ^^ ^^       [_x_] delete frame
+        ^^↓^^          ^^↓^^
+        ^_j_^          ^_n_^
+        ^^ ^^          ^^ ^^
   --------------------------------------------------------------------------------
         "
         ("n" joe-scroll-other-window :color red)
         ("p" joe-scroll-other-window-down :color red)
-        ("b" balance-windows)
-        ("d" ace-delete-window)
         ("f" make-frame)
-        ("H" shrink-window-horizontally :color red)
-        ("h" windmove-left)
-        ("J" shrink-window :color red)
-        ("j" windmove-down)
-        ("K" enlarge-window :color red)
-        ("k" windmove-up)
-        ("L" enlarge-window-horizontally :color red)
-        ("l" windmove-right)
-        ("r" winner-redo :color red)
-        ("s" split-window-vertically)
-        ("u" winner-undo :color red)
-        ("v" split-window-horizontally)
+        ("h" shrink-window-horizontally :color red)
+        ("j" shrink-window :color red)
+        ("k" enlarge-window :color red)
+        ("l" enlarge-window-horizontally :color red)
         ("w" ace-window)
-        ("x" delete-frame)
-        ("z" ace-maximize-window))
+        ("x" delete-frame))
 
     (defhydra hydra-system (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
