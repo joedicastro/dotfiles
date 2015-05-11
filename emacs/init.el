@@ -52,6 +52,9 @@
 ;; setup the packages atomically, like islands, being able to add/disable/delete
 ;; packages without interfere the others.
 
+;; avoid problems with files newer than their byte-compiled counterparts
+;; it's better a lower startup than load an outdated and maybe bugged package
+(setq load-prefer-newer t)
 ;; initialize the packages and create the packages list if not exists
 (package-initialize)
 (when (not package-archive-contents)
@@ -491,6 +494,7 @@
         org-crypt
         org-protocol
         org-gnus
+        org-id
         org-info
         org-habit
         org-irc
