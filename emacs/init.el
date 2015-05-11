@@ -610,10 +610,6 @@
              ("k" . 2048-up)
              ("l" . 2048-right)))
 
-;; ace-window
-
-
-
 ;; ag
 
 ;; [[./img/ag.png]]
@@ -693,6 +689,9 @@
 ;; |---------+------------+--------------|
 ;; | o       | ace-link-* | jump to link |
 ;; |---------+------------+--------------|
+
+
+;; [[./img/ace_window.png]]
 
 ;; [[https://github.com/abo-abo/ace-window][ace-window]] is a package for selecting a window to switch to. Also can be used to
 ;; jump to words, lines, chars, subwords, move/delete/copy lines and other some
