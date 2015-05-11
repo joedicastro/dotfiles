@@ -610,40 +610,9 @@
              ("k" . 2048-up)
              ("l" . 2048-right)))
 
-;; ace-link
-
-;; [[./img/ace_link.png]]
-
-;; [[https://github.com/abo-abo/ace-link][ace-link]] is a Emacs package for selecting a link to jump to.
-;; Works in org-mode, info, help and eww.
-
-;; | Binding | Call       | Do           |
-;; |---------+------------+--------------|
-;; | o       | ace-link-* | jump to link |
-;; |---------+------------+--------------|
-
-(use-package ace-link
-  :ensure t
-  :ensure avy
-  :defer 3
-  :config
-  (ace-link-setup-default))
-
 ;; ace-window
 
-;; [[https://github.com/abo-abo/ace-window][ace-window]] is a package for selecting a window to switch to. Also can be used to
-;; jump to words, lines, chars, subwords, move/delete/copy lines and other some
-;; nice features.
 
-(use-package ace-window
-  :ensure t
-  :ensure avy
-  :config
-  (set-face-attribute 'aw-leading-char-face nil :foreground "deep sky blue" :weight 'bold)
-  (set-face-attribute 'aw-mode-line-face nil :inherit 'mode-line-buffer-id :foreground "lawn green")
-  (setq aw-keys        '(?a ?s ?d ?f ?j ?k ?l)
-        aw-flip-keys   '("w" "n"))
-  (ace-window-display-mode t))
 
 ;; ag
 
@@ -715,17 +684,54 @@
 ;; [[https://github.com/abo-abo/avy][avy]] is a GNU Emacs package for jumping to visible text using a char-based
 ;; decision tree.
 
+;; [[./img/ace_link.png]]
+
+;; [[https://github.com/abo-abo/ace-link][ace-link]] is a Emacs package for selecting a link to jump to.
+;; Works in org-mode, info, help and eww.
+
+;; | Binding | Call       | Do           |
+;; |---------+------------+--------------|
+;; | o       | ace-link-* | jump to link |
+;; |---------+------------+--------------|
+
+;; [[https://github.com/abo-abo/ace-window][ace-window]] is a package for selecting a window to switch to. Also can be used to
+;; jump to words, lines, chars, subwords, move/delete/copy lines and other some
+;; nice features.
+
 (use-package avy
       :ensure t
       :config
       (setq avy-keys       '(?a ?s ?d ?e ?f ?g ?r ?v ?h ?j ?k ?l ?n ?m ?u)
             avy-background t
             avy-all-windows t
-            avy-goto-char-style 'at
-            avy-goto-word-style 'at)
-      (use-package avy-jump
+            avy-style 'at-full
+            avy-case-fold-search nil)
+      (set-face-attribute 'avy-lead-face nil :foreground "gold" :weight 'bold :background nil)
+      (set-face-attribute 'avy-lead-face-0 nil :foreground "deep sky blue" :weight 'bold :background nil)
+      (use-package ace-link
+        :ensure t
+        :defer 3
         :config
-        (set-face-attribute 'avy-lead-face nil :foreground "gold" :weight 'bold :background nil)))
+        (ace-link-setup-default))
+      (use-package ace-window
+        :ensure t
+        :config
+        (set-face-attribute 'aw-leading-char-face nil :foreground "deep sky blue" :weight 'bold)
+        (set-face-attribute 'aw-mode-line-face nil :inherit 'mode-line-buffer-id :foreground "lawn green")
+        (setq aw-keys   '(?a ?s ?d ?f ?j ?k ?l)
+              aw-dispatch-always t
+              aw-dispatch-alist
+              '((?x aw-delete-window     "Ace - Delete Window")
+                (?c aw-swap-window       "Ace - Swap Window")
+                (?n aw-flip-window)
+                (?v aw-split-window-vert "Ace - Split Vert Window")
+                (?h aw-split-window-horz "Ace - Split Horz Window")
+                (?m delete-other-windows "Ace - Maximize Window")
+                (?g delete-other-windows)
+                (?b balance-windows)
+                (?u winner-undo)
+                (?r winner-redo)))
+        (ace-window-display-mode t)))
 
 ;; boxquote
 
@@ -3510,6 +3516,7 @@
 
 (use-package swiper
   :ensure t
+  :diminish ivy-mode
   :config
   (setq ivy-use-virtual-buffers t)
   (bind-keys :map swiper-map
