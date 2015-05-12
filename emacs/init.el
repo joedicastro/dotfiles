@@ -797,15 +797,6 @@
       ("n" boxquote-narrow-to-boxquote)
       ("c" boxquote-narrow-to-boxquote-content))))
 
-;; buffer-move
-
-;; [[https://github.com/lukhas/buffer-move][buffer-move]] is for lazy people
-;; wanting to swap buffers without typing C-x b on each window.
-
-(use-package buffer-move
-  :defer t
-  :ensure t)
-
 ;; bug-hunter
 
 ;; [[./img/bug_hunter.png]]
@@ -1758,13 +1749,12 @@
   (defhydra hydra-buffers (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
     "
                                                                      ╭─────────┐
-   Move to Window         Switch                  Do                 │ Buffers │
+  Switch                 Do                                          │ Buffers │
 ╭────────────────────────────────────────────────────────────────────┴─────────╯
-    ^ ^   _k_   ^ ^     [_b_] switch (ido)       [_d_] kill the buffer
-    ^ ^  ^ ↑ ^  ^ ^     [_i_] ibuffer            [_r_] toggle read-only mode
-    _h_ ← _m_ → _l_     [_a_] alternate          [_u_] revert buffer changes
-    ^ ^  ^ ↓ ^  ^ ^     [_s_] switch (helm)      [_w_] save buffer
-    ^ ^   _j_   ^ ^
+  [_b_] switch (ido)       [_d_] kill the buffer
+  [_i_] ibuffer            [_r_] toggle read-only mode
+  [_a_] alternate          [_u_] revert buffer changes
+  [_s_] switch (helm)      [_w_] save buffer
 --------------------------------------------------------------------------------
     "
     ("a" joe-alternate-buffers)
@@ -1772,10 +1762,6 @@
     ("d" joe-kill-this-buffer)
     ("i" ibuffer)
     ("m" ace-swap-window)
-    ("h" buf-move-lef)
-    ("k" buf-move-u)
-    ("j" buf-move-dow)
-    ("l" buf-move-right)
     ("r" read-only-mode)
     ("s" helm-buffers-list)
     ("u" joe-revert-buffer)
@@ -2173,14 +2159,14 @@
   (defhydra hydra-window (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
                                                                      ╭─────────┐
-   Size    Scroll other window        Do                             │ Windows │
+   Size    Scroll Other Window      Do                               │ Windows │
 ╭────────────────────────────────────────────────────────────────────┴─────────╯
-      ^_k_^          ^_p_^       [_w_] ace window
-      ^^↑^^          ^^↑^^       [_f_] new frame
-  _h_ ←   → _l_      ^^ ^^       [_x_] delete frame
-      ^^↓^^          ^^↓^^
-      ^_j_^          ^_n_^
-      ^^ ^^          ^^ ^^
+      ^_k_^             ^_p_^               [_w_] ace window
+      ^^↑^^             ^^↑^^               [_f_] new frame
+  _h_ ←   → _l_         ^^ ^^               [_x_] delete frame
+      ^^↓^^             ^^↓^^
+      ^_j_^             ^_n_^
+      ^^ ^^             ^^ ^^
 --------------------------------------------------------------------------------
       "
       ("n" joe-scroll-other-window :color red)
