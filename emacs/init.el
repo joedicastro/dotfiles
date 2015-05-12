@@ -709,13 +709,14 @@
       (set-face-attribute 'avy-lead-face-0 nil :foreground "deep sky blue" :weight 'bold :background nil)
       (use-package ace-link
         :ensure t
-        :defer 3
+        :defer 1
         :config
         (ace-link-setup-default))
       (use-package ace-window
         :ensure t
+        :defer 1
         :config
-        (set-face-attribute 'aw-leading-char-face nil :foreground "deep sky blue" :weight 'bold)
+        (set-face-attribute 'aw-leading-char-face nil :foreground "deep sky blue" :weight 'bold :height 3.0)
         (set-face-attribute 'aw-mode-line-face nil :inherit 'mode-line-buffer-id :foreground "lawn green")
         (setq aw-keys   '(?a ?s ?d ?f ?j ?k ?l)
               aw-dispatch-always t
@@ -730,6 +731,25 @@
                 (?b balance-windows)
                 (?u winner-undo)
                 (?r winner-redo)))
+
+        (when (package-installed-p 'hydra)
+          (defhydra hydra-window-size (:color red)
+            "Windows size"
+            ("h" shrink-window-horizontally "shrink horizontal")
+            ("j" shrink-window "shrink vertical")
+            ("k" enlarge-window "enlarge vertical")
+            ("l" enlarge-window-horizontally "enlarge horizontal"))
+          (defhydra hydra-window-frame (:color red)
+            "Frame"
+            ("f" make-frame "new frame")
+            ("x" delete-frame "delete frame"))
+          (defhydra hydra-window-scroll (:color red)
+            "Scroll other window"
+            ("n" joe-scroll-other-window "scroll")
+            ("p" joe-scroll-other-window-down "scroll down"))
+          (add-to-list 'aw-dispatch-alist '(?w hydra-window-size/body) t)
+          (add-to-list 'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
+          (add-to-list 'aw-dispatch-alist '(?\; hydra-window-frame/body) t))
         (ace-window-display-mode t)))
 
 ;; boxquote
@@ -1727,7 +1747,7 @@
     ("s"     hydra-search/body nil)
     ("t"     hydra-text/body nil)
     ("v"     hydra-games/body nil)
-    ("w"     hydra-window/body nil)
+    ("w"     ace-window nil)
     ("x"     hydra-system/body nil))
 
   (defhydra hydra-bookmarks (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
@@ -2156,29 +2176,6 @@
       ("g" gomoku)
       ("t" tetris))
 
-  (defhydra hydra-window (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
-      "
-                                                                     ╭─────────┐
-   Size    Scroll Other Window      Do                               │ Windows │
-╭────────────────────────────────────────────────────────────────────┴─────────╯
-      ^_k_^             ^_p_^               [_w_] ace window
-      ^^↑^^             ^^↑^^               [_f_] new frame
-  _h_ ←   → _l_         ^^ ^^               [_x_] delete frame
-      ^^↓^^             ^^↓^^
-      ^_j_^             ^_n_^
-      ^^ ^^             ^^ ^^
---------------------------------------------------------------------------------
-      "
-      ("n" joe-scroll-other-window :color red)
-      ("p" joe-scroll-other-window-down :color red)
-      ("f" make-frame)
-      ("h" shrink-window-horizontally :color red)
-      ("j" shrink-window :color red)
-      ("k" enlarge-window :color red)
-      ("l" enlarge-window-horizontally :color red)
-      ("w" ace-window)
-      ("x" delete-frame))
-
   (defhydra hydra-system (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
                                                                       ╭────────┐
@@ -2265,7 +2262,6 @@
   [_e_] trailing whitespace      [_<SPC>_] remove trailing whitespaces
   [_v_] font space               [_u_] undo tree
    ^ ^                           [_j_] jump word
-   ^ ^                           [_w_] jump window
    ^ ^                           [_x_] comment box
    ^ ^                           [_r_] expand region
    ^ ^                           [_m_] iedit (multiple edit)
@@ -2283,7 +2279,6 @@
       ("h" whitespace-mode)
       ("i" helm-ucs)
       ("j" avy-goto-word-1)
-      ("w" ace-window)
       ("m" iedit-mode)
       ("n" count-words)
       ("p" describe-char)
