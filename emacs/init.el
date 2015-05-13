@@ -509,6 +509,15 @@
     (setq org-directory "~/org"
           org-default-notes-file (concat org-directory "/notes.org"))
 
+    ;; set the archive
+    (setq org-archive-location "~/org/archive/%s_archive::datetree/** Archived")
+    (setq org-agenda-custom-commands
+          '(("Q" . "Custom queries") ;; gives label to "Q"
+            ("Qa" "Archive search" search ""
+             ((org-agenda-files (file-expand-wildcards "~/org/archive/*.org_archive"))))
+            ;; ...other commands here
+            ))
+
     ;; highlight code blocks syntax
     (setq org-src-fontify-natively  t
           org-src-tab-acts-natively t)
@@ -1949,7 +1958,7 @@
     Browse       Search             Social               Post       │ Internet │
 ╭───────────────────────────────────────────────────────────────────┴──────────╯
   [_w_] eww      [_g_] google          [_f_] elfeed            [_i_] imgur
-   ^ ^           [_m_] google maps     [_t_] twitter
+  [_u_] url      [_m_] google maps     [_t_] twitter
    ^ ^           [_s_] surfraw         [_x_] stack overflow
 --------------------------------------------------------------------------------
       "
@@ -1960,6 +1969,7 @@
       ("s" helm-surfraw)
       ("t" twit)
       ("w" eww)
+      ("u" browse-url-at-point)
       ("x" sx-tab-newest))
 
   (defhydra hydra-jump (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
@@ -2235,8 +2245,9 @@
 ╭───────────────────────────────────────────────────────────────┴──────────────╯
   [_a_] agenda      [_c_] capture             [_m_] mail      [_x_] speed type
   [_l_] agenda list [_p_] pomodoro            [_t_] contacts
-  [_d_] calendar    [_s_] search headings
+  [_d_] calendar    [_s_] search headings     [_h_] add location
    ^ ^              [_g_] open location gmaps
+   ^ ^              [_f_] archive subtree
 --------------------------------------------------------------------------------
       "
       ("a" org-agenda)
@@ -2245,6 +2256,7 @@
       ("g" org-location-google-maps)
       ("h" org-address-google-geocode-set)
       ("l" org-agenda-list)
+      ("f" org-archive-subtree)
       ("m" mu4e)
       ("p" org-pomodoro)
       ("s" helm-org-agenda-files-headings)
