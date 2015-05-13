@@ -3043,7 +3043,7 @@
   :ensure t
   :config
   (setq org-bullets-bullet-list '("◉" "○" "✸" "✿" "☼" "⚬"))
-  (org-bullets-mode t))
+  (add-hook 'org-mode-hook 'org-bullets-mode))
 
 ;; TODO org-plus-contrib
 

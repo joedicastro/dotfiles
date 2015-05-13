@@ -4047,7 +4047,7 @@ search in your emails to get a little context in the conversation.
     :ensure t
     :config
     (setq org-bullets-bullet-list '("◉" "○" "✸" "✿" "☼" "⚬"))
-    (org-bullets-mode t))
+    (add-hook 'org-mode-hook 'org-bullets-mode))
 #+END_SRC
 
 ** TODO org-plus-contrib
