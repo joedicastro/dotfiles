@@ -443,6 +443,23 @@
 (add-hook 'org-mode-hook      'joe-turn-on-spell-check)
 (add-hook 'prog-mode-hook     'flyspell-prog-mode)
 
+;; Dired
+
+;; Two ways to avoid to use more than one buffer when using Dired.
+
+(use-package dire
+   :init
+   ;; 'a' reuses the current buffer, 'RET' opens a new one
+   (put 'dired-find-alternate-file 'disabled nil)
+
+   ;; '^' reuses the current buffer
+   (add-hook 'dired-mode-hook
+             (lambda ()
+               (define-key dired-mode-map (kbd "^")
+                 (lambda ()
+                   (interactive)
+                   (find-alternate-file ".."))))))
+
 ;; Ido
 
 ;; Use ido to deal with files and buffers in a more pleasant way.
@@ -3792,19 +3809,6 @@
          ("TAB" ztree-jump-side)
          ("g" ztree-refresh-buffer)
          ("x" ztree-toggle-expand-subtree))))
-
-;; TODO dired+
-
-;; [[http://www.emacswiki.org/DiredPlus][Dired+]] extends functionalities provided by standard GNU Emacs libraries
-;; =dired.el=, =dired-aux.el= and =dired-x.el=. The standard functions are all
-;; available, plus many more.
-
-(use-package dired+
-  :ensure t
-  :defer t
-  :config
-  ;; reuse the same buffer for directories
-  (diredp-toggle-find-file-reuse-dir 1))
 
 ;; emmet-mode
 
