@@ -1247,14 +1247,10 @@
           evil-operator-state-cursor '("red" hollow))
 
     (defun joe-major-mode-evil-state-adjust ()
-      (if (member major-mode joe-evil-state-modes)
-          (turn-on-evil-mode)
-        (if (member major-mode joe-emacs-state-modes)
-            (turn-off-evil-mode)
-          (if (apply 'derived-mode-p joe-evil-state-modes)
-              (turn-on-evil-mode)
-            (when (apply 'derived-mode-p joe-emacs-state-modes))
-            (turn-off-evil-mode)))))
+      (cond ((member major-mode joe-evil-state-modes) (turn-on-evil-mode))
+            ((member major-mode joe-emacs-state-modes) (turn-off-evil-mode))
+            ((apply 'derived-mode-p joe-evil-state-modes) (turn-on-evil-mode))
+            ((apply 'derived-mode-p joe-emacs-state-modes) (turn-off-evil-mode))))
 
     (add-hook 'after-change-major-mode-hook #'joe-major-mode-evil-state-adjust)
 
