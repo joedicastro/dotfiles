@@ -652,7 +652,7 @@ globalkeys = awful.util.table.join(
         function ()
             awful.util.spawn_with_shell("rm " .. home_dir .. "/screencast.mkv")
             awful.util.spawn("ffmpeg -f x11grab -s " .. scr_res ..
-                            " -r 25 -i :0.0 -sameq " .. home_dir ..
+                            " -r 25 -i :0.0 -qscale 0 " .. home_dir ..
                             "/screencast.mkv")
             end),
 
