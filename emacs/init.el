@@ -214,7 +214,8 @@
   :config
   (progn
     (setq recentf-save-file (concat joe-emacs-temporal-directory "recentf")
-          recentf-max-saved-items 100)
+          recentf-max-saved-items 100
+          recentf-exclude '("COMMIT_MSG" "COMMIT_EDITMSG"))
     (recentf-mode t)))
 
 ;; Keep session between emacs runs (Desktop)
