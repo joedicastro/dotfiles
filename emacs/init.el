@@ -1235,6 +1235,9 @@
     "List of modes that should start up in Evil Emacs state."
     :type '(symbol))
 
+    ;; better indentation
+    (define-key evil-insert-state-map (kbd "RET") 'newline-and-indent)
+
     ;; esc quits almost everywhere, Gotten from ;;
     ;; http://stackoverflow.com/questions/8483182/emacs-evil-mode-best-practice,;;
     ;; trying to emulate the Vim behaviour
