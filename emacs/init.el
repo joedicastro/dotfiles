@@ -3786,6 +3786,7 @@
   :ensure ztree
   :config
   (set-face-attribute 'ztreep-diff-model-add-face  nil :foreground "deep sky blue")
+  (setq ztree-draw-unicode-lines t)
   (bind-keys :map ztreediff-mode-map
                  ("p" . previous-line)
                  ("k" . previous-line)
