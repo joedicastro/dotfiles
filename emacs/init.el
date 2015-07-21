@@ -1209,6 +1209,7 @@
       prog-mode
       term-mode
       conf-mode
+      web-mode
       twittering-edit-mode)
     "List of modes that should start up in Evil state."
     :type '(symbol))
@@ -3694,6 +3695,32 @@
     (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/tmp/undo"))
           undo-tree-visualizer-timestamps t
           undo-tree-visualizer-diff t)))
+
+;; web-mode
+
+;; [[https://github.com/fxbois/web-mode][web-mode.el]] is an emacs major mode for editing web templates aka HTML files
+;; embedding parts (CSS/JavaScript) and blocks (pre rendered by client/server side
+;; engines).
+
+;; web-mode.el is compatible with many template engines: PHP, JSP, ASP, Django,
+;; Twig, Jinja, Mustache, ERB, FreeMarker, Velocity, Cheetah, Smarty, CTemplate,
+;; Mustache, Blade, ErlyDTL, Go Template, Dust.js, Google Closure (soy), JSX,
+;; Angularjs, ejs, etc.
+
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.xml?\\'" . web-mode)))
 
 ;; TODO yasnippet
 
