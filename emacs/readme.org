@@ -1710,12 +1710,6 @@ Text developed by Pixel Lab.
 repository in GitHub but available as independent packages in Melpa.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package git-commit-mode
-    :ensure t
-    :defer t)
-  (use-package git-rebase-mode
-    :ensure t
-    :defer t)
   (use-package gitconfig-mode
     :ensure t
     :defer t)
@@ -2833,7 +2827,6 @@ rebasing, and other common Git operations.
   (use-package magit
     :ensure t
     :pin melpa-stable
-    :diminish magit-auto-revert-mode
     :commands magit-status)
 #+END_SRC
 

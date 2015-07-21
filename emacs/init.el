@@ -1463,12 +1463,6 @@
 ;; [[https://github.com/magit/git-modes][Git modes]] are GNU Emacs modes for Git-related files. There are in a common
 ;; repository in GitHub but available as independent packages in Melpa.
 
-(use-package git-commit-mode
-  :ensure t
-  :defer t)
-(use-package git-rebase-mode
-  :ensure t
-  :defer t)
 (use-package gitconfig-mode
   :ensure t
   :defer t)
@@ -2547,7 +2541,6 @@
 (use-package magit
   :ensure t
   :pin melpa-stable
-  :diminish magit-auto-revert-mode
   :commands magit-status)
 
 ;; TODO markdown-mode
