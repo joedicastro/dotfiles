@@ -2878,7 +2878,7 @@ Features include:
 
 There is an actual scheme of the current configuration (rendered by =graphviz=)
 
-#+BEGIN_SRC dot :file img/mu4e_scheme.png :cmdline -Kdot -Tpng :tangle no
+#+BEGIN_SRC dot :file ./img/mu4e_scheme.png :cmdline -Kdot -Tpng :tangle no
   digraph G {
       // General properties
       size="6,5"
@@ -3139,8 +3139,9 @@ There is an actual scheme of the current configuration (rendered by =graphviz=)
   }
 #+END_SRC
 
+#+ATTR_HTML: title="mu4e scheme"
 #+RESULTS:
-[[./img/mu4e_scheme.png]]
+[[file:./img/mu4e_scheme.png]]
 
 The complete process works like this:
 
