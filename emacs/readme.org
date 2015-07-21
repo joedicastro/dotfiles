@@ -870,8 +870,8 @@ nice features.
                 '((?x aw-delete-window     "Ace - Delete Window")
                   (?c aw-swap-window       "Ace - Swap Window")
                   (?n aw-flip-window)
-                  (?v aw-split-window-vert "Ace - Split Vert Window")
-                  (?h aw-split-window-horz "Ace - Split Horz Window")
+                  (?h aw-split-window-vert "Ace - Split Vert Window")
+                  (?v aw-split-window-horz "Ace - Split Horz Window")
                   (?m delete-other-windows "Ace - Maximize Window")
                   (?g delete-other-windows)
                   (?b balance-windows)
@@ -1488,7 +1488,7 @@ pressing the key until it selects what you want.
       (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 
       ;; change cursor color depending on mode
-      (setq evil-emacs-state-cursor    '("red" hbar)
+      (setq evil-emacs-state-cursor    '("red" box)
             evil-normal-state-cursor   '("lawn green" box)
             evil-visual-state-cursor   '("orange" box)
             evil-insert-state-cursor   '("deep sky blue" bar)
@@ -2124,7 +2124,7 @@ that way.
   --------------------------------------------------------------------------------
         "
         ("z" zeal-at-point)
-        ("d" zeal-at-pont-set-docset)
+        ("d" zeal-at-point-set-docset)
         ("c" helm-colors)
         ("g" restclient-mode)
         ("f" irfc-visit)
@@ -2734,7 +2734,7 @@ Thanks to [[https://github.com/skeeto/impatient-mode][impatient-mode]] you can s
               ^^↑^^       ^↑^      ^↑^     ^ ^ ^ ^        ^ ^       [_RET_] node    [_i_] index
               ^_k_^       _K_      _p_     ^ _L_ ^    _<backtab>_    ^ ^            [_r_] reference
               ^^↑^^       ^↑^      ^↑^     ^ ^↑^ ^        ^↑^        ^ ^            [_T_] toggle
-          _h_ ←   → _l_   ^ ^      _e_     _f_/_F_        _o_                       [_q_] quit
+          _h_ ←   → _l_   ^ ^      _e_     _f_/_F_        _o_        ^ ^            [_q_] quit
               ^^↓^^       ^↓^      ^↓^     ^ ^↓^ ^        ^↓^
               ^_j_^       _J_      _n_     ^ _H_ ^      _<tab>_
               ^^↓^^       ^↓^      ^↓^     ^ ^ ^ ^        ^ ^
