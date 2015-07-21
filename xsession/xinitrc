@@ -36,11 +36,6 @@ compton -b --config ~/.compton.conf
 # A Coruña coordinates
 redshift -l 43.365:-8.41 & -t 6500:2700
 
-# suspend after 10 min of inactivity (put the cursor on the right up
-# corner to avoid suspension, e.g. leaving alone the computer while a
-# background task is executed )
-xautolock -time 5 -locker "systemctl suspend" -detectsleep -corners 0-00 -notify 10 -notifier 'notify-send "Auto suspend in 5 seconds..."' &
-
 # start urxvt as a daemon
 urxvtd -q -o -f &
 
