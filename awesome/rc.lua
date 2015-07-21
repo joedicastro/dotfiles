@@ -171,7 +171,7 @@ run_once('xcalib -c')
 run_once('xcalib -co 92 -a')
 
 -- set the local settings
-os.setlocale('es_ES.UTF-8')
+-- os.setlocale('es_ES.UTF-8')
 -- }}}
 
 -- {{{ Variable definitions
