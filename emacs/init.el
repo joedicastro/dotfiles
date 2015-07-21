@@ -3196,7 +3196,8 @@
   :config
   (pdf-tools-install)
   (setq-default pdf-view-display-size 'fit-page
-                pdf-view-use-imagemagick t)
+                pdf-view-use-imagemagick t
+                pdf-view-midnight-colors '("white smoke" . "gray5"))
   (bind-keys :map pdf-view-mode-map
       ("\\" . hydra-pdftools/body)
       ("<s-spc>" .  pdf-view-scroll-down-or-next-page)
@@ -3228,10 +3229,10 @@
                                                                       ╭───────────┐
        Move  History   Scale/Fit     Annotations  Search/Link    Do   │ PDF Tools │
    ╭──────────────────────────────────────────────────────────────────┴───────────╯
-      ^^^_g_^^^       _B_    ^↧^    _+_    ^ ^     [_al_] list    [_s_] search    [_u_] revert buffer
-      ^^^^↑^^^^       ^↑^    _H_    ^↑^  ↦ _W_ ↤   [_am_] markup  [_o_] outline   [_i_] info
-      ^^^_p_^^^       ^ ^    ^↥^    _0_    ^ ^     [_at_] text    [_F_] link      [_d_] dark mode
-      ^^^^↑^^^^       ^↓^  ╭─^─^─┐  ^↓^  ╭─^ ^─┐   [_ad_] delete  [_f_] search link
+      ^^^_g_^^^       _B_    ^↧^    _+_    ^ ^     [_al_] list    [_s_] search      [_u_] revert buffer
+      ^^^^↑^^^^       ^↑^    _H_    ^↑^  ↦ _W_ ↤   [_am_] markup  [_o_] outline     [_i_] info
+      ^^^_p_^^^       ^ ^    ^↥^    _0_    ^ ^     [_at_] text    [_F_] link        [_d_] midgnight mode
+      ^^^^↑^^^^       ^↓^  ╭─^─^─┐  ^↓^  ╭─^ ^─┐   [_ad_] delete  [_f_] search link [_D_] print mode
  _h_ ← _e_/_t_ → _l_  _N_  │ _P_ │  _-_    _b_     [_aa_] dired
       ^^^^↓^^^^       ^ ^  ╰─^─^─╯  ^ ^  ╰─^ ^─╯   [_y_]  yank
       ^^^_n_^^^       ^ ^  _r_eset slice box
@@ -3255,7 +3256,8 @@
         ("P" pdf-view-fit-page-to-window)
         ("n" pdf-view-next-page-command :color red)
         ("p" pdf-view-previous-page-command :color red)
-        ("d" pdf-view-dark-minor-mode)
+        ("d" pdf-view-midnight-minor-mode)
+        ("D" pdf-view-printer-minor-mode)
         ("b" pdf-view-set-slice-from-bounding-box)
         ("r" pdf-view-reset-slice)
         ("g" pdf-view-first-page)
