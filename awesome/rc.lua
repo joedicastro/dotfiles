@@ -322,7 +322,7 @@ mytextclock = awful.widget.textclock(" %a %d %b %H:%M ", 15)
 mute = wibox.widget.textbox()
 vicious.register(mute, vicious.widgets.volume, "$2", 2, "Master")
 soundvol = wibox.widget.textbox()
-vicious.register(soundvol, vicious.widgets.volume, "$1%", 2, "PCM")
+vicious.register(soundvol, vicious.widgets.volume, "$1%", 2, "Master")
 -- }}}
 
 -- {{{ Space & Separator
@@ -566,11 +566,11 @@ globalkeys = awful.util.table.join(
 
     awful.key({ }, "XF86AudioRaiseVolume",
         function ()
-            awful.util.spawn("amixer sset PCM 2dB+")
+            awful.util.spawn("amixer sset Master 1%+")
         end),
     awful.key({ }, "XF86AudioLowerVolume",
         function ()
-            awful.util.spawn("amixer sset PCM 2dB-")
+            awful.util.spawn("amixer sset Master 1%-")
         end),
     awful.key({ }, "XF86AudioMute",
         function ()
