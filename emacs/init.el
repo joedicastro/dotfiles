@@ -447,8 +447,10 @@
 
 ;; Two ways to avoid to use more than one buffer when using Dired.
 
-(use-package dire
+(use-package dired
    :init
+   ;; human-readable sizes
+   (setq dired-listing-switches "-alh")
    ;; 'a' reuses the current buffer, 'RET' opens a new one
    (put 'dired-find-alternate-file 'disabled nil)
 

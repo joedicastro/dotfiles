@@ -544,8 +544,10 @@ Activate Spell Checking by default. Also use [[http://hunspell.sourceforge.net/]
 Two ways to avoid to use more than one buffer when using Dired.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package dire
+  (use-package dired
      :init
+     ;; human-readable sizes
+     (setq dired-listing-switches "-alh")
      ;; 'a' reuses the current buffer, 'RET' opens a new one
      (put 'dired-find-alternate-file 'disabled nil)
 
