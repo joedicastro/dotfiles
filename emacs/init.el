@@ -778,6 +778,19 @@
           (add-to-list 'aw-dispatch-alist '(?\; hydra-window-frame/body) t))
         (ace-window-display-mode t)))
 
+;; beacon
+
+;; [[https://github.com/Malabarba/beacon][Beacon]] is a minor mode that helps to locate you cursor easily.
+
+(use-package beacon
+  :ensure t
+  :config
+  (beacon-mode 1)
+  (setq beacon-push-mark 35
+        beacon-push-mark 35
+        beacon-blink-when-focused t
+        beacon-color "deep sky blue"))
+
 ;; boxquote
 
 ;; [[./img/boxquote.png]]

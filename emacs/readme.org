@@ -899,6 +899,21 @@ nice features.
           (ace-window-display-mode t)))
 #+END_SRC
 
+** beacon
+
+[[https://github.com/Malabarba/beacon][Beacon]] is a minor mode that helps to locate you cursor easily.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package beacon
+    :ensure t
+    :config
+    (beacon-mode 1)
+    (setq beacon-push-mark 35
+          beacon-push-mark 35
+          beacon-blink-when-focused t
+          beacon-color "deep sky blue"))
+#+END_SRC
+   
 ** boxquote
 
 [[./img/boxquote.png]]
