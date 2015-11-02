@@ -1896,7 +1896,7 @@
   [_s_] smex       [_p_] list      [_a_] apropos (helm)    [_t_] change theme (helm)
   [_m_] smex mode  [_i_] install   [_f_] info manual       [_l_] list emacs process
   [_h_] helm M-x   [_u_] upgrade   [_k_] bindings (helm)   [_c_] init time
-   ^ ^              ^ ^            [_b_] personal bindings [_o_] unbound commands
+  [_x_] counsel M-x ^ ^            [_b_] personal bindings [_o_] unbound commands
 --------------------------------------------------------------------------------
       "
       ("C-h b" helm-descbinds "bindings")
@@ -1913,6 +1913,7 @@
       ("m" smex-major-mode-commands)
       ("s" smex)
       ("h" helm-M-x)
+      ("x" counsel-M-x)
       ("o" smex-show-unbound-commands))
 
   (defhydra hydra-file (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
@@ -1921,14 +1922,15 @@
      Ido               Helm                 Dired        Ztree          │ File │
 ╭───────────────────────────────────────────────────────────────────────┴──────╯
   [_o_] open file   [_f_] find file      [_d_] dired    [_z_] diff dirs
-   ^ ^              [_m_] mini
+   ^ ^              [_m_] mini           [_r_] ranger
 --------------------------------------------------------------------------------
       "
       ("o" find-file)
       ("f" helm-find-files)
       ("m" helm-mini)
       ("z" ztree-diff)
-      ("d" dired))
+      ("d" dired)
+      ("r" ranger))
 
 
   (defhydra hydra-text (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
@@ -3396,6 +3398,20 @@
   :defer t
   :config
   (setq racket-mode-pretty-lambda t))
+
+;; DONE ranger
+;;    CLOSED: [2015-11-02 lun 20:40]
+
+;;  [[https://github.com/ralesi/ranger.el][Ranger]] is a minor mode that runs within dired emulating many of the features of
+;;  [[https://github.com/ralesi/ranger.el][ranger]]. This minor mode shows a stack of the parent directories and updates the
+;;  parent buffers while navigating the file system.
+
+(use-package ranger
+  :ensure t
+  :config
+  (setq ranger-cleanup-on-disable t
+        ranger-show-dotfiles nil
+        ranger-show-literal nil))
 
 ;; restclient
 
