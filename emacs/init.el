@@ -1944,6 +1944,7 @@
   ^ ^  [_c_] comment          ^ ^                              [_q_] boxquote
   ^ ^  [_b_] multibyte chars  ^ ^                              [_m_] iedit (multiple)
   ^ ^   ^ ^                   ^ ^                              [_r_] expand region
+  ^ ^   ^ ^                   ^ ^                              [_U_] tabs to spaces
 --------------------------------------------------------------------------------
       "
       ("a" align-regexp)
@@ -1966,6 +1967,7 @@
       ("u" helm-ucs)
       ("v" variable-pitch-mode)
       ("w" whitespace-cleanup)
+      ("U" untabify)
       ("q" hydra-boxquote/body)
       ("x" comment-box))
 
