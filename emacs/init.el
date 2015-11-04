@@ -621,23 +621,6 @@
 
     (setq org-confirm-babel-evaluate 'joe-org-confirm-babel-evaluate)))
 
-;; 2048-game
-
-;; [[./img/2048.png]]
-
-;; [[https://bitbucket.org/zck/2048.el][2048-game]] is a very effective procrastination tool, one of the best ways to lose
-;; your time. Also is a simple and enjoying game.
-
-(use-package 2048-game
-  :ensure t
-  :commands 2048-game
-  :config
-  (bind-keys :map 2048-mode-map
-             ("h" . 2048-left)
-             ("j" . 2048-down)
-             ("k" . 2048-up)
-             ("l" . 2048-right)))
-
 ;; ag
 
 ;; [[./img/ag.png]]
@@ -1245,7 +1228,6 @@
       archive-mode
       irfc-mode
       chess-mode
-      2048-mode
       git-commit-mode
       git-rebase-mode)
     "List of modes that should start up in Evil Emacs state."
@@ -2213,13 +2195,11 @@
                                                                        ╭───────┐
    Game                                                                │ Games │
 ╭──────────────────────────────────────────────────────────────────────┴───────╯
-  [_p_] 2048-game      [_c_] chess (computer)
-  [_b_] bubbles        [_a_] chess (internet)
-  [_t_] tetris
+  [_b_] bubbles       [_c_] chess (computer)
+  [_t_] tetris        [_a_] chess (internet)
   [_g_] gomoku
 --------------------------------------------------------------------------------
       "
-      ("p" 2048-game)
       ("b" bubbles-set-game-hard)
       ("c" chess)
       ("a" chess-ics)
