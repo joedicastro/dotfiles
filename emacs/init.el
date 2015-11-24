@@ -1007,13 +1007,21 @@
   :ensure t
   :commands elfeed
   :config
-  (load (concat user-emacs-directory "elfeed.el.gpg"))
   (add-hook 'elfeed-new-entry-hook
-            (elfeed-make-tagger :before "2 weeks ago"
+            (elfeed-make-tagger :before "4 weeks ago"
                                 :remove 'unread))
   (setq elfeed-db-directory  (concat joe-emacs-temporal-directory "elfeed")
-        elfeed-search-filter "@2-days-old +unread "
+        elfeed-search-filter "@4-weeks-old +unread "
         elfeed-search-title-max-width 100)
+  (setq elfeed-feeds
+        '(
+          ("http://endlessparentheses.com/atom.xml" emacs)
+          ("http://planet.emacsen.org/atom.xml" emacs)
+          ("https://www.reddit.com/r/emacs/.rss" emacs)
+          ("https://www.reddit.com/r/orgmode/.rss" emacs)
+          ("http://www.blackhats.es/wordpress/?p=670" emacs)
+          ("http://www.howardism.org/index.xml" emacs)
+          ("http://www.masteringemacs.org/feed/" emacs)))
   (bind-keys :map elfeed-search-mode-map
              ("a"   .  elfeed-search-update--force)
              ("A"   .  elfeed-update)

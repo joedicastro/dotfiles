@@ -1145,109 +1145,116 @@ you to jump between and revert them selectively.
 [[./img/elfeed_show.png]]
 
 #+BEGIN_SRC emacs-lisp
-  (use-package elfeed
-    :ensure t
-    :commands elfeed
-    :config
-    (load (concat user-emacs-directory "elfeed.el.gpg"))
-    (add-hook 'elfeed-new-entry-hook
-              (elfeed-make-tagger :before "2 weeks ago"
-                                  :remove 'unread))
-    (setq elfeed-db-directory  (concat joe-emacs-temporal-directory "elfeed")
-          elfeed-search-filter "@2-days-old +unread "
-          elfeed-search-title-max-width 100)
-    (bind-keys :map elfeed-search-mode-map
-               ("a"   .  elfeed-search-update--force)
-               ("A"   .  elfeed-update)
-               ("d"   .  elfeed-unjam)
-               ("o"   .  elfeed-search-browse-url)
-               ("j"   .  next-line)
-               ("k"   .  previous-line)
-               ("g"   .  beginning-of-buffer)
-               ("G"   .  end-of-buffer)
-               ("v"   .  set-mark-command)
-               ("<escape>" .  keyboard-quit)
-               ("E"   .  (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg"))))
-    (bind-keys :map elfeed-show-mode-map
-               ("j"     . elfeed-show-next)
-               ("k"     . elfeed-show-prev)
-               ("o"     . elfeed-show-visit)
-               ("<escape>" .  keyboard-quit)
-               ("SPC"   . scroll-up)
-               ("S-SPC" . scroll-down)
-               ("TAB"   . shr-next-link)
-               ("S-TAB" . shr-previous-link))
+    (use-package elfeed
+      :ensure t
+      :commands elfeed
+      :config
+      (add-hook 'elfeed-new-entry-hook
+                (elfeed-make-tagger :before "4 weeks ago"
+                                    :remove 'unread))
+      (setq elfeed-db-directory  (concat joe-emacs-temporal-directory "elfeed")
+            elfeed-search-filter "@4-weeks-old +unread "
+            elfeed-search-title-max-width 100)
+      (setq elfeed-feeds
+            '(
+              ("http://endlessparentheses.com/atom.xml" emacs)
+              ("http://planet.emacsen.org/atom.xml" emacs)
+              ("https://www.reddit.com/r/emacs/.rss" emacs)
+              ("https://www.reddit.com/r/orgmode/.rss" emacs)
+              ("http://www.blackhats.es/wordpress/?p=670" emacs)
+              ("http://www.howardism.org/index.xml" emacs)
+              ("http://www.masteringemacs.org/feed/" emacs)))
+      (bind-keys :map elfeed-search-mode-map
+                 ("a"   .  elfeed-search-update--force)
+                 ("A"   .  elfeed-update)
+                 ("d"   .  elfeed-unjam)
+                 ("o"   .  elfeed-search-browse-url)
+                 ("j"   .  next-line)
+                 ("k"   .  previous-line)
+                 ("g"   .  beginning-of-buffer)
+                 ("G"   .  end-of-buffer)
+                 ("v"   .  set-mark-command)
+                 ("<escape>" .  keyboard-quit))
+      (bind-keys :map elfeed-show-mode-map
+                 ("j"     . elfeed-show-next)
+                 ("k"     . elfeed-show-prev)
+                 ("o"     . elfeed-show-visit)
+                 ("<escape>" .  keyboard-quit)
+                 ("SPC"   . scroll-up)
+                 ("S-SPC" . scroll-down)
+                 ("TAB"   . shr-next-link)
+                 ("S-TAB" . shr-previous-link))
 
-    (when (package-installed-p 'hydra)
-        (bind-keys :map elfeed-search-mode-map
-               ("\\"   . hydra-elfeed-search/body))
-        (bind-keys :map elfeed-show-mode-map
-               ("\\"   . hydra-elfeed-show/body))
-        (eval-and-compile
-          (defhydra hydra-elfeed-common (:color blue)
-            ("\\" hydra-master/body "back")
-            ("<ESC>" nil "quit")))
+      (when (package-installed-p 'hydra)
+          (bind-keys :map elfeed-search-mode-map
+                 ("\\"   . hydra-elfeed-search/body))
+          (bind-keys :map elfeed-show-mode-map
+                 ("\\"   . hydra-elfeed-show/body))
+          (eval-and-compile
+            (defhydra hydra-elfeed-common (:color blue)
+              ("\\" hydra-master/body "back")
+              ("<ESC>" nil "quit")))
 
-        (defhydra hydra-elfeed-search (:hint nil :color blue :inherit (hydra-elfeed-common/heads))
-          "
-                                                                        ╭────────┐
-    Move   Filter     Entries        Tags          Do                   │ Elfeed │
-  ╭─────────────────────────────────────────────────────────────────────┴────────╯
-    _p_/_k_    [_s_] live   [_RET_] view     [_r_] read      [_a_] refresh
-    ^ ^↑^ ^    [_S_] set    [_o_] browse     [_u_] unread    [_A_] fetch
-    ^ ^ ^ ^     ^ ^         [_y_] yank url   [_+_] add       [_d_] unjam
-    ^ ^↓^ ^     ^ ^         [_v_] mark       [_-_] remove    [_E_] edit feeds
-    _n_/_j_     ^ ^          ^ ^              ^ ^            [_q_] exit
-  --------------------------------------------------------------------------------
-          "
-          ("q"    quit-window)
-          ("a"    elfeed-search-update--force)
-          ("A"    elfeed-update)
-          ("d"    elfeed-unjam)
-          ("s"    elfeed-search-live-filter)
-          ("S"    elfeed-search-set-filter)
-          ("RET"  elfeed-search-show-entry)
-          ("o"    elfeed-search-browse-url)
-          ("y"    elfeed-search-yank)
-          ("v"    set-mark-command)
-          ("n"    next-line :color red)
-          ("j"    next-line :color red)
-          ("p"    previous-line :color red)
-          ("k"    previous-line :color red)
-          ("r"    elfeed-search-untag-all-unread)
-          ("u"    elfeed-search-tag-all-unread)
-          ("E"    (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
-          ("+"    elfeed-search-tag-all)
-          ("-"    elfeed-search-untag-all))
+          (defhydra hydra-elfeed-search (:hint nil :color blue :inherit (hydra-elfeed-common/heads))
+            "
+                                                                          ╭────────┐
+      Move   Filter     Entries        Tags          Do                   │ Elfeed │
+    ╭─────────────────────────────────────────────────────────────────────┴────────╯
+      _p_/_k_    [_s_] live   [_RET_] view     [_r_] read      [_a_] refresh
+      ^ ^↑^ ^    [_S_] set    [_o_] browse     [_u_] unread    [_A_] fetch
+      ^ ^ ^ ^     ^ ^         [_y_] yank url   [_+_] add       [_d_] unjam
+      ^ ^↓^ ^     ^ ^         [_v_] mark       [_-_] remove    [_E_] edit feeds
+      _n_/_j_     ^ ^          ^ ^              ^ ^            [_q_] exit
+    --------------------------------------------------------------------------------
+            "
+            ("q"    quit-window)
+            ("a"    elfeed-search-update--force)
+            ("A"    elfeed-update)
+            ("d"    elfeed-unjam)
+            ("s"    elfeed-search-live-filter)
+            ("S"    elfeed-search-set-filter)
+            ("RET"  elfeed-search-show-entry)
+            ("o"    elfeed-search-browse-url)
+            ("y"    elfeed-search-yank)
+            ("v"    set-mark-command)
+            ("n"    next-line :color red)
+            ("j"    next-line :color red)
+            ("p"    previous-line :color red)
+            ("k"    previous-line :color red)
+            ("r"    elfeed-search-untag-all-unread)
+            ("u"    elfeed-search-tag-all-unread)
+            ("E"    (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg")))
+            ("+"    elfeed-search-tag-all)
+            ("-"    elfeed-search-untag-all))
 
-      (defhydra hydra-elfeed-show (:hint nil :color blue)
-          "
-                                                                        ╭────────┐
-    Scroll       Entries        Tags          Links                     │ Elfeed │
-  ╭─────────────────────────────────────────────────────────────────────┴────────╯
-    _S-SPC_    _p_/_k_  [_g_] refresh   [_u_] unread    _S-TAB_
-    ^  ↑  ^    ^ ^↑^ ^  [_o_] browse    [_+_] add       ^  ↑  ^
-    ^     ^    ^ ^ ^ ^  [_y_] yank url  [_-_] remove    ^     ^
-    ^  ↓  ^    ^ ^↓^ ^  [_q_] quit       ^ ^            ^  ↓  ^
-     _SPC_     _n_/_j_  [_s_] quit & search^^            _TAB_
-  --------------------------------------------------------------------------------
-          "
-          ("q"     elfeed-kill-buffer)
-          ("g"     elfeed-show-refresh)
-          ("n"     elfeed-show-next :color red)
-          ("j"     elfeed-show-next :color red)
-          ("p"     elfeed-show-prev :color red)
-          ("k"     elfeed-show-prev :color red)
-          ("s"     elfeed-show-new-live-search)
-          ("o"     elfeed-show-visit)
-          ("y"     elfeed-show-yank)
-          ("u"     (elfeed-show-tag 'unread))
-          ("+"     elfeed-show-tag)
-          ("-"     elfeed-show-untag)
-          ("SPC"   scroll-up :color red)
-          ("S-SPC" scroll-down :color red)
-          ("TAB"   shr-next-link :color red)
-          ("S-TAB" shr-previous-link :color red))))
+        (defhydra hydra-elfeed-show (:hint nil :color blue)
+            "
+                                                                          ╭────────┐
+      Scroll       Entries        Tags          Links                     │ Elfeed │
+    ╭─────────────────────────────────────────────────────────────────────┴────────╯
+      _S-SPC_    _p_/_k_  [_g_] refresh   [_u_] unread    _S-TAB_
+      ^  ↑  ^    ^ ^↑^ ^  [_o_] browse    [_+_] add       ^  ↑  ^
+      ^     ^    ^ ^ ^ ^  [_y_] yank url  [_-_] remove    ^     ^
+      ^  ↓  ^    ^ ^↓^ ^  [_q_] quit       ^ ^            ^  ↓  ^
+       _SPC_     _n_/_j_  [_s_] quit & search^^            _TAB_
+    --------------------------------------------------------------------------------
+            "
+            ("q"     elfeed-kill-buffer)
+            ("g"     elfeed-show-refresh)
+            ("n"     elfeed-show-next :color red)
+            ("j"     elfeed-show-next :color red)
+            ("p"     elfeed-show-prev :color red)
+            ("k"     elfeed-show-prev :color red)
+            ("s"     elfeed-show-new-live-search)
+            ("o"     elfeed-show-visit)
+            ("y"     elfeed-show-yank)
+            ("u"     (elfeed-show-tag 'unread))
+            ("+"     elfeed-show-tag)
+            ("-"     elfeed-show-untag)
+            ("SPC"   scroll-up :color red)
+            ("S-SPC" scroll-down :color red)
+            ("TAB"   shr-next-link :color red)
+            ("S-TAB" shr-previous-link :color red))))
 #+END_SRC
 
 ** emmet-mode
