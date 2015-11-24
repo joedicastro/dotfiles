@@ -1032,8 +1032,7 @@
              ("g"   .  beginning-of-buffer)
              ("G"   .  end-of-buffer)
              ("v"   .  set-mark-command)
-             ("<escape>" .  keyboard-quit)
-             ("E"   .  (lambda() (interactive)(find-file "~/.emacs.d/elfeed.el.gpg"))))
+             ("<escape>" .  keyboard-quit))
   (bind-keys :map elfeed-show-mode-map
              ("j"     . elfeed-show-next)
              ("k"     . elfeed-show-prev)
@@ -1115,56 +1114,13 @@
         ("TAB"   shr-next-link :color red)
         ("S-TAB" shr-previous-link :color red))))
 
-;; TODO emms
-
-(use-package emms
-    :ensure t
-    :defer t
-    :config
-    (progn
-      (use-package emms-setup)
-      (use-package emms-player-vlc)
-      (use-package emms-player-mpd)
-      (use-package emms-volume)
-      (use-package emms-browser)
-      (emms-all)
-      (emms-default-players)
-      (setq emms-directory (concat joe-emacs-temporal-directory "emms")
-            emms-cache-file (concat joe-emacs-temporal-directory  "emms/cache")
-            emms-source-file-default-directory "~/musica/"
-            emms-player-mpd-server-name "localhost"
-            emms-player-mpd-server-port "6600"
-            emms-player-mpd-music-directory emms-source-file-default-directory
-            emms-volume-change-function 'emms-volume-mpd-change)
-      (add-to-list 'emms-info-functions 'emms-info-mpd)
-      (add-to-list 'emms-player-list 'emms-player-mpd)
-      (emms-browser-make-filter "all" 'ignore)))
-
-;; seen at http://howardism.org/Technical/Emacs/lists-and-key-sequences.html
-;; (defun play-jazz ()
-;;   "Start up some nice Jazz"
-;;   (interactive)
-;;   (emms-play-streamlist "http://thejazzgroove.com/itunes.pls"))
-
-
-;; (define-prefix-command 'personal-music-map)
-;; (global-set-key (kbd "<f9> m") 'personal-music-map)
-
-;; (dolist (station
-;;          '(("a" . "http://stereoscenic.com/pls/pill-hi-mp3.pls") ;; Ambient
-;;            ("t" . "http://www.1.fm/tunein/trance64k.pls")        ;; Trance
-;;            ("j" . "http://thejazzgroove.com/itunes.pls")))       ;; Jazz
-;;   (lexical-let ((keystroke (car station))
-;;                 (stream    (cdr station)))
-;;     (define-key personal-music-map (kbd keystroke)
-;;       (lambda ()
-;;         (interactive)
-;;         (emms-play-streamlist stream)))))
-
-;; TODO esup
+;; esup
 
 ;; [[https://github.com/jschaf/esup][Esup]] is a package for benchmark Emacs startup time without ever leaving your
 ;; Emacs.
+
+;; *Note*: It currently stops when parsing the ~diminesh.elc~ file, if delete it
+;; works fine.
 
 (use-package esup
   :ensure t
@@ -2259,31 +2215,28 @@
   (defhydra hydra-media (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
                                                                        ╭───────┐
-   Emms                Mpd                  Volume                     │ Media │
+   Mingus              Mpd                     Volume                  │ Media │
 ╭──────────────────────────────────────────────────────────────────────┴───────╯
- [_b_] browse         [_n_] next song          [_-_] volume down
- [_f_] play file      [_p_] previous song      [_+_] volume up
-  ^ ^                 [_c_] clear playlist
-  ^ ^                 [_o_] show song
-  ^ ^                 [_P_] pause
+ [_m_] mingus         [_n_] next song          [_-_] volume down
+ [_f_] search         [_p_] previous song      [_+_] volume up
+ [_l_] playlist       [_c_] clear playlist
+ [_a_] All            [_t_] pause
   ^ ^                 [_s_] stop
-  ^ ^                 [_y_] start & sync
+  ^ ^                 [_d_] start daemon
 --------------------------------------------------------------------------------
       "
-      ("a" emms-start)
-      ("x" emms-stop)
-      ("b" emms-smart-browse)
-      ("f" emms-play-file)
-      ("m" emms-player-mpd-connect)
-      ("c" emms-player-mpd-clear)
-      ("n" emms-player-mpd-next)
-      ("o" emms-player-mpd-show)
-      ("P" emms-player-mpd-pause)
-      ("p" emms-player-mpd-previous)
-      ("s" emms-player-mpd-stop)
-      ("y" emms-player-mpd-start)
-      ("-" emms-volume-lower)
-      ("\+" emms-volume-raise))
+      ("m" mingus)
+      ("f" mingus-search)
+      ("c" mingus-clear)
+      ("n" mingus-next)
+      ("p" mingus-prev)
+      ("t" mingus-toggle)
+      ("s" mingus-stop)
+      ("d" mingus-start-daemon)
+      ("l" mingus-load-playlist)
+      ("a" mingus-load-all)
+      ("-" mingus-vol-down)
+      ("\+" mingus-vol-up))
 
   (defhydra hydra-organization (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
@@ -2578,6 +2531,14 @@
   :ensure t
   :mode (("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode)))
+
+;; mingus
+
+(use-package mingus
+  :ensure t
+  :config
+  (use-package mingus-stays-home)
+  )
 
 ;; monokai-theme
 
