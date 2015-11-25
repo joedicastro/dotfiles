@@ -1591,6 +1591,9 @@
 
 ;; [[https://github.com/syohex/emacs-helm-themes][helm-themes]] provides theme selection with Helm.
 
+;; [[https://github.com/areina/helm-dash][helm-dash]] uses [[https://kapeli.com/dash][Dash]] docsets to browse documentation. It does not requires Dash
+;; or Zeal installed.
+
 (use-package helm
   :ensure t
   :config
@@ -1658,7 +1661,20 @@
     :commands (helm-swoop helm-multi-swoop))
   (use-package helm-themes
     :ensure t
-    :commands helm-themes))
+    :commands helm-themes)
+  (use-package helm-dash
+    :ensure t
+    :config
+    (setq helm-dash-docsets-path "~/dotfiles/emacs/docsets")
+    ;; each time that emacs starts load all the docsets already downloaded
+    (setq helm-dash-common-docsets
+          (sort
+           (let (value) 
+             (dolist (element
+                      (directory-files "~/dotfiles/emacs/docsets" nil "\\.docset$" 1) 
+                      value)
+               (setq value (cons (file-name-sans-extension element) value))))
+           'string-lessp))))
 
 ;; hydra
 
@@ -1820,20 +1836,23 @@
     (defhydra hydra-development (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
       "
                                                                  ╭─────────────┐
-     Zeal                   Web                 Quickrun         │ Development │
+     Dash                   Web                 Quickrun         │ Development │
 ╭────────────────────────────────────────────────────────────────┴─────────────╯
-  [_z_] search docs   [_c_] Web Colors          [_q_] buffer
-  [_d_] set docset    [_h_] HTTP header         [_v_] region
-   ^ ^                [_m_] HTTP method         [_x_] shell
-   ^ ^                [_r_] HTTP relation       [_p_] with arg
-   ^ ^                [_s_] HTTP status code    [_k_] buffer (helm)
-   ^ ^                [_g_] RESTclient          [_o_] only compile
-   ^ ^                [_f_] RFC doc             [_R_] replace
-  [_l_] lines of code [_F_] RFC index           [_e_] eval/print
+  [_d_] search docs (at point) [_c_] Web Colors          [_q_] buffer
+  [_D_] search docs            [_h_] HTTP header         [_v_] region
+  [_i_] get docset             [_m_] HTTP method         [_x_] shell
+  [_u_] get user docset        [_r_] HTTP relation       [_p_] with arg
+  [_a_] activate docset        [_s_] HTTP status code    [_k_] buffer (helm)
+   ^ ^                         [_g_] RESTclient          [_o_] only compile
+   ^ ^                         [_f_] RFC doc             [_R_] replace
+  [_l_] lines of code          [_F_] RFC index           [_e_] eval/print
 --------------------------------------------------------------------------------
       "
-      ("z" zeal-at-point)
-      ("d" zeal-at-point-set-docset)
+      ("d" helm-dash-at-point)
+      ("D" helm-dash)
+      ("i" helm-dash-install-docset)
+      ("u" helm-dash-install-user-docset)
+      ("a" helm-dash-activate-docset)
       ("c" helm-colors)
       ("g" restclient-mode)
       ("f" irfc-visit)
@@ -3622,55 +3641,6 @@
             (when (find major-mode
                         '(term-mode ansi-term))
               (yas-minor-mode 0))))
-
-;; zeal-at-point
-
-;; [[./img/zeal.png]]
-
-;; [[https://github.com/jinzhu/zeal-at-point][zeal-at-point]] search the word at point with Zeal. [[http://zealdocs.org/][Zeal]] is a simple offline API
-;; documentation browser inspired by Dash (OS X app), available for Linux and
-;; Windows.
-
-(use-package zeal-at-point
-  :ensure t
-  :commands (zeal-at-point zeal-at-point-set-docset)
-  :config
-  (setq zeal-at-point-mode-alist
-        '((actionscript-mode . "actionscript")
-          (arduino-mode . "arduino")
-          (c++-mode . "c++")
-          (c-mode . "c")
-          (clojure-mode . "clojure")
-          (coffee-mode . "coffee")
-          (common-lisp-mode . "lisp")
-          (cperl-mode . "perl")
-          (css-mode . "css")
-          (elixir-mode . "elixir")
-          (emacs-lisp-mode . "emacs")
-          (enh-ruby-mode . "ruby")
-          (erlang-mode . "erlang")
-          (gfm-mode . "markdown")
-          (go-mode . "go")
-          (groovy-mode . "groovy")
-          (haskell-mode . "haskell")
-          (html-mode . "html")
-          (java-mode . "java")
-          (js2-mode . "javascript")
-          (js3-mode . "nodejs")
-          (less-css-mode . "less")
-          (lua-mode . "lua")
-          (markdown-mode . "markdown")
-          (objc-mode . "iphoneos")
-          (perl-mode . "perl")
-          (php-mode . "php")
-          (processing-mode . "processing")
-          (puppet-mode . "puppet")
-          (python-mode . "python 2")
-          (ruby-mode . "ruby")
-          (sass-mode . "sass")
-          (scala-mode . "scala")
-          (tcl-mode . "tcl")
-          (vim-mode . "vim"))))
 
 ;; ztree
 
