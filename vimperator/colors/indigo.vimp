@@ -1,0 +1,102 @@
+" ==VimperatorColorSchema==
+" name: indigo
+" author: mashiro
+" ==/VimperatorColorSchema==
+
+" Highlights {{{1
+hi Boolean              color: orchid;
+hi Function             color: skyblue;
+hi Null                 color: cornflowerblue;
+hi Number               color: cornflowerblue;
+hi Object               color: khaki;
+hi String               color: orchid;
+hi Mapping              color: orchid;
+
+hi Key                  font-weight: bold;
+
+hi Enabled              color: #d0ffd0;
+hi Disabled             color: red;
+
+hi Normal               color: #d0d0d0; background: #1c1c1c; font-size: 12px;
+hi ErrorMsg             color: #ffffff; background: #440000; font-size: 12px;
+hi InfoMsg              color: #d0d0d0; background: #1c1c1c; font-size: 12px;
+hi ModeMsg              color: #d0d0d0; background: #1c1c1c; font-size: 12px;
+hi MoreMsg              color: #d0ffd0; background: #1c1c1c; font-size: 12px;
+hi WarningMsg           color: #ff0000; background: #1c1c1c; font-size: 12px;
+hi Message              white-space: normal; min-width: 100%; padding-left: 2em; text-indent: -2em; display: block; font-size: 12px;
+hi NonText              color: #a0a0d0; min-height: 16px; padding-left: 2px; font-size: 12px;
+hi Preview              color: #a0a0d0; font-size: 12px;
+hi Prompt               background: url("chrome://liberator/skin/prompt.png"); width: 10px; background-position: center; background-repeat: no-repeat;
+hi PromptText           color: #1c1c1c; background: #d0d0f0; font-size: 12px;
+
+hi CmdOutput            white-space: pre;
+hi CmdLine              font-size: 14px; background: black; color: #d0d0d0; -moz-transition: all 0.25s;
+hi CmdLine>*            font-family: monospace;
+
+hi ContentSeparator     border: none; display: -moz-box;
+
+"hi CompGroup
+hi CompGroup:not(:first-of-type) margin-top: 1ex;
+hi CompTitle            font-size: 12px; font-weight: bold; background: -moz-linear-gradient(19% 75% 90deg, #2c2c2f, #2a2a2f, #2f2f2f 100%);
+hi CompTitle>*          color: #a0a0d0; border-bottom: 1px solid #3c3c3f; padding: 1px 0.5ex; text-shadow: 1px 1px 0px #0c0c0c;
+hi CompMsg              font-style: italic; margin-left: 16px;
+hi CompItem             font-size: 12px;
+hi CompItem[selected]   color: #dddddd; background: #3c3c3f;
+hi CompItem>*           height: 18px; min-height: 18px; padding: 0 0.5ex;
+hi CompIcon             width: 16px; min-width: 16px; display: inline-block; margin-right: .5ex;
+hi CompIcon>img         max-width: 16px; max-height: 16px; vertical-align: middle;
+hi CompResult           width: 500px; max-width: 500px; overflow: hidden;
+hi CompDesc             width: 500px; max-width: 500px; color: #a0a0d0;
+
+hi Indicator            color: #a0a0d0;
+hi Filter               color: #7090d0;
+
+hi Keyword              color: khaki;
+hi Tag                  color: #a0a0d0;
+
+hi LineNr               color: #ffd0d0; background: #1c1c1c;
+hi Question             color: #a0a0d0; background: #1c1c1c; font-weight: bold;
+
+hi StatusLine           color: #7090d0; background: transparent; font-weight: normal; font-size: 12px;
+
+hi TabNumber            font-weight: bold; margin: 0px; padding-right: .3ex;
+
+hi Title                color: orchid; background: #1c1c1c; font-weight: bold;
+hi URL                  text-decoration: none; color: #d0ffd0;
+hi URL:hover            text-decoration: underline; cursor: pointer;
+
+hi FrameIndicator       background-color: red; opacity: 0.5; z-index: 999; position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+
+hi Bell                 border: none; background-color: #d0d0d0;
+hi Hint                 font-family: monospace; font-size: 14px; font-weight: normal; color: #dddddd; background-color: #1c1c1c; border: none; margin: -0.7em 0 0 -0.7em; padding: 0px 5px;
+hi Hint::after          content: attr(number);
+hi HintElem             background-color: rgba(208, 208, 240, 0.8); color: #1c1c1c;
+hi HintActive           background-color: rgba( 85, 102, 187, 0.8); color: #dddded;
+hi HintImage            opacity: .5;
+
+" 影(重かったらコメントアウト) {{{2
+hi -append Hint         background-color: rgba(28, 28, 28, 0.8); border: 1px solid #1c1c1c; -moz-border-radius: 4px; -moz-box-shadow: 0px 0px 1px black; text-shadow: 1px 1px 2px black;
+hi -append HintElem     text-decoration: none; -moz-border-radius: 4px; -moz-box-shadow: 0 0 2px #0c0c0c;
+hi -append HintActive   text-decoration: none; -moz-border-radius: 4px; -moz-box-shadow: 0 0 2px #0c0c0c;
+" }}}2
+" }}}1
+
+" Styles {{{1
+style -name indigo-feed-button chrome://* <<EOM
+    #feed-button {
+        list-style-image: url("chrome://browser/skin/feeds/feedIcon16.png") !important;
+        -moz-image-region: auto !important;
+        border: none !important;
+        min-width: 0 !important;
+    }
+EOM
+
+style -name indigo-sbmcommentsviewer chrome://* <<EOM
+    .liberator-sbmcommentsviewer-content {
+        padding: 0 !important;
+        border: none !important;
+    }
+EOM
+" }}}1
+
+" vim: ft=vimperator

@@ -1,0 +1,64 @@
+" ==Vimperator_Color_Scheme==
+" name: default
+" url: https://github.com/VoQn/vimperator-colorscheme/tree/master/colors
+" ==Defult_Colorscheme_Settings==
+hi Bell					border: 0 none; background-color: black;
+hi Boolean				color: red;
+hi CmdLine				font-family: monospace; padding: 1px;
+hi CmdOutput				white-space: pre;
+hi CompDesc				color: gray; width: 50%;
+" hi CompGroup	
+hi CompGroup:not(:first-of-type)	margin-top: .5em;
+hi CompIcon				width: 16px; min-width: 16px; display: inline-block; margin-right: .5ex;
+hi CompIcon>img				max-width: 16px; max-height: 16px; vertical-align: middle;
+" hi CompItem				
+hi CompItem>*				padding: 0 .5ex;
+hi CompItem[selected]			background: yellow;
+" hi CompLess				text-align: center; height: 0; line-height: .5ex; padding-top: 1ex;
+" hi CompLess::after			content: "\2303" /* Unicode up arrowhead */
+" hi CompMore				text-align: center; height: .5ex; line-height: .5ex; margin-bottom: -.5ex;
+" hi CompMore::after			content: "\2304" /* Unicode down arrowhead */
+hi CompMsg				font-style: italic; margin-left: 16px;
+hi CompResult				width: 45%; overfloaw: hidden;
+hi CompTitle				color: magenta; background: white; font-weight: bold;
+hi CompTitle>*				padding: 0 .5ex;
+hi ErrorMsg				color: white; background: red; font-weight: bold;
+hi Filter				font-weight: bold;
+hi FrameIndicator			background-color: red; opacity: 0.5; z-index: 999; position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+hi Function				color: navy;
+" hi Gradient				height: 1px; margin-bottom: -1px; margin-top: -1px;
+" hi GradientLeft				background-color: magenta;
+" hi GradientRight			background-color: white;
+hi Hint					font-family: monospace; font-size: 10px; font-weight: bold; color: white; background-color: red; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding 0px 1px 0px 1px;
+hi Hint::after				content: attr(number);
+hi HintActive				background: #88FF00; color: black;
+hi HintElem				background-color: yellow; color: black;
+hi HintImage				opacity: .5;
+hi Indicator				color: blue;
+hi InfoMsg				color: black; background: white;
+hi LineNr				color: orange; background: white;
+hi Message				white-space: normal; min-width: 100%; padding-left: 2em; text-indent: -2em; display: block;
+hi ModeMsg				color: black; background: white;
+hi MoreMsg				color: green; background: white;
+hi NonText				color: blue; min-height: 16px; padding-left: 2px;
+hi Normal				color: black; background: white;
+hi Null					color: blue;
+hi Number				color: blue;
+hi Object				color: maroon;
+hi Preview				color: gray;
+hi Question				color: green; background: white; font-weight: bold;
+" hi Search				font-size: inherit; padding: 0; color: black; background-color: yellow; padding: 0;
+hi StatusLine				color: white; background: black;
+" hi StatusLineBroken			color: black; background: #FF6060; /* light-red */
+" hi StatusLineSecure			color: black; background: #B0FF00; /* light-green */
+hi String				color: green;
+" hi TabClose				
+" hi TabIcon				
+" hi TabIconNumber			font-weight: normal; color: black; text-align: center; text-shadow: black -1px 0 1px, black 0 1px 1px, black 1px 0 1px, black 0 -1px 1px;
+hi TabNumber				font-weight: bold; margin: 0; padding-right: .3ex;
+" hi TabText				
+hi Tag					color: blue;
+hi Title				color: magenta; background: white; font-weight: bold;
+hi URL					text-decoration: none; color: green; background: inherit;
+hi URL:hover				text-decoration: underline; cursor: pointer;
+hi WarningMsg				color: red; background: white;

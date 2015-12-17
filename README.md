@@ -81,10 +81,6 @@ Configuration of [mpd](http://mpd.wikia.com/wiki/Music_Player_Daemon_Wiki)
 
 Configuration of [ncmpcpp](http://ncmpcpp.rybczak.net/)
 
-### `/pentadactyl`
-
-Configuration of [Pentadactyl](http://5digits.org/pentadactyl/)
-
 ### `/pylint`
 
 Configuration of [Pylint](http://www.pylint.org/)
@@ -111,6 +107,10 @@ Configuration of [Vim](http://www.vim.org)
 + `/vim/UltiSnips/` my custom [UltiSnips][ulsns] snippets
 
   [ulsns]: https://github.com/SirVer/ultisnips
+
+### `/vimperator`
+
+Configuration of [Vimperator](http://www.vimperator.org/vimperator)
 
 ### `/xsession`
 

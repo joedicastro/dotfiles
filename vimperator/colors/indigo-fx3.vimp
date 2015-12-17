@@ -1,0 +1,50 @@
+" ==VimperatorColorSchema==
+" name: indigo
+" ==/VimperatorColorSchema==
+
+hi Boolean color: Orchid;
+hi Function color: SkyBlue;
+hi Null color: CornflowerBlue;
+hi Number color: Orchid;
+hi Object color: Khaki;
+hi String color: Orchid;
+
+hi Normal color: #d0d0d0; background: #1c1c1c; font-size: 12px;
+hi ErrorMsg color: #ffffff; background: #440000; font-size: 12px;
+hi InfoMsg color: #d0d0d0; background: #1c1c1c; font-size: 12px;
+hi ModeMsg color: #d0d0d0; background: #1c1c1c; font-size: 12px;
+hi MoreMsg color: #d0ffd0; background: #1c1c1c; font-size: 12px;
+hi WarningMsg color: #ff0000; background: #1c1c1c; font-size: 12px;
+
+hi NonText color: #a0a0d0; min-height: 16px; padding-left: 2px;
+hi Filter color: #7090d0; font-weight: bold;
+
+hi CmdLine color: #d0d0d0; background: #0c0c0c; font-size: 14px; -moz-transition: all 0.25s;
+
+hi CompGroup background: rgba(28,28,28,0.25);
+hi CompItem[selected] color: #dddddd; background: rgba(88,88,96,0.5); box-shadow: 0px 0px 1px white;
+hi CompResult color: #dddddd; width: 45%; overflow: hidden;
+hi CompDesc color: #a0a0d0; width: 50%;
+hi CompTitle font-weight: bold; background: -moz-linear-gradient(19% 75% 90deg, #0c0c0c, #0a0a0a, #1c1c1c 100%);
+hi CompTitle>* color: #a0a0d0; padding: 0 0.5ex;
+
+hi Indicator color: DodgerBlue;
+hi FrameIndicator background-color: #5566bb; opacity: 0.5; z-index: 999; position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+
+hi Tag color: #a0a0d0; background: #1c1c1c; font-size: 12px;
+hi LineNr color: #ffd0d0; background: #1c1c1c; font-size: 12px;
+hi Question color: #a0a0d0; background: #1c1c1c; font-size: 12px;
+
+hi StatusLine color: #7090d0; background: #0c0c0c; font-weight: normal; font-size: 12px;
+hi TabNumber font-weight: bold; color: white; text-align: center;
+
+hi Title color: #d0d0ff;
+hi URL color: LightGreen;
+
+hi Hint font-family: monospace; font-size: 14px; font-weight: normal; color: #dddddd; background-color: #1c1c1c; border-color: #1c1c1c; border-width: 0px; border-style: solid; padding: 0px 5px 0px 5px;
+hi HintElem background-color: #d0d0f0; color: #1c1c1c;
+hi HintActive background-color: #5566bb; color: #dddded;
+
+hi PromptText background: #5566bb; color: #dddded;
+
+" vim: ft=vimperator

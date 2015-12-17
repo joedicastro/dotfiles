@@ -1,0 +1,53 @@
+" ==Vimperator_Color_Scheme==
+" name: Simple
+" modifications: Travis Jeffery <t.jeffery@utoronto.ca>
+" - changed font to DejaVu Sans Mono
+" - changed colors to be brighter and more excitings
+" url: https://github.com/travisjeffery/vimperator-scripts/tree/master/colors
+" ==Simple_Color_Scheme==
+
+highlight Bell display: none;
+
+highlight CmdLine font-size: 9px; font-weight: normal; font-family:"DejaVu Sans Mono", monospace; padding: 0 0;
+
+highlight CompGroup          font-size: 9px; color: #111;
+highlight CompTitle          font-size: 9px; letter-spacing: 2px; color: #333; background: #CCC;
+highlight CompItem           padding: 0 0; font-family: "DejaVu Sans Mono", monospace;
+highlight CompItem[selected] background-color: #DDD;
+highlight CompDesc           color: #888;
+" highlight CompMsg
+" highlight Gradient           background-color: #FFF;
+" highlight GradientLeft       background-color: #FFF;
+" highlight GradientRight      background-color: #FFF;
+
+highlight ErrorMsg background-color: #E00; color: #F5F5F5;
+highlight Filter font-weight: bold; color: #000;
+
+highlight StatusLine       font-size: 12px; font-weight: normal; color: #222; background: #EEE;
+" highlight StatusLineBroken font-size: 12px; font-weight: normal; color: #222; background: #FDD;
+" highlight StatusLineSecure font-size: 12px; font-weight: normal; color: #222; background: #DDF;
+" highlight StatusLine       font-size: 12px; font-weight: normal; color: #EEE; background: #111;
+" highlight StatusLineBroken font-size: 12px; font-weight: normal; color: #EEE; background: #311;
+" highlight StatusLineSecure font-size: 12px; font-weight: normal; color: #EEE; background: #114;
+
+" highlight InfoMsg
+" highlight ModeMsg
+" highlight MoreMsg
+
+" highlight CompLess
+" highlight CompLess::after
+" highlight CompMore
+" highlight CompMore::after
+" highlight CompResult
+
+" highlight WarningMsg
+highlight Hint font-family: "DejaVu Sans Mono", monospace; font-size: 12px; font-weight: normal; color: #FFO099; background-color: #3399FF; padding: 0px 2px;
+highlight HintElem background-color: #00CC000;
+" highlight HintActive
+
+highlight Title font-size: 12px; letter-spacing: 2px; color: #333; background: #CCC;
+
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel { padding: 2px !important; }
+statusbarpanel > * { margin: 0 !important; padding: 0 !important; }
+EOM

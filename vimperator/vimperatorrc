@@ -1,0 +1,36 @@
+"1.0rc1
+
+" Command to validate XHTML
+command! -description="Validate XHTML" valid :open javascript:void(location='http://validator.w3.org/check?uri='+escape(location))
+
+" Command to open video streams in the current url with livestreamer
+command! -description='Open video stream with livestreamer' livestreamer :js io.run("livestreamer", [buffer.URL])
+
+" Colorscheme
+colorscheme molokai
+
+" Use duckduckgo to search by default
+nmap s :open duckduckgo !g 
+nmap S :tabopen duckduckgo !g 
+
+" Use livestreamer to view video streams
+map v :livestreamer<CR>
+
+" Configure the command line and the look
+set maxitems=20
+set scrollbars=false
+set showstatuslinks=1
+set titlestring=""
+set gui=addons,nobookmarks,nonavigation,notabs
+
+" Set the default motor search
+set defsearch=duckduckgo 
+
+" Set the external editor
+set editor='emacsclient -c'
+
+set status=input,location,history,tabcount,position,ssl
+set complete=sfSt
+set focuscontent=true
+set showmode=true
+

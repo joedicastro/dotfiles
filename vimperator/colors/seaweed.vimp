@@ -1,0 +1,53 @@
+" ==Vimperator_Color_Scheme==
+" name: seaweed
+" url:   http://code.google.com/p/vimperator-labs/issues/detail?id=54&q=label%3Aproject-vimperator%20label%3Atype-colorscheme&colspec=ID%20Summary%20Project%20Type%20Status%20Priority%20Stars%20Owner
+" ==Seaweed_Colorscheme_Settings==
+hi Bell					border: 0 none; background-color: #2f2f2f;
+hi Boolean				color: #f6e9e9;
+hi CmdLine				font-family: Sans; padding: 1px;
+hi CmdOutput			white-space: pre;
+hi CompDesc				color: #77a8c1; width: 50%;
+hi CompIcon				width: 16px; min-width: 16px; display: inline-block; margin-right: .5ex;
+" hi CompLess				text-align: center; height: 0; line-height: .5ex; padding-top: 1ex;
+" hi CompLess::after		content: "\2303" /* Unicode up arrowhead */
+" hi CompMore				text-align: center; height: .5ex; line-height: .5ex; margin-bottom: -.5ex;
+" hi CompMore::after		content: "\2304" /* Unicode down arrowhead */
+hi CompMsg				font-style: italic; margin-left: 16px;
+hi CompResult			width: 45%; overfloaw: hidden;
+hi CompTitle			color: #9acd32; background: #2f2f2f; font-weight: bold;
+hi CompTitle>*			padding: 0 .5ex;
+hi ErrorMsg				color: green; background: #2f2f2f; font-weight: bold;
+hi Filter				font-weight: bold;
+hi FrameIndicator		background-color: #2f2f2f; opacity: 0.5; z-index: 999; position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+hi Function				color: navy;
+" hi Gradient				height: 1px; margin-bottom: -1px; margin-top: -1px;
+" hi GradientLeft			background-color: #2f2f2f;
+" hi GradientRight		background-color: #2f2f2f;
+hi Hint					font-family: Sans; font-size: 10px; font-weight: bold; color: #f6e9e9; background-color: red; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding 0px 1px 0px 1px;
+hi Hint::after			content: attr(number);
+hi HintActive			background: #2f2f2f; color: #f6e9e9;
+hi HintElem				background-color: #2f2f2f; color: #f6e9e9;
+hi HintImage			opacity: .5;
+hi Indicator			color: blue;
+hi InfoMsg				color: green; background: #2f2f2f;
+hi LineNr				color: green; background: #2f2f2f;
+hi Message				white-space: normal; min-width: 100%; padding-left: 2em; text-indent: -2em; display: block;
+hi ModeMsg				color: #8ade8e; background: #2f2f2f;
+hi MoreMsg				color: #8ade8e; background: #2f2f2f;
+hi NonText				color: blue; min-height: 16px; padding-left: 2px;
+hi Normal				color: #8ade8e; background: #2f2f2f;
+hi Null					color: blue;
+hi Number				color: blue;
+hi Object				color: maroon;
+hi Preview				color: gray;
+hi Question				color: #8ade8e; background: green; font-weight: bold;
+" hi Search				font-size: inherit; padding: 0; color: #2f2f2f; background-color: yellow; padding: 0;
+hi StatusLine			color: #9acd32; background: #2f2f2f;
+" hi StatusLineBroken		color: red; background: #2f2f2f;
+" hi StatusLineSecure		color: #77a8c1; background: #2f2f2f;
+hi String				color: green;
+hi Tag					color: blue;
+hi Title				color: green; background: #2f2f2f; font-weight: bold;
+hi URL					text-decoration: none; color: green; background: inherit;
+hi URL:hover			text-decoration: underline; cursor: pointer;
+hi WarningMsg			color: red; background: #2f2f2f;

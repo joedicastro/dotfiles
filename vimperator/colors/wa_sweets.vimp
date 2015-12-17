@@ -1,0 +1,138 @@
+
+" ==Vimperator_Color_Scheme==
+" name: wa_sweets
+" url: https://github.com/VoQn/vimperator-colorscheme/tree/master/colors
+" ==Japanese_Sweet_Concept_Colorscheme_Settings==
+
+" Color Definission {{{
+" ==================================================
+" karasuba_iro = '#180614'
+" kurobeni = '#302833'
+" kurotobi = '#432f2f'
+" moegi = '#aacf53'
+" mushiguri_iro = '#ede4cd'
+" suna_iro = '#dcd3b2'
+" tankou = '#f8e58c'
+" tsutsuji_iro = '#e95295'
+" tsuyukusa_iro = '#38a1db'
+" }}}
+
+" highlight settings {{{
+hi Bell					display: none; border: 0 none; background-color: black;
+hi Boolean				color: red;
+hi CmdLine				font-family: monospace; padding: 1px;
+hi CmdOutput				font-size: 15px; white-space: pre;
+hi CompDesc				color: #dcd3b2; width: 50%; /* SUNA_IRO */
+hi CompGroup				font-size: 14px;
+hi CompGroup:not(:first-of-type)	margin-top: .5em;
+hi CompIcon				width: 16px; min-width: 16px; display: inline-block; margin-right: .5ex;
+hi CompIcon>img				max-width: 16px; max-height: 16px; vertical-align: middle;
+hi CompItem				color: #f6bfbc;
+hi CompItem>*				padding: 0 .5ex;
+hi CompItem[selected]			color: white; background: #302833;
+" hi CompLess				text-align: center; height: 0; line-height: .5ex; padding-top: 1ex;
+" hi CompLess::after			content: "\2303"; /* Unicode up arrowhead */
+" hi CompMore				text-align: center; height: .5ex; line-height: .5ex; margin-bottom: -.5ex;
+" hi CompMore::after			content: "\2304"; /* Unicode down arrowhead */
+hi CompMsg				font-style: italic; margin-left: 16px;
+hi CompResult				width: 45%; overfloaw: hidden;
+hi CompTitle				color: magenta; background: #302833; font-weight: bold;
+hi CompTitle>*				padding: 0 .5ex;
+hi ErrorMsg				color: white; background: red; font-weight: bold;
+hi Filter				font-weight: bold;
+hi FrameIndicator			background-color: red; opacity: 0.5; z-index: 999; position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+hi Function				color: #59b9c6;
+" hi Gradient				height: 1px; margin-bottom: -1px; margin-top: -1px;
+" hi GradientLeft				background-color: magenta;
+" hi GradientRight			background-color: #432f2f;
+hi Hint					font-family: monospace; font-size: 18px; font-weight: normal; color: #ede4cd; background-color: #302833; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 3px 5px; /* CL MUSHIGURI_iRO BG:KUROBENI */
+hi Hint::after				content: attr(hintchar);
+hi HintActive				background: #aacf53; color: #white; /* CL:MOEGI */
+hi HintElem				background-color: #f8e58c; color: #180614; /* BG:TANKOU */
+hi HintImage				opacity: .5;
+hi Indicator				color: #38a1db;
+hi InfoMsg				color: #a58f86; background: #432f2f;
+
+hi Keyword				color: #e95295;
+hi LineNr				color: orange; background: #432f2f;
+hi Message				#432f2f-space: normal; min-width: 100%; padding-left: 2em; text-indent: -2em; display: block;
+hi ModeMsg				color: #a58f86; background: #432f2f;
+hi MoreMsg				color: #aacf53; background: #432f2f;
+
+hi NonText				color: #38a1db;  background: #432f2f; min-height: 16px; padding-left: 2px;
+hi Normal				color: white; background: #432f2f; font-size: 12px; /* CL:white BG:KUROTOBI */
+hi Null					color: #38a1db; /* TSUYUKUSA_IRO */
+hi Number				color: #38a1db; /* TSUYUKUSA_IRO */
+hi Object				color: #e9546b;
+hi Preview				color: gray;
+hi Question				color: #aacf53; background: #432f2f; font-weight: bold;
+" hi Search				font-size: inherit; padding: 0; color: black; background-color: yellow; padding: 0;
+
+hi StatusLine				font-size: 15px; color: #aacf53; background: #302833; /* CL:MOEGI BG:KUROBENI */
+" hi StatusLineBroken			color: black; background: #FF6060; /* light-red */
+" hi StatusLineSecure			color: black; background: #B0FF00; /* light-green */
+
+hi String				color: #aacf53;
+" hi TabClose				
+" hi TabIcon				
+" hi TabIconNumber			font-weight: normal; font-size: 12px; color: white; text-align: center; text-shadow: black -1px 0 1px, black 0 1px 1px, black 1px 0 1px, black 0 -1px 1px;
+hi TabNumber				font-weight: bold; font-size: 12px; color: white; margin: 0;
+" hi TabText				
+hi Tag					color: #38a1db;
+hi Title				color: magenta; background: #302833; font-weight: bold;
+hi URL					text-decoration: none; color: #aacf53; background: inherit;
+hi URL:hover				text-decoration: underline; cursor: pointer;
+hi WarningMsg				color: red; background: white;
+" }}}
+
+" CSS {{{
+style -name tab chrome://* <<EOM
+#content { background-color: #ccc; } /* tabbar */
+.tabs-alltabs-button { padding: 2px 0 !important; }
+.tabs-container > stack { display: none; } /* remove tab selection menu */
+/*.tabs-container .box-inherit.scrollbox-innerbox { border-bottom: 1px solid #404040; } /* tab bar position: top */
+.tabs-container scrollbox {
+	background-color: #adadad;
+	/* border-bottom: 1px solid #333; */
+}
+.tabbrowser-tab {
+	-moz-apperance: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	-moz-border-radius-topleft: 0 !important;
+	-moz-border-radius-topright: 0 !important;
+	-moz-border-radius-bottomright: 0 !important;
+	-moz-border-radius-bottomleft: 0 !important;
+	border-top: 1px solid #a78faa !important;
+	border-bottom: 1px solid #523a55 !important;
+	background-image: none !important;
+	background-color: #745c77 !important;
+	text-align: left !important;
+	text-shadow: none !important;
+}
+.tabbrowser-tab[selected=false] { 
+	border-top: 1px solid #adadad !important;
+	border-bottom: 1px solid #666 !important;
+	background: #999 !important; 
+}
+.tabbrowser-tab[selected=true] {
+	color: #fff !important;
+	border-top: 1px solid #745c77 !important;
+	border-bottom: 1px solid #080611 !important;
+	background-color: #302833 !important;
+}
+.tabbrowser-tab[selected=true] .tab-text { color: #fff !important; }
+.tab-icon-image { margin-bottom: 0px; }
+.tab-image-left,
+.tab-image-middle,
+.tab-image-right {
+	background-image: none !important;
+}
+EOM
+
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel { padding: 5px 2px !important; }
+statusbarpanel > * { margin: 0 !important; padding: 0 !important; }
+EOM
+
+" }}}

@@ -1,0 +1,73 @@
+" ==Vimperator_Color_Scheme==
+" name: Sweets
+" url: https://github.com/VoQn/vimperator-colorscheme/tree/master/colors
+" ==Sweets_Color_Scheme==
+hi Hint			font-family: monospace; font-size: 15px; font-weight: normal; color: lightyellow; background-color: black; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding: 0px 5px;
+
+hi HintElem		background-color: pink;		color: black;
+hi HintActive		background-color: hotpink;	color: white;
+
+hi StatusLine 		color: DeepPink;	background: #000;	font-weight: normal; font-size: 10pt;
+
+hi Normal 		color: LightYellow;	background: #333;	font-size: 10pt;
+hi InfoMsg		color: LightYellow;	background: #333;	font-size: 10pt;
+hi ModeMsg		color: LightYellow;	background: #333;	font-size: 10pt;
+hi MoreMsg		color: LimeGreen;	background: #333;
+hi LineNr		color: DeepPink;	background: #333;	font-size: 10pt;
+hi Question		color: Yellow;		background: #333;	font-size: 10pt;
+hi WarningMsg		color: DeepPink;	background: #333;	font-size: 10pt;
+hi NonText 		background: #333;
+hi Null			color: CornflowerBlue;
+hi Tag			color: CornflowerBlue;
+
+hi CompTitle		color: magenta;		background: #222;	font-weight: bold;
+hi CompItem[selected]	color: DeepPink;	background: Black;
+hi CompDesc		color: Pink;
+" hi GradientRight	background-color: Black;
+
+hi Title		color: white;
+hi Indicator		color: DodgerBlue;
+hi String		color: Orchid;
+hi Number		color: Orchid;
+hi Object		color: Khaki;
+hi Function		color: SkyBlue;
+hi URL			color: LightGreen;
+
+hi TabNumber		color: white; font-weight: bold; font-size: 10pt;
+
+style -name tab chrome://* <<EOM
+#content { background-color: #ccc; } /* tabbar */
+.tabs-alltabs-button { padding: 0 !important; }
+.tabs-container > stack { display: none; } /* remove tab selection menu */
+/*.tabs-container .box-inherit.scrollbox-innerbox { border-bottom: 1px solid #404040; } /* tab bar position: top */
+.tabs-container scrollbox {
+	background-color: #adadad;
+	border-bottom: 1px solid #000;
+}
+.tabbrowser-tab {
+	-moz-apperance: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	-moz-border-radius-topleft: 0 !important;
+	-moz-border-radius-topright: 0 !important;
+	-moz-border-radius-bottomright: 0 !important;
+	-moz-border-radius-bottomleft: 0 !important;
+	border-bottom: 1px solid #000 !important;
+	background-image: none !important;
+	background-color: #ff69b4 !important;
+	text-align: left !important;
+}
+.tabbrowser-tab[selected=false] { background: #999 !important; }
+.tabbrowser-tab[selected=true] .tab-text { color: #ddd !important; }
+.tab-icon-image { margin-bottom: -4px; }
+.tab-image-left,
+.tab-image-middle,
+.tab-image-right {
+	background-image: none !important;
+}
+EOM
+
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel { padding: 0 1px !important; }
+statusbarpanel > * { margin: 0 !important; padding: 0 !important; }
+EOM

@@ -1,0 +1,56 @@
+" ==Vimperator_Color_Scheme==
+" name: desert
+" url: http://code.google.com/p/vimperator-labs/issues/detail?id=110&q=label%3Aproject-vimperator%20label%3Atype-colorscheme&colspec=ID%20Summary%20Project%20Type%20Status%20Priority%20Stars%20Owner
+" ==Desert_Colorscheme_Settings==
+
+hi Normal               color: #afafaf; background: #242721;
+hi CmdLine              background: #242721; color: #afafaf; font-size: 10pt; font-family: monospace; font-weight: normal; padding: 0px 3px;
+
+hi StatusLine           color: #242721; background: #afafaf;font-size: 10pt; font-family: monospace; font-weight: normal;
+" hi StatusLineBroken     color: #242721; background: #afafff;
+" hi StatusLineSecure     color: #242721; background: #afffaf;
+
+hi CompDesc             color: #c6c6c6; width: 50%;font-size: 10pt;
+hi CompIcon             width: 16px; min-width: 16px; display: inline-block; margin-right: .5ex;
+hi CompItem[selected]   background: #444741; color: #afafaf; 
+" hi CompLess             text-align: center; height: 0; line-height: .5ex; padding-top: 1ex;
+" hi CompMore             text-align: center; height: .5ex; line-height: .5ex; margin-bottom: -.5ex;
+hi CompMsg              font-style: italic; margin-left: 16px;
+hi CompResult           width: 45%; overflow: hidden;font-size: 10pt; font-family: monospace; font-weight: normal;
+hi CompTitle            color: #afafaf; background: #242721; font-weight: bold;
+hi CompTitle>*          padding: 0 .5ex;
+hi Filter               font-weight: bold;color: #afafaf;
+
+" hi Gradient             height: 1px; margin-bottom: -1px; margin-top: -1px;
+" hi GradientLeft         background-color: #242721;
+" hi GradientRight        background-color: #242721;
+
+hi FrameIndicator       background-color: #242721; opacity: 0.5; z-index: 999; position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+
+hi Bell                 border: 0 none; background-color: #242721;
+hi ErrorMsg             color: #ffffff; background: #ff6565; font-weight: bold;
+hi Hint                 font-family: Sans; font-size: 10px; font-weight: bold; color: #f6e9e9; background-color: red; border-color: ButtonShadow; border-width: 0px; border-style: solid; padding 0px 1px 0px 1px;
+hi Hint::after          content: attr(number);
+hi HintActive           background: #242721; color: #f6e9e9;
+hi HintElem             background-color: #242721; color: #f6e9e9;
+hi HintImage            opacity: .5;
+hi InfoMsg              color: #afafaf; background: #242721;
+hi Message              white-space: normal; min-width: 100%; padding-left: 2em; text-indent: -2em; display: block;
+hi WarningMsg           color: #ff6565; background: #242721;
+hi ModeMsg              color: #afafaf; background: #242721;
+hi MoreMsg              color: #afafaf; background: #242721;
+hi NonText              color: blue; min-height: 16px; padding-left: 2px;
+hi Question             color: #afafaf; background: green; font-weight: bold;
+" hi Search               font-size: inherit; padding: 0; color: #242721; background-color: yellow; padding: 0;
+hi String               color: #242721; background: #afafaf;
+hi Tag                  color: #242721; background: #afafaf;
+hi Title                color: #242721; background: #afafaf; font-weight: bold;
+hi URL                  text-decoration: none; color: green; background: inherit;
+hi URL:hover            text-decoration: underline; cursor: pointer;
+hi LineNr               color: #afafaf; background: #242721;
+
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel { padding: 0 1px !important; }
+statusbarpanel > * { margin: 0 !important; padding: 0 2px 0 0 !important; }
+EOM
+

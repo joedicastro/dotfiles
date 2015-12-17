@@ -1,0 +1,32 @@
+" -- vimperator colorscheme --
+" name: vimpwhite
+" author: tlync<Takuya Fujimura>
+" tested: vimperator 3.0, firefox 4.0, mac osx 10.6
+" url: https://raw.github.com/suzuken/dotfiles/master/vimperator/colors/vimpwhite.vimp
+" ----------------------------
+
+" Status Line
+hi StatusLine           color: #666;
+
+" Command Line
+hi ContentSeparator     border-top: 1px dotted #ccc;
+hi CmdLine -append      font-size: 15px;
+hi PromptText           font-family: "Lucida Grande", "Segoe UI", monospace; background: -moz-linear-gradient(top, #6BA7EF, #3163AA); text-shadow: 1px 1px #1D3C66; color: white; border: 1px solid #3366AD; padding: 0 7px; margin-right: 5px; border-top: none;
+
+" Comp
+hi CompTitle>* -append  border-bottom-color: #8C8C8C;
+hi CompResult -append   font-family: "Lucida Grande", "Segoe UI", sans-serif !important;
+hi CompDesc -append     font-family: "Lucida Grande", "Segoe UI", sans-serif; color: #666;
+hi Filter -append       border: none;
+hi CompTitle            -moz-appearance: statusbar; font-family: "Lucida Grande", "Segoe UI", monospace; font-weight: bold; text-indent: 5px; height: 20px;
+hi Tag:not(:empty)      color: #355D93; background-color: #E6F2FC; border-radius: 2px; padding: 1px 2px; font-size: 10px;
+
+" Hint
+hi HintElem             background-color: #fffac6; border-radius: 2px;
+hi Hint                 font-family: "Lucida Grande", "Segoe UI", sans-serif; font-size: 11px; font-weight: bold; background: -moz-linear-gradient(top, #6BA7EF, #3163AA); text-shadow: 0 1px #1D3C66; text-transform: uppercase; color: white; background-color: red; padding: 2px 5px; border-radius: 3px; border: 1px solid #3366AD;
+
+" for statusline-toolbar.js
+style -name toolbar-background chrome://* #liberator-customize-toolbar { padding-left: 5px !important; -moz-appearance: none !important; }
+
+" for sbmcommentviewer.js
+style -name sbmcommentviewer chrome://* .liberator-sbmcommentsviewer-content { border-color: #ccc !important; }

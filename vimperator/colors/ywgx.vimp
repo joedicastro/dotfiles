@@ -1,0 +1,21 @@
+" ==Vimperator_Color_Scheme==
+"   name:ywgx
+"   url: http://code.google.com/p/vimperator-labs/issues/detail?id=510&q=label%3Aproject-vimperator%20label%3Atype-colorscheme&colspec=ID%20Summary%20Project%20Type%20Status%20Priority%20Stars%20Owner
+" ==ywgx_Color_Scheme==
+hi Normal background:#000000;color:#afafaf;font-size:12pt;font-family:monospace
+hi CmdLine background:#000000;color:#00cc22;font-size:12pt;font-family:monospace;font-weight:normal;padding:0px 3px
+hi CompGroup background:#000000;color:#afafaf
+hi CompTitle background:#000000;color:#2C100E;font-weight:bold
+hi CompItem background:#000000;color:#afafaf;padding:0px 3px
+hi CompItem[selected] background:#2C001E;color:#00cc22
+hi CompDesc background:#0boe13;color:#00cc22
+hi CompDesc[selected] background:#2C001E;color:#00cc22
+hi CompMsg background:#0boe13;color:#afafaf
+hi ErrorMsg background:#ff6565;color:#000000
+hi Filter color:#000000;font-weight:bold;
+hi StatusLine  font-family: monospace; font-size: 12pt; font-weight: normal; color: #FFFFFF; background: #000000;
+hi Hint font-family:Sans;font-size:20px;font-weight:bold;color:white; background-color:rgba(0, 0, 0, 0.5);border:solid 1px LightGray;
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel {padding:0 1px !important;}
+statusbarpanel > * { margin:0 !important; padding:0 2px 0 0 !important; }
+EOM
