@@ -3,6 +3,7 @@ XTerm*faceName:             xft:Dejavu Sans Mono for Powerline:size=11
 XTerm*utf8:                 2
 URxvt.iconFile:             /usr/share/icons/elementary/apps/24/terminal.svg
 URxvt.letterSpace:          -2
+URxvt.urxvtdepth: 32
 
 URxvt.background:           #121214
 URxvt.foreground:           #FFFFFF
@@ -75,3 +76,4 @@ Xft.lcdfilter:  lcddefault
 Xft.hintstyle:  hintfull
 Xft.hinting: 1
 Xft.antialias: 1
+Xft.rgba: rgb
