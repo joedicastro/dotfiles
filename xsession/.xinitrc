@@ -30,7 +30,7 @@ dunst &
 unclutter &
 
 # start a compositor for X11
-compton -b --config ~/.compton.conf 
+compton -b 
 
 # adjust the color temperature of the screen acording the daylight
 # A Coruña coordinates

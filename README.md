@@ -3,6 +3,40 @@ This is a repository with my configuration files, those that in Linux normally
 are these files under the `$HOME` directory that are hidden and preceded by a
 dot, AKA __dotfiles__
 
+## Management
+
+These configuration files are managed with the tool [GNU
+Stow](https://www.gnu.org/software/stow) that is not intented originally for
+this purpose but works pretty well.
+
+To use this configurations you only have to clone this repository in a directory
+of your home directory (`~/dotfiles` by default) and then use stow to "install"
+them, choosing the ones that you want to use.
+
+For example to use the Vim configuration you only have to do this:
+
+`$ stow vim`
+
+and it would create a symlink for `~/.vim` and `~/.vimrc` to the same files/dirs
+in the `~/dotfiles/vim` folder of this repository. Those symbolic links only
+would be created if not exists previously, in that case I recommend to make a
+backup of the original files first.
+
+To remove a configuration is also very easy with stow:
+
+`$ stow -D vim`
+
+and it would remove the symbolic links.
+
+And if you make a git pull to update this repository, you can "reinstall" the
+configurations to update them. Stow would first remove the previous symbolic
+links and then create the new ones.
+
+`$ stow -R vim`
+
+Stow is a package that you can find in the majority of Linux distributions and
+make the process of test/manage these configurations easier.
+
 ## Content
 
 That's the *current content* of this repository, and these are the more remarkable
@@ -12,16 +46,16 @@ files.
 
 Configuration of [Awesome](http://awesome.naquadah.org/)
 
-+ `/awesome/awdt.py` python script that allows me to test changes in the Awesome
-  configuration. Starts a X session nested into the current session and served
-  by Xephyr, with an test configuration (Awesome) running inside it.
++ `.config/awesome/awdt.py` python script that allows me to test changes in the
+  Awesome configuration. Starts a X session nested into the current session and
+  served by Xephyr, with an test configuration (Awesome) running inside it.
 
-+ `/awesome/prep.org` is a Org-mode format file in which I store the
++ `.config/awesome/prep.org` is a Org-mode format file in which I store the
   repositories, authors and licenses of the external libraries that I use in
   this configuration.
 
-+ `/awesome/check_execs.py` & `/awesome/logger.py` are symbolic links to two
-  python files that can be founded in this repository,
++ `.config/awesome/check_execs.py` & `/awesome/logger.py` are symbolic links to
+  two python files that can be founded in this repository,
   <https://github.com/joedicastro/python-recipes>
 
 ### `/compton`
@@ -66,9 +100,6 @@ Configuration of the __Gtk__ theme to fix an error with the Gvim window
 
 Configuration of [Mercurial](http://mercurial.selenic.com/)
 
-+ `/hg/bb_gh.py` a Python Mercurial hook to do `hg push` simultaneously to the
-  same repository in both GitHub and Bitbucket sites
-
 ### `/livestreamer`
 
 Configuration of [Livestreamer](https://github.com/chrippa/livestreamer)
@@ -101,10 +132,10 @@ Configuration of [rxvt-unicode](http://software.schmorp.de/pkg/rxvt-unicode.html
 
 Configuration of [Vim](http://www.vim.org)
 
-+ `/vim/vimrc` the Vim configuration file
-+ `/vim/README.md` is a summary of my Vim configuration customizations
-+ `/vim/spell/` files needed for spelling
-+ `/vim/UltiSnips/` my custom [UltiSnips][ulsns] snippets
++ `.vimrc` the Vim configuration file
++ `.vim/README.md` is a summary of my Vim configuration customizations
++ `.vim/spell/` files needed for spelling
++ `.vim/UltiSnips/` my custom [UltiSnips][ulsns] snippets
 
   [ulsns]: https://github.com/SirVer/ultisnips
 
@@ -116,7 +147,8 @@ Configuration of [Vimperator](http://www.vimperator.org/vimperator)
 
 Configuration of the __X__ session
 
-+ `/xsession/xinitrc` bash script to setup the X session
++ `.xinitrc` bash script to setup the X session
++ `.config/user-dirs.dirs` default home user directories
 
 ### `/zathura`
 
