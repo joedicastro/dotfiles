@@ -13,7 +13,8 @@ To use this configurations you only have to clone this repository in a directory
 of your home directory (`~/dotfiles` by default) and then use stow to "install"
 them, choosing the ones that you want to use.
 
-For example to use the Vim configuration you only have to do this:
+For example to use the Vim configuration you only have to do this (from the
+dotfiles directory):
 
 `$ stow vim`
 
