@@ -30,7 +30,7 @@ set defsearch=duckduckgo
 set editor='emacsclient -c'
 
 set status=input,location,history,tabcount,position,ssl
-set complete=sfSt
+set complete=sfSth
 set focuscontent=true
 set showmode=true
 
