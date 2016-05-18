@@ -24,14 +24,12 @@ set nocompatible             " No to the total compatibility with the ancient vi
 
 " Auto installing Dein
 let iCanHazDein=1
-let plugins_path = expand($HOME.'/.vim/dein')
-let dein_path = expand(plugins_path.'/repos/github.com/Shougo/dein.vim')
-let dein_readme = expand(dein_path.'/README.md')
+let dein_readme = expand('~/.vim/dein/repos/github.com/Shougo/dein.vim/README.md')
 if !filereadable(dein_readme)
     echo "Installing Dein..."
     echo ""
-    silent !mkdir -p plugins_path
-    silent !git clone https://github.com/Shougo/dein.vim dein_path
+    silent !mkdir -p ~/.vim/dein
+    silent !git clone https://github.com/Shougo/dein.vim ~/.vim/dein/repos/github.com/Shougo/dein.vim
     let iCanHazDein=0
 endif
 
@@ -40,7 +38,7 @@ endif
 if has('vim_starting')
     set rtp+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 endif
-call dein#begin(plugins_path)
+call dein#begin(expand('~/.vim/dein'))
 
 " is better if Dein rules Dein (needed!)
 call dein#add('Shougo/dein.vim')
