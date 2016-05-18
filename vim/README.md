@@ -1,7 +1,7 @@
 # My Vim Configuration
 
 
-__Version 1.6  (2014-02-06)__
+__Version 1.7  (2016-05-18)__
 
 The purpose of this document is to compile all the customizations available in
 my vim configuration, to help me reorganize them properly, and as a sort of
@@ -78,14 +78,14 @@ menus through `<LocalLeader>` key mappings.
   most common tasks, like open files, search inside the buffer, do regex
   searchs (grep), etc. Here is an example of how to open a file in this way:
 
-    ![unite_file](http://joedicastro.com/static/pictures/unite_file_en.gif "unite file")
+    ![unite_file](./img/unite_file.gif "unite file")
 
 - The __menus__ are used to group options either by plugins or by functionality.
   Also shows the mappings for all of those options that have one, this allows me
   to avoid looking for them in the `~/.vimrc` file when I forget one. The next
   image shows a Unite menu for managing a git repository:
 
-    ![unite_git](http://joedicastro.com/static/pictures/unite_git_en.gif "unite_git")
+    ![unite_git](./img/unite_git.gif "unite_git")
 
  - __Commands__ using a third plugin, Unite is able to help in the
    auto-completion and look for commands in the command line. We only have to
@@ -94,7 +94,7 @@ menus through `<LocalLeader>` key mappings.
    where we can select the right command using the Unite auto-completion (with
    fuzzy-logic)
 
-    ![unite_cmdmatch](http://joedicastro.com/static/pictures/unite_cmdmatch.png "unite_cmdmatch")
+    ![unite_cmdmatch](./img/unite_cmdmatch.png "unite_cmdmatch")
 
 Unite has a master menu that shows all the custom menus that we have created,
 allowing us to access them and see the mapping associated with each one. This
@@ -104,7 +104,7 @@ intuitive and easy to navigate.*
 
 - `<LocalLeader>u` or `:Unite menu` shows the available menus
 
-![unite menu](http://joedicastro.com/static/pictures/unite_menu_en.png "unite menu")
+![unite menu](./img/unite_menu.png "unite menu")
 
 ### Navigation inside Unite
 
@@ -163,104 +163,55 @@ These are some of the available mappings:
 
 ## Managing Plugins
 
-![neobundle](http://joedicastro.com/static/pictures/unite_menu_neobundle_en.png "neobundle")
+![dein](./img/unite_menu_dein.png "dein")
 
-A plugin to rule them all! NeoBundle allows us to manage the rest of the plugins,
-itself included. __I have it configured to auto install itself and all of the
-plugins when Vim is executed for the first time__.
+A plugin to rule them all! Dein allows us to manage the rest of the plugins,
+works with Neovim and it's faster and simpler than its predecessor NeoBundle.
+__I have it configured to auto install itself and all of the plugins when Vim is
+executed for the first time__.
 
-The advantages of NeoBundle versus Vundle and other similar plugins are the
+The advantages of Dein versus Vundle and other similar plugins are the
 following:
 
-- Allows to use another VCS other than git (hg, svn), even a local dir
 - Allows revision lock or even set a plugin to not be updated
+- Allows rollback to a previous version of a plugin
 - Supports lazy initialization of plugins to optimizing startup time
 - Supports multiple config options per plugin, like automatic building if needed
+- Allows -not yet implemented- to use another VCS other than git (hg, svn), even a local dir
 - and so on...
 
-The best way to use NeoBundle is through Unite:
+The easier way to use Dein is through Unite:
 
 __Unite__
 
-- `<LocalLeader>n` or `:Unite menu:neobundle`, shows the NeoBundle menu
+- `<LocalLeader>d` or `:Unite menu:dein`, shows the Dein menu
 
 ### Menu
 
 These are the menu entries in detail:
 
-- *neobundle* shows the installed plugins as candidates. Via the actions we can
-  delete them, browse the repository page, ...
-
-- *log* shows the last NeoBundle log
-
-- *lazy* shows all the installed plugins configured as Lazy. Those are loaded on
-  demand and allow us to have a lot of plugins installed that are not frequently
-  used without delaying the vim startup. I use this option a lot in this
-  configuration.
+- *list* lists all the installed plugins
 
 - *update* updates all the plugins automatically (and installs those not already
   installed)
 
-- *search* searches plugins by name on vim.org & GitHub (duplicates prone)
+- *install* installs all the plugins
 
-- *install* installs all the plugins already present in the `.vimrc` file or in
-  the `extra_bundles.vim` file that are not yet installed
+- *rollback* rollback a plugin version to the previous updated version. If a
+  plugin is not specified, rollback of all them. It's a fantastic functionality,
+  useful e.g. when a new version introduces a bug.
 
-- *check* checks if all the plugins are already installed, and if not, prompt
-  for their installation
+- *reinstall* reinstalls all the plugins. This can be useful to revert a
+  rollbacked plugin to the current version.
 
-- *docs* installs help docs for all plugins manually
-
-- *clean* deletes, upon confirmation, those plugin folders that are no longer
-  needed because they are not still installed
-
-- *rollback* rollback a plugin version to previous updated version. It's a
-  fantastic functionality, but at the moment is experimental.
-
-- *list* lists all the installed plugins
-
-- *direct edit* edits the `~/.vim/bundle/.neobundle/extra_bundles.vim` file
-  where NeoBundle stores those plugins installed directly (e.g. via NeoBundle
-  search)
-
-> __Plugins updating weakness__
-
-> Since we often install plugins from repositories, we are exposed to error-
-> prone updates. Once in a while, a plugin update introduces a bug and you end up
-> with an unstable configuration until that bug is fixed (which may take a while).
-> If we use Vim for work, that is very inconvenient.
-
-> A way to avoid this is by using symbolic links and backups of our vim folder.
-> If we made a backup of our vim config before an update, is easy to restore it
-> to a previous stable state without much effort. But this is tedious and
-> error-prone too (and using git submodules or something similar is painful).
-
-> A better alternative is managing this via NeoBundle. We can use the amazing
-> command `:NeoBundleRollback` to do a **Rollback** (return to a previous
-> version of the plugin) automatically in a very easy way. We execute this
-> command followed by a plugin name and a menu like this is showed:
-
->     Select revision:
->     1. 2014/03/25/14/03 18:59:50  0c557bfca62df13e65f5912cfd143db86232c1a0
->     2. 2014/03/30/14/03 20:11:39  82bff20b0200c3ccb292a9261d565b5bbc609ac2
->     3. 2014/04/06/14/04 19:01:45  21c7234bbd13ba79e83bcd5791514c7bdee770fd
->     Type number and <Enter> or click with mouse (empty cancels):
-
-> You only have to choose a previous revision and it's done. Amazing! So we have
-> now a working Vim configuration again, an we can keep working with that
-> plugin's revision all the time we want. That can be done in a few seconds, and
-> we keep working as normally as before the update. And using this way we only
-> have to 'Rollback' that plugin and still enjoying the new features that other
-> plugins maybe have added in the same update.
-
- > If after certain time we want to go back to the master branch of the plugin
- > and see if there is a new revision that solve that error or/and add new
- > features, we can do it simply by using the command `:NeoBundleReinstall` to
- > reinstall the plugin. That's it! Simply and clean! Enjoy it!
+Even when using the Unite menu is the most straightforward way to use Dein, if
+you need to perform an specific operation on a specific plugin, it's better to
+you to use the Dein functions like `:call
+dein#direct_install('Shougo/unite.vim')` 
 
 ## Colorschemes
 
-![unite_colorscheme](http://joedicastro.com/static/pictures/unite_colorscheme_en.gif "unite colorscheme")
+![unite_colorscheme](./img/unite_colorscheme.gif "unite colorscheme")
 
 To choose a colorscheme we can do it easily and comfortably with an included
 preview through a Unite menu:
@@ -274,7 +225,7 @@ __Unite__
 
 ## Navigation
 
-![unite navigation](http://joedicastro.com/static/pictures/unite_menu_navigation.png "unite navigation")
+![unite navigation](./img/unite_menu_navigation.png "unite navigation")
 
 >   __Mappings__
 
@@ -319,7 +270,7 @@ __Unite__
 
 ## Bookmarks
 
-![unite bookmarks](http://joedicastro.com/static/pictures/unite_menu_bookmarks.png "unite bookmarks")
+![unite bookmarks](./img/unite_menu_bookmarks.png "unite bookmarks")
 
 With this menu we can manage the bookmarks easily.
 
@@ -330,7 +281,7 @@ __Unite__
 
 ## Text Edition
 
-![unite text](http://joedicastro.com/static/pictures/unite_menu_text.png "unite text")
+![unite text](./img/unite_menu_text.png "unite text")
 
 This menu groups several options to edit text
 
@@ -413,7 +364,7 @@ easily.
   visual selections. We only need to enter a mapping and a movement to do the
   action, as simple as that.
 
-    ![commentary](http://joedicastro.com/static/pictures/commentary_en.gif "commentary")
+    ![commentary](./img/commentary.gif "commentary")
 
     > __Mapping__
     >
@@ -422,7 +373,7 @@ easily.
 - __vim-surround__ surround a vim text object with a pair of symmetrical
   chars.  We can also remove or change the ones already there
 
-    ![surround](http://joedicastro.com/static/pictures/surround_en.gif "surround")
+    ![surround](./img/surround.gif "surround")
 
     > __Mappings__
 
@@ -437,7 +388,7 @@ easily.
 
 - __vim-speeddating__ provides a smart way to increase/decrease time values
 
-    ![speeddating](http://joedicastro.com/static/pictures/speeddating_en.gif "speeddating")
+    ![speeddating](./img/speeddating.gif "speeddating")
 
     > __Mappings__
 
@@ -455,14 +406,14 @@ easily.
     have to write the second character or press `<S-Tab>`. If you only want the
     first char, you only have to press the __Delete__ key
 
-    ![smartinput](http://joedicastro.com/static/pictures/smartinput_en.gif "smartinput")
+    ![smartinput](./img/smartinput.gif "smartinput")
 
 - __neocomplete__ auto-completion of keywords, methods, functions, etc by only
   typing a few letters (normally the first). Well used, this speeds up a lot writing
   of code or text. It improves the Vanilla Vim auto-completion, with a live
   fuzzy-logic search. It's powerful and totally customizable.
 
-    ![neocomp](http://joedicastro.com/static/pictures/neocomp_en.gif "neocomp")
+    ![neocomp](./img/neocomp.gif "neocomp")
 
     > __Mappings__
 
@@ -479,7 +430,7 @@ easily.
 - __easydigraph__ easily insert digraphs, especially when trying to insert
   several simultaneously
 
-    ![easydigraph](http://joedicastro.com/static/pictures/easydigraph_en.gif "easydigraph")
+    ![easydigraph](./img/easydigraph.gif "easydigraph")
     >
     > __Mapping__
     >
@@ -489,7 +440,7 @@ easily.
 - __vim-transpose__ transpose rows & columns. For certain kind of files, like
   *CSV*, it can be really helpful to deal with them. It works in visual mode.
 
-    ![transpose](http://joedicastro.com/static/pictures/transpose_en.gif "transpose")
+    ![transpose](./img/transpose.gif "transpose")
 
     > __Commands__
 
@@ -503,7 +454,7 @@ easily.
 
 ## Spell checking
 
-![unite spell](http://joedicastro.com/static/pictures/unite_menu_spell_en.png "unite spell")
+![unite spell](./img/unite_menu_spell.png "unite spell")
 
 These menu entries are used for spell checking the text
 
@@ -513,7 +464,7 @@ __Unite__
 
 ## Regular expression searching (grep)
 
-![unite grep](http://joedicastro.com/static/pictures/unite_menu_grep_en.png "unite grep")
+![unite grep](./img/unite_menu_grep.png "unite grep")
 
 This menu allows us to search files by regular expression engines. I have it
 configured to use the `ag` program first, then `ack` if `ag` is not found, and
@@ -543,7 +494,7 @@ __Unite__
 
 ## Searching inside the buffer
 
-![unite searching](http://joedicastro.com/static/pictures/unite_menu_searching.png "unite searching")
+![unite searching](./img/unite_menu_searching.png "unite searching")
 
 __Unite__
 
@@ -580,7 +531,7 @@ __Unite__
 - __vim-signature__ a plugin that improves the default Vim marks. It shows the
   marks in the lateral signs column.
 
-    ![signature](http://joedicastro.com/static/pictures/signature_en.gif "signature")
+    ![signature](./img/signature.gif "signature")
 
     > __Mappings__
 
@@ -605,7 +556,7 @@ __Unite__
 
 ## Registers
 
-![unite registers](http://joedicastro.com/static/pictures/unite_menu_registers.png "unite registers")
+![unite registers](./img/unite_menu_registers.png "unite registers")
 
 __Unite__
 
@@ -627,11 +578,11 @@ __Unite__
 - *undo* launch the Gundo plugin. Gundo makes the Vim undo tree friendlier. We
   can preview the changes and navigate easily around the tree.
 
-    ![gundo](http://joedicastro.com/static/pictures/gundo_en.gif "gundo")
+    ![gundo](./img/gundo.gif "gundo")
 
 ## Files and directories
 
-![unite files](http://joedicastro.com/static/pictures/unite_menu_files.png "unite files")
+![unite files](./img/unite_menu_files.png "unite files")
 
 __Unite__
 
@@ -669,14 +620,14 @@ __Unite__
 
   [rngr]:http://joedicastro.com/productividad-linux-ranger.html
 
-    ![ranger](http://joedicastro.com/static/pictures/ranger_vim_en.gif "ranger")
+    ![ranger](./img/ranger_vim.gif "ranger")
 
 - *open vimfiler* open the file explorer Vimfiler, Unite based and very
   powerful. I used mainly in those computers where ranger is not available. It
   has a safe mode (enabled by default) in which you cannot copy, rename, move,
   create or delete files and directories.
 
-    ![vimfiler](http://joedicastro.com/static/pictures/vimfiler_en.png "vimfiler")
+    ![vimfiler](./img/vimfiler.png "vimfiler")
 
     > __Mappings__
 
@@ -732,7 +683,7 @@ __Unite__
 
 - __utl__ is a plugin to open URLs and files with an external tool from Vim
 
-    ![utl](http://joedicastro.com/static/pictures/utl_en.gif "utl")
+    ![utl](./img/utl.gif "utl")
 
     > __Mapping__
 
@@ -741,7 +692,7 @@ __Unite__
 
 ## Code Edition
 
-![unite code](http://joedicastro.com/static/pictures/unite_menu_code_en.png "unite code")
+![unite code](./img/unite_menu_code.png "unite code")
 
 ### Menu
 
@@ -766,7 +717,7 @@ __Unite__
   executable in the tmux panel. In the next image we can see the actual
   behavior:
 
-    ![vimux](http://joedicastro.com/static/pictures/vimux_en.gif "vimux")
+    ![vimux](./img/vimux.gif "vimux")
 
 - *run with python3 in tmux panel* same as above but using the `python3`
   interpreter
@@ -843,7 +794,7 @@ __Unite__
   for long nested blocks of code, putting vertical lines for each indentation
   level. Is disabled by default.
 
-    ![indentLine](http://joedicastro.com/static/pictures/indentline_en.gif "indentLine")
+    ![indentLine](./img/indentline.gif "indentLine")
 
 ### Other tools
 
@@ -868,7 +819,7 @@ and text transformations into the snippets.
 
     I save my custom snippets in the `./Ultisnips` directory
 
-    ![ulti](http://joedicastro.com/static/pictures/ulti_en.gif "ulti")
+    ![ulti](./img/ulti.gif "ulti")
 
     > __Mappings__
 
@@ -880,7 +831,7 @@ and text transformations into the snippets.
 
 ## DVCS: Git
 
-![unite git](http://joedicastro.com/static/pictures/unite_menu_git_en.png "unite git")
+![unite git](./img/unite_menu_git.png "unite git")
 
 __Unite__
 
@@ -892,7 +843,7 @@ __Unite__
   for git. Obviously, this only works when the working directory is into a git
   repository.
 
-    ![tig](http://joedicastro.com/static/pictures/tig_en.gif "tig")
+    ![tig](./img/tig.gif "tig")
 
   [tig]: https://github.com/jonas/tig
 
@@ -904,7 +855,7 @@ __Unite__
   whole repository (explorer mode), while the second one will do it in function
   of the current buffer or a visual selection (file mode)
 
-    ![gitv](http://joedicastro.com/static/pictures/gitv_en.png "gitv")
+    ![gitv](./img/gitv.png "gitv")
 
     > __Mappings__
 
@@ -957,7 +908,7 @@ __Unite__
   over its particular interface. The author, Tim Pope, says that about it: "A
   Git wrapper so awesome, it should be illegal" and is almost true.
 
-   ![fugitive](http://joedicastro.com/static/pictures/fugitive_en.png "fugitive")
+   ![fugitive](./img/fugitive.png "fugitive")
 
     - *status* show the repository status and from this window we can access to
       multiple options. In this window this mappings are available:
@@ -1122,7 +1073,7 @@ __Unite__
   The last one allow us to view the public activity of a given user or repository.
   There is a limit of 60 calls/hour on the GitHub API without authentication.
 
-    ![gh dashboard](http://joedicastro.com/static/pictures/gh_dashboard.png "gh dashboard")
+    ![gh dashboard](./img/gh_dashboard.png "gh dashboard")
 
     > __Mappings__
 
@@ -1137,7 +1088,7 @@ __Unite__
   leaving Vim and the terminal. If you are inside a git repository that have a
   remote in GitHub, it will open the app for that repository.
 
-    ![shipit](http://joedicastro.com/static/pictures/shipit.png "shipit")
+    ![shipit](./img/shipit.png "shipit")
 
   [shpt]: https://github.com/alejandrogomez/shipit
 
@@ -1151,7 +1102,7 @@ __Unite__
 
 ## DBMS/SQL
 
-![dbext](http://joedicastro.com/static/pictures/dbext.gif "dbext")
+![dbext](./img/dbext.gif "dbext")
 
 The DBext plugin provides support to interact with various DBMS. The Databases
 supported are: *Sybase SQL Anywhere, Sybase UltraLite, Sybase ASE, SAP HANA,
@@ -1162,7 +1113,7 @@ SQLite DB is supported directly.
 Is a very useful plugin, but I recommend to read the tutorial first (`:h
 dbext-tutorial` <vimhelp:dbext-tutorial>) to get an idea of how it works.
 
-![unite db](http://joedicastro.com/static/pictures/unite_menu_db_en.png "unite db")
+![unite db](./img/unite_menu_db.png "unite db")
 
  __Unite__
 
@@ -1246,7 +1197,7 @@ supports SVG, RDFa, microdata and WAI-AIRA
 
 __Emmet__
 
-![emmet](http://joedicastro.com/static/pictures/emmet.gif "emmet")
+![emmet](./img/emmet.gif "emmet")
 
 Emmet (former Zen Coding) allow us to write HTML/XML and CSS files more fast and
 in a more brief and less tedious way. Emmet takes the snippets idea to a whole
@@ -1275,7 +1226,7 @@ emmet-tutorial` <vimhelp:emmet-tutorial>) or read the official documentation,
 
 ## Color Management
 
-![unite colorv](http://joedicastro.com/static/pictures/unite_menu_colorv_en.png "unite colorv")
+![unite colorv](./img/unite_menu_colorv.png "unite colorv")
 
 ColorV is the perfect plugin to deal with Color Management under Vim. And is
 ideal for edit CSS files and preview the colors that match with his definition.
@@ -1287,7 +1238,7 @@ __Unite__
 
 `<LocalLeader>c` or `:Unite menu:colorv` shows the *ColorV* menu
 
-![colorv](http://joedicastro.com/static/pictures/colorv_en.gif "ColorV")
+![colorv](./img/colorv.gif "ColorV")
 
 ### Menu
 
@@ -1340,7 +1291,7 @@ __Unite__
 
 ## Markdown
 
-![unite markdown](http://joedicastro.com/static/pictures/unite_menu_markdown_en.png "unite markdown")
+![unite markdown](./img/unite_menu_markdown.png "unite markdown")
 
 This allows us to preview the rendering of a Markdown file in the browser,
 it supports the Markdown `extra` extension. The file is rendered by
@@ -1360,7 +1311,7 @@ __Unite__
 
 - *refresh* rewrites the html file with the changes
 
-    ![mep]( http://joedicastro.com/static/pictures/mep_en.gif "mep")
+    ![mep]( http://joedicastro.com/static/pictures/mep.gif "mep")
 
 ## reStructuredText
 
@@ -1396,7 +1347,7 @@ __DirDiff__
 It has a similar behavior that the vimdiff tool but for directories instead
 of individual files
 
-![DirDiff](http://joedicastro.com/static/pictures/dirdiff_en.gif "DirDiff")
+![DirDiff](./img/dirdiff.gif "DirDiff")
 
 > __Commands__
 
@@ -1413,7 +1364,7 @@ No play with this, is not a toy, this is for grown ups only! If you do not know
 what you are doing, keep your hands out of it! :smile: If you are all thumbs,
 this tool is a sure candidate for a disaster.
 
-![hex](http://joedicastro.com/static/pictures/vinarise_en.png "hex")
+![hex](./img/vinarise.png "hex")
 
 > __Mappings__
 
@@ -1442,7 +1393,7 @@ __Translate .po files__
 Is a tool to add syntax highlighting to `.po` files (GNU gettext) and some
 mappings to edit them easily.
 
-![po](http://joedicastro.com/static/pictures/po_en.gif "po")
+![po](./img/po.gif "po")
 
 > __Mappings__
 
@@ -1465,7 +1416,7 @@ mappings to edit them easily.
 
 ## Vim tools
 
-![unite vim](http://joedicastro.com/static/pictures/unite_menu_vim_en.png "unite vim")
+![unite vim](./img/unite_menu_vim.png "unite vim")
 
 Several Vim tools grouped under this menu among others that not fitted well in
 any other menu.
@@ -1611,6 +1562,7 @@ au FileType python setlocal foldlevel=1000
 - __coveragepy.vim__ <https://github.com/alfredodeza/coveragepy.vim>
 - __crontab.vim__ <https://github.com/vim-scripts/crontab.vim>
 - __csapprox__ <https://github.com/godlygeek/csapprox>
+- __dein.vim__ <https://github.com/Shougo/dein.vim>
 - __dbext.vim__ <https://github.com/joedicastro/dbext.vim>
 - __delimitMate__ <https://github.com/Raimondi/delimitMate>
 - __DirDiff.vim__ <http://github.com/joedicastro/DirDiff.vim>
@@ -1624,7 +1576,6 @@ au FileType python setlocal foldlevel=1000
 - __junkfile.vim__ <https://github.com/Shougo/junkfile.vim>
 - __loremipsum__ <https://github.com/vim-scripts/loremipsum>
 - __molokai__ <https://github.com/tomasr/molokai>
-- __neobundle.vim__ <https://github.com/Shougo/neobundle.vim>
 - __neocomplete.vim__ <https://github.com/Shougo/neocomplete.vim>
 - __po.vim--gray__ <https://github.com/vim-scripts/po.vim--gray>
 - __python-mode__ <https://github.com/klen/python-mode>
@@ -1644,7 +1595,8 @@ au FileType python setlocal foldlevel=1000
 - __unite-spell-suggest__ <https://github.com/osyo-manga/unite-quickfix>
 - __unite.vim__ <https://github.com/Shougo/unite.vim>
 - __utl.vim__ <https://github.com/vim-scripts/utl.vim>
-- __vim-airline__ <https://github.com/bling/vim-airline>
+- __vim-airline__ <https://github.com/vim-airline/vim-airline>
+- __vim-airline-themes__ <https://github.com/vim-airline/vim-airline-themes>
 - __vim-characterize__ <https://github.com/tpope/vim-characterize>
 - __vim-commentary__ <https://github.com/tpope/vim-commentary>
 - __vim-coffe-script__ <https://github.com/kchmck/vim-coffee-script>

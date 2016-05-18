@@ -16,216 +16,196 @@
 
 " }}}
 
-" NEOBUNDLE {{{ ===============================================================
+" DEIN {{{ ====================================================================
 
 set nocompatible             " No to the total compatibility with the ancient vi
 
-" NeoBundle auto-installation and setup {{{
+" Dein auto-installation and setup {{{
 
-" Auto installing NeoBundle
-let iCanHazNeoBundle=1
-let neobundle_readme=expand($HOME.'/.vim/bundle/neobundle.vim/README.md')
-if !filereadable(neobundle_readme)
-    echo "Installing NeoBundle.."
+" Auto installing Dein
+let iCanHazDein=1
+let plugins_path = expand($HOME.'/.vim/dein')
+let dein_path = expand(plugins_path.'/repos/github.com/Shougo/dein.vim')
+let dein_readme = expand(dein_path.'/README.md')
+if !filereadable(dein_readme)
+    echo "Installing Dein..."
     echo ""
-    silent !mkdir -p $HOME/.vim/bundle
-    silent !git clone https://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
-    let iCanHazNeoBundle=0
+    silent !mkdir -p plugins_path
+    silent !git clone https://github.com/Shougo/dein.vim dein_path
+    let iCanHazDein=0
 endif
 
 
-" Call NeoBundle
+" Call Dein
 if has('vim_starting')
-    set rtp+=$HOME/.vim/bundle/neobundle.vim/
+    set rtp+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 endif
-call neobundle#begin(expand($HOME.'/.vim/bundle/'))
+call dein#begin(plugins_path)
 
-" is better if NeoBundle rules NeoBundle (needed!)
-NeoBundle 'Shougo/neobundle.vim'
+" is better if Dein rules Dein (needed!)
+call dein#add('Shougo/dein.vim')
 " }}}
 
-" BUNDLES (plugins administrated by NeoBundle) {{{
+" PLUGINS (administrated by Dein) {{{
 
 " Shougo's way {{{
 
-" Vimproc to asynchronously run commands (NeoBundle, Unite)
-NeoBundle 'Shougo/vimproc', {
-      \ 'build' : {
-      \     'windows' : 'make -f make_mingw32.mak',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
+" Vimproc to asynchronously run commands (Dein, Unite)
+call dein#add('Shougo/vimproc', {'build' : 'make'})
 
 " Unite. The interface to rule almost everything
-NeoBundle 'Shougo/unite.vim'
+call dein#add('Shougo/unite.vim')
 
 " Unite sources
-NeoBundleLazy 'Shougo/unite-outline', {'autoload':{'unite_sources':'outline'}}
-NeoBundleLazy 'tsukkee/unite-help', {'autoload':{'unite_sources':'help'}}
-NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload':{'unite_sources':
-            \ 'colorscheme'}}
-NeoBundleLazy 'ujihisa/unite-locate', {'autoload':{'unite_sources':'locate'}}
-NeoBundleLazy 'thinca/vim-unite-history', { 'autoload' : { 'unite_sources' :
-            \ ['history/command', 'history/search']}}
-NeoBundleLazy 'osyo-manga/unite-filetype', { 'autoload' : {'unite_sources' :
-            \ 'filetype', }}
-NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload':{'unite_sources':
-            \ ['quickfix', 'location_list']}}
-NeoBundleLazy 'osyo-manga/unite-fold', {'autoload':{'unite_sources':'fold'}}
-NeoBundleLazy 'tacroe/unite-mark', {'autoload':{'unite_sources':'mark'}}
-NeoBundleLazy 'Shougo/neomru.vim', {'autoload':{'unite_sources': 
-            \['file_mru', 'directory_mru']}}
+call dein#add('Shougo/unite-outline')
+call dein#add('tsukkee/unite-help')
+call dein#add('ujihisa/unite-colorscheme')
+call dein#add('ujihisa/unite-locate')
+call dein#add('thinca/vim-unite-history')
+call dein#add('osyo-manga/unite-filetype')
+call dein#add('osyo-manga/unite-quickfix')
+call dein#add('osyo-manga/unite-fold')
+call dein#add('tacroe/unite-mark')
+call dein#add('Shougo/neomru.vim')
 
 " File explorer (needed where ranger is not available)
-NeoBundleLazy 'Shougo/vimfiler', {'autoload' : { 'commands' : ['VimFiler']}}
+call dein#add('Shougo/vimfiler', { 'on_cmd' : 'VimFiler'})
 
 " Junk files
-NeoBundleLazy 'Shougo/junkfile.vim', {'autoload':{'commands':'JunkfileOpen',
-            \ 'unite_sources':['junkfile','junkfile/new']}}
+call dein#add('Shougo/junkfile.vim', {'on_cmd':'JunkfileOpen'})
 
 " Unite plugin that provides command line completition
-NeoBundle 'joedicastro/unite-cmdmatch'
+call dein#add('joedicastro/unite-cmdmatch')
 
 " Unite plugin that provides spell suggestions
-NeoBundle 'kopischke/unite-spell-suggest'
+call dein#add('kopischke/unite-spell-suggest')
 " }}}
 
 " Colorschemes {{{
 
 " Dark themes
 " Improved terminal version of molokai, almost identical to the GUI one
-NeoBundle 'joedicastro/vim-molokai256'
+call dein#add('joedicastro/vim-molokai256')
 
-NeoBundle 'tomasr/molokai'
-NeoBundleLazy 'sjl/badwolf', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
-NeoBundleLazy 'nielsmadan/harlequin', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
+call dein#add('tomasr/molokai')
+call dein#add('sjl/badwolf')
+call dein#add('nielsmadan/harlequin')
 
 
 " Light themes
-NeoBundleLazy 'vim-scripts/summerfruit256.vim', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
-NeoBundleLazy 'joedicastro/vim-github256', { 'autoload' :
-        \ { 'unite_sources' : 'colorscheme', }}
+call dein#add('vim-scripts/summerfruit256.vim')
+call dein#add('joedicastro/vim-github256')
 
 " Make terminal themes from GUI themes
-NeoBundleLazy 'godlygeek/csapprox', { 'autoload' :
-        \ { 'commands' : ['CSApprox', 'CSApproxSnapshot']}}
+call dein#add('godlygeek/csapprox', {'on_cmd' : ['CSApprox', 'CSApproxSnapshot']})
 
 " }}}
 
 " DCVS {{{
 "
 " Admin Git
-NeoBundle 'tpope/vim-fugitive'
+call dein#add('tpope/vim-fugitive')
 " Show git repository changes in the current file
-NeoBundle 'airblade/vim-gitgutter'
+call dein#add('airblade/vim-gitgutter')
 " Git viewer
-NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive'],
-            \ 'autoload':{'commands':'Gitv'}}
+call dein#add('gregsexton/gitv', {'depends':['tpope/vim-fugitive'], 'on_cmd':'Gitv'})
 " Browse GitHub events in Vim
-NeoBundle 'joedicastro/vim-github-dashboard'
+call dein#add('joedicastro/vim-github-dashboard')
 
 " }}}
 
 " Markdown & reStructuredText {{{
 
 " Markdown Syntax
-NeoBundleLazy 'joedicastro/vim-markdown'
+call dein#add('joedicastro/vim-markdown')
 " Makes a Markdown Extra preview into the browser
-NeoBundleLazy 'joedicastro/vim-markdown-extra-preview'
+call dein#add('joedicastro/vim-markdown-extra-preview')
 " reStructuredText in vim. Your personal Wiki in RST
-NeoBundleLazy 'Rykka/riv.vim', {'autoload': {'filetypes': ['rst']}} 
+call dein#add('Rykka/riv.vim', {'on_ft': ['rst']})
 
 " }}}
 
 " Linux tools {{{
 
 " A diff tool for directories
-NeoBundleLazy 'joedicastro/DirDiff.vim', { 'autoload': { 'commands' : 'DirDiff'}}
+call dein#add('joedicastro/DirDiff.vim', { 'on_cmd' : 'DirDiff'})
 " Hexadecimal editor
-NeoBundle 'Shougo/vinarise.vim'
+call dein#add('Shougo/vinarise.vim')
 
 " }}}
 
 " Python {{{
 
 " Autocompletion
-NeoBundle 'Shougo/neocomplete.vim'
+call dein#add('Shougo/neocomplete.vim')
 " A Python plugin
-NeoBundleLazy 'klen/python-mode', {'autoload': {'filetypes': ['python']}}
+call dein#add('klen/python-mode', {'on_ft': ['python']})
 " Admin virtualenvs
-NeoBundle 'jmcantrell/vim-virtualenv'
+call dein#add('jmcantrell/vim-virtualenv')
 " Show indent lines
-NeoBundleLazy 'Yggdroot/indentLine', {'autoload': {'filetypes': ['python']}}
+call dein#add('Yggdroot/indentLine', {'on_ft': ['python']})
 " Show reports from coverage.py
-NeoBundleLazy 'alfredodeza/coveragepy.vim', {'autoload': {'filetypes': ['python']}}
+call dein#add('alfredodeza/coveragepy.vim', {'on_ft': ['python']})
 " Sort imports
- NeoBundle 'fisadev/vim-isort', {'autoload': {'filetypes': ['python']}}
+call dein#add('fisadev/vim-isort', {'autoload': {'filetypes': ['python']}})
 " }}}
 
 " Code Snippets {{{
 
 " Powerful and advanced Snippets tool
-NeoBundle 'SirVer/ultisnips'
+call dein#add('SirVer/ultisnips')
 " Snippets for Ultisnips
-NeoBundle 'honza/vim-snippets'
+call dein#add('honza/vim-snippets')
 
 " }}}
 
 " Syntax {{{
 
-NeoBundleLazy 'elzr/vim-json', {'filetypes' : 'json'}
-NeoBundleLazy 'vim-scripts/po.vim--gray', {'autoload': {'filetypes': ['po']}}
-NeoBundleLazy 'joedicastro/vim-pentadactyl', {
-            \ 'autoload': {'filetypes': ['pentadactyl']}}
-NeoBundle 'scrooloose/syntastic'
+call dein#add('elzr/vim-json', {'on_ft' : 'json'})
+call dein#add('vim-scripts/po.vim--gray', {'on_ft': ['po']})
+call dein#add('joedicastro/vim-pentadactyl', {'on_ft': ['pentadactyl']})
+call dein#add('scrooloose/syntastic')
 
 " }}}
 
 " Open external links {{{
 
 " Open a url into the browser or another files with an external app
-NeoBundle 'vim-scripts/utl.vim'
+call dein#add('vim-scripts/utl.vim')
 
 " }}}
 
 " Text edition {{{
 
 " Autocompletion of (, [, {, ', ", ...
-NeoBundle 'delimitMate.vim'
+call dein#add('delimitMate.vim')
 " Smart and fast date changer
-NeoBundle 'tpope/vim-speeddating'
+call dein#add('tpope/vim-speeddating')
 " to surround vim objects with a pair of identical chars
-NeoBundle 'tpope/vim-surround'
+call dein#add('tpope/vim-surround')
 " extend repetitions by the 'dot' key
-NeoBundle 'tpope/vim-repeat'
+call dein#add('tpope/vim-repeat')
 " toggle comments
-NeoBundle 'tpope/vim-commentary'
+call dein#add('tpope/vim-commentary')
 " smart digraphs insertion
-NeoBundle 'Rykka/easydigraph.vim'
+call dein#add('Rykka/easydigraph.vim')
 " browse the vim undo tree
-NeoBundleLazy 'sjl/gundo.vim', { 'autoload' : {'commands': 'GundoToggle'}}
+call dein#add('sjl/gundo.vim', {'on_cmd': 'GundoToggle'})
 " to insert lorem ipsum blocks
-NeoBundleLazy 'vim-scripts/loremipsum', { 'autoload' :
-            \ { 'commands' : 'Loremipsum'}}
+call dein#add('vim-scripts/loremipsum', {'on_cmd': 'Loremipsum'})
 " reveals all the character info, Unicode included
-NeoBundle 'tpope/vim-characterize'
+call dein#add('tpope/vim-characterize')
 " transpose lines and text blocks
-NeoBundleLazy 'salsifis/vim-transpose', { 'autoload' :
-            \ { 'commands' : 'Transpose'}}
+call dein#add('salsifis/vim-transpose', {'on_cmd' : 'Transpose'})
 " marks admin
-NeoBundle 'kshenoy/vim-signature'
+call dein#add('kshenoy/vim-signature')
 " text-objects
-NeoBundle 'kana/vim-textobj-entire' " ae, ie
-NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
-NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
-NeoBundle 'kana/vim-textobj-line' " al, il
-NeoBundle 'kana/vim-textobj-underscore' " a_, i_
-NeoBundle 'kana/vim-textobj-user'
+call dein#add('kana/vim-textobj-entire') " ae, ie
+call dein#add('kana/vim-textobj-indent') " ai, ii, aI, iI
+call dein#add('kana/vim-textobj-lastpat') " a/, i/, a?, i?
+call dein#add('kana/vim-textobj-line') " al, il
+call dein#add('kana/vim-textobj-underscore') " a_, i_
+call dein#add('kana/vim-textobj-user')
 
 " }}}
 
@@ -233,86 +213,87 @@ NeoBundle 'kana/vim-textobj-user'
 
 " A smart and powerful Color Management tool. Needs to be loaded to be able
 " to use the mappings
-NeoBundleLazy 'Rykka/colorv.vim', {'autoload' : {
-            \ 'commands' : [
+call dein#add('Rykka/colorv.vim', {
+            \ 'on_cmd' : [
                              \ 'ColorV', 'ColorVView', 'ColorVPreview',
                              \ 'ColorVPicker', 'ColorVEdit', 'ColorVEditAll',
                              \ 'ColorVInsert', 'ColorVList', 'ColorVName',
                              \ 'ColorVScheme', 'ColorVSchemeFav',
                              \ 'ColorVSchemeNew', 'ColorVTurn2'],
-            \ }}
+            \ })
 
-NeoBundleLazy 'othree/html5.vim', {'autoload':
-            \ {'filetypes': ['html', 'xhttml', 'css']}}
+call dein#add('othree/html5.vim', {'on_ft': ['html', 'xhttml', 'css']})
 
-NeoBundleLazy 'mattn/emmet-vim', {'autoload':
-            \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
+call dein#add('mattn/emmet-vim', 
+            \ {'on_ft': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']})
 
-NeoBundle 'kchmck/vim-coffee-script',{'autoload' : {
-            \ 'commands' : [
+call dein#add('kchmck/vim-coffee-script', {
+            \ 'on_cmd' : [
                              \ 'CoffeeCompile', 'CoffeeLint', 'CoffeeMake',
                              \ 'CoffeeRun', 'CoffeeWatch'],
             \ 'filetypes' : ['coffee']
-            \ }}
+            \ })
 
 " }}}
 
 " GUI {{{
 
 " A better looking status line
-NeoBundle 'bling/vim-airline'
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
 " Zooms a window
-NeoBundleLazy 'vim-scripts/zoomwintab.vim', {'autoload' :
-            \{'commands' : 'ZoomWinTabToggle'}}
+call dein#add('vim-scripts/zoomwintab.vim', {'on_cmd' : 'ZoomWinTabToggle'})
 " easily window resizing
-NeoBundle 'jimsei/winresizer'
+call dein#add('jimsei/winresizer')
 
 " }}}
 
 " Tmux {{{
 
 " Easily interacts with Tmux from Vim
-NeoBundle 'benmills/vimux'
+call dein#add('benmills/vimux')
 " Tmux config file syntax
-NeoBundleLazy 'vimez/vim-tmux', { 'autoload' : { 'filetypes' : 'conf'}}
+call dein#add('vimez/vim-tmux', { 'on_ft' : 'conf'})
 
 " }}}
 
 " API Web {{{
 
-NeoBundle 'mattn/webapi-vim'
+call dein#add('mattn/webapi-vim')
 
 " }}}
 
 " DBMS {{{
 
-NeoBundleLazy 'joedicastro/dbext.vim', { 'autoload' : { 'filetypes' : 'sql'}}
+call dein#add('joedicastro/dbext.vim', { 'on_ft' : 'sql'})
 
 " }}}
 
 " END BUNDLES }}}
 
-call neobundle#end()
+call dein#end()
 
 " Auto install the Plugins {{{
 
 " First-time plugins installation
-if iCanHazNeoBundle == 0
+if iCanHazDein == 0
     echo "Installing Bundles, please ignore key map error messages"
     echo ""
     set nomore
-    NeoBundleInstall
+    call dein#install()
 endif
 
-" Check if all of the plugins are already installed, in other case ask if we
-" want to install them (useful to add plugins in the .vimrc)
-NeoBundleCheck
+" Check if all of the plugins are already installed, in other case it will
+" install them (useful to add plugins in the .vimrc)
+if  dein#check_install() 
+    call dein#install() 
+endif
 
 " }}}
 
 filetype plugin indent on      " Indent and plugins by filetype
 
-" END NEOBUNDLE }}}
+" END DEIN }}}
 
 " VIM Setup {{{ ===============================================================
 
@@ -1007,9 +988,10 @@ let g:neocomplete#sources#omni#input_patterns.python='[^. \t]\.\w*'
 
 " }}}
 
-" Neobundle {{{
+" Dein {{{
 
-let g:neobundle#log_filename = $HOME.'/.vim/tmp/neobundle.log'
+let g:dein#enable_notification=1
+let g:dein#notification_time=5
 
 " }}}
 
@@ -1312,38 +1294,24 @@ let g:unite_source_menu_menus.text.command_candidates = [
 nnoremap <silent>[menu]e :Unite -silent -winheight=20 menu:text <CR>
 " }}}
 
-" neobundle menu {{{
-let g:unite_source_menu_menus.neobundle = {
-    \ 'description' : '      plugins administration with neobundle
-        \                 ⌘ [space]n',
+" dein menu {{{
+let g:unite_source_menu_menus.dein = {
+    \ 'description' : '      plugins administration with dein
+        \                 ⌘ [space]d',
     \}
-let g:unite_source_menu_menus.neobundle.command_candidates = [
-    \['▷ neobundle',
-        \'Unite neobundle'],
-    \['▷ neobundle log',
-        \'Unite neobundle/log'],
-    \['▷ neobundle lazy',
-        \'Unite neobundle/lazy'],
-    \['▷ neobundle update',
-        \'Unite neobundle/update'],
-    \['▷ neobundle search',
-        \'Unite neobundle/search'],
-    \['▷ neobundle install',
-        \'Unite neobundle/install'],
-    \['▷ neobundle check',
-        \'Unite -no-empty output:NeoBundleCheck'],
-    \['▷ neobundle docs',
-        \'Unite output:NeoBundleDocs'],
-    \['▷ neobundle clean',
-        \'NeoBundleClean'],
-    \['▷ neobundle rollback',
-        \'exe "NeoBundleRollback" input("plugin: ")'],
-    \['▷ neobundle list',
-        \'Unite output:NeoBundleList'],
-    \['▷ neobundle direct edit',
-        \'NeoBundleExtraEdit'],
+let g:unite_source_menu_menus.dein.command_candidates = [
+    \['▷ dein reinstall',
+        \'call dein#reinstall()'],
+    \['▷ dein rollback',
+        \'exe "call dein#rollback(\"\"" input("plugin: ") ")"'],
+    \['▷ dein install',
+        \'call dein#install()'],
+    \['▷ dein update',
+        \'call dein#update()'],
+    \['▷ dein list',
+        \'Unite dein'],
     \]
-nnoremap <silent>[menu]n :Unite -silent -start-insert menu:neobundle<CR>
+nnoremap <silent>[menu]d :Unite -silent -start-insert menu:dein<CR>
 " }}}
 
 " git menu {{{
@@ -1883,8 +1851,6 @@ au FileType python setlocal foldlevel=1000
 
 " markdown filetype file
 au BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} set filetype=markdown
-autocmd FileType markdown NeoBundleSource vim-markdown
-autocmd FileType markdown NeoBundleSource vim-markdown-extra-preview
 
 " }}}
 
