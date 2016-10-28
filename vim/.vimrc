@@ -1294,8 +1294,8 @@ nnoremap <silent>[menu]e :Unite -silent -winheight=20 menu:text <CR>
 
 " dein menu {{{
 let g:unite_source_menu_menus.dein = {
-    \ 'description' : '      plugins administration with dein
-        \                 ⌘ [space]d',
+    \ 'description' : '           plugins administration with dein
+        \                      ⌘ [space]d',
     \}
 let g:unite_source_menu_menus.dein.command_candidates = [
     \['▷ dein reinstall',
