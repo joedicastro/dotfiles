@@ -67,19 +67,6 @@ lists/
 education/
 
 
-## Notification
-
-:0 ic:
-| notify-send -a 'Correo nuevo: ' "$(grep "^From:\|^To:\|^Subject:")"
-
-
-## GitHub issues
-
-:0:
-* ^From:.*notifications@github.com
-Inbox/
-
-
 ## SPAM
 
 :0:
@@ -93,3 +80,17 @@ Spam/
 :0:
 * ^X-Spam-Level: \*\*\*\*\*
 Spam/
+
+
+## Notification
+## None of the above categories sends any notification at all
+
+:0 ic:
+| notify-send -a 'Correo nuevo: ' "$(grep "^From:\|^To:\|^Subject:")"
+
+
+## GitHub issues
+
+:0:
+* ^From:.*notifications@github.com
+Inbox/
