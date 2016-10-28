@@ -34,3 +34,4 @@ set complete=sfSth
 set focuscontent=true
 set showmode=true
 
+style -name addons * #nav-bar * { visibility: visible; }
