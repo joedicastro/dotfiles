@@ -1,0 +1,8 @@
+[Unit]
+Description = start mpd
+
+[Timer]
+OnBootSec = 1h
+
+[Install]
+WantedBy = timers.target

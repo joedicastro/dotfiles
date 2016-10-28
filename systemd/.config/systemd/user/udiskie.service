@@ -1,0 +1,12 @@
+[Unit]
+Description = start udiskie for usb drives automount
+PartOf = xsession.target
+
+[Service]
+Type = simple
+ExecStart = /usr/bin/udiskie
+
+[Install]
+WantedBy = xsession.target
+
+

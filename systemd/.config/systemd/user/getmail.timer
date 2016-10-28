@@ -1,0 +1,9 @@
+[Unit]
+Description = fetch mail from server periodically
+
+[Timer]
+OnStartupSec = 5m
+OnUnitActiveSec = 5m
+
+[Install]
+WantedBy = timers.target

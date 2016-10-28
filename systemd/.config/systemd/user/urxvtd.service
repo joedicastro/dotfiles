@@ -1,0 +1,12 @@
+[Unit]
+Description = urxvtd, rxvt unicode terminal daemon
+PartOf = xsession.target
+
+[Service]
+Type = simple
+ExecStart = /usr/bin/urxvtd -q -o
+
+[Install]
+WantedBy = xsession.target
+
+

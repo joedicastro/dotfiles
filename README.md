@@ -121,6 +121,10 @@ Configuration of [Pylint](http://www.pylint.org/)
 
 Configuration of [ranger](http://ranger.nongnu.org/)
 
+### `/systemd`
+
+Configuration of [systemd](https://www.freedesktop.org/wiki/Software/systemd/) user units and timers
+
 ### `/tmux`
 
 Configuration of [tmux](http://tmux.sourceforge.net/)
@@ -148,7 +152,7 @@ Configuration of [Vimperator](http://www.vimperator.org/vimperator)
 
 Configuration of the __X__ session
 
-+ `.xinitrc` bash script to setup the X session
++ `.xprofile` bash script to setup the X session
 + `.config/user-dirs.dirs` default home user directories
 
 ### `/zathura`

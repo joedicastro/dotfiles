@@ -154,24 +154,9 @@ do
 end
 -- }}}
 
--- {{{ Run only one instance per program
-function run_once(cmd)
-  findme = cmd
-  firstspace = cmd:find(" ")
-  if firstspace then
-    findme = cmd:sub(0, firstspace-1)
-  end
-  awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme ..
-                              " > /dev/null || (" .. cmd .. ")")
-end
--- }}}
-
 -- {{{ Some initializations
-run_once('xcalib -c')
-run_once('xcalib -co 92 -a')
-
 -- set the local settings
--- os.setlocale('es_ES.UTF-8')
+os.setlocale('es_ES.UTF-8')
 -- }}}
 
 -- {{{ Variable definitions
@@ -481,8 +466,11 @@ globalkeys = awful.util.table.join(
             awful.util.spawn(terminal)
         end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
-
+    awful.key({ modkey, "Shift"   }, "q",
+        function ()
+            awful.util.spawn("systemctl --user stop xsession.target")
+            awesome.quit()
+        end),
     awful.key({ "Mod1",           }, "l",
         function ()
             awful.tag.incmwfact( 0.05)
@@ -531,7 +519,7 @@ globalkeys = awful.util.table.join(
     -- Lock screen
     awful.key({ modkey }, "y",
         function ()
-            awful.util.spawn("python2 " .. cfg_dir .."/slimlock.py")
+            awful.util.spawn("dm-tool lock")
         end),
 
     -- Launch emacs

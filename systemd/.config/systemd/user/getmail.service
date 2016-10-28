@@ -1,0 +1,8 @@
+[Unit]
+Description = fetch mail from servers
+
+[Service]
+Type = oneshot
+Environment = DISPLAY=:0
+ExecStart = /usr/bin/getmail -r getmailrc_joedicastro -r getmailrc_jdcastro -r getmailrc_fastmail
+WorkingDirectory = %h/dotfiles/getmail

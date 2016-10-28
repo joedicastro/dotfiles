@@ -1,0 +1,12 @@
+[Unit]
+Description = dunst, a lightweight and customizable notification daemon
+PartOf = xsession.target
+
+[Service]
+Type = simple
+ExecStart = /usr/bin/dunst
+
+[Install]
+WantedBy = xsession.target
+
+

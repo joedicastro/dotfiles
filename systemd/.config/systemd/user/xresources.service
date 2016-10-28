@@ -1,0 +1,12 @@
+[Unit]
+Description = set the xserver resources
+PartOf = xsession.target
+
+[Service]
+Type = oneshot
+ExecStart = /usr/bin/xrdb -merge %h/.Xresources
+
+[Install]
+WantedBy = xsession.target
+
+

@@ -1,0 +1,14 @@
+[Unit]
+Description = autocutsel, sync X clipboard and cutbuffer
+PartOf = xsession.target
+
+[Service]
+Type = forking
+ExecStartPre = /usr/bin/autocutsel -fork
+ExecStart = /usr/bin/autocutsel -selection PRIMARY -fork
+Restart = on-failure
+
+[Install]
+WantedBy = xsession.target
+
+

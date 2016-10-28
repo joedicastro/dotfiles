@@ -1,0 +1,13 @@
+[Unit]
+Description = compton, a compositor manager for X11
+PartOf = xsession.target
+
+[Service]
+Type = forking
+ExecStart = /usr/bin/compton -b --config %h/.config/compton/compton.conf
+Restart = on-failure
+
+[Install]
+WantedBy = xsession.target
+
+

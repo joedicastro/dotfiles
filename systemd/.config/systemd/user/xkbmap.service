@@ -1,0 +1,12 @@
+[Unit]
+Description = set the xkeyboard map
+PartOf = xsession.target
+
+[Service]
+Type = oneshot
+ExecStart = /usr/bin/setxkbmap -layout us -variant altgr-intl -option ctrl:nocaps
+
+[Install]
+WantedBy = xsession.target
+
+

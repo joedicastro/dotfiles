@@ -1,0 +1,8 @@
+[Unit]
+Description = monitor changes on size of dirs daily
+
+[Timer]
+OnCalendar = 20:45
+
+[Install]
+WantedBy = timers.target

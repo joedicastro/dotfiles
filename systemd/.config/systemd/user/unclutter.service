@@ -1,0 +1,12 @@
+[Unit]
+Description = unclutter, to hide the mouse cursor after x seconds idle
+PartOf = xsession.target
+
+[Service]
+Type = simple
+ExecStart = /usr/bin/unclutter
+
+[Install]
+WantedBy = xsession.target
+
+

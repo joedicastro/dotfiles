@@ -1,0 +1,9 @@
+[Unit]
+Description = cleanup maildir folders daily
+
+[Timer]
+OnStartupSec = 1h
+OnUnitActiveSec = 24h
+
+[Install]
+WantedBy = timers.target

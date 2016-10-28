@@ -1,0 +1,8 @@
+[Unit]
+Description = report changes on pacman packages
+
+[Timer]
+OnStartupSec = 30m
+
+[Install]
+WantedBy = timers.target

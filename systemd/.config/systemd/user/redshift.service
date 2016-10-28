@@ -1,0 +1,12 @@
+[Unit]
+Description = adjust the color temperature of the screen acording the daylight
+PartOf = xsession.target
+
+[Service]
+Type = simple
+ExecStart = /usr/bin/redshift -l 43.365:-8.41 & -t 6500:2700 -b 0.80:0.85
+
+[Install]
+WantedBy = xsession.target
+
+

@@ -1,0 +1,14 @@
+[Unit]
+Description = xcape, to use CTRL as ESC when pressed on its own
+PartOf = xsession.target
+After = xkbmap.service
+
+[Service]
+Type = forking
+ExecStart = /usr/bin/xcape
+Restart = on-failure
+
+[Install]
+WantedBy = xsession.target
+
+

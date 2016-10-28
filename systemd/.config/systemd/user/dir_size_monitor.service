@@ -1,0 +1,11 @@
+[Unit]
+Description = monitor changes on size of dirs
+
+[Service]
+Type = oneshot
+Environment = DISPLAY=:0
+ExecStart = /usr/bin/python2 %h/code/cron/dir_size_monitor.py
+WorkingDirectory = %h/code/cron
+
+
+

@@ -1,0 +1,15 @@
+[Unit]
+Description = cleanup maildir folders
+
+[Service]
+Type = oneshot
+Environment = DISPLAY=:0
+ExecStart = /usr/bin/python2 %h/code/cron/cleanup-maildir -a 7  -k --maildir-root=/home/joedicastro/org/mail/mails delete /Trash 
+ExecStart = /usr/bin/python2 %h/code/cron/cleanup-maildir -a 5  -k --maildir-root=/home/joedicastro/org/mail/mails delete /lists 
+ExecStart = /usr/bin/python2 %h/code/cron/cleanup-maildir -a 5  -k --maildir-root=/home/joedicastro/org/mail/mails delete /publicity 
+ExecStart = /usr/bin/python2 %h/code/cron/cleanup-maildir -a 15 -k --maildir-root=/home/joedicastro/org/mail/mails delete /Local 
+ExecStart = /usr/bin/python2 %h/code/cron/cleanup-maildir -a 3  -k --maildir-root=/home/joedicastro/org/mail/mails delete /Spam 
+WorkingDirectory = %h/code/cron
+
+
+

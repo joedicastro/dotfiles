@@ -1,0 +1,12 @@
+[Unit]
+Description = start emacs as daemon
+PartOf = xsession.target
+
+[Service]
+Type = forking
+ExecStart = /usr/bin/emacs --daemon
+
+[Install]
+WantedBy = xsession.target
+
+
