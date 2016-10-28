@@ -1,0 +1,16 @@
+[retriever]
+type = SimplePOP3SSLRetriever
+server = mail.example.com
+port = 995
+username = user@example.com
+password = pAs$w0r.d_fake
+ 
+[destination]
+type = MDA_external
+path = /usr/bin/procmail
+unixfrom = True
+
+[options]
+verbose = 0
+delete = true
+message_log = ~/.getmail/log-sample

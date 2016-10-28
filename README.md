@@ -89,6 +89,10 @@ The fonts that I use in my terminal, vim, etc ...
  - Dejavu Sans Mono for Powerline is the same font adapted to use it with
    Powerline in Vim
 
+### `/getmail`
+
+Configuration of [getmail](http://pyropus.ca/software/getmail/) (an example with fake data)
+
 ### `/git`
 
 Configuration of [git](http://git-scm.com/)
