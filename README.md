@@ -121,6 +121,10 @@ Configuration of [ncmpcpp](http://ncmpcpp.rybczak.net/)
 
 Configuration of [Pylint](http://www.pylint.org/)
 
+### `/procmail`
+
+Configuration of [procmail](http://www.procmail.org/)
+
 ### `/ranger`
 
 Configuration of [ranger](http://ranger.nongnu.org/)

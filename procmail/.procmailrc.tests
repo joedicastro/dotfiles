@@ -1,0 +1,23 @@
+SHELL = /bin/bash
+PMDIR       = $HOME/dotfiles/procmail
+LOGFILE     = $PMDIR/log
+LOGABSTRACT = "all"
+VERBOSE     = ON
+DISPLAY=:0.0
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+
+MAILDIR=$HOME/org/mail/mails/
+DEFAULT=/dev/null
+
+
+# Notification
+:0 ic:
+| notify-send -a 'Correo nuevo: ' "$(grep "^From:\|^To:\|^Subject:")" 
+
+# Notification
+# :0 ic:
+# * ^From:.*\/.*|^Subject:.*\/.*
+# | echo $MATCH2 \
+# | python2 -c "import email,sys; print email.Header.decode_header(sys.stdin.read())[0][0]" \
+# | while read OUTPUT;do notify-send -a 'Tienes un correo nuevo: ' "$OUTPUT";done
+

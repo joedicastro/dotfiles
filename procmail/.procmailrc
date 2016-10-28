@@ -1,0 +1,95 @@
+SHELL = /bin/bash
+PMDIR       = $HOME/dotfiles/procmail
+LOGFILE     = $PMDIR/log
+LOGABSTRACT = "all"
+VERBOSE     = ON
+DISPLAY=:0.0
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+
+MAILDIR=$HOME/org/mail/mails/
+DEFAULT=$MAILDIR/Inbox/
+
+
+# By using the f and w flags and no condition, spamassassin is going add the
+# X-Spam headers to every single mail, and then process other recipes.  No
+# lockfile is used.
+:0fw | /usr/bin/vendor_perl/spamc
+
+
+## Publicity
+
+:0:
+* ^From:.*novedades@amazon.es|\
+  ^From:.*amazon-buyvip-promotion@buyvip.com|\
+  ^From:.*amazon-buyvip-promotion@amazon.com|\
+  ^From:.*@m.privalia.com|\
+  ^From:.*@news-es.privalia.com|\
+  ^From:.*@ikeainfo.com|\
+  ^From:.*@mailing.zara.com|\
+  ^From:.*canon-europe.com
+publicity/
+
+
+## Mailing lists
+
+:0:
+* ^List-Id:.*\/.*
+* ! ^From:.*ebay.es
+* ! ^From:.*notifications@github.com
+lists/
+
+
+## Local
+
+:0
+* ^To: joedicastro@itaca
+{
+    # First deliver to maildir so LASTFOLDER gets set
+    :0 c
+    Local/
+
+    # Manipulate the file
+    :0 ai
+    * LASTFOLDER ?? ()\/[^/]+^^
+    |mv "$LASTFOLDER" "$MAILDIR/Local/cur/$MATCH:2,S"
+}
+
+
+## Education
+
+:0:
+* ^From:.*@udacity.com|\
+  ^From:.*@coursera.org|\
+  ^From:.*@stanford.edu|\
+  ^From:.*@mongodb.com|\
+  ^From:.*@edx.*|\
+  ^From:.*@courseupdates.edx.*
+education/
+
+
+## Notification
+
+:0 ic:
+| notify-send -a 'Correo nuevo: ' "$(grep "^From:\|^To:\|^Subject:")"
+
+
+## GitHub issues
+
+:0:
+* ^From:.*notifications@github.com
+Inbox/
+
+
+## SPAM
+
+:0:
+* ^X-Spam-Status: Yes
+Spam/
+
+:0:
+* ^X-Spam-Flag: YES
+Spam/
+
+:0:
+* ^X-Spam-Level: \*\*\*\*\*
+Spam/
