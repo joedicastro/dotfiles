@@ -71,6 +71,10 @@ Configuration of [dunst](https://github.com/knopwob/dunst)
 
 Configuration of [Emacs](http://www.gnu.org/software/emacs/)
 
+### `/firejail`
+
+Configuration of [firejail](https://firejail.wordpress.com/)
+
 ### `/fontconfig`
 
 Configuration of [fontconfig](http://www.freedesktop.org/wiki/Software/fontconfig)
