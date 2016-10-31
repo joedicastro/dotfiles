@@ -10,10 +10,12 @@ MAILDIR=$HOME/org/mail/mails/
 DEFAULT=$MAILDIR/Inbox/
 
 
-# By using the f and w flags and no condition, spamassassin is going add the
-# X-Spam headers to every single mail, and then process other recipes.  No
-# lockfile is used.
-:0fw | /usr/bin/vendor_perl/spamc
+## By using the f and w flags and no condition, spamassassin is going add the
+## X-Spam headers to every single mail, and then process other recipes.
+## No lockfile is used.
+
+:0fw 
+| /usr/bin/vendor_perl/spamc
 
 
 ## Publicity
