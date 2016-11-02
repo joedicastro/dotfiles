@@ -57,9 +57,9 @@ changes.
            (equal (buffer-file-name)
                   (expand-file-name (concat user-emacs-directory "readme.org")))
            (equal (buffer-file-name)
-                  (expand-file-name "~/dotfiles/emacs/readme.org")))
+                  (expand-file-name "~/dotfiles/emacs/.emacs.d/readme.org")))
       (call-process-shell-command
-       "emacs ~/.emacs.d/readme.org --batch --eval='(org-babel-tangle)' && notify-send -a 'Emacs' 'init file tangled'" nil 0)))
+       "/usr/bin/emacs ~/.emacs.d/readme.org --batch --eval='(org-babel-tangle)' && notify-send -a 'Emacs' 'init file tangled'" nil 0)))
       ;; (byte-compile-file (concat user-emacs-directory "init.el")))
 
   (add-hook 'after-save-hook 'joe-tangle-init)
@@ -71,7 +71,7 @@ directly press =C-c C-e=, choose =h= and then one of the options to produce HTML
 output. At the same time it makes the configuration management a delight, been
 pretty easy to find any setting and organize them.
 
-*** How tho generate the init.el file
+*** How to generate the init.el file
 
 Thus, from the code above you probably already figured out the command needed
 to generate the ~/.emacs.d/init.el~ file. Anyway, you need to execute this
