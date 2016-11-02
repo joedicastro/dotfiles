@@ -678,6 +678,13 @@ Settings for the Emacs Web Browser.
             org-src-tab-acts-natively t)
       (add-to-list 'org-src-lang-modes (quote ("dot" . graphviz-dot)))
 
+      ;; more sane emphasis regex to export to HTML as substitute of Markdown
+      (org-set-emph-re 'org-emphasis-regexp-components
+                       '(" \t({"
+                         "- \t.,:!?;)}[:multibyte:]"
+                         " \t\r\n,"
+                         "."
+                         1))
       ;; highlight code blocks syntax in PDF export
       ;; Include the latex-exporter
       (use-package ox-latex)
