@@ -1,7 +1,7 @@
 #+TITLE:     My Emacs Configuration
 #+AUTHOR:    joe di castro
 #+EMAIL:     joe@joedicastro.com
-#+DATE:      2015-04-29
+#+DATE:      2016-11-02
 #+LANGUAGE:  en
 #+PROPERTY: header-args :tangle init.el :comments org
 #+OPTIONS: author:nil date:nil toc:nil title:nil e:nil
@@ -3165,10 +3165,19 @@ The complete process works like this:
 + The email that comes from the IMAP account via =getmail= is stored directly in a Maildir directory. In that case I only care about Inbox and Outbox (sent) folders.
 + The email that comes from the several POP3 accounts is processed by [[http://www.procmail.org/][procmail]].
   Various rules filter the emails and stores them in their own sub-directory in the POP3's Maildir.
-  The SPAM messages are already checked by my account servers, so I only use the SPAM fields already present to filter them.
+  The SPAM messages are checked by a local spamassassin domain that inserts the spam fields in the header, after that I only have to use the SPAM fields already present to filter them.
   So, is as simple as that:
 
     #+BEGIN_EXAMPLE
+        ## By using the f and w flags and no condition, spamassassin is going add the
+        ## X-Spam headers to every single mail, and then process other recipes.
+        ## No lockfile is used.
+
+        :0fw
+        | /usr/bin/vendor_perl/spamc
+
+        ...
+
         ## SPAM
 
         :0:
@@ -3184,16 +3193,14 @@ The complete process works like this:
         Spam/
     #+END_EXAMPLE
 
-  I use a =procmail= rule to send ~notifications~ to the desktop via =notify-sed=. I'm using it for all of them and is like this:
+  I use a =procmail= rule to send ~notifications~ to the desktop via =notify-sed=. I'm using it for almost all of them (spam and some others are skipped, to not distract me) and is like this:
 
     #+BEGIN_EXAMPLE
         ## Notification
+        ## None of the above categories sends any notification at all
 
         :0 ic:
-        * ^Subject:.*\/.*
-        | echo $MATCH \
-        | python2 -c "import email,sys; print email.Header.decode_header(sys.stdin.read())[0][0]" \
-        | while read OUTPUT;do notify-send -a 'Tienes un correo nuevo: ' "$OUTPUT";done
+        | notify-send -a 'Correo nuevo: ' "$(grep "^From:\|^To:\|^Subject:")"
     #+END_EXAMPLE
 
 + Daily, a script, [[https://github.com/joedicastro/cleanup-maildir][cleanup-maildir]], deletes all mails older than 14 days from several folders in the POP3's Maildir.
@@ -3218,7 +3225,7 @@ The complete process works like this:
 + [X] Send messages asynchronously
 + [X] Add contact from mail
 + [X] Send local mails to Maildir (made via postfix)
-+ [X] Spam management (via procmail)
++ [X] Spam management (via procmail & spamassassin)
 + [X] Notifications (via procmail)
 + [X] Rules/filters (via procmail)
 + [X] Fix signature
