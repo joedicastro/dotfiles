@@ -29,16 +29,20 @@ This repository contains the setup I use to customize Emacs. The configuration
 uses [[http://orgmode.org/][Org-Mode]], [[http://orgmode.org/worg/org-contrib/babel/][Org-Babel]] and [[http://orgmode.org/worg/org-contrib/babel/intro.html#literate-programming][Literate Programming]] to manage all the settings in
 a unique Org Mode file.
 
+*Important:* In order to use this configuration you need to generate the
+~init.el~ file from this one. In the next section I explain you how to do it.
+
 ** How it works
 
 It uses one of the standard Emacs init files, =init.el= to load all the
 configuration. This configuration is thought to be stored in the standard
 =~/.emacs.d= directory and to setup this configuration you need to symlink this
-=emacs= directory to that. The =~/.emacs.d/init.el= comes from all the code
-blocks of this file =~/emacs.d/readme.org= exported in a process that is called
-"tangling". If a block is marked with =:tangle no= it will be skipped. The
-tangling is made automatically each time that the =readme.el= changes, via a
-hook, to ensure that both files are synced.
+=emacs= directory to that (automatically done if you use the stow tool). The
+=~/.emacs.d/init.el= comes from all the code blocks of this file
+=~/emacs.d/readme.org= exported in a process that is called "tangling". If a
+block is marked with =:tangle no= it will be skipped. The tangling is made
+automatically each time that the =readme.org= it's saved, via a hook, to ensure
+that both files are synced.
 
 This is the hook to tangle a new =~/.emacs.d/init.el= each time that this file
 changes.
@@ -66,6 +70,16 @@ documentation to HTML or PDF or LaTeX quite easily, e.g. to do it from Org mode
 directly press =C-c C-e=, choose =h= and then one of the options to produce HTML
 output. At the same time it makes the configuration management a delight, been
 pretty easy to find any setting and organize them.
+
+*** How tho generate the init.el file
+
+Thus, from the code above you probably already figured out the command needed
+to generate the ~/.emacs.d/init.el~ file. Anyway, you need to execute this
+command in a terminal to get the elisp file from this current org-mode one. 
+
+#+BEGIN_EXAMPLE bash
+  $ /usr/bin/emacs ~/.emacs.d/readme.org --batch --eval='(org-babel-tangle)'
+#+END_EXAMPLE
 
 * TODO Prerequisites
 
