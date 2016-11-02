@@ -21,7 +21,7 @@
 ## (eg. ncmpc) also use that location.
 ##
 #
-#lyrics_directory = ~/.lyrics
+lyrics_directory = ~/.ncmpcpp/lyrics
 #
 ##### connection settings #####
 #
