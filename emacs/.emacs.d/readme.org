@@ -96,7 +96,6 @@ the goodies of this configuration.
 - [[http://pandoc.org/][pandoc]] for ox-pandoc
 - [[http://www.zx2c4.com/projects/password-store/][pass]]
 - [[http://www.gzip.org/][gzip]]
-- [[https://stockfishchess.org/][Stockfish]] for Chess
 
 * Packages setup
 ** Repositories
@@ -1051,25 +1050,6 @@ table based on The Unicode Standard 6.2.
      (setq charmap-text-scale-adjust 2))
 #+END_SRC
 
-** TODO chess
-
-[[./img/chess.png]]
-
-[[https://github.com/jwiegley/emacs-chess][Chess.el]] is an Emacs chess client and library, designed to be used for
-writing chess-related programs, or for playing games of chess against
-various chess engines, including Internet servers.  The library can be
-used for analyzing variations, browsing historical games, or a multitude
-of other purposes.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package chess
-    :ensure t
-    :commands chess
-    :config
-    (setq chess-images-default-size 70
-          chess-images-separate-frame nil))
-#+END_SRC
-
 ** cloc
 
 [[./img/cloc.png]]
@@ -1454,7 +1434,6 @@ pressing the key until it selects what you want.
         package-menu-mode
         archive-mode
         irfc-mode
-        chess-mode
         git-commit-mode
         git-rebase-mode)
       "List of modes that should start up in Evil Emacs state."
@@ -2010,7 +1989,7 @@ that way.
                                                                          ╭───────┐
                                                                          │ Index │
   ╭──────────────────────────────────────────────────────────────────────┴───────╯
-    [_a_] bookmarks    [^h^]               [_o_] organization  [_v_] games
+    [_a_] bookmarks    [^h^]               [_o_] organization  [^v^] 
     [_b_] buffers      [_i_] internet      [_p_] project       [_w_] window
     [_c_] flycheck     [_j_] jump          [_q_] exit          [_x_] shell
     [_d_] development  [_k_] spell         [_r_] register      [^y^]
@@ -2041,7 +2020,6 @@ that way.
       ("r"     hydra-register/body nil)
       ("s"     hydra-search/body nil)
       ("t"     hydra-text/body nil)
-      ("v"     hydra-games/body nil)
       ("w"     ace-window nil)
       ("x"     hydra-system/body nil))
 
@@ -2461,22 +2439,6 @@ that way.
         ("o" helm-occur)
         ("t" helm-semantic-or-imenu)
         ("w" helm-multi-swoop))
-
-    (defhydra hydra-games (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
-        "
-                                                                         ╭───────┐
-     Game                                                                │ Games │
-  ╭──────────────────────────────────────────────────────────────────────┴───────╯
-    [_b_] bubbles       [_c_] chess (computer)
-    [_t_] tetris        [_a_] chess (internet)
-    [_g_] gomoku
-  --------------------------------------------------------------------------------
-        "
-        ("b" bubbles-set-game-hard)
-        ("c" chess)
-        ("a" chess-ics)
-        ("g" gomoku)
-        ("t" tetris))
 
     (defhydra hydra-system (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
