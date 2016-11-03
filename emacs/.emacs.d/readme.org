@@ -685,6 +685,7 @@ Settings for the Emacs Web Browser.
                          " \t\r\n,"
                          "."
                          1))
+
       ;; highlight code blocks syntax in PDF export
       ;; Include the latex-exporter
       (use-package ox-latex)
@@ -934,7 +935,7 @@ nice features.
           beacon-blink-when-focused t
           beacon-color "deep sky blue"))
 #+END_SRC
-   
+
 ** boxquote
 
 [[./img/boxquote.png]]
@@ -965,7 +966,8 @@ This is how a boxquote looks:
                    boxquote-top-and-tail  "────"   ; U+2500 (×4)
                    boxquote-top-corner    "╭")     ; U+256F
     (when (package-installed-p 'hydra)
-      (defhydra hydra-boxquote (:color blue :hint nil)
+      (eval-and-compile
+        (defhydra hydra-boxquote (:color blue :hint nil)
          "
                                                                       ╭──────────┐
     Text           External           Apropos         Do              │ Boxquote │
@@ -999,7 +1001,7 @@ This is how a boxquote looks:
         ("F" boxquote-describe-function)
         ("V" boxquote-describe-variable)
         ("n" boxquote-narrow-to-boxquote)
-        ("c" boxquote-narrow-to-boxquote-content))))
+        ("c" boxquote-narrow-to-boxquote-content)))))
 #+END_SRC
 
 ** bug-hunter
@@ -1159,7 +1161,7 @@ you to jump between and revert them selectively.
               ("http://planet.emacsen.org/atom.xml" emacs)
               ("https://www.reddit.com/r/emacs/.rss" emacs)
               ("https://www.reddit.com/r/orgmode/.rss" emacs)
-              ("http://www.blackhats.es/wordpress/?p=670" emacs)
+              ("http://www.blackhats.es/wordpress/?feed=rss2" emacs)
               ("http://www.howardism.org/index.xml" emacs)
               ("http://www.masteringemacs.org/feed/" emacs)))
       (bind-keys :map elfeed-search-mode-map
@@ -1345,10 +1347,13 @@ produces this HTML:
     :defer t)
 #+END_SRC
 
-** TODO esup
+** esup
 
 [[https://github.com/jschaf/esup][Esup]] is a package for benchmark Emacs startup time without ever leaving your
 Emacs.
+
+*Note*: It currently stops when parsing the ~diminesh.elc~ file, if delete it
+works fine.
 
 #+BEGIN_SRC emacs-lisp
   (use-package esup
@@ -1621,8 +1626,8 @@ threshold.
     :ensure t
     :commands fci-mode
     :config
-    (fci-mode)
-    (setq fci-rule-column 79))
+    (setq fci-rule-column 79)
+    (fci-mode))
 #+END_SRC
 
 ** fixmee
@@ -1921,13 +1926,15 @@ or Zeal installed.
     (use-package helm-dash
       :ensure t
       :config
-      (setq helm-dash-docsets-path "~/dotfiles/emacs/docsets")
+      (setq helm-dash-docsets-path (concat user-emacs-directory "docsets"))
+      (unless (file-exists-p helm-dash-docsets-path)
+        (make-directory helm-dash-docsets-path))
       ;; each time that emacs starts load all the docsets already downloaded
       (setq helm-dash-common-docsets
             (sort
              (let (value) 
                (dolist (element
-                        (directory-files "~/dotfiles/emacs/docsets" nil "\\.docset$" 1) 
+                        (directory-files "~/.emacs.d/docsets" nil "\\.docset$" 1) 
                         value)
                  (setq value (cons (file-name-sans-extension element) value))))
              'string-lessp))))
@@ -4652,7 +4659,7 @@ Angularjs, ejs, etc.
     (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.xml?\\'" . web-mode)))
 #+END_SRC
-   
+
 ** TODO yasnippet
 
 [[https://github.com/capitaomorte/yasnippet][YASnippet]] is a template system for Emacs. It allows you to type an
