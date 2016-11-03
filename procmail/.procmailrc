@@ -22,6 +22,7 @@ DEFAULT=$MAILDIR/Inbox/
 
 :0:
 * ^From:.*novedades@amazon.es|\
+  ^From:.*store-news@amazon.es|\
   ^From:.*amazon-buyvip-promotion@buyvip.com|\
   ^From:.*amazon-buyvip-promotion@amazon.com|\
   ^From:.*@m.privalia.com|\
