@@ -226,6 +226,9 @@ These are some defaults that I consider a good start.
   (setq size-indication-mode t)
   (which-function-mode 1)
 
+  ;; use the x primary selection as default
+  (setq select-enable-primary t)
+
   ;; backward-kill-word as alternative to Backspace:
   ;; Kill the entire word instead of hitting Backspace key several
   ;; times. To do this will bind the =backward-kill-region= function to the
@@ -538,6 +541,14 @@ information.
     :config
     (progn
       (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))))
+#+END_SRC
+
+** Network security
+
+Set the security level of the Emacs' Network Security Manager
+
+#+BEGIN_SRC emacs-lis
+   (setq network-security-level 'high)
 #+END_SRC
 
 ** Spelling
@@ -1396,9 +1407,6 @@ Use the [[https://github.com/redguardtoo/evil-matchit][Matchit]] package, the eq
 | %       | evilmi-jump-items | jumps between item/tag(s) |
 |---------+-------------------+---------------------------|
 
-[[https://github.com/redguardtoo/evil-nerd-commenter][evil-nerd-commenter]] comment/uncomment lines efficiently. Like Nerd Commenter in
-Vim
-
 Use the [[https://github.com/timcharper/evil-surround][evil-surround]] package, the equivalent to the Vim one.
 
 | Binding | Do                                  |
@@ -1537,11 +1545,6 @@ pressing the key until it selects what you want.
         :ensure t
         :config
         (global-evil-matchit-mode t))
-
-      (use-package evil-nerd-commenter
-        :ensure t
-        :init
-        (setq evilnc-hotkey-comment-operator ""))
 
       (use-package evil-iedit-state
         :ensure t
@@ -2198,7 +2201,7 @@ that way.
         "
         ("a" align-regexp)
         ("b" toggle-enable-multibyte-characters)
-        ("c" evilnc-comment-or-uncomment-lines)
+        ("c" comment-line)
         ("d" insert-char)
         ("e" evil-ex-show-digraphs)
         ("f" fci-mode)
@@ -2412,9 +2415,9 @@ that way.
      Logs                        Registers                Undo        │ Register │
   ╭───────────────────────────────────────────────────────────────────┴──────────╯
     [_c_] commands history       [_e_] emacs registers    [_u_] undo tree
-    [_o_] echo-area messages     [_r_] evil registers
+    [_o_] messages               [_r_] evil registers
     [_b_] minibuffer             [_m_] evil marks
-    [_l_] messages               [_k_] kill ring
+    [_l_] lossage (keystrokes)   [_k_] kill ring
     [_d_] diff buffer with file
   --------------------------------------------------------------------------------
         "
@@ -2423,7 +2426,7 @@ that way.
         ("e" helm-register)
         ("k" helm-show-kill-ring)
         ("a" helm-all-mark-rings)
-        ("l" popwin:messages)
+        ("l" view-lossage)
         ("m" evil-show-marks)
         ("o" view-echo-area-messages)
         ("r" evil-show-registers)
@@ -2545,11 +2548,12 @@ that way.
      ^ ^                           [_g_] google translate
      ^ ^                           [_s_] swiper
      ^ ^                           [_t_] helm-semantic-or-imenu
+     ^ ^                           [_q_] quick-calc
   --------------------------------------------------------------------------------
         "
         ("<escape>" nil "quit")
         ("a" align-regexp)
-        ("c" evilnc-comment-or-uncomment-lines)
+        ("c" comment-line)
         ("r" er/expand-region)
         ("f" fci-mode)
         ("g" google-translate-smooth-translate)
@@ -2565,6 +2569,7 @@ that way.
         ("<SPC>" whitespace-cleanup)
         ("s" joe-swiper)
         ("t" helm-semantic-or-imenu)
+        ("q" (quick-calc t))
         ("x" comment-box)))
 #+END_SRC
 
