@@ -775,6 +775,7 @@ that to add or remove a package does not broke the configuration of others.
     (progn
       (setq ag-reuse-buffers 't
             ag-highlight-search t
+            ag-group-matches nil
             ag-arguments (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))))
 #+END_SRC
 
