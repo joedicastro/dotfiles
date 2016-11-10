@@ -526,7 +526,7 @@ information.
 
 Set the security level of the Emacs' Network Security Manager
 
-#+BEGIN_SRC emacs-lis
+#+BEGIN_SRC emacs-lisp
    (setq network-security-level 'high)
 #+END_SRC
 
