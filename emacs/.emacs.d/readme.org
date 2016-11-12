@@ -1692,10 +1692,40 @@ Use [[https://github.com/pidu/git-timemachine][git-timemachine]] to browse histo
     :ensure t
     :commands git-timemachine
     :config
-    (defadvice git-timemachine-mode (after toggle-evil activate)
-      "Turn off `evil-local-mode' when enabling `git-timemachine-mode',
-      and turn it back on when disabling `git-timemachine-mode'."
-      (evil-local-mode (if git-timemachine-mode -1 1))))
+    (progn
+      (bind-keys :map git-timemachine-mode
+                 ("c" . git-timemachine-show-current-revision)
+                 ("b" . git-timemachine-switch-branch))
+      (when (package-installed-p 'hydra)
+          (bind-keys :map git-timemachine-mode
+                  ("\\" . hydra-timemachine/body))
+          (defhydra hydra-timemachine (:hint nil :color blue)
+                  "
+                                                                          ╭──────────────────┐
+                Rev.   Do                                                 │ Git time-machine │
+              ╭───────────────────────────────────────────────────────────┴──────────────────╯
+                _n_      [_w_] abbrv hash
+                ^↑^      [_W_] full hash
+                ^|^      [_g_] go to revision
+                ^↓^      [_c_] show current
+                _p_      [_b_] switch branch
+                ^ ^      [_q_] quit
+              --------------------------------------------------------------------------------
+                  "
+                  ("\\" hydra-master/body "back")
+                  ("<ESC>" nil "quit")
+                  ("q"       git-timemachine-quit)
+                  ("n"       git-timemachine-show-next-revision)
+                  ("p"       git-timemachine-show-previous-revision)
+                  ("g"       git-timemachine-show-nth-revision)
+                  ("c"       git-timemachine-show-current-revision)
+                  ("w"       git-timemachine-kill-abbreviated-revision)
+                  ("W"       git-timemachine-kill-revision)
+                  ("b"       git-timemachine-switch-branch)))
+      (defadvice git-timemachine-mode (after toggle-evil activate)
+        "Turn off `evil-local-mode' when enabling `git-timemachine-mode',
+        and turn it back on when disabling `git-timemachine-mode'."
+        (evil-local-mode (if git-timemachine-mode -1 1)))))
 #+END_SRC
 
 ** google-maps
