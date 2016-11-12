@@ -756,7 +756,7 @@ Settings for the Emacs Web Browser.
       (setq org-confirm-babel-evaluate 'joe-org-confirm-babel-evaluate)))
 #+END_SRC
 
-* TODO Packages [1/18]
+* TODO Packages [1/15]
 
 What I try here is to config each package as atomic as possible, so to ensure
 that to add or remove a package does not broke the configuration of others.
@@ -784,9 +784,11 @@ that to add or remove a package does not broke the configuration of others.
 [[https://github.com/jwiegley/emacs-async][async.el]] is a module for doing asynchronous processing in Emacs.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package async
-    :defer t
-    :ensure t)
+    (use-package async
+      :defer t
+      :ensure t
+      :config
+      (setq async-bytecomp-package-mode t))
 #+END_SRC
 
 ** auto-complete
@@ -922,7 +924,6 @@ nice features.
     :config
     (beacon-mode 1)
     (setq beacon-push-mark 35
-          beacon-push-mark 35
           beacon-blink-when-focused t
           beacon-color "deep sky blue"))
 #+END_SRC
@@ -1322,6 +1323,7 @@ produces this HTML:
 | p         | epresent-previous-page      | previous "slide"                           |
 | b         | epresent-previous-page      | previous "slide"                           |
 | ←         | epresent-previous-page      | previous "slide"                           |
+| v num RET | epresent-jump-to-page       | go to page                                 |
 |-----------+-----------------------------+--------------------------------------------|
 | c         | epresent-next-src-block     | move to the next code block                |
 | C         | epresent-previous-src-block | move to the previous code block            |
@@ -1329,7 +1331,12 @@ produces this HTML:
 | x         | org-babel-execute-src-block | execute the source block                   |
 | r         | epresent-refresh            | refresh the page to show the results       |
 | g         | epresent-refresh            | refresh the page to show the results       |
-| C-c C-c   |                             | refresh the page to show the results       |
+| C-c C-c   | epresent-refresh            | refresh the page to show the results       |
+| s         | epresent-toggle-hide-src    | toggle hide/show code block                |
+| S         | epresent-toggle-hide-src    | toggle hide/show code block                |
+|-----------+-----------------------------+--------------------------------------------|
+| <F5>      | epresent-edit-text          | edit slide text                            |
+| <F12>     | epresent-run                | run again epresent                         |
 |-----------+-----------------------------+--------------------------------------------|
 
 #+BEGIN_SRC elisp
@@ -1342,9 +1349,6 @@ produces this HTML:
 
 [[https://github.com/jschaf/esup][Esup]] is a package for benchmark Emacs startup time without ever leaving your
 Emacs.
-
-*Note*: It currently stops when parsing the ~diminesh.elc~ file, if delete it
-works fine.
 
 #+BEGIN_SRC emacs-lisp
   (use-package esup
@@ -2120,9 +2124,10 @@ that way.
     [_i_] get docset             [_m_] HTTP method         [_x_] shell
     [_u_] get user docset        [_r_] HTTP relation       [_p_] with arg
     [_a_] activate docset        [_s_] HTTP status code    [_k_] buffer (helm)
-     ^ ^                         [_g_] RESTclient          [_o_] only compile
-     ^ ^                         [_f_] RFC doc             [_R_] replace
-    [_l_] lines of code          [_F_] RFC index           [_e_] eval/print
+     ^ ^                         [_t_] Media types         [_o_] only compile
+     ^ ^                         [_g_] RESTclient          [_R_] replace
+     ^ ^                         [_f_] RFC doc             [_e_] eval/print
+    [_l_] lines of code          [_F_] RFC index
   --------------------------------------------------------------------------------
         "
         ("d" helm-dash-at-point)
@@ -2146,6 +2151,7 @@ that way.
         ("m" http-method)
         ("r" http-relation)
         ("s" http-status-code)
+        ("t" media-type)
         ("l" cloc))
 
     (defhydra hydra-emacs (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
@@ -2786,7 +2792,7 @@ codes, all summarized and linking to their specification.
 #+BEGIN_SRC emacs-lisp
   (use-package know-your-http-well
     :ensure t
-    :commands (http-header http-method http-relation http-status-code))
+    :commands (http-header http-method http-relation http-status-code media-types))
 #+END_SRC
 
 ** lorem-ipsum
@@ -4535,7 +4541,7 @@ having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsW
 [[http://www.smlnj.org/doc/Emacs/sml-mode.html][SML mode]] is a major mode for Emacs for editing Standard ML.
 It provides syntax highlighting and automatic indentation and
 comes with sml-proc which allows interaction with an inferior SML
-interactive lo
+interactive loop
 
 #+BEGIN_SRC emacs-lisp
   (use-package sml-mode
