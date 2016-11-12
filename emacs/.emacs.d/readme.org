@@ -4537,6 +4537,17 @@ The themes are named after important/influential programmers.
     :defer t)
 #+END_SRC
 
+** systemd
+
+[[with sml-proc which allows interaction with an inferior SML
+interactive ][systemd]] is a major mode for Emacs for edit systemd units.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package systemd
+      :ensure t
+      :defer t)
+#+END_SRC
+
 ** sx
 
 [[./img/sx.png]]
