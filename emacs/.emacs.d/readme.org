@@ -4461,13 +4461,12 @@ This package shows a very nice and very informative mode line.
     :defer 0.2
     :config
     (progn
-      ;; (defvar sml-dark-theme
-      ;;   (substring
-      ;;    (shell-command-to-string
-      ;;     "sha256sum ~/.emacs.d/elpa/smart-mode-line-*/smart-mode-line-dark-theme.el | cut -d ' ' -f 1")
-      ;;    0 -1))
-
-      ;; (add-to-list 'custom-safe-themes sml-dark-theme)
+      (defvar after-load-theme-hook nil
+        "Hook run after a color theme is loaded using `load-theme'.")
+      (defadvice load-theme (after run-after-load-theme-hook activate)
+        "Run `after-load-theme-hook'."
+        (run-hooks 'after-load-theme-hook))
+      (add-hook 'after-load-theme-hook 'smart-mode-line-enable)
       (setq sml/no-confirm-load-theme t
             sml/theme 'dark
             sml/mode-width 'full
