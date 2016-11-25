@@ -4103,7 +4103,8 @@ search in your emails to get a little context in the conversation.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-plus-contrib
-    :ensure t)
+    :ensure t
+    :defer t)
 
   ;; org-protocol intercepts calls from emacsclient to trigger
   ;; custom actions without external dependencies. Only one protocol
