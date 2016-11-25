@@ -5,6 +5,7 @@ PartOf = xsession.target
 [Service]
 Type = forking
 ExecStart = /usr/bin/emacs --daemon
+ExecStop = /usr/bin/emacsclient --eval "(save-buffers-kill-emacs)"
 
 [Install]
 WantedBy = xsession.target
