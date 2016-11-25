@@ -2157,7 +2157,7 @@ that way.
     [_h_] helm M-x    [_p_] list      [_a_] apropos (helm)    [_t_] change theme (helm)
     [_x_] counsel M-x [_i_] install   [_f_] info manual       [_l_] list emacs process
      ^ ^              [_u_] upgrade   [_k_] bindings (helm)   [_c_] init time
-     ^ ^               ^ ^            [_b_] personal bindings
+     ^ ^               ^ ^            [_b_] personal bindings [_o_] unbound commands
   --------------------------------------------------------------------------------
         "
         ("C-h b" helm-descbinds "bindings")
@@ -2172,6 +2172,7 @@ that way.
         ("t" helm-themes)
         ("u" paradox-upgrade-packages)
         ("h" helm-M-x)
+        ("o" smex-show-unbound-commands)
         ("x" counsel-M-x))
 
     (defhydra hydra-file (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
@@ -4524,25 +4525,33 @@ regex. Based in ivy.
 the best use of ivy.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package swiper
+  (use-package ivy
     :ensure t
+    :ensure smex
     :diminish ivy-mode
     :config
+    (setq smex-save-file (concat joe-emacs-temporal-directory "smex-items"))
+    (smex-initialize)
     (setq ivy-use-virtual-buffers t)
-    (bind-keys :map swiper-map
-               ("<escape>" . minibuffer-keyboard-quit))
     (bind-keys :map ivy-minibuffer-map
                ("<escape>" . minibuffer-keyboard-quit)
-               ("C-k"      . delete-minibuffer-contents))
-    (defun joe-swiper ()
-       (interactive)
-       (swiper)
-       (add-to-list 'regexp-search-ring (ivy--regex ivy-text)))
-    (ivy-mode t)
-    (use-package counsel
-      :init
-      (bind-key "<menu>" 'counsel-M-x)
-      :ensure t))
+               ("-k"      . delete-minibuffer-contents))
+    (ivy-mode t))
+
+  (use-package swiper
+      :ensure t
+      :config
+      (bind-keys :map swiper-map
+                 ("<escape>" . minibuffer-keyboard-quit))
+      (defun joe-swiper ()
+          (interactive)
+          (swiper)
+          (add-to-list 'regexp-search-ring (ivy--regex ivy-text))))
+
+  (use-package counsel
+    :init
+    (bind-key "<menu>" 'counsel-M-x)
+    :ensure t)
 #+END_SRC
 
 ** ujelly-theme
