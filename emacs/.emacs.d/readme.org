@@ -1670,6 +1670,15 @@ Text developed by Pixel Lab.
         :commands helm-flycheck))
 #+END_SRC
 
+** flyspell-correct-ivy
+
+[[https://github.com/d12frosted/flyspell-correct][flyspell-correct-ivy]] correct words with flyspell via custom interface (ivy)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flyspell-correct-ivy
+    :ensure t)
+#+END_SRC
+
 ** git-modes
 
 [[https://github.com/magit/git-modes][Git modes]] are GNU Emacs modes for Git-related files. There are in a common
@@ -2323,7 +2332,7 @@ that way.
         ("G" google-translate-query-translate)
         ("f" flyspell-mode)
         ("p" flyspell-prog-mode)
-        ("k" flyspell-auto-correct-word)
+        ("k" flyspell-correct-word-generic)
         ("n" flyspell-goto-next-error))
 
     (defhydra hydra-lisp (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
