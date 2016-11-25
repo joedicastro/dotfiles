@@ -582,21 +582,6 @@ Two ways to avoid to use more than one buffer when using Dired.
                      (find-alternate-file ".."))))))
 #+END_SRC
 
-** Ido
-
-Use ido to deal with files and buffers in a more pleasant way.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ido
-    :config
-    (progn
-      (setq ido-save-directory-list-file (concat joe-emacs-temporal-directory "ido.last")
-            ido-enable-flex-matching t
-            ido-use-virtual-buffers t)
-      ;; (ido-mode t)
-      (ido-everywhere t)))
-#+END_SRC
-
 ** ediff
 
 A more sane default configuration to ediff.
@@ -2085,7 +2070,7 @@ that way.
                                                                        ╭─────────┐
     Switch                 Do                                          │ Buffers │
   ╭────────────────────────────────────────────────────────────────────┴─────────╯
-    [_b_] switch (ido)       [_d_] kill the buffer
+    [_b_] switch (ivy)       [_d_] kill the buffer
     [_i_] ibuffer            [_r_] toggle read-only mode
     [_a_] alternate          [_u_] revert buffer changes
     [_s_] switch (helm)      [_w_] save buffer
@@ -2169,10 +2154,10 @@ that way.
                                                                          ╭───────┐
      Execute       Packages         Help                     Misc        │ Emacs │
   ╭──────────────────────────────────────────────────────────────────────┴───────╯
-    [_s_] smex       [_p_] list      [_a_] apropos (helm)    [_t_] change theme (helm)
-    [_m_] smex mode  [_i_] install   [_f_] info manual       [_l_] list emacs process
-    [_h_] helm M-x   [_u_] upgrade   [_k_] bindings (helm)   [_c_] init time
-    [_x_] counsel M-x ^ ^            [_b_] personal bindings [_o_] unbound commands
+    [_h_] helm M-x    [_p_] list      [_a_] apropos (helm)    [_t_] change theme (helm)
+    [_x_] counsel M-x [_i_] install   [_f_] info manual       [_l_] list emacs process
+     ^ ^              [_u_] upgrade   [_k_] bindings (helm)   [_c_] init time
+     ^ ^               ^ ^            [_b_] personal bindings
   --------------------------------------------------------------------------------
         "
         ("C-h b" helm-descbinds "bindings")
@@ -2186,22 +2171,19 @@ that way.
         ("p" paradox-list-packages)
         ("t" helm-themes)
         ("u" paradox-upgrade-packages)
-        ("m" smex-major-mode-commands)
-        ("s" smex)
         ("h" helm-M-x)
-        ("x" counsel-M-x)
-        ("o" smex-show-unbound-commands))
+        ("x" counsel-M-x))
 
     (defhydra hydra-file (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
                                                                           ╭──────┐
-       Ido               Helm                 Dired        Ztree          │ File │
+       Ivy               Helm                 Dired        Ztree          │ File │
   ╭───────────────────────────────────────────────────────────────────────┴──────╯
     [_o_] open file   [_f_] find file      [_d_] dired    [_z_] diff dirs
      ^ ^              [_m_] mini           [_r_] ranger
   --------------------------------------------------------------------------------
         "
-        ("o" find-file)
+        ("o" counsel-find-file)
         ("f" helm-find-files)
         ("m" helm-mini)
         ("z" ztree-diff)
@@ -2626,36 +2608,6 @@ project.
                   (vc-status 16 16 :left)
                   " "
                   filename-and-process))))
-#+END_SRC
-
-** ido-ubiquitous
-
-Gimme some ido... everywhere!
-
-[[https://github.com/DarwinAwardWinner/ido-ubiquitous][ido-ubiquitous]] does what you were really hoping for when you did =(setq ido-everywhere
-t)=. Replaces stock emacs completion with ido completion wherever it is possible
-to do so without breaking things.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ido-ubiquitous
-    :ensure t
-    :disabled t
-    :ensure ido
-    :config
-    (ido-ubiquitous-mode t)
-    (setq ido-ubiquitous-max-items 50000))
-#+END_SRC
-
-** ido-vertical-mode
-
-[[https://github.com/gempesaw/ido-vertical-mode.el][ido-vertical-mode]] makes =ido-mode= display vertically.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ido-vertical-mode
-    :ensure t
-    :ensure ido
-    :config
-    (ido-vertical-mode t))
 #+END_SRC
 
 ** TODO impatient-mode
@@ -4496,53 +4448,6 @@ be smart about it.
     :diminish smartparens-mode
     :config
     (smartparens-global-mode))
-#+END_SRC
-
-** smex
-
-[[https://github.com/nonsequitur/smex][Smex]] is a M-x enhancement for Emacs. Built on top of IDO, it provides
-a convenient interface to your recently and most frequently used
-commands. And to all the other commands, too.
-
-| Binding | Call                     | Do                                                           |
-|---------+--------------------------+--------------------------------------------------------------|
-| M-x     | smex                     | Calls a interactive command using smex                       |
-| M-X     | smex-major-mode-commands | Idem as above but limited to the current major mode commands |
-
-#+BEGIN_SRC emacs-lisp
-  (use-package smex
-    :ensure t
-    :init
-    (bind-key "<menu>" 'smex)
-    :config
-    (setq smex-save-file (concat joe-emacs-temporal-directory "smex-items")))
-#+END_SRC
-
-*** Useful bindings & Delayed Initation
-
-#+BEGIN_QUOTE
-I install smex with the following code to make emacs startup a little
-faster.  This delays initializing smex until it's needed. IMO, smex
-should load without this hack.
-
-Just have smex call =smex-initialize= when it's needed instead of
-having the user do it. --[[http://www.emacswiki.org/emacs/Smex][LeWang on EmacsWiki]]
-#+END_QUOTE
-
-#+BEGIN_SRC emacs-lisp
-  (global-set-key [(meta x)] (lambda ()
-                               (interactive)
-                               (or (boundp 'smex-cache)
-                                  (smex-initialize))
-                               (global-set-key [(meta x)] 'smex)
-                               (smex)))
-
-  (global-set-key [(shift meta x)] (lambda ()
-                                     (interactive)
-                                     (or (boundp 'smex-cache)
-                                        (smex-initialize))
-                                     (global-set-key [(shift meta x)] 'smex-major-mode-commands)
-                                     (smex-major-mode-commands)))
 #+END_SRC
 
 ** TODO sml-mode
