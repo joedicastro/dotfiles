@@ -96,6 +96,7 @@ the goodies of this configuration.
 - [[http://pandoc.org/][pandoc]] for ox-pandoc
 - [[http://www.zx2c4.com/projects/password-store/][pass]]
 - [[http://www.gzip.org/][gzip]]
+- [[https://github.com/AlDanial/cloc][cloc]] to count lines of code
 
 * Packages setup
 ** Repositories
@@ -2845,13 +2846,11 @@ Emacs.
 
 ** mingus
 
-
 #+BEGIN_SRC emacs-lisp
   (use-package mingus
     :ensure t
     :config
-    (use-package mingus-stays-home)
-    )
+    (use-package mingus-stays-home))
 #+END_SRC
 
 ** monokai-theme
@@ -4345,6 +4344,7 @@ the hell of annoying buffers such like *Help*, *Completions*,
             ("*Process List*")
             ("*Smex: Unbound Commands*")
             ("*Paradox Report*" :noselect nil)
+            ("*Package Commit List*" :noselect nil)
             ("*Diff*" :noselect nil)
             ("*Messages*" :noselect nil)
             ("*Google Maps*" :noselect nil)
