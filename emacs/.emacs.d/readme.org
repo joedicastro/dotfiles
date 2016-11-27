@@ -392,6 +392,18 @@ in server mode (from GUI or from terminal)
     (progn (load-theme joe-color-theme t)))
 #+END_SRC
 
+This another code is to provide a hook to do some things after loading a theme,
+like overwriting a face in a particular theme or always reload the
+smart-mode-line theme.
+
+#+BEGIN_SRC emacs-lisp
+  (defvar after-load-theme-hook nil
+    "Hook run after a color theme is loaded using `load-theme'.")
+  (defadvice load-theme (after run-after-load-theme-hook activate)
+    "Run `after-load-theme-hook'."
+    (run-hooks 'after-load-theme-hook))
+#+END_SRC
+
 ** Font
 
 The font to use. I choose monospace and /Dejavu Sans Mono/ because is
@@ -2822,7 +2834,15 @@ Hazenberg.
 
 #+BEGIN_SRC emacs-lisp
   (use-package monokai-theme
-    :ensure t)
+    :ensure t
+    :config
+    (defun customize-monokai ()
+      "Customize monokai theme"
+      (if (member 'monokai custom-enabled-themes)
+          (custom-theme-set-faces
+           'monokai
+           '(org-block ((t (:foreground "#F8F8F0" :background "#171717")))))))
+    (add-hook 'after-load-theme-hook 'customize-monokai))
 #+END_SRC
 
 ** TODO mu4e
@@ -4423,19 +4443,13 @@ This package shows a very nice and very informative mode line.
     :ensure t
     :defer 0.2
     :config
-    (progn
-      (defvar after-load-theme-hook nil
-        "Hook run after a color theme is loaded using `load-theme'.")
-      (defadvice load-theme (after run-after-load-theme-hook activate)
-        "Run `after-load-theme-hook'."
-        (run-hooks 'after-load-theme-hook))
-      (add-hook 'after-load-theme-hook 'smart-mode-line-enable)
-      (setq sml/no-confirm-load-theme t
+    (add-hook 'after-load-theme-hook 'smart-mode-line-enable)
+    (setq sml/no-confirm-load-theme t
             sml/theme 'dark
             sml/mode-width 'full
             sml/name-width 30
             sml/shorten-modes t)
-      (sml/setup)))
+    (sml/setup))
 #+END_SRC
 
 ** smartparens
