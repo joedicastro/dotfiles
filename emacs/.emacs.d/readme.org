@@ -522,6 +522,23 @@ Some custom functions to manage buffers.
       (diff-buffer-with-file (current-buffer))))
 #+END_SRC
 
+** Search the internet from Emacs
+
+This function uses DuckDuckGo to search the web from Emacs. The result can be
+shown in a browser or in ewww. By default the bang (!) is included in the search
+but can be deleted to search directly in DuckDuckGo.
+
+#+BEGIN_SRC emacs-lisp
+(defun joe-duckduckgo-search (browser)
+  "Search DuckDuckGo from Emacs."
+  (let ((search
+        (concat "https://duckduckgo.com/?q="
+                (read-from-minibuffer "sDuckDuckGo: " "!"))))
+    (if browser
+        (browse-url search)
+      (browse-web search))))
+#+END_SRC
+
 ** Use encryption
 
 Use encryption to protect the sensitive data like the mail servers
@@ -1866,8 +1883,7 @@ or Zeal installed.
     :ensure t
     :config
     (progn
-    (setq helm-surfraw-duckduckgo-url "https://duckduckgo.com/lite/?q=!%s&kp=1"
-          helm-idle-delay 0.0
+    (setq helm-idle-delay 0.0
           helm-input-idle-delay 0.01
           helm-quick-update t
           helm-M-x-requires-pattern nil
@@ -2102,10 +2118,10 @@ that way.
     [_D_] search docs            [_h_] HTTP header         [_v_] region
     [_i_] get docset             [_m_] HTTP method         [_x_] shell
     [_u_] get user docset        [_r_] HTTP relation       [_p_] with arg
-    [_a_] activate docset        [_s_] HTTP status code    [_k_] buffer (helm)
-     ^ ^                         [_t_] Media types         [_o_] only compile
-     ^ ^                         [_g_] RESTclient          [_R_] replace
-     ^ ^                         [_f_] RFC doc             [_e_] eval/print
+    [_a_] activate docset        [_s_] HTTP status code    [_o_] only compile
+     ^ ^                         [_t_] Media types         [_R_] replace
+     ^ ^                         [_g_] RESTclient          [_e_] eval/print
+     ^ ^                         [_f_] RFC doc
     [_l_] lines of code          [_F_] RFC index
   --------------------------------------------------------------------------------
         "
@@ -2125,7 +2141,6 @@ that way.
         ("o" quickrun-compile-only)
         ("R" quickrun-replace-region)
         ("e" quickrun-eval-print)
-        ("k" helm-quickrun)
         ("h" http-header)
         ("m" http-method)
         ("r" http-relation)
@@ -2140,7 +2155,7 @@ that way.
   ╭──────────────────────────────────────────────────────────────────────┴───────╯
     [_x_] counsel M-x [_p_] list      [_a_] apropos (helm)    [_t_] change theme
      ^ ^              [_i_] install   [_f_] info manual       [_l_] list emacs process
-     ^ ^              [_u_] upgrade   [_k_] bindings (helm)   [_c_] init time
+     ^ ^              [_u_] upgrade   [_k_] bindings          [_c_] init time
      ^ ^               ^ ^            [_b_] personal bindings [_e_] benchmark init
      ^ ^               ^ ^             ^ ^                    [_o_] unbound commands 
   --------------------------------------------------------------------------------
@@ -2235,23 +2250,23 @@ that way.
     (defhydra hydra-internet (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
                                                                       ╭──────────┐
-      Browse       Search             Social               Post       │ Internet │
+      Browse       Search              Social               Post      │ Internet │
   ╭───────────────────────────────────────────────────────────────────┴──────────╯
-    [_w_] eww      [_g_] google          [_f_] elfeed            [_i_] imgur
-    [_u_] url      [_m_] google maps     [_x_] stack overflow
-     ^ ^           [_s_] surfraw
+    [_w_] eww      [_b_] DuckDuckGo       [_f_] elfeed            [_i_] imgur
+    [_u_] url      [_e_] DuckDuckGo (eww) [_x_] stack overflow
+     ^ ^           [_m_] google maps
      ^ ^           [_d_] wordnik
   --------------------------------------------------------------------------------
         "
-        ("f" elfeed)
-        ("g" google-this)
-        ("i" imgur-post)
-        ("m" google-maps)
-        ("d" define-word-at-point)
-        ("s" helm-surfraw)
         ("w" eww)
         ("u" browse-url-at-point)
-        ("x" sx-tab-newest))
+        ("b" (joe-duckduckgo-search t))
+        ("e" (joe-duckduckgo-search nil))
+        ("m" google-maps)
+        ("d" define-word-at-point)
+        ("f" elfeed)
+        ("x" sx-tab-newest)
+        ("i" imgur-post))
 
     (defhydra hydra-jump (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
@@ -2458,7 +2473,7 @@ that way.
     [_n_] next multi-term          [_a_] aync shell command
     [_p_] previous multi-term      [_m_] man page
     [_d_] dedicated multi-term     [_l_] list system process
-    [_e_] eshell                   [_t_] top command
+    [_e_] eshell
   --------------------------------------------------------------------------------
         "
         ("a" async-shell-command)
@@ -2469,8 +2484,7 @@ that way.
         ("s" multi-term)
         ("n" multi-term-next)
         ("p" multi-term-previous)
-        ("d" multi-term-dedicated-toggle)
-        ("t" helm-top))
+        ("d" multi-term-dedicated-toggle))
 
     (defhydra hydra-media (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
@@ -2530,7 +2544,7 @@ that way.
   ╭─────────────────────────────────────────────────────────────────────┴────────╯
     [_c_] comment                  [_a_] align with regex
     [_f_] fill column              [_p_] show character code
-    [_h_] hidden chars             [_i_] insert unicode character (helm)
+    [_h_] hidden chars             [_i_] insert unicode character 
     [_e_] trailing whitespace      [_<SPC>_] remove trailing whitespaces
     [_v_] font space               [_u_] undo tree
      ^ ^                           [_j_] jump word
@@ -2539,7 +2553,7 @@ that way.
      ^ ^                           [_m_] iedit (multiple edit)
      ^ ^                           [_g_] google translate
      ^ ^                           [_s_] swiper
-     ^ ^                           [_t_] helm-semantic-or-imenu
+     ^ ^                           [_t_] counsel imenu
      ^ ^                           [_q_] quick-calc
   --------------------------------------------------------------------------------
         "
@@ -2560,7 +2574,7 @@ that way.
         ("v" variable-pitch-mode)
         ("<SPC>" whitespace-cleanup)
         ("s" joe-swiper)
-        ("t" helm-semantic-or-imenu)
+        ("t" counsel-imenu)
         ("q" (quick-calc t))
         ("x" comment-box)))
 #+END_SRC
