@@ -359,7 +359,7 @@ configuration works in terminal/graphic mode and in client/server or standalone
 frames.
 
 *Remember: when testing a new theme, disable before the current one or
-use =helm-themes=.*
+use =counsel-load-theme=.*
 
 This code is to avoid to reload the theme every time that you open a new client
 in server mode (from GUI or from terminal)
@@ -1652,19 +1652,13 @@ Text developed by Pixel Lab.
 
 ** TODO flycheck
 
-[[https://github.com/yasuyk/helm-flycheck][helm-flycheck]] show flycheck errors with helm.
-
 #+BEGIN_SRC emacs-lisp
-    (use-package flycheck
-      :ensure t
-      :defer t
-      :config
-      (add-hook 'prog-mode-hook 'flycheck-mode)
-      (add-hook 'sgml-mode 'flycheck-mode)
-      (use-package helm-flycheck
-        :ensure t
-        :ensure helm
-        :commands helm-flycheck))
+  (use-package flycheck
+    :ensure t
+    :defer t
+    :config
+    (add-hook 'prog-mode-hook 'flycheck-mode)
+    (add-hook 'sgml-mode 'flycheck-mode))
 #+END_SRC
 
 ** flyspell-correct-ivy
@@ -1860,20 +1854,9 @@ service directly from GNU Emacs.
 
 [[https://github.com/emacs-helm/helm][Helm]] is an Emacs incremental completion and selection narrowing framework.
 
-[[https://github.com/emacs-helm/helm-descbinds][Helm descbinds]] provides an interface to emacs’ =describe-bindings= making the
-currently active key bindings interactively searchable with helm.
-
-| Binding | Call              | Do                  |
-|---------+-------------------+---------------------|
-| C-h b   | describe-bindings | Show helm-descbinds |
-| C-x C-h | describe-bindings | Show heml-descbinds |
-|---------+-------------------+---------------------|
-
 [[https://github.com/ShingoFukuyama/helm-swoop][helm-swoop]] list match lines to another buffer, which is able to squeeze by any
 words you input. At the same time, the original buffer's cursor is jumping line
 to line according to moving up and down the line list.
-
-[[https://github.com/syohex/emacs-helm-themes][helm-themes]] provides theme selection with Helm.
 
 [[https://github.com/areina/helm-dash][helm-dash]] uses [[https://kapeli.com/dash][Dash]] docsets to browse documentation. It does not requires Dash
 or Zeal installed.
@@ -1936,17 +1919,9 @@ or Zeal installed.
           ("w" helm-toggle-resplit-and-swap-windows)
           ("f" helm-follow-mode)))
     (helm-autoresize-mode 1))
-    (use-package helm-descbinds
-      :ensure t
-      :config
-      (helm-descbinds-mode t)
-      (setq helm-descbinds-window-sytle 'split-window))
     (use-package helm-swoop
       :ensure t
       :commands (helm-swoop helm-multi-swoop))
-    (use-package helm-themes
-      :ensure t
-      :commands helm-themes)
     (use-package helm-dash
       :ensure t
       :config
@@ -1997,7 +1972,7 @@ in two separate ways:
 I use Hydra in two ways:
 
 + Activating through the "\" key to call all of the general and by-package
-  menus. Using this, and occasionally the =helm-descbinds= command (C-h b), I
+  menus. Using this, and occasionally the =counsel-descbinds= command (C-h b), I
   can see and remember all the most useful commands and key-bindings that I have
   at my disposal in a very easy way. Not more time lost due to memory laps.
 
@@ -2066,14 +2041,13 @@ that way.
                                                                      ╭───────────┐
          List                          Do                            │ Bookmarks │
   ╭──────────────────────────────────────────────────────────────────┴───────────╯
-    [_h_] list bookmarks (helm)     [_j_] jump to a bookmark
-    [_l_] list bookmarks            [_m_] set bookmark at point
-    ^ ^                             [_s_] save bookmarks
+    [_l_] list bookmarks            [_j_] jump to a bookmark
+     ^ ^                            [_m_] set bookmark at point
+     ^ ^                            [_s_] save bookmarks
   --------------------------------------------------------------------------------
       "
-      ("h" helm-bookmarks)
+      ("l" counsel-bookmark)
       ("j" bookmark-jump)
-      ("l" list-bookmarks)
       ("m" bookmark-set)
       ("s" bookmark-save))
 
@@ -2085,7 +2059,7 @@ that way.
     [_b_] switch (ivy)       [_d_] kill the buffer
     [_i_] ibuffer            [_r_] toggle read-only mode
     [_a_] alternate          [_u_] revert buffer changes
-    [_s_] switch (helm)      [_w_] save buffer
+     ^ ^                     [_w_] save buffer
   --------------------------------------------------------------------------------
       "
       ("a" joe-alternate-buffers)
@@ -2094,7 +2068,6 @@ that way.
       ("i" ibuffer)
       ("m" ace-swap-window)
       ("r" read-only-mode)
-      ("s" helm-buffers-list)
       ("u" joe-revert-buffer)
       ("w" save-buffer))
 
@@ -2104,8 +2077,8 @@ that way.
      Navigate          Show Errors                  Do                │ Flycheck │
   ╭───────────────────────────────────────────────────────────────────┴──────────╯
      ^_p_^revious     [_l_] list errors           [_t_] toggle Flycheck
-        ^^↑^^         [_e_] list errors (helm)    [_c_] select checker
-      ^_f_^irst       [_d_] clear all errors      [_r_] run via compile
+        ^^↑^^         [_d_] clear all errors      [_c_] select checker
+      ^_f_^irst        ^ ^                        [_r_] run via compile
         ^^↓^^          ^ ^                        [_h_] describe checker
       ^_n_^ext
   --------------------------------------------------------------------------------
@@ -2113,7 +2086,6 @@ that way.
         ("c" flycheck-select-checker)
         ("h" flycheck-describe-checker)
         ("d" flycheck-clear)
-        ("e" helm-flycheck)
         ("f" flycheck-first-error)
         ("l" flycheck-list-errors)
         ("n" flycheck-next-error :color red)
@@ -2166,39 +2138,38 @@ that way.
                                                                          ╭───────┐
      Execute       Packages         Help                     Misc        │ Emacs │
   ╭──────────────────────────────────────────────────────────────────────┴───────╯
-    [_h_] helm M-x    [_p_] list      [_a_] apropos (helm)    [_t_] change theme (helm)
-    [_x_] counsel M-x [_i_] install   [_f_] info manual       [_l_] list emacs process
+    [_x_] counsel M-x [_p_] list      [_a_] apropos (helm)    [_t_] change theme
+     ^ ^              [_i_] install   [_f_] info manual       [_l_] list emacs process
      ^ ^              [_u_] upgrade   [_k_] bindings (helm)   [_c_] init time
-     ^ ^               ^ ^            [_b_] personal bindings [_o_] unbound commands
+     ^ ^               ^ ^            [_b_] personal bindings [_e_] benchmark init
+     ^ ^               ^ ^             ^ ^                    [_o_] unbound commands 
   --------------------------------------------------------------------------------
         "
-        ("C-h b" helm-descbinds "bindings")
+        ("C-h b" counsel-descbinds "bindings")
         ("a" helm-apropos)
         ("b" describe-personal-keybindings)
         ("c" emacs-init-time)
         ("i" package-install)
-        ("k" helm-descbinds)
+        ("k" counsel-descbinds)
         ("l" list-processes)
         ("f" info-display-manual)
         ("p" paradox-list-packages)
-        ("t" helm-themes)
+        ("t" counsel-load-theme)
         ("u" paradox-upgrade-packages)
-        ("h" helm-M-x)
+        ("e" esup)
         ("o" smex-show-unbound-commands)
         ("x" counsel-M-x))
 
     (defhydra hydra-file (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
                                                                           ╭──────┐
-       Ivy               Helm                 Dired        Ztree          │ File │
+       Ivy               Dired        Ztree                               │ File │
   ╭───────────────────────────────────────────────────────────────────────┴──────╯
-    [_o_] open file   [_f_] find file      [_d_] dired    [_z_] diff dirs
-     ^ ^              [_m_] mini           [_r_] ranger
+    [_o_] open file   [_d_] dired    [_z_] diff dirs
+     ^ ^              [_r_] ranger
   --------------------------------------------------------------------------------
         "
         ("o" counsel-find-file)
-        ("f" helm-find-files)
-        ("m" helm-mini)
         ("z" ztree-diff)
         ("d" dired)
         ("r" ranger))
@@ -2212,7 +2183,7 @@ that way.
     _k_  [_f_] fill column     [_d_] unicode character           [_a_] align with regex
     ^↑^  [_h_] hidden chars    [_e_] evil digraphs table         [_w_] remove trailing ' '
     ^ ^  [_l_] line numbers    [_s_] specific code block         [_n_] count words
-    ^↓^  [_t_] trailing ' '    [_u_] unicode character (helm)    [_i_] lorem ipsum
+    ^↓^  [_t_] trailing ' '    [_u_] unicode character           [_i_] lorem ipsum
     _j_  [_v_] font space      [_p_] character code              [_x_] comment box
     ^ ^  [_c_] comment          ^ ^                              [_q_] boxquote
     ^ ^  [_b_] multibyte chars  ^ ^                              [_m_] iedit (multiple)
@@ -2237,7 +2208,7 @@ that way.
         ("r" er/expand-region)
         ("s" charmap)
         ("t" joe-toggle-show-trailing-whitespace)
-        ("u" helm-ucs)
+        ("u" counsel-unicode-char)
         ("v" variable-pitch-mode)
         ("w" whitespace-cleanup)
         ("U" untabify)
@@ -2493,7 +2464,7 @@ that way.
         ("a" async-shell-command)
         ("c" shell-command)
         ("e" eshell)
-        ("m" helm-man-woman)
+        ("m" man)
         ("l" proced)
         ("s" multi-term)
         ("n" multi-term-next)
@@ -2579,7 +2550,7 @@ that way.
         ("f" fci-mode)
         ("g" google-translate-smooth-translate)
         ("h" whitespace-mode)
-        ("i" helm-ucs)
+        ("i" counsel-unicode-char)
         ("j" avy-goto-word-1)
         ("m" iedit-mode)
         ("n" count-words)
@@ -4542,29 +4513,28 @@ the best use of ivy.
   (use-package ivy
     :ensure t
     :ensure smex
+    :ensure ivy-hydra
     :diminish ivy-mode
     :config
     (setq smex-save-file (concat joe-emacs-temporal-directory "smex-items"))
     (smex-initialize)
-    (setq ivy-use-virtual-buffers t)
+    (setq ivy-use-virtual-buffers t
+          ivy-height 15)
     (bind-keys :map ivy-minibuffer-map
-               ("<escape>" . minibuffer-keyboard-quit)
-               ("-k"      . delete-minibuffer-contents))
+               ("<escape>" . minibuffer-keyboard-quit))
     (ivy-mode t))
 
   (use-package swiper
       :ensure t
       :config
-      (bind-keys :map swiper-map
-                 ("<escape>" . minibuffer-keyboard-quit))
       (defun joe-swiper ()
           (interactive)
           (swiper)
           (add-to-list 'regexp-search-ring (ivy--regex ivy-text))))
 
   (use-package counsel
-    :init
-    (bind-key "<menu>" 'counsel-M-x)
+    :bind (("<menu>"  . counsel-M-x)
+           ("C-h b" . counsel-descbinds))
     :ensure t)
 #+END_SRC
 
