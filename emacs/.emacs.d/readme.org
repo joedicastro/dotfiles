@@ -89,7 +89,6 @@ the goodies of this configuration.
 - [[http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack][Ag (aka "The Silver Searcher")]]
 - [[http://git-scm.com/][git]]
 - [[https://github.com/djcb/mu][mu]] (also a tool to fetch mail like [[http://pyropus.ca/software/getmail/][getmail]] or [[http://offlineimap.org/][OfflineImap]])
-- [[http://surfraw.alioth.debian.org/][surfraw]]
 - [[https://www.gnupg.org/][GnuPG]]
 - [[http://www.latex-project.org/][LaTeX]] and [[http://pygments.org/][Pygments]] to PDF export with syntax highlighting
 - [[http://www.mupdf.com/][MuPDF]] for DocView, [[http://poppler.freedesktop.org/][poppler]] for pdf-tools
@@ -1114,6 +1113,16 @@ a phrase at point, without having to switch to a browser.
     :ensure t)
 #+END_SRC
 
+** devdocs
+
+[[https://github.com/xuchunyang/DevDocs.el][devdocs]] is an Emacs package allowing you to easily search the [[https://devdocs.io][DevDocs]]
+documentation.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package devdocs
+    :ensure t)
+#+END_SRC
+
 ** diff-hl
 
 [[https://github.com/dgutov/diff-hl][diff-hl]] highlights uncommitted changes on the left side of the window, allows
@@ -1875,9 +1884,6 @@ service directly from GNU Emacs.
 words you input. At the same time, the original buffer's cursor is jumping line
 to line according to moving up and down the line list.
 
-[[https://github.com/areina/helm-dash][helm-dash]] uses [[https://kapeli.com/dash][Dash]] docsets to browse documentation. It does not requires Dash
-or Zeal installed.
-
 #+BEGIN_SRC emacs-lisp
   (use-package helm
     :ensure t
@@ -1937,22 +1943,7 @@ or Zeal installed.
     (helm-autoresize-mode 1))
     (use-package helm-swoop
       :ensure t
-      :commands (helm-swoop helm-multi-swoop))
-    (use-package helm-dash
-      :ensure t
-      :config
-      (setq helm-dash-docsets-path (concat user-emacs-directory "docsets"))
-      (unless (file-exists-p helm-dash-docsets-path)
-        (make-directory helm-dash-docsets-path))
-      ;; each time that emacs starts load all the docsets already downloaded
-      (setq helm-dash-common-docsets
-            (sort
-             (let (value) 
-               (dolist (element
-                        (directory-files "~/.emacs.d/docsets" nil "\\.docset$" 1) 
-                        value)
-                 (setq value (cons (file-name-sans-extension element) value))))
-             'string-lessp))))
+      :commands (helm-swoop helm-multi-swoop)))
 #+END_SRC
 
 ** hydra
@@ -2112,24 +2103,20 @@ that way.
       (defhydra hydra-development (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
                                                                    ╭─────────────┐
-       Dash                   Web                 Quickrun         │ Development │
+       Code                   Web                 Quickrun         │ Development │
   ╭────────────────────────────────────────────────────────────────┴─────────────╯
     [_d_] search docs (at point) [_c_] Web Colors          [_q_] buffer
-    [_D_] search docs            [_h_] HTTP header         [_v_] region
-    [_i_] get docset             [_m_] HTTP method         [_x_] shell
-    [_u_] get user docset        [_r_] HTTP relation       [_p_] with arg
-    [_a_] activate docset        [_s_] HTTP status code    [_o_] only compile
+     ^ ^                         [_h_] HTTP header         [_v_] region
+     ^ ^                         [_m_] HTTP method         [_x_] shell
+     ^ ^                         [_r_] HTTP relation       [_p_] with arg
+     ^ ^                         [_s_] HTTP status code    [_o_] only compile
      ^ ^                         [_t_] Media types         [_R_] replace
      ^ ^                         [_g_] RESTclient          [_e_] eval/print
      ^ ^                         [_f_] RFC doc
     [_l_] lines of code          [_F_] RFC index
   --------------------------------------------------------------------------------
         "
-        ("d" helm-dash-at-point)
-        ("D" helm-dash)
-        ("i" helm-dash-install-docset)
-        ("u" helm-dash-install-user-docset)
-        ("a" helm-dash-activate-docset)
+        ("d" devdocs-search)
         ("c" helm-colors)
         ("g" restclient-mode)
         ("f" irfc-visit)
