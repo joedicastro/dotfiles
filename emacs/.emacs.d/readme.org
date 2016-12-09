@@ -2608,6 +2608,7 @@ Thanks to [[https://github.com/skeeto/impatient-mode][impatient-mode]] you can s
 
 #+BEGIN_SRC emacs-lisp
   (use-package impatient-mode
+    :ensure ht
     :ensure t)
 #+END_SRC
 
@@ -3429,13 +3430,17 @@ too.
 
 **** First load the user's sensitive information
 
-This load the =mail.el.gpg= file where I store the email information
-that I prefer to keep private (since I share this config in GitHub) to
-inquisitive eyes.
+This load the =mail.el.gpg= file where I store the email information that I
+prefer to keep private (since I share this config in GitHub) to inquisitive
+eyes. I only load it once per session, is less secure but faster.
 
 #+BEGIN_SRC emacs-lisp
+  (defvar joe-mu4e-user-info nil
+    "This var is to only load this info once.")
   (add-hook 'mu4e-main-mode-hook (lambda ()
-      (load-library (concat user-emacs-directory "mail.el.gpg"))))
+      (unless joe-mu4e-user-info
+        (load-library (concat user-emacs-directory "mail.el.gpg"))
+                      (setq joe-mu4e-user-info t))))
 #+END_SRC
 
 Even when I keep this information private, I still going to share with
@@ -4303,6 +4308,7 @@ the hell of annoying buffers such like *Help*, *Completions*,
             ("*slime-xref*")
             ("*Flycheck errors*")
             ("*Warnings*")
+            ("*Error*")
             ("*Process List*")
             ("*Smex: Unbound Commands*")
             ("*Paradox Report*" :noselect nil)
