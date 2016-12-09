@@ -2117,7 +2117,7 @@ that way.
   --------------------------------------------------------------------------------
         "
         ("d" devdocs-search)
-        ("c" helm-colors)
+        ("c" counsel-colors-web)
         ("g" restclient-mode)
         ("f" irfc-visit)
         ("F" irfc-index)
@@ -2140,26 +2140,31 @@ that way.
                                                                          ╭───────┐
      Execute       Packages         Help                     Misc        │ Emacs │
   ╭──────────────────────────────────────────────────────────────────────┴───────╯
-    [_x_] counsel M-x [_p_] list      [_a_] apropos (helm)    [_t_] change theme
-     ^ ^              [_i_] install   [_f_] info manual       [_l_] list emacs process
-     ^ ^              [_u_] upgrade   [_k_] bindings          [_c_] init time
-     ^ ^               ^ ^            [_b_] personal bindings [_e_] benchmark init
-     ^ ^               ^ ^             ^ ^                    [_o_] unbound commands 
+    [_x_] counsel M-x [_p_] list      [_f_] describe function [_t_] change theme
+     ^ ^              [_i_] install   [_v_] describe variable [_l_] list emacs process
+     ^ ^              [_u_] upgrade   [_m_] info manual       [_c_] init time
+     ^ ^               ^ ^            [_k_] bindings          [_e_] benchmark init
+     ^ ^               ^ ^            [_b_] personal bindings [_o_] unbound commands 
+     ^ ^               ^ ^             ^ ^                    [_y_] emacs colors
+     ^ ^               ^ ^             ^ ^                    [_z_] list faces
   --------------------------------------------------------------------------------
         "
         ("C-h b" counsel-descbinds "bindings")
-        ("a" helm-apropos)
+        ("f" counsel-describe-function)
+        ("v" counsel-describe-variable)
         ("b" describe-personal-keybindings)
         ("c" emacs-init-time)
         ("i" package-install)
         ("k" counsel-descbinds)
         ("l" list-processes)
-        ("f" info-display-manual)
+        ("m" info-display-manual)
         ("p" paradox-list-packages)
         ("t" counsel-load-theme)
         ("u" paradox-upgrade-packages)
         ("e" esup)
         ("o" smex-show-unbound-commands)
+        ("y" counsel-colors-emacs)
+        ("z" counsel-faces)
         ("x" counsel-M-x))
 
     (defhydra hydra-file (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
@@ -2310,11 +2315,13 @@ that way.
   ╭───────────────────────────────────────────────────────────────────────┴──────╯
     [_r_] eval region    [_f_] file
     [_s_] eval sexp      [_i_] init-file
+    [_b_] eval buffer
   --------------------------------------------------------------------------------
         "
         ("f" bug-hunter-file)
         ("i" bug-hunter-init-file)
         ("r" eval-region)
+        ("b" eval-buffer)
         ("s" eval-last-sexp))
 
     (defhydra hydra-narrow (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
