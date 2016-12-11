@@ -1672,12 +1672,13 @@ threshold.
 
 #+BEGIN_SRC emacs-lisp
   (use-package fixmee
+    :ensure pcache
     :ensure t
     :diminish fixmee-mode
     :commands (fixmee-mode fixmee-view-listing)
     :init
+    (setq pcache-directory (concat joe-emacs-temporal-directory "pcache"))
     (add-hook 'prog-mode-hook 'fixmee-mode))
-
   (use-package button-lock
     :diminish button-lock-mode)
 #+END_SRC
@@ -4169,17 +4170,6 @@ ratings, usage statistics, customizability, and more.
   (use-package password-store
     :ensure t
     :defer t)
-#+END_SRC
-
-** pcache
-
-[[https://github.com/sigma/pcache][pcache]] is a persistent caching for Emacs. Is need for other packages like =fixmee=.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package pcache
-    :ensure t
-    :init
-    (setq pcache-directory (concat joe-emacs-temporal-directory "pcache" )))
 #+END_SRC
 
 ** pdf-tools
