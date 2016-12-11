@@ -86,7 +86,7 @@ command in a terminal to get the elisp file from this current org-mode one.
 This is a list of applications that need to be installed previously to enjoy all
 the goodies of this configuration.
 
-- [[http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack][Ag (aka "The Silver Searcher")]]
+- [[http://geoff.greer.fm/2011/12/27/the-silver-searcher-better-than-ack][Ag ("The Silver Searcher")]] or [[https://github.com/BurntSushi/ripgrep][rg ("ripgrep")]] or [[https://github.com/monochromegane/the_platinum_searcher][pt ("platinum searcher")]]
 - [[http://git-scm.com/][git]]
 - [[https://github.com/djcb/mu][mu]] (also a tool to fetch mail like [[http://pyropus.ca/software/getmail/][getmail]] or [[http://offlineimap.org/][OfflineImap]])
 - [[https://www.gnupg.org/][GnuPG]]
@@ -792,24 +792,6 @@ Settings for the Emacs Web Browser.
 What I try here is to config each package as atomic as possible, so to ensure
 that to add or remove a package does not broke the configuration of others.
 
-** ag
-
-[[./img/ag.png]]
-
-[[https://github.com/Wilfred/ag.el][ag.el]] is a simple Emacs frontend to ag, ("the silver searcher" ack replacement).
-
-#+BEGIN_SRC emacs-lisp
-  (use-package ag
-    :ensure t
-    :defer 1
-    :config
-    (progn
-      (setq ag-reuse-buffers 't
-            ag-highlight-search t
-            ag-group-matches nil
-            ag-arguments (list "--color" "--smart-case" "--nogroup" "--column" "--all-types" "--"))))
-#+END_SRC
-
 ** async
 
 [[https://github.com/jwiegley/emacs-async][async.el]] is a module for doing asynchronous processing in Emacs.
@@ -1314,8 +1296,6 @@ produces this HTML:
 | C-c w    | emmet-wrap-with-markup | Wrap region with markup   |
 |----------+------------------------+---------------------------|
 
-[[https://github.com/yasuyk/helm-emmet][helm-emmet]] provides helm sources for emmet-mode's snippets.
-
 [[https://github.com/yasuyk/ac-emmet][ac-emmet]] are auto-complete sources for emmet-mode's snippets
 
 #+BEGIN_SRC elisp
@@ -1327,11 +1307,6 @@ produces this HTML:
     (bind-keys :map emmet-mode-keymap
                ("C-n" . emmet-next-edit-point)
                ("C-p" . emmet-prev-edit-point))
-
-    (use-package helm-emmet
-      :ensure t
-      :ensure helm
-      :commands helm-emmet)
 
     (use-package ac-emmet
       :ensure t
@@ -1883,76 +1858,6 @@ service directly from GNU Emacs.
     (add-hook 'haskell-mode-hook 'turn-on-haskell-indent))
 #+END_SRC
 
-** TODO helm
-
-[[https://github.com/emacs-helm/helm][Helm]] is an Emacs incremental completion and selection narrowing framework.
-
-[[https://github.com/ShingoFukuyama/helm-swoop][helm-swoop]] list match lines to another buffer, which is able to squeeze by any
-words you input. At the same time, the original buffer's cursor is jumping line
-to line according to moving up and down the line list.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package helm
-    :ensure t
-    :config
-    (progn
-    (setq helm-idle-delay 0.0
-          helm-input-idle-delay 0.01
-          helm-quick-update t
-          helm-M-x-requires-pattern nil
-          helm-M-x-fuzzy-match t
-          helm-buffers-fuzzy-matching t
-          helm-recentf-fuzzy-match t
-          helm-semantic-fuzzy-match t
-          helm-imenu-fuzzy-match t
-          helm-locate-fuzzy-match t
-          helm-ff-skip-boring-files t
-          helm-autoresize-max-height 50
-          helm-autoresize-min-height 50)
-    (when (package-installed-p 'hydra)
-        (define-key helm-map (kbd "\\") 'hydra-helm/body)
-        (defhydra hydra-helm (:hint nil :color pink)
-          "
-                                                                            ╭──────┐
-     Navigation   Other  Sources     Mark             Do             Help   │ Helm │
-    ╭───────────────────────────────────────────────────────────────────────┴──────╯
-          ^_k_^         _K_       _p_   [_m_] mark         [_v_] view         [_H_] helm help
-          ^^↑^^         ^↑^       ^↑^   [_t_] toggle all   [_d_] delete       [_s_] source help
-      _h_ ←   → _l_     _c_       ^ ^   [_u_] unmark all   [_f_] follow: %(helm-attr 'follow)
-          ^^↓^^         ^↓^       ^↓^    ^ ^               [_y_] yank selection
-          ^_j_^         _J_       _n_    ^ ^               [_w_] toggle windows
-    --------------------------------------------------------------------------------
-          "
-          ("<tab>" helm-keyboard-quit "back" :exit t)
-          ("<escape>" nil "quit")
-          ("\\" (insert "\\") "\\" :color blue)
-          ("h" helm-beginning-of-buffer)
-          ("j" helm-next-line)
-          ("k" helm-previous-line)
-          ("l" helm-end-of-buffer)
-          ("g" helm-beginning-of-buffer)
-          ("G" helm-end-of-buffer)
-          ("n" helm-next-source)
-          ("p" helm-previous-source)
-          ("K" helm-scroll-other-window-down)
-          ("J" helm-scroll-other-window)
-          ("c" helm-recenter-top-bottom-other-window)
-          ("m" helm-toggle-visible-mark)
-          ("t" helm-toggle-all-marks)
-          ("u" helm-unmark-all)
-          ("H" helm-help)
-          ("s" helm-buffer-help)
-          ("v" helm-execute-persistent-action)
-          ("d" helm-persistent-delete-marked)
-          ("y" helm-yank-selection)
-          ("w" helm-toggle-resplit-and-swap-windows)
-          ("f" helm-follow-mode)))
-    (helm-autoresize-mode 1))
-    (use-package helm-swoop
-      :ensure t
-      :commands (helm-swoop helm-multi-swoop)))
-#+END_SRC
-
 ** hydra
 
 [[https://github.com/abo-abo/hydra][Hydra]] is a package for GNU Emacs that can be used to tie related commands into a
@@ -1969,7 +1874,7 @@ developers, the two roles that Unite performed in my Vim configuration divided
 in two separate ways:
 
 + Interface for commands:
-  I use the most suited package for this job, Helm, that is the quasi-equivalent
+  I use the most suited package for this job, Ivy, that is the quasi-equivalent
   of Vim's Unite. It works as a completion and selection framework for a lot of
   Emacs commands and tasks. I don't use it yet a lot, but I have in mind to
   adopt it in a lot of tasks.
@@ -2177,13 +2082,14 @@ that way.
     (defhydra hydra-file (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
                                                                           ╭──────┐
-       Ivy               Dired        Ztree                               │ File │
+       Ivy                    Dired        Ztree                          │ File │
   ╭───────────────────────────────────────────────────────────────────────┴──────╯
-    [_o_] open file   [_d_] dired    [_z_] diff dirs
-     ^ ^              [_r_] ranger
+    [_o_] open file        [_d_] dired         [_z_] diff dirs
+    [_e_] open file extern [_r_] ranger
   --------------------------------------------------------------------------------
         "
         ("o" counsel-find-file)
+        ("e" counsel-find-file-extern)
         ("z" ztree-diff)
         ("d" dired)
         ("r" ranger))
@@ -2422,23 +2328,18 @@ that way.
                                                                       ╭──────────┐
      Logs                        Registers                Undo        │ Register │
   ╭───────────────────────────────────────────────────────────────────┴──────────╯
-    [_c_] commands history       [_e_] emacs registers    [_u_] undo tree
+    [^c^] commands history       [^e^] emacs registers    [_u_] undo tree
     [_o_] messages               [_r_] evil registers
-    [_b_] minibuffer             [_m_] evil marks
-    [_l_] lossage (keystrokes)   [_k_] kill ring
-    [_d_] diff buffer with file
+    [_l_] lossage (keystrokes)   [_m_] evil marks
+    [_d_] diff buffer with file  [_k_] kill ring
   --------------------------------------------------------------------------------
         "
-        ("c" helm-complex-command-history)
         ("d" joe-diff-buffer-with-file)
-        ("e" helm-register)
-        ("k" helm-show-kill-ring)
-        ("a" helm-all-mark-rings)
+        ("k" counsel-yank-pop)
         ("l" view-lossage)
         ("m" evil-show-marks)
         ("o" view-echo-area-messages)
         ("r" evil-show-registers)
-        ("b" helm-minibuffer-history)
         ("u" undo-tree-visualize))
 
     (defhydra hydra-search (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
@@ -2447,23 +2348,27 @@ that way.
      Files                             Buffer                           │ Search │
   ╭─────────────────────────────────────────────────────────────────────┴────────╯
     [_a_] regex search (Ag)           [_b_] by word
-    [_A_] regex by filetype (Ag)      [_o_] by word (occur)
-    [_h_] regex search (grep & helm)  [_w_] by word (multi)
-    [_g_] regex search (grep)         [_t_] tags & titles
-    [_f_] find
-    [_l_] locate
+    [_r_] regex search (rg)           [_o_] by word (opened buffers)
+    [_p_] regex search (pt)           [_w_] by word (multi)
+    [_g_] regex search (grep)         [_h_] by word (grep or swiper)
+    [^f^] find                        [_t_] tags & titles
+    [_l_] locate                      [_s_] semantic 
   --------------------------------------------------------------------------------
         "
-        ("A" ag-files)
-        ("a" ag)
-        ("b" helm-swoop)
-        ("f" helm-find)
+        ("a" (let ((current-prefix-arg "-."))
+               (call-interactively 'counsel-ag)))
+        ("r" (let ((current-prefix-arg "-."))
+               (call-interactively 'counsel-rg)))
+        ("p" (let ((current-prefix-arg "-."))
+               (call-interactively 'counsel-pt)))
         ("g" rgrep)
-        ("h" helm-do-grep)
-        ("l" helm-locate)
-        ("o" helm-occur)
-        ("t" helm-semantic-or-imenu)
-        ("w" helm-multi-swoop))
+        ("l" counsel-locate)
+        ("b" swiper)
+        ("o" swiper-all)
+        ("h" counsel-grep-or-swiper)
+        ("t" counsel-imenu)
+        ("s" counsel-semantic)
+        ("w" swiper-multi))
 
     (defhydra hydra-system (:color blue :hint nil :idle 0.4 :inherit (hydra-common/heads))
         "
@@ -2520,7 +2425,7 @@ that way.
   ╭───────────────────────────────────────────────────────────────┴──────────────╯
     [_a_] agenda      [_c_] capture             [_m_] mail      [_x_] speed type
     [_l_] agenda list [_p_] pomodoro            [_t_] contacts
-    [_d_] calendar    [_s_] search headings     [_h_] add location
+    [_d_] calendar    [^s^] search headings     [_h_] add location
      ^ ^              [_g_] open location gmaps
      ^ ^              [_f_] archive subtree
   --------------------------------------------------------------------------------
@@ -2534,7 +2439,6 @@ that way.
         ("f" org-archive-subtree)
         ("m" mu4e)
         ("p" org-pomodoro)
-        ("s" helm-org-agenda-files-headings)
         ("t" org-contacts)
         ("x" speed-type-text))
 
@@ -4545,7 +4449,9 @@ the best use of ivy.
   (use-package counsel
     :bind (("<menu>"  . counsel-M-x)
            ("C-h b" . counsel-descbinds))
-    :ensure t)
+    :ensure t
+    :config
+    (setq counsel-ag-base-command "ag --nocolor --nogroup --smart-case --column %s"))
 #+END_SRC
 
 ** ujelly-theme
@@ -4620,19 +4526,13 @@ Angularjs, ejs, etc.
 [[https://github.com/capitaomorte/yasnippet][YASnippet]] is a template system for Emacs. It allows you to type an
 abbreviation and automatically expand it into function templates.
 
-[[https://github.com/emacs-helm/helm-c-yasnippet][helm-c-yasnippet]] is a helm source to display available yasnippets for the
-current mode.
-
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :ensure t
     :defer 5
     :diminish yas-minor-mode
     :config
-    (yas-global-mode)
-    (use-package helm-c-yasnippet
-      :ensure t
-      :ensure helm))
+    (yas-global-mode))
 #+END_SRC
 
 *** Disable it in ansi-term
