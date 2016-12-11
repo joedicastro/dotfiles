@@ -530,9 +530,26 @@ but can be deleted to search directly in DuckDuckGo.
 #+BEGIN_SRC emacs-lisp
 (defun joe-duckduckgo-search (browser)
   "Search DuckDuckGo from Emacs."
-  (let ((search
-        (concat "https://duckduckgo.com/?q="
-                (read-from-minibuffer "sDuckDuckGo: " "!"))))
+  (let* ((duckduckgo-string "https://duckduckgo.com/?q=")
+         (duckduckgo-prompt "sDuckDuckGo: ")
+         (duckduckgo-google-bang "!g ")
+         (search-string
+          (cond
+           ((region-active-p)
+            (concat duckduckgo-google-bang
+                    (buffer-substring-no-properties
+                     (region-beginning) (region-end))))
+           ((thing-at-point 'symbol)
+            (concat duckduckgo-google-bang
+                    (thing-at-point 'symbol)))
+           ((thing-at-point 'word)
+            (concat duckduckgo-google-bang
+                    (thing-at-point 'word)))
+           (t "!")))
+         (search
+          (concat duckduckgo-string
+                  (read-from-minibuffer
+                   duckduckgo-prompt search-string))))
     (if browser
         (browse-url search)
       (browse-web search))))
@@ -1823,17 +1840,6 @@ command and also integrated in org-mode.
           ("l"       google-maps-static-move-east)))
 
     (use-package org-location-google-maps))
-#+END_SRC
-
-** google-this
-
-[[https://github.com/Bruce-Connor/emacs-google-this][google-this]] is a package that provides a set of functions and keybindings for
-launching google searches from within emacs.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package google-this
-    :ensure t
-    :defer t)
 #+END_SRC
 
 ** google-translate
