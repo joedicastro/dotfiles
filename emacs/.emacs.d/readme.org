@@ -2328,7 +2328,7 @@ that way.
                                                                       ╭──────────┐
      Logs                        Registers                Undo        │ Register │
   ╭───────────────────────────────────────────────────────────────────┴──────────╯
-    [^c^] commands history       [^e^] emacs registers    [_u_] undo tree
+    [_c_] commands history       [^e^] emacs registers    [_u_] undo tree
     [_o_] messages               [_r_] evil registers
     [_l_] lossage (keystrokes)   [_m_] evil marks
     [_d_] diff buffer with file  [_k_] kill ring
@@ -2337,6 +2337,7 @@ that way.
         ("d" joe-diff-buffer-with-file)
         ("k" counsel-yank-pop)
         ("l" view-lossage)
+        ("c" counsel-command-history)
         ("m" evil-show-marks)
         ("o" view-echo-area-messages)
         ("r" evil-show-registers)
@@ -2425,13 +2426,14 @@ that way.
   ╭───────────────────────────────────────────────────────────────┴──────────────╯
     [_a_] agenda      [_c_] capture             [_m_] mail      [_x_] speed type
     [_l_] agenda list [_p_] pomodoro            [_t_] contacts
-    [_d_] calendar    [^s^] search headings     [_h_] add location
+    [_d_] calendar    [_s_] search headings     [_h_] add location
      ^ ^              [_g_] open location gmaps
      ^ ^              [_f_] archive subtree
   --------------------------------------------------------------------------------
         "
         ("a" org-agenda)
         ("c" org-capture)
+        ("s" counsel-org-agenda-headlines)
         ("d" cfw:open-org-calendar)
         ("g" org-location-google-maps)
         ("h" org-address-google-geocode-set)
