@@ -4044,6 +4044,7 @@ search in your emails to get a little context in the conversation.
 #+BEGIN_SRC emacs-lisp
   (use-package page-break-lines
     :ensure t
+    :diminish page-break-lines-mode
     :config
     (global-page-break-lines-mode t))
 #+END_SRC
@@ -4239,7 +4240,7 @@ keywords in some programming languages
   (use-package pretty-mode
     :ensure t
     :defer t
-    :config
+    :init
     (add-hook 'prog-mode-hook 'turn-on-pretty-mode))
 #+END_SRC
 
@@ -4489,6 +4490,7 @@ redo any change, while preserving the entire history of past states.
     (progn
       (global-undo-tree-mode)
       (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/tmp/undo"))
+            undo-tree-auto-save-history t
             undo-tree-visualizer-timestamps t
             undo-tree-visualizer-diff t)))
 #+END_SRC
