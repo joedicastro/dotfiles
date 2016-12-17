@@ -509,11 +509,6 @@ Some custom functions to manage buffers.
     (interactive)
     (revert-buffer nil t))
 
-  (defun joe-kill-this-buffer ()
-    "Kill the current buffer"
-    (interactive)
-    (kill-buffer (current-buffer)))
-
   (defun joe-diff-buffer-with-file ()
     "Compare the current modified buffer with the saved version."
     (interactive)
@@ -1975,7 +1970,7 @@ that way.
                                                                        ╭─────────┐
     Switch                 Do                                          │ Buffers │
   ╭────────────────────────────────────────────────────────────────────┴─────────╯
-    [_b_] switch (ivy)       [_d_] kill the buffer
+    [_b_] switch             [_d_] kill the buffer
     [_i_] ibuffer            [_r_] toggle read-only mode
     [_a_] alternate          [_u_] revert buffer changes
      ^ ^                     [_w_] save buffer
@@ -1983,9 +1978,8 @@ that way.
       "
       ("a" joe-alternate-buffers)
       ("b" ivy-switch-buffer)
-      ("d" joe-kill-this-buffer)
+      ("d" kill-this-buffer)
       ("i" ibuffer)
-      ("m" ace-swap-window)
       ("r" read-only-mode)
       ("u" joe-revert-buffer)
       ("w" save-buffer))
