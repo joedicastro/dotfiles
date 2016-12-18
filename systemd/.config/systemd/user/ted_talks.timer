@@ -1,0 +1,8 @@
+[Unit]
+Description = Run TED Talks service every day
+
+[Timer]
+OnCalendar = 21:05
+
+[Install]
+WantedBy = timers.target
