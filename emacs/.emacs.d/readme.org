@@ -455,26 +455,6 @@ Show/hide the trailing white-spaces in the buffer.
     (setq show-trailing-whitespace (not show-trailing-whitespace)))
 #+END_SRC
 
-** Kill internal processes via the =list process= buffer
-
-Add a functionality to be able to kill process directly in the =list
-process'= buffer
-
-#+BEGIN_src emacs-lisp
-  ;; seen at http://stackoverflow.com/a/18034042
-  (defun joe-delete-process-at-point ()
-    (interactive)
-    (let ((process (get-text-property (point) 'tabulated-list-id)))
-      (cond ((and process
-                  (processp process))
-             (delete-process process)
-             (revert-buffer))
-            (t
-             (error "no process at point!")))))
-
-  (define-key process-menu-mode-map (kbd "C-c k") 'joe-delete-process-at-point)
-#+END_src
-
 ** Window movements
 
 Provide a more intuitive window movements.
