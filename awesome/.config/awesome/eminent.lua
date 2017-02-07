@@ -18,17 +18,12 @@
 
 -- Grab environment
 local ipairs = ipairs
-local pairs = pairs
 local awful = require("awful")
 local table = table
 local capi = {
     tag = tag,
-    mouse = mouse,
     client = client,
     screen = screen,
-    wibox = wibox,
-    timer = timer,
-    keygrabber = keygrabber,
 }
 
 -- Eminent: Effortless wmii-style dynamic tagging
@@ -38,8 +33,6 @@ module("eminent")
 local deflayout = nil
 local orig = {
     new = awful.tag.new,
-    viewidx = awful.tag.viewidx,
-
     taglist = awful.widget.taglist.new,
     filter = awful.widget.taglist.filter.all,
 }
