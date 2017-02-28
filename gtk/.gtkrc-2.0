@@ -1,5 +1,5 @@
 # -- THEME AUTO-WRITTEN DO NOT EDIT
-include "/usr/share/themes/Adwaita-X/gtk-2.0/gtkrc"
+include "/usr/share/themes/Adwaita/gtk-2.0/gtkrc"
 
 style "user-font" {
 	font_name = "Ubuntu 11"
