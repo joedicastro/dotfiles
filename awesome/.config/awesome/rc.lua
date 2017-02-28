@@ -388,27 +388,59 @@ globalkeys = awful.util.table.join(
         end,
         {description = "launch dmenu", group = "launcher"}),
 
-     -- passmenu username
+     -- passmenu password copy to clipboard
     awful.key({ modkey }, ".",
         function()
             awful.util.spawn_with_shell(
-                "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" ..
-                "passmenu -b -i -fn " ..
-                "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' " ..
-                "-sb darkred -p 'pass (password):'")
+                "export LANGUAGE=en_US.UTF8; " .. cfg_dir .. 
+                "/passmenu 1 -sb darkred -p 'pass (password → clipboard):'")
         end,
-        {description = "get passmenu username", group = "launcher"}),
+        {description = "get passmenu password (clipboard)", group = "passwords"}),
 
-      -- passmenu password
+    -- passmenu password type
+    awful.key({ modkey, "Shift" }, ".",
+        function()
+            awful.util.spawn_with_shell(
+                "export LANGUAGE=en_US.UTF8; " .. cfg_dir .. 
+                "/passmenu 1 --type -sb darkred -p 'pass (password → type):'")
+        end,
+        {description = "get passmenu password (type)", group = "passwords"}),
+
+     -- passmenu username copy to clipboard
     awful.key({ modkey }, ",",
         function()
             awful.util.spawn_with_shell(
-                "export LANGUAGE=en_US.UTF8;export PATH=$PATH:~/.bin;" ..
-                "passmenu_username -b -i -fn " ..
-                "'-*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-*' " ..
-                "-sb darkgreen -p 'pass (username):'")
+                "export LANGUAGE=en_US.UTF8; " .. cfg_dir .. 
+                "/passmenu 2 -sb darkgreen -p 'pass (username → clipboard):'")
         end,
-        {description = "get passmenu password", group = "launcher"}),
+        {description = "get passmenu username (clipboard)", group = "passwords"}),
+
+    -- passmenu username type
+    awful.key({ modkey, "Shift" }, ",",
+        function()
+            awful.util.spawn_with_shell(
+                "export LANGUAGE=en_US.UTF8; " .. cfg_dir .. 
+                "/passmenu 2 --type -sb darkgreen -p 'pass (username → type):'")
+        end,
+        {description = "get passmenu username (type)", group = "passwords"}),
+
+  -- passmenu url copy to clipboard
+    awful.key({ modkey }, ";",
+        function()
+            awful.util.spawn_with_shell(
+                "export LANGUAGE=en_US.UTF8; " .. cfg_dir .. 
+                "/passmenu 3 -sb purple -p 'pass (url → clipboard):'")
+        end,
+        {description = "get passmenu url (clipboard)", group = "passwords"}),
+
+    -- passmenu url type
+    awful.key({ modkey, "Shift" }, ";",
+        function()
+            awful.util.spawn_with_shell(
+                "export LANGUAGE=en_US.UTF8; " .. cfg_dir .. 
+                "/passmenu 3 --type -sb purple -p 'pass (url → type):'")
+        end,
+        {description = "get passmenu url (type)", group = "passwords"}),
 
     -- capture screen
     awful.key({ }, "Print",
@@ -429,7 +461,7 @@ globalkeys = awful.util.table.join(
         function ()
             awful.spawn("emacsclient -c -a ''")
         end,
-        {description = "launch emacs", group = "miscellaneous"}),
+        {description = "launch emacs", group = "launcher"}),
 
     -- toggle Redshift (color temperature adjust)
      awful.key({ modkey }, "F9",

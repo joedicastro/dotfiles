@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+shopt -s nullglob globstar
+
+lineselected=1
+if [[ $1 =~ ^[1-3]$ ]]; then
+    lineselected=$1
+    shift
+fi
+typeit=0
+if [[ $1 == "--type" ]]; then
+    typeit=1
+    shift
+fi
+
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_files=( "$prefix"/**/*.gpg )
+password_files=( "${password_files[@]#"$prefix"/}" )
+password_files=( "${password_files[@]%.gpg}" )
+
+password=$(printf '%s\n' "${password_files[@]}" |
+dmenu -b -i -fn -*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-* "$@")
+
+[[ -n $password ]] || exit
+
+if [[ $typeit -eq 0 ]]; then
+    pass show -c"$lineselected" "$password" 2>/dev/null
+else
+    pass show -c"$lineselected" "$password" && xdotool type --clearmodifiers --delay 100 $(xsel -b -t 450)
+fi
