@@ -26,5 +26,5 @@ dmenu -b -i -fn -*-dejavu sans mono-*-r-*-*-16-*-*-*-*-*-*-* "$@")
 if [[ $typeit -eq 0 ]]; then
     pass show -c"$lineselected" "$password" 2>/dev/null
 else
-    pass show -c"$lineselected" "$password" && xdotool type --clearmodifiers --delay 100 $(xsel -b -t 450)
+    pass show -c"$lineselected" "$password" && xdotool type --clearmodifiers --delay 100 "$(xsel -b -t 450)"
 fi
