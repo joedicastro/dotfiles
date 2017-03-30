@@ -50,6 +50,15 @@ theme.menu_height   = 16
 theme.menu_width    = 180
 
 theme.awesome_icon = themedir .. "/awesome16.png"
+
+theme.hotkeys_bg = "#000000"
+theme.hotkeys_border_color = "#FF00009"
+theme.hotkeys_border_width = 4
+theme.hotkeys_fg =  "#FFFFFF"
+theme.hotkeys_group_margin = 20
+theme.hotkeys_label_fg = "#000000"
+theme.hotkeys_modifiers_fg =  "#D2691E"
+
 -- }}}
 
 return theme
