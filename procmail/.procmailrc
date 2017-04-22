@@ -36,9 +36,8 @@ publicity/
 ## Mailing lists
 
 :0:
-* ^List-Id:.*\/.*
-* ! ^From:.*ebay.es
-* ! ^From:.*notifications@github.com
+* ^List-Id:.*\/.*|\
+  ^List-Unsubscribe:.*\/.*
 lists/
 
 
